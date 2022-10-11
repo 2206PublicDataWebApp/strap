@@ -15,18 +15,18 @@ public class MemberController {
 	
 	@RequestMapping("/strap/loginView.kh")
 	public String loginView() {
-		return "/user/loginView";
+		return "/member/loginView";
 	}
 	
 	@RequestMapping("/strap/enroll.kh")
 	public String insertMember() {
-		return "/user/enroll";
+		return "/member/enroll";
 	}
 	
 	
 	@RequestMapping("/strap/memberIdCheck.kh")
 	public String memberIdCheck(
 			@RequestParam("memberId") String memberId) {
-		return "/user/enroll";
+		return "/member/enroll";
 	}
 }
