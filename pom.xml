@@ -14,6 +14,13 @@
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	<dependencies>
+		<!-- 로그 -->
+		<dependency>
+		  <groupId>org.bgee.log4jdbc-log4j2</groupId>
+		  <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+		  <version>1.16</version>
+		</dependency>
+		
 		<!-- weaver는 AOP에서 advice를 핵심 기능에 적용하는 설정 파일이다 -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
