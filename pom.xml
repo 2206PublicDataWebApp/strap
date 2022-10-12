@@ -14,7 +14,21 @@
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	<dependencies>
-		<!-- 로그 -->
+		<!-- 이메일 라이브러리  -->
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4.7</version>
+		</dependency>
+		<!-- 이메일 세팅 도와주는 라이브러리   -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+			<!-- 로그 -->
 		<dependency>
 		  <groupId>org.bgee.log4jdbc-log4j2</groupId>
 		  <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
