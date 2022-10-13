@@ -4,9 +4,25 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace= "AdminMapper">
-<!-- 	<resultMap type= "Admin" id=""> -->
-<!-- 		<id property="" column=""/> -->
-<!-- 		<result property="" column=""/> -->
-<!-- 		<result property="" column=""/> -->
-<!-- 	</resultMap> -->
+	<resultMap type= "Admin" id="adminResultMap">
+		<id property="adminId" column="MEMBER_ID"/>
+		<result property="adminPwd" column="MEMBER_PWD"/>
+		<result property="adminName" column="MEMBER_NAME"/>
+		<result property="adminEmail" column="MEMBER_EMAIL"/>
+		<result property="adminGender" column="MEMBER_GENDER"/>
+		<result property="adminNick" column="MEMBER_NICK"/>
+		<result property="adminJym" column="MEMBER_JYM"/>
+		<result property="adminCareer" column="MEMBER_CAREER"/>
+		<result property="adminSbd" column="MEMBER_SBD"/>
+		<result property="aProfileName" column="M_PROFILE_NAME"/>
+		<result property="aProfileRename" column="M_PROFILE_RENAME"/>
+		<result property="aProfilepath" column="M_PROFILE_PATH"/>
+		<result property="aRegisterDate" column="M_REGISTER_DATE"/>
+		<result property="memberStatus" column="MEMBER_STATUS"/>
+		<result property="adminStatus" column="ADMIN_STATUS"/>
+	</resultMap>
+	
+	<select id="selectLoginAdmin" resultMap="adminResultMap">
+	
+	</select>
 </mapper>
