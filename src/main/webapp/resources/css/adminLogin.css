@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+body{
+    height: 100vh;
+    background: url(/resources/images/adminLogin.jpg) no-repeat center;
+    background-size: cover;
+}
+
+table{
+	margin: 10px;
+  	padding: 10px;
+  	border-spacing: 20px;
+	border-collapse: separate;
+	width: 380px;
+    height: 320px;
+    border: 1px solid gray;
+/*     background-color: white; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow:0 5px 10px rgba(0, 0, 0, 0.8);
+}
+	
+.loginBoard{
+	background-color: white;
+}

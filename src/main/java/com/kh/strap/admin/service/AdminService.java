@@ -1,5 +1,7 @@
 package com.kh.strap.admin.service;
 
-public interface AdminService {
+import com.kh.strap.admin.domain.Admin;
 
+public interface AdminService {
+	public Admin loginAdmin(Admin admin);
 }
