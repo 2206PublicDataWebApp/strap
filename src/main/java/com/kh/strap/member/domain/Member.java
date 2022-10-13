@@ -17,7 +17,8 @@ public class Member {
 	private String mProfileRename;	//11.프로필 사진 리네임
 	private String mProfilePath;	//12.프로필 사진경로
 	private Date mRegisterDate;		//13.가입일
-	private String memberStatus;	//14.상태
+	private String memberStatus;	//14.회원 상태
+	private String adminStatus;		//15.관리자 상태
 	
 	public Member() {}
 	
@@ -25,6 +26,8 @@ public class Member {
 		this.memberId = memberId;
 		this.memberPwd = MemberPwd;
 	}
+
+	
 	
 	public String getMemberId() {
 		return memberId;
@@ -111,14 +114,25 @@ public class Member {
 		this.memberStatus = memberStatus;
 	}
 	
+	
+	public String getAdminStatus() {
+		return adminStatus;
+	}
+
+	public void setAdminStatus(String adminStatus) {
+		this.adminStatus = adminStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "Member [memberId=" + memberId + ", memberPwd=" + memberPwd + ", memberName=" + memberName
 				+ ", memberEmail=" + memberEmail + ", memberGender=" + memberGender + ", memberNick=" + memberNick
 				+ ", memberJym=" + memberJym + ", memberCareer=" + memberCareer + ", memberSBD=" + memberSBD
 				+ ", mProfileName=" + mProfileName + ", mProfileRename=" + mProfileRename + ", mProfilePath="
-				+ mProfilePath + ", mRegisterDate=" + mRegisterDate + ", memberStatus=" + memberStatus + "]";
+				+ mProfilePath + ", mRegisterDate=" + mRegisterDate + ", memberStatus=" + memberStatus
+				+ ", adminStatus=" + adminStatus + "]";
 	}
+
 	
 	
 }

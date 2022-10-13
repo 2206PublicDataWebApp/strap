@@ -19,16 +19,35 @@
   		<result property="mProfilePath" 	column="M_PROFILE_PATH"/>
   		<result property="mRegisterDate" 	column="M_REGISTER_DATE"/>
   		<result property="memberStatus" 	column="MEMBER_STATUS"/>
+  		<result property="adminStatus" 	column="ADMIN_STATUS"/>
   	</resultMap>
-  	
+  	<resultMap type="Member" id="IdAndCreateDate">
+  		<id property="memberId" 			column="MEMBER_ID"/>
+  		<result property="mRegisterDate" 		column="M_REGISTER_DATE"/>
+  	</resultMap>
+  	<!-- 아이디 중복 체크 -->
   	<select id="memberIdCheck" resultType="_int">
-  		SELECT COUNT(*) FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId}
+  		SELECT COUNT(*) FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId} AND MEMBER_STATUS = 'Y'
   	</select>
+  	<!-- 로그인 체크 -->
   	<select id="memberLogin" resultType="_int">
-  		SELECT COUNT(*) FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId} AND MEMBER_PWD = #{memberPwd}
+  		SELECT COUNT(*) FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId} AND MEMBER_PWD = #{memberPwd} AND MEMBER_STATUS = 'Y'
   	</select>
+  	<!-- 해당 이메일로 가입한 아이디 갯수 -->
+  	<select id="IdCheckByEmail" resultType="_int">
+  		SELECT COUNT(*) FROM MEMBER_TBL WHERE MEMBER_EMAIL = #{memberEmail} AND MEMBER_STATUS = 'Y'
+  	</select>
+  	<!-- 아이디 찾기 결과 -->
+  	<select id="findIdByEmail" resultMap="IdAndCreateDate">
+  		SELECT MEMBER_ID, M_REGISTER_DATE FROM MEMBER_TBL WHERE MEMBER_EMAIL = #{memberEmail} AND MEMBER_STATUS = 'Y'
+  	</select>
+  	<!-- 아이이와 이메일 일치 확인 -->
+  	<select id="idEmailCheck" resultType="_int">
+  		SELECT COUNT(*) FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId} AND MEMBER_EMAIL = #{memberEmail} AND MEMBER_STATUS = 'Y'
+  	</select>
+  	<!-- 회원가입 -->
   	<insert id="inserMember">
-  		INSERT INTO MEMBER_TBL VALUES(#{memberId},#{memberPwd},#{memberName},#{memberEmail},#{memberGender},#{memberNick},NULL,#{memberCareer},#{memberSBD},NULL,NULL,NULL,DEFAULT,DEFAULT)
+  		INSERT INTO MEMBER_TBL VALUES(#{memberId},#{memberPwd},#{memberName},#{memberEmail},#{memberGender},#{memberNick},NULL,#{memberCareer},#{memberSBD},NULL,NULL,NULL,DEFAULT,DEFAULT,DEFAULT)
   	</insert>
   	
 </mapper>
