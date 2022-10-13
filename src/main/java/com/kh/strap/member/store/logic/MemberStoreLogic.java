@@ -1,5 +1,7 @@
 package com.kh.strap.member.store.logic;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -25,6 +27,29 @@ public class MemberStoreLogic implements MemberStore{
 	@Override
 	public int memberLogin(SqlSession session, Member member) {
 		int result = session.selectOne("MemberMapper.memberLogin", member);
+		return result;
+	}
+
+	@Override
+	public int IdCheckByEmail(SqlSession session, String memberEmail) {
+		int result = session.selectOne("MemberMapper.IdCheckByEmail", memberEmail);
+		return result;
+	}
+
+//	@Override
+//	public List<String> findIdByEmail(SqlSession session, String memberEmail) {
+//		List<String> sList = session.selectList("MemberMapper.findIdByEmail", memberEmail);
+//		return sList;
+//	}
+	@Override
+	public List<Member> findIdByEmail(SqlSession session, String memberEmail) {
+		List<Member> sList = session.selectList("MemberMapper.findIdByEmail", memberEmail);
+		return sList;
+	}
+
+	@Override
+	public int idEmailCheck(SqlSession session, Member member) {
+		int result = session.selectOne("MemberMapper.idEmailCheck", member);
 		return result;
 	}
 
