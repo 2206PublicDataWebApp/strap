@@ -10,7 +10,7 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName" 	value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<property name="driverClassName" 	value="oracle.jdbc.driver.OracleDriver"></property>
 		<property name="url" 				value="jdbc:oracle:thin:@sonof.iptime.org:8926:xe"></property>
 		<property name="username" 			value="STRAP"></property>
 		<property name="password" 			value="STRAP"></property>
@@ -38,10 +38,14 @@
 	<!-- 트랜잭션 XML 방식 -->
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<tx:method name="print*" read-only="true"/> <!-- read -->
-			<tx:method name="register*" rollback-for="Exception"/> <!-- create -->
-			<tx:method name="modify*" rollback-for="Exception"/> <!-- update -->
-			<tx:method name="remove*" rollback-for="Exception"/> <!-- delete -->
+			<tx:method name="print*" read-only="true"/> 
+			<!-- read -->
+			<tx:method name="register*" rollback-for="Exception"/> 
+			<!-- create -->
+			<tx:method name="modify*" rollback-for="Exception"/> 
+			<!-- update -->
+			<tx:method name="remove*" rollback-for="Exception"/> 
+			<!-- delete -->
 		</tx:attributes>
 	</tx:advice>
 	
@@ -55,8 +59,10 @@
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
 	     <property name="host" value="smtp.gmail.com" />
 	     <property name="port" value="587" />
-		 <property name="username" value="mykri155"/> <!-- 자신의 이메일 아이디 -->
-		 <property name="password" value="qftogykrbmpgndqm"/> <!-- 자신의 비밀번호 -->
+		 <property name="username" value="mykri155"/> 
+		 <!-- 자신의 이메일 아이디 -->
+		 <property name="password" value="qftogykrbmpgndqm"/> 
+		 <!-- 자신의 비밀번호 -->
 	 <!-- 보안연결 TLS과 관련된 설정 -->
 	     <property name="javaMailProperties">
 		    <props>

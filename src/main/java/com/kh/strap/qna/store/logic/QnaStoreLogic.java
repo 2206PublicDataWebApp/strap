@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.strap.qna.store.QnaStore;
 
-@Repository
+@Repository("QnaStoreLogic")
 public class QnaStoreLogic implements QnaStore{
 
 }
