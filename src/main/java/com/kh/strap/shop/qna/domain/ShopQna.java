@@ -8,24 +8,27 @@ public class ShopQna {
 	private int productNo;
 	private String qnaCode;
 	private String qnaType;
+	private String qnaTitle;
 	private String qnaContents;
 	private Date qEnrollDate;
+	private Date aEnrollDate;
 	private String answerStatus;
 	private String answerContents;
-	private Date aEnrollDate;
 	private String secretStatus;
 	private String memberId;
 
 	public ShopQna() {
 	}
 
-	public ShopQna(int qnaNo, int productNo, String qnaCode, String qnaType, String qnaContents, Date qEnrollDate,
-			String answerStatus, String answerContents, Date aEnrollDate, String secretStatus, String memberId) {
+	public ShopQna(int qnaNo, int productNo, String qnaCode, String qnaType, String qnaTitle, String qnaContents,
+			Date qEnrollDate, String answerStatus, String answerContents, Date aEnrollDate, String secretStatus,
+			String memberId) {
 		super();
 		this.qnaNo = qnaNo;
 		this.productNo = productNo;
 		this.qnaCode = qnaCode;
 		this.qnaType = qnaType;
+		this.qnaTitle = qnaTitle;
 		this.qnaContents = qnaContents;
 		this.qEnrollDate = qEnrollDate;
 		this.answerStatus = answerStatus;
@@ -65,6 +68,14 @@ public class ShopQna {
 
 	public void setQnaType(String qnaType) {
 		this.qnaType = qnaType;
+	}
+
+	public String getQnaTitle() {
+		return qnaTitle;
+	}
+
+	public void setQnaTitle(String qnaTitle) {
+		this.qnaTitle = qnaTitle;
 	}
 
 	public String getQnaContents() {
@@ -126,9 +137,12 @@ public class ShopQna {
 	@Override
 	public String toString() {
 		return "ShopQna [qnaNo=" + qnaNo + ", productNo=" + productNo + ", qnaCode=" + qnaCode + ", qnaType=" + qnaType
-				+ ", qnaContents=" + qnaContents + ", qEnrollDate=" + qEnrollDate + ", answerStatus=" + answerStatus
-				+ ", answerContents=" + answerContents + ", aEnrollDate=" + aEnrollDate + ", secretStatus="
-				+ secretStatus + ", memberId=" + memberId + "]";
+				+ ", qnaTitle=" + qnaTitle + ", qnaContents=" + qnaContents + ", qEnrollDate=" + qEnrollDate
+				+ ", answerStatus=" + answerStatus + ", answerContents=" + answerContents + ", aEnrollDate="
+				+ aEnrollDate + ", secretStatus=" + secretStatus + ", memberId=" + memberId + "]";
 	}
+	
+	
 
+	
 }

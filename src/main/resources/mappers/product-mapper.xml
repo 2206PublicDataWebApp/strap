@@ -4,4 +4,35 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="ProductMapper">
+	<resultMap type="Product" id="ProductResultMap">
+		<id		column="PRODUCT_NO" 			property="productNo"/>
+		<result column="PRODUCT_NAME" 			property="productName"/>
+		<result column="PRODUCT_BRAND" 			property="productBrand"/>
+		<result column="PRODUCT_PRICE" 			property="productPrice"/>
+		<result column="PRODUCT_DESC" 			property="productDesc"/>
+		<result column="GRADE_SUM" 				property="gradeSum"/>
+		<result column="PRODUCT_REGI_DATE" 		property="productRegiDate"/>
+		<result column="PRODUCT_MODI_DATE" 		property="productModiDate"/>
+		<result column="PRODUCT_SALES" 			property="productSales"/>
+		<result column="MAIN_IMG_NAME" 			property="mainImgName"/>
+		<result column="SUB_IMG1_NAME" 			property="firstSubImgName"/>
+		<result column="SUB_IMG2_NAME" 			property="secondSubImgName"/>
+		<result column="SUB_IMG3_NAME" 			property="thirdSubImgName"/>
+		<result column="SUB_IMG4_NAME" 			property="fourthSubImgName"/>
+		<result column="INFO_IMG_NAME" 			property="infoImgName"/>
+		<result column="MAIN_IMG_RENAME" 		property="mainImgReName"/>
+		<result column="SUB_IMG1_RENAME" 		property="firstSubImgReName"/>
+		<result column="SUB_IMG2_RENAME" 		property="secondSubImgReName"/>
+		<result column="SUB_IMG3_RENAME" 		property="thirdSubImgReName"/>
+		<result column="SUB_IMG4_RENAME" 		property="fourthSubImgReName"/>
+		<result column="INFO_IMG_RENAME" 		property="infoImgReName"/>
+		<result column="MAIN_IMG_ROOT" 			property="mainImgRoot"/>
+		<result column="SUB_IMG1_ROOT" 			property="firstSubImgRoot"/>
+		<result column="SUB_IMG2_ROOT" 			property="secondSubImgRoot"/>
+		<result column="SUB_IMG3_ROOT" 			property="thirdSubImgRoot"/>
+		<result column="SUB_IMG4_ROOT" 			property="fourthSubImgRoot"/>
+		<result column="INFO_IMG_ROOT" 			property="infoImgRoot"/>
+		<result column="COUPON_LIST" 			property="couponList"/>
+		
+	</resultMap>
 </mapper>

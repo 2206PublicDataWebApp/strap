@@ -15,7 +15,7 @@ public class Coupon {
     private Date couponRegiDate;		//쿠폰 등록날짜
     private String productCondition;	//쿠폰조건:상품명
     private String couponRunYn;			//쿠폰운영여부
-    private String memberId;           //멤버아이디,파라미터편의
+    private String memberId;           //멤버아이디,파라미터편의,setter로 추가
     
     
     

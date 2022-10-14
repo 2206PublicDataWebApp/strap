@@ -12,7 +12,7 @@ public class ProductController {
 	
 /*상품(PRODUCT_TBL)
  * 
- * C: -관리자 상품 등록
+ * C: -관리자 상품 등록O
  * R: -상품 리스트
  *    -상품 상세조회
  *    -찜한 상품 조회

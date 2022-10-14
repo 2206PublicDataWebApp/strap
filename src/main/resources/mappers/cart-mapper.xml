@@ -4,4 +4,11 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="CartMapper">
+	<resultMap type="Cart" id="CartResultMap">
+		<id		column="PRODUCT_NO" 			property="productNo"/>
+		<result column="MEMBER_ID"			    property="memberId"/>
+		<result column="PRODUCT_NAME" 			property="productName"/>
+		<result column="PRICE" 					property="price"/>
+		<result column="PRODUCT_AMOUNT" 		property="productAmount"/>
+	</resultMap>
 </mapper>

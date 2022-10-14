@@ -4,4 +4,17 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="CouponMapper">
+	<resultMap type="Coupon" id="CouponResultMap">
+		<id		column="COUPON_NO" 					 property="couponNo"/>
+		<result column="COUPON_NAME" 				 property="couponName"/>
+		<result column="COUPON_DESC" 			 	 property="couponDesc"/>
+		<result column="DISCOUNT_AMOUNT" 			 property="descountAmount"/>
+		<result column="PRICE_CONDITION" 			 property="priceCondition"/>
+		<result column="BRAND_CONDITION" 			 property="brandCondition"/>
+		<result column="FIRST_CONDITION" 			 property="firstCondition"/>
+		<result column="COUPON_PERIOD" 				 property="couponPeriod"/>
+		<result column="COUPON_REGI_DATE" 			 property="couponRegiDate"/>
+		<result column="PRODUCT_CONDITION"			 property="productCondition"/>
+		<result column="COUPON_RUN_YN" 				 property="couponRunYn"/>
+	</resultMap>
 </mapper>

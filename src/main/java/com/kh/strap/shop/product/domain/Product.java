@@ -31,6 +31,7 @@ public class Product {
 	private String thirdSubImgRoot;			//세번째 서브이미지 경로
 	private String fourthSubImgRoot;		//네번째 서브이미지 경로
 	private String infoImgRoot;				//메인이미지 경로
+	private String couponList;				//쿠폰 리스트
 
 	public Product() {
 	}
@@ -41,7 +42,7 @@ public class Product {
 			String infoImgName, String mainImgReName, String firstSubImgReName, String secondSubImgReName,
 			String thirdSubImgReName, String fourthSubImgReName, String infoImgReName, String mainImgRoot,
 			String firstSubImgRoot, String secondSubImgRoot, String thirdSubImgRoot, String fourthSubImgRoot,
-			String infoImgRoot) {
+			String infoImgRoot, String couponList) {
 		super();
 		this.productNo = productNo;
 		this.productName = productName;
@@ -70,6 +71,7 @@ public class Product {
 		this.thirdSubImgRoot = thirdSubImgRoot;
 		this.fourthSubImgRoot = fourthSubImgRoot;
 		this.infoImgRoot = infoImgRoot;
+		this.couponList = couponList;
 	}
 
 	public int getProductNo() {
@@ -288,19 +290,30 @@ public class Product {
 		this.infoImgRoot = infoImgRoot;
 	}
 
+	public String getCouponList() {
+		return couponList;
+	}
+
+	public void setCouponList(String couponList) {
+		this.couponList = couponList;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [productNo=" + productNo + ", productName=" + productName + ", productBrand=" + productBrand
 				+ ", productPrice=" + productPrice + ", productDesc=" + productDesc + ", gradeSum=" + gradeSum
-				+ ", productSales=" + productSales + ", mainImgName=" + mainImgName + ", firstSubImgName="
-				+ firstSubImgName + ", secondSubImgName=" + secondSubImgName + ", thirdSubImgName=" + thirdSubImgName
+				+ ", productRegiDate=" + productRegiDate + ", productModiDate=" + productModiDate + ", productSales="
+				+ productSales + ", mainImgName=" + mainImgName + ", firstSubImgName=" + firstSubImgName
+				+ ", secondSubImgName=" + secondSubImgName + ", thirdSubImgName=" + thirdSubImgName
 				+ ", fourthSubImgName=" + fourthSubImgName + ", infoImgName=" + infoImgName + ", mainImgReName="
 				+ mainImgReName + ", firstSubImgReName=" + firstSubImgReName + ", secondSubImgReName="
 				+ secondSubImgReName + ", thirdSubImgReName=" + thirdSubImgReName + ", fourthSubImgReName="
 				+ fourthSubImgReName + ", infoImgReName=" + infoImgReName + ", mainImgRoot=" + mainImgRoot
 				+ ", firstSubImgRoot=" + firstSubImgRoot + ", secondSubImgRoot=" + secondSubImgRoot
 				+ ", thirdSubImgRoot=" + thirdSubImgRoot + ", fourthSubImgRoot=" + fourthSubImgRoot + ", infoImgRoot="
-				+ infoImgRoot + "]";
+				+ infoImgRoot + ", couponList=" + couponList + "]";
 	}
+
+	
 
 }

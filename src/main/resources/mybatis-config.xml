@@ -7,7 +7,7 @@
 		<setting name="jdbcTypeForNull" value="NULL"/>
 		<!-- 만약에 null 데이터가 전달되었으면 빈칸이 아닌 NULL로 인식하도록 설정 -->
 	</settings>
-	<!-- 타입엘리스 사용 -->
+	<!-- 타입엘리아스 사용 -->
 	<typeAliases>
 		<typeAlias type="com.kh.strap.admin.domain.Admin" 				alias="Admin"/>
 		<typeAlias type="com.kh.strap.board.domain.Board" 				alias="Board"/>
@@ -22,6 +22,7 @@
 		<typeAlias type="com.kh.strap.shop.product.domain.Product" 		alias="Product"/>
 		<typeAlias type="com.kh.strap.shop.qna.domain.Qna" 				alias="sQna"/>
 		<typeAlias type="com.kh.strap.shop.review.domain.Review" 		alias="Review"/>
+		<typeAlias type="com.kh.strap.shop.product.domain.Order" 		alias="Order"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/admin-mapper.xml"/>
@@ -37,5 +38,6 @@
 		<mapper resource="mappers/review-mapper.xml"/>
 		<mapper resource="mappers/schedule-mapper.xml"/>
 		<mapper resource="mappers/sqna-mapper.xml"/>
+		<mapper resource="mappers/order-mapper.xml"/>
 	</mappers>
 </configuration>
