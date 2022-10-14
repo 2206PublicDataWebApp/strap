@@ -75,12 +75,12 @@ header {
 /* 메뉴바 */
 menu{
 	width:100%;
+	text-align:center;
 	border-top: 2px solid #c0c0c0;
 	border-bottom: 2px solid #c0c0c0;
 }
 	.navBar{
 		display:inline-block;
-		left:28%;
 		width:600px;
 	}
 	.navBar li{
