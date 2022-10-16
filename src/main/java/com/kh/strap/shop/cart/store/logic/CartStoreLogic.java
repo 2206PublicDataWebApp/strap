@@ -15,22 +15,27 @@ public class CartStoreLogic implements CartStore {
 
 	@Override
 	public int insertCart(SqlSession session, Cart cart) {
-		return session.insert("", cart);
+		return session.insert("CartMapper.insertCart", cart);
+	}
+	
+	@Override
+	public int selectCheckCart(SqlSession session,Cart cart) {
+		return session.selectOne("CartMapper.selectCheckCart",cart);
 	}
 
 	@Override
-	public List<Cart> selectCart(SqlSession session,Paging paging, String memberId) {
-		return session.selectList("",memberId,new RowBounds(paging.getOffset(), paging.getPageLimit()));
+	public List<Cart> selectCart(SqlSession session, Cart cart) {
+		return session.selectList("CartMapper.selectCart", cart);
 	}
 
 	@Override
 	public int updateQtyCart(SqlSession session, Cart cart) {
-		return session.update("", cart);
+		return session.update("CartMapper.updateQtyCart", cart);
 	}
 
 	@Override
 	public int deleteCart(SqlSession session, Cart cart) {
-		return session.delete("", cart);
+		return session.delete("CartMapper.deleteCart", cart);
 	}
-	
+
 }

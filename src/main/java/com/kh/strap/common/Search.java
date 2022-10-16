@@ -6,6 +6,7 @@ public class Search {
 
 // 검색 값 파라미터 용 
 
+	
 	private String searchVal;			    // 검색 값
 	private String searchColumn; 		    // 검색 칼럼
 	private String searchCondition;		 	// 검색 조건
@@ -13,7 +14,8 @@ public class Search {
 	private Date startDate; 				// 날짜 필터용: 시작날짜
 	private Date endDate; 					// 날짜 필터용: 종료날짜
 	private String memberId; 				// 회원아이디
-
+	private int productNo;					// 상품 번호
+	
 	public Search() {
 	}
 

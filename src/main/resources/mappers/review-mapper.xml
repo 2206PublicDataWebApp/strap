@@ -16,4 +16,43 @@
 		<result column="REVIEW_GRADE" 			property="reviewGrade"/>
 		<result column="PRODUCT_NO" 			property="productNo"/>
 	</resultMap>
+	
+	<insert id="insertReview">
+		INSERT INTO REVIEW_TBL
+		VALUES(SEQ_REVIEW_NO.NEXTVAL,#{memberId},#{memberNick},#{reviewContents},#{reviewImgName},#{reviewImgRename},#{reviewImgRoot},DEFAULT,#{reviewGrade},#{productNo})
+	</insert>
+	
+	<select id="selectReview" resultMap="ReviewResultMap">
+		SELECT * FROM REVIEW_TBL
+		WHERE PRODUCT_NO = #{productNo}
+	</select>
+	
+	<select id="selectMemberReview" resultMap="ReviewResultMap">
+		SELECT * FROM REVIEW_TBL
+		<where>
+			<if test='search.dayBefore != null'>
+				MEMBER_ID = #{memberId} AND REVIEW_TIME <![CDATA[>]]> (SYSDATE - #{dayBefore})
+			</if>
+			<if test='search.dayBefore == null'>
+				MEMBER_ID = #{memberId} AND (REVIEW_TIME <![CDATA[>]]> #{startDate} AND REVIEW_TIME <![CDATA[<]]> #{endDate} )
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectCountReview" resultType="_int">
+		SELECT COUNT(*) FROM REVIEW_TBL
+		WHERE PRODUCT_NO = #{productNo}
+	</select>
+	
+	<select id="selectCountMemberReview" resultType="_int">
+		SELECT COUNT(*) FROM REVIEW_TBL
+		<where>
+			<if test='search.dayBefore != null'>
+				MEMBER_ID = #{memberId} AND REVIEW_TIME <![CDATA[>]]> (SYSDATE - #{dayBefore})
+			</if>
+			<if test='search.dayBefore == null'>
+				MEMBER_ID = #{memberId} AND (REVIEW_TIME <![CDATA[>]]> #{startDate} AND REVIEW_TIME <![CDATA[<]]> #{endDate} )
+			</if>
+		</where>
+	</select>
 </mapper>

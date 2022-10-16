@@ -18,4 +18,49 @@
 		<result column="SECRET_STATUS" 			property="secretStatus"/>
 		<result column="MEMBER_ID" 				property="memberId"/>
 	</resultMap>
+	
+	<insert id="insertShopQna">
+		INSERT INTO QNA_TBL
+		VALUES(SEQ_QNA_NO.NEXTVAL,#{productNo},#{qnaCode},#{qnaType},#{qnaTitle},#{qnaContents},DEFAULT,DEFAULT,DEFAULT,#{answerContents},#{secretStatus},#{memberId})
+	</insert>
+	
+	<select id="selectShopQna" resultMap="sQnaResultMap">
+		SELECT * FROM QNA_TBL
+		WHERE PRODUCT_NO = #{productNo}
+	</select>
+	
+	<select id="selectMemberShopQna" resultMap="sQnaResultMap">
+		SELECT * FROM QNA_TBL
+		<where>
+			<if test='search.dayBefore != null'>
+				MEMBER_ID = #{memberId} AND Q_ENROLL_DATE <![CDATA[>]]> (SYSDATE - #{dayBefore})
+			</if>
+			<if test='search.dayBefore == null'>
+				MEMBER_ID = #{memberId} AND (Q_ENROLL_DATE <![CDATA[>]]> #{startDate} AND Q_ENROLL_DATE <![CDATA[<]]> #{endDate} )
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectCountShopQna" resultType="_int">
+		SELECT COUNT(*) FROM QNA_TBL
+		WHERE PRODUCT_NO = #{productNo}
+	</select>
+	
+	<select id="selectCountMemberShopQna" resultType="_int">
+		SELECT COUNT(*) FROM QNA_TBL
+		<where>
+			<if test='search.dayBefore != null'>
+				MEMBER_ID = #{memberId} AND Q_ENROLL_DATE <![CDATA[>]]> (SYSDATE - #{dayBefore})
+			</if>
+			<if test='search.dayBefore == null'>
+				MEMBER_ID = #{memberId} AND (Q_ENROLL_DATE <![CDATA[>]]> #{startDate} AND Q_ENROLL_DATE <![CDATA[<]]> #{endDate} )
+			</if>
+		</where>
+	</select>
+	
+	<delete id="deleteShopQna">
+		DELETE FROM QNA_TBL
+		WHERE QNA_NO = #{qnaNo}
+	</delete>
+	
 </mapper>

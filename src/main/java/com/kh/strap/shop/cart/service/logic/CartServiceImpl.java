@@ -17,23 +17,30 @@ public class CartServiceImpl implements CartService {
 	SqlSession session;
 	@Autowired
 	CartStore cStore;
-	
-	
+
 	@Override
 	public int registerCart(Cart cart) {
 		return cStore.insertCart(session, cart);
 	}
+
 	@Override
-	public List<Cart> printCart(Paging paging,String memberId) {
-		return cStore.selectCart(session,paging, memberId);
+	public int checkCart(Cart cart) {
+		return cStore.selectCheckCart(session,cart);
 	}
+
+	@Override
+	public List<Cart> printCart(Cart cart) {
+		return cStore.selectCart(session, cart);
+	}
+
 	@Override
 	public int modifyQtyCart(Cart cart) {
 		return cStore.updateQtyCart(session, cart);
 	}
+
 	@Override
 	public int removeCart(Cart cart) {
 		return cStore.deleteCart(session, cart);
 	}
-	
+
 }

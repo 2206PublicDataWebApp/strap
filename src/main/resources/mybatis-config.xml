@@ -19,10 +19,12 @@
 		<typeAlias type="com.kh.strap.member.domain.Member" 			alias="Member"/>
 		<typeAlias type="com.kh.strap.shop.cart.domain.Cart" 			alias="Cart"/>
 		<typeAlias type="com.kh.strap.shop.coupon.domain.Coupon" 		alias="Coupon"/>
+		<typeAlias type="com.kh.strap.shop.coupon.domain.MemberCoupon" 	alias="MemberCoupon"/>
 		<typeAlias type="com.kh.strap.shop.product.domain.Product" 		alias="Product"/>
-		<typeAlias type="com.kh.strap.shop.qna.domain.Qna" 				alias="sQna"/>
+		<typeAlias type="com.kh.strap.shop.qna.domain.ShopQna" 			alias="sQna"/>
 		<typeAlias type="com.kh.strap.shop.review.domain.Review" 		alias="Review"/>
 		<typeAlias type="com.kh.strap.shop.product.domain.Order" 		alias="Order"/>
+		<typeAlias type="com.kh.strap.shop.product.domain.OrderProduct"	alias="OrderProduct"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/admin-mapper.xml"/>

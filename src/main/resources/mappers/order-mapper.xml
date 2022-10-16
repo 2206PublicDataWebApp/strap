@@ -4,11 +4,10 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   <mapper namespace="OrderMapper">
+  
   	<resultMap type="Order" id="OrderResultMap">
 		<id	 	column="ORDER_NO" 				property="orderNo"/>  	
 		<result column="PRODUCT_NO" 			property="productNo"/>
-		<result column="ORDER_GROUP" 			property="orderGroup"/>
-		<result column="ORDER_QTY" 				property="orderQty"/>
 		<result column="DELIVERY_FEE" 			property="deliveryFee"/>
 		<result column="COUPON_NO" 				property="couponNo"/>
 		<result column="DISCOUNT_AMOUNT" 		property="discountAmount"/>
@@ -35,4 +34,10 @@
 		<result column="DELIVERY_COMPLETE"	    property="deliveryComplete"/>
 		<result column="DELIVERY_NO" 			property="deliveryNo"/>
   	</resultMap>
+  	<resultMap type="OrderProduct" id="OrderProductResultMap">
+  		<id 	column="ORDER_NO" 		property="orderNo"/>
+  		<result column="PRODUCT_NO" 	property="productNo"/>
+  		<result column="ORDER_QTY"	    property="orderQty"/>
+  	</resultMap>
+  	
   </mapper>

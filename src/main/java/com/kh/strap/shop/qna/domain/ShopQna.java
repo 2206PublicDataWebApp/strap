@@ -4,18 +4,18 @@ import java.sql.Date;
 
 public class ShopQna {
 
-	private int qnaNo;
-	private int productNo;
-	private String qnaCode;
-	private String qnaType;
-	private String qnaTitle;
-	private String qnaContents;
-	private Date qEnrollDate;
-	private Date aEnrollDate;
-	private String answerStatus;
-	private String answerContents;
-	private String secretStatus;
-	private String memberId;
+	private int qnaNo;				//문의번호
+	private int productNo;			//상품번호
+	private String qnaCode;			//문의코드
+	private String qnaType;			//문의타입
+	private String qnaTitle;		//문의제목
+	private String qnaContents;		//문의내용
+	private Date qEnrollDate;		//문의등록일
+	private Date aEnrollDate;		//문의수정일
+	private String answerStatus;	//문의 답변상태
+	private String answerContents; //문의 답변
+	private String secretStatus;   //비밀 여부
+	private String memberId;		//회원 아이디
 
 	public ShopQna() {
 	}
