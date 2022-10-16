@@ -40,12 +40,15 @@ public class MemberController {
 	
 	/**
 	 * 
-	 * @return 회원가입 페이지 이동
+	 * @return 일반가입 페이지 이동
 	 */
 	@RequestMapping("/member/enroll.strap")
 	public String enrollForm() {
 		return "/member/enroll";
 	}
+	
+	
+	
 	
 	/**
 	 * 
@@ -121,6 +124,7 @@ public class MemberController {
 	public String sendMail(
 			@RequestParam("memberEmail") String memberEmail) {
 		int result = mService.IdCheckByEmail(memberEmail);
+		System.out.println(memberEmail);
 		System.out.println("해당 이메일로 가입한 아이디 갯수 :" + result);
 		//해당 이메일로 가입한 아이디가 있으면 이메일 전송
 		if(result > 0) {
@@ -152,7 +156,9 @@ public class MemberController {
 				e.printStackTrace();
 			}
 		}
-		return "error";
+		JSONObject jsonObj = new JSONObject();
+        jsonObj.put("send", "error");
+		return jsonObj.toString();	
 	}
 	
 	/**
@@ -163,12 +169,12 @@ public class MemberController {
 	public ModelAndView findIdResult(
 			ModelAndView mv
 			,@RequestParam("memberEmail") String memberEmail) {
-//		List<String> sList = mService.findIdByEmail(memberEmail);
 		List<Member> sList = mService.findIdByEmail(memberEmail);
 		mv.addObject("sList", sList);
 		mv.setViewName("/member/findIdResult");
 		return mv;
 	}
+	
 	/**
 	 * @param memberEmail
 	 * @param memberId
@@ -188,7 +194,7 @@ public class MemberController {
 		if(result ==1) {
 			ThreadLocalRandom random = ThreadLocalRandom.current();
 			String num = String.valueOf(random.nextInt(100000, 1000000));
-			String subject = "[스트랩] 아이디 찾기 인증번호";
+			String subject = "[스트랩] 비밀번호 찾기 인증번호";
 			String content = "요청하신 비밀번호를 찾기 위한 인증 번호 [ "+num+" ]입니다";
 			String from ="스트랩팀 <mykri155@gmail.com>";
 			String to = memberEmail;
@@ -213,20 +219,57 @@ public class MemberController {
 				e.printStackTrace();
 			}
 		}
-		return "error";
+		JSONObject jsonObj = new JSONObject();
+        jsonObj.put("send", "error");
+		return jsonObj.toString();
 	}
-	
 	
 	@RequestMapping(value="/member/findPwdResult.strap", method=RequestMethod.POST)
-	public ModelAndView findPwdResult(
-			ModelAndView mv
-			,@RequestParam("memberEmail") String memberEmail) {
-//		List<String> sList = mService.findIdByEmail(memberEmail);
-		List<Member> sList = mService.findIdByEmail(memberEmail);
-		mv.addObject("sList", sList);
-		mv.setViewName("/member/findIdResult");
-		return mv;
+	public String findPwdResult(
+			String memberId,
+			String memberEmail) {
+		//임시 비밀번호 생성
+		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7','8', '9',
+									  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+									  'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 
+									  'U', 'V', 'W', 'X', 'Y', 'Z' };
+		int idx = 0;
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < 10; i++) {
+		  idx = (int)(charSet.length * Math.random()); // 0~35 난수 발생
+		  sb.append(charSet[idx]);
+		}
+		//임시 비밀번호로 테이블 변경
+		System.out.println(sb);
+		Member member = new Member();
+		member.setMemberId(memberId);
+		member.setMemberPwd(sb.toString());
+		System.out.println(member);
+		int result = mService.changeTempPwd(member);
+		//이메일 발송
+		String subject = "[스트랩] 임시 비밀번호 전송";
+		String content = "회원님의 계정 비밀번호가 [ "+sb+" ]로 변경되었습니다. 로그인 후 비밀번호를 변경해주세요";
+		String from ="스트랩팀 <mykri155@gmail.com>";
+		String to = memberEmail;
+		try {
+			//MimeMessage 객체를 생성하여 발송하는 방법
+			MimeMessage mail = mailSender.createMimeMessage();
+			MimeMessageHelper mailHelper = new MimeMessageHelper(mail,true,"UTF-8"); //true는 멀티파트 메시지를 사용한다는 의미, 단순 텍스트는 생략가능
+			mailHelper.setFrom(from);			//보내는이
+			mailHelper.setTo(to);				//받는이
+			mailHelper.setSubject(subject);		//제목
+            mailHelper.setText(content, true);	//내용, true는 html을 사용하겠다는 의미, 단순 텍스트는 생략 가능
+//            파일 업로드 시 추가할 코드
+//            FileSystemResource file = new FileSystemResource(new File("경로\업로드파일.형식")); 
+//            mailHelper.addAttachment("업로드파일.형식", file);  
+            mailSender.send(mail);				//전송
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		return "member/loginView";
 	}
+	
+
 	
 	
 	

@@ -59,6 +59,12 @@ public class MemberServiceImpl implements MemberService {
 		int result = mStore.idEmailCheck(session, member);
 		return result;
 	}
+
+	@Override
+	public int changeTempPwd(Member member) {
+		int result = mStore.changeTempPwd(session, member);
+		return result;
+	}
 	
 	
 }

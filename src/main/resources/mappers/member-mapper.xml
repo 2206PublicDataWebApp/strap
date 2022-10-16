@@ -49,5 +49,7 @@
   	<insert id="inserMember">
   		INSERT INTO MEMBER_TBL VALUES(#{memberId},#{memberPwd},#{memberName},#{memberEmail},#{memberGender},#{memberNick},NULL,#{memberCareer},#{memberSBD},NULL,NULL,NULL,DEFAULT,DEFAULT,DEFAULT)
   	</insert>
-  	
+  	<update id="changeTempPwd">
+  		UPDATE MEMBER_TBL SET MEMBER_PWD = #{memberPwd} WHERE MEMBER_ID = #{memberId}
+  	</update>
 </mapper>

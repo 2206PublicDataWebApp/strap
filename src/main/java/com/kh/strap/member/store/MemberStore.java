@@ -21,4 +21,6 @@ public interface MemberStore {
 
 	int idEmailCheck(SqlSession session, Member member);
 
+	int changeTempPwd(SqlSession session, Member member);
+
 }

@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	인가 코드 : ${code}
+	토큰  : ${token }
+	
 </body>
 </html>

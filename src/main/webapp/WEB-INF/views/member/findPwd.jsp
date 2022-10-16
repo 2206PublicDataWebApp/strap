@@ -5,13 +5,24 @@
 <head>
 <meta charset="UTF-8">
 <title>스트랩 : 비밀번호 찾기</title>
-<script src="/resources/js/jquery-3.6.1.min.js"></script>
+<!-- CDN -->
+<!-- 부트스트랩 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- css -->
+<link rel="stylesheet" type="text/css" href="/resources/css/common.css">
 	<style>
 		.findIdResultForm{
-		margin:auto;
-		text-align: center;
-		width: 500px;
+			margin:100px auto;
+			text-align: center;
+			width: 400px;
+			height: 400px;
 		}
+		.findIdResultForm button,.findIdResultForm input{
+			width: 200px;
+		}
+		
 		span.email, #certificationNumber{
 			display:none;
 			font-size:12px;
@@ -20,21 +31,22 @@
 			
 		}
 		span.error{color:red}
+		
 	</style>
 </head>
 <body>
 	<div class="findIdResultForm">
-		<form action="/member/findPwdresult.strap" method="post">
+		<form action="/member/findPwdResult.strap" method="post">
 			<h3>비밀번호 찾기</h3>
 			<hr>
 			<label for="memberId">아이디</label><br>
-			<input type="text" id="memberId" name="memberId" placeholder="찾고싶은 아이디"><br>
+			<input type="text" id="memberId" name="memberId" placeholder="아이디 입력"><br>
 			<label for="memberEmail">이메일</label><br>
-			<input type="email" id="memberEmail" name="memberEmail" placeholder="이메일"><br>
+			<input type="email" id="memberEmail" name="memberEmail" placeholder="이메일 입력"><br>
 			<span class="email error">이메일 주소를 다시 확인해주세요</span>
 			<input type="text" id="certificationNumber" name="certificationNumber" placeholder="인증번호"><br>
-			<button type="button" id="certificationBtn">인증요청</button><br><br>
-			<button type="submit" id="findPwdBtn" disabled="disabled">비밀번호 찾기</button>	
+			<button type="button" id="certificationBtn" class="btn btn-primary">인증요청</button><br><br>
+			<button type="submit" id="findPwdBtn" class="btn btn-primary" onclick="return numberCheck();" disabled="disabled">비밀번호 찾기</button>	
 		</form>
 	</div>
 	<script>
@@ -77,6 +89,16 @@
 				}
 		});
 		
+		function numberCheck(){
+			var certificationNumber = $("#certificationNumber").val();
+			if(authNumber ==  certificationNumber){
+				window.alert("해당 이메일로 임시 비밀번호를 전송하였습니다. 확인을 누르면 로그인 페이지로 이동합니다.")
+				return true;
+			}else{
+				window.alert("인증번호가 일치하지 않습니다.")
+				return false;
+			}
+		}
 	</script>
 </body>
 </html>
