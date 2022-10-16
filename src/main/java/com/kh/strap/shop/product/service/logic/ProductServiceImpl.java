@@ -13,6 +13,7 @@ import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductLike;
 import com.kh.strap.shop.product.service.ProductService;
 import com.kh.strap.shop.product.store.ProductStore;
+import com.kh.strap.shop.review.domain.Review;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -33,12 +34,12 @@ public class ProductServiceImpl implements ProductService {
 		return pStore.selectOneProduct(session, product);
 	}
 	@Override
-	public List<Product> printLikeProduct(Paging paging) {
-		return pStore.selectLikeProduct(session, paging);
-	}
-	@Override
 	public int modifyProduct(Product product) {
 		return pStore.updateProduct(session, product);
+	}
+	@Override
+	public int modifyProductGradeSum(Review review) {
+		return pStore.updateProductGradeSum(session, review);
 	}
 	@Override
 	public int removeProduct(Product product) {
@@ -65,6 +66,10 @@ public class ProductServiceImpl implements ProductService {
 		return pStore.updatePayCompleteOrder(session, order);
 	}
 	@Override
+	public int modifyDeliveryStartOrder(Order order) {
+		return pStore.updateDeliveryStartOrder(session, order);
+	}
+	@Override
 	public int modifyDeliveryCompleteOrder(Order order) {
 		return pStore.updateDeliveryCompleteOrder(session, order);
 	}
@@ -88,5 +93,7 @@ public class ProductServiceImpl implements ProductService {
 	public int removeProductLike(ProductLike like) {
 		return pStore.deleteProductLike(session, like);
 	}
+
+
 	
 }

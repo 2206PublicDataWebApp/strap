@@ -40,4 +40,9 @@
   		<result column="ORDER_QTY"	    property="orderQty"/>
   	</resultMap>
   	
+  	
+  	<insert id="insertOrder">
+  		INSERT INTO ORDER_TBL
+  		VALUES(SEQ_ORDER_NO.NEXTVAL)
+  	</insert>
   </mapper>

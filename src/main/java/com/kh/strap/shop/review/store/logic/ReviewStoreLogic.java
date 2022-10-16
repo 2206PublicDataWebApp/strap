@@ -16,32 +16,34 @@ public class ReviewStoreLogic implements ReviewStore{
 
 	@Override
 	public int insertReview(SqlSession session, Review review) {
-		return session.insert("", review);
+		return session.insert("ReviewMapper.insertReview", review);
 	}
 
 	@Override
 	public List<Review> selectReview(SqlSession session, Paging paging, Search search) {
-		return session.selectList("", search, new RowBounds(paging.getOffset(), paging.getPageLimit()));
+		return session.selectList("ReviewMapper.selectReview", search, new RowBounds(paging.getOffset(), paging.getPageLimit()));
 	}
 
 	@Override
 	public List<Review> selectMemberReview(SqlSession session, Paging paging, Search search) {
-		return session.selectList("", search, new RowBounds(paging.getOffset(), paging.getPageLimit()));
-	}
-
-	@Override
-	public int deleteMemberReview(SqlSession session, Review review) {
-		return session.delete("", review);
+		return session.selectList("ReviewMapper.selectMemberReview", search, new RowBounds(paging.getOffset(), paging.getPageLimit()));
 	}
 
 	@Override
 	public int selectCountReview(SqlSession session, Review review) {
-		return session.selectOne("", review);
+		return session.selectOne("ReviewMapper.selectCountReview", review);
 	}
 
 	@Override
 	public int selectCountMemberReview(SqlSession session, Review review) {
-		return session.selectOne("", review);
+		return session.selectOne("ReviewMapper.selectCountMemberReview", review);
 	}
+	
+	@Override
+	public int deleteMemberReview(SqlSession session, Review review) {
+		return session.delete("ReviewMapper.deleteMemberReview", review);
+	}
+
+
 
 }

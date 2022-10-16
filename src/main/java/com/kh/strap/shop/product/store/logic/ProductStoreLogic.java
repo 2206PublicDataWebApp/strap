@@ -13,6 +13,7 @@ import com.kh.strap.shop.product.domain.Order;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductLike;
 import com.kh.strap.shop.product.store.ProductStore;
+import com.kh.strap.shop.review.domain.Review;
 
 @Repository
 public class ProductStoreLogic implements ProductStore {
@@ -32,14 +33,15 @@ public class ProductStoreLogic implements ProductStore {
 		return session.selectOne("", product);
 	}
 
-	@Override
-	public List<Product> selectLikeProduct(SqlSession session, Paging paging) {
-		return session.selectList("", null, new RowBounds(paging.getOffset(), paging.getPageLimit()));
-	}
 
 	@Override
 	public int updateProduct(SqlSession session, Product product) {
 		return session.update("", product);
+	}
+	
+	@Override
+	public int updateProductGradeSum(SqlSession session, Review review) {
+		return session.update("",review);
 	}
 
 	@Override
@@ -79,6 +81,11 @@ public class ProductStoreLogic implements ProductStore {
 	public int updatePayCompleteOrder(SqlSession session, Order order) {
 		return session.update("", order);
 	}
+	
+	@Override
+	public int updateDeliveryStartOrder(SqlSession session, Order order) {
+		return session.update("",order);
+	}
 
 	@Override
 	public int updateDeliveryCompleteOrder(SqlSession session, Order order) {
@@ -109,5 +116,9 @@ public class ProductStoreLogic implements ProductStore {
 	public int deleteProductLike(SqlSession session, ProductLike like) {
 		return session.delete("", like);
 	}
+
+
+
+
 
 }

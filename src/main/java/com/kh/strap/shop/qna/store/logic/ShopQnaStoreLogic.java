@@ -28,20 +28,22 @@ public class ShopQnaStoreLogic implements ShopQnaStore {
 	public List<ShopQna> selectShopQnaByMemberId(SqlSession session, Paging paging,Search search) {
 		return session.selectList("ShopQnaMapper.selectMemberShopQna", search, new RowBounds(paging.getOffset(), paging.getPageLimit()));
 	}
+	
+	@Override
+	public int countShopQna(SqlSession session, Search search) {
+		return session.selectOne("ShopQnaMapper.selectCountShopQna", search);
+	}
+
+	@Override
+	public int countMemberShopQna(SqlSession session, Search search) {
+		return session.selectOne("ShopQnaMapper.selectCountMemberShopQna", search);
+	}
 
 	@Override
 	public int deleteShopQna(SqlSession session, ShopQna qna) {
 		return session.delete("ShopQnaMapper.deleteShopQna", qna);
 	}
 
-	@Override
-	public int countShopQna(SqlSession session, Search search) {
-		return session.selectOne("ShopQnaMapper", search);
-	}
 
-	@Override
-	public int countMemberShopQna(SqlSession session, Search search) {
-		return session.selectOne("ShopQnaMapper", search);
-	}
 
 }

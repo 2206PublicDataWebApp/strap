@@ -2,11 +2,9 @@ package com.kh.strap.shop.cart.store.logic;
 
 import java.util.List;
 
-import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.kh.strap.common.Paging;
 import com.kh.strap.shop.cart.domain.Cart;
 import com.kh.strap.shop.cart.store.CartStore;
 

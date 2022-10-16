@@ -55,4 +55,9 @@
 			</if>
 		</where>
 	</select>
+	
+	<delete id="deleteMemberReview">
+		DELETE FROM REVIEW_TBL
+		WHERE REVIEW_NO = #{reviewNo}
+	</delete>
 </mapper>

@@ -33,6 +33,20 @@
 		<result column="SUB_IMG4_ROOT" 			property="fourthSubImgRoot"/>
 		<result column="INFO_IMG_ROOT" 			property="infoImgRoot"/>
 		<result column="COUPON_LIST" 			property="couponList"/>
-		
+		<result column="PRODUCT_DELETE" 		property="productDelete"/>
 	</resultMap>
+	
+	<insert id="insertProduct">
+		INSERT INTO PRODUCT_TBL
+		VALUES(SEQ_PRODUCT_NO.NEXTVAL.#{productNo},#{productName},#{productBrand},#{productPrice},#{productDesc},
+		#{gradeSum},#{productRegiDate},#{productModiDate},#{productSales},
+		#{mainImgName},#{firstSubImgName},#{secondSubImgName},#{thirdSubImgName},#{fourthSubImgName},#{infoImgName},
+		#{mainImgReName},#{firstSubImgReName},#{secondSubImgReName},#{thirdSubImgReName},#{fourthSubImgReName},#{infoImgReName},
+		#{mainImgRoot},#{firstSubImgRoot},#{secondSubImgRoot},#{thirdSubImgRoot},#{fourthSubImgRoot},#{infoImgRoot},
+		#{couponList},DEFAULT)
+	</insert>
+	
+	<select id="selectAllProduct" resultMap="ProductResultMap">
+		
+	</select>
 </mapper>

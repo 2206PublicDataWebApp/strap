@@ -10,6 +10,9 @@ public interface ReviewService {
 	
 	//1.상품리뷰 insert
 	public int registerReview(Review review);
+	//상품 리뷰 등록 시 PRODUCT_TBL 의 GRADE_SUM 테이블을 update해야 한다. (product-mapper에서 처리)
+	
+	
 	//2.상품 페이지 리뷰 select
 	public List<Review> printReview(Paging paging,Search search);
 	//3.회원 페이지 리뷰 select

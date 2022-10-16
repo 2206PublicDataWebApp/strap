@@ -9,6 +9,7 @@ import com.kh.strap.common.Search;
 import com.kh.strap.shop.product.domain.Order;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductLike;
+import com.kh.strap.shop.review.domain.Review;
 
 public interface ProductStore {
 	
@@ -16,8 +17,8 @@ public interface ProductStore {
 		public int insertProduct(SqlSession session,Product product);
 		public List<Product> selectAllProduct(SqlSession session,Paging paging,Search search);
 		public Product selectOneProduct(SqlSession session,Product product);
-		public List<Product> selectLikeProduct(SqlSession session,Paging paging);
 		public int updateProduct(SqlSession session,Product product);
+		public int updateProductGradeSum(SqlSession session,Review review);
 		public int deleteProduct(SqlSession session,Product product);
 		
 		
@@ -27,6 +28,7 @@ public interface ProductStore {
 		public List<Order> selectMemberOrder(SqlSession session,Paging paging,Search search,Order order);
 		public List<Order> selectMemberCancelOrder(SqlSession session,Paging paging,Search search,Order order);
 		public int updatePayCompleteOrder(SqlSession session,Order order);
+		public int updateDeliveryStartOrder(SqlSession session, Order order);
 		public int updateDeliveryCompleteOrder(SqlSession session,Order order);
 		public int updateCancelOrder(SqlSession session,Order order);
 		public int updateBackOrder(SqlSession session,Order order);
