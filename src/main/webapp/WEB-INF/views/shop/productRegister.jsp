@@ -21,11 +21,20 @@
 	<!-- 컨텐츠 -->
 	<div class="contents">
 		<div id="contents-wrap">
-				<!-- 사이드바 사용시 여길 사용합니다. (미사용시 주석) -->
-				<jsp:include page="/WEB-INF/views/common/sideBar.jsp"></jsp:include>
+				<jsp:include page="/WEB-INF/views/common/sideBarAdmin.jsp"></jsp:include>
 				<div class="contents-side">
+					<div id="inner-header">
+						<h1>상품등록</h1><hr>
+					</div>
+					<div id="inner-contents">
+						<form action="#" method="get" >
+							<input type="text" name="productBrand"><br>
+							<input type="text" name="productName"><br>
+							<input type="text" name="productPrice"><br>
+							<input type="text" name="productDesc"><br>
+						</form>
+					</div>
 				</div>
-	
 		</div>
 	</div>
 	<!-- 푸터 -->

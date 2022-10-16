@@ -21,9 +21,16 @@
 	<!-- 컨텐츠 -->
 	<div class="contents">
 		<div id="contents-wrap">
-				<!-- 사이드바 사용시 여길 사용합니다. (미사용시 주석) -->
-				<jsp:include page="/WEB-INF/views/common/sideBar.jsp"></jsp:include>
+				<jsp:include page="/WEB-INF/views/common/sideBarAdmin.jsp"></jsp:include>
 				<div class="contents-side">
+					<div id="inner-header">
+						<h1>상품관리</h1><hr>
+						<button onclick="location.href='/admin/product/register.strap';">상품등록</button>
+						<div>
+							<input type="text" placeholder="상품검색"><button>검색</button>
+						</div>
+					</div>
+					<div id="inner-contents"></div>
 				</div>
 	
 		</div>

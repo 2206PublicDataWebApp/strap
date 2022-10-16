@@ -21,7 +21,6 @@
 	<!-- 컨텐츠 -->
 	<div class="contents">
 		<div id="contents-wrap">
-<!-- 				사이드바 미 사용시 여길 사용합니다. (미사용시 주석) -->
 				<div class="contents-noside">
 				</div>
 	

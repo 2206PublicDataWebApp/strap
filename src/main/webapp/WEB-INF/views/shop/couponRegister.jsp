@@ -22,7 +22,7 @@
 	<div class="contents">
 		<div id="contents-wrap">
 				<!-- 사이드바 사용시 여길 사용합니다. (미사용시 주석) -->
-				<jsp:include page="/WEB-INF/views/common/sideBar.jsp"></jsp:include>
+				<jsp:include page="/WEB-INF/views/common/sideBarAdmin.jsp"></jsp:include>
 				<div class="contents-side">
 				</div>
 	
