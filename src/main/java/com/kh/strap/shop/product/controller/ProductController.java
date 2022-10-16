@@ -2,14 +2,14 @@ package com.kh.strap.shop.product.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.strap.shop.product.service.ProductService;
 
 @Controller
 public class ProductController {
-	@Autowired
-	ProductService pService;
-	
 /*상품(PRODUCT_TBL)
  * 
  * C: -관리자 상품 등록O
@@ -41,4 +41,105 @@ public class ProductController {
  * R: -찜한 상품 PRODUCT_TBL과 조인
  * D: -상품 찜하기 버튼 해제
  * */	
+	
+	@Autowired
+	ProductService pService;
+	
+	//보충제 리스트 출력
+	@RequestMapping(value="/product/list.strap", method=RequestMethod.GET)
+	public ModelAndView viewProductList(ModelAndView mv) {
+		return mv;
+	}
+	
+	//보충제 검색 리스트 출력
+	@RequestMapping(value="/product/search.strap\"", method=RequestMethod.GET)
+	public ModelAndView searchProductList(ModelAndView mv) {
+		return mv;
+	}
+	
+	//상품 상세 페이지
+	@RequestMapping(value="/product/detail.strap\"", method=RequestMethod.GET)
+	public ModelAndView viewProductDetail(ModelAndView mv) {
+		return mv;
+	}
+	
+	//구매(주문페이지) 이동
+	@RequestMapping(value="/order.strap", method=RequestMethod.GET)
+	public ModelAndView viewOrderPage(ModelAndView mv) {
+		return mv;
+	}
+	
+	//주문페이지->결제
+	@RequestMapping(value="/order/payment.strap", method=RequestMethod.GET)
+	public ModelAndView orderProduct(ModelAndView mv) {
+		return mv;
+	}
+	
+	//주문내역리스트 이동
+	@RequestMapping(value="/order/list.strap", method=RequestMethod.GET)
+	public ModelAndView viewOrderList(ModelAndView mv) {
+		return mv;
+	}
+	
+	//배송조회 
+	@RequestMapping(value="/order/delivery.strap", method=RequestMethod.GET)
+	public ModelAndView viewDelivery(ModelAndView mv) {
+		return mv;
+	}
+	
+	//구매취소
+	@RequestMapping(value="/order/cancel.strap", method=RequestMethod.GET)
+	public ModelAndView cancelOrder(ModelAndView mv) {
+		return mv;
+	}
+
+	
+	//취소반품리스트 이동
+	@RequestMapping(value="/order/cancel/list.strap", method=RequestMethod.GET)
+	public ModelAndView viewCancelList(ModelAndView mv) {
+		return mv;
+	}
+	
+	//찜한상품리스트 이동
+	@RequestMapping(value="/product/like/list.strap", method=RequestMethod.GET)
+	public ModelAndView viewLikeList(ModelAndView mv) {
+		return mv;
+	}
+	
+	//상품 찜하기
+	@RequestMapping(value="/product/like.strap", method=RequestMethod.GET)
+	public ModelAndView registerLike(ModelAndView mv) {
+		return mv;
+	}
+	
+	//상품 찜 취소
+	@RequestMapping(value="/product/likeCancel.strap", method=RequestMethod.GET)
+	public ModelAndView removeLike(ModelAndView mv) {
+		return mv;
+	}
+	
+	//상품관리페이지 이동
+	@RequestMapping(value="/admin/product.strap", method=RequestMethod.GET)
+	public ModelAndView viewManageProduct(ModelAndView mv) {
+		return mv;
+	}
+	
+	//상품등록페이지 이동
+	@RequestMapping(value="/admin/product/register.strap", method=RequestMethod.GET)
+	public ModelAndView viewRegisterProduct(ModelAndView mv) {
+		return mv;
+	}
+	
+	//상품수정페이지 이동
+	@RequestMapping(value="/admin/product/modify.strap", method=RequestMethod.GET)
+	public ModelAndView viewModifyProduct(ModelAndView mv) {
+		return mv;
+	}
+	
+	//상품 삭제ajax
+	@RequestMapping(value="/admin/product/remove.strap", method=RequestMethod.GET)
+	public ModelAndView removeProduct(ModelAndView mv) {
+		return mv;
+	}
+	
 }

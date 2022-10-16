@@ -2,14 +2,14 @@ package com.kh.strap.shop.coupon.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.strap.shop.coupon.service.CouponService;
 
 @Controller
 public class CouponController {
-	@Autowired
-	CouponService couponService;
-	
 	
 /*쿠폰등록(COUPON_TBL)
  * 
@@ -29,5 +29,38 @@ public class CouponController {
  * R: -상품 결제 페이지
  * U: -쿠폰 사용 시 USE_YN 'Y'
  * */
+	
+	@Autowired
+	CouponService couponService;
+	
+	//메인베너 쿠폰 리스트
+	@RequestMapping(value="/coupon/banner.strap", method=RequestMethod.GET)
+	public ModelAndView printCouponBanner(ModelAndView mv) {
+		return mv;
+	}
+	
+	//쿠폰관리페이지 이동
+	@RequestMapping(value="/admin/coupon.strap", method=RequestMethod.GET)
+	public ModelAndView viewManageCoupon(ModelAndView mv) {
+		return mv;
+	}
+	
+	//쿠폰등록페이지 이동
+	@RequestMapping(value="/admin/coupon/register.strap", method=RequestMethod.GET)
+	public ModelAndView viewRegisterCoupon(ModelAndView mv) {
+		return mv;
+	}
+	
+	//쿠폰 삭제ajax
+	@RequestMapping(value="/admin/coupon/remove.strap", method=RequestMethod.GET)
+	public ModelAndView removeCoupon(ModelAndView mv) {
+		return mv;
+	}
+	
+	//회원쿠폰발급
+	@RequestMapping(value="/member/coupon/register.strap", method=RequestMethod.GET)
+	public ModelAndView registerMemberCoupon(ModelAndView mv) {
+		return mv;
+	}
 	
 }
