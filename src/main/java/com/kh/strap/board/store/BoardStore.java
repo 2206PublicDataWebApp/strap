@@ -1,5 +1,9 @@
 package com.kh.strap.board.store;
 
-public interface BoardStore {
+import org.mybatis.spring.SqlSessionTemplate;
 
+import com.kh.strap.board.domain.Board;
+
+public interface BoardStore {
+	public int insertBoard(SqlSessionTemplate session, Board board);
 }

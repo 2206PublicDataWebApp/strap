@@ -1,5 +1,7 @@
 package com.kh.strap.board.service;
 
-public interface BoardService {
+import com.kh.strap.board.domain.Board;
 
+public interface BoardService {
+	public int registerBoard(Board board);
 }

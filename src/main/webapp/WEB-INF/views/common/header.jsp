@@ -9,7 +9,9 @@
 <body>
 
 <header class="header">
-	<div class="logo" style="cursor: pointer;" onclick="location.href='/';" >Strap</div>
+	<div class="logo" style="cursor: pointer;" onclick="location.href='/';" >
+		<img src="/resources/images/logo.png" style="width: 450px; height: 110px; object-fit: cover;">
+	</div>
 	<div class="login-wrap">
 		<div id="text-menu">
 			<li style="cursor: pointer;" onclick="location.href='#';">로그인</li>
@@ -17,10 +19,10 @@
 		</div>
 		<div id="icon-menu">
 			<div class="menu-img">
-				<img class="icon-img" src="/resources/image/mypage.png">
+				<img class="icon-img" src="/resources/images/mypage.png">
 			</div>
 			<div class="menu-img">
-				<img class="icon-img" src="/resources/image/cart.png">
+				<img class="icon-img" src="/resources/images/cart.png">
 			</div>
 		</div>
 	</div>
@@ -29,7 +31,7 @@
     <div class="navBar">
 			<li onclick="location.href='#';">매칭</li>
 	  		<li onclick="location.href='#';">보충제</li>
-	  		<li onclick="location.href='#';">게시판</li>
+	  		<li onclick="location.href='/board/list.strap';">게시판</li>
 	</div>
 </menu>
 
