@@ -1,5 +1,7 @@
 package com.kh.strap.shop.product.domain;
 
+import java.sql.Date;
+
 public class Order {
 	
 	private int orderNo;					//주문번호
@@ -29,6 +31,7 @@ public class Order {
 	private String deliveryStart;			//배송시작여부
 	private String deliveryComplete;		//배송완료여부
 	private String deliveryNo;				//운송장번호
+	private Date orderDate;					//주문일
 	
 	public Order() {}
 
@@ -37,7 +40,7 @@ public class Order {
 			String addressDetail, String postNo, String contactPhone, String deliveryRequest, String agreeYn,
 			String paymentMethod, String cardKind, int monthlyPay, String bankKind, String bankPayerName,
 			String payComplete, String orderCancel, String orderBack, String deliveryStart, String deliveryComplete,
-			String deliveryNo) {
+			String deliveryNo, Date orderDate) {
 		super();
 		this.orderNo = orderNo;
 		this.productNo = productNo;
@@ -66,6 +69,7 @@ public class Order {
 		this.deliveryStart = deliveryStart;
 		this.deliveryComplete = deliveryComplete;
 		this.deliveryNo = deliveryNo;
+		this.orderDate = orderDate;
 	}
 
 	public int getOrderNo() {
@@ -284,6 +288,14 @@ public class Order {
 		this.deliveryNo = deliveryNo;
 	}
 
+	public Date getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+
 	@Override
 	public String toString() {
 		return "Order [orderNo=" + orderNo + ", productNo=" + productNo + ", deliveryFee=" + deliveryFee + ", couponNo="
@@ -294,8 +306,10 @@ public class Order {
 				+ ", paymentMethod=" + paymentMethod + ", cardKind=" + cardKind + ", monthlyPay=" + monthlyPay
 				+ ", bankKind=" + bankKind + ", bankPayerName=" + bankPayerName + ", payComplete=" + payComplete
 				+ ", orderCancel=" + orderCancel + ", orderBack=" + orderBack + ", deliveryStart=" + deliveryStart
-				+ ", deliveryComplete=" + deliveryComplete + ", deliveryNo=" + deliveryNo + "]";
+				+ ", deliveryComplete=" + deliveryComplete + ", deliveryNo=" + deliveryNo + ", orderDate=" + orderDate
+				+ "]";
 	}
+
 	
 	
 }

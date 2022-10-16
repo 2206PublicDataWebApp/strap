@@ -33,6 +33,8 @@ public class Product {
 	private String infoImgRoot;				//메인이미지 경로
 	private String couponList;				//쿠폰 리스트
 	private String productDelete;  			//상품 삭제여부
+	private int gradeAver;					//평점 평균
+	private int reviewCount;				//리뷰개수
 
 	public Product() {
 	}
@@ -43,7 +45,7 @@ public class Product {
 			String infoImgName, String mainImgReName, String firstSubImgReName, String secondSubImgReName,
 			String thirdSubImgReName, String fourthSubImgReName, String infoImgReName, String mainImgRoot,
 			String firstSubImgRoot, String secondSubImgRoot, String thirdSubImgRoot, String fourthSubImgRoot,
-			String infoImgRoot, String couponList, String productDelete) {
+			String infoImgRoot, String couponList, String productDelete, int gradeAver) {
 		super();
 		this.productNo = productNo;
 		this.productName = productName;
@@ -74,6 +76,7 @@ public class Product {
 		this.infoImgRoot = infoImgRoot;
 		this.couponList = couponList;
 		this.productDelete = productDelete;
+		this.gradeAver = gradeAver;
 	}
 
 	public int getProductNo() {
@@ -308,6 +311,14 @@ public class Product {
 		this.productDelete = productDelete;
 	}
 
+	public int getGradeAver() {
+		return gradeAver;
+	}
+
+	public void setGradeAver(int gradeAver) {
+		this.gradeAver = gradeAver;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [productNo=" + productNo + ", productName=" + productName + ", productBrand=" + productBrand
@@ -321,7 +332,9 @@ public class Product {
 				+ fourthSubImgReName + ", infoImgReName=" + infoImgReName + ", mainImgRoot=" + mainImgRoot
 				+ ", firstSubImgRoot=" + firstSubImgRoot + ", secondSubImgRoot=" + secondSubImgRoot
 				+ ", thirdSubImgRoot=" + thirdSubImgRoot + ", fourthSubImgRoot=" + fourthSubImgRoot + ", infoImgRoot="
-				+ infoImgRoot + ", couponList=" + couponList + ", productDelete=" + productDelete + "]";
+				+ infoImgRoot + ", couponList=" + couponList + ", productDelete=" + productDelete + ", gradeAver="
+				+ gradeAver + "]";
 	}
 
+	
 }

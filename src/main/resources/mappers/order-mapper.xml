@@ -33,6 +33,7 @@
 		<result column="DELIVERY_START" 		property="deliveryStart"/>
 		<result column="DELIVERY_COMPLETE"	    property="deliveryComplete"/>
 		<result column="DELIVERY_NO" 			property="deliveryNo"/>
+		<result column="ORDER_DATE" 			property="orderDate"/>
   	</resultMap>
   	<resultMap type="OrderProduct" id="OrderProductResultMap">
   		<id 	column="ORDER_NO" 		property="orderNo"/>
@@ -45,4 +46,62 @@
   		INSERT INTO ORDER_TBL
   		VALUES(SEQ_ORDER_NO.NEXTVAL)
   	</insert>
+  	
+  	<select id="selectOneOrder" resultMap="OrderResultMap">
+  		SELECT *
+  		FROM ORDER_TBL
+  		WHERE ORDER_NO = #{orderNo}
+  	</select>
+  	
+  	<select id="selectMemberOrder" resultMap="OrderResultMap">
+  		SELECT * 
+  		FROM ORDER_TBL
+  		<where>
+			<if test='search.dayBefore != ""'>
+				ORDER_DATE <![CDATA[>]]> (SYSDATE - #{dayBefore} AND
+			</if>
+			<if test='search.dayBefore == ""'>
+				ORDER_DATE <![CDATA[>]]> #{startDate} AND ORDER_DATE <![CDATA[<]]> #{endDate} AND
+			</if>
+			MEMBER_ID = #{memberId}
+		</where>
+  	</select>
+  	
+  	<select id="selectMemberCancelOrder" resultMap="OrderResultMap">
+  		SELECT *
+  		FROM ORDER_TBL
+  		<where>
+			<if test='search.dayBefore != ""'>
+				ORDER_DATE <![CDATA[>]]> (SYSDATE - #{dayBefore} AND
+			</if>
+			<if test='search.dayBefore == ""'>
+				ORDER_DATE <![CDATA[>]]> #{startDate} AND ORDER_DATE <![CDATA[<]]> #{endDate} AND
+			</if>
+			MEMBER_ID = #{memberId} AND ORDER_CANCEL = 'Y'
+		</where>
+  	</select>
+  	
+  	<update id="updatePayComplete">
+  		UPDATE ORDER_TBL
+  		SET PAY_COMPLETE = #{payComplete}
+  		WHERE ORDER_NO = #{orderNo}
+  	</update>
+  	
+  	<update id="updateDeliveryStart">
+  		UPDATE ORDER_TBL
+  		SET DELIVERY_START = #{deliveryStart}
+  		WHERE ORDER_NO = #{orderNo}
+  	</update>
+  	
+  	<update id="updateDeliveryComplete">
+  		UPDATE ORDER_TBL
+  		SET DELIVERY_COMPLETE = #{deliveryComplete}
+  		WHERE ORDER_NO = #{orderNo}
+  	</update>
+  	
+  	<update id="updateOrderCancel">
+  		UPDATE ORDER_TBL
+  		SET ORDER_CANCEL = #{orderCancel}
+  		WHERE ORDER_NO = #{orderNo}
+  	</update>
   </mapper>

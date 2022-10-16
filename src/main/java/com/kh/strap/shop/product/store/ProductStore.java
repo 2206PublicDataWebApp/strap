@@ -16,9 +16,11 @@ public interface ProductStore {
 	//상품
 		public int insertProduct(SqlSession session,Product product);
 		public List<Product> selectAllProduct(SqlSession session,Paging paging,Search search);
+		public List<Product> selectAllProductSearch(SqlSession session,Paging paging,Search search);
 		public Product selectOneProduct(SqlSession session,Product product);
 		public int updateProduct(SqlSession session,Product product);
 		public int updateProductGradeSum(SqlSession session,Review review);
+//		public int updateProductGradeAver(SqlSession session,Product product);
 		public int deleteProduct(SqlSession session,Product product);
 		
 		
@@ -36,6 +38,7 @@ public interface ProductStore {
 		//찜
 		public int insertProductLike(SqlSession session,ProductLike like);
 		public List<Product> selectProductLike(SqlSession session,Paging paging,ProductLike like);
+		public int selectCheckProductLike(SqlSession session,ProductLike like);
 		public int deleteProductLike(SqlSession session,ProductLike like);
 
 }

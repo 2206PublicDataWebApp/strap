@@ -30,12 +30,13 @@
 	<select id="selectMemberReview" resultMap="ReviewResultMap">
 		SELECT * FROM REVIEW_TBL
 		<where>
-			<if test='search.dayBefore != null'>
-				MEMBER_ID = #{memberId} AND REVIEW_TIME <![CDATA[>]]> (SYSDATE - #{dayBefore})
+			<if test='search.dayBefore != ""'>
+				REVIEW_TIME <![CDATA[>]]> (SYSDATE - #{dayBefore} AND
 			</if>
-			<if test='search.dayBefore == null'>
-				MEMBER_ID = #{memberId} AND (REVIEW_TIME <![CDATA[>]]> #{startDate} AND REVIEW_TIME <![CDATA[<]]> #{endDate} )
+			<if test='search.dayBefore == ""'>
+				REVIEW_TIME <![CDATA[>]]> #{startDate} AND REVIEW_TIME <![CDATA[<]]> #{endDate} AND
 			</if>
+			MEMBER_ID = #{memberId}
 		</where>
 	</select>
 	
@@ -47,12 +48,13 @@
 	<select id="selectCountMemberReview" resultType="_int">
 		SELECT COUNT(*) FROM REVIEW_TBL
 		<where>
-			<if test='search.dayBefore != null'>
-				MEMBER_ID = #{memberId} AND REVIEW_TIME <![CDATA[>]]> (SYSDATE - #{dayBefore})
+			<if test='search.dayBefore != ""'>
+				REVIEW_TIME <![CDATA[>]]> (SYSDATE - #{dayBefore} AND
 			</if>
-			<if test='search.dayBefore == null'>
-				MEMBER_ID = #{memberId} AND (REVIEW_TIME <![CDATA[>]]> #{startDate} AND REVIEW_TIME <![CDATA[<]]> #{endDate} )
+			<if test='search.dayBefore == ""'>
+				REVIEW_TIME <![CDATA[>]]> #{startDate} AND REVIEW_TIME <![CDATA[<]]> #{endDate} AND
 			</if>
+			MEMBER_ID = #{memberId}
 		</where>
 	</select>
 	

@@ -13,14 +13,20 @@ public interface ProductService {
 	//상품
 	//1.관리자 상품 등록 insert
 	public int registerProduct(Product product);
-	//2.관리자 메뉴 및 상품목록 메뉴에서 selectList
+	//2-1. 전체상품 selectList
 	public List<Product> printAllProduct(Paging paging,Search search);
+	//2-2. 전체상품 검색 selectList
+	public List<Product> printAllProductSearch(Paging paging,Search search);
 	//3.상품 상세 페이지 selectOne
 	public Product printOneProduct(Product product);
 	//4.관리자 상품 수정 update
 	public int modifyProduct(Product product);
-	//5.상품리뷰가 추가될 때 상품 총점을 update한다.
+	//5번을 하나로 묶어서 처리하는 방법 생각하기.
+	//5-1.상품리뷰가 추가될 때 상품 총점을 update한다.
 	public int modifyProductGradeSum(Review review);
+	//5-2.상품리뷰가 추가될 때 상품 평점을 update한다.
+//	public int modifyProductGradeAver(Product product);
+	//5-3. 상품리뷰가 추가될 때 상품 리뷰개수를 update한다.
 	//6.관리자 상품 삭제 PRODUCT_DELETE 'Y' 변경
 	public int removeProduct(Product product);
 	
@@ -42,15 +48,17 @@ public interface ProductService {
 	public int modifyDeliveryCompleteOrder(Order order);
 	//8. 회원 주문 취소 시 ORDER_CANCEL 'Y'
 	public int modifyCancelOrder(Order order);
-	//9. 회원 주문 환불 시 ORDER_BACK 'Y'
-	public int modifyBackOrder(Order order);
+//	//9. 회원 주문 환불 시 ORDER_BACK 'Y'
+//	public int modifyBackOrder(Order order);
 	
 	//찜
-	//1. 찜버튼 클릭 시 insert
+	//1. 찜버튼 클릭 시 찜 여부 체크 후 반환값이 0이면, insert
 	public int registerProductLike(ProductLike like);
 	//2. 회원 찜한 상품리스트 select
 	public List<Product> printProductLike(Paging paging,ProductLike like);
-	//3. 회원 찜한 상품 취소
+	//3. 찜 여부 체크
+	public int checkProductLike(ProductLike like);
+	//4. 회원 찜한 상품 취소
 	public int removeProductLike(ProductLike like);
 	
 	

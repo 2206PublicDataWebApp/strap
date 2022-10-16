@@ -30,6 +30,10 @@ public class ProductServiceImpl implements ProductService {
 		return pStore.selectAllProduct(session, paging, search);
 	}
 	@Override
+	public List<Product> printAllProductSearch(Paging paging, Search search) {
+		return pStore.selectAllProductSearch(session, paging, search);
+	}
+	@Override
 	public Product printOneProduct(Product product) {
 		return pStore.selectOneProduct(session, product);
 	}
@@ -41,6 +45,10 @@ public class ProductServiceImpl implements ProductService {
 	public int modifyProductGradeSum(Review review) {
 		return pStore.updateProductGradeSum(session, review);
 	}
+//	@Override
+//	public int modifyProductGradeAver(Product product) {
+//		return pStore.updateProductGradeAver(session, product);
+//	}
 	@Override
 	public int removeProduct(Product product) {
 		return pStore.deleteProduct(session, product);
@@ -77,10 +85,10 @@ public class ProductServiceImpl implements ProductService {
 	public int modifyCancelOrder(Order order) {
 		return pStore.updateCancelOrder(session, order);
 	}
-	@Override
-	public int modifyBackOrder(Order order) {
-		return pStore.updateBackOrder(session, order);
-	}
+//	@Override
+//	public int modifyBackOrder(Order order) {
+//		return pStore.updateBackOrder(session, order);
+//	}
 	@Override
 	public int registerProductLike(ProductLike like) {
 		return pStore.insertProductLike(session, like);
@@ -90,9 +98,16 @@ public class ProductServiceImpl implements ProductService {
 		return pStore.selectProductLike(session, paging, like);
 	}
 	@Override
+	public int checkProductLike(ProductLike like) {
+		return pStore.selectCheckProductLike(session, like);
+	}
+	@Override
 	public int removeProductLike(ProductLike like) {
 		return pStore.deleteProductLike(session, like);
 	}
+
+
+
 
 
 	

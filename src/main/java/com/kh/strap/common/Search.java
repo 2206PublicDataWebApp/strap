@@ -8,8 +8,9 @@ public class Search {
 
 	
 	private String searchVal;			    // 검색 값
-	private String searchColumn; 		    // 검색 칼럼
+	private String searchColumn; 		    // 칼럼명
 	private String searchCondition;		 	// 검색 조건
+	private String orderCondition;			// ASC, DESC
 	private int dayBefore; 				// 날짜 필터용SYSDATE - #{dayBefore}
 	private Date startDate; 				// 날짜 필터용: 시작날짜
 	private Date endDate; 					// 날짜 필터용: 종료날짜
@@ -19,16 +20,18 @@ public class Search {
 	public Search() {
 	}
 
-	public Search(String searchVal, String searchColumn, String searchCondition, int dayBefore, Date startDate,
-			Date endDate, String memberId) {
+	public Search(String searchVal, String searchColumn, String searchCondition, String orderCondition, int dayBefore,
+			Date startDate, Date endDate, String memberId, int productNo) {
 		super();
 		this.searchVal = searchVal;
 		this.searchColumn = searchColumn;
 		this.searchCondition = searchCondition;
+		this.orderCondition = orderCondition;
 		this.dayBefore = dayBefore;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.memberId = memberId;
+		this.productNo = productNo;
 	}
 
 	public String getSearchVal() {
@@ -53,6 +56,14 @@ public class Search {
 
 	public void setSearchCondition(String searchCondition) {
 		this.searchCondition = searchCondition;
+	}
+
+	public String getOrderCondition() {
+		return orderCondition;
+	}
+
+	public void setOrderCondition(String orderCondition) {
+		this.orderCondition = orderCondition;
 	}
 
 	public int getDayBefore() {
@@ -87,13 +98,21 @@ public class Search {
 		this.memberId = memberId;
 	}
 
+	public int getProductNo() {
+		return productNo;
+	}
+
+	public void setProductNo(int productNo) {
+		this.productNo = productNo;
+	}
+
 	@Override
 	public String toString() {
 		return "Search [searchVal=" + searchVal + ", searchColumn=" + searchColumn + ", searchCondition="
-				+ searchCondition + ", dayBefore=" + dayBefore + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", memberId=" + memberId + "]";
+				+ searchCondition + ", orderCondition=" + orderCondition + ", dayBefore=" + dayBefore + ", startDate="
+				+ startDate + ", endDate=" + endDate + ", memberId=" + memberId + ", productNo=" + productNo + "]";
 	}
-	
+
 	
 
 	

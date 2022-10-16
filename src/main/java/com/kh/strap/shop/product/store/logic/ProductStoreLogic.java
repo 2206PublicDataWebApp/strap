@@ -20,33 +20,43 @@ public class ProductStoreLogic implements ProductStore {
 
 	@Override
 	public int insertProduct(SqlSession session, Product product) {
-		return session.insert("", product);
+		return session.insert("ProductMapper.insertProduct", product);
 	}
 
 	@Override
 	public List<Product> selectAllProduct(SqlSession session, Paging paging, Search search) {
-		return session.selectList("", search, new RowBounds(paging.getOffset(), paging.getPageLimit()));
+		return session.selectList("ProductMapper.selectAllProduct", search, new RowBounds(paging.getOffset(), paging.getPageLimit()));
+	}
+	
+	@Override
+	public List<Product> selectAllProductSearch(SqlSession session, Paging paging, Search search) {
+		return session.selectList("ProductMapper.selectAllProductSearch", search, new RowBounds(paging.getOffset(), paging.getPageLimit()));
 	}
 
 	@Override
 	public Product selectOneProduct(SqlSession session, Product product) {
-		return session.selectOne("", product);
+		return session.selectOne("ProductMapper.selectOneProduct", product);
 	}
 
 
 	@Override
 	public int updateProduct(SqlSession session, Product product) {
-		return session.update("", product);
+		return session.update("ProductMapper.updateProduct", product);
 	}
 	
 	@Override
 	public int updateProductGradeSum(SqlSession session, Review review) {
-		return session.update("",review);
+		return session.update("ProductMapper.updateProductGradeSum",review);
 	}
+	
+//	@Override
+//	public int updateProductGradeAver(SqlSession session, Product product) {
+//		return session.update("ProductMapper.",product);
+//	}
 
 	@Override
 	public int deleteProduct(SqlSession session, Product product) {
-		return session.delete("", product);
+		return session.delete("ProductMapper.deleteProduct", product);
 	}
 
 	@Override
@@ -104,18 +114,29 @@ public class ProductStoreLogic implements ProductStore {
 
 	@Override
 	public int insertProductLike(SqlSession session, ProductLike like) {
-		return session.insert("", like);
+		return session.insert("ProductMapper.insertProductLike", like);
 	}
 
 	@Override
 	public List<Product> selectProductLike(SqlSession session, Paging paging, ProductLike like) {
-		return session.selectList("", like, new RowBounds(paging.getOffset(), paging.getPageLimit()));
+		return session.selectList("ProductMapper.selectProductLike", like, new RowBounds(paging.getOffset(), paging.getPageLimit()));
+	}
+	
+	@Override
+	public int selectCheckProductLike(SqlSession session, ProductLike like) {
+		return session.selectOne("ProductMapper.selectCheckProductLike", like);
 	}
 
 	@Override
 	public int deleteProductLike(SqlSession session, ProductLike like) {
-		return session.delete("", like);
+		return session.delete("ProductMapper.deleteProductLike", like);
 	}
+
+
+
+
+
+
 
 
 
