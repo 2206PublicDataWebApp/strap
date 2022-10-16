@@ -16,6 +16,7 @@
 		<typeAlias type="com.kh.strap.match.domain.Match" alias="Match"/>
 		<typeAlias type="com.kh.strap.mypage.domain.MyPage" alias="MyPage"/>
 		<typeAlias type="com.kh.strap.notebox.domain.NoteBox" alias="NoteBox"/>
+		<typeAlias type="com.kh.strap.admin.domain.Notice" alias="Notice"/>
 		<typeAlias type="com.kh.strap.qna.domain.Qna" alias="Qna"/>
 		<typeAlias type="com.kh.strap.schedule.domain.Schedule" alias="Schedule"/>
 		<typeAlias type="com.kh.strap.shop.domain.Shop" alias="Shop"/>
@@ -28,6 +29,7 @@
 		<mapper resource="mappers/match-mapper.xml"></mapper>
 		<mapper resource="mappers/mypage-mapper.xml"></mapper>
 		<mapper resource="mappers/notebox-mapper.xml"></mapper>
+		<mapper resource="mappers/notice-mapper.xml"></mapper>
 		<mapper resource="mappers/qna-mapper.xml"></mapper>
 		<mapper resource="mappers/schedule-mapper.xml"></mapper>
 		<mapper resource="mappers/shop-mapper.xml"></mapper>
