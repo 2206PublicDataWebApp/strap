@@ -27,11 +27,12 @@
 						<h1>상품등록</h1><hr>
 					</div>
 					<div id="inner-contents">
-						<form action="#" method="get" >
-							<input type="text" name="productBrand"><br>
-							<input type="text" name="productName"><br>
-							<input type="text" name="productPrice"><br>
-							<input type="text" name="productDesc"><br>
+						<form id="info-form" action="#" method="get" >
+							<input type="text" name="productBrand" placeholder="브랜드명 입력"><br>
+							<input type="text" name="productName" placeholder="상품명 입력"><br>
+							<input type="text" name="productPrice" placeholder="상품가격 입력"><br>
+							<input type="text" name="productDesc" placeholder="상품설명 입력"><br>
+							<input type="submit">
 						</form>
 					</div>
 				</div>
