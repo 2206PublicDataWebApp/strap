@@ -23,6 +23,7 @@
 	</resultMap>
 	
 	<select id="selectLoginAdmin" resultMap="adminResultMap">
-	
+		SELECT * FROM MEMBER_TBL
+		WHERE MEMBER_ID = #{adminId} AND MEMBER_PWD = #{adminPwd} AND ADMIN_STATUS = 'Y'
 	</select>
 </mapper>

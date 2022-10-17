@@ -4,9 +4,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Admin Main</title>
+
 </head>
 <body>
-
+	<jsp:include page="/WEB-INF/views/common/adminHeader.jsp"></jsp:include>
+	<div class="container">
+		<div class="row">
+				<button class="btn btn-primary">버튼</button>
+			메인 페이지!!!!!!
+			<br> 로그인 성공!!!
+		</div>
+	</div>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>fhrmdls
 </body>
 </html>
