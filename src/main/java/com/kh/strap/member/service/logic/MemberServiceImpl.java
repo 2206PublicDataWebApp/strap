@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.domain.SocialMember;
 import com.kh.strap.member.service.MemberService;
 import com.kh.strap.member.store.MemberStore;
 import com.kh.strap.member.store.logic.MemberStoreLogic;
@@ -43,11 +44,6 @@ public class MemberServiceImpl implements MemberService {
 		return reulst;
 	}
 
-//	@Override
-//	public List<String> findIdByEmail(String memberEmail) {
-//		List<String> sList = mStore.findIdByEmail(session, memberEmail);
-//		return sList;
-//	}
 	@Override
 	public List<Member> findIdByEmail(String memberEmail) {
 		List<Member> sList = mStore.findIdByEmail(session, memberEmail);
@@ -65,6 +61,25 @@ public class MemberServiceImpl implements MemberService {
 		int result = mStore.changeTempPwd(session, member);
 		return result;
 	}
+
+	@Override
+	public int kakaoMembercheck(String memberId) {
+		int result = mStore.kakaoMembercheck(session, memberId);
+		return result;
+	}
+
+	@Override
+	public Member memberById(String memberId) {
+		Member member = mStore.memberById(session, memberId);
+		return member;
+	}
+
+	@Override
+	public int insertSocialMember(SocialMember socialMember) {
+		int result = mStore.insertSocialMember(session, socialMember);
+		return result;
+	}
+
 	
 	
 }

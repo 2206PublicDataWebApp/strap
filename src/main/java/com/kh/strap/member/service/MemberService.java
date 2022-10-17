@@ -3,6 +3,7 @@ package com.kh.strap.member.service;
 import java.util.List;
 
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.domain.SocialMember;
 
 public interface MemberService {
 
@@ -20,5 +21,12 @@ public interface MemberService {
 	int idEmailCheck(Member member);
 
 	int changeTempPwd(Member member);
+
+	int kakaoMembercheck(String memberId);
+
+	Member memberById(String memberId);
+
+	int insertSocialMember(SocialMember socialMember);
+
 
 }
