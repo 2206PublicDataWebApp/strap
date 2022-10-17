@@ -2,6 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
 <mapper namespace= "BoardMapper">
 	<resultMap type= "Board"				id="boardResultMap">
   		<id property="boardNo" 				column="BOARD_NO"/>
@@ -20,18 +21,3 @@
   		INSERT INTO BOARD_TBL VALUES(SEQ_BOARDNO.NEXTVAL,#{memberId}, #{boardTitle},#{boardContents},#{boardCategory},DEFAULT,DEFAULT,DEFAULT,#{bFileName},#{bFileRename},#{bFilePath})
   	</insert>
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-=======
-<mapper namespace="BoardMapper">
-</mapper>
->>>>>>> refs/remotes/origin/mbk221014_2
