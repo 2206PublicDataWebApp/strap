@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.shop.product.domain.Product;
+import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.service.ProductService;
 
 @Controller
@@ -140,7 +142,7 @@ public class ProductController {
 		return mv;
 	}
 	
-	//상품관리페이지 이동
+	//상품관리페이지 상품 목록
 	@RequestMapping(value="/admin/productView.strap", method=RequestMethod.GET)
 	public ModelAndView viewManageProduct(ModelAndView mv,
 			Search search,
@@ -148,7 +150,26 @@ public class ProductController {
 		int page = (currentPage != null) ? currentPage : 1;
 		Paging paging = new Paging(pService.countAllProduct(), page, 10, 5);
 		List<Product> pList = pService.printAllProduct(paging, search);
-		mv.addObject("pList",pList).setViewName("/shop/productManage");
+		mv.addObject("pList",pList).
+		addObject("paging",paging).
+		addObject("url","productView").
+		setViewName("/shop/productManage");
+		return mv;
+	}
+	
+	//상품관리페이지 상품검색결과 목록
+	@RequestMapping(value="/admin/productSearchView.strap", method=RequestMethod.GET)
+	public ModelAndView viewSearchManageProduct(ModelAndView mv,
+			@ModelAttribute Search search,
+			@RequestParam(value= "page", required=false)Integer currentPage) {
+		int page = (currentPage != null) ? currentPage : 1;
+		Paging paging = new Paging(pService.countAdminProductSearch(search), page, 10, 5);
+		List<Product> pList = pService.printAllProductSearch(paging, search);
+		mv.addObject("pList",pList).
+		addObject("paging",paging).
+		addObject("search",search).
+		addObject("url","productSearchView").
+		setViewName("/shop/productManage");
 		return mv;
 	}
 	
@@ -181,92 +202,78 @@ public class ProductController {
 	@RequestMapping(value="/admin/product/register.strap", method=RequestMethod.POST)
 	public ModelAndView registerProduct(ModelAndView mv, 
 			@ModelAttribute Product product,
-			@RequestParam("mainImg") MultipartFile mainImg,
-			@RequestParam("sub1Img") MultipartFile sub1Img,
-			@RequestParam("sub2Img") MultipartFile sub2Img,
-			@RequestParam("sub3Img") MultipartFile sub3Img,
-			@RequestParam("sub4Img") MultipartFile sub4Img,
-			@RequestParam("infoImg") MultipartFile infoImg,
+			@RequestParam("mainImg") MultipartFile mainImg, 
+			@RequestParam("infoFile") List<MultipartFile> infoList,
+			@RequestParam(value="imgFile",required=false)List<MultipartFile> imgList,
 			HttpSession session
 			) {
 		
-		try {
-			//원본 파일명 셋팅
-			String mainImgName = mainImg.getOriginalFilename();
-			String sub1ImgName = sub1Img.getOriginalFilename();
-			String sub2Imgname = sub2Img.getOriginalFilename();
-			String sub3ImgName = sub3Img.getOriginalFilename();
-			String sub4ImgName = sub4Img.getOriginalFilename();
-			String infoImgName = infoImg.getOriginalFilename();
-			
-			//2.저장이름용 문자열을 만든다.
-			String thisTime = new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis());
-			
-			//저장용 파일명 셋팅
-			String mainImgReName = thisTime+mainImgName.substring(mainImgName.lastIndexOf("."));
-			String sub1ImgReName = thisTime+sub1ImgName.substring(sub1ImgName.lastIndexOf("."));
-			String sub2ImgReName = thisTime+sub2Imgname.substring(sub2Imgname.lastIndexOf("."));
-			String sub3ImgReName = thisTime+sub3ImgName.substring(sub3ImgName.lastIndexOf("."));
-			String sub4ImgReName = thisTime+sub4ImgName.substring(sub4ImgName.lastIndexOf("."));
-			String infoImgReName = thisTime+infoImgName.substring(infoImgName.lastIndexOf("."));
-			
-			
-			//1.원본 파일명을 product에 set 한다.
-			product.setMainImgName(mainImgName);
-			product.setFirstSubImgName(sub1ImgName);
-			product.setSecondSubImgName(sub2Imgname);
-			product.setThirdSubImgName(sub3ImgName);
-			product.setFourthSubImgName(sub4ImgName);
-			product.setInfoImgName(infoImgName);
-			
-			//3.저장이름을 product에 set 한다.
-			product.setMainImgReName(mainImgReName);
-			product.setFirstSubImgReName(sub1ImgReName);
-			product.setSecondSubImgReName(sub2ImgReName);
-			product.setThirdSubImgReName(sub3ImgReName);
-			product.setFourthSubImgReName(sub4ImgReName);
-			product.setInfoImgReName(infoImgReName);
-			
-			//4.저장 경로를 만든다.
-			String savePath = session.getServletContext().getRealPath("resources") + "\\image\\product";
-			
-			//3.저장할 경로의 폴더(디렉토리)가 없으면 새로 만든다.
-			File targetFile = new File(savePath);
-			if (!targetFile.exists()) {
-				targetFile.mkdir();
-			}
+		String thisTime = new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis());
+		String savePath = session.getServletContext().getRealPath("resources") + "\\image\\product";
+		File targetFile = new File(savePath);
+		if (!targetFile.exists()) {
+			targetFile.mkdir();
+		}
 		
-			//4.설정한경로에 재정의한 이름으로 파일을 저장한다.
+		try {
+			//1.원본 파일명 셋팅
+			String mainImgName = mainImg.getOriginalFilename();
+			
+			//2.저장용 파일명 셋팅
+			String mainImgReName = thisTime+"_main"+mainImgName.substring(mainImgName.lastIndexOf("."));
+			
+			//3.원본 파일명을 product에 set 한다.
+			product.setMainImgName(mainImgName);
+			
+			//4.저장이름을 product에 set 한다.
+			product.setMainImgReName(mainImgReName);
+		
+			//5.설정한경로에 재정의한 이름으로 파일을 저장한다.
 			mainImg.transferTo(new File(savePath + "\\" + mainImgReName));
-			sub1Img.transferTo(new File(savePath + "\\" + sub1ImgReName));
-			sub2Img.transferTo(new File(savePath + "\\" + sub2ImgReName));
-			sub3Img.transferTo(new File(savePath + "\\" + sub3ImgReName));
-			sub4Img.transferTo(new File(savePath + "\\" + sub4ImgReName));
-			infoImg.transferTo(new File(savePath + "\\" + infoImgReName));
 				
-			//5.저장 경로를 product에 set 한다.
+			//6.저장 경로를 product에 set 한다.
 			product.setMainImgRoot(savePath + "\\" + mainImgReName);
-			product.setFirstSubImgRoot(savePath + "\\" + sub1ImgReName);
-			product.setSecondSubImgRoot(savePath + "\\" + sub2ImgReName);
-			product.setThirdSubImgRoot(savePath + "\\" + sub3ImgReName);
-			product.setFourthSubImgRoot(savePath + "\\" + sub4ImgReName);
-			product.setInfoImgRoot(savePath + "\\" + infoImgReName);
 			
 			int result = pService.registerProduct(product);
 			if(result > 0) {
-				
+				//인포이미지 저장
+				if(infoList.size() > 0) {
+					int index = 1;
+					for(MultipartFile imgFile : infoList) {
+						String imgName = imgFile.getOriginalFilename();
+						String imgReName = thisTime+"_info("+index+")"+"."+imgName.substring(imgName.lastIndexOf(".")+1);
+						String imgRoot = savePath + "\\" + imgReName;
+						imgFile.transferTo(new File(imgRoot));
+						int regiSubResult = pService.registerInfoImg(new ProductImg(imgName, imgReName, imgRoot));
+						index++;
+						if(regiSubResult > 0 ) {
+						}else {
+						}
+					}
+				}
+				//서브이미지 저장
+				if(imgList.size() > 0) {
+					int index = 1;
+					for(MultipartFile imgFile : imgList) {
+						String imgName = imgFile.getOriginalFilename();
+						String imgReName = thisTime+"_sub("+index+")"+"."+imgName.substring(imgName.lastIndexOf(".")+1);
+						String imgRoot = savePath + "\\" + imgReName;
+						imgFile.transferTo(new File(imgRoot));
+						int regiSubResult = pService.registerSubImg(new ProductImg(imgName, imgReName, imgRoot));
+						index++;
+						if(regiSubResult > 0 ) {
+						}else {
+						}
+					}
+				}
 			}else {
-				
 			}
-				
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (NullPointerException e) {
 			}
-		
-		
 		mv.setViewName("redirect:/admin/productView.strap");
 		return mv;
 	}
@@ -279,9 +286,16 @@ public class ProductController {
 	}
 	
 	//상품 삭제ajax
-	@RequestMapping(value="/admin/product/remove.strap", method=RequestMethod.GET)
-	public ModelAndView removeProduct(ModelAndView mv) {
-		return mv;
+	@ResponseBody
+	@RequestMapping(value="/admin/product/remove.strap",produces="text/plain;charset=utf-8", method=RequestMethod.GET)
+	public String removeProduct(
+			@ModelAttribute Product product) {
+		
+		int result = pService.removeProduct(product);
+		if(result > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
 	}
-	
 }

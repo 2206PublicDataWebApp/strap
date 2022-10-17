@@ -26,8 +26,10 @@
 					<div id="inner-header">
 						<h1>상품관리</h1><hr>
 						<button onclick="location.href='/admin/product/registerView.strap';">상품등록</button>
-						<div>
-							<input type="text" placeholder="상품검색"><button>검색</button>
+						<div id="search-wrap">
+							<form id="search-form" action="/admin/productSearchView.strap" method="get">
+								<input id="searchVal" name="searchVal" type="text" placeholder="상품검색"><button >검색</button>
+							</form>
 						</div>
 					</div>
 					<div id="inner-contents">
@@ -39,10 +41,25 @@
 								<th>상품등록일</th>
 							</tr>
 							<c:forEach items="${pList}" var="product">
-							
-							
+							<tr>
+								<td>[${product.productBrand }] ${product.productName }</td>
+								<td><a href="/admin/product/modifyView.strap?productNo=${product.productNo }" >수정</a></td>
+								<td><a href="#" onclick="deleteProduct(${product.productNo });">삭제</a></td>
+								<td>${product.productRegiDate }</td>							
+							</tr>
 							</c:forEach>						
 						</table>
+						<div id="paging-wrap">
+							<c:if test="${paging.startNavi > paging.startPage }">
+								<a href="/admin/${url}.strap?page=${paging.startNavi-1 }&searchVal=${search.searchVal}"><</a>
+							</c:if>
+							<c:forEach begin="${paging.startNavi }" end="${paging.endNavi }" var="n">
+								<a href="/admin/${url }.strap?page=${n }&searchVal=${search.searchVal}">${n }</a>
+							</c:forEach>
+							<c:if test="${paging.endNavi < paging.endPage }">
+								<a href="/admin/${url }.strap?page=${paging.endNavi+1 }&searchVal=${search.searchVal}">></a>
+							</c:if>					
+						</div>
 					</div>
 				</div>
 	
@@ -52,4 +69,26 @@
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </div>
 </body>
+<script>
+function deleteProduct(thisNo){
+	var productNo = thisNo;
+	if(confirm("상품을 삭제하시겠습니까?")){
+		$.ajax({
+			url:"/admin/product/remove.strap",
+			data:{"productNo":productNo},
+			type:"get",
+			success:function(result){
+				if(result == "success"){
+					location.reload();
+				}else{
+					
+				}
+			},
+			error:function(){}
+		});
+	}
+}
+
+</script>
+
 </html>

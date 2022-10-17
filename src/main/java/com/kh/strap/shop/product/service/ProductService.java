@@ -6,6 +6,7 @@ import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.shop.product.domain.Order;
 import com.kh.strap.shop.product.domain.Product;
+import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.domain.ProductLike;
 import com.kh.strap.shop.review.domain.Review;
 
@@ -13,6 +14,8 @@ public interface ProductService {
 	//상품
 	//1.관리자 상품 등록 insert
 	public int registerProduct(Product product);
+	public int registerSubImg(ProductImg pi);
+	public int registerInfoImg(ProductImg pi);
 	//2-1. 전체상품 selectList
 	public List<Product> printAllProduct(Paging paging,Search search);
 	//2-2. 전체상품 검색 selectList
@@ -66,6 +69,7 @@ public interface ProductService {
 	public int checkProductLike(ProductLike like);
 	//4. 회원 찜한 상품 취소
 	public int removeProductLike(ProductLike like);
+	
 	
 	
 }

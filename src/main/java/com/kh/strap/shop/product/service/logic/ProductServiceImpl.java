@@ -10,6 +10,7 @@ import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.shop.product.domain.Order;
 import com.kh.strap.shop.product.domain.Product;
+import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.domain.ProductLike;
 import com.kh.strap.shop.product.service.ProductService;
 import com.kh.strap.shop.product.store.ProductStore;
@@ -24,6 +25,14 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public int registerProduct(Product product) {
 		return pStore.insertProduct(session, product);
+	}
+	@Override
+	public int registerSubImg(ProductImg pi) {
+		return pStore.insertSubImg(session, pi);
+	}
+	@Override
+	public int registerInfoImg(ProductImg pi) {
+		return pStore.insertInfoImg(session,pi);
 	}
 	@Override
 	public List<Product> printAllProduct(Paging paging, Search search) {
@@ -119,6 +128,8 @@ public class ProductServiceImpl implements ProductService {
 	public int removeProductLike(ProductLike like) {
 		return pStore.deleteProductLike(session, like);
 	}
+
+
 
 
 
