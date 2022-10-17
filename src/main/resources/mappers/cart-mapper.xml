@@ -17,12 +17,12 @@
 		VALUES(#{productNo},#{memberId},#{productName},#{price},#{productAmount})
 	</insert>
 	
-	<select id="selectCheckCart">
+	<select id="selectCheckCart" resultType="int">
 		SELECT COUNT(*) FROM CART_TBL
 		WHERE PRODUCT_NO = #{productNo} AND MEMBER_ID = #{memberId}
 	</select>
 	
-	<select id="selectCart" resultMap="cartResultMap">
+	<select id="selectCart" resultMap="CartResultMap">
 		SELECT * FROM CART_TBL
 		WHERE MEMBER_ID = #{memberId}
 	</select>

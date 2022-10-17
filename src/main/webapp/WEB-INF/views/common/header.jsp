@@ -19,10 +19,14 @@
 		</div>
 		<div id="icon-menu">
 			<div class="menu-img">
-				<img class="icon-img" src="/resources/images/mypage.png">
+				<a href="/mypage/mypageView.strap">
+					<img class="icon-img" src="/resources/images/mypage.png">
+				</a>
 			</div>
 			<div class="menu-img">
-				<img class="icon-img" src="/resources/images/cart.png">
+				<a href="#">
+					<img class="icon-img" src="/resources/images/cart.png">
+				</a>
 			</div>
 		</div>
 	</div>

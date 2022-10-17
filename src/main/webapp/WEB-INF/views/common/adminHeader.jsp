@@ -29,7 +29,7 @@
 	<div class="container text-center">
 		<header class="header row text-center">
 			<div class="title col">
-				<a class="admin-title" href="/admin/adminMainView.strap">STRAP</a>
+				<a class="admin-title" href="/admin/mainView.strap">STRAP</a>
 			</div>
 		</header>
 		<div class="navbar row">
@@ -43,7 +43,7 @@
 				<a class="admin-menu" href="#">회원 검색</a>
 			</div>
 			<div class="col">
-				<a class="admin-menu" href="/admin/adminNoticeListView.strap">공지사항</a>
+				<a class="admin-menu" href="/admin/noticeListView.strap">공지사항</a>
 			</div>
 			<div class="col">
 				<a class="admin-menu" href="#">배너</a>
