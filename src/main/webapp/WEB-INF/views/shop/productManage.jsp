@@ -25,12 +25,25 @@
 				<div class="contents-side">
 					<div id="inner-header">
 						<h1>상품관리</h1><hr>
-						<button onclick="location.href='/admin/product/register.strap';">상품등록</button>
+						<button onclick="location.href='/admin/product/registerView.strap';">상품등록</button>
 						<div>
 							<input type="text" placeholder="상품검색"><button>검색</button>
 						</div>
 					</div>
-					<div id="inner-contents"></div>
+					<div id="inner-contents">
+						<table>
+							<tr>
+								<th>상품명</th>
+								<th>수정</th>
+								<th>삭제</th>
+								<th>상품등록일</th>
+							</tr>
+							<c:forEach items="${pList}" var="product">
+							
+							
+							</c:forEach>						
+						</table>
+					</div>
 				</div>
 	
 		</div>

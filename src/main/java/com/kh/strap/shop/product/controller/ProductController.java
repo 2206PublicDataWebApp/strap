@@ -1,11 +1,24 @@
 package com.kh.strap.shop.product.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.strap.common.Paging;
+import com.kh.strap.common.Search;
+import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.service.ProductService;
 
 @Controller
@@ -46,7 +59,7 @@ public class ProductController {
 	ProductService pService;
 	
 	//보충제 리스트 출력
-	@RequestMapping(value="/product/list.strap", method=RequestMethod.GET)
+	@RequestMapping(value="/product/listView.strap", method=RequestMethod.GET)
 	public ModelAndView viewProductList(ModelAndView mv) {
 		mv.setViewName("/shop/productList");
 		return mv;
@@ -60,14 +73,14 @@ public class ProductController {
 	}
 	
 	//상품 상세 페이지
-	@RequestMapping(value="/product/detail.strap\"", method=RequestMethod.GET)
+	@RequestMapping(value="/product/detailView.strap\"", method=RequestMethod.GET)
 	public ModelAndView viewProductDetail(ModelAndView mv) {
 		mv.setViewName("/shop/productDetail");
 		return mv;
 	}
 	
 	//구매(주문페이지) 이동
-	@RequestMapping(value="/order.strap", method=RequestMethod.GET)
+	@RequestMapping(value="/orderView.strap", method=RequestMethod.GET)
 	public ModelAndView viewOrderPage(ModelAndView mv) {
 		mv.setViewName("/shop/order");
 		return mv;
@@ -81,14 +94,14 @@ public class ProductController {
 	}
 	
 	//주문내역리스트 이동
-	@RequestMapping(value="/order/list.strap", method=RequestMethod.GET)
+	@RequestMapping(value="/order/listView.strap", method=RequestMethod.GET)
 	public ModelAndView viewOrderList(ModelAndView mv) {
 		mv.setViewName("/shop/orderList");
 		return mv;
 	}
 	
 	//배송조회 
-	@RequestMapping(value="/order/delivery.strap", method=RequestMethod.GET)
+	@RequestMapping(value="/order/deliveryView.strap", method=RequestMethod.GET)
 	public ModelAndView viewDelivery(ModelAndView mv) {
 		mv.setViewName("/shop/deliveryDetail");
 		return mv;
@@ -102,14 +115,14 @@ public class ProductController {
 
 	
 	//취소반품리스트 이동
-	@RequestMapping(value="/order/cancel/list.strap", method=RequestMethod.GET)
+	@RequestMapping(value="/order/cancel/listView.strap", method=RequestMethod.GET)
 	public ModelAndView viewCancelList(ModelAndView mv) {
 		mv.setViewName("/shop/cancelList");
 		return mv;
 	}
 	
 	//찜한상품리스트 이동
-	@RequestMapping(value="/product/like/list.strap", method=RequestMethod.GET)
+	@RequestMapping(value="/product/like/listView.strap", method=RequestMethod.GET)
 	public ModelAndView viewLikeList(ModelAndView mv) {
 		mv.setViewName("/shop/likeList");
 		return mv;
@@ -128,21 +141,138 @@ public class ProductController {
 	}
 	
 	//상품관리페이지 이동
-	@RequestMapping(value="/admin/product.strap", method=RequestMethod.GET)
-	public ModelAndView viewManageProduct(ModelAndView mv) {
-		mv.setViewName("/shop/productManage");
+	@RequestMapping(value="/admin/productView.strap", method=RequestMethod.GET)
+	public ModelAndView viewManageProduct(ModelAndView mv,
+			Search search,
+			@RequestParam(value= "page", required=false)Integer currentPage) {
+		int page = (currentPage != null) ? currentPage : 1;
+		Paging paging = new Paging(pService.countAllProduct(), page, 10, 5);
+		List<Product> pList = pService.printAllProduct(paging, search);
+		mv.addObject("pList",pList).setViewName("/shop/productManage");
 		return mv;
 	}
 	
 	//상품등록페이지 이동
-	@RequestMapping(value="/admin/product/register.strap", method=RequestMethod.GET)
+	/**
+	 * 상품등록페이지 이동 메소드
+	 * @param mv
+	 * @return
+	 */
+	@RequestMapping(value="/admin/product/registerView.strap", method=RequestMethod.GET)
 	public ModelAndView viewRegisterProduct(ModelAndView mv) {
 		mv.setViewName("/shop/productRegister");
 		return mv;
 	}
 	
+	//상품등록
+	/**
+	 * 상품 등록 메소드
+	 * @param mv
+	 * @param product
+	 * @param mainImg
+	 * @param sub1Img
+	 * @param sub2Img
+	 * @param sub3Img
+	 * @param sub4Img
+	 * @param infoImg
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="/admin/product/register.strap", method=RequestMethod.POST)
+	public ModelAndView registerProduct(ModelAndView mv, 
+			@ModelAttribute Product product,
+			@RequestParam("mainImg") MultipartFile mainImg,
+			@RequestParam("sub1Img") MultipartFile sub1Img,
+			@RequestParam("sub2Img") MultipartFile sub2Img,
+			@RequestParam("sub3Img") MultipartFile sub3Img,
+			@RequestParam("sub4Img") MultipartFile sub4Img,
+			@RequestParam("infoImg") MultipartFile infoImg,
+			HttpSession session
+			) {
+		
+		try {
+			//원본 파일명 셋팅
+			String mainImgName = mainImg.getOriginalFilename();
+			String sub1ImgName = sub1Img.getOriginalFilename();
+			String sub2Imgname = sub2Img.getOriginalFilename();
+			String sub3ImgName = sub3Img.getOriginalFilename();
+			String sub4ImgName = sub4Img.getOriginalFilename();
+			String infoImgName = infoImg.getOriginalFilename();
+			
+			//2.저장이름용 문자열을 만든다.
+			String thisTime = new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis());
+			
+			//저장용 파일명 셋팅
+			String mainImgReName = thisTime+mainImgName.substring(mainImgName.lastIndexOf("."));
+			String sub1ImgReName = thisTime+sub1ImgName.substring(sub1ImgName.lastIndexOf("."));
+			String sub2ImgReName = thisTime+sub2Imgname.substring(sub2Imgname.lastIndexOf("."));
+			String sub3ImgReName = thisTime+sub3ImgName.substring(sub3ImgName.lastIndexOf("."));
+			String sub4ImgReName = thisTime+sub4ImgName.substring(sub4ImgName.lastIndexOf("."));
+			String infoImgReName = thisTime+infoImgName.substring(infoImgName.lastIndexOf("."));
+			
+			
+			//1.원본 파일명을 product에 set 한다.
+			product.setMainImgName(mainImgName);
+			product.setFirstSubImgName(sub1ImgName);
+			product.setSecondSubImgName(sub2Imgname);
+			product.setThirdSubImgName(sub3ImgName);
+			product.setFourthSubImgName(sub4ImgName);
+			product.setInfoImgName(infoImgName);
+			
+			//3.저장이름을 product에 set 한다.
+			product.setMainImgReName(mainImgReName);
+			product.setFirstSubImgReName(sub1ImgReName);
+			product.setSecondSubImgReName(sub2ImgReName);
+			product.setThirdSubImgReName(sub3ImgReName);
+			product.setFourthSubImgReName(sub4ImgReName);
+			product.setInfoImgReName(infoImgReName);
+			
+			//4.저장 경로를 만든다.
+			String savePath = session.getServletContext().getRealPath("resources") + "\\image\\product";
+			
+			//3.저장할 경로의 폴더(디렉토리)가 없으면 새로 만든다.
+			File targetFile = new File(savePath);
+			if (!targetFile.exists()) {
+				targetFile.mkdir();
+			}
+		
+			//4.설정한경로에 재정의한 이름으로 파일을 저장한다.
+			mainImg.transferTo(new File(savePath + "\\" + mainImgReName));
+			sub1Img.transferTo(new File(savePath + "\\" + sub1ImgReName));
+			sub2Img.transferTo(new File(savePath + "\\" + sub2ImgReName));
+			sub3Img.transferTo(new File(savePath + "\\" + sub3ImgReName));
+			sub4Img.transferTo(new File(savePath + "\\" + sub4ImgReName));
+			infoImg.transferTo(new File(savePath + "\\" + infoImgReName));
+				
+			//5.저장 경로를 product에 set 한다.
+			product.setMainImgRoot(savePath + "\\" + mainImgReName);
+			product.setFirstSubImgRoot(savePath + "\\" + sub1ImgReName);
+			product.setSecondSubImgRoot(savePath + "\\" + sub2ImgReName);
+			product.setThirdSubImgRoot(savePath + "\\" + sub3ImgReName);
+			product.setFourthSubImgRoot(savePath + "\\" + sub4ImgReName);
+			product.setInfoImgRoot(savePath + "\\" + infoImgReName);
+			
+			int result = pService.registerProduct(product);
+			if(result > 0) {
+				
+			}else {
+				
+			}
+				
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (NullPointerException e) {
+			}
+		
+		
+		mv.setViewName("redirect:/admin/productView.strap");
+		return mv;
+	}
+	
 	//상품수정페이지 이동
-	@RequestMapping(value="/admin/product/modify.strap", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/product/modifyView.strap", method=RequestMethod.GET)
 	public ModelAndView viewModifyProduct(ModelAndView mv) {
 		mv.setViewName("/shop/productModify");
 		return mv;

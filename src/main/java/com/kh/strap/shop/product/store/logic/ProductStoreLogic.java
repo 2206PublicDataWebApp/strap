@@ -32,6 +32,21 @@ public class ProductStoreLogic implements ProductStore {
 	public List<Product> selectAllProductSearch(SqlSession session, Paging paging, Search search) {
 		return session.selectList("ProductMapper.selectAllProductSearch", search, new RowBounds(paging.getOffset(), paging.getPageLimit()));
 	}
+	
+	@Override
+	public int selectCountAllProduct(SqlSession session) {
+		return session.selectOne("");
+	}
+
+	@Override
+	public int selectCountSearchProduct(SqlSession session, Search search) {
+		return session.selectOne("",search);
+	}
+	
+	@Override
+	public int selectCountAdminProductSearch(SqlSession session, Search search) {
+		return session.selectOne("", search);
+	}
 
 	@Override
 	public Product selectOneProduct(SqlSession session, Product product) {
@@ -131,6 +146,10 @@ public class ProductStoreLogic implements ProductStore {
 	public int deleteProductLike(SqlSession session, ProductLike like) {
 		return session.delete("ProductMapper.deleteProductLike", like);
 	}
+
+
+
+
 
 
 

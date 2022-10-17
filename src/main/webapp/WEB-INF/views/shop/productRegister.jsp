@@ -27,12 +27,26 @@
 						<h1>상품등록</h1><hr>
 					</div>
 					<div id="inner-contents">
-						<form id="info-form" action="#" method="get" >
+						<form id="info-form" action="/admin/product/register.strap" method="post" enctype="multipart/form-data" >
+							<h2>상품 정보 입력</h2><hr>
 							<input type="text" name="productBrand" placeholder="브랜드명 입력"><br>
 							<input type="text" name="productName" placeholder="상품명 입력"><br>
 							<input type="text" name="productPrice" placeholder="상품가격 입력"><br>
-							<input type="text" name="productDesc" placeholder="상품설명 입력"><br>
-							<input type="submit">
+							<textarea 		   name="productDesc" placeholder="상품정보 입력"></textarea>
+							<h2>이미지 등록</h2><hr>
+							<input type="file" name="mainImg" required><br>
+							<button>서브 이미지 추가</button><button>서브 이미지 삭제</button>
+							<div id="subImg-wrap">
+								<input type="file" name="sub1Img" ><br>
+								<input type="file" name="sub2Img" ><br>
+								<input type="file" name="sub3Img" ><br>
+								<input type="file" name="sub4Img" ><br>
+							</div>
+							<input type="file" name="infoImg" required><br>
+							<br><br>
+							
+							<input type="submit" value="상품등록">
+							<input type="reset" value="초기화">							
 						</form>
 					</div>
 				</div>

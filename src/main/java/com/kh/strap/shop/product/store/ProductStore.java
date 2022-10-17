@@ -17,6 +17,9 @@ public interface ProductStore {
 		public int insertProduct(SqlSession session,Product product);
 		public List<Product> selectAllProduct(SqlSession session,Paging paging,Search search);
 		public List<Product> selectAllProductSearch(SqlSession session,Paging paging,Search search);
+		public int selectCountAllProduct(SqlSession session);
+		public int selectCountSearchProduct(SqlSession session, Search search);
+		public int selectCountAdminProductSearch(SqlSession session,Search search);
 		public Product selectOneProduct(SqlSession session,Product product);
 		public int updateProduct(SqlSession session,Product product);
 		public int updateProductGradeSum(SqlSession session,Review review);

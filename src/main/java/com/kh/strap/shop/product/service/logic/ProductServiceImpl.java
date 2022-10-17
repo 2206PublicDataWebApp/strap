@@ -34,6 +34,20 @@ public class ProductServiceImpl implements ProductService {
 		return pStore.selectAllProductSearch(session, paging, search);
 	}
 	@Override
+	public int countAllProduct() {
+		return pStore.selectCountAllProduct(session);
+	}
+	@Override
+	public int countSearchProduct(Search search) {
+		return pStore.selectCountSearchProduct(session, search);
+	}
+	
+	@Override
+	public int countAdminProductSearch(Search search) {
+		return pStore.selectCountAdminProductSearch(session, search);
+	}
+	
+	@Override
 	public Product printOneProduct(Product product) {
 		return pStore.selectOneProduct(session, product);
 	}
@@ -105,6 +119,8 @@ public class ProductServiceImpl implements ProductService {
 	public int removeProductLike(ProductLike like) {
 		return pStore.deleteProductLike(session, like);
 	}
+
+
 
 
 
