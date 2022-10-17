@@ -14,8 +14,8 @@
 	</div>
 	<div class="login-wrap">
 		<div id="text-menu">
-			<li style="cursor: pointer;" onclick="location.href='#';">로그인</li>
-	        <li style="cursor: pointer;" onclick="location.href='#';">마이쇼핑</li>
+			<li style="cursor: pointer;" onclick="location.href='/member/loginView.strap';">로그인</li>
+	        <li style="cursor: pointer;" onclick="location.href='/order/list.strap';">마이쇼핑</li>
 		</div>
 		<div id="icon-menu">
 			<div class="menu-img">
@@ -30,7 +30,7 @@
 <menu>
     <div class="navBar">
 			<li onclick="location.href='#';">매칭</li>
-	  		<li onclick="location.href='#';">보충제</li>
+	  		<li onclick="location.href='/product/list.strap';">보충제</li>
 	  		<li onclick="location.href='/board/list.strap';">게시판</li>
 	</div>
 </menu>

@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace= "MyPageMapper">
+<mapper namespace="MyPageMapper">
 <!--   	<resultMap type= "MyPage" id=""> -->
 <!--   		<id property="" column=""/> -->
 <!--   		<result property="" column=""/> -->

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="CouponMapper">
+	
+	<resultMap type="Coupon" id="CouponResultMap">
+		<id		column="COUPON_NO" 					 property="couponNo"/>
+		<result column="COUPON_NAME" 				 property="couponName"/>
+		<result column="COUPON_DESC" 			 	 property="couponDesc"/>
+		<result column="DISCOUNT_AMOUNT" 			 property="descountAmount"/>
+		<result column="PRICE_CONDITION" 			 property="priceCondition"/>
+		<result column="BRAND_CONDITION" 			 property="brandCondition"/>
+		<result column="FIRST_CONDITION" 			 property="firstCondition"/>
+		<result column="COUPON_PERIOD" 				 property="couponPeriod"/>
+		<result column="COUPON_REGI_DATE" 			 property="couponRegiDate"/>
+		<result column="PRODUCT_CONDITION"			 property="productCondition"/>
+		<result column="COUPON_RUN_YN" 				 property="couponRunYn"/>
+	</resultMap>
+	<resultMap type="MemberCoupon" id="MemberCouponResultMap" >
+		<id 	column="COUPON_NO" 					 property="couponNo"/>
+		<result column="MEMBER_ID" 					 property="memberId"/>
+		<result column="GET_COUPON_DATE" 			 property="getCouponDate"/>
+		<result column="END_COUPON_DATE" 			 property="endCounponDate"/>
+		<result column="USE_YN" 					 property="useYn"/>
+	</resultMap>
+	
+	<insert id="insertCoupon">
+		INSERT INTO COUPON_TBL
+		VALUES(SEQ_COUON_NO.NEXTVAL,#{couponName},#{couponDesc},#{descountAmount},#{priceCondition},#{brandCondition},#{couponPeriod},DEFAULT,DEFAULT,#{productCondition},DEFAULT)
+	</insert>
+	
+	<select id="selectCoupon" resultMap="CouponResultMap">
+		SELECT * FROM COUPON_TBL
+	</select>	
+	
+	<select id="selectMemberCoupon" resultMap="CouponResultMap">
+		SELECT * 
+		FROM COUPON_TBL C JOIN MEMBER_COUPON_TBL MC
+		ON C.COUPON_NO = MC.COUPON_NO
+		WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<update id="deleteCoupon">
+		UPDATE COUPON_TBL 
+		SET  COUPON_RUN_YN = 'N'
+	</update>
+	
+	<insert id="insertMemberCoupon">
+		INSERT INTO MEMBER_COUPON_TBL
+		VALUES(#{couponNo},#{memberId},DEFAULT,SYSDATE+#{couponPeriod},DEFAULT)
+	</insert>
+	
+	<update id="updateMemberCoupon">
+		UPDATE MEMBER_COUPON_TBL
+		SET USE_YN='Y'
+	</update>
+</mapper>

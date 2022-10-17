@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="OrderMapper">
+  
+  	<resultMap type="Order" id="OrderResultMap">
+		<id	 	column="ORDER_NO" 				property="orderNo"/>  	
+		<result column="PRODUCT_NO" 			property="productNo"/>
+		<result column="DELIVERY_FEE" 			property="deliveryFee"/>
+		<result column="COUPON_NO" 				property="couponNo"/>
+		<result column="DISCOUNT_AMOUNT" 		property="discountAmount"/>
+		<result column="FINAL_COST" 			property="finalCost"/>
+		<result column="MEMBER_ID" 				property="memberId"/>
+		<result column="MEMBER_NAME" 			property="memberName"/>
+		<result column="MEMBER_EMAIL" 			property="memberEmail"/>
+		<result column="MEMBER_PHONE" 			property="memberPhone"/>
+		<result column="ADDRESS" 				property="address"/>
+		<result column="ADDRESS_DETAIL" 		property="addressDetail"/>
+		<result column="POST_NO" 				property="postNo"/>
+		<result column="CONTACT_PHONE" 			property="contactPhone"/>
+		<result column="DELIVERY_REQUEST" 		property="deliveryRequest"/>
+		<result column="AGREE_YN" 				property="agreeYn"/>
+		<result column="PAYMENT_METHOD" 		property="paymentMethod"/>
+		<result column="CARD_KIND" 				property="cardKind"/>
+		<result column="MONTHLY_PAY" 			property="monthlyPay"/>
+		<result column="BANK_KIND" 				property="bankKind"/>
+		<result column="BANK_PAYER_NAME" 		property="bankPayerName"/>
+		<result column="PAY_COMPLETE" 			property="payComplete"/>
+		<result column="ORDER_CANCEL" 			property="orderCancel"/>
+		<result column="ORDER_BACK" 			property="orderBack"/>
+		<result column="DELIVERY_START" 		property="deliveryStart"/>
+		<result column="DELIVERY_COMPLETE"	    property="deliveryComplete"/>
+		<result column="DELIVERY_NO" 			property="deliveryNo"/>
+		<result column="ORDER_DATE" 			property="orderDate"/>
+  	</resultMap>
+  	<resultMap type="OrderProduct" id="OrderProductResultMap">
+  		<id 	column="ORDER_NO" 		property="orderNo"/>
+  		<result column="PRODUCT_NO" 	property="productNo"/>
+  		<result column="ORDER_QTY"	    property="orderQty"/>
+  	</resultMap>
+  	
+  	
+  	<insert id="insertOrder">
+  		INSERT INTO ORDER_TBL
+  		VALUES(SEQ_ORDER_NO.NEXTVAL)
+  	</insert>
+  	
+  	<select id="selectOneOrder" resultMap="OrderResultMap">
+  		SELECT *
+  		FROM ORDER_TBL
+  		WHERE ORDER_NO = #{orderNo}
+  	</select>
+  	
+  	<select id="selectMemberOrder" resultMap="OrderResultMap">
+  		SELECT * 
+  		FROM ORDER_TBL
+  		<where>
+			<if test='search.dayBefore != ""'>
+				ORDER_DATE <![CDATA[>]]> (SYSDATE - #{dayBefore} AND
+			</if>
+			<if test='search.dayBefore == ""'>
+				ORDER_DATE <![CDATA[>]]> #{startDate} AND ORDER_DATE <![CDATA[<]]> #{endDate} AND
+			</if>
+			MEMBER_ID = #{memberId}
+		</where>
+  	</select>
+  	
+  	<select id="selectMemberCancelOrder" resultMap="OrderResultMap">
+  		SELECT *
+  		FROM ORDER_TBL
+  		<where>
+			<if test='search.dayBefore != ""'>
+				ORDER_DATE <![CDATA[>]]> (SYSDATE - #{dayBefore} AND
+			</if>
+			<if test='search.dayBefore == ""'>
+				ORDER_DATE <![CDATA[>]]> #{startDate} AND ORDER_DATE <![CDATA[<]]> #{endDate} AND
+			</if>
+			MEMBER_ID = #{memberId} AND ORDER_CANCEL = 'Y'
+		</where>
+  	</select>
+  	
+  	<update id="updatePayComplete">
+  		UPDATE ORDER_TBL
+  		SET PAY_COMPLETE = #{payComplete}
+  		WHERE ORDER_NO = #{orderNo}
+  	</update>
+  	
+  	<update id="updateDeliveryStart">
+  		UPDATE ORDER_TBL
+  		SET DELIVERY_START = #{deliveryStart}
+  		WHERE ORDER_NO = #{orderNo}
+  	</update>
+  	
+  	<update id="updateDeliveryComplete">
+  		UPDATE ORDER_TBL
+  		SET DELIVERY_COMPLETE = #{deliveryComplete}
+  		WHERE ORDER_NO = #{orderNo}
+  	</update>
+  	
+  	<update id="updateOrderCancel">
+  		UPDATE ORDER_TBL
+  		SET ORDER_CANCEL = #{orderCancel}
+  		WHERE ORDER_NO = #{orderNo}
+  	</update>
+  </mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="ReviewMapper">
+	<resultMap type="Review" id="ReviewResultMap">
+		<id		column="REVIEW_NO" 				property="reviewNo"/>
+		<result column="MEMBER_ID" 				property="memberId"/>
+		<result column="MEMBER_NICK" 			property="memberNick"/>
+		<result column="REVIEW_CONTENTS" 		property="reviewContents"/>
+		<result column="REVIEW_IMG_NAME" 		property="reviewImgName"/>
+		<result column="REVIEW_IMG_RENAME" 		property="reviewImgRename"/>
+		<result column="REVIEW_IMG_ROOT" 		property="reviewImgRoot"/>
+		<result column="REVIEW_TIME" 			property="ReviewTime"/>
+		<result column="REVIEW_GRADE" 			property="reviewGrade"/>
+		<result column="PRODUCT_NO" 			property="productNo"/>
+	</resultMap>
+	
+	<insert id="insertReview">
+		INSERT INTO REVIEW_TBL
+		VALUES(SEQ_REVIEW_NO.NEXTVAL,#{memberId},#{memberNick},#{reviewContents},#{reviewImgName},#{reviewImgRename},#{reviewImgRoot},DEFAULT,#{reviewGrade},#{productNo})
+	</insert>
+	
+	<select id="selectReview" resultMap="ReviewResultMap">
+		SELECT * FROM REVIEW_TBL
+		WHERE PRODUCT_NO = #{productNo}
+	</select>
+	
+	<select id="selectMemberReview" resultMap="ReviewResultMap">
+		SELECT * FROM REVIEW_TBL
+		<where>
+			<if test='search.dayBefore != ""'>
+				REVIEW_TIME <![CDATA[>]]> (SYSDATE - #{dayBefore} AND
+			</if>
+			<if test='search.dayBefore == ""'>
+				REVIEW_TIME <![CDATA[>]]> #{startDate} AND REVIEW_TIME <![CDATA[<]]> #{endDate} AND
+			</if>
+			MEMBER_ID = #{memberId}
+		</where>
+	</select>
+	
+	<select id="selectCountReview" resultType="_int">
+		SELECT COUNT(*) FROM REVIEW_TBL
+		WHERE PRODUCT_NO = #{productNo}
+	</select>
+	
+	<select id="selectCountMemberReview" resultType="_int">
+		SELECT COUNT(*) FROM REVIEW_TBL
+		<where>
+			<if test='search.dayBefore != ""'>
+				REVIEW_TIME <![CDATA[>]]> (SYSDATE - #{dayBefore} AND
+			</if>
+			<if test='search.dayBefore == ""'>
+				REVIEW_TIME <![CDATA[>]]> #{startDate} AND REVIEW_TIME <![CDATA[<]]> #{endDate} AND
+			</if>
+			MEMBER_ID = #{memberId}
+		</where>
+	</select>
+	
+	<delete id="deleteMemberReview">
+		DELETE FROM REVIEW_TBL
+		WHERE REVIEW_NO = #{reviewNo}
+	</delete>
+</mapper>

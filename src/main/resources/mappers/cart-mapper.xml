@@ -3,10 +3,37 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace= "CartMapper">
-<!-- 	<resultMap type= "Cart" id=""> -->
-<!-- 		<id property="" column=""/> -->
-<!-- 		<result property="" column=""/> -->
-<!-- 		<result property="" column=""/> -->
-<!-- 	</resultMap> -->
+<mapper namespace="CartMapper">
+	<resultMap type="Cart" id="CartResultMap">
+		<id		column="PRODUCT_NO" 			property="productNo"/>
+		<result column="MEMBER_ID"			    property="memberId"/>
+		<result column="PRODUCT_NAME" 			property="productName"/>
+		<result column="PRICE" 					property="price"/>
+		<result column="PRODUCT_AMOUNT" 		property="productAmount"/>
+	</resultMap>
+	
+	<insert id="insertCart">
+		INSERT INTO CART_TBL
+		VALUES(#{productNo},#{memberId},#{productName},#{price},#{productAmount})
+	</insert>
+	
+	<select id="selectCheckCart">
+		SELECT COUNT(*) FROM CART_TBL
+		WHERE PRODUCT_NO = #{productNo} AND MEMBER_ID = #{memberId}
+	</select>
+	
+	<select id="selectCart" resultMap="cartResultMap">
+		SELECT * FROM CART_TBL
+		WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<update id="updateQtyCart">
+		UPDATE CART_TBL SET PRODUCT_AMOUNT = #{productAmount}
+		WHERE MEMBER_ID = #{memberId} AND PRODUCT_ID = #{productNo}
+	</update>
+	
+	<delete id="deleteCart">
+		DELETE FROM CART_TBL
+		WHERE MEMBER_ID = #{memberId} AND PRODUCT_ID = #{productNo} 
+	</delete>
 </mapper>

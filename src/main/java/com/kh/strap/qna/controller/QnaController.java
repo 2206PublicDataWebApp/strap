@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import com.kh.strap.qna.service.logic.QnaServiceImpl;
 
 
-@Controller
+@Controller("QnaController")
 public class QnaController {
 	@Autowired
 	private QnaServiceImpl qService;

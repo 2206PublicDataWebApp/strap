@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="ShopQnaMapper">
+	<resultMap type="sQna" id="sQnaResultMap">
+		<id		column="QNA_NO" 				property="qnaNo"/>
+		<result column="PRODUCT_NO" 			property="productNo"/>
+		<result column="QNA_CODE" 				property="qnaCode"/>
+		<result column="QNA_TYPE" 				property="qnaType"/>
+		<result column="QNA_TITLE" 				property="qnaTitle"/>
+		<result column="QNA_CONTENTS" 			property="qnaContents"/>
+		<result column="Q_ENROLL_DATE" 			property="qEnrollDate"/>
+		<result column="A_ENROLL_DATE" 			property="aEnrollDate"/>
+		<result column="ANSWER_STATUS" 			property="answerStatus"/>
+		<result column="ANSWER_CONTENTS" 		property="answerContents"/>
+		<result column="SECRET_STATUS" 			property="secretStatus"/>
+		<result column="MEMBER_ID" 				property="memberId"/>
+	</resultMap>
+	
+	<insert id="insertShopQna">
+		INSERT INTO QNA_TBL
+		VALUES(SEQ_QNA_NO.NEXTVAL,#{productNo},#{qnaCode},#{qnaType},#{qnaTitle},#{qnaContents},DEFAULT,DEFAULT,DEFAULT,#{answerContents},#{secretStatus},#{memberId})
+	</insert>
+	
+	<select id="selectShopQna" resultMap="sQnaResultMap">
+		SELECT * FROM QNA_TBL
+		WHERE PRODUCT_NO = #{productNo}
+	</select>
+	
+	<select id="selectMemberShopQna" resultMap="sQnaResultMap">
+		SELECT * FROM QNA_TBL
+		<where>
+			<if test='search.dayBefore != ""'>
+				Q_ENROLL_DATE <![CDATA[>]]> (SYSDATE - #{dayBefore} AND
+			</if>
+			<if test='search.dayBefore == ""'>
+				Q_ENROLL_DATE <![CDATA[>]]> #{startDate} AND Q_ENROLL_DATE <![CDATA[<]]> #{endDate} AND
+			</if>
+			MEMBER_ID = #{memberId}
+		</where>
+	</select>
+	
+	<select id="selectCountShopQna" resultType="_int">
+		SELECT COUNT(*) FROM QNA_TBL
+		WHERE PRODUCT_NO = #{productNo}
+	</select>
+	
+	<select id="selectCountMemberShopQna" resultType="_int">
+		SELECT COUNT(*) FROM QNA_TBL
+		<where>
+			<if test='search.dayBefore != ""'>
+				Q_ENROLL_DATE <![CDATA[>]]> (SYSDATE - #{dayBefore} AND
+			</if>
+			<if test='search.dayBefore == ""'>
+				Q_ENROLL_DATE <![CDATA[>]]> #{startDate} AND Q_ENROLL_DATE <![CDATA[<]]> #{endDate} AND
+			</if>
+			MEMBER_ID = #{memberId}
+		</where>
+	</select>
+	
+	<delete id="deleteShopQna">
+		DELETE FROM QNA_TBL
+		WHERE QNA_NO = #{qnaNo}
+	</delete>
+	
+</mapper>

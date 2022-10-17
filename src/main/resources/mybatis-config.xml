@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-config.dtd">
-  <!-- 나는 마이바티스다 라는 선언 -->
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL"/>
 		<!-- 만약에 null 데이터가 전달되었으면 빈칸이 아닌 NULL로 인식하도록 설정 -->
 	</settings>
-	<!-- 타입엘리스 사용 -->
+	<!-- 타입엘리아스 사용 -->
 	<typeAliases>
-		<typeAlias type="com.kh.strap.admin.domain.Admin" alias="Admin"/>
-		<typeAlias type="com.kh.strap.board.domain.Board" alias="Board"/>
-		<typeAlias type="com.kh.strap.cart.domain.Cart" alias="Cart"/>
-		<typeAlias type="com.kh.strap.match.domain.Match" alias="Match"/>
-		<typeAlias type="com.kh.strap.mypage.domain.MyPage" alias="MyPage"/>
-		<typeAlias type="com.kh.strap.notebox.domain.NoteBox" alias="NoteBox"/>
-		<typeAlias type="com.kh.strap.admin.domain.Notice" alias="Notice"/>
-		<typeAlias type="com.kh.strap.qna.domain.Qna" alias="Qna"/>
-		<typeAlias type="com.kh.strap.schedule.domain.Schedule" alias="Schedule"/>
-		<typeAlias type="com.kh.strap.shop.domain.Shop" alias="Shop"/>
-		<typeAlias type="com.kh.strap.member.domain.Member" alias="Member"/>
+		<typeAlias type="com.kh.strap.admin.domain.Admin" 				alias="Admin"/>
+		<typeAlias type="com.kh.strap.board.domain.Board" 				alias="Board"/>
+		<typeAlias type="com.kh.strap.match.domain.Match" 				alias="Match"/>
+		<typeAlias type="com.kh.strap.mypage.domain.MyPage" 			alias="MyPage"/>
+		<typeAlias type="com.kh.strap.notebox.domain.NoteBox" 			alias="NoteBox"/>
+		<typeAlias type="com.kh.strap.qna.domain.Qna" 					alias="Qna"/>
+		<typeAlias type="com.kh.strap.schedule.domain.Schedule" 		alias="Schedule"/>
+		<typeAlias type="com.kh.strap.member.domain.Member" 			alias="Member"/>
+		<typeAlias type="com.kh.strap.shop.cart.domain.Cart" 			alias="Cart"/>
+		<typeAlias type="com.kh.strap.shop.coupon.domain.Coupon" 		alias="Coupon"/>
+		<typeAlias type="com.kh.strap.shop.coupon.domain.MemberCoupon" 	alias="MemberCoupon"/>
+		<typeAlias type="com.kh.strap.shop.product.domain.Product" 		alias="Product"/>
+		<typeAlias type="com.kh.strap.shop.qna.domain.ShopQna" 			alias="sQna"/>
+		<typeAlias type="com.kh.strap.shop.review.domain.Review" 		alias="Review"/>
+		<typeAlias type="com.kh.strap.shop.product.domain.Order" 		alias="Order"/>
+		<typeAlias type="com.kh.strap.shop.product.domain.OrderProduct"	alias="OrderProduct"/>
 	</typeAliases>
 	<mappers>
-		<mapper resource="mappers/admin-mapper.xml"></mapper>
-		<mapper resource="mappers/board-mapper.xml"></mapper>
-		<mapper resource="mappers/cart-mapper.xml"></mapper>
-		<mapper resource="mappers/match-mapper.xml"></mapper>
-		<mapper resource="mappers/mypage-mapper.xml"></mapper>
-		<mapper resource="mappers/notebox-mapper.xml"></mapper>
-		<mapper resource="mappers/notice-mapper.xml"></mapper>
-		<mapper resource="mappers/qna-mapper.xml"></mapper>
-		<mapper resource="mappers/schedule-mapper.xml"></mapper>
-		<mapper resource="mappers/shop-mapper.xml"></mapper>
-		<mapper resource="mappers/member-mapper.xml"></mapper>
+		<mapper resource="mappers/admin-mapper.xml"/>
+		<mapper resource="mappers/board-mapper.xml"/>
+		<mapper resource="mappers/cart-mapper.xml"/>
+		<mapper resource="mappers/coupon-mapper.xml"/>
+		<mapper resource="mappers/match-mapper.xml"/>
+		<mapper resource="mappers/member-mapper.xml"/>
+		<mapper resource="mappers/mypage-mapper.xml"/>
+		<mapper resource="mappers/notebox-mapper.xml"/>
+		<mapper resource="mappers/product-mapper.xml"/>
+		<mapper resource="mappers/qna-mapper.xml"/>
+		<mapper resource="mappers/review-mapper.xml"/>
+		<mapper resource="mappers/schedule-mapper.xml"/>
+		<mapper resource="mappers/sqna-mapper.xml"/>
+		<mapper resource="mappers/order-mapper.xml"/>
 	</mappers>
 </configuration>

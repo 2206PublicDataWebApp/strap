@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace= "AdminMapper">
+<mapper namespace="AdminMapper">
 	<resultMap type= "Admin" id="adminResultMap">
 		<id property="adminId" column="MEMBER_ID"/>
 		<result property="adminPwd" column="MEMBER_PWD"/>
