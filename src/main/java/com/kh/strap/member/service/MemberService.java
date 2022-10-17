@@ -19,4 +19,6 @@ public interface MemberService {
 
 	int idEmailCheck(Member member);
 
+	int changeTempPwd(Member member);
+
 }

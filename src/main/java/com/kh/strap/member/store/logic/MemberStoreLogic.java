@@ -53,4 +53,10 @@ public class MemberStoreLogic implements MemberStore{
 		return result;
 	}
 
+	@Override
+	public int changeTempPwd(SqlSession session, Member member) {
+		int result = session.update("MemberMapper.changeTempPwd", member);
+		return result;
+	}
+
 }
