@@ -17,36 +17,24 @@
 <body>
 <div class="wrap container">
 	<!-- 헤더&메뉴바 -->
-	<div class="row">
+	<div id="header" class="row">
 		<div class="col">
 			<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		</div>
 	</div>
 
-	<div class="row">
+	<div id="contents" class="row">
 		<div class="sidebar col-3" >
 			<jsp:include page="/WEB-INF/views/common/sideBar.jsp"></jsp:include>
 		</div>
 		<div class="contents-side col">
-			dfasdf<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 		</div>
 	</div>
-	<div class="row">
+	<div id="footer" class="row">
 		<div class="col">
 			<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 		</div>
 	</div>
-	
-<!-- 	<div class="row"> -->
-<!-- 		<div class="contents-side col"> -->
-<!-- 			dfasdf<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- 	<div class="row"> -->
-<!-- 		<div class="col"> -->
-<%-- 			<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include> --%>
-<!-- 		</div> -->
-<!-- 	</div> -->
 </div>
 </body>
 </html>

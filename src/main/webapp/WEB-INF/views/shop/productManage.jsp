@@ -17,12 +17,18 @@
 <body>
 <div class="wrap container">
 	<!-- 헤더&메뉴바 -->
-	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+	<div id="header" class="row">
+		<div class="col">
+			<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+		</div>
+	</div>
 	<!-- 컨텐츠 -->
-	<div class="contents">
+	<div id="contents" class="row">
 		<div id="contents-wrap">
-				<jsp:include page="/WEB-INF/views/common/sideBarAdmin.jsp"></jsp:include>
-				<div class="contents-side">
+			<div class="sidebar col-3" >
+					<jsp:include page="/WEB-INF/views/common/sideBarAdmin.jsp"></jsp:include>
+			</div>
+				<div class="contents-side col">
 					<div id="inner-header">
 						<h1>상품관리</h1><hr>
 						<button onclick="location.href='/admin/product/registerView.strap';">상품등록</button>
@@ -66,7 +72,11 @@
 		</div>
 	</div>
 	<!-- 푸터 -->
-	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+	<div id="footer" class="row">
+		<div class="col">
+			<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+		</div>
+	</div>
 </div>
 </body>
 <script>

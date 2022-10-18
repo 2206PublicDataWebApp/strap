@@ -102,22 +102,29 @@ nav{
 /* 컨텐츠 */
 
 .contents{
-	padding: 0px 50px;
-	padding-left: 0;
+/* 	padding: 0px 50px; */
+/* 	padding-left: 0; */
 }
 	#contents-wrap{
 /* 		height: 500px; */
 	}
 /* 	사이드바 사용 시  */
 	.sideBar{
-		float:left;
 		width: 20%;
 		padding:0;
 		font-size:18px;
-		
 		border-right: 2px solid #c0c0c0;
-/* 		height: 500px; */
 	}
+	.stickySidebar{
+/* 		position:fixed; */
+		width:20%;
+		border-right: 2px solid #c0c0c0;
+		
+	}
+	.sidebarArea{
+		width:20%
+	}
+	
 		.list-group li:first-child{
 			font-size:20px;
 			font-weight:bold;
@@ -130,11 +137,9 @@ nav{
 		}
 	
 	.contents-side{
-		float:left;
 		width: 80%;
 		padding:12px;
 		
-/* 		height: 500px; */
 	}
 		#inner-header,#inner-contents{
 			width:70%;
@@ -145,7 +150,6 @@ nav{
 		width: 100%;
 		padding:12px;
 		
-/* 		height: 500px; */
 	}
 	
 footer{
