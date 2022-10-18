@@ -40,7 +40,7 @@
 	  			</button>
   			</ul>
   					<!-- 검색창 -->
-						<form action="/board/search.kh" method="get" style="transform: translate(24%); margin-bottom: 50px;">
+						<form action="/board/search.strap" method="get" style="transform: translate(24%); margin-bottom: 50px;">
 							<select style="float: left; width: 10%!important;" class="form-select w-25"
 								aria-label="Default select example" name="searchCondition">
 								<option value="all"
@@ -64,74 +64,65 @@
 						</form>
 				<div class="contents-noside">
 					<!-- 게시글 리스트 -->
-					<table class="table table-bordered w-75" align="center" border="2">
+					<table class="table table-hover table-fixed" align="center" border="2">
 						<tr>
-							<th class="table-primary" style="width: 70px; text-align: center">번호</th>
-							<th class="table-primary"
-								style="width: 300px; text-align: center">제목</th>
-							<th class="table-primary"
-								style="width: 100px; text-align: center">글쓴이</th>
-							<th class="table-primary"
-								style="width: 100px; text-align: center">등록일</th>
-							<th class="table-primary" style="width: 70px; text-align: center">조회</th>
-							<th class="table-primary" style="width: 70px; text-align: center">추천</th>
+							<th class="table-primary" style="text-align: center">번호</th>
+							<th class="table-primary" style="text-align: center">카테고리</th>
+							<th class="table-primary" style="text-align: center">제목</th>
+							<th class="table-primary" style="text-align: center">작성자</th>
+							<th class="table-primary" style="text-align: center">등록일</th>
+							<th class="table-primary" style="text-align: center">조회</th>
+							<th class="table-primary" style="text-align: center">추천</th>
 						</tr>
-						<%-- <c:if test="${!empty bList }">
-							<c:forEach items="${bList }" var="board" varStatus="i">
+					
+						<c:if test="${!empty bList }">
+							<c:forEach items="${bList }" var="Board" varStatus="i">
 								<tr>
-									<td>${i.count }</td>
-									<td><a
-										href="/board/detail.kh?boardNo=${board.boardNo }&page=${currentPage }">${board.boardTitle }</a></td>
-									<td>${board.boardWriter }</td>
-									<td>${board.bCreateDate }</td>
-									<td>${board.boardCount }</td>
+									<th scope="row" style="text-align:center">${Board.boardNo }</th>
+									<td style="text-align:center">${Board.boardCategory }</td>
+									<td><a href="#" onclick="detailView(${boardWriter},${Board.boardNo },${currentPage });">${Board.boardTitle }</a></td>
+									<td style="text-align:center">${Board.boardWriter }</td>
+									<td style="text-align:center">${Board.boardDate }</td>
+									<td style="text-align:center">${Board.boardCount }</td>
+									<td style="text-align:center">${Board.boardLike }</td>
 								</tr>
 							</c:forEach>
-									<td colspan="6"><c:if test="${currentPage != 1 }">
-										<a
-											href="/board/${urlVal }.kh?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}">[이전]</a>
-									</c:if> <c:forEach var="p" begin="${startNavi }" end="${endNavi }">
-										<c:if test="${currentPage eq p }">
-											<b>${p }</b>
-										</c:if>
-										<c:if test="${currentPage ne p }">
-											<a
-												href="/board/${urlVal }.kh?page=${p }&searchCondition=${searchCondition}&searchValue=${searchValue}">${p }</a>
-										</c:if>
-									</c:forEach> <c:if test="${maxPage > currentPage }">
-										<a
-											href="/board/${urlVal }.kh?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}">[다음]</a>
-									</c:if></td>
-						</c:if> --%>
-						<c:if test="${empty bList }">
-							<tr>
-								<td colspan="6" align="center"><b>데이터가 존재하지 않습니다.</b></td>
-							</tr>
-						</c:if>
-					</table>
-					<nav style="display: flex; justify-content: center;" aria-label="Page navigation example">
-						<div style="width: 500px;">
-							<ul style="float: right;" class="pagination">
+					<tr align="center" height="20">
+					<td align="center" colspan="6">
+					<nav aria-label="Page navigation example" style="display: inline-block;">
+							<ul class="pagination">
 								<li class="page-item">
-									<a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+									<c:if test="${currentPage > 5}">
+										<a class="page-link" href="/board/${urlVal }.strap?page=${startNavi - 1}&searchCondition=${searchCondition}&searchValue=${searchValue}" aria-label="Previous">
+											<span aria-hidden="true">&laquo;</span>
+										</a>
+									</c:if>
 								</li>
-								<li class="page-item"><a class="page-link" href="#">1</a></li>
-								<li class="page-item"><a class="page-link" href="#">2</a></li>
-								<li class="page-item"><a class="page-link" href="#">3</a></li>
-								<li class="page-item">
-									<a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-								</li>
+								<c:forEach var="p" begin="${startNavi }" end="${endNavi }">
+									<li class="page-item"><a class="page-link" href="/board/${urlVal }.strap?page=${p }&searchCondition=${searchCondition}&searchValue=${searchValue}">${p }</a></li>
+								</c:forEach>
+								<c:if test="${maxPage-4 > currentPage }">
+									<li class="page-item">
+										<a class="page-link" href="/board/${urlVal }.strap?page=${endNavi + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" aria-label="Next">
+											<span aria-hidden="true">&raquo;</span>
+										</a>
+									</li>
+								</c:if>
 							</ul>
-						</div>
-						<div style="width: 300px;">
-							<button type="button" style="float: right;" class="btn btn-primary" onclick="location.href='/board/writeView.strap';">글쓰기</button>
-						</div>
-					</nav>
+								</nav>
+									</td>
+									<td align="center">
+										<button type="button" class="btn btn-primary" onclick="location.href='/board/writeView.strap'">글쓰기</button>
+									</td>
+								</tr>
+							</c:if>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
 		<!-- 푸터 -->
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-	</div>
+	
 </body>
 </html>

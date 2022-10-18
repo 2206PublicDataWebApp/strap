@@ -3,17 +3,17 @@ package com.kh.strap.board.domain;
 import java.sql.Date;
 
 public class Board {
-	private int boardNo;
-	private String memberId;
-	private String boardTitle;
-	private String boardContents;
-	private String boardCategory;
-	private Date boardDate;
-	private int boardCount;
-	private int boardLike;
-	private String bFileName;
-	private String bFileRename;
-	private String bFilePath;
+	private int boardNo; 			// 게시글 번호
+	private String boardWriter; 	// 작성자
+	private String boardTitle; 		// 게시글 제목
+	private String boardContents;	// 게시글 내용
+	private String boardCategory; 	// 게시글 카테고리
+	private String bFileName; 		// 파일 이름
+	private String bFileRename; 	// 변경된 파일 이름
+	private String bFilePath; 		// 파일 경로
+	private Date boardDate; 		// 작성 날짜
+	private int boardCount; 		// 게시글 조회수
+	private int boardLike; 			// 게시글 추천수
 	
 	public int getBoardNo() {
 		return boardNo;
@@ -21,11 +21,11 @@ public class Board {
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
 	}
-	public String getMemberId() {
-		return memberId;
+	public String getBoardWriter() {
+		return boardWriter;
 	}
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+	public void setBoardWriter(String boardWriter) {
+		this.boardWriter = boardWriter;
 	}
 	public String getBoardTitle() {
 		return boardTitle;
@@ -45,24 +45,6 @@ public class Board {
 	public void setBoardCategory(String boardCategory) {
 		this.boardCategory = boardCategory;
 	}
-	public Date getBoardDate() {
-		return boardDate;
-	}
-	public void setBoardDate(Date boardDate) {
-		this.boardDate = boardDate;
-	}
-	public int getBoardCount() {
-		return boardCount;
-	}
-	public void setBoardCount(int boardCount) {
-		this.boardCount = boardCount;
-	}
-	public int getBoardLike() {
-		return boardLike;
-	}
-	public void setBoardLike(int boardLike) {
-		this.boardLike = boardLike;
-	}
 	public String getbFileName() {
 		return bFileName;
 	}
@@ -81,12 +63,30 @@ public class Board {
 	public void setbFilePath(String bFilePath) {
 		this.bFilePath = bFilePath;
 	}
+	public Date getBoardDate() {
+		return boardDate;
+	}
+	public void setBoardDate(Date boardDate) {
+		this.boardDate = boardDate;
+	}
+	public int getBoardCount() {
+		return boardCount;
+	}
+	public void setBoardCount(int boardCount) {
+		this.boardCount = boardCount;
+	}
+	public int getBoardLike() {
+		return boardLike;
+	}
+	public void setBoardLike(int boardLike) {
+		this.boardLike = boardLike;
+	}
 	
 	@Override
 	public String toString() {
-		return "Board [boardNo=" + boardNo + ", memberId=" + memberId + ", boardTitle=" + boardTitle
-				+ ", boardContents=" + boardContents + ", boardCategory=" + boardCategory + ", boardDate=" + boardDate
-				+ ", boardCount=" + boardCount + ", boardLike=" + boardLike + ", bFileName=" + bFileName
-				+ ", bFileRename=" + bFileRename + ", bFilePath=" + bFilePath + "]";
+		return "Board [boardNo=" + boardNo + ", boardWriter=" + boardWriter + ", boardTitle=" + boardTitle
+				+ ", boardContents=" + boardContents + ", boardCategory=" + boardCategory + ", bFileName=" + bFileName
+				+ ", bFileRename=" + bFileRename + ", bFilePath=" + bFilePath + ", boardDate=" + boardDate
+				+ ", boardCount=" + boardCount + ", boardLike=" + boardLike + "]";
 	}
 }
