@@ -40,6 +40,9 @@
 				<a class="admin-menu" href="#">신고 관리</a>
 			</div>
 			<div class="col">
+				<a class="admin-menu" href="#">상품 등록</a>
+			</div>
+			<div class="col">
 				<a class="admin-menu" href="#">회원 검색</a>
 			</div>
 			<div class="col">

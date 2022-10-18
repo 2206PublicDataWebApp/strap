@@ -16,22 +16,21 @@
 		<result property="matchTime" column="MEET_TIME"/>
 	</resultMap>
 	<select id="selectAllNoteBox" resultMap="noteBoxResultMap">
-  		SELECT * FROM NOTICE_TBL WHERE N_STATUS = 'Y' ORDER BY NOTICE_NO DESC
+  		SELECT * FROM NOTEBOX_TBL WHERE RECIPIENT_ID = #{recipientId} ORDER BY NOTE_NO DESC
   	</select>
 	<select id="selectTotalCount" resultType="_int">
-  		SELECT COUNT(*) FROM NOTICE_TBL
+  		SELECT COUNT(*) FROM NOTEBOX_TBL
   		<where>
 			<if test="searchCondition.toString() == 'title'">
-				NOTICE_TITLE LIKE '%'||#{searchValue}||'%'
+				NOTE_TITLE LIKE '%'||#{searchValue}||'%'
 			</if>
 			<if test="searchCondition.toString() == 'contents'">
-				NOTICE_CONTENTS LIKE '%'||#{searchValue}||'%'
+				NOTE_CONTENTS LIKE '%'||#{searchValue}||'%'
 			</if>
 			<if test="searchCondition.toString() == 'all'">
-				NOTICE_TITLE LIKE '%'||#{searchValue}||'%'
-				OR NOTICE_CONTENTS LIKE '%'||#{searchValue}||'%'
+				NOTE_TITLE LIKE '%'||#{searchValue}||'%'
+				OR NOTE_CONTENTS LIKE '%'||#{searchValue}||'%'
 			</if>
-			AND N_STATUS = 'Y'
 		</where>
   	</select>
 	
