@@ -12,11 +12,11 @@
 	<jsp:include page="/WEB-INF/views/common/adminHeader.jsp"></jsp:include>
 	<div class="container">
 		<div class="table-responsive">
-		<p align="center" style="color: #46D2D2; font-size:34px; font-family:malgun gothic;">[ 공지사항 관리 ]<p>
+		<p align="center" style=" font-size:34px; font-family:malgun gothic;">[ 공지사항 관리 ]<p>
 		<table align="center" border="1" width="" class="table table-striped table-hover">
 			<tr>
 <%-- 				<c:if test="${loginAdmin.adminName eq '관리자'}"> <!-- 관리자만 공지사항 등록 가능 --> --%>
-				<td colspan="6" align="left">
+				<td colspan="5" align="left">
 					<button type="button" onclick="location.href='/admin/writeView.strap';" class="btn btn-primary">공지사항 등록</button>
 				</td>
 <%-- 				</c:if> --%>
@@ -27,7 +27,7 @@
 				<th width="100">작성자</th>
 				<th width="150">작성일</th>
 				<th width="100">조회수</th>
-				<th width="155">기타</th>
+<!-- 				<th width="155">기타</th> -->
 			</tr>
 		<c:if test="${!empty nList }">
 			<c:forEach items="${nList }" var="notice" varStatus="i">
@@ -37,20 +37,20 @@
 					<td>${notice.noticeWriter }</td>
 					<td><fmt:formatDate pattern="yyyy-MM-dd" value="${notice.nCreateDate }"/> </td>
 					<td>${notice.noticeCount }</td>
-					<td>
-						<c:if test="${!empty notice.noticeFilename }">
-							첨부파일
-						</c:if>
-						<c:if test="${empty notice.noticeFilename }">
+<!-- 					<td> -->
+<%-- 						<c:if test="${!empty notice.noticeFilename }"> --%>
+<!-- 							첨부파일 -->
+<%-- 						</c:if> --%>
+<%-- 						<c:if test="${empty notice.noticeFilename }"> --%>
 							
-						</c:if>
-					</td>
+<%-- 						</c:if> --%>
+<!-- 					</td> -->
 				</tr>
 			</c:forEach>
 			<tr align="center" height="20">
-				<td colspan="6">
+				<td colspan="5">
 					<c:if test="${currentPage != 1 }">
-						<a href="/admin/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-primary"><</a>
+						<a href="/admin/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-primary">이전</a>
 					</c:if>
 					<c:forEach var="p" begin="${startNavi }" end="${endNavi }">
 						<c:if test="${currentPage eq p }">
@@ -61,13 +61,13 @@
 						</c:if>
 					</c:forEach>
 					<c:if test="${maxPage > currentPage }">
-						<a href="/admin/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-primary">></a>
+						<a href="/admin/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-primary">다음</a>
 					</c:if>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="6" align="center">
-					<form action="/notice/search.kh" method="get">
+					<form action="/admin/noticeSearch.strap" method="get">
 						<div align="center">
 							<div style="display:inline-block;">
 								<select name="searchCondition" class="btn btn-primary">

@@ -4,9 +4,34 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="NoteBoxMapper">
-<!-- 	<resultMap type= "NoteBox" id=""> -->
-<!-- 		<id property="" column=""/> -->
-<!-- 		<result property="" column=""/> -->
-<!-- 		<result property="" column=""/> -->
-<!-- 	</resultMap> -->
+	<resultMap type= "NoteBox" id="noteBoxResultMap">
+		<id property="noteNo" column="NOTE_NO"/>
+		<result property="recipientId" column="RECIPIENT_ID"/>
+		<result property="senderId" column="SENDER_ID"/>
+		<result property="senderTime" column="SENDER_TIME"/>
+		<result property="noteTitle" column="NOTE_TITLE"/>
+		<result property="noteContents" column="NOTE_CONTENTS"/>
+		<result property="noteAccept" column="NOTE_ACCEPT"/>
+		<result property="matchDate" column="MATCH_DATE"/>
+		<result property="matchTime" column="MEET_TIME"/>
+	</resultMap>
+	<select id="selectAllNoteBox" resultMap="noteBoxResultMap">
+  		SELECT * FROM NOTEBOX_TBL WHERE RECIPIENT_ID = #{recipientId} ORDER BY NOTE_NO DESC
+  	</select>
+	<select id="selectTotalCount" resultType="_int">
+  		SELECT COUNT(*) FROM NOTEBOX_TBL
+  		<where>
+			<if test="searchCondition.toString() == 'title'">
+				NOTE_TITLE LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test="searchCondition.toString() == 'contents'">
+				NOTE_CONTENTS LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test="searchCondition.toString() == 'all'">
+				NOTE_TITLE LIKE '%'||#{searchValue}||'%'
+				OR NOTE_CONTENTS LIKE '%'||#{searchValue}||'%'
+			</if>
+		</where>
+  	</select>
+	
 </mapper>

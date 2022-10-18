@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,7 +39,7 @@ public class AdminController {
 	 * @return
 	 */
 	// 관리자 로그인 메인
-	@RequestMapping(value="/admin/adminLoginView.strap", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/loginView.strap", method=RequestMethod.GET)
 	public ModelAndView showAdminLogin(ModelAndView mv) {
 		mv.setViewName("admin/adminLogin");
 		return mv;
@@ -73,7 +73,7 @@ public class AdminController {
 	 * @return
 	 */
 	// 관리자 메인페이지 >>>> ※※※※디자인, 기능 추가 함※※※※※
-	@RequestMapping(value="/admin/adminMainView.strap", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/mainView.strap", method=RequestMethod.GET)
 	public ModelAndView showAdminMain(ModelAndView mv) {
 		mv.setViewName("admin/adminMain");
 		return mv;
@@ -86,7 +86,7 @@ public class AdminController {
 	 * @return
 	 */
 	// 관리자 공지사항 리스트
-	@RequestMapping(value="/admin/adminNoticeListView.strap", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/noticeListView.strap", method=RequestMethod.GET)
 	public ModelAndView showAdminNoticeList(ModelAndView mv
 			,@RequestParam(value="page", required=false) Integer page) {
 		int currentPage = (page != null) ? page : 1;
@@ -104,7 +104,7 @@ public class AdminController {
 		}
 		List<Notice> nList = nService.printNoticeList(currentPage, noticeLimit);
 		if(!nList.isEmpty()) {
-			mv.addObject("urlVal", "adminNoticeListView");
+			mv.addObject("urlVal", "noticeListView");
 			mv.addObject("maxPage", maxPage);
 			mv.addObject("currentPage", currentPage);
 			mv.addObject("noticeLimit", noticeLimit);
@@ -135,7 +135,7 @@ public class AdminController {
 	 * @param request
 	 * @return
 	 */
-	// 관리자 공지사항 작성
+	// 관리자 공지사항 등록
 	@RequestMapping(value="/admin/registerNotice.strap", method=RequestMethod.POST)
 	public ModelAndView registNotice(ModelAndView mv
 			, @ModelAttribute Notice notice
@@ -160,7 +160,7 @@ public class AdminController {
 			}
 			int result = nService.registerNotice(notice);
 			request.setAttribute("msg","(관리자) 공지사항이 등록되었습니다.");
-			request.setAttribute("url","/admin/adminNoticeListView.strap");
+			request.setAttribute("url","/admin/noticeListView.strap");
 			mv.setViewName("/common/alert");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -193,41 +193,24 @@ public class AdminController {
 			mv.addObject("page", page);
 			
 			Cookie [] cookies = request.getCookies();
-			// 비교하기 위해 새로운 쿠키
 	        Cookie viewCookie = null;
 	        
-	        // 쿠키가 있을 경우 
 	        if (cookies != null && cookies.length > 0) {
 	            for (int i = 0; i < cookies.length; i++) {
-	                // Cookie의 name이 cookie + reviewNo와 일치하는 쿠키를 viewCookie에 넣어줌 
 	                if (cookies[i].getName().equals("cookie" + noticeNo)) { 
-	                    System.out.println("처음 쿠키가 생성한 뒤 들어옴.");
 	                    viewCookie = cookies[i];
 	                }
 	            }
 	        }
 	        if (notice != null) {
-	            System.out.println("System - 해당 상세 리뷰페이지로 넘어감");	    
 	            mv.addObject("page", page);
 	        	mv.addObject("notice", notice);
-	            // 만일 viewCookie가 null일 경우 쿠키를 생성해서 조회수 증가 로직을 처리함.
 	            if (viewCookie == null) {    
-	                System.out.println("cookie 없음");	                
-	                // 쿠키 생성(이름, 값)
 	                Cookie newCookie = new Cookie("cookie"+noticeNo, "|" + noticeNo + "|");
-	                // 쿠키 추가
 	                response.addCookie(newCookie);
 	                int result = nService.viewUp(noticeNo);
-	                if(result>0) {
-	                    System.out.println("조회수 증가");
-	                } else {
-	                    System.out.println("조회수 증가 에러");
-	                }
-	            } else { // viewCookie가 null이 아닐경우 쿠키가 있으므로 조회수 증가 로직을 처리하지 않음.
-	                System.out.println("cookie 있음");
-	                // 쿠키 값 받아옴.
+	            } else { 
 	                String value = viewCookie.getValue();
-	                System.out.println("cookie 값 : " + value);
 	            }
 	        }
 			mv.setViewName("admin/adminNoticeDetailView");
@@ -236,6 +219,136 @@ public class AdminController {
 			mv.setViewName("common/errorPage");
 		}
 		return mv;
+	}
+	/**
+	 * 
+	 * @param session
+	 * @param model
+	 * @param page
+	 * @return
+	 */
+	// 관리자 공지사항 삭제
+	@RequestMapping(value="/admin/removeNotice.strap", method=RequestMethod.GET)
+	public String noticeRemove(HttpSession session, Model model
+			, @RequestParam("page") Integer page) {
+		try {
+			int noticeNo = (Integer)session.getAttribute("noticeNo");
+			int result = nService.removeOneByNo(noticeNo);
+			if(result > 0) {
+				session.removeAttribute("noticeNo");
+			}
+			return "redirect:/admin/noticeListView.strap?page="+page;
+		} catch (Exception e) {
+			model.addAttribute("msg", e.toString());
+			return "common/errorPage";
 		}
+	}
 	
+	/**
+	 * 
+	 * @param mv
+	 * @param noticeNo
+	 * @param page
+	 * @return
+	 */
+	// 관리자 공지사항 수정 페이지
+	@RequestMapping(value="/admin/modifyView.strap", method=RequestMethod.GET)
+	public ModelAndView noticeModifyView(
+			ModelAndView mv
+			, @RequestParam("noticeNo") Integer noticeNo
+			, @RequestParam("page") int page) {
+		try {
+			Notice notice = nService.printOneByNo(noticeNo);
+			mv.addObject("notice", notice);
+			mv.addObject("page", page);
+			mv.setViewName("admin/adminNoticeModifyForm");
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+	}
+	
+	/**
+	 * 
+	 * @param notice
+	 * @param mv
+	 * @param reloadFile
+	 * @param page
+	 * @param request
+	 * @return
+	 */
+	// 관리자 공지사항 수정
+	@RequestMapping(value="/admin/noticeModify.strap", method=RequestMethod.POST)
+	public ModelAndView noticeModify(@ModelAttribute Notice notice
+			, ModelAndView mv
+			,@RequestParam(value="reloadFile", required=false) MultipartFile reloadFile
+			,@RequestParam("page") Integer page
+			,HttpServletRequest request) {
+		try {
+			String noticeFilename = reloadFile.getOriginalFilename();
+			if(reloadFile != null && !noticeFilename.equals("")) {
+				String root = request.getSession().getServletContext().getRealPath("resources");
+				String savedPath = root + "\\nuploadFiles";
+				File file = new File(savedPath + "\\" + notice.getNoticeFileRename());
+				if(file.exists()) {
+					file.delete();
+				}
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+				String noticeFileRename = sdf.format(new Date(System.currentTimeMillis())) + "." 
+				+ noticeFilename.substring(noticeFilename.lastIndexOf(".")+1);
+				String noticeFilepath = savedPath + "\\" + noticeFileRename;
+				reloadFile.transferTo(new File(noticeFilepath));
+				notice.setNoticeFilename(noticeFilename);
+				notice.setNoticeFileRename(noticeFileRename);
+				notice.setNoticeFilepath(noticeFilepath);
+			}
+			int result = nService.modifyNotice(notice);
+			mv.setViewName("redirect:/admin/noticeDetailView.strap?noticeNo="+notice.getNoticeNo()+"&page="+page);
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
+		}
+		return mv;
+	}
+	
+	// 관리자 공지사항 조건별 검색
+	@RequestMapping(value="/admin/noticeSearch.strap", method=RequestMethod.GET)
+	public ModelAndView noticeSearchList(ModelAndView mv
+			, @RequestParam("searchCondition") String searchCondition
+			, @RequestParam("searchValue") String searchValue
+			, @RequestParam(value="page", required=false) Integer page) {
+		try {
+			int currentPage = (page != null) ? page : 1;
+			int totalCount = nService.getTotalCount(searchCondition, searchValue);
+			int noticeLimit = 10;
+			int naviLimit = 5;
+			int maxPage;
+			int startNavi;
+			int endNavi;
+			maxPage = (int)((double)totalCount/noticeLimit + 0.9);
+			startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
+			endNavi = startNavi + naviLimit - 1;
+			if(maxPage < endNavi) {
+				endNavi = maxPage;
+			}
+			List<Notice> nList = nService.printAllByValue(
+					searchCondition, searchValue, currentPage, noticeLimit);
+			if(!nList.isEmpty()) {
+				mv.addObject("nList", nList);
+			}else {
+				mv.addObject("nList", null);
+			}
+				mv.addObject("urlVal", "search");
+				mv.addObject("searchCondition", searchCondition);
+				mv.addObject("searchValue", searchValue);
+				mv.addObject("maxPage", maxPage);
+				mv.addObject("currentPage", currentPage);
+				mv.addObject("startNavi", startNavi);
+				mv.addObject("endNavi", endNavi);
+				mv.setViewName("admin/adminNoticeList");
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
+		}
+		return mv;
+	}
 }

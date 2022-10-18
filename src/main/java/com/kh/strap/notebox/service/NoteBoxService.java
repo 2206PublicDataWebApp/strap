@@ -1,5 +1,11 @@
 package com.kh.strap.notebox.service;
 
-public interface NoteBoxService {
+import java.util.List;
 
+import com.kh.strap.notebox.domain.NoteBox;
+
+
+public interface NoteBoxService {
+	public int getTotalCount(String searchCondition, String searchValue);
+	public List<NoteBox> printNoteBoxList(int currentPage, int noticeLimit);
 }
