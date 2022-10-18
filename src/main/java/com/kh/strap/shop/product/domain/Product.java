@@ -16,9 +16,6 @@ public class Product {
 	private String mainImgName;				//메인이미지 이름
 	private String mainImgReName;			//메인이미지 저장이름
 	private String mainImgRoot;				//메인이미지 경로
-	private String infoImgName;				//긴 이미지 이름
-	private String infoImgReName;			//긴 이미지 저장이름
-	private String infoImgRoot;				//메인이미지 경로
 	private String couponList;				//쿠폰 리스트
 	private String productDelete;  			//상품 삭제여부
 	private int gradeAver;					//평점 평균
@@ -29,8 +26,8 @@ public class Product {
 
 	public Product(int productNo, String productName, String productBrand, int productPrice, String productDesc,
 			int gradeSum, Date productRegiDate, Date productModiDate, int productSales, String mainImgName,
-			String infoImgName, String mainImgReName, String infoImgReName, String mainImgRoot, String infoImgRoot,
-			String couponList, String productDelete, int gradeAver, int reviewCount) {
+			String mainImgReName, String mainImgRoot, String couponList, String productDelete, int gradeAver,
+			int reviewCount) {
 		super();
 		this.productNo = productNo;
 		this.productName = productName;
@@ -42,11 +39,8 @@ public class Product {
 		this.productModiDate = productModiDate;
 		this.productSales = productSales;
 		this.mainImgName = mainImgName;
-		this.infoImgName = infoImgName;
 		this.mainImgReName = mainImgReName;
-		this.infoImgReName = infoImgReName;
 		this.mainImgRoot = mainImgRoot;
-		this.infoImgRoot = infoImgRoot;
 		this.couponList = couponList;
 		this.productDelete = productDelete;
 		this.gradeAver = gradeAver;
@@ -133,14 +127,6 @@ public class Product {
 		this.mainImgName = mainImgName;
 	}
 
-	public String getInfoImgName() {
-		return infoImgName;
-	}
-
-	public void setInfoImgName(String infoImgName) {
-		this.infoImgName = infoImgName;
-	}
-
 	public String getMainImgReName() {
 		return mainImgReName;
 	}
@@ -149,28 +135,12 @@ public class Product {
 		this.mainImgReName = mainImgReName;
 	}
 
-	public String getInfoImgReName() {
-		return infoImgReName;
-	}
-
-	public void setInfoImgReName(String infoImgReName) {
-		this.infoImgReName = infoImgReName;
-	}
-
 	public String getMainImgRoot() {
 		return mainImgRoot;
 	}
 
 	public void setMainImgRoot(String mainImgRoot) {
 		this.mainImgRoot = mainImgRoot;
-	}
-
-	public String getInfoImgRoot() {
-		return infoImgRoot;
-	}
-
-	public void setInfoImgRoot(String infoImgRoot) {
-		this.infoImgRoot = infoImgRoot;
 	}
 
 	public String getCouponList() {
@@ -210,9 +180,8 @@ public class Product {
 		return "Product [productNo=" + productNo + ", productName=" + productName + ", productBrand=" + productBrand
 				+ ", productPrice=" + productPrice + ", productDesc=" + productDesc + ", gradeSum=" + gradeSum
 				+ ", productRegiDate=" + productRegiDate + ", productModiDate=" + productModiDate + ", productSales="
-				+ productSales + ", mainImgName=" + mainImgName + ", infoImgName=" + infoImgName + ", mainImgReName="
-				+ mainImgReName + ", infoImgReName=" + infoImgReName + ", mainImgRoot=" + mainImgRoot + ", infoImgRoot="
-				+ infoImgRoot + ", couponList=" + couponList + ", productDelete=" + productDelete + ", gradeAver="
+				+ productSales + ", mainImgName=" + mainImgName + ", mainImgReName=" + mainImgReName + ", mainImgRoot="
+				+ mainImgRoot + ", couponList=" + couponList + ", productDelete=" + productDelete + ", gradeAver="
 				+ gradeAver + ", reviewCount=" + reviewCount + "]";
 	}
 	
