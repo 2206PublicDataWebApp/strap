@@ -1,23 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
+
 <mapper namespace= "BoardMapper">
 	<resultMap type= "Board"				id="boardResultMap">
-  		<id property="boardNo" 				column="BOARD_NO"/>
-  		<result property="memberId" 		column="MEMBER_ID"/>
+  		<id 	property="boardNo" 			column="BOARD_NO"/>
+  		<result property="boardWriter" 		column="BOARD_WRITER"/>
   		<result property="boardTitle" 		column="BOARD_TITLE"/>
   		<result property="boardContents"	column="BOARD_CONTENTS"/>
   		<result property="boardCategory" 	column="BOARD_CATEGORY"/>
-  		<result property="boardDate" 		column="BOARD_DATE"/>
-  		<result property="boardCount" 		column="BOARD_COUNT"/>
-  		<result property="boardLike" 		column="BOARD_LIKE"/>
   		<result property="bFileName" 		column="B_FILE_NAME"/>
   		<result property="bFileRename" 		column="B_FILE_RENAME"/>
   		<result property="bFilePath" 		column="B_FILE_PATH"/>
+  		<result property="boardDate" 		column="BOARD_DATE"/>
+  		<result property="boardCount" 		column="BOARD_COUNT"/>
+  		<result property="boardLike" 		column="BOARD_LIKE"/>
   	</resultMap>
+  	
+  	<!-- 게시글 등록 -->
   	<insert id="insertBoard">
-  		INSERT INTO BOARD_TBL VALUES(SEQ_BOARDNO.NEXTVAL,#{memberId}, #{boardTitle},#{boardContents},#{boardCategory},DEFAULT,DEFAULT,DEFAULT,#{bFileName},#{bFileRename},#{bFilePath})
+  		INSERT INTO BOARD_TBL VALUES(SEQ_BOARDNO.NEXTVAL,#{boardWriter},#{boardTitle},#{boardContents},#{boardCategory},#{bFileName},#{bFileRename},#{bFilePath},DEFAULT,DEFAULT,DEFAULT)
   	</insert>
+
+  	<!-- 모든 게시글 SELECT -->
+  	<select id="selectAllBoard" resultMap="boardResultMap">
+  		SELECT BOARD_NO,BOARD_WRITER,BOARD_TITLE,BOARD_CONTENTS,BOARD_CATEGORY,B_FILE_NAME,B_FILE_RENAME,B_FILE_PATH,BOARD_DATE,BOARD_COUNT,BOARD_LIKE
+  		FROM BOARD_TBL ORDER BY BOARD_NO DESC
+  	</select>
+  	
+  	<!-- 게시판 게시글 수 return -->
+  	<select id="selectTotalCount" resultType="_int">
+  		SELECT COUNT(*) FROM BOARD_TBL
+		<where>
+			<if test="searchCondition.toString() == 'all'">
+				BOARD_TITLE LIKE '%'||UPPER(#{searchValue})||'%' OR BOARD_CONTENTS LIKE '%'||UPPER(#{searchValue})||'%' OR BOARD_WRITER LIKE '%'||UPPER(#{searchValue})||'%'	
+			</if>
+			<if test="searchCondition.toString() == 'title'">
+				BOARD_TITLE LIKE '%'||UPPER(#{searchValue})||'%'
+			</if>
+			<if test="searchCondition.toString() == 'contents'">
+				BOARD_CONTENTS LIKE '%'||UPPER(#{searchValue})||'%'
+			</if>
+			<if test="searchCondition.toString() == 'boardWriter'">
+				BOARD_WRITER LIKE '%'||UPPER(#{searchValue})||'%'
+			</if>
+		</where>
+		ORDER BY BOARD_NO DESC
+	</select>
+	
+	<!-- 검색 조건에 의한 게시글 SELECT -->
+	<select id="selectSearchBoard" resultMap="boardResultMap">
+	  	SELECT COUNT(*) FROM BOARD_TBL
+	  	<where>
+			<if test="searchCondition.toString() == 'all'">
+				BOARD_TITLE LIKE '%'||UPPER(#{searchValue})||'%' OR BOARD_CONTENTS LIKE '%'||UPPER(#{searchValue})||'%' OR BOARD_WRITER LIKE '%'||UPPER(#{searchValue})||'%'	
+			</if>
+			<if test="searchCondition.toString() == 'title'">
+				BOARD_TITLE LIKE '%'||UPPER(#{searchValue})||'%'
+			</if>
+			<if test="searchCondition.toString() == 'contents'">
+				BOARD_CONTENTS LIKE '%'||UPPER(#{searchValue})||'%'
+			</if>
+			<if test="searchCondition.toString() == 'boardWriter'">
+				BOARD_WRITER LIKE '%'||UPPER(#{searchValue})||'%'
+			</if>
+		</where>
+	</select>
 </mapper>

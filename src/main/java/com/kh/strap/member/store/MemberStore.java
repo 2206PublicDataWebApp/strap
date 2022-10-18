@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.domain.SocialMember;
 
 public interface MemberStore {
 
@@ -22,5 +23,11 @@ public interface MemberStore {
 	int idEmailCheck(SqlSession session, Member member);
 
 	int changeTempPwd(SqlSession session, Member member);
+
+	int kakaoMembercheck(SqlSession session, String memberId);
+
+	Member memberById(SqlSession session, String memberId);
+
+	int insertSocialMember(SqlSession session, SocialMember socialMember);
 
 }

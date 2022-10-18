@@ -5,9 +5,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -28,6 +31,15 @@ public class MemberController {
 	private MemberService mService;
 	@Autowired
 	private JavaMailSender mailSender;
+
+	/**
+	 * 
+	 * @return 로그인 페이지 이동
+	 */
+	@RequestMapping("/member/showMap.strap")
+	public String showMap() {
+		return "/member/jym";
+	}
 	
 	/**
 	 * 
@@ -47,11 +59,8 @@ public class MemberController {
 		return "/member/enroll";
 	}
 	
-	
-	
-	
 	/**
-	 * 
+	 * 아이디 중복 체크
 	 * @param memberId 회원가입할 아이디
 	 * @return 회원가입 페이지
 	 */
@@ -67,7 +76,7 @@ public class MemberController {
 		}
 	}
 	/**
-	 * 
+	 * 일반 회원가입
 	 * @param member 가입 정보
 	 * @return 가입 후 로그인 페이지로 이동
 	 */
@@ -80,6 +89,7 @@ public class MemberController {
 	}
 	
 	/**
+	 * 일반 로그인
 	 * @param memberId 로그인 아이디
 	 * @param memberPwd 로그인 비밀번호
 	 * @return
@@ -88,15 +98,34 @@ public class MemberController {
 	@RequestMapping(value="/member/login.strap",produces = "text/plain;charset=utf-8", method=RequestMethod.POST)
 	public String memberLogin(
 			String memberId
-			,String memberPwd) {
-		Member member = new Member(memberId, memberPwd);
-		int result = mService.memberLogin(member);
+			,String memberPwd
+			,HttpServletRequest request) {
+		Member mOne = new Member(memberId, memberPwd);
+		int result = mService.memberLogin(mOne);
 		if(result==1) {
+			//로그인 시 닉네임으로 세션 등록
+			Member member = mService.memberById(memberId);
+			String memberNick = member.getMemberNick();
+			HttpSession session = request.getSession();
+			session.setAttribute("memberNick", memberNick);
 			return "ok";
 		}else {
 			return "no";
 		}
 	}
+	
+	/**
+	 * 로그 아웃(세션파괴)
+	 * @return 
+	 */
+	@RequestMapping("/member/logout.strap")
+	public String memberLogout(
+			HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.invalidate();
+		return "redirect:/";
+	}
+	
 	
 	/**
 	 * @return 아이디 찾기 페이지로 이동

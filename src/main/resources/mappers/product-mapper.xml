@@ -22,28 +22,45 @@
 		<result column="GRADE_AVER" 			property="gradeAver"/>
 		<result column="REVIEW_COUNT" 			property="reviewCount"/>
 	</resultMap>
+	<resultMap type="com.kh.strap.shop.product.domain.ProductSubImg" id="SubImgResultMap">
+		<id 	column="IMG_NO" property="imgNo"/>
+		<result column="PRODUCT_NO" property="productNo"/>
+		<result column="IMG_NAME" property="subName"/>
+		<result column="IMG_RENAME" property="subReName"/>
+		<result column="IMG_ROOT" property="subRoot"/>
+	</resultMap>
+	<resultMap type="ProductImg" id="InfoImgResultMap">
+		<id 	column="IMG_NO" property="imgNo"/>
+		<result column="PRODUCT_NO" property="productNo"/>
+		<result column="INFO_NAME" property="imgName"/>
+		<result column="INFO_RENAME" property="imgReName"/>
+		<result column="INFO_ROOT" property="imgRoot"/>
+	</resultMap>
 	
+
+<!-- 상품정보 등록 -->	
 	<insert id="insertProduct">
 		INSERT INTO PRODUCT_TBL
 		VALUES(SEQ_PRODUCT_NO.NEXTVAL,#{productName},#{productBrand},#{productPrice},#{productDesc},
 		DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{mainImgName},#{mainImgReName},#{mainImgRoot},
 		#{couponList},DEFAULT,DEFAULT,DEFAULT)
 	</insert>
-	
-<!-- 	상품정보저장 직후 서브이미지 추가 -->
+	<!--상품정보저장 직후 서브이미지 추가 -->
 	<insert id="insertSubImg">
 		INSERT INTO PRODUCT_IMG_TBL
 		VALUES(SEQ_IMG_NO.NEXTVAL,SEQ_PRODUCT_NO.CURRVAL,#{imgName},#{imgReName},#{imgRoot})
 	</insert>
-	
+	<!--상품정보저장 직후 인포이미지 추가 -->	
 	<insert id="insertInfoImg">
 		INSERT INTO PRODUCT_INFOIMG_TBL
 		VALUES(SEQ_IMG_NO.NEXTVAL,SEQ_PRODUCT_NO.CURRVAL,#{imgName},#{imgReName},#{imgRoot})
 	</insert>
 	
+<!-- 상품 정보 출력 -->
 	<select id="selectAllProduct" resultMap="ProductResultMap">
 		SELECT * FROM PRODUCT_TBL
 		WHERE PRODUCT_DELETE = 'N'
+		ORDER BY GRADE_AVER DESC
 	</select>
 	
 	<select id="selectAllProductSearch" resultMap="ProductResultMap">
@@ -51,8 +68,18 @@
 		WHERE (PRODUCT_NAME LIKE '%'||#{searchVal}||'%')OR
 		(PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
 		AND PRODUCT_DELETE = 'N'
-		<if test='${}'></if>
-		ORDER BY ${searchColumn} ${orderCondition}
+		<if test='searchColumn != ""'>
+			ORDER BY ${searchColumn} ${orderCondition} DESC
+		</if>
+		<if test='searchColumn == ""'>
+			ORDER BY GRADE_AVER DESC
+		</if>
+	</select>
+	
+	<select id="selectAdminAllProduct" resultMap="ProductResultMap">
+		SELECT * FROM PRODUCT_TBL
+		AND PRODUCT_DELETE = 'N'
+		ORDER BY PRODUCT_REGI_DATE DESC
 	</select>
 	
 	<select id="selectAdminProductSearch" resultMap="ProductResultMap">
@@ -60,8 +87,10 @@
 		WHERE (PRODUCT_NAME LIKE '%'||#{searchVal}||'%')OR
 		(PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
 		AND PRODUCT_DELETE = 'N'
+		ORDER BY PRODUCT_REGI_DATE DESC
 	</select>
-	
+
+<!-- 상품개수 카운트	 -->
 	<select id="selectCountAllProduct" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT_TBL
 		WHERE PRODUCT_DELETE = 'N'
@@ -80,13 +109,26 @@
 		(PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
 		AND PRODUCT_DELETE = 'N'
 	</select>
-	
+
+<!-- 상품상세조회	 -->
 	<select id="selectOneProduct" resultMap="ProductResultMap">
 		SELECT * FROM PRODUCT_TBL
 		WHERE PRODUCT_NO = #{productNo}
 		AND PRODUCT_DELETE = 'N'
 	</select>
+
+<!-- 상품 이미지 출력	 -->
+	<select id="selectInfoImgList" resultMap="InfoImgResultMap">
+		SELECT * FROM PRODUCT_INFOIMG_TBL
+		WHERE PRODUCT_NO = #{productNo}
+	</select>
 	
+	<select id="selectSubImgList" resultMap="SubImgResultMap">
+		SELECT * FROM PRODUCT_IMG_TBL
+		WHERE PRODUCT_NO = #{productNo}
+	</select>
+
+<!-- 상품 수정 -->
 	<update id="updateProduct">
 		UPDATE PRODUCT_TBL 
 		SET PRODUCT_NAME=#{productName},PRODUCT_BRAND=#{productBrand},PRODUCT_PRICE=#{productPrice},PRODUCT_DESC=#{productDesc},
@@ -94,38 +136,44 @@
 		COUPON_LIST=#{couponList}
 		WHERE PRODUCT_NO = #{productNo}
 	</update>
-	
+
+<!-- 리뷰등록 후 상품 수정	 -->
 <!-- 	리뷰평점으로 총점을 더하고 리뷰개수를 1 더해준다. 평점도 리셋한다. 컨트롤러단에서 미리 1씩 더하여 평점을 계산해서 넣는다. -->
 	<update id="updateProductGradeSum">
 		UPDATE PRODUCT_TBL 
 		SET GRADE_SUM = GRADE_SUM + #{reviewGrade}, REVIEW_COUNT = REVIEW_COUNT+1, GRADE_AVER=#{gradeAver}
 		WHERE PRODUCT_NO = #{productNo}
 	</update>
-	
+
+<!-- 상품삭제	 -->
 	<update id="deleteProduct">
 		UPDATE PRODUCT_TBL
 		SET PRODUCT_DELETE = 'Y'
 		WHERE PRODUCT_NO = #{productNo}
 	</update>
-	
+
+<!-- 찜 등록	 -->
 	<insert id="insertProductLike">
 		INSERT INTO PRODUCT_LIKE_TBL
 		VALUES(#{productNo},#{memberId})
 	</insert>
-	
+
+<!-- 찜 목록 출력	 -->
 	<select id="selectProductLike" resultMap="ProductResultMap">
 		SELECT * 
 		FROM PRODUCT_TBL P JOIN PRODUCT_LIKE_TBL PL
 		ON P.PRODUCT_NO = PL.PRODUCT_NO
 		WHERE MEMBER_ID = #{memberId}
 	</select>
-	
+
+<!-- 찜 여부 체크	 -->
 	<select id="selectCheckProductLike" resultType="_int">
 		SELECT COUNT(*)
 		FROM PRODUCT_LIKE_TBL
 		WHERE MEMBER_ID = #{memberId} AND PRODUCT_NO = #{productNo}
 	</select>
-	
+
+<!-- 찜 취소 -->
 	<delete id="deleteProductLike">
 		DELETE FROM PRODUCT_LIKE_TBL
 		WHERE MEMBER_ID = #{memberId} AND PRODUCT_NO = #{productNo}

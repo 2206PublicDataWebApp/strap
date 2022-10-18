@@ -14,13 +14,16 @@
 		<typeAlias type="com.kh.strap.match.domain.Match" 				alias="Match"/>
 		<typeAlias type="com.kh.strap.mypage.domain.MyPage" 			alias="MyPage"/>
 		<typeAlias type="com.kh.strap.notebox.domain.NoteBox" 			alias="NoteBox"/>
+		<typeAlias type="com.kh.strap.admin.domain.Notice" 				alias="Notice"/>
 		<typeAlias type="com.kh.strap.qna.domain.Qna" 					alias="Qna"/>
 		<typeAlias type="com.kh.strap.schedule.domain.Schedule" 		alias="Schedule"/>
 		<typeAlias type="com.kh.strap.member.domain.Member" 			alias="Member"/>
+		<typeAlias type="com.kh.strap.member.domain.SocialMember"		alias="SocialMember"/>
 		<typeAlias type="com.kh.strap.shop.cart.domain.Cart" 			alias="Cart"/>
 		<typeAlias type="com.kh.strap.shop.coupon.domain.Coupon" 		alias="Coupon"/>
 		<typeAlias type="com.kh.strap.shop.coupon.domain.MemberCoupon" 	alias="MemberCoupon"/>
 		<typeAlias type="com.kh.strap.shop.product.domain.Product" 		alias="Product"/>
+		<typeAlias type="com.kh.strap.shop.product.domain.ProductImg" 	alias="ProductImg"/>
 		<typeAlias type="com.kh.strap.shop.qna.domain.ShopQna" 			alias="sQna"/>
 		<typeAlias type="com.kh.strap.shop.review.domain.Review" 		alias="Review"/>
 		<typeAlias type="com.kh.strap.shop.product.domain.Order" 		alias="Order"/>
@@ -35,6 +38,7 @@
 		<mapper resource="mappers/member-mapper.xml"/>
 		<mapper resource="mappers/mypage-mapper.xml"/>
 		<mapper resource="mappers/notebox-mapper.xml"/>
+		<mapper resource="mappers/notice-mapper.xml"/>
 		<mapper resource="mappers/product-mapper.xml"/>
 		<mapper resource="mappers/qna-mapper.xml"/>
 		<mapper resource="mappers/review-mapper.xml"/>

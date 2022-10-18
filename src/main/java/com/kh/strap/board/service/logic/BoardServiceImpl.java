@@ -1,6 +1,7 @@
 package com.kh.strap.board.service.logic;
 
-import org.apache.ibatis.session.SqlSession;
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,4 +25,22 @@ public class BoardServiceImpl implements BoardService {
 		int result = bStore.insertBoard(session, board);
 		return result;
 	}
+
+	@Override
+	public int getTotalCount(String searchCondition, String searchValue) {
+		int totalCount = bStore.selectTotalCount(session, searchCondition, searchValue);
+		return totalCount;
+	}
+
+	public List<Board> printAllBoard(int currentPage, int boardLimit) {
+		List<Board> bList = bStore.selectAllBoard(session, currentPage, boardLimit);
+		return bList;
+	}
+
+	@Override
+	public List<Board> printSearchBoard(String searchCondition, String searchValue, int currentPage, int boardLimit) {
+		 List<Board> bList = bStore.selectSearchBoard(session,searchCondition,searchValue,currentPage,boardLimit);
+		 return bList;
+	}
+
 }

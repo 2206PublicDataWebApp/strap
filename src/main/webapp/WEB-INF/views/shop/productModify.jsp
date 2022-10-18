@@ -32,14 +32,18 @@
 							<input type="text" name="productBrand" 	value="${product.productBrand }"><br>
 							<input type="text" name="productName" 	value="${product.productName }"><br>
 							<input type="text" name="productPrice" 	value="${product.productPrice }"><br>
-							<textarea 		   name="productDesc" 	value="${product.productDesc }"></textarea>
+							<textarea 		   name="productDesc" >${product.productDesc }</textarea>
 							<h2>이미지 등록</h2><hr>
 							<h3>메인(썸네일)이미지</h3>
+							<img src="${ product.mainImgRoot}" width="200px" height="200px">
 							<input type="file" name="mainImg" required><br>
 							<h3>서브이미지 추가</h3>
 							<button onclick="addImgForm();">서브 이미지 추가</button>
 							<button onclick="removeImgForm();">서브 이미지 삭제</button>
 							<div id="subImg-wrap">
+								<c:forEach items="${subList }" var="subImg">
+									<img src="${ subImg.subRoot}" width="100px" height="100px">
+								</c:forEach>
 							</div>
 							<br>
 							<h3>상품설명이미지추가</h3>
@@ -47,6 +51,10 @@
 							<button onclick="removeInfoImgForm();">상품설명 이미지 삭제</button>
 							<div id="infoImg-wrap">
 								<input type="file" name="infoFile" required>
+								<c:forEach items="${infoList }" var="infoImg">
+									<img src="${ infoImg.imgRoot}" width="600px" height="800px">
+								</c:forEach>
+								
 							</div>
 							<br>
 							<button onclick="preview();">미리보기</button>
