@@ -15,41 +15,39 @@
 	</div>
 	<div class="login-wrap">
 		<div id="text-menu">
-			<ul>
 			<c:if test="${sessionScope.memberNick eq null}">
-			<li style="cursor: pointer;" onclick="location.href='/member/loginView.strap';">로그인</li>
+				<li style="cursor: pointer;" onclick="location.href='/member/loginView.strap';">로그인</li>
 			</c:if>
 			<c:if test="${sessionScope.memberNick ne null}">
-			<li class="session">
-				<b>${memberNick }</b><br>
-				<c:if test="${sessionScope.access_token eq null}">
-					<a href="/member/logout.strap">로그아웃</a>
-				</c:if>
-				<c:if test="${sessionScope.access_token ne null}">
-					<a href="/member/kakaoLogout.strap?token=${sessionScope.access_token}">로그아웃</a>
-				</c:if>
-			</li>
+				<li class="session">
+					<b>${memberNick }</b><br>
+					<c:if test="${sessionScope.access_token eq null}">
+						<a href="/member/logout.strap">로그아웃</a>
+					</c:if>
+					<c:if test="${sessionScope.access_token ne null}">
+						<a href="/member/kakaoLogout.strap?token=${sessionScope.access_token}">로그아웃</a>
+					</c:if>
+				</li>
 			</c:if>
 	        <li style="cursor: pointer;" onclick="location.href='/order/list.strap';">마이쇼핑</li>
-	        <li style="cursor: pointer;" onclick="location.href='/order/list.strap';">
+		</div>
+		<div id="icon-menu">
+			<div class="menu-img">
 				<img class="icon-img" src="/resources/images/mypage.png">
-	        </li>
-	        <li style="cursor: pointer;" onclick="location.href='/order/list.strap';">
+			</div>
+			<div class="menu-img">
 				<img class="icon-img" src="/resources/images/cart.png">
-	        </li>
-			</ul>
+			</div>
 		</div>
 	</div>
 </header>
-<nav>
+<menu>
     <div class="navBar">
-    	<ul>
 			<li onclick="location.href='#';">매칭</li>
 	  		<li onclick="location.href='/product/list.strap';">보충제</li>
 	  		<li onclick="location.href='/board/list.strap';">게시판</li>
-    	</ul>
 	</div>
-</nav>
+</menu>
 
 </body>
 </html>

@@ -141,7 +141,6 @@ function displayPlaces(places) {
     // 지도에 표시되고 있는 마커를 제거합니다
     removeMarker();
     
-	console.log(places)
     for ( var i=0; i<places.length; i++ ) {
         // 마커를 생성하고 지도에 표시합니다
         var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
@@ -284,9 +283,10 @@ function removeAllChildNods(el) {
     }
 }
  
-kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
-	alert(mouseEvent.latLng);
+kakao.maps.event.addListener(ps, 'click', function(mouseEvent) {
+	alert("클릭");
 });
+
 </script>
 </body>
 </html>

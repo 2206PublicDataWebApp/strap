@@ -21,18 +21,20 @@
 	<!-- 컨텐츠 -->
 	<div class="contents">
 		<div id="contents-wrap">
-<!-- 				사이드바 사용시 여길 사용합니다. (미사용시 주석) -->
-<%-- 				<jsp:include page="/WEB-INF/views/common/sideBar.jsp"></jsp:include> --%>
-<!-- 				<div class="contents-side"> -->
-<!-- 				</div> -->
+				<!-- 사이드바 사용시 여길 사용합니다. (미사용시 주석) -->
+				<jsp:include page="/WEB-INF/views/common/sideBar.jsp"></jsp:include>
+				<div class="contents-side">
+				
+				</div>
 				
 <!-- 				사이드바 미 사용시 여길 사용합니다. (미사용시 주석) -->
-				<div class="contents-noside">
-				</div>
+<!-- 				<div class="contents-noside"> -->
+<!-- 				</div> -->
 	
 		</div>
 	</div>
 	<!-- 푸터 -->
+	
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </div>
 </body>
