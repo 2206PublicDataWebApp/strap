@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.domain.SocialMember;
 import com.kh.strap.member.store.MemberStore;
 
 
@@ -36,11 +37,6 @@ public class MemberStoreLogic implements MemberStore{
 		return result;
 	}
 
-//	@Override
-//	public List<String> findIdByEmail(SqlSession session, String memberEmail) {
-//		List<String> sList = session.selectList("MemberMapper.findIdByEmail", memberEmail);
-//		return sList;
-//	}
 	@Override
 	public List<Member> findIdByEmail(SqlSession session, String memberEmail) {
 		List<Member> sList = session.selectList("MemberMapper.findIdByEmail", memberEmail);
@@ -56,6 +52,25 @@ public class MemberStoreLogic implements MemberStore{
 	@Override
 	public int changeTempPwd(SqlSession session, Member member) {
 		int result = session.update("MemberMapper.changeTempPwd", member);
+		return result;
+	}
+
+
+	@Override
+	public int kakaoMembercheck(SqlSession session, String memberId) {
+		int result = session.selectOne("MemberMapper.kakaoMemberCheck", memberId);
+		return result;
+	}
+
+	@Override
+	public Member memberById(SqlSession session, String memberId) {
+		Member member = session.selectOne("MemberMapper.memberById", memberId);
+		return member;
+	}
+
+	@Override
+	public int insertSocialMember(SqlSession session, SocialMember socialMember) {
+		int result = session.insert("MemberMapper.insertSocialMember", socialMember);
 		return result;
 	}
 

@@ -19,6 +19,8 @@ public class Member {
 	private Date mRegisterDate;		//13.가입일
 	private String memberStatus;	//14.회원 상태
 	private String adminStatus;		//15.관리자 상태
+	private int memberManner;		//16.매너 점수
+	
 	
 	public Member() {}
 	
@@ -29,6 +31,15 @@ public class Member {
 
 	
 	
+	
+	public int getMemberManner() {
+		return memberManner;
+	}
+
+	public void setMemberManner(int memberManner) {
+		this.memberManner = memberManner;
+	}
+
 	public String getMemberId() {
 		return memberId;
 	}
@@ -130,8 +141,10 @@ public class Member {
 				+ ", memberJym=" + memberJym + ", memberCareer=" + memberCareer + ", memberSBD=" + memberSBD
 				+ ", mProfileName=" + mProfileName + ", mProfileRename=" + mProfileRename + ", mProfilePath="
 				+ mProfilePath + ", mRegisterDate=" + mRegisterDate + ", memberStatus=" + memberStatus
-				+ ", adminStatus=" + adminStatus + "]";
+				+ ", adminStatus=" + adminStatus + ", memberManner=" + memberManner + "]";
 	}
+
+
 
 	
 	

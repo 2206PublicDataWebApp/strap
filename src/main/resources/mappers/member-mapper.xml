@@ -19,7 +19,20 @@
   		<result property="mProfilePath" 	column="M_PROFILE_PATH"/>
   		<result property="mRegisterDate" 	column="M_REGISTER_DATE"/>
   		<result property="memberStatus" 	column="MEMBER_STATUS"/>
-  		<result property="adminStatus" 	column="ADMIN_STATUS"/>
+  		<result property="adminStatus" 		column="ADMIN_STATUS"/>
+  		<result property="memberManner"		column="MEMBER_MANNER"/>
+  	</resultMap>
+  	<resultMap type="SocialMember" id="SocialMemberResultMap">
+  		<id property="memberId" 			column="MEMBER_ID"/>
+  		<result property="memberGender"		column="MEMBER_GENDER"/>
+  		<result property="memberNick" 		column="MEMBER_NICK"/>
+  		<result property="memberJym"		column="MEMBER_JYM"/>
+  		<result property="memberCareer" 	column="MEMBER_CAREER"/>
+  		<result property="memberSBD" 		column="MEMBER_SBD"/>
+  		<result property="mProfilePath" 	column="M_PROFILE_PATH"/>
+  		<result property="mRegisterDate" 	column="M_REGISTER_DATE"/>
+  		<result property="memberStatus" 	column="MEMBER_STATUS"/>
+  		<result property="memberManner"		column="MEMBER_MANNER"/>
   	</resultMap>
   	<resultMap type="Member" id="IdAndCreateDate">
   		<id property="memberId" 			column="MEMBER_ID"/>
@@ -45,10 +58,23 @@
   	<select id="idEmailCheck" resultType="_int">
   		SELECT COUNT(*) FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId} AND MEMBER_EMAIL = #{memberEmail} AND MEMBER_STATUS = 'Y'
   	</select>
-  	<!-- 회원가입 -->
+  	<!-- 카카오로그인 시 회원인지 확인 -->
+  	<select id="kakaoMemberCheck" resultType="_int">
+  		SELECT COUNT(*) FROM SOCIAL_MEMBER_TBL WHERE MEMBER_ID = #{memberId}
+  	</select>
+  	<!-- 아이디로 멤버 정보 가져오기 -->
+  	<select id="memberById" resultMap="MemberResultMap">
+  		SELECT * FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId}
+  	</select>
+  	<!-- 일반 회원가입 -->
   	<insert id="inserMember">
-  		INSERT INTO MEMBER_TBL VALUES(#{memberId},#{memberPwd},#{memberName},#{memberEmail},#{memberGender},#{memberNick},NULL,#{memberCareer},#{memberSBD},NULL,NULL,NULL,DEFAULT,DEFAULT,DEFAULT)
+  		INSERT INTO MEMBER_TBL VALUES(#{memberId},#{memberPwd},#{memberName},#{memberEmail},#{memberGender},#{memberNick},NULL,#{memberCareer},#{memberSBD},NULL,NULL,NULL,DEFAULT,DEFAULT,DEFAULT,DEFAULT)
   	</insert>
+  	<!-- 소셜 회원가입 -->
+  	<insert id="insertSocialMember">
+  		INSERT INTO SOCIAL_MEMBER_TBL VALUES(#{memberId},#{memberGender},#{memberNick},null,#{memberCareer},#{memberSBD},#{mProfilePath},DEFAULT,DEFAULT,DEFAULT)
+  	</insert>
+  	<!-- 비밀번호 찾기 시 임시패스워드로 변경 -->
   	<update id="changeTempPwd">
   		UPDATE MEMBER_TBL SET MEMBER_PWD = #{memberPwd} WHERE MEMBER_ID = #{memberId}
   	</update>
