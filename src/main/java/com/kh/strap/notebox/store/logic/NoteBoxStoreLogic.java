@@ -30,4 +30,10 @@ public class NoteBoxStoreLogic implements NoteBoxStore{
 		return nList;
 	}
 
+	@Override
+	public NoteBox selectOneByNo(SqlSession session, Integer noteNo) {
+		NoteBox noteBox = session.selectOne("NoteBoxMapper.selectOneByNo", noteNo);
+		return noteBox;
+	}
+
 }

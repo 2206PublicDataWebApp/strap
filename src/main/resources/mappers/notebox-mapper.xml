@@ -16,7 +16,7 @@
 		<result property="matchTime" column="MEET_TIME"/>
 	</resultMap>
 	<select id="selectAllNoteBox" resultMap="noteBoxResultMap">
-  		SELECT * FROM NOTEBOX_TBL WHERE RECIPIENT_ID = #{recipientId} ORDER BY NOTE_NO DESC
+  		SELECT * FROM NOTEBOX_TBL WHERE RECIPIENT_ID = 'user02' ORDER BY NOTE_NO DESC
   	</select>
 	<select id="selectTotalCount" resultType="_int">
   		SELECT COUNT(*) FROM NOTEBOX_TBL
@@ -32,6 +32,9 @@
 				OR NOTE_CONTENTS LIKE '%'||#{searchValue}||'%'
 			</if>
 		</where>
+  	</select>
+  	<select id="selectOneByNo" resultMap="noteBoxResultMap">
+  		SELECT * FROM NOTEBOX_TBL WHERE NOTE_NO = #{noteNo}
   	</select>
 	
 </mapper>

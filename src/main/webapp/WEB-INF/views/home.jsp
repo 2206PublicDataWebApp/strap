@@ -28,7 +28,7 @@
 			<jsp:include page="/WEB-INF/views/common/sideBar.jsp"></jsp:include>
 		</div>
 		<div class="contents-side col">
-			dfasdf<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 		</div>
 	</div>
 	<div class="row">

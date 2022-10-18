@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -29,7 +29,7 @@
 			<jsp:include page="/WEB-INF/views/common/sideBarMyPage.jsp"></jsp:include>
 		</div>
 		<div class="contents-side col">
-			dfasdf<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			<p align="center" style=" font-size:34px; font-family:malgun gothic;">[ 마이 페이지 ]<p>
 		</div>
 	</div>
 	<div class="row">
@@ -37,17 +37,6 @@
 			<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 		</div>
 	</div>
-	
-<!-- 	<div class="row"> -->
-<!-- 		<div class="contents-side col"> -->
-<!-- 			dfasdf<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- 	<div class="row"> -->
-<!-- 		<div class="col"> -->
-<%-- 			<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include> --%>
-<!-- 		</div> -->
-<!-- 	</div> -->
 </div>
 </body>
 </html>

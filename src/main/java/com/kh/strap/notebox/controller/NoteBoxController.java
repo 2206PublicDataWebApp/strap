@@ -49,4 +49,16 @@ public class NoteBoxController {
 		mv.setViewName("mypage/noteBox");
 		return mv;
 	}
+	
+	
+	// 쪽지 상세페이지
+	@RequestMapping(value="/mypage/noteDetailView.strap", method=RequestMethod.GET)
+	public ModelAndView showNoteDetail(ModelAndView mv
+			,@RequestParam("noteNo") Integer noteNo) {
+		NoteBox noteBox = nService.printOneByNo(noteNo);
+		mv.addObject("noteBox", noteBox);
+		mv.setViewName("mypage/noteDetail");
+		return mv;
+	}
+	
 }

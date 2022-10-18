@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -26,29 +26,27 @@
 
     </script>
 </head>
-<body>
-	<div class="wrap container">
+<div class="wrap container">
 	<!-- 헤더&메뉴바 -->
-		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-		<!-- 컨텐츠 -->
-		<div class="contents">
-			<div id="contents-wrap">
-<!-- 					사이드바 사용시 여길 사용합니다. (미사용시 주석) -->
-					<jsp:include page="/WEB-INF/views/common/sideBarMyPage.jsp"></jsp:include>
-					<div class="contents-side">
-						<div id='calendar'></div>
-					</div>
-					
-	<!-- 				사이드바 미 사용시 여길 사용합니다. (미사용시 주석) -->
-<!-- 					<div class="contents-noside"> -->
-<!-- 					</div> -->
-		
-			</div>
+	<div class="row">
+		<div class="col">
+			<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		</div>
-		<!-- 푸터 -->
-		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	</div>
 
-	
-</body>
+	<div class="row">
+		<div class="sidebar col-3" >
+			<jsp:include page="/WEB-INF/views/common/sideBarMyPage.jsp"></jsp:include>
+		</div>
+		<div class="contents-side col">
+			<p align="center" style=" font-size:34px; font-family:malgun gothic;">[ 매칭 일정 ]<p>
+			<div id='calendar'></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+		</div>
+	</div>
+</div>
 </html>

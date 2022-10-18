@@ -29,5 +29,11 @@ public class NoteBoxServiceImpl implements NoteBoxService {
 		List<NoteBox> nList = nStore.selectAllNoteBox(session, currentPage, noticeLimit);
 		return nList;
 	}
+
+	@Override
+	public NoteBox printOneByNo(Integer noteNo) {
+		NoteBox noteBox = nStore.selectOneByNo(session, noteNo);
+		return noteBox;
+	}
 	
 }
