@@ -156,7 +156,7 @@ textarea.form-controls {
 			</div>
 			<div class="modal-body">
 				<div class="modal-body p-5 pt-0">
-					<form action="/fridge/register.kh" method="post">
+					<form action="opener.location.href='/report/registerReport.strap';self.close()" method="post">
 					<input type="hidden" value="RC1" name="contentsCode">
 					<input type="hidden" value=${noteBox.noteNo } name="noteNo">
 					<input type="hidden" value=${noteBox.senderId } name="senderId">
@@ -179,9 +179,9 @@ textarea.form-controls {
 							</select>
 						</div>
 						<div class="mb-3">
-							<textarea class="form-control" placeholder="신고 내용을 입력해주세요" id="notice-textarea" name="noticeContents" style="height: 150px"></textarea>
+							<textarea class="form-control" placeholder="신고 내용을 입력해주세요" id="notice-textarea" name="noticeContents" style="height: 150px" required></textarea>
 						</div>
-					<button class="w-100 mb-2 btn btn-lg btn-danger" type="submit">신고</button>
+					<button class="w-100 mb-2 btn btn-lg btn-danger" type="submit" onclick="window.close();">신고</button>
 					</form>
 				</div>
 			</div>
@@ -189,7 +189,17 @@ textarea.form-controls {
 	</div>
 </div>
 	
+	<script>
+	function goOpener(){
+	    opener.name = "report";
+	    document.frmName.target = opener.name;
+	    document.frmName.action = "report/registerReport.strap";
+	    document.frmName.submit();
+	    self.close();
 	
+	 }
+	</script>
 	
+		
 </body>
 </html>

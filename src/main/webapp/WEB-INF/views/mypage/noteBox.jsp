@@ -28,15 +28,15 @@
 			<div class="sidebar col-3" >
 				<jsp:include page="/WEB-INF/views/common/sideBarMyPage.jsp"></jsp:include>
 			</div>
-			<div class="contents-side col">
+			<div class="contents-side col" width="300">
 				<p align="center" style=" font-size:34px; font-family:malgun gothic;">[ 쪽지함 ]<p>
 				<table align="center" border="1" width="" class="table table-striped table-hover">
 					<tr>
 					</tr>
 					<tr align="center">
-						<th width="80">번호</th>
+						<th width="150">번호</th>
 						<th>제목</th>
-						<th width="100">보낸 사람</th>
+						<th width="150">보낸 사람</th>
 						<th width="150">보낸 날짜</th>
 					</tr>
 				<c:if test="${!empty nList }">
