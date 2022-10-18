@@ -15,23 +15,8 @@
 		<result column="PRODUCT_MODI_DATE" 		property="productModiDate"/>
 		<result column="PRODUCT_SALES" 			property="productSales"/>
 		<result column="MAIN_IMG_NAME" 			property="mainImgName"/>
-		<result column="SUB_IMG1_NAME" 			property="firstSubImgName"/>
-		<result column="SUB_IMG2_NAME" 			property="secondSubImgName"/>
-		<result column="SUB_IMG3_NAME" 			property="thirdSubImgName"/>
-		<result column="SUB_IMG4_NAME" 			property="fourthSubImgName"/>
-		<result column="INFO_IMG_NAME" 			property="infoImgName"/>
 		<result column="MAIN_IMG_RENAME" 		property="mainImgReName"/>
-		<result column="SUB_IMG1_RENAME" 		property="firstSubImgReName"/>
-		<result column="SUB_IMG2_RENAME" 		property="secondSubImgReName"/>
-		<result column="SUB_IMG3_RENAME" 		property="thirdSubImgReName"/>
-		<result column="SUB_IMG4_RENAME" 		property="fourthSubImgReName"/>
-		<result column="INFO_IMG_RENAME" 		property="infoImgReName"/>
 		<result column="MAIN_IMG_ROOT" 			property="mainImgRoot"/>
-		<result column="SUB_IMG1_ROOT" 			property="firstSubImgRoot"/>
-		<result column="SUB_IMG2_ROOT" 			property="secondSubImgRoot"/>
-		<result column="SUB_IMG3_ROOT" 			property="thirdSubImgRoot"/>
-		<result column="SUB_IMG4_ROOT" 			property="fourthSubImgRoot"/>
-		<result column="INFO_IMG_ROOT" 			property="infoImgRoot"/>
 		<result column="COUPON_LIST" 			property="couponList"/>
 		<result column="PRODUCT_DELETE" 		property="productDelete"/>
 		<result column="GRADE_AVER" 			property="gradeAver"/>
@@ -40,40 +25,73 @@
 	
 	<insert id="insertProduct">
 		INSERT INTO PRODUCT_TBL
-		VALUES(SEQ_PRODUCT_NO.NEXTVAL.#{productNo},#{productName},#{productBrand},#{productPrice},#{productDesc},
-		#{gradeSum},#{productRegiDate},#{productModiDate},#{productSales},
-		#{mainImgName},#{firstSubImgName},#{secondSubImgName},#{thirdSubImgName},#{fourthSubImgName},#{infoImgName},
-		#{mainImgReName},#{firstSubImgReName},#{secondSubImgReName},#{thirdSubImgReName},#{fourthSubImgReName},#{infoImgReName},
-		#{mainImgRoot},#{firstSubImgRoot},#{secondSubImgRoot},#{thirdSubImgRoot},#{fourthSubImgRoot},#{infoImgRoot},
-		#{couponList},DEFAULT,#{gradeAver},DEFAULT)
+		VALUES(SEQ_PRODUCT_NO.NEXTVAL,#{productName},#{productBrand},#{productPrice},#{productDesc},
+		DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{mainImgName},#{mainImgReName},#{mainImgRoot},
+		#{couponList},DEFAULT,DEFAULT,DEFAULT)
+	</insert>
+	
+<!-- 	상품정보저장 직후 서브이미지 추가 -->
+	<insert id="insertSubImg">
+		INSERT INTO PRODUCT_IMG_TBL
+		VALUES(SEQ_IMG_NO.NEXTVAL,SEQ_PRODUCT_NO.CURRVAL,#{imgName},#{imgReName},#{imgRoot})
+	</insert>
+	
+	<insert id="insertInfoImg">
+		INSERT INTO PRODUCT_INFOIMG_TBL
+		VALUES(SEQ_IMG_NO.NEXTVAL,SEQ_PRODUCT_NO.CURRVAL,#{imgName},#{imgReName},#{imgRoot})
 	</insert>
 	
 	<select id="selectAllProduct" resultMap="ProductResultMap">
 		SELECT * FROM PRODUCT_TBL
+		WHERE PRODUCT_DELETE = 'N'
 	</select>
 	
 	<select id="selectAllProductSearch" resultMap="ProductResultMap">
 		SELECT * FROM PRODUCT_TBL
 		WHERE (PRODUCT_NAME LIKE '%'||#{searchVal}||'%')OR
 		(PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
+		AND PRODUCT_DELETE = 'N'
+		<if test='${}'></if>
 		ORDER BY ${searchColumn} ${orderCondition}
+	</select>
+	
+	<select id="selectAdminProductSearch" resultMap="ProductResultMap">
+		SELECT * FROM PRODUCT_TBL
+		WHERE (PRODUCT_NAME LIKE '%'||#{searchVal}||'%')OR
+		(PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
+		AND PRODUCT_DELETE = 'N'
+	</select>
+	
+	<select id="selectCountAllProduct" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT_TBL
+		WHERE PRODUCT_DELETE = 'N'
+	</select>
+	
+	<select id="selectCountSearchProduct" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT_TBL
+		WHERE (PRODUCT_NAME LIKE '%'||#{searchVal}||'%')OR
+		(PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
+		AND PRODUCT_DELETE = 'N'
+	</select>
+	
+	<select id="selectCountAdminProductSearch" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT_TBL
+		WHERE (PRODUCT_NAME LIKE '%'||#{searchVal}||'%')OR
+		(PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
+		AND PRODUCT_DELETE = 'N'
 	</select>
 	
 	<select id="selectOneProduct" resultMap="ProductResultMap">
 		SELECT * FROM PRODUCT_TBL
 		WHERE PRODUCT_NO = #{productNo}
+		AND PRODUCT_DELETE = 'N'
 	</select>
 	
 	<update id="updateProduct">
 		UPDATE PRODUCT_TBL 
 		SET PRODUCT_NAME=#{productName},PRODUCT_BRAND=#{productBrand},PRODUCT_PRICE=#{productPrice},PRODUCT_DESC=#{productDesc},
-		PRODUCT_MODI_DATE=SYSDATE,MAIN_IMG_NAME=#{mainImgName},SUB_IMG1_NAME=#{firstSubImgName},
-		SUB_IMG2_NAME=#{secondSubImgName},SUB_IMG3_NAME=#{thirdSubImgName},SUB_IMG4_NAME=#{fourthSubImgName},
-		INFO_IMG_NAME=#{infoImgName},MAIN_IMG_RENAME=#{mainImgReName},SUB_IMG1_RENAME=#{firstSubImgReName},
-		SUB_IMG2_RENAME=#{secondSubImgReName},SUB_IMG3_RENAME=#{thirdSubImgReName},SUB_IMG4_RENAME=#{fourthSubImgReName},
-		INFO_IMG_RENAME=#{infoImgReName},MAIN_IMG_ROOT=#{mainImgRoot},SUB_IMG1_ROOT=#{firstSubImgRoot},
-		SUB_IMG2_ROOT=#{secondSubImgRoot},SUB_IMG3_ROOT=#{thirdSubImgRoot},SUB_IMG4_ROOT=#{fourthSubImgRoot},
-		INFO_IMG_ROOT=#{infoImgRoot},COUPON_LIST=#{couponList}
+		PRODUCT_MODI_DATE=SYSDATE,MAIN_IMG_NAME=#{mainImgName},MAIN_IMG_RENAME=#{mainImgReName},MAIN_IMG_ROOT=#{mainImgRoot},
+		COUPON_LIST=#{couponList}
 		WHERE PRODUCT_NO = #{productNo}
 	</update>
 	

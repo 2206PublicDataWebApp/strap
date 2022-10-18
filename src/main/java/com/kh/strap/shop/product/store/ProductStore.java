@@ -8,6 +8,7 @@ import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.shop.product.domain.Order;
 import com.kh.strap.shop.product.domain.Product;
+import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.domain.ProductLike;
 import com.kh.strap.shop.review.domain.Review;
 
@@ -15,8 +16,13 @@ public interface ProductStore {
 	
 	//상품
 		public int insertProduct(SqlSession session,Product product);
+		public int insertSubImg(SqlSession session,ProductImg pi);
+		public int insertInfoImg(SqlSession session,ProductImg pi);
 		public List<Product> selectAllProduct(SqlSession session,Paging paging,Search search);
 		public List<Product> selectAllProductSearch(SqlSession session,Paging paging,Search search);
+		public int selectCountAllProduct(SqlSession session);
+		public int selectCountSearchProduct(SqlSession session, Search search);
+		public int selectCountAdminProductSearch(SqlSession session,Search search);
 		public Product selectOneProduct(SqlSession session,Product product);
 		public int updateProduct(SqlSession session,Product product);
 		public int updateProductGradeSum(SqlSession session,Review review);

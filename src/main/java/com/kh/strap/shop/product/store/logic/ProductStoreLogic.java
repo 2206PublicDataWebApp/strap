@@ -11,6 +11,7 @@ import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.shop.product.domain.Order;
 import com.kh.strap.shop.product.domain.Product;
+import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.domain.ProductLike;
 import com.kh.strap.shop.product.store.ProductStore;
 import com.kh.strap.shop.review.domain.Review;
@@ -24,13 +25,38 @@ public class ProductStoreLogic implements ProductStore {
 	}
 
 	@Override
+	public int insertSubImg(SqlSession session, ProductImg pi) {
+		return session.insert("ProductMapper.insertSubImg", pi);
+	}
+	
+	@Override
+	public int insertInfoImg(SqlSession session, ProductImg pi) {
+		return session.insert("ProductMapper.insertInfoImg",pi);
+	}
+
+	@Override
 	public List<Product> selectAllProduct(SqlSession session, Paging paging, Search search) {
 		return session.selectList("ProductMapper.selectAllProduct", search, new RowBounds(paging.getOffset(), paging.getPageLimit()));
 	}
 	
 	@Override
 	public List<Product> selectAllProductSearch(SqlSession session, Paging paging, Search search) {
-		return session.selectList("ProductMapper.selectAllProductSearch", search, new RowBounds(paging.getOffset(), paging.getPageLimit()));
+		return session.selectList("ProductMapper.selectAdminProductSearch", search, new RowBounds(paging.getOffset(), paging.getPageLimit()));
+	}
+	
+	@Override
+	public int selectCountAllProduct(SqlSession session) {
+		return session.selectOne("ProductMapper.selectCountAllProduct");
+	}
+
+	@Override
+	public int selectCountSearchProduct(SqlSession session, Search search) {
+		return session.selectOne("ProductMapper.selectCountSearchProduct",search);
+	}
+	
+	@Override
+	public int selectCountAdminProductSearch(SqlSession session, Search search) {
+		return session.selectOne("ProductMapper.selectCountAdminProductSearch", search);
 	}
 
 	@Override
@@ -131,6 +157,13 @@ public class ProductStoreLogic implements ProductStore {
 	public int deleteProductLike(SqlSession session, ProductLike like) {
 		return session.delete("ProductMapper.deleteProductLike", like);
 	}
+
+
+
+
+
+
+
 
 
 

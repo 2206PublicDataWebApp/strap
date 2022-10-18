@@ -10,6 +10,7 @@ import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.shop.product.domain.Order;
 import com.kh.strap.shop.product.domain.Product;
+import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.domain.ProductLike;
 import com.kh.strap.shop.product.service.ProductService;
 import com.kh.strap.shop.product.store.ProductStore;
@@ -26,6 +27,14 @@ public class ProductServiceImpl implements ProductService {
 		return pStore.insertProduct(session, product);
 	}
 	@Override
+	public int registerSubImg(ProductImg pi) {
+		return pStore.insertSubImg(session, pi);
+	}
+	@Override
+	public int registerInfoImg(ProductImg pi) {
+		return pStore.insertInfoImg(session,pi);
+	}
+	@Override
 	public List<Product> printAllProduct(Paging paging, Search search) {
 		return pStore.selectAllProduct(session, paging, search);
 	}
@@ -33,6 +42,20 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> printAllProductSearch(Paging paging, Search search) {
 		return pStore.selectAllProductSearch(session, paging, search);
 	}
+	@Override
+	public int countAllProduct() {
+		return pStore.selectCountAllProduct(session);
+	}
+	@Override
+	public int countSearchProduct(Search search) {
+		return pStore.selectCountSearchProduct(session, search);
+	}
+	
+	@Override
+	public int countAdminProductSearch(Search search) {
+		return pStore.selectCountAdminProductSearch(session, search);
+	}
+	
 	@Override
 	public Product printOneProduct(Product product) {
 		return pStore.selectOneProduct(session, product);
@@ -105,6 +128,10 @@ public class ProductServiceImpl implements ProductService {
 	public int removeProductLike(ProductLike like) {
 		return pStore.deleteProductLike(session, like);
 	}
+
+
+
+
 
 
 

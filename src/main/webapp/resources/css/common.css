@@ -83,6 +83,7 @@ menu{
 	.navBar{
 		display:inline-block;
 		width:600px;
+		padding: 10px;
 	}
 	.navBar li{
 			padding: 20px 60px;
@@ -101,7 +102,7 @@ menu{
 	padding: 0px 50px;
 }
 	#contents-wrap{
-		height: 500px;
+/* 		height: 500px; */
 	}
 /* 	사이드바 사용 시  */
 	.sideBar{
@@ -111,7 +112,7 @@ menu{
 		font-size:large;
 		
 		border-right: 2px solid #c0c0c0;
-		height: 500px;
+/* 		height: 500px; */
 	}
 		.list-group li:first-child{
 			font-size:1.4em;
@@ -129,14 +130,18 @@ menu{
 		width: 80%;
 		padding:12px;
 		
-		height: 500px;
+/* 		height: 500px; */
 	}
+		#inner-header,#inner-contents{
+			width:70%;
+			margin: 20px auto;
+		}
 /* 사이드바 미 사용 시 */
 	.contents-noside{
 		width: 100%;
 		padding:12px;
 		
-		height: 500px;
+/* 		height: 500px; */
 	}
 	
 footer{
