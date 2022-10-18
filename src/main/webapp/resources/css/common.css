@@ -106,7 +106,7 @@ nav{
 	padding-left: 0;
 }
 	#contents-wrap{
-		height: 500px;
+/* 		height: 500px; */
 	}
 /* 	사이드바 사용 시  */
 	.sideBar{
@@ -116,7 +116,7 @@ nav{
 		font-size:18px;
 		
 		border-right: 2px solid #c0c0c0;
-		height: 500px;
+/* 		height: 500px; */
 	}
 		.list-group li:first-child{
 			font-size:20px;
@@ -134,14 +134,18 @@ nav{
 		width: 80%;
 		padding:12px;
 		
-		height: 500px;
+/* 		height: 500px; */
 	}
+		#inner-header,#inner-contents{
+			width:70%;
+			margin: 20px auto;
+		}
 /* 사이드바 미 사용 시 */
 	.contents-noside{
 		width: 100%;
 		padding:12px;
 		
-		height: 500px;
+/* 		height: 500px; */
 	}
 	
 footer{

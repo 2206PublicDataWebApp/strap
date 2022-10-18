@@ -1,11 +1,26 @@
 package com.kh.strap.shop.product.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.strap.common.Paging;
+import com.kh.strap.common.Search;
+import com.kh.strap.shop.product.domain.Product;
+import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.service.ProductService;
 
 @Controller
@@ -46,28 +61,48 @@ public class ProductController {
 	ProductService pService;
 	
 	//보충제 리스트 출력
-	@RequestMapping(value="/product/list.strap", method=RequestMethod.GET)
-	public ModelAndView viewProductList(ModelAndView mv) {
-		mv.setViewName("/shop/productList");
+	@RequestMapping(value="/product/listView.strap", method=RequestMethod.GET)
+	public ModelAndView viewProductList(ModelAndView mv,
+			Search search,
+			@RequestParam(value="page",required=false)Integer currentPage) {
+		int page = (currentPage != null)? currentPage : 1;
+		
+		Paging paging = new Paging(pService.countAllProduct(), page, 25, 5);
+		List<Product>pList = pService.printAllProduct(paging, search);
+		mv.addObject("pList",pList).
+		addObject("paging",paging).
+		addObject("search",search).
+		addObject("url","listView").
+		setViewName("/shop/productList");
 		return mv;
 	}
 	
-	//보충제 검색 리스트 출력
+	//상품목록 페이지 보충제 검색 리스트 출력
 	@RequestMapping(value="/product/search.strap\"", method=RequestMethod.GET)
-	public ModelAndView searchProductList(ModelAndView mv) {
-		mv.setViewName("/shop/productList");
+	public ModelAndView searchProductList(ModelAndView mv,
+			@ModelAttribute Search search,
+			@RequestParam(value="page",required=false)Integer currentPage) {
+		int page = (currentPage != null)? currentPage : 1;
+		
+		Paging paging = new Paging(pService.countSearchProduct(search),page,25,5);
+		List<Product>pList = pService.printAllProductSearch(paging, search);
+		mv.addObject("pList",pList).
+		addObject("paging",paging).
+		addObject("search",search).
+		addObject("url","search").
+		setViewName("/shop/productList");
 		return mv;
 	}
 	
 	//상품 상세 페이지
-	@RequestMapping(value="/product/detail.strap\"", method=RequestMethod.GET)
+	@RequestMapping(value="/product/detailView.strap\"", method=RequestMethod.GET)
 	public ModelAndView viewProductDetail(ModelAndView mv) {
 		mv.setViewName("/shop/productDetail");
 		return mv;
 	}
 	
 	//구매(주문페이지) 이동
-	@RequestMapping(value="/order.strap", method=RequestMethod.GET)
+	@RequestMapping(value="/orderView.strap", method=RequestMethod.GET)
 	public ModelAndView viewOrderPage(ModelAndView mv) {
 		mv.setViewName("/shop/order");
 		return mv;
@@ -81,14 +116,14 @@ public class ProductController {
 	}
 	
 	//주문내역리스트 이동
-	@RequestMapping(value="/order/list.strap", method=RequestMethod.GET)
+	@RequestMapping(value="/order/listView.strap", method=RequestMethod.GET)
 	public ModelAndView viewOrderList(ModelAndView mv) {
 		mv.setViewName("/shop/orderList");
 		return mv;
 	}
 	
 	//배송조회 
-	@RequestMapping(value="/order/delivery.strap", method=RequestMethod.GET)
+	@RequestMapping(value="/order/deliveryView.strap", method=RequestMethod.GET)
 	public ModelAndView viewDelivery(ModelAndView mv) {
 		mv.setViewName("/shop/deliveryDetail");
 		return mv;
@@ -102,14 +137,14 @@ public class ProductController {
 
 	
 	//취소반품리스트 이동
-	@RequestMapping(value="/order/cancel/list.strap", method=RequestMethod.GET)
+	@RequestMapping(value="/order/cancel/listView.strap", method=RequestMethod.GET)
 	public ModelAndView viewCancelList(ModelAndView mv) {
 		mv.setViewName("/shop/cancelList");
 		return mv;
 	}
 	
 	//찜한상품리스트 이동
-	@RequestMapping(value="/product/like/list.strap", method=RequestMethod.GET)
+	@RequestMapping(value="/product/like/listView.strap", method=RequestMethod.GET)
 	public ModelAndView viewLikeList(ModelAndView mv) {
 		mv.setViewName("/shop/likeList");
 		return mv;
@@ -127,31 +162,160 @@ public class ProductController {
 		return mv;
 	}
 	
-	//상품관리페이지 이동
-	@RequestMapping(value="/admin/product.strap", method=RequestMethod.GET)
-	public ModelAndView viewManageProduct(ModelAndView mv) {
-		mv.setViewName("/shop/productManage");
+	//상품관리페이지 상품 목록
+	@RequestMapping(value="/admin/productView.strap", method=RequestMethod.GET)
+	public ModelAndView viewManageProduct(ModelAndView mv,
+			Search search,
+			@RequestParam(value= "page", required=false)Integer currentPage) {
+		int page = (currentPage != null) ? currentPage : 1;
+		Paging paging = new Paging(pService.countAllProduct(), page, 10, 5);
+		List<Product> pList = pService.printAdminAllProduct(paging, search);
+		mv.addObject("pList",pList).
+		addObject("paging",paging).
+		addObject("url","productView").
+		setViewName("/shop/productManage");
+		return mv;
+	}
+	
+	//상품관리페이지 상품 검색결과 목록
+	@RequestMapping(value="/admin/productSearchView.strap", method=RequestMethod.GET)
+	public ModelAndView viewSearchManageProduct(ModelAndView mv,
+			@ModelAttribute Search search,
+			@RequestParam(value= "page", required=false)Integer currentPage) {
+		int page = (currentPage != null) ? currentPage : 1;
+		Paging paging = new Paging(pService.countAdminProductSearch(search), page, 10, 5);
+		List<Product> pList = pService.printAdminProductSearch(paging, search);
+		mv.addObject("pList",pList).
+		addObject("paging",paging).
+		addObject("search",search).
+		addObject("url","productSearchView").
+		setViewName("/shop/productManage");
 		return mv;
 	}
 	
 	//상품등록페이지 이동
-	@RequestMapping(value="/admin/product/register.strap", method=RequestMethod.GET)
+	/**
+	 * 상품등록페이지 이동 메소드
+	 * @param mv
+	 * @return
+	 */
+	@RequestMapping(value="/admin/product/registerView.strap", method=RequestMethod.GET)
 	public ModelAndView viewRegisterProduct(ModelAndView mv) {
 		mv.setViewName("/shop/productRegister");
 		return mv;
 	}
 	
+	//상품등록
+	/**
+	 * 상품 등록 메소드
+	 * @param mv
+	 * @param product
+	 * @param mainImg
+	 * @param sub1Img
+	 * @param sub2Img
+	 * @param sub3Img
+	 * @param sub4Img
+	 * @param infoImg
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="/admin/product/register.strap", method=RequestMethod.POST)
+	public ModelAndView registerProduct(ModelAndView mv, 
+			@ModelAttribute Product product,
+			@RequestParam("mainImg") MultipartFile mainImg, 
+			@RequestParam("infoFile") List<MultipartFile> infoList,
+			@RequestParam(value="imgFile",required=false)List<MultipartFile> imgList,
+			HttpSession session
+			) {
+		
+		String thisTime = new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis());
+		String savePath = session.getServletContext().getRealPath("resources") + "\\image\\product";
+		File targetFile = new File(savePath);
+		if (!targetFile.exists()) {
+			targetFile.mkdir();
+		}
+		
+		try {
+			//메인이미지저장
+			String mainImgName = mainImg.getOriginalFilename();
+			String mainImgReName = thisTime+"_main"+mainImgName.substring(mainImgName.lastIndexOf("."));
+			product.setMainImgName(mainImgName);
+			product.setMainImgReName(mainImgReName);
+			mainImg.transferTo(new File(savePath + "\\" + mainImgReName));
+			product.setMainImgRoot("/resources/image/product/" + mainImgReName);
+			
+			int result = pService.registerProduct(product);
+			if(result > 0) {
+				//인포이미지 저장
+				if(infoList.size() > 0) {
+					int index = 1;
+					for(MultipartFile imgFile : infoList) {
+						String imgName = imgFile.getOriginalFilename();
+						String imgReName = thisTime+"_info("+index+")"+"."+imgName.substring(imgName.lastIndexOf(".")+1);
+						String imgRoot = "/resources/image/product/" + imgReName;
+						imgFile.transferTo(new File(savePath + "\\" + imgReName));
+						int regiSubResult = pService.registerInfoImg(new ProductImg(imgName, imgReName, imgRoot));
+						index++;
+						if(regiSubResult > 0 ) {
+						}else {
+						}
+					}
+				}
+				//서브이미지 저장
+				if(imgList.size() > 0) {
+					int index = 1;
+					for(MultipartFile imgFile : imgList) {
+						String imgName = imgFile.getOriginalFilename();
+						String imgReName = thisTime+"_sub("+index+")"+"."+imgName.substring(imgName.lastIndexOf(".")+1);
+						String imgRoot = "/resources/image/product/" + imgReName;
+						imgFile.transferTo(new File(savePath + "\\" + imgReName));
+						int regiSubResult = pService.registerSubImg(new ProductImg(imgName, imgReName, imgRoot));
+						index++;
+						if(regiSubResult > 0 ) {
+						}else {
+						}
+					}
+				}
+			}else {
+			}
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (NullPointerException e) {
+			}
+		mv.setViewName("redirect:/admin/productView.strap");
+		return mv;
+	}
+	
 	//상품수정페이지 이동
-	@RequestMapping(value="/admin/product/modify.strap", method=RequestMethod.GET)
-	public ModelAndView viewModifyProduct(ModelAndView mv) {
-		mv.setViewName("/shop/productModify");
+	@RequestMapping(value="/admin/product/modifyView.strap", method=RequestMethod.GET)
+	public ModelAndView viewModifyProduct(ModelAndView mv,
+			@ModelAttribute Product productParam) {
+		
+		Product product = pService.printOneProduct(productParam);
+		List<ProductImg> infoList = pService.printInfoImgByNo(product);
+		List<ProductImg> subList = pService.printSubImgByNo(product);
+		
+		
+		mv.addObject("product",product).
+		addObject("infoList",infoList).
+		addObject("subList",subList).
+		setViewName("/shop/productModify");
 		return mv;
 	}
 	
 	//상품 삭제ajax
-	@RequestMapping(value="/admin/product/remove.strap", method=RequestMethod.GET)
-	public ModelAndView removeProduct(ModelAndView mv) {
-		return mv;
+	@ResponseBody
+	@RequestMapping(value="/admin/product/remove.strap",produces="text/plain;charset=utf-8", method=RequestMethod.GET)
+	public String removeProduct(
+			@ModelAttribute Product product) {
+		
+		int result = pService.removeProduct(product);
+		if(result > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
 	}
-	
 }

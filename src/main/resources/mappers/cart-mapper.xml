@@ -17,7 +17,7 @@
 		VALUES(#{productNo},#{memberId},#{productName},#{price},#{productAmount})
 	</insert>
 	
-	<select id="selectCheckCart">
+	<select id="selectCheckCart" resultType="_int">
 		SELECT COUNT(*) FROM CART_TBL
 		WHERE PRODUCT_NO = #{productNo} AND MEMBER_ID = #{memberId}
 	</select>
