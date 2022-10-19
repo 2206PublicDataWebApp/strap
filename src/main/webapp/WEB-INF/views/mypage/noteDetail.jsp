@@ -117,7 +117,7 @@ textarea.form-controls {
 		</div>
 		<div class="row">
 			<div class="col">
-				보낸 사람 : ${noteBox.senderId }
+				보낸 사람 : ${noteBox.senderNick }
 			</div>
 		</div>
 		<div class="row">
@@ -144,10 +144,20 @@ textarea.form-controls {
 		<br>
 		<div class="row text-center">
 			<div class="col">
-				<button class="btn btn-primary">수락</button>
-				<button class="btn btn-danger">거절</button>
+				<button class="btn btn-primary" id="accept">수락</button>
 			</div>
 		</div>
+		<div class="row text-center border border-secondary border-opacity-50" id="chat-window" style="display:none;">
+			<div class="col">
+				**님과 채팅
+				<div class="row text-center border border-secondary border-opacity-50" >
+					<div class="col">
+						내용
+					</div>
+				</div>
+			</div>
+		</div>
+		
 	</div>
 	
 
@@ -165,6 +175,7 @@ textarea.form-controls {
 					<input type="hidden" value="RC1" name="contentsCode">
 					<input type="hidden" value=${noteBox.noteNo } name="contentsNo">
 					<input type="hidden" value=${noteBox.senderId } name="reportMember">
+					<input type="hidden" value=${noteBox.senderNick } name="reportMemberNick">
 					<input type="hidden" value=${noteBox.noteTitle } name="noteTitle">
 					<input type="hidden" value=${noteBox.noteContents } name="noteContents">
 <%-- 					<input type="hidden" value=${. } name="memberId">  신고자 추가해야함--%>
@@ -197,25 +208,39 @@ textarea.form-controls {
 		$(".report-submit").on("click",function(){
 			var params = $("#report-form").serialize();
 			$.ajax({
-				url : '<c:url value='/report/registerReport.strap' />',
+				url : "/report/registerReport.strap",
 				data : params,
 				type : "post",
 				success:function(data){
-					opener.location.replace("/mypage/noteBoxListView.strap");
-					window.close();
+					if(window.confirm("정말로 신고하시겠습니까?")){
+						opener.location.replace("/mypage/noteBoxListView.strap");
+						window.close();
+					}
 				}
 			});
 		});
-	});
-// 	$("#report-form")[0].submit();
-// 	opener.location.replace("/mypage/noteBoxListView.strap");
-// 	function reportSubmit(){
-// 		$(window).bind("beforeunload", function (e){
-// 			return "창을 닫으실래요?";
-// 		});
 		
-// 		self.close();
-// 	}
+		$("#accept").on("click",function(){
+			$(this).hide();
+			$("#chat-window").show();
+		});
+		
+		$("#accept").on("click",function(){
+			$.ajax({
+				url : "",
+				data : {},
+				type : "get",
+				success:function(data){
+					
+				},error:function(){
+					
+				}
+			});
+		});
+		
+		
+	});
+	
 </script>
 
 </body>

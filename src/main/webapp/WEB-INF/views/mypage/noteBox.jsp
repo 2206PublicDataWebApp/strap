@@ -44,7 +44,7 @@
 						<tr align="center">
 							<td>${i.count }</td>
 							<td><a href="#none" onclick="reportPopup(${notebox.noteNo });">${notebox.noteTitle }</a></td>
-							<td>${notebox.senderId }</td>
+							<td>${notebox.senderNick }</td>
 							<td><fmt:formatDate pattern="yyyy-MM-dd / hh:mm:ss" value="${notebox.senderTime }"/> </td>
 						</tr>
 					</c:forEach>
@@ -75,6 +75,7 @@
 											<option value="all" <c:if test="${searchCondition eq 'all' }">selected</c:if>>전체</option>
 											<option value="title" <c:if test="${searchCondition eq 'title' }">selected</c:if>>제목</option>
 											<option value="contents" <c:if test="${searchCondition eq 'contents' }">selected</c:if>>내용</option>
+											<option value="nickName" <c:if test="${searchCondition eq 'nickName' }">selected</c:if>>닉네임</option>
 										</select>
 									</div>
 									<div style="display:inline-block;">

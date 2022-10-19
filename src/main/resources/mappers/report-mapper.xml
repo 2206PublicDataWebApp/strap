@@ -16,10 +16,12 @@
 		<result property="ContentsProcess" column="CONTENTS_PROCESS"/>
 		<result property="memberProcess" column="MEMBER_PROCESS"/>
 		<result property="memberId" column="MEMBER_ID"/>
+		<result property="memberNick" column="MEMBER_NICK"/>
+		<result property="reportMemberNick" column="REPORT_MEMBER_NICK"/>
 	</resultMap>
 	<insert id="insertReport">
 		INSERT INTO REPORT_TBL
-		VALUES(SEQ_REPORT_NO.NEXTVAL,#{contentsNo}, #{contentsCode}, #{reportType}, #{reportMember}, #{reportContents}, DEFAULT, DEFAULT, NULL, NULL, NULL)
+		VALUES(SEQ_REPORT_NO.NEXTVAL,#{contentsNo}, #{contentsCode}, #{reportType}, #{reportMember}, #{reportContents}, DEFAULT, DEFAULT, NULL, NULL, NULL, #{memberNick}, #{reportMemberNick})
 	</insert>
 	
 </mapper>

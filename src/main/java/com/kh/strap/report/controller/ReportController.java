@@ -17,13 +17,21 @@ public class ReportController {
 	@Autowired
 	private ReportServiceImpl rService;
 	
+	/**
+	 * 
+	 * @param mv
+	 * @param report
+	 * @return
+	 */
+	// 쪽지 신고 등록
 	@ResponseBody
 	@RequestMapping(value="/report/registerReport.strap", method=RequestMethod.POST)
 	public ModelAndView registReport(ModelAndView mv
 			,@ModelAttribute Report report) {
 		int result = rService.registReport(report);
 		if(result > 0) {
-			
+			int noteNo = report.getContentsNo();
+			mv.addObject("noteNo", noteNo);
 			mv.setViewName("mypage/noteBox");
 		}
 		return mv;

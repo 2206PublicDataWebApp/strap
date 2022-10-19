@@ -14,6 +14,9 @@ public class Report {
 	private String ContentsProcess;
 	private String memberProcess;
 	private String memberId;
+	private String memberNick;
+	private String reportMemberNick;
+	
 	
 	public int getReportNo() {
 		return reportNo;
@@ -81,14 +84,25 @@ public class Report {
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
 	}
+	public String getMemberNick() {
+		return memberNick;
+	}
+	public void setMemberNick(String memberNick) {
+		this.memberNick = memberNick;
+	}
+	public String getReportMemberNick() {
+		return reportMemberNick;
+	}
+	public void setReportMemberNick(String reportMemberNick) {
+		this.reportMemberNick = reportMemberNick;
+	}
 	
 	@Override
 	public String toString() {
 		return "Report [reportNo=" + reportNo + ", contentsNo=" + contentsNo + ", contentsCode=" + contentsCode
 				+ ", reportType=" + reportType + ", reportMember=" + reportMember + ", reportContents=" + reportContents
 				+ ", reportDate=" + reportDate + ", reportProcess=" + reportProcess + ", ContentsProcess="
-				+ ContentsProcess + ", memberProcess=" + memberProcess + ", memberId=" + memberId + "]";
+				+ ContentsProcess + ", memberProcess=" + memberProcess + ", memberId=" + memberId + ", memberNick="
+				+ memberNick + ", reportMemberNick=" + reportMemberNick + "]";
 	}
-	
-	
 }
