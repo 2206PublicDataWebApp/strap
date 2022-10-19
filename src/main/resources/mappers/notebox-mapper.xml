@@ -14,9 +14,11 @@
 		<result property="noteAccept" column="NOTE_ACCEPT"/>
 		<result property="matchDate" column="MATCH_DATE"/>
 		<result property="matchTime" column="MEET_TIME"/>
+		<result property="noteStatus" column="NOTE_STATUS"/>
 	</resultMap>
 	<select id="selectAllNoteBox" resultMap="noteBoxResultMap">
-  		SELECT * FROM NOTEBOX_TBL WHERE RECIPIENT_ID = #{recipientId} ORDER BY NOTE_NO DESC
+		SELECT NOTE_NO, RECIPIENT_ID, SENDER_ID, SENDER_TIME, NOTE_TITLE, NOTE_CONTENTS, NOTE_ACCEPT, MATCH_DATE, MATCH_TIME, NOTE_STATUS FROM NOTEBOX_TBL N
+		LEFT OUTER JOIN REPORT_TBL R ON N.NOTE_NO = R.CONTENTS_NO WHERE REPORT_PROCESS IS NULL AND RECIPIENT_ID = 'user02' ORDER BY NOTE_NO DESC
   	</select>
 	<select id="selectTotalCount" resultType="_int">
   		SELECT COUNT(*) FROM NOTEBOX_TBL
@@ -32,6 +34,9 @@
 				OR NOTE_CONTENTS LIKE '%'||#{searchValue}||'%'
 			</if>
 		</where>
+  	</select>
+  	<select id="selectOneByNo" resultMap="noteBoxResultMap">
+  		SELECT * FROM NOTEBOX_TBL WHERE NOTE_NO = #{noteNo}
   	</select>
 	
 </mapper>

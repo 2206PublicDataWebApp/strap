@@ -10,8 +10,8 @@
 <body>
 
 <header class="header">
-	<div class="logo" style="cursor: pointer;" onclick="location.href='/';" >
-		<img src="/resources/images/logo.png" style="width: 450px; height: 110px; object-fit: cover;">
+	<div class="logo" >
+		<img src="/resources/images/logo.png" style="width: 450px; height: 110px; object-fit: cover; cursor: pointer;" onclick="location.href='/';">
 	</div>
 	<div class="login-wrap">
 		<div id="text-menu">
@@ -31,7 +31,7 @@
 			</li>
 			</c:if>
 	        <li style="cursor: pointer;" onclick="location.href='/order/list.strap';">마이쇼핑</li>
-	        <li style="cursor: pointer;" onclick="location.href='/order/list.strap';">
+	        <li style="cursor: pointer;" onclick="location.href='/mypage/mypageView.strap';">
 				<img class="icon-img" src="/resources/images/mypage.png">
 	        </li>
 	        <li style="cursor: pointer;" onclick="location.href='/order/list.strap';">

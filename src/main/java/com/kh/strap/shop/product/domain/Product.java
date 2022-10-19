@@ -18,7 +18,7 @@ public class Product {
 	private String mainImgRoot;				//메인이미지 경로
 	private String couponList;				//쿠폰 리스트
 	private String productDelete;  			//상품 삭제여부
-	private int gradeAver;					//평점 평균
+	private double gradeAver;					//평점 평균
 	private int reviewCount;				//리뷰개수
 
 	public Product() {
@@ -26,7 +26,7 @@ public class Product {
 
 	public Product(int productNo, String productName, String productBrand, int productPrice, String productDesc,
 			int gradeSum, Date productRegiDate, Date productModiDate, int productSales, String mainImgName,
-			String mainImgReName, String mainImgRoot, String couponList, String productDelete, int gradeAver,
+			String mainImgReName, String mainImgRoot, String couponList, String productDelete, double gradeAver,
 			int reviewCount) {
 		super();
 		this.productNo = productNo;
@@ -159,11 +159,11 @@ public class Product {
 		this.productDelete = productDelete;
 	}
 
-	public int getGradeAver() {
+	public double getGradeAver() {
 		return gradeAver;
 	}
 
-	public void setGradeAver(int gradeAver) {
+	public void setGradeAver(double gradeAver) {
 		this.gradeAver = gradeAver;
 	}
 
@@ -184,8 +184,8 @@ public class Product {
 				+ mainImgRoot + ", couponList=" + couponList + ", productDelete=" + productDelete + ", gradeAver="
 				+ gradeAver + ", reviewCount=" + reviewCount + "]";
 	}
-	
-	
 
+	
+	
 	
 }

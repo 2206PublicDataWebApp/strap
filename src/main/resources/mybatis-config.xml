@@ -16,6 +16,7 @@
 		<typeAlias type="com.kh.strap.notebox.domain.NoteBox" 			alias="NoteBox"/>
 		<typeAlias type="com.kh.strap.admin.domain.Notice" 				alias="Notice"/>
 		<typeAlias type="com.kh.strap.qna.domain.Qna" 					alias="Qna"/>
+		<typeAlias type="com.kh.strap.report.domain.Report" 			alias="Report"/>
 		<typeAlias type="com.kh.strap.schedule.domain.Schedule" 		alias="Schedule"/>
 		<typeAlias type="com.kh.strap.member.domain.Member" 			alias="Member"/>
 		<typeAlias type="com.kh.strap.member.domain.SocialMember"		alias="SocialMember"/>
@@ -23,11 +24,12 @@
 		<typeAlias type="com.kh.strap.shop.coupon.domain.Coupon" 		alias="Coupon"/>
 		<typeAlias type="com.kh.strap.shop.coupon.domain.MemberCoupon" 	alias="MemberCoupon"/>
 		<typeAlias type="com.kh.strap.shop.product.domain.Product" 		alias="Product"/>
-		<typeAlias type="com.kh.strap.shop.product.domain.ProductImg" 	alias="ProductImg"/>
+		<typeAlias type="com.kh.strap.shop.product.domain.ProductImg" 	alias="ProductInfoImg"/>
 		<typeAlias type="com.kh.strap.shop.qna.domain.ShopQna" 			alias="sQna"/>
 		<typeAlias type="com.kh.strap.shop.review.domain.Review" 		alias="Review"/>
 		<typeAlias type="com.kh.strap.shop.product.domain.Order" 		alias="Order"/>
 		<typeAlias type="com.kh.strap.shop.product.domain.OrderProduct"	alias="OrderProduct"/>
+		<typeAlias type="com.kh.strap.shop.product.domain.ProductSubImg" alias="ProductSubImg"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/admin-mapper.xml"/>
@@ -41,6 +43,7 @@
 		<mapper resource="mappers/notice-mapper.xml"/>
 		<mapper resource="mappers/product-mapper.xml"/>
 		<mapper resource="mappers/qna-mapper.xml"/>
+		<mapper resource="mappers/report-mapper.xml"/>
 		<mapper resource="mappers/review-mapper.xml"/>
 		<mapper resource="mappers/schedule-mapper.xml"/>
 		<mapper resource="mappers/sqna-mapper.xml"/>

@@ -83,13 +83,13 @@
 			<input type="radio" id="memberGender" name="memberGender" value="F">Female<br><br>
 		
 			<label for="memberJym">마이 짐</label><br>
-			<input type="text" id="memberJym" name="memberJym"><button type="button" onclick="showMap();">검색</button><br><br>
+			<input type="text" id="memberJym" name="memberJym" size="35"><button type="button" onclick="showMap();">검색</button><br><br>
 			<button>가입하기</button>
 		</form>
 	</div>
 <script>
 	function showMap(){
-		window.open("/member/showMap.strap",null,"width=700,height=500");
+		window.open("/member/showMap.strap",null,"width=700,height=600,resizable=no");
 	}
 
 	$("#memberId").on("keyup", function(){

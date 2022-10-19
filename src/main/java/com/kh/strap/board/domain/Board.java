@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Board {
 	private int boardNo; 			// 게시글 번호
-	private String boardWriter; 	// 작성자
+	private String memberId;	 	// 작성자
 	private String boardTitle; 		// 게시글 제목
 	private String boardContents;	// 게시글 내용
 	private String boardCategory; 	// 게시글 카테고리
@@ -13,7 +13,8 @@ public class Board {
 	private String bFilePath; 		// 파일 경로
 	private Date boardDate; 		// 작성 날짜
 	private int boardCount; 		// 게시글 조회수
-	private int boardLike; 			// 게시글 추천수
+	private int boardGood; 			// 게시글 추천
+	private int boardBad; 			// 게시글 추천
 	
 	public int getBoardNo() {
 		return boardNo;
@@ -21,11 +22,11 @@ public class Board {
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
 	}
-	public String getBoardWriter() {
-		return boardWriter;
+	public String getMemberId() {
+		return memberId;
 	}
-	public void setBoardWriter(String boardWriter) {
-		this.boardWriter = boardWriter;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 	public String getBoardTitle() {
 		return boardTitle;
@@ -75,18 +76,24 @@ public class Board {
 	public void setBoardCount(int boardCount) {
 		this.boardCount = boardCount;
 	}
-	public int getBoardLike() {
-		return boardLike;
+	public int getBoardGood() {
+		return boardGood;
 	}
-	public void setBoardLike(int boardLike) {
-		this.boardLike = boardLike;
+	public void setBoardGood(int boardGood) {
+		this.boardGood = boardGood;
+	}
+	public int getBoardBad() {
+		return boardBad;
+	}
+	public void setBoardBad(int boardBad) {
+		this.boardBad = boardBad;
 	}
 	
 	@Override
 	public String toString() {
-		return "Board [boardNo=" + boardNo + ", boardWriter=" + boardWriter + ", boardTitle=" + boardTitle
+		return "Board [boardNo=" + boardNo + ", memberId=" + memberId + ", boardTitle=" + boardTitle
 				+ ", boardContents=" + boardContents + ", boardCategory=" + boardCategory + ", bFileName=" + bFileName
 				+ ", bFileRename=" + bFileRename + ", bFilePath=" + bFilePath + ", boardDate=" + boardDate
-				+ ", boardCount=" + boardCount + ", boardLike=" + boardLike + "]";
+				+ ", boardCount=" + boardCount + ", boardGood=" + boardGood + ", boardBad=" + boardBad + "]";
 	}
 }

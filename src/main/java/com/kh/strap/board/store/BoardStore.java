@@ -14,7 +14,16 @@ public interface BoardStore {
 	
 	public List<Board> selectAllBoard(SqlSession session, int currentPage, int boardLimit);
 	
-	public List<Board> selectSearchBoard(SqlSession session, String searchCondition, String searchValue,
-			int currentPage, int boardLimit);
+	public List<Board> selectSearchBoard(SqlSession session, String searchCondition, String searchValue, int currentPage, int boardLimit);
 	
+	public Board selectOneByNo(SqlSession session, Integer boardNo);
+	
+	public int updateBoardCount(SqlSessionTemplate session, Integer boardNo);
+	
+	int selectCountGood(SqlSessionTemplate session, Integer boardNo);
+
+	int selectCountBad(SqlSessionTemplate session, Integer boardNo);
+	
+	int selectBoardRecord(SqlSessionTemplate session, String memberId, Integer boardNo);
+
 }

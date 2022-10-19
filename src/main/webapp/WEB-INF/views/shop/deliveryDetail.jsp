@@ -16,18 +16,26 @@
 </head>
 <body>
 <div class="wrap container">
-	<!-- 헤더&메뉴바 -->
-	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-	<!-- 컨텐츠 -->
-	<div class="contents">
-		<div id="contents-wrap">
-				<jsp:include page="/WEB-INF/views/common/sideBarShop.jsp"></jsp:include>
-				<div class="contents-side">
-				</div>
+<!-- 헤더&메뉴바 -->
+	<div id="header" class="row">
+		<div class="col">
+			<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		</div>
 	</div>
-	<!-- 푸터 -->
-	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+<!-- 컨텐츠 -->
+	<div id="contents" class="row">
+		<div class="sidebar col-3" >
+			<jsp:include page="/WEB-INF/views/common/sideBar.jsp"></jsp:include>
+		</div>
+		<div class="contents-side col">
+		</div>
+	</div>
+<!-- 푸터 -->
+	<div id="footer" class="row">
+		<div class="col">
+			<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+		</div>
+	</div>
 </div>
 </body>
 </html>

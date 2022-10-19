@@ -6,7 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.JsonObject;
 import com.kh.strap.board.domain.Board;
 import com.kh.strap.board.service.logic.BoardServiceImpl;
+import com.kh.strap.member.domain.Member;
 
 
 @Controller
@@ -139,13 +143,19 @@ public class BoardController {
 			mv.addObject("maxPage", maxPage);
 			mv.addObject("startNavi", startNavi);
 			mv.addObject("endNavi", endNavi);
-			mv.setViewName("board/listView");
+			mv.setViewName("board/boardListView");
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
 		}
 		return mv;
 	}
 	
+	/**
+	 * 썸머노트 이미지 업로드
+	 * @param multipartFile
+	 * @param request
+	 * @return
+	 */
 	
 	@ResponseBody
 	@RequestMapping(value = "/board/uploadSummernoteImageFile", method = RequestMethod.POST)
@@ -188,7 +198,74 @@ public class BoardController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
-		
 		return jsonObject;
+	}
+	
+	/**
+	 * 게시글 상세 페이지
+	 * @param boardNo
+	 * @param page
+	 * @param session
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value="/board/detail.strap", method=RequestMethod.GET)
+	public ModelAndView boardDetailView(
+			ModelAndView mv
+			, @RequestParam("boardNo") Integer boardNo
+			, @RequestParam("page") Integer page
+			, HttpSession session
+			, HttpServletRequest request
+			, HttpServletResponse response) {
+		// 해당 게시판 번호를 받아 상세페이지로 넘겨준다
+		Board board = bService.printOneByNo(boardNo);
+		int goodCount=bService.getCountGood(boardNo);
+		int badCount=bService.getCountBad(boardNo);
+		// String memberId=((Member) session.getAttribute("loginUser")).getMemberId();
+		String record="";
+		/*
+		 * if(bService.getBoardRecord(memberId, boardNo)>0) { record="Y"; } else {
+		 * record="N"; }
+		 */
+		mv.addObject("goodCount", goodCount);
+		mv.addObject("badCount", badCount);
+		mv.addObject("record", record);
+		Cookie[] cookies = request.getCookies();	
+		// 비교하기 위해 새로운 쿠기
+		Cookie viewCookie = null;
+		// 쿠기가 있을 경우
+		if (cookies != null && cookies.length > 0) {
+			
+			for (int i = 0; i < cookies.length; i++) {
+				// Cookie의 name이 cookie + boardNo와 일치하는 쿠키를 viewCookie에 넣어준다
+				if (cookies[i].getName().equals("cookie"+boardNo)) {
+					viewCookie = cookies[i];
+				}
+			}
+		}
+			if (board != null) {
+				session.setAttribute("boardNo", board.getBoardNo());
+				mv.addObject("page", page);
+				mv.addObject("board", board);
+				// viewCookie가 null일 경우 쿠키를 생성해서 조회수 증가 로직을 처리한다
+				if (viewCookie == null) {
+					// 쿠키 생성(이름, 값)
+					Cookie newCookie = new Cookie("cookie"+boardNo, "|" + boardNo + "|");
+					// 쿠키 추가
+					response.addCookie(newCookie);					
+					// 쿠키를 추가 시키고 조회수 증가시킨다
+					int result = bService.updateBoardCount(boardNo);
+				// viewCookie가 null이 아닐경우 쿠키가 있으므로 조회수 증가 로직을 처리하지 않는다
+				} else {
+					// 쿠키 값 받아온다
+					String value = viewCookie.getValue();
+				}				
+				mv.setViewName("board/boardDetail");
+				return mv;
+			} else {
+				mv.setViewName("common/errorPage");
+				return mv;
+			}
 	}
 }

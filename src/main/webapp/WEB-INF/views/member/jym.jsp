@@ -46,6 +46,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
+	<h5>검색결과 목록 중 하나를 선택하면 주소가 자동 입력됩니다</h5>
 <div class="map_wrap">
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 
@@ -94,7 +95,7 @@ function searchPlaces() {
     var keyword = document.getElementById('keyword').value;
 
     if (!keyword.replace(/^\s+|\s+$/g, '')) {
-        alert('키워드를 입력해주세요!');
+    	alert('키워드를 입력해주세요!');
         return false;
     }
 
@@ -102,9 +103,10 @@ function searchPlaces() {
     ps.keywordSearch( keyword, placesSearchCB); 
 }
 
-// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
+// 장소검색을 했을때 호출되는 콜백함수 입니다
 function placesSearchCB(data, status, pagination) {
-    if (status === kakao.maps.services.Status.OK) {
+	//data는 jsonArray형태의 키워드 결과물 
+	if (status === kakao.maps.services.Status.OK) {
 
         // 정상적으로 검색이 완료됐으면
         // 검색 목록과 마커를 표출합니다
@@ -128,7 +130,6 @@ function placesSearchCB(data, status, pagination) {
 
 // 검색 결과 목록과 마커를 표출하는 함수입니다
 function displayPlaces(places) {
-
     var listEl = document.getElementById('placesList'), 
     menuEl = document.getElementById('menu_wrap'),
     fragment = document.createDocumentFragment(), 
@@ -141,12 +142,13 @@ function displayPlaces(places) {
     // 지도에 표시되고 있는 마커를 제거합니다
     removeMarker();
     
+    //places = data
     for ( var i=0; i<places.length; i++ ) {
         // 마커를 생성하고 지도에 표시합니다
         var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
-            marker = addMarker(placePosition, i), 
-            itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
-
+        	marker = addMarker(placePosition, i), 
+            itemEl = getListItem(i, places[i]), // 검색 결과 항목 Element를 생성합니다
+            place = places[i];
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
         bounds.extend(placePosition);
@@ -154,14 +156,16 @@ function displayPlaces(places) {
         // 마커와 검색결과 항목에 mouseover 했을때
         // 해당 장소에 인포윈도우에 장소명을 표시합니다
         // mouseout 했을 때는 인포윈도우를 닫습니다
-        (function(marker, title) {
-            kakao.maps.event.addListener(marker, 'mouseover', function() {
+        (function(marker, title, places) {
+            kakao.maps.event.addListener(marker, 'click', function() {
                 displayInfowindow(marker, title);
+                console.log(title);
+                console.log(places);
+                console.log(i);
             });
-
-            kakao.maps.event.addListener(marker, 'mouseout', function() {
-                infowindow.close();
-            });
+//             kakao.maps.event.addListener(marker, 'mouseout', function() {
+//                 infowindow.close();
+//             });
 
             itemEl.onmouseover =  function () {
                 displayInfowindow(marker, title);
@@ -188,7 +192,7 @@ function getListItem(index, places) {
 
     var el = document.createElement('li'),
     itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
-                '<div class="info">' +
+                '<div class="info" onclick="jibun(this);">' +
                 '   <h5>' + places.place_name + '</h5>';
 
     if (places.road_address_name) {
@@ -203,7 +207,7 @@ function getListItem(index, places) {
 
     el.innerHTML = itemStr;
     el.className = 'item';
-
+    
     return el;
 }
 
@@ -221,10 +225,11 @@ function addMarker(position, idx, title) {
             position: position, // 마커의 위치
             image: markerImage 
         });
-
+	
     marker.setMap(map); // 지도 위에 마커를 표출합니다
     markers.push(marker);  // 배열에 생성된 마커를 추가합니다
 
+    
     return marker;
 }
 
@@ -269,8 +274,8 @@ function displayPagination(pagination) {
 
 // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
 // 인포윈도우에 장소명을 표시합니다
-function displayInfowindow(marker, title) {
-    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
+function displayInfowindow(marker, place) {
+    var content = '<div style="padding:5px;z-index:1;">' + place + '</div>';
 
     infowindow.setContent(content);
     infowindow.open(map, marker);
@@ -282,10 +287,14 @@ function removeAllChildNods(el) {
         el.removeChild (el.lastChild);
     }
 }
- 
-kakao.maps.event.addListener(ps, 'click', function(mouseEvent) {
-	alert("클릭");
-});
+
+function jibun(element){
+	var address = $(element).children().eq(2).text();
+	var name = $(element).children().eq(0).text();
+	opener.document.querySelector("#memberJym").value = address + ", " + name;
+	alert("주소가 입력되었습니다.");
+}
+
 
 </script>
 </body>

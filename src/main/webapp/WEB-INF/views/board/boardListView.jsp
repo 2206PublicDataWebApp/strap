@@ -19,7 +19,7 @@
 		<!-- 헤더&메뉴바 -->
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<!-- 컨텐츠 -->
-		<div class="contents">
+		<div class="contents" style="height: 500px;">
 			<div id="contents-wrap">
 			<!-- 카테고리 -->
 			<ul class="nav nav-pills" style="justify-content: center; padding: 40px;">
@@ -42,22 +42,22 @@
   					<!-- 검색창 -->
 						<form action="/board/search.strap" method="get" style="transform: translate(24%); margin-bottom: 50px;">
 							<select style="float: left; width: 10%!important;" class="form-select w-25"
-								aria-label="Default select example" name="searchCondition">
+								aria-label="Default select example" aria-label="Default select example" name="searchCondition">
 								<option value="all"
-									<c:if test="${searchCondition eq 'all' }">selected</c:if>>전체</option>
-								<option value="writer"
-									<c:if test="${searchCondition eq 'writer' }">selected</c:if>>작성자</option>
+									<c:if test="${searchCondition == 'all' }">selected</c:if>>전체</option>
 								<option value="title"
-									<c:if test="${searchCondition eq 'title' }">selected</c:if>>제목</option>
+									<c:if test="${searchCondition == 'title' }">selected</c:if>>제목</option>
 								<option value="contents"
-									<c:if test="${searchCondition eq 'contents' }">selected</c:if>>내용</option>
+									<c:if test="${searchCondition == 'contents' }">selected</c:if>>내용</option>
+								<option value="member"
+									<c:if test="${searchCondition == 'member' }">selected</c:if>>작성자</option>									
 							</select> 
 							<div style="height: 40px; display: contents" class="input-group mb-3">
 								<input style="float: left; width: 40%!important;" 
 											  class="form-control" aria-describedby="inputGroup-sizing-default" type="text" name="searchValue" value="${searchValue }"> 
 								<button style="float: left; border:none; height:38px; width:40px; border: 1px solid #ced4da;
 											   border-top-right-radius: 8px; border-bottom-right-radius: 8px;
-											   border-left: none; background-color: white;" type="submit">
+											   border-left: none; background-color: white;" type="submit" value="검색">
 									<i style="background-color: white; font-size: 25px;" class="bi bi-search"></i>
 								</button>						
 							</div>
@@ -73,6 +73,7 @@
 							<th class="table-primary" style="text-align: center">등록일</th>
 							<th class="table-primary" style="text-align: center">조회</th>
 							<th class="table-primary" style="text-align: center">추천</th>
+							<th class="table-primary" style="text-align: center">비추천</th>
 						</tr>
 					
 						<c:if test="${!empty bList }">
@@ -80,17 +81,18 @@
 								<tr>
 									<th scope="row" style="text-align:center">${Board.boardNo }</th>
 									<td style="text-align:center">${Board.boardCategory }</td>
-									<td><a href="#" onclick="detailView(${boardWriter},${Board.boardNo },${currentPage });">${Board.boardTitle }</a></td>
-									<td style="text-align:center">${Board.boardWriter }</td>
+									<td><a href="/board/detail.strap?boardNo=${Board.boardNo }&page=${currentPage }">${Board.boardTitle }</a></td>
+									<td style="text-align:center">${Board.memberId }</td>
 									<td style="text-align:center">${Board.boardDate }</td>
 									<td style="text-align:center">${Board.boardCount }</td>
-									<td style="text-align:center">${Board.boardLike }</td>
+									<td style="text-align:center">${Board.boardGood }</td>
+									<td style="text-align:center">${Board.boardBad }</td>
 								</tr>
 							</c:forEach>
 					<tr align="center" height="20">
 					<td align="center" colspan="6">
-					<nav aria-label="Page navigation example" style="display: inline-block;">
-							<ul class="pagination">
+					<nav class="page" aria-label="Page navigation example">
+							<ul class="pagination" style="display: inline-block;">
 								<li class="page-item">
 									<c:if test="${currentPage > 5}">
 										<a class="page-link" href="/board/${urlVal }.strap?page=${startNavi - 1}&searchCondition=${searchCondition}&searchValue=${searchValue}" aria-label="Previous">
@@ -111,18 +113,23 @@
 							</ul>
 								</nav>
 									</td>
-									<td align="center">
-										<button type="button" class="btn btn-primary" onclick="location.href='/board/writeView.strap'">글쓰기</button>
-									</td>
+								</tr>
+							</c:if>
+							<!-- 게시글이 없을 때 -->
+							<c:if test="${empty bList }">
+								<tr>
+									<td colspan="6" style="text-align:center">게시글이 존재하지 않습니다</td>
 								</tr>
 							</c:if>
 						</table>
+						<div style="float: right;">
+							<button type="button" class="btn btn-primary" onclick="location.href='/board/writeView.strap'">글쓰기</button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<!-- 푸터 -->
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-	
 </body>
 </html>
