@@ -25,6 +25,7 @@
 <!-- 컨텐츠 -->
 	<div id="contents" class="row">
 		<div class="contents-side col">
+
 		</div>
 	</div>
 <!-- 푸터	 -->
