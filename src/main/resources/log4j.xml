@@ -48,11 +48,7 @@
 <!-- 	</logger> -->
 
 	
-	<logger name="java.sql.ResultSet22">
-		<level value="debug" />
-		<appender-ref ref="sql-console" />
-	</logger>
-		
+	
 	<!-- SQL Logger part2 -->
 	<!-- 열려있는 연결 수립 및 해제 이벤트를 기록, 연결문제를 찾아내는데 유용함. -->
 	<logger name="jdbc.connection" additivity="false">

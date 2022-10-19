@@ -46,6 +46,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
+	<h5>검색결과 목록 중 하나를 선택하면 주소가 자동 입력됩니다</h5>
 <div class="map_wrap">
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 
@@ -53,7 +54,7 @@
         <div class="option">
             <div>
                 <form onsubmit="searchPlaces(); return false;">
-                    키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15"> 
+                    키워드 : <input type="text" value="부천 바디업휘트니스" id="keyword" size="15"> 
                     <button type="submit">검색하기</button> 
                 </form>
             </div>
@@ -289,7 +290,8 @@ function removeAllChildNods(el) {
 
 function jibun(element){
 	var address = $(element).children().eq(2).text();
-	opener.document.querySelector("#memberJym").value = address;
+	var name = $(element).children().eq(0).text();
+	opener.document.querySelector("#memberJym").value = address + ", " + name;
 	alert("주소가 입력되었습니다.");
 }
 
