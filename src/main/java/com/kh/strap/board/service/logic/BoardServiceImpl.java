@@ -43,4 +43,34 @@ public class BoardServiceImpl implements BoardService {
 		 return bList;
 	}
 
+	@Override
+	public Board printOneByNo(Integer boardNo) {
+		Board board = bStore.selectOneByNo(session, boardNo);
+		return board;
+	}
+
+	public int updateBoardCount(Integer boardNo) {
+		int result = bStore.updateBoardCount(session, boardNo);
+		return result;
+	}
+
+	@Override
+	public int getCountGood(Integer boardNo) {
+		int count = bStore.selectCountGood(session, boardNo);
+		return count;
+	}
+
+	@Override
+	public int getCountBad(Integer boardNo) {
+		int count = bStore.selectCountBad(session, boardNo);
+		return count;
+	}
+
+	@Override
+	public int getBoardRecord(String memberId, Integer boardNo) {
+		int result=bStore.selectBoardRecord(session, memberId, boardNo);
+		return result;
+	}
+
+	
 }

@@ -98,7 +98,7 @@ $(document).ready(function(){
 						</tr>
 						<tr>
 							<td>작성자</td>
-							<td><input type="text" name="boardWriter"></td>
+							<td><input type="text" name="memberId"></td>
 						</tr>
 						<tr>
 							<td>카테고리</td>

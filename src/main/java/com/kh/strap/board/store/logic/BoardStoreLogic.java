@@ -49,4 +49,34 @@ public class BoardStoreLogic implements BoardStore{
 		return bList;
 	}
 
+	@Override
+	public Board selectOneByNo(SqlSession session, Integer boardNo) {
+		Board board = session.selectOne("BoardMapper.selectOneByNo", boardNo);
+		return board;
+	}
+
+	 @Override public int updateBoardCount(SqlSessionTemplate session, Integer boardNo) { 
+		 return session.update("BoardMapper.updateBoardCount", boardNo);
+	 }
+
+	@Override
+	public int selectCountGood(SqlSessionTemplate session, Integer boardNo) {
+		int count=session.selectOne("BoardMapper.selectCountGood", boardNo);
+		return count;
+	}
+
+	@Override
+	public int selectCountBad(SqlSessionTemplate session, Integer boardNo) {
+		int count=session.selectOne("BoardMapper.selectCountBad", boardNo);
+		return count;
+	}
+
+	@Override
+	public int selectBoardRecord(SqlSessionTemplate session, String memberId, Integer boardNo) {
+		HashMap<String, String> paramMap=new HashMap<String, String>();
+		paramMap.put("boardNo", boardNo.toString());
+		paramMap.put("memberId", memberId);
+		int result=session.selectOne("BoardMapper.selectBoardRecord", paramMap);
+		return result;
+	}
 }
