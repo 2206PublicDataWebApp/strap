@@ -22,14 +22,14 @@
 		<result column="GRADE_AVER" 			property="gradeAver"/>
 		<result column="REVIEW_COUNT" 			property="reviewCount"/>
 	</resultMap>
-	<resultMap type="com.kh.strap.shop.product.domain.ProductSubImg" id="SubImgResultMap">
+	<resultMap type="ProductSubImg" id="SubImgResultMap">
 		<id 	column="IMG_NO" property="imgNo"/>
 		<result column="PRODUCT_NO" property="productNo"/>
 		<result column="IMG_NAME" property="subName"/>
 		<result column="IMG_RENAME" property="subReName"/>
 		<result column="IMG_ROOT" property="subRoot"/>
 	</resultMap>
-	<resultMap type="ProductImg" id="InfoImgResultMap">
+	<resultMap type="ProductInfoImg" id="InfoImgResultMap">
 		<id 	column="IMG_NO" property="imgNo"/>
 		<result column="PRODUCT_NO" property="productNo"/>
 		<result column="INFO_NAME" property="imgName"/>
@@ -65,11 +65,11 @@
 	
 	<select id="selectAllProductSearch" resultMap="ProductResultMap">
 		SELECT * FROM PRODUCT_TBL
-		WHERE (PRODUCT_NAME LIKE '%'||#{searchVal}||'%')OR
+		WHERE PRODUCT_DELETE = 'N' 
+		AND (PRODUCT_NAME LIKE '%'||#{searchVal}||'%')OR
 		(PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
-		AND PRODUCT_DELETE = 'N'
 		<if test='searchColumn != ""'>
-			ORDER BY ${searchColumn} ${orderCondition} DESC
+			ORDER BY ${searchColumn} ${orderCondition}
 		</if>
 		<if test='searchColumn == ""'>
 			ORDER BY GRADE_AVER DESC
