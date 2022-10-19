@@ -14,6 +14,7 @@
 			width: 500px;
 		}
 	</style>
+	<script src="/resources/js/jquery-3.6.1.min.js"></script>
 </head>
 <body>
 	<div class="registerForm">
@@ -23,6 +24,8 @@
 			<label for="memberName">이름</label><br>
 			<input type="text" id="memberName" name="memberName" placeholder="이름"><br><br>
 			
+			<label for="memberEmail">이메일</label><br>
+			<input type="email" id="memberEmail" name="memberEmail" value="${userInfo.get('memberEmail') }" readonly><br><br>
 						
 			<label for="memberNick">닉네임</label><br>
 			<input type="text" id="memberNick" name="memberNick" value="${userInfo.get('memberNick') }"><br><br>
@@ -51,21 +54,31 @@
 			
 			<label for="memberGender">성별</label><br>
 			<c:if test="${userInfo.get('memberGender') eq 'male'}">
-				<input type="radio" id="memberGender" name="memberGender" value="M"  checked>Male<br><br>
+				<input type="radio" id="memberGender" name="memberGender" value="M"  checked>Male
+				<input type="radio" id="memberGender" name="memberGender" value="F">Female<br><br>
 			</c:if>
 			<c:if test="${userInfo.get('memberGender') eq 'female'}">
+				<input type="radio" id="memberGender" name="memberGender" value="M">Female
 				<input type="radio" id="memberGender" name="memberGender" value="F" checked>Female<br><br>
 			</c:if>
 			<c:if test="${userInfo.get('memberGender') eq null} ">
-				<input type="radio" id="memberGender" name="memberGender" value="M">Male<br><br>
+				<input type="radio" id="memberGender" name="memberGender" value="M" checked>Male
 				<input type="radio" id="memberGender" name="memberGender" value="F">Female<br><br>
 			</c:if>
 	
+			<label for="memberJym">마이 짐</label><br>
+			<input type="text" id="memberJym" name="memberJym" size="35"><button type="button" onclick="showMap();">검색</button>
+			<br><br>
 	
 			<button>가입하기</button>
-			<input type="hidden" name="mId" value="${userInfo.get('memberId') }">
+			<input type="hidden" name="memberId" value="${userInfo.get('memberId') }">
 			<input type="hidden" name="mProfilePath" value="${userInfo.get('mProfilePath') }">
 		</form>
 	</div>
+	<script>
+		function showMap(){
+			window.open("/member/showMap.strap",null,"width=700,height=600,resizable=no");
+		}
+	</script>
 </body>
 </html>

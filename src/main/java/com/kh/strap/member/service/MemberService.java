@@ -3,7 +3,6 @@ package com.kh.strap.member.service;
 import java.util.List;
 
 import com.kh.strap.member.domain.Member;
-import com.kh.strap.member.domain.SocialMember;
 
 public interface MemberService {
 
@@ -26,7 +25,9 @@ public interface MemberService {
 
 	Member memberById(String memberId);
 
-	int insertSocialMember(SocialMember socialMember);
+	int insertSocialMember(Member Member);
+
+	String memberPwdById(String memberId);
 
 
 }

@@ -20,8 +20,10 @@ public class Member {
 	private String memberStatus;	//14.회원 상태
 	private String adminStatus;		//15.관리자 상태
 	private int memberManner;		//16.매너 점수
+	private String memberType;		//17.회원 종류
 	
 	
+
 	public Member() {}
 	
 	public Member(String memberId, String MemberPwd) {
@@ -30,6 +32,13 @@ public class Member {
 	}
 
 	
+	public String getMemberType() {
+		return memberType;
+	}
+	
+	public void setMemberType(String memberType) {
+		this.memberType = memberType;
+	}
 	
 	
 	public int getMemberManner() {
@@ -141,8 +150,11 @@ public class Member {
 				+ ", memberJym=" + memberJym + ", memberCareer=" + memberCareer + ", memberSBD=" + memberSBD
 				+ ", mProfileName=" + mProfileName + ", mProfileRename=" + mProfileRename + ", mProfilePath="
 				+ mProfilePath + ", mRegisterDate=" + mRegisterDate + ", memberStatus=" + memberStatus
-				+ ", adminStatus=" + adminStatus + ", memberManner=" + memberManner + "]";
+				+ ", adminStatus=" + adminStatus + ", memberManner=" + memberManner + ", memberType=" + memberType
+				+ "]";
 	}
+
+
 
 
 

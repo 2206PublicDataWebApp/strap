@@ -6,7 +6,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.strap.member.domain.Member;
-import com.kh.strap.member.domain.SocialMember;
 import com.kh.strap.member.store.MemberStore;
 
 
@@ -69,9 +68,15 @@ public class MemberStoreLogic implements MemberStore{
 	}
 
 	@Override
-	public int insertSocialMember(SqlSession session, SocialMember socialMember) {
-		int result = session.insert("MemberMapper.insertSocialMember", socialMember);
+	public int insertSocialMember(SqlSession session, Member member) {
+		int result = session.insert("MemberMapper.insertSocialMember", member);
 		return result;
+	}
+
+	@Override
+	public String memberPwdById(SqlSession session, String memberId) {
+		String encodePwd = session.selectOne("MemberMapper.memberPwdById", memberId);
+		return encodePwd;
 	}
 
 }

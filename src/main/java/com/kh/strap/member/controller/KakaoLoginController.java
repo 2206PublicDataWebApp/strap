@@ -1,8 +1,5 @@
 package com.kh.strap.member.controller;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.strap.member.domain.SocialMember;
+import com.kh.strap.member.domain.Member;
 import com.kh.strap.member.service.KakaoLoginService;
 import com.kh.strap.member.service.MemberService;
 
@@ -57,11 +54,11 @@ public class KakaoLoginController {
 		System.out.println("==========getIdCheck=========");
 		System.out.println("result : " + result);
 		if(result == 1) {
-			//로그인 처리 > 닉네임으로 session 생성, home.jsp
-			String memberNick = (String)userInfo.get("memberNick");
+			//로그인 처리 
+			Member member = mService.memberById(memberId);
 			HttpSession session = request.getSession();
 			session.setAttribute("access_token", access_token);
-			session.setAttribute("memberNick", memberNick);
+			session.setAttribute("loginUser", member);
 			mv.setViewName("redirect:/");
 		} else {
 			//회원가입 처리 > socilaEnroll.jsp
@@ -81,7 +78,7 @@ public class KakaoLoginController {
 			,HttpSession session) {
 		kService.logout(token);
 		session.removeAttribute("access_token");
-		session.removeAttribute("memberNick");
+		session.removeAttribute("loginUser");
 		return "redirect:/";
 	}
 	
@@ -92,12 +89,9 @@ public class KakaoLoginController {
 	 */
 	@RequestMapping(value="/member/socialRegister.strap", method=RequestMethod.POST)
 	public String insertMember(
-			@ModelAttribute SocialMember socialMember
-			,String mId) {
-		Long memberId = Long.valueOf(mId);
-		socialMember.setMemberId(memberId);
-		System.out.println(socialMember.toString());
-		int result = mService.insertSocialMember(socialMember);
+			@ModelAttribute Member member) {
+		System.out.println(member.toString());
+		int result = mService.insertSocialMember(member);
 		if(result==1) {
 			return "/member/loginView";
 		}else {

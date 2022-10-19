@@ -8,7 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
 <header class="header">
 	<div class="logo" >
 		<img src="/resources/images/logo.png" style="width: 450px; height: 110px; object-fit: cover; cursor: pointer;" onclick="location.href='/';">
@@ -16,12 +15,12 @@
 	<div class="login-wrap">
 		<div id="text-menu">
 			<ul>
-			<c:if test="${sessionScope.memberNick eq null}">
+			<c:if test="${sessionScope.loginUser.memberNick eq null}">
 			<li style="cursor: pointer;" onclick="location.href='/member/loginView.strap';">로그인</li>
 			</c:if>
-			<c:if test="${sessionScope.memberNick ne null}">
+			<c:if test="${sessionScope.loginUser.memberNick ne null}">
 			<li class="session">
-				<b>${memberNick }</b><br>
+				<b>${loginUser.memberNick }</b><br>
 				<c:if test="${sessionScope.access_token eq null}">
 					<a href="/member/logout.strap">로그아웃</a>
 				</c:if>

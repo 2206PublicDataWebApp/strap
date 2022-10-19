@@ -114,12 +114,14 @@ public class KakaoLoginServiceImpl implements KakaoLoginService {
 			JSONObject kakao_account = (JSONObject)jsonObj.get("kakao_account");
 			
 			String memberId = String.valueOf(jsonObj.get("id"));
+			String memberEmail = (String)kakao_account.get("email");
 			String memberGender =(String)kakao_account.get("gender");
 			String memberNick =(String)properties.get("nickname");
 			String mProfilePath = (String)properties.get("profile_image");
 			
 			userInfo = new HashMap<String, Object>();
 			userInfo.put("memberId", memberId);
+			userInfo.put("memberEmail", memberEmail);
 			userInfo.put("memberGender", memberGender);
 			userInfo.put("memberNick", memberNick);
 			userInfo.put("mProfilePath", mProfilePath);

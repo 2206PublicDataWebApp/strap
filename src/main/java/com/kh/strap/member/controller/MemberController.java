@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,8 @@ public class MemberController {
 	private MemberService mService;
 	@Autowired
 	private JavaMailSender mailSender;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	/**
 	 * 
@@ -84,6 +87,9 @@ public class MemberController {
 	public String insertMember(
 			@ModelAttribute Member member) {
 		System.out.println(member.toString());
+		String rawPwd = member.getMemberPwd();
+		String encodePwd = passwordEncoder.encode(member.getMemberPwd());
+		member.setMemberPwd(encodePwd);
 		int result = mService.inserMember(member);
 		return "/member/loginView";
 	}
@@ -100,14 +106,15 @@ public class MemberController {
 			String memberId
 			,String memberPwd
 			,HttpServletRequest request) {
-		Member mOne = new Member(memberId, memberPwd);
-		int result = mService.memberLogin(mOne);
-		if(result==1) {
+		String encodePwd = mService.memberPwdById(memberId);
+		System.out.println(passwordEncoder.matches(memberPwd, encodePwd));
+		
+		if(passwordEncoder.matches(memberPwd, encodePwd)) {
 			//로그인 시 닉네임으로 세션 등록
 			Member member = mService.memberById(memberId);
-			String memberNick = member.getMemberNick();
+			member.setMemberPwd(null);
 			HttpSession session = request.getSession();
-			session.setAttribute("memberNick", memberNick);
+			session.setAttribute("loginUser", member);
 			return "ok";
 		}else {
 			return "no";
