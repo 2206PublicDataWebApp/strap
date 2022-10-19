@@ -30,18 +30,21 @@
 	<div id="contents" class="row">
 		<div class="contents col">
 			<div id="inner-header">
-				<h1>Strap추천 보충제</h1><hr>
+				<h1>Strap추천 보충제</h1>
+				<h2>${paging.totalCount }개의 보충제가 기다리고 있습니다.</h2><hr>
 				<div id="search-wrap">
-					<form id="search-form" action="/admin/productSearchView.strap" method="get">
-						<input id="searchVal" name="searchVal" type="text" placeholder="상품검색">
+					<form id="search-form" action="/product/search.strap" method="get">
+						<input id="searchVal" name="searchVal" type="text" value="${search.searchVal }" placeholder="상품검색">
+						<input id="searchColumn"  name="searchColumn" type="hidden">
+						<input id="orderCondition"  name="orderCondition" type="hidden">
 						<button >검색</button>
 					</form>
 					<div id="order-wrap">
-						<span id="order-grade">평점높은순</span>
-						<span id="order-review">리뷰많은순</span>
-						<span id="order-sales">판매량많은순</span>
-						<span id="order-high-price">가격높은순</span>
-						<span id="order-low-price">가격낮은순</span>
+						<span onclick="orderSubmit('aver','desc');" 	id="order-aver">평점높은순</span>
+						<span onclick="orderSubmit('review','desc');" 	id="order-review">리뷰많은순</span>
+						<span onclick="orderSubmit('sales','desc');" 	id="order-sales">판매량많은순</span>
+						<span onclick="orderSubmit('price','desc');" 	id="order-high-price">가격높은순</span>
+						<span onclick="orderSubmit('price','asc');" 	id="order-low-price">가격낮은순</span>
 					</div>
 				</div>
 			</div>
@@ -76,13 +79,13 @@
 				</c:forEach>	
 				<div id="paging-wrap">
 					<c:if test="${paging.startNavi > paging.startPage }">
-						<a href="/product/${url}.strap?page=${paging.startNavi-1 }&searchVal=${search.searchVal}"><</a>
+						<a href="/product/${url}.strap?page=${paging.startNavi-1 }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}"><</a>
 					</c:if>
 					<c:forEach begin="${paging.startNavi }" end="${paging.endNavi }" var="n">
-						<a href="/product/${url }.strap?page=${n }&searchVal=${search.searchVal}">${n }</a>
+						<a href="/product/${url }.strap?page=${n }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}">${n }</a>
 					</c:forEach>
 					<c:if test="${paging.endNavi < paging.endPage }">
-						<a href="/product/${url }.strap?page=${paging.endNavi+1 }&searchVal=${search.searchVal}">></a>
+						<a href="/product/${url }.strap?page=${paging.endNavi+1 }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}">></a>
 					</c:if>					
 				</div>			
 			</div>
@@ -97,6 +100,14 @@
 </div>
 <script>
 //정렬
+function orderSubmit(column,order){
+	var searchForm = document.querySelector("#search-form");
+	var columnName = document.querySelector("#searchColumn");
+	var orderCon = document.querySelector("#orderCondition");
+	columnName.value = column;
+	orderCon.value = order;
+	searchForm.submit();
+}
 
 </script>
 </body>

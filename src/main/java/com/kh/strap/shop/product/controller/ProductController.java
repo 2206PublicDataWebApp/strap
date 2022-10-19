@@ -78,7 +78,7 @@ public class ProductController {
 	}
 	
 	//상품목록 페이지 보충제 검색 리스트 출력
-	@RequestMapping(value="/product/search.strap\"", method=RequestMethod.GET)
+	@RequestMapping(value="/product/search.strap", method=RequestMethod.GET)
 	public ModelAndView searchProductList(ModelAndView mv,
 			@ModelAttribute Search search,
 			@RequestParam(value="page",required=false)Integer currentPage) {
@@ -95,7 +95,7 @@ public class ProductController {
 	}
 	
 	//상품 상세 페이지
-	@RequestMapping(value="/product/detailView.strap\"", method=RequestMethod.GET)
+	@RequestMapping(value="/product/detailView.strap", method=RequestMethod.GET)
 	public ModelAndView viewProductDetail(ModelAndView mv) {
 		mv.setViewName("/shop/productDetail");
 		return mv;
