@@ -13,7 +13,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
+<style>
 
+
+</style>
 </head>
 <body>
 <div class="wrap container">
@@ -24,7 +27,7 @@
 		</div>
 	</div>
 <!-- 컨텐츠 -->
-	<div id="contents" class="row">
+	<div id="contents" class="row" style="width:80%;margin:0 auto;">
 		<div class="contents-side col">
 			<div id="detail-wrap" style="font-size:20px;">
 				<div id="pInfo-wrap" class="row detail ">
@@ -33,9 +36,9 @@
 							<img id="zoom" src="${product.mainImgRoot }" width="500px" height="400px" onerror="" style="border:1px solid black">
 						</div>
 						<div id="onImg">
-							<img src="${product.mainImgRoot }" width="82px" height="80px" onerror="" onmouseover="document.querySelector('#zoom').src=this.src" style="border:1px solid black">
+							<img src="${product.mainImgRoot }" width="15%" height="80px" onerror="" onmouseover="document.querySelector('#zoom').src=this.src" style="border:1px solid black">
 							<c:forEach items="${subList }" var="subImg">
-								<img src="${subImg.subRoot }" width="82px" height="80px" onerror="" onmouseover="document.querySelector('#zoom').src=this.src" style="border:1px solid black">
+								<img src="${subImg.subRoot }" width="15%" height="80px" onerror="" onmouseover="document.querySelector('#zoom').src=this.src" style="border:1px solid black">
 							</c:forEach>
 						</div>
 					</div>
@@ -85,10 +88,65 @@
 						</div>
 					</div>
 				</div>
-				<div id="moveNav" class="detail"></div>
-				<div id="pDetail" class="detail"></div>
-				<div id="pReview" class="detail"></div>
-				<div id="pQna" class="detail"></div>
+				<div id="moveNav" class="detail row" style="text-align:center;position:sticky;top:0px;background-color:white;">
+					<div class="pageNav col"><a href="#">상품정보</a></div>
+					<div class="pageNav col"><a href="#pReview">상품후기</a></div>
+					<div class="pageNav col"><a href="#pQna">상품문의</a></div>
+				</div>
+				<div id="pDetail" class="detail">
+					<div id="productDesc-wrap">
+						<div id="desc" style="width:70%; margin:0 auto;">
+							<h3>상품상세설명</h3>
+							${product.productDesc }
+						</div>
+					</div>
+					<div id="infoImg-wrap" style="width:80%;margin:0 auto;height:600px;overflow:hidden;">
+						<c:forEach items="${infoList }" var="info">
+							<div class="oneInfo">
+								<img src="${info.imgRoot }" width="100%">
+							</div>
+						</c:forEach>
+					</div>
+					<div id="arcodianBtn" style="width:90%; margin:0 auto;">
+						<button id="infoArcodianBtn" onclick="detailArcodian();" style="width:100%;">상품 상세 정보 펼치기</button>
+					</div>
+				</div>
+				<div id="pReview" class="detail">
+					<div id="" class="">
+						<h3>상품평점</h3>
+						<button onclick="location.href='#';">후기작성</button>
+					</div>
+					<div id="reviewWrite-wrap" class="">
+						<form action="#">
+							
+						</form>
+					</div>
+					<div id="reviewGrade" class="">
+						<div></div>
+						<div></div>
+					</div>
+					<div id="reviewList" class="">
+					</div>
+					<div id="reviewPaging" class="">
+					</div>
+				</div>
+				<div id="pQna" class="detail">
+					<div id="" class="">
+						<h3>상품평점</h3>
+						<button onclick="location.href='#';">문의작성</button>
+					</div>
+					<div id="qnaWrite-wrap" class="">
+						
+					</div>
+					<div id="qnaGrade" class="">
+						<div></div>
+						<div></div>
+					</div>
+					<div id="qnaList" class="">
+					</div>
+					<div id="qnaPaging" class="">
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -109,6 +167,24 @@ function calTotalPrice(){
 	console.log(totalPrice);
 	totalPriceTag.innerHTML = "<span id='wonSymbol'>\\</span> " + totalPrice.toLocaleString();
 }
+
+//상세정보 펼치기
+var fold = true;
+function detailArcodian(){
+	var infoArcodianBtn = document.querySelector("#infoArcodianBtn");
+	var infoImgDiv = document.querySelector("#infoImg-wrap");
+	
+	if(fold){
+		infoImgDiv.style.height="auto";
+		fold=false;
+	}else{
+		infoImgDiv.style.height="600px";
+		fold=true;
+	}
+	
+}
+
+
 </script>
 </body>
 </html>
