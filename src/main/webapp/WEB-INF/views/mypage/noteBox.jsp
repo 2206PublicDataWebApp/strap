@@ -28,9 +28,9 @@
 			<div class="sidebar col-3" >
 				<jsp:include page="/WEB-INF/views/common/sideBarMyPage.jsp"></jsp:include>
 			</div>
-			<div class="contents-side col" width="300">
-				<p align="center" style=" font-size:34px; font-family:malgun gothic;">[ 쪽지함 ]<p>
-				<table align="center" border="1" width="" class="table table-striped table-hover">
+			<div class="contents-side-sm col">
+				<p align="center" style=" font-size:34px; font-family:malgun gothic;">[ 쪽지함 ]</p>
+				<table align="center" class="table table-striped table-hover border border-secondary border-opacity-50">
 					<tr>
 					</tr>
 					<tr align="center">
@@ -43,7 +43,7 @@
 					<c:forEach items="${nList }" var="notebox" varStatus="i">
 						<tr align="center">
 							<td>${i.count }</td>
-							<td><a href="/mypage/noteDetailView.strap?noteNo=${notebox.noteNo }"  onclick="window.open(this.href, '_blank', 'width=600, height=600, location = no'); return false">${notebox.noteTitle }</a></td>
+							<td><a href="#none" onclick="reportPopup(${notebox.noteNo });">${notebox.noteTitle }</a></td>
 							<td>${notebox.senderId }</td>
 							<td><fmt:formatDate pattern="yyyy-MM-dd / hh:mm:ss" value="${notebox.senderTime }"/> </td>
 						</tr>
@@ -102,5 +102,14 @@
 			</div>
 		</div>
 	</div>
+	
+	<script>
+		var reportWindow;
+		
+		function reportPopup(nNo){
+			reportWindow = window.open("/mypage/noteDetailView.strap?noteNo=" + nNo, '_blank', 'width=600, height=600'); return false
+		}
+	</script>
+	
 </body>
 </html>

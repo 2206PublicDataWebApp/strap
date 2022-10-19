@@ -19,6 +19,7 @@
 	</resultMap>
 	<insert id="insertReport">
 		INSERT INTO REPORT_TBL
-		VALUES(SEQ_REPORT_NO.NEXTVAL,#{contentsNo}, #{contentsCode}, #{reportType}, #{reportMember}, #{reportContents}, DEFAULT, NULL, NULL, NULL, NULL)
+		VALUES(SEQ_REPORT_NO.NEXTVAL,#{contentsNo}, #{contentsCode}, #{reportType}, #{reportMember}, #{reportContents}, DEFAULT, DEFAULT, NULL, NULL, NULL)
 	</insert>
+	
 </mapper>

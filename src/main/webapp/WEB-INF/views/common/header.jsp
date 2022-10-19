@@ -10,8 +10,8 @@
 <body>
 
 <header class="header">
-	<div class="logo" style="cursor: pointer;" onclick="location.href='/';" >
-		<img src="/resources/images/logo.png" style="width: 450px; height: 110px; object-fit: cover;">
+	<div class="logo" >
+		<img src="/resources/images/logo.png" style="width: 450px; height: 110px; object-fit: cover; cursor: pointer;" onclick="location.href='/';">
 	</div>
 	<div class="login-wrap">
 		<div id="text-menu">

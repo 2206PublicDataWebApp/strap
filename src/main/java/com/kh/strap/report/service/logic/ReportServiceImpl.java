@@ -21,6 +21,7 @@ public class ReportServiceImpl implements ReportService {
 		int result = rStore.insertReport(session, report);
 		return result;
 	}
+
 	
 	
 }

@@ -126,14 +126,19 @@ textarea.form-controls {
 			</div>
 		</div>
 		<hr>
-		<div class="row">
+		<div class="row border border-secondary border-opacity-50">
 			<div class="col">
-				제목 : ${noteBox.noteTitle }
-			</div>
-		</div>
-		<div class="row">
-			<div class="col">
-				내용 : ${noteBox.noteContents }
+				<div class="row">
+					<div class="col">
+						제목 : ${noteBox.noteTitle }
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col">
+						내용 : ${noteBox.noteContents }
+					</div>
+				</div>
 			</div>
 		</div>
 		<br>
@@ -156,17 +161,16 @@ textarea.form-controls {
 			</div>
 			<div class="modal-body">
 				<div class="modal-body p-5 pt-0">
-					<form action="opener.location.href='/report/registerReport.strap';self.close()" method="post">
+					<form id="report-form">
 					<input type="hidden" value="RC1" name="contentsCode">
-					<input type="hidden" value=${noteBox.noteNo } name="noteNo">
-					<input type="hidden" value=${noteBox.senderId } name="senderId">
+					<input type="hidden" value=${noteBox.noteNo } name="contentsNo">
+					<input type="hidden" value=${noteBox.senderId } name="reportMember">
 					<input type="hidden" value=${noteBox.noteTitle } name="noteTitle">
 					<input type="hidden" value=${noteBox.noteContents } name="noteContents">
 <%-- 					<input type="hidden" value=${. } name="memberId">  신고자 추가해야함--%>
-					<br>
 						<div class="form-floating mb-3">
 							<p>신고 종류</p>
-							<select class="form-select" aria-label="Default select example">
+							<select class="form-select" aria-label="Default select example" name="reportType">
 								<option value="RT1">영리목적/홍보성</option>
 								<option value="RT2">불법정보</option>
 								<option value="RT3">음란/선정성</option>
@@ -179,27 +183,40 @@ textarea.form-controls {
 							</select>
 						</div>
 						<div class="mb-3">
-							<textarea class="form-control" placeholder="신고 내용을 입력해주세요" id="notice-textarea" name="noticeContents" style="height: 150px" required></textarea>
+							<textarea class="form-control" placeholder="신고 내용을 입력해주세요" id="notice-textarea" name="reportContents" style="height: 150px" required></textarea>
 						</div>
-					<button class="w-100 mb-2 btn btn-lg btn-danger" type="submit" onclick="window.close();">신고</button>
+					<button class="report-submit w-100 mb-2 btn btn-lg btn-danger">신고</button>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-	
-	<script>
-	function goOpener(){
-	    opener.name = "report";
-	    document.frmName.target = opener.name;
-	    document.frmName.action = "report/registerReport.strap";
-	    document.frmName.submit();
-	    self.close();
-	
-	 }
-	</script>
-	
+<script>
+	$(document).ready(function () {
+		$(".report-submit").on("click",function(){
+			var params = $("#report-form").serialize();
+			$.ajax({
+				url : '<c:url value='/report/registerReport.strap' />',
+				data : params,
+				type : "post",
+				success:function(data){
+					opener.location.replace("/mypage/noteBoxListView.strap");
+					window.close();
+				}
+			});
+		});
+	});
+// 	$("#report-form")[0].submit();
+// 	opener.location.replace("/mypage/noteBoxListView.strap");
+// 	function reportSubmit(){
+// 		$(window).bind("beforeunload", function (e){
+// 			return "창을 닫으실래요?";
+// 		});
 		
+// 		self.close();
+// 	}
+</script>
+
 </body>
 </html>
