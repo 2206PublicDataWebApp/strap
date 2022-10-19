@@ -9,11 +9,37 @@
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
 		<java-version>1.8</java-version>
-		<org.springframework-version>5.2.18.RELEASE</org.springframework-version>
+		<org.springframework-version>5.1.18.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
+	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+	
 	<dependencies>
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version>5.1.13.RELEASE</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-web</artifactId>
+	    <version>5.1.13.RELEASE</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-config</artifactId>
+	    <version>5.1.13.RELEASE</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-taglibs</artifactId>
+	    <version>5.1.13.RELEASE</version>
+	</dependency>
+	
+			
 		<!-- 이메일 라이브러리  -->
 		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
 		<dependency>
