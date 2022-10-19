@@ -96,8 +96,18 @@ public class ProductController {
 	
 	//상품 상세 페이지
 	@RequestMapping(value="/product/detailView.strap", method=RequestMethod.GET)
-	public ModelAndView viewProductDetail(ModelAndView mv) {
-		mv.setViewName("/shop/productDetail");
+	public ModelAndView viewProductDetail(ModelAndView mv,
+			@ModelAttribute Product product) {
+		
+		Product productResult = pService.printOneProduct(product);
+		List<ProductImg> infoList = pService.printInfoImgByNo(product);
+		List<ProductImg> subList = pService.printSubImgByNo(product);
+		
+		
+		mv.addObject("product",productResult).
+		addObject("infoList",infoList).
+		addObject("subList",subList).
+		setViewName("/shop/productDetail");
 		return mv;
 	}
 	

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>
 <html>
 <head>
 <title>STRAP MAIN</title>
@@ -52,16 +52,17 @@
 				<c:forEach items="${pList }" var="product" varStatus="n">
 					<div class="number" style="position:relative;top:20px; right:20px;width:50px;background-color:rgba(255,255,255,0.8)">${n.count }</div>
 					<div class="product-wrap">
-						<div class="oneProduct thumb">
+						<div class="oneProduct thumb" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
 							<img class="thumb-img" src="${product.mainImgRoot }" onerror="this.src='';" width="150px" height="150px">
 						</div>
 						<div class="oneProduct info">
-							<div class="product-title">
+							<div class="product-title" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
 								<span class="p-brand">[${product.productBrand }]</span>
 								<span class="p-name"> ${product.productName }</span>
 							</div>
 							<div class="product-proce">
-								<span class="p-price">\ ${product.productPrice }</span>
+								<span id="wonSymbol">\</span>
+								<span class="p-price">${product.productPrice }</span>
 							</div>
 							<div class="product-grade">
 								<img src="">
