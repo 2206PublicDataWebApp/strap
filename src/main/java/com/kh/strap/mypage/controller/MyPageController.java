@@ -28,17 +28,17 @@ public class MyPageController {
 	// 마이페이지 메인
 	@RequestMapping(value="/mypage/mypageView.strap", method=RequestMethod.GET)
 	public String showMyPage(HttpServletRequest request) {
-//		HttpSession session = request.getSession();
-//		Member member = (Member)session.getAttribute("loginUser");
-//		if(member != null) {
-//			String memberId = member.getMemberId();
-//			Member mOne = mService.memberById(memberId);
-//			session.setAttribute("memberNick", mOne.getMemberNick());
-//		} else {
-//			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
-//			request.setAttribute("url", "/member/loginView.strap");
-//			return("common/alert");
-//		}
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		if(member != null) {
+			String memberId = member.getMemberId();
+			Member mOne = mService.memberById(memberId);
+			session.setAttribute("memberNick", mOne.getMemberNick());
+		} else {
+			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
+			request.setAttribute("url", "/member/loginView.strap");
+			return("common/alert");
+		}
 		return "mypage/myPage";
 	}
 	

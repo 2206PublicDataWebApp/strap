@@ -2,6 +2,9 @@ package com.kh.strap.notebox.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.strap.member.domain.Member;
 import com.kh.strap.notebox.domain.NoteBox;
 import com.kh.strap.notebox.service.logic.NoteBoxServiceImpl;
 
@@ -27,8 +31,12 @@ public class NoteBoxController {
 	 */
 	// 쪽지함 리스트
 	@RequestMapping(value="/mypage/noteBoxListView.strap", method=RequestMethod.GET)
-	public ModelAndView showNoteBoxList(ModelAndView mv
+	public ModelAndView showNoteBoxList(ModelAndView mv, HttpServletRequest request
 			,@RequestParam(value="page", required=false) Integer page) {
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String memberId = member.getMemberId();
+		
 		int currentPage = (page != null) ? page : 1;
 		int totalCount = nService.getTotalCount("","");
 		int noticeLimit = 10;
@@ -42,7 +50,7 @@ public class NoteBoxController {
 		if(maxPage < endNavi) {
 			endNavi = maxPage;
 		}
-		List<NoteBox> nList = nService.printNoteBoxList(currentPage, noticeLimit);
+		List<NoteBox> nList = nService.printNoteBoxList(memberId, currentPage, noticeLimit);
 		if(!nList.isEmpty()) {
 			mv.addObject("urlVal", "noteBoxListView");
 			mv.addObject("maxPage", maxPage);
@@ -64,11 +72,18 @@ public class NoteBoxController {
 	 */
 	// 쪽지 상세페이지
 	@RequestMapping(value="/mypage/noteDetailView.strap", method=RequestMethod.GET)
-	public ModelAndView showNoteDetail(ModelAndView mv
+	public ModelAndView showNoteDetail(ModelAndView mv, HttpServletRequest request
 			,@RequestParam(value="noteNo", required=false) Integer noteNo) {
 		NoteBox noteBox = nService.printOneByNo(noteNo);
+//		HttpSession session = request.getSession();
+//		Member member = (Member)session.getAttribute("loginUser");
+//		String memberId = member.getMemberId();
+		
+//		mv.addObject("memberId", memberId);
 		mv.addObject("noteBox", noteBox);
 		mv.setViewName("mypage/noteDetail");
+	
+		
 		return mv;
 	}
 	

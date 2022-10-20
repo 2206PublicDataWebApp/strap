@@ -73,10 +73,6 @@
 				<button class="btn btn-primary" type="button" onclick="location.href='/member/enroll.strap'">회원 가입</button>
 		</div>
 	</div>
-	<div class="row">
-		<!-- 푸터 -->
-		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-	</div>
 	<script>
 		$("#loginBtn").on("click",function(){
 			var memberId = $("#memberId").val();

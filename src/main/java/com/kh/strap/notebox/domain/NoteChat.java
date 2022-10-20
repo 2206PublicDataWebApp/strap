@@ -12,6 +12,7 @@ public class NoteChat {
 	private Date senderDate;
 	
 	
+	
 	public int getChatNo() {
 		return chatNo;
 	}

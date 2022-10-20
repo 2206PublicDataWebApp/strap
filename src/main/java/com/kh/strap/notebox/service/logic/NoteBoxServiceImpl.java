@@ -25,8 +25,8 @@ public class NoteBoxServiceImpl implements NoteBoxService {
 	}
 
 	@Override
-	public List<NoteBox> printNoteBoxList(int currentPage, int noticeLimit) {
-		List<NoteBox> nList = nStore.selectAllNoteBox(session, currentPage, noticeLimit);
+	public List<NoteBox> printNoteBoxList(String memberId, int currentPage, int noticeLimit) {
+		List<NoteBox> nList = nStore.selectAllNoteBox(session, memberId, currentPage, noticeLimit);
 		return nList;
 	}
 

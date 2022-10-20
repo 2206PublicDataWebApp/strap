@@ -7,15 +7,20 @@
 	<resultMap type= "NoteChat" id="noteChatResultMap">
 		<id property="chatNo" column="CHAT_NO"/>
 		<result property="recipientId" column="RECIPIENT_ID"/>
-		<result property="recipientNick" column="SENDER_ID"/>
-		<result property="senderId" column="SENDER_TIME"/>
-		<result property="senderNick" column="NOTE_TITLE"/>
-		<result property="chatContents" column="NOTE_CONTENTS"/>
-		<result property="senderDate" column="NOTE_ACCEPT"/>
+		<result property="recipientNick" column="RECIPIENT_NICK"/>
+		<result property="senderId" column="SENDER_ID"/>
+		<result property="senderNick" column="SENDER_NICK"/>
+		<result property="chatContents" column="CHAT_CONTENTS"/>
+		<result property="senderDate" column="SENDER_DATE"/>
 	</resultMap>
 	<select id="selectAllNoteChat" resultMap="noteChatResultMap">
 		SELECT * FROM NOTECHAT_TBL
-		WHERE CHAT_NO = #{noteNo} AND RECIPIENT_ID = 'user02'
+		WHERE CHAT_NO = #{noteNo} 
+<!-- 		AND RECIPIENT_ID = 'user02' -->
   	</select>
+  	<insert id="insertNoteChat">
+  		INSERT INTO NOTECHAT_TBL 
+  		VALUES(#{noteNo}, #{recipientId}, #{recipientNick}, #{senderId}, #{senderNick}, #{noteContents}, DEFAULT)
+  	</insert>
 	
 </mapper>
