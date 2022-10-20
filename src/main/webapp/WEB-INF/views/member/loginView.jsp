@@ -13,7 +13,7 @@
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
 	<style>
-		.contents{
+		.content{
 			width: 1200px;
 			height: 700px;
 			min-width: 1200px;
@@ -56,7 +56,7 @@
 </head>
 <body>
 	<!-- 컨텐츠 -->
-	<div class="contents row" >
+	<div class="content row" >
 		<div class="loginImg">
 			<img class="strapImg" src="/resources/image/member/strap.png">
 		</div>
