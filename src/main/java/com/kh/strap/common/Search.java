@@ -56,6 +56,8 @@ public class Search {
 			searchColumn = "PRODUCT_SALES";
 		}else if(searchColumn.equals("price")) {
 			searchColumn = "PRODUCT_PRICE";
+		}else {
+			searchColumn = "";
 		}
 		this.searchColumn = searchColumn;
 	}

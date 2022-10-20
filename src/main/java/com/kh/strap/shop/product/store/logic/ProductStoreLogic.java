@@ -56,8 +56,7 @@ public class ProductStoreLogic implements ProductStore {
 //관리자 상품목록 조회	
 	@Override
 	public List<Product> selectAdminAllProduct(SqlSession session, Paging paging, Search search) {
-		// TODO Auto-generated method stub
-		return null;
+		return session.selectList("ProductMapper.selectAdminAllProduct", search, new RowBounds(paging.getOffset(), paging.getPageLimit()));
 	}
 	@Override
 	public List<Product> selectAdminProductSearch(SqlSession session, Paging paging, Search search) {

@@ -41,7 +41,7 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 	@Override
 	public int countReview(Review review) {
-		return rStore.selectCountMemberReview(session, review);
+		return rStore.selectCountReview(session, review);
 	}
 	@Override
 	public int countMemberReview(Review reivew) {

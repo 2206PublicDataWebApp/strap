@@ -56,13 +56,11 @@ public class ProductServiceImpl implements ProductService {
 //관리자 상품목록 조회
 	@Override
 	public List<Product> printAdminAllProduct(Paging paging, Search search) {
-		// TODO Auto-generated method stub
-		return null;
+		return pStore.selectAdminAllProduct(session, paging, search);
 	}
 	@Override
 	public List<Product> printAdminProductSearch(Paging paging, Search search) {
-		// TODO Auto-generated method stub
-		return null;
+		return pStore.selectAdminProductSearch(session, paging, search);
 	}
 	@Override
 	public int countAdminProductSearch(Search search) {

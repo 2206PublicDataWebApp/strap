@@ -26,6 +26,7 @@ public class ShopQnaController {
 	//상품문의리스트 이동
 	@RequestMapping(value="/shopQna/list.strap", method=RequestMethod.GET)
 	public ModelAndView viewShopQnaList(ModelAndView mv) {
+		mv.setViewName("/shop/qnaList");
 		return mv;
 	}
 	

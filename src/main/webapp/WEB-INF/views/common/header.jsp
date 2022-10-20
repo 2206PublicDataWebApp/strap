@@ -29,7 +29,7 @@
 				</c:if>
 			</li>
 			</c:if>
-	        <li style="cursor: pointer;" onclick="location.href='/order/list.strap';">마이쇼핑</li>
+	        <li style="cursor: pointer;" onclick="location.href='/order/listView.strap';">마이쇼핑</li>
 	        <li style="cursor: pointer;" onclick="location.href='/mypage/mypageView.strap';">
 				<img class="icon-img" src="/resources/images/mypage.png">
 	        </li>

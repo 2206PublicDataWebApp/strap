@@ -12,7 +12,7 @@
 		<result column="REVIEW_IMG_NAME" 		property="reviewImgName"/>
 		<result column="REVIEW_IMG_RENAME" 		property="reviewImgRename"/>
 		<result column="REVIEW_IMG_ROOT" 		property="reviewImgRoot"/>
-		<result column="REVIEW_TIME" 			property="ReviewTime"/>
+		<result column="REVIEW_TIME" 			property="reviewTime"/>
 		<result column="REVIEW_GRADE" 			property="reviewGrade"/>
 		<result column="PRODUCT_NO" 			property="productNo"/>
 	</resultMap>
@@ -25,6 +25,15 @@
 	<select id="selectReview" resultMap="ReviewResultMap">
 		SELECT * FROM REVIEW_TBL
 		WHERE PRODUCT_NO = #{productNo}
+		<if test='memberId != null'>
+			AND MEMBER_ID = #{memberId}
+		</if>
+		<if test='searchColumn != null'>
+			ORDER BY ${searchColumn} ${orderCondition}
+		</if>
+		<if test='searchColumn == null'>
+			ORDER BY REVIEW_GRADE DESC
+		</if>
 	</select>
 	
 	<select id="selectMemberReview" resultMap="ReviewResultMap">
