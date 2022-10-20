@@ -6,11 +6,15 @@
 <meta charset="UTF-8">
 <title>스트랩 : 회원 가입</title>
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
 <style>
 	.registerForm{
-		margin:auto;
+		margin:30px auto;
 		text-align: center;
 		width: 500px;
+		border: 1px solid gray;
+		border-radius: 10px;
+		box-shadow: 5px 5px 5px 5px gray;
 	}
 	span.id, span.pwd, span.pwdCheck{
 		display:none;
@@ -83,8 +87,9 @@
 			<input type="radio" id="memberGender" name="memberGender" value="F">Female<br><br>
 		
 			<label for="memberJym">마이 짐</label><br>
-			<input type="text" id="memberJym" name="memberJym" size="35"><button type="button" onclick="showMap();">검색</button><br><br>
-			<button>가입하기</button>
+			<input type="text" id="memberJym" name="memberJym" size="35"><button type="button" class="btn btn-primary" onclick="showMap();">검색</button><br><br>
+			<button class="btn btn-primary">가입하기</button>
+			<br><br><br>
 		</form>
 	</div>
 <script>

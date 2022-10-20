@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.strap.member.domain.Member;
-import com.kh.strap.member.domain.SocialMember;
 
 public interface MemberStore {
 
@@ -28,6 +27,8 @@ public interface MemberStore {
 
 	Member memberById(SqlSession session, String memberId);
 
-	int insertSocialMember(SqlSession session, SocialMember socialMember);
+	int insertSocialMember(SqlSession session, Member member);
+
+	String memberPwdById(SqlSession session, String memberId);
 
 }

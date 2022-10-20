@@ -19,7 +19,6 @@
 		<typeAlias type="com.kh.strap.report.domain.Report" 			alias="Report"/>
 		<typeAlias type="com.kh.strap.schedule.domain.Schedule" 		alias="Schedule"/>
 		<typeAlias type="com.kh.strap.member.domain.Member" 			alias="Member"/>
-		<typeAlias type="com.kh.strap.member.domain.SocialMember"		alias="SocialMember"/>
 		<typeAlias type="com.kh.strap.shop.cart.domain.Cart" 			alias="Cart"/>
 		<typeAlias type="com.kh.strap.shop.coupon.domain.Coupon" 		alias="Coupon"/>
 		<typeAlias type="com.kh.strap.shop.coupon.domain.MemberCoupon" 	alias="MemberCoupon"/>

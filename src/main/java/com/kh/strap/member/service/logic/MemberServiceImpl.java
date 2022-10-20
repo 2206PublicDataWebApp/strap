@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.strap.member.domain.Member;
-import com.kh.strap.member.domain.SocialMember;
 import com.kh.strap.member.service.MemberService;
 import com.kh.strap.member.store.MemberStore;
-import com.kh.strap.member.store.logic.MemberStoreLogic;
 
 
 @Service
@@ -75,9 +73,15 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int insertSocialMember(SocialMember socialMember) {
-		int result = mStore.insertSocialMember(session, socialMember);
+	public int insertSocialMember(Member member) {
+		int result = mStore.insertSocialMember(session, member);
 		return result;
+	}
+
+	@Override
+	public String memberPwdById(String memberId) {
+		String encodePwd = mStore.memberPwdById(session, memberId);
+		return encodePwd;
 	}
 
 	
