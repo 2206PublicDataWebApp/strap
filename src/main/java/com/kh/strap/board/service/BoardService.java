@@ -20,5 +20,26 @@ public interface BoardService {
 	// 비추천
 	public int getCountBad(Integer boardNo);
 	
-	public int getBoardRecord(String memberId, Integer boardNo);
+	public int getBoardRecord(String memberNick, Integer boardNo);
+	
+	public int addGoodBadCount(Integer boardNo, String memberNick, String goodOrBad);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

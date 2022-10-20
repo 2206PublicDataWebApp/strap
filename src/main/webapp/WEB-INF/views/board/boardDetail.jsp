@@ -25,7 +25,7 @@
 			<div id="contents-wrap">
 		<!-- 작성자/조회수 -->
 		<div class="position-relative" style="margin-bottom: 25px;">			
-				${board.memberId }
+				${board.memberNick }
 			<div class="position-absolute top-0 end-0">
 				조회수 ${board.boardCount }		
 			</div>
@@ -48,14 +48,14 @@
 		<!-- 추천/비추천 -->
 		<div class="col-md-11 offset-md-5 py-5 text-center">
 			<div style="float: left;">
-	         	<form action="/board/boardGood.strap" method="post" style="display: inline">
-					<input type="hidden" name="memberId" value="${sessionScope.loginUser.memberId }"/>
+	         	<form action="/board/boardGood.do" method="post" style="display: inline">
+					<input type="hidden" name="memberNick" value="${sessionScope.loginUser.memberNick }"/>
 					<input type="hidden" name="boardNo" value="${board.boardNo }"/>
 					<input type="hidden" name="page" value="${page }"/>
 	            <button class="btn btn-primary"onclick="return check('${record}');"><i class="fa-solid fa-thumbs-up fa-lg"></i> 추천 <b>${boardGood }</b></button>
 	            </form>
-	            <form action="/finish/boardBad.strap" method="post" style="display: inline">
-					<input type="hidden" name="memberId" value="${sessionScope.loginUser.memberId }"/>
+	            <form action="/board/boardBad.do" method="post" style="display: inline">
+					<input type="hidden" name="memberNick" value="${sessionScope.loginUser.memberNick }"/>
 					<input type="hidden" name="boardNo" value="${board.boardNo }"/>
 					<input type="hidden" name="page" value="${page }"/>
 	            <button class="btn btn-danger" onclick="return check('${record}');"><i class="fa-solid fa-thumbs-down fa-lg"></i> 비추천 <b>${boardBad } </b></button>

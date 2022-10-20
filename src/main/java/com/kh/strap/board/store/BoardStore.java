@@ -20,10 +20,26 @@ public interface BoardStore {
 	
 	public int updateBoardCount(SqlSessionTemplate session, Integer boardNo);
 	
-	int selectCountGood(SqlSessionTemplate session, Integer boardNo);
+	public int selectCountGood(SqlSessionTemplate session, Integer boardNo);
 
-	int selectCountBad(SqlSessionTemplate session, Integer boardNo);
+	public int selectCountBad(SqlSessionTemplate session, Integer boardNo);
 	
-	int selectBoardRecord(SqlSessionTemplate session, String memberId, Integer boardNo);
+	public int selectBoardRecord(SqlSessionTemplate session, String memberNick, Integer boardNo);
 
+	public int insertGoodBadCount(SqlSessionTemplate session, Integer boardNo, String memberNick, String goodOrBad);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

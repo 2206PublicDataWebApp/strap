@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Board {
 	private int boardNo; 			// 게시글 번호
-	private String memberId;	 	// 작성자
+	private String memberNick;	 	// 작성자
 	private String boardTitle; 		// 게시글 제목
 	private String boardContents;	// 게시글 내용
 	private String boardCategory; 	// 게시글 카테고리
@@ -22,11 +22,11 @@ public class Board {
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
 	}
-	public String getMemberId() {
-		return memberId;
+	public String getMemberNick() {
+		return memberNick;
 	}
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+	public void setMemberNick(String memberNick) {
+		this.memberNick = memberNick;
 	}
 	public String getBoardTitle() {
 		return boardTitle;
@@ -91,7 +91,7 @@ public class Board {
 	
 	@Override
 	public String toString() {
-		return "Board [boardNo=" + boardNo + ", memberId=" + memberId + ", boardTitle=" + boardTitle
+		return "Board [boardNo=" + boardNo + ", memberNick=" + memberNick + ", boardTitle=" + boardTitle
 				+ ", boardContents=" + boardContents + ", boardCategory=" + boardCategory + ", bFileName=" + bFileName
 				+ ", bFileRename=" + bFileRename + ", bFilePath=" + bFilePath + ", boardDate=" + boardDate
 				+ ", boardCount=" + boardCount + ", boardGood=" + boardGood + ", boardBad=" + boardBad + "]";

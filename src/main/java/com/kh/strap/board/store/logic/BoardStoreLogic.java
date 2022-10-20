@@ -72,11 +72,45 @@ public class BoardStoreLogic implements BoardStore{
 	}
 
 	@Override
-	public int selectBoardRecord(SqlSessionTemplate session, String memberId, Integer boardNo) {
+	public int selectBoardRecord(SqlSessionTemplate session, String memberNick, Integer boardNo) {
 		HashMap<String, String> paramMap=new HashMap<String, String>();
 		paramMap.put("boardNo", boardNo.toString());
-		paramMap.put("memberId", memberId);
+		paramMap.put("memberNick", memberNick);
 		int result=session.selectOne("BoardMapper.selectBoardRecord", paramMap);
 		return result;
 	}
+
+	@Override
+	public int insertGoodBadCount(SqlSessionTemplate session, Integer boardNo, String memberNick, String goodOrBad) {
+		HashMap<String, String> paramMap=new HashMap<String, String>();
+		paramMap.put("boardNo", boardNo.toString());
+		paramMap.put("memberNick", memberNick);
+		paramMap.put("goodOrBad", goodOrBad);
+		
+		int result=session.insert("BoardMapper.insertGoodBadCount", paramMap);
+		if(goodOrBad.equals("GOOD")) {
+			session.update("BoardMapper.updateGood", boardNo);
+		}
+		else {
+			session.update("BoardMapper.updateBad", boardNo);
+		}
+		return result;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

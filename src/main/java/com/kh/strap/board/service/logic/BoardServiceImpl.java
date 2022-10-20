@@ -67,10 +67,20 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int getBoardRecord(String memberId, Integer boardNo) {
-		int result=bStore.selectBoardRecord(session, memberId, boardNo);
+	public int getBoardRecord(String memberNick, Integer boardNo) {
+		int result=bStore.selectBoardRecord(session, memberNick, boardNo);
 		return result;
 	}
 
-	
+	@Override
+	public int addGoodBadCount(Integer boardNo, String memberNick, String goodOrBad) {
+		int result=bStore.insertGoodBadCount(session, boardNo, memberNick, goodOrBad);
+		return result;
+	}
 }
+
+
+
+
+
+

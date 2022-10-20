@@ -82,7 +82,7 @@
 									<th scope="row" style="text-align:center">${Board.boardNo }</th>
 									<td style="text-align:center">${Board.boardCategory }</td>
 									<td><a href="/board/detail.strap?boardNo=${Board.boardNo }&page=${currentPage }">${Board.boardTitle }</a></td>
-									<td style="text-align:center">${Board.memberId }</td>
+									<td style="text-align:center">${Board.memberNick }</td>
 									<td style="text-align:center">${Board.boardDate }</td>
 									<td style="text-align:center">${Board.boardCount }</td>
 									<td style="text-align:center">${Board.boardGood }</td>

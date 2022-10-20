@@ -222,12 +222,12 @@ public class BoardController {
 		Board board = bService.printOneByNo(boardNo);
 		int goodCount=bService.getCountGood(boardNo);
 		int badCount=bService.getCountBad(boardNo);
-		// String memberId=((Member) session.getAttribute("loginUser")).getMemberId();
+		String memberNick=(String)session.getAttribute("memberNick");
 		String record="";
-		/*
-		 * if(bService.getBoardRecord(memberId, boardNo)>0) { record="Y"; } else {
-		 * record="N"; }
-		 */
+		System.out.println(memberNick);
+		if(bService.getBoardRecord(memberNick, boardNo)>0) { record="Y"; } else {
+		record="N"; }
+		
 		mv.addObject("goodCount", goodCount);
 		mv.addObject("badCount", badCount);
 		mv.addObject("record", record);
@@ -266,6 +266,29 @@ public class BoardController {
 			} else {
 				mv.setViewName("common/errorPage");
 				return mv;
+			}
+	}
+	
+	@RequestMapping(value = "/board/boardGood.strap", method = RequestMethod.POST)
+	public String boardGood(@RequestParam("boardNo") Integer boardNo, @RequestParam("memberNick") String memberNick,
+			@RequestParam("page") Integer page) {
+			int result = bService.addGoodBadCount(boardNo, memberNick, "GOOD");
+			if (result > 0) {
+				return "redirect:/board/detail.strap?boardNo=" + boardNo+"&page="+page;
+			}
+			else {
+				return "common.errorPage";
+			}
+	}
+	@RequestMapping(value="/board/boardBad.strap", method=RequestMethod.POST)
+	public String boardBad(@RequestParam("boardNo") Integer boardNo, @RequestParam("memberNick") String memberNick,
+			@RequestParam("page") Integer page) {
+			int result = bService.addGoodBadCount(boardNo, memberNick, "BAD");
+			if (result > 0) {
+				return "redirect:/board/detail.strap?boardNo=" + boardNo+"&page="+page;
+			}
+			else {
+				return "common.errorPage";
 			}
 	}
 }
