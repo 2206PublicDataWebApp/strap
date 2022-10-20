@@ -220,17 +220,17 @@ public class BoardController {
 			, HttpServletResponse response) {
 		// 해당 게시판 번호를 받아 상세페이지로 넘겨준다
 		Board board = bService.printOneByNo(boardNo);
-		int goodCount=bService.getCountGood(boardNo);
-		int badCount=bService.getCountBad(boardNo);
-		String memberNick=(String)session.getAttribute("memberNick");
-		String record="";
-		System.out.println(memberNick);
-		if(bService.getBoardRecord(memberNick, boardNo)>0) { record="Y"; } else {
-		record="N"; }
-		
-		mv.addObject("goodCount", goodCount);
-		mv.addObject("badCount", badCount);
-		mv.addObject("record", record);
+		/*
+		 * int goodCount=bService.getCountGood(boardNo); int
+		 * badCount=bService.getCountBad(boardNo); String
+		 * memberNick=(String)session.getAttribute("memberNick"); String record="";
+		 * System.out.println(memberNick); if(bService.getBoardRecord(memberNick,
+		 * boardNo)>0) { record="Y"; } else { record="N"; }
+		 * 
+		 * mv.addObject("goodCount", goodCount); mv.addObject("badCount", badCount);
+		 * mv.addObject("record", record);
+		 *
+		 */
 		Cookie[] cookies = request.getCookies();	
 		// 비교하기 위해 새로운 쿠기
 		Cookie viewCookie = null;
@@ -269,26 +269,53 @@ public class BoardController {
 			}
 	}
 	
-	@RequestMapping(value = "/board/boardGood.strap", method = RequestMethod.POST)
-	public String boardGood(@RequestParam("boardNo") Integer boardNo, @RequestParam("memberNick") String memberNick,
-			@RequestParam("page") Integer page) {
-			int result = bService.addGoodBadCount(boardNo, memberNick, "GOOD");
-			if (result > 0) {
-				return "redirect:/board/detail.strap?boardNo=" + boardNo+"&page="+page;
+	/*
+	 * @RequestMapping(value = "/board/boardGood.strap", method =
+	 * RequestMethod.POST) public String boardGood(@RequestParam("boardNo") Integer
+	 * boardNo, @RequestParam("memberNick") String memberNick,
+	 * 
+	 * @RequestParam("page") Integer page) { int result =
+	 * bService.addGoodBadCount(boardNo, memberNick, "GOOD"); if (result > 0) {
+	 * return "redirect:/board/detail.strap?boardNo=" + boardNo+"&page="+page; }
+	 * else { return "common.errorPage"; } }
+	 * 
+	 * @RequestMapping(value="/board/boardBad.strap", method=RequestMethod.POST)
+	 * public String boardBad(@RequestParam("boardNo") Integer
+	 * boardNo, @RequestParam("memberNick") String memberNick,
+	 * 
+	 * @RequestParam("page") Integer page) { int result =
+	 * bService.addGoodBadCount(boardNo, memberNick, "BAD"); if (result > 0) {
+	 * return "redirect:/board/detail.strap?boardNo=" + boardNo+"&page="+page; }
+	 * else { return "common.errorPage"; } }
+	 */
+	
+	@ResponseBody
+	@RequestMapping(value = "/board/updateLike", method = RequestMethod.POST)
+	public ModelAndView updateLike(
+			ModelAndView mv
+			, @RequestParam("boardNo") Integer boardNo
+			, @RequestParam("page") Integer page
+			, @RequestParam("memberNick") String memberNick
+			, HttpSession session) {
+		try {
+			
+			int likeCheck = bService.likeCheck(boardNo, memberNick);
+			if(likeCheck == 0) {
+				//좋아요 처음누름
+				bService.insertLike(boardNo, memberNick); //like테이블 삽입
+				bService.updateLike(boardNo);	//게시판테이블 +1
+				bService.updateLikeCheck(boardNo, memberNick);//like테이블 구분자 1
+				
+			}else if(likeCheck == 1) {
+				bService.updateLikeCheckCancel(boardNo, memberNick); //like테이블 구분자0
+				bService.updateLikeCancel(boardNo); //게시판테이블 - 1
+				bService.deleteLike(boardNo, memberNick); //like테이블 삭제
 			}
-			else {
-				return "common.errorPage";
-			}
-	}
-	@RequestMapping(value="/board/boardBad.strap", method=RequestMethod.POST)
-	public String boardBad(@RequestParam("boardNo") Integer boardNo, @RequestParam("memberNick") String memberNick,
-			@RequestParam("page") Integer page) {
-			int result = bService.addGoodBadCount(boardNo, memberNick, "BAD");
-			if (result > 0) {
-				return "redirect:/board/detail.strap?boardNo=" + boardNo+"&page="+page;
-			}
-			else {
-				return "common.errorPage";
-			}
+			session.setAttribute("likeCheck", likeCheck);
+			mv.setViewName("redirect:/board/detail.strap?boardNo="+boardNo+"&page="+page);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mv;
 	}
 }

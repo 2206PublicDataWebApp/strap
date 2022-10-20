@@ -19,14 +19,33 @@ public interface BoardStore {
 	public Board selectOneByNo(SqlSession session, Integer boardNo);
 	
 	public int updateBoardCount(SqlSessionTemplate session, Integer boardNo);
-	
-	public int selectCountGood(SqlSessionTemplate session, Integer boardNo);
 
-	public int selectCountBad(SqlSessionTemplate session, Integer boardNo);
-	
-	public int selectBoardRecord(SqlSessionTemplate session, String memberNick, Integer boardNo);
+	void updateLike(SqlSession session, Integer boardNo) throws Exception;
 
-	public int insertGoodBadCount(SqlSessionTemplate session, Integer boardNo, String memberNick, String goodOrBad);
+	void updateLikeCancel(SqlSession session, Integer boardNo) throws Exception;
+
+	void insertLike(SqlSession session, Integer boardNo, String memberNick) throws Exception;
+
+	void deleteLike(SqlSession session, Integer boardNo, String memberNick) throws Exception;
+
+	int likeCheck(SqlSession session, Integer boardNo, String memberNick) throws Exception;
+
+	void updateLikeCheck(SqlSession session, Integer boardNo, String memberNick) throws Exception;
+
+	void updateLikeCheckCancel(SqlSession session, Integer boardNo, String memberNick) throws Exception;
+	
+	/*
+	 * public int selectCountGood(SqlSessionTemplate session, Integer boardNo);
+	 * 
+	 * public int selectCountBad(SqlSessionTemplate session, Integer boardNo);
+	 * 
+	 * public int selectBoardRecord(SqlSessionTemplate session, String memberNick,
+	 * Integer boardNo);
+	 * 
+	 * public int insertGoodBadCount(SqlSessionTemplate session, Integer boardNo,
+	 * String memberNick, String goodOrBad);
+	 */
+	
 }
 
 

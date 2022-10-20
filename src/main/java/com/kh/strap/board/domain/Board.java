@@ -13,8 +13,8 @@ public class Board {
 	private String bFilePath; 		// 파일 경로
 	private Date boardDate; 		// 작성 날짜
 	private int boardCount; 		// 게시글 조회수
-	private int boardGood; 			// 게시글 추천
-	private int boardBad; 			// 게시글 추천
+	private int boardLikeIt; 			// 게시글 추천
+	// private int boardBad; 			// 게시글 추천
 	
 	public int getBoardNo() {
 		return boardNo;
@@ -76,17 +76,11 @@ public class Board {
 	public void setBoardCount(int boardCount) {
 		this.boardCount = boardCount;
 	}
-	public int getBoardGood() {
-		return boardGood;
+	public int getBoardLikeIt() {
+		return boardLikeIt;
 	}
-	public void setBoardGood(int boardGood) {
-		this.boardGood = boardGood;
-	}
-	public int getBoardBad() {
-		return boardBad;
-	}
-	public void setBoardBad(int boardBad) {
-		this.boardBad = boardBad;
+	public void setBoardLikeIt(int boardLikeIt) {
+		this.boardLikeIt = boardLikeIt;
 	}
 	
 	@Override
@@ -94,6 +88,6 @@ public class Board {
 		return "Board [boardNo=" + boardNo + ", memberNick=" + memberNick + ", boardTitle=" + boardTitle
 				+ ", boardContents=" + boardContents + ", boardCategory=" + boardCategory + ", bFileName=" + bFileName
 				+ ", bFileRename=" + bFileRename + ", bFilePath=" + bFilePath + ", boardDate=" + boardDate
-				+ ", boardCount=" + boardCount + ", boardGood=" + boardGood + ", boardBad=" + boardBad + "]";
+				+ ", boardCount=" + boardCount + ", boardLikeIt=" + boardLikeIt + "]";
 	}
 }

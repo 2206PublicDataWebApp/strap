@@ -48,17 +48,17 @@
 		<!-- 추천/비추천 -->
 		<div class="col-md-11 offset-md-5 py-5 text-center">
 			<div style="float: left;">
-	         	<form action="/board/boardGood.do" method="post" style="display: inline">
+	         	<form action="/board/updateLike" method="post" style="display: inline">
 					<input type="hidden" name="memberNick" value="${sessionScope.loginUser.memberNick }"/>
 					<input type="hidden" name="boardNo" value="${board.boardNo }"/>
 					<input type="hidden" name="page" value="${page }"/>
-	            <button class="btn btn-primary"onclick="return check('${record}');"><i class="fa-solid fa-thumbs-up fa-lg"></i> 추천 <b>${boardGood }</b></button>
+	            <button class="btn btn-primary" id="like_btn" onclick="updateLike(); return false;"><i class="fa-solid fa-thumbs-up fa-lg"></i> 추천 <b>${board.boardLikeIt }</b></button>
 	            </form>
-	            <form action="/board/boardBad.do" method="post" style="display: inline">
+	            <form action="/board/updateLike" method="post" style="display: inline">
 					<input type="hidden" name="memberNick" value="${sessionScope.loginUser.memberNick }"/>
 					<input type="hidden" name="boardNo" value="${board.boardNo }"/>
 					<input type="hidden" name="page" value="${page }"/>
-	            <button class="btn btn-danger" onclick="return check('${record}');"><i class="fa-solid fa-thumbs-down fa-lg"></i> 비추천 <b>${boardBad } </b></button>
+	            <button class="btn btn-danger" id="hate_btn"><i class="fa-solid fa-thumbs-down fa-lg"></i>비추천</button>
 	            </form>
             </div>
             <!-- 수정/삭제 -->
@@ -107,16 +107,48 @@
 		<!-- 푸터 -->
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	<script>
-		function check(record){
-			const yes='Y'
-			if(record==yes){
-				alert("이미 추천 또는 비추천한 게시글입니다.");
-				return false;
-			}
-			else{
-				return true;
-			}
-		}'';;''
+		$("#like_btn").on("click", function() {
+			var boardNo = ${board.boardNo};
+			var memberNick = ${member.memberNick}
+			$.ajax({
+	            data : {'boardNo' : boardNo, 'memberNick' : memberNick},
+	            type : "POST",  
+	            url : "/board/updateLike",       
+	            success : function(likeCheck) {
+	                    if(likeCheck == 0){
+	                    	alert("추천완료.");
+	                    	location.reload();
+	                    }
+	                    else if (likeCheck == 1){
+	                     alert("추천취소");
+	                    	location.reload();
+	                	}
+	            }
+	        });
+		});
+	
+		/* var boardNo = ${board.boardNo};
+		var memberNick = ${member.memberNick};
+	 function updateLike(){ 
+	     $.ajax({
+	            data : {'boardNo' : boardNo, 'memberNick' : memberNick},
+	            type : "POST",  
+	            url : "/board/updateLike",       
+	            dataType : "JSON",   
+	            contentType : false,
+				processData : false,
+	            success : function(likeCheck) {
+	                    if(likeCheck == 0){
+	                    	alert("추천완료.");
+	                    	location.reload();
+	                    }
+	                    else if (likeCheck == 1){
+	                     alert("추천취소");
+	                    	location.reload();
+	                	}
+	            }
+	        });
+	 } */
 	
 		function boardRemove(value) {
 			event.preventDefault(); // 하이퍼링크 이동 방지

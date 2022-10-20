@@ -73,7 +73,7 @@
 							<th class="table-primary" style="text-align: center">등록일</th>
 							<th class="table-primary" style="text-align: center">조회</th>
 							<th class="table-primary" style="text-align: center">추천</th>
-							<th class="table-primary" style="text-align: center">비추천</th>
+							<!-- <th class="table-primary" style="text-align: center">비추천</th> -->
 						</tr>
 					
 						<c:if test="${!empty bList }">
@@ -85,8 +85,9 @@
 									<td style="text-align:center">${Board.memberNick }</td>
 									<td style="text-align:center">${Board.boardDate }</td>
 									<td style="text-align:center">${Board.boardCount }</td>
-									<td style="text-align:center">${Board.boardGood }</td>
-									<td style="text-align:center">${Board.boardBad }</td>
+									<%-- <td style="text-align:center">${Board.boardGood }</td>
+									<td style="text-align:center">${Board.boardBad }</td> --%>
+									<td style="text-align:center">${Board.boardLikeIt }</td>
 								</tr>
 							</c:forEach>
 					<tr align="center" height="20">

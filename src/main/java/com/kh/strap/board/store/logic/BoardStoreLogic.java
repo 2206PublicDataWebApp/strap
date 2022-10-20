@@ -2,6 +2,7 @@ package com.kh.strap.board.store.logic;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -59,43 +60,87 @@ public class BoardStoreLogic implements BoardStore{
 		 return session.update("BoardMapper.updateBoardCount", boardNo);
 	 }
 
-	@Override
-	public int selectCountGood(SqlSessionTemplate session, Integer boardNo) {
-		int count=session.selectOne("BoardMapper.selectCountGood", boardNo);
-		return count;
-	}
-
-	@Override
-	public int selectCountBad(SqlSessionTemplate session, Integer boardNo) {
-		int count=session.selectOne("BoardMapper.selectCountBad", boardNo);
-		return count;
-	}
-
-	@Override
-	public int selectBoardRecord(SqlSessionTemplate session, String memberNick, Integer boardNo) {
-		HashMap<String, String> paramMap=new HashMap<String, String>();
-		paramMap.put("boardNo", boardNo.toString());
-		paramMap.put("memberNick", memberNick);
-		int result=session.selectOne("BoardMapper.selectBoardRecord", paramMap);
-		return result;
-	}
-
-	@Override
-	public int insertGoodBadCount(SqlSessionTemplate session, Integer boardNo, String memberNick, String goodOrBad) {
-		HashMap<String, String> paramMap=new HashMap<String, String>();
-		paramMap.put("boardNo", boardNo.toString());
-		paramMap.put("memberNick", memberNick);
-		paramMap.put("goodOrBad", goodOrBad);
+		/*
+		 * @Override public int selectCountGood(SqlSessionTemplate session, Integer
+		 * boardNo) { 
+		 * int count=session.selectOne("BoardMapper.selectCountGood",
+		 * boardNo); return count; }
+		 * 
+		 * @Override public int selectCountBad(SqlSessionTemplate session, Integer
+		 * boardNo) { int count=session.selectOne("BoardMapper.selectCountBad",
+		 * boardNo); return count; }
+		 * 
+		 * @Override public int selectBoardRecord(SqlSessionTemplate session, String
+		 * memberNick, Integer boardNo) { HashMap<String, String> paramMap=new
+		 * HashMap<String, String>(); paramMap.put("boardNo", boardNo.toString());
+		 * paramMap.put("memberNick", memberNick); int
+		 * result=session.selectOne("BoardMapper.selectBoardRecord", paramMap); return
+		 * result; }
+		 * 
+		 * @Override public int insertGoodBadCount(SqlSessionTemplate session, Integer
+		 * boardNo, String memberNick, String goodOrBad) { HashMap<String, String>
+		 * paramMap=new HashMap<String, String>(); paramMap.put("boardNo",
+		 * boardNo.toString()); paramMap.put("memberNick", memberNick);
+		 * paramMap.put("goodOrBad", goodOrBad);
+		 * 
+		 * int result=session.insert("BoardMapper.insertGoodBadCount", paramMap);
+		 * if(goodOrBad.equals("GOOD")) { session.update("BoardMapper.updateGood",
+		 * boardNo); } else { session.update("BoardMapper.updateBad", boardNo); } return
+		 * result; }
+		 */
+	 
+	 @Override
+		public void updateLike(SqlSession session, Integer boardNo) throws Exception{
+		 session.update("BoardMapper.updateLike", boardNo);
+		}
 		
-		int result=session.insert("BoardMapper.insertGoodBadCount", paramMap);
-		if(goodOrBad.equals("GOOD")) {
-			session.update("BoardMapper.updateGood", boardNo);
+		@Override
+		public void updateLikeCancel(SqlSession session, Integer boardNo) throws Exception{
+			session.update("BoardMapper.updateLikeCancel", boardNo);
+
 		}
-		else {
-			session.update("BoardMapper.updateBad", boardNo);
+
+		
+		@Override
+		public void insertLike(SqlSession session, Integer boardNo,String memberNick) throws Exception{
+			Map<String,Object> map = new HashMap<String, Object>();
+			map.put("memberNick", memberNick);
+			map.put("boardNo", boardNo);
+			session.insert("BoardMapper.insertLike", map);
 		}
-		return result;
-	}
+		
+		@Override
+		public void deleteLike(SqlSession session, Integer boardNo,String memberNick)throws Exception{
+			Map<String,Object> map = new HashMap<String, Object>();
+			map.put("memberNick", memberNick);
+			map.put("boardNo", boardNo);
+			session.delete("BoardMapper.deleteLike", map);
+		}
+		
+		@Override
+		public int likeCheck(SqlSession session, Integer boardNo,String memberNick) throws Exception{
+			Map<String,Object> map = new HashMap<String, Object>();
+			map.put("memberNick", memberNick);
+			map.put("boardNo", boardNo);
+			return session.selectOne("BoardMapper.likeCheck", map);
+		}
+		
+		@Override
+		public void updateLikeCheck(SqlSession session, Integer boardNo,String memberNick) throws Exception{
+			Map<String,Object> map = new HashMap<String, Object>();
+			map.put("memberNick", memberNick);
+			map.put("boardNo", boardNo);
+			session.update("BoardMapper.updateLikeCheck", map);
+			
+		}
+				
+		@Override
+		public void updateLikeCheckCancel(SqlSession session, Integer boardNo,String memberNick) throws Exception{
+			Map<String,Object> map = new HashMap<String, Object>();
+			map.put("memberNick", memberNick);
+			map.put("boardNo", boardNo);
+			session.update("BoardMapper.updateLikeCheckCancel", map);
+		}
 }
 
 

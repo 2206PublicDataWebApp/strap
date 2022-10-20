@@ -16,20 +16,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		<result property="bFilePath" 		column="B_FILE_PATH"/>
   		<result property="boardDate" 		column="BOARD_DATE"/>
   		<result property="boardCount" 		column="BOARD_COUNT"/>
-  		<result property="boardGood" 		column="BOARD_GOOD"/>
-  		<result property="boardBad" 		column="BOARD_BAD"/>
+  		<result property="boardLikeIt" 		column="BOARD_LIKEIT"/>
+  		<!-- <result property="boardBad" 		column="BOARD_BAD"/> -->
   	</resultMap>
   	
   	<!-- 게시글 등록 -->
   	<insert id="insertBoard">
   		INSERT INTO BOARD_TBL VALUES(SEQ_BOARDNO.NEXTVAL,#{memberNick}
   		,#{boardTitle},#{boardContents},#{boardCategory},#{bFileName}
-  		,#{bFileRename},#{bFilePath},DEFAULT,DEFAULT,DEFAULT,DEFAULT)
+  		,#{bFileRename},#{bFilePath},DEFAULT,DEFAULT,DEFAULT)
   	</insert>
 
   	<!-- 모든 게시글 SELECT -->
   	<select id="selectAllBoard" resultMap="boardResultMap">
-  		SELECT BOARD_NO,MEMBER_NICK,BOARD_TITLE,BOARD_CONTENTS,BOARD_CATEGORY,B_FILE_NAME,B_FILE_RENAME,B_FILE_PATH,BOARD_DATE,BOARD_COUNT,BOARD_GOOD,BOARD_BAD
+  		SELECT BOARD_NO,MEMBER_NICK,BOARD_TITLE,BOARD_CONTENTS,BOARD_CATEGORY,B_FILE_NAME,B_FILE_RENAME,B_FILE_PATH,BOARD_DATE,BOARD_COUNT,BOARD_LIKEIT
   		FROM BOARD_TBL ORDER BY BOARD_NO DESC
   	</select>
   	
@@ -82,7 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!-- 게시글 추천/비추천 -->
-	<insert id="insertGoodBadCount">
+	<!-- <insert id="insertGoodBadCount">
 		INSERT INTO BOARD_RECORD_TBL VALUES(SEQ_RECORDNO.NEXTVAL, #{memberNick}, #{boardNo}, #{goodOrBad})
 	</insert>
 	
@@ -104,5 +104,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="updateBad">
 		UPDATE BOARD_TBL SET BOARD_BAD=BOARD_BAD+1 WHERE BOARD_NO=#{boardNo}
+	</select> -->
+	
+	<!-- 게시글 추천수 -->
+	<update id="updateLike" parameterType="int">
+		UPDATE BOARD_TBL SET BOARD_LIKEIT = BOARD_LIKEIT+1 WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<!-- 게시글 추천수 취소 -->
+	<update id="updateLikeCancel" parameterType="int">
+		UPDATE BOARD_TBL SET BOARD_LIKEIT = BOARD_LIKEIT-1 WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<!-- 게시글 추천 시 Like 테이블에 insert -->
+	<insert id="insertLike">
+		INSERT INTO BOARD_LIKE_TBL(LIKE_NO, BOARD_NO, MEMBER_NICK) VALUES((SELECT NVL(MAX(LIKE_NO), 0) + 1 FROM BOARD_LIKE_TBL) , #{boardNo}, #{memberNick})
+	</insert>
+	
+	<!-- 게시글 추천 취소 시 delete -->
+	<delete id="deleteLike">
+		DELETE FROM BOARD_LIKE_TBL WHERE BOARD_NO = #{boardNo} AND MEMBER_NICK = #{memberNick}
+	</delete>
+	
+	<!-- 게시글 추천 시 Check를 1로 만들어서 중복방지-->
+	<update id="updateLikeCheck">
+	UPDATE BOARD_LIKE_TBL SET LIKE_CHECK = 1
+	WHERE BOARD_NO = #{boardNo} AND MEMBER_NICK = #{memberNick}
+	</update>
+	
+	<!-- 게시글 추천 취소 시 다시 0 -->
+	<update id="updateLikeCheckCancel">
+		UPDATE BOARD_LIKE_TBL SET LIKE_CHECK = 0 WHERE BOARD_NO = #{boardNo} AND MEMBER_NICK = #{memberNick}
+	</update>
+	
+	<!-- 게시글 추천 중복 방지 select -->
+	<select id="likeCheck" resultType="int">
+		SELECT COUNT(*) FROM BOARD_LIKE_TBL WHERE BOARD_NO = #{boardNo} AND MEMBER_NICK = #{memberNick}
 	</select>
 </mapper>

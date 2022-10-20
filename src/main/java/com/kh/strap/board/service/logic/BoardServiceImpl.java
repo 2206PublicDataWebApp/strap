@@ -54,28 +54,56 @@ public class BoardServiceImpl implements BoardService {
 		return result;
 	}
 
+	/*
+	 * @Override public int getCountGood(Integer boardNo) { int count =
+	 * bStore.selectCountGood(session, boardNo); return count; }
+	 * 
+	 * @Override public int getCountBad(Integer boardNo) { int count =
+	 * bStore.selectCountBad(session, boardNo); return count; }
+	 * 
+	 * @Override public int getBoardRecord(String memberNick, Integer boardNo) { int
+	 * result=bStore.selectBoardRecord(session, memberNick, boardNo); return result;
+	 * }
+	 * 
+	 * @Override public int addGoodBadCount(Integer boardNo, String memberNick,
+	 * String goodOrBad) { int result=bStore.insertGoodBadCount(session, boardNo,
+	 * memberNick, goodOrBad); return result; }
+	 */
+	
 	@Override
-	public int getCountGood(Integer boardNo) {
-		int count = bStore.selectCountGood(session, boardNo);
-		return count;
+	public void updateLike(Integer boardNo) throws Exception{
+		 bStore.updateLike(session, boardNo);
+	}
+	
+	@Override
+	public void updateLikeCancel(Integer boardNo) throws Exception{
+		bStore.updateLikeCancel(session, boardNo);
 	}
 
+	
 	@Override
-	public int getCountBad(Integer boardNo) {
-		int count = bStore.selectCountBad(session, boardNo);
-		return count;
+	public void insertLike(Integer boardNo,String memberNick) throws Exception{
+		bStore.insertLike(session, boardNo, memberNick);
 	}
-
+	
 	@Override
-	public int getBoardRecord(String memberNick, Integer boardNo) {
-		int result=bStore.selectBoardRecord(session, memberNick, boardNo);
-		return result;
+	public void deleteLike(Integer boardNo,String memberNick)throws Exception{
+		bStore.deleteLike(session, boardNo, memberNick);
 	}
-
+	
 	@Override
-	public int addGoodBadCount(Integer boardNo, String memberNick, String goodOrBad) {
-		int result=bStore.insertGoodBadCount(session, boardNo, memberNick, goodOrBad);
-		return result;
+	public int likeCheck(Integer boardNo,String memberNick) throws Exception{
+		return bStore.likeCheck(session, boardNo, memberNick);
+	}
+	
+	@Override
+	public void updateLikeCheck(Integer boardNo,String memberNick)throws Exception{
+		bStore.updateLikeCheck(session, boardNo, memberNick);
+	}
+	
+	@Override
+	public void updateLikeCheckCancel(Integer boardNo,String memberNick)throws Exception{
+		bStore.updateLikeCheckCancel(session, boardNo, memberNick);
 	}
 }
 
