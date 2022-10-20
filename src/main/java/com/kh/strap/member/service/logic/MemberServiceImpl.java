@@ -55,8 +55,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int changeTempPwd(Member member) {
-		int result = mStore.changeTempPwd(session, member);
+	public int changePwd(Member member) {
+		int result = mStore.changePwd(session, member);
 		return result;
 	}
 
@@ -82,6 +82,12 @@ public class MemberServiceImpl implements MemberService {
 	public String memberPwdById(String memberId) {
 		String encodePwd = mStore.memberPwdById(session, memberId);
 		return encodePwd;
+	}
+
+	@Override
+	public int memberNickCheck(String memberNick) {
+		int result = mStore.memberNickCheck(session, memberNick);
+		return result;
 	}
 
 	

@@ -78,6 +78,23 @@ public class MemberController {
 			return "error";
 		}
 	}
+	
+	/**
+	 * 닉네임 중복 체크
+	 * @param memberNick 회원가입할 닉네임
+	 * @return 회원가입 페이지
+	 */
+	@ResponseBody
+	@RequestMapping("/member/memberNickCheck.strap")
+	public String memberNickCheck(
+			@RequestParam("memberNick") String memberNick) {
+		int result = mService.memberNickCheck(memberNick);
+		if(result ==0) {
+			return "ok";
+		} else {
+			return "error";
+		}
+	}
 	/**
 	 * 일반 회원가입
 	 * @param member 가입 정보
@@ -281,7 +298,7 @@ public class MemberController {
 		member.setMemberId(memberId);
 		member.setMemberPwd(sb.toString());
 		System.out.println(member);
-		int result = mService.changeTempPwd(member);
+		int result = mService.changePwd(member);
 		//이메일 발송
 		String subject = "[스트랩] 임시 비밀번호 전송";
 		String content = "회원님의 계정 비밀번호가 [ "+sb+" ]로 변경되었습니다. 로그인 후 비밀번호를 변경해주세요";

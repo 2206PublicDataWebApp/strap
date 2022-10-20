@@ -31,6 +31,10 @@
   	<select id="memberIdCheck" resultType="_int">
   		SELECT COUNT(*) FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId} AND MEMBER_STATUS = 'Y'
   	</select>
+  	<!-- 닉네임 중복 체크 -->
+  	<select id="memberNickCheck" resultType="_int">
+  		SELECT COUNT(*) FROM MEMBER_TBL WHERE MEMBER_NICK = #{memberNick} AND MEMBER_STATUS = 'Y'
+  	</select>
   	<!-- 로그인 체크 -->
   	<select id="memberLogin" resultType="_int">
   		SELECT COUNT(*) FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId} AND MEMBER_PWD = #{memberPwd} AND MEMBER_STATUS = 'Y'
@@ -67,7 +71,7 @@
   		INSERT INTO MEMBER_TBL VALUES(#{memberId},null,#{memberName},#{memberEmail},#{memberGender},#{memberNick},NULL,#{memberCareer},#{memberSBD},NULL,NULL,NULL,DEFAULT,DEFAULT,DEFAULT,DEFAULT,'kakao')
   	</insert>
   	<!-- 비밀번호 찾기 시 임시패스워드로 변경 -->
-  	<update id="changeTempPwd">
+  	<update id="changePwd">
   		UPDATE MEMBER_TBL SET MEMBER_PWD = #{memberPwd} WHERE MEMBER_ID = #{memberId}
   	</update>
 </mapper>

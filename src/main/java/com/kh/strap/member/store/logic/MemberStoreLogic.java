@@ -49,8 +49,8 @@ public class MemberStoreLogic implements MemberStore{
 	}
 
 	@Override
-	public int changeTempPwd(SqlSession session, Member member) {
-		int result = session.update("MemberMapper.changeTempPwd", member);
+	public int changePwd(SqlSession session, Member member) {
+		int result = session.update("MemberMapper.changePwd", member);
 		return result;
 	}
 
@@ -77,6 +77,12 @@ public class MemberStoreLogic implements MemberStore{
 	public String memberPwdById(SqlSession session, String memberId) {
 		String encodePwd = session.selectOne("MemberMapper.memberPwdById", memberId);
 		return encodePwd;
+	}
+
+	@Override
+	public int memberNickCheck(SqlSession session, String memberNick) {
+		int result = session.selectOne("MemberMapper.memberNickCheck", memberNick);
+		return result;
 	}
 
 }
