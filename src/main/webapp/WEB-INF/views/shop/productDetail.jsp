@@ -128,7 +128,7 @@
 				<div id="pReview" class="detail">
 					<div id="pReview" class="">
 						<br><h3>상품리뷰</h3>
-						<button onclick="location.href='#';">리뷰작성</button><hr>
+						<button onclick="loginCheck();">리뷰작성</button><hr>
 						<div style="text-align:center">
 							<div class="gradeInfo" style="font-size:30px;">
 									<span class="aver">${product.gradeAver }</span>
@@ -144,15 +144,15 @@
 						<form id="reviewForm" action="#" method="post" enctype="multipart/form-data">
 							<div id="inputGrade">
 								<div id="inputStarGrade" style="font-weight:bold;font-size:30px;">
-									<span class="inputStars" onclick="addGrade(1);" onmouseover="effectStar(1);" style="color:gold">☆</span>
-									<span class="inputStars" onclick="addGrade(2);" onmouseover="effectStar(2);">☆</span>
-									<span class="inputStars" onclick="addGrade(3);" onmouseover="effectStar(3);">☆</span>
-									<span class="inputStars" onclick="addGrade(4);" onmouseover="effectStar(4);">☆</span>
-									<span class="inputStars" onclick="addGrade(5);" onmouseover="effectStar(5);">☆</span>
+									<span class="inputStars" onclick="addGrade(1);" onmouseover="effectStar(1);" onmouseout="effectStarEnd()" style="color:gold">☆</span>
+									<span class="inputStars" onclick="addGrade(2);" onmouseover="effectStar(2);" onmouseout="effectStarEnd()">☆</span>
+									<span class="inputStars" onclick="addGrade(3);" onmouseover="effectStar(3);" onmouseout="effectStarEnd()">☆</span>
+									<span class="inputStars" onclick="addGrade(4);" onmouseover="effectStar(4);" onmouseout="effectStarEnd()">☆</span>
+									<span class="inputStars" onclick="addGrade(5);" onmouseover="effectStar(5);" onmouseout="effectStarEnd()">☆</span>
 								</div>
 							</div>
-							<input type="hidden" name="memberId" 	id="memberId"	value="${session.loginUser.memberId }">
-							<input type="hidden" name="memberNick" 	id="memberNick"	value="${session.loginUser.memberNick }">
+							<input type="hidden" name="memberId" 	id="memberId"	value="${loginUser.memberId }">
+							<input type="hidden" name="memberNick" 	id="memberNick"	value="${loginUser.memberNick }">
 							<input type="hidden" name="productNo" 	id="productNo"	value="${product.productNo }">
 							<input type="hidden" name="reviewGrade" id="gradeVal" value="1" readonly style="">
 							
@@ -210,6 +210,17 @@ function calTotalPrice(){
 	totalPriceTag.innerHTML = "<span id='wonSymbol'>\\</span> " + totalPrice.toLocaleString();
 }
 
+//로그인 체크
+function loginCheck(doFunc){
+	event.preventDefault();
+	console.log('${loginUser.memberId}');
+	if(${loginUser.memberId eq null}){
+		alert("로그인을 해주세요.");
+		location.href="/member/loginView.strap";		
+	}
+}
+
+
 //상세정보 펼치기
 var fold = true;
 function detailArcodian(){
@@ -244,11 +255,12 @@ function addGrade(number){
 			inputStars.childNodes[2*i-1].style.color="gold";
 		}
 	}
-		pointer = number;
-		document.querySelector("#gradeVal").value = pointer;
+	pointer = number;
+	document.querySelector("#gradeVal").value = pointer;
+	console.log("밸류값" + document.querySelector("#gradeVal").value);
 }
 
-//마우스오버 이펙트
+//리뷰 마우스오버 이펙트
 var overPointer=1;
 function effectStar(number){
 	if(number>overPointer){
@@ -256,13 +268,17 @@ function effectStar(number){
 			inputStars.childNodes[2*i-1].style.color="gold";
 		}
 	}else{
-		for(var i=number+1; i<=5; i++){
+		for(var i=pointer+1; i<=5; i++){
 			inputStars.childNodes[2*i-1].style.color="black";
 		}		
 	}
-	overPointer=number;
-	addGrade(pointer);
 }
+function effectStarEnd(){
+	for(var i=pointer+1; i<=5; i++){
+		inputStars.childNodes[2*i-1].style.color="black";
+	}
+}
+
 
 
 ///리뷰 작성 ajax
