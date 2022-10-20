@@ -13,6 +13,8 @@ public class NoteBox {
 	private Date matchDate;
 	private Date matchTime;
 	private String noteStatus;
+	private String recipientNick;
+	private String senderNick;
 	
 	public int getNoteNo() {
 		return noteNo;
@@ -113,11 +115,28 @@ public class NoteBox {
 		this.noteStatus = noteStatus;
 	}
 
+	public String getRecipientNick() {
+		return recipientNick;
+	}
+
+	public void setRecipientNick(String recipientNick) {
+		this.recipientNick = recipientNick;
+	}
+
+	public String getSenderNick() {
+		return senderNick;
+	}
+
+	public void setSenderNick(String senderNick) {
+		this.senderNick = senderNick;
+	}
+
+
 	@Override
 	public String toString() {
 		return "NoteBox [noteNo=" + noteNo + ", recipientId=" + recipientId + ", senderId=" + senderId + ", senderTime="
 				+ senderTime + ", noteTitle=" + noteTitle + ", noteContents=" + noteContents + ", noteAccept="
 				+ noteAccept + ", matchDate=" + matchDate + ", matchTime=" + matchTime + ", noteStatus=" + noteStatus
-				+ "]";
+				+ ", recipientNick=" + recipientNick + ", senderNick=" + senderNick + "]";
 	}
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="NoteChatMapper">
+	<resultMap type= "NoteChat" id="noteChatResultMap">
+		<id property="chatNo" column="CHAT_NO"/>
+		<result property="recipientId" column="RECIPIENT_ID"/>
+		<result property="recipientNick" column="SENDER_ID"/>
+		<result property="senderId" column="SENDER_TIME"/>
+		<result property="senderNick" column="NOTE_TITLE"/>
+		<result property="chatContents" column="NOTE_CONTENTS"/>
+		<result property="senderDate" column="NOTE_ACCEPT"/>
+	</resultMap>
+	<select id="selectAllNoteChat" resultMap="noteChatResultMap">
+		SELECT * FROM NOTECHAT_TBL
+		WHERE CHAT_NO = #{noteNo} AND RECIPIENT_ID = 'user02'
+  	</select>
+	
+</mapper>
