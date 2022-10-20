@@ -11,7 +11,7 @@ public class Review {
 	private String reviewImgName;
 	private String reviewImgRename;
 	private String reviewImgRoot;
-	private Date ReviewTime;
+	private Date reviewTime;
 	private int reviewGrade;
 	private int productNo;
 	
@@ -29,7 +29,7 @@ public class Review {
 		this.reviewImgName = reviewImgName;
 		this.reviewImgRename = reviewImgRename;
 		this.reviewImgRoot = reviewImgRoot;
-		ReviewTime = reviewTime;
+		this.reviewTime = reviewTime;
 		this.reviewGrade = reviewGrade;
 		this.productNo = productNo;
 	}
@@ -106,12 +106,12 @@ public class Review {
 
 
 	public Date getReviewTime() {
-		return ReviewTime;
+		return reviewTime;
 	}
 
 
 	public void setReviewTime(Date reviewTime) {
-		ReviewTime = reviewTime;
+		this.reviewTime = reviewTime;
 	}
 
 
@@ -139,9 +139,10 @@ public class Review {
 	public String toString() {
 		return "Review [reviewNo=" + reviewNo + ", memberId=" + memberId + ", memberNick=" + memberNick
 				+ ", reviewContents=" + reviewContents + ", reviewImgName=" + reviewImgName + ", reviewImgRename="
-				+ reviewImgRename + ", reviewImgRoot=" + reviewImgRoot + ", ReviewTime=" + ReviewTime + ", reviewGrade="
+				+ reviewImgRename + ", reviewImgRoot=" + reviewImgRoot + ", reviewTime=" + reviewTime + ", reviewGrade="
 				+ reviewGrade + ", productNo=" + productNo + "]";
 	}
-	
+
+
 	
 }

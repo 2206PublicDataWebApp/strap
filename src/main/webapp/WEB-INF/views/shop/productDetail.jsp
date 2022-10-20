@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>
-
 <html>
 <head>
 <title>STRAP MAIN</title>
@@ -128,8 +127,8 @@
 				<div id="pReview" class="detail">
 					<div id="pReview" class="">
 						<br><h3>상품리뷰</h3>
-						<button onclick="loginCheck();">리뷰작성</button><hr>
-						<div style="text-align:center">
+						<hr>
+						<div class="grade-area" style="text-align:center">
 							<div class="gradeInfo" style="font-size:30px;">
 									<span class="aver">${product.gradeAver }</span>
 									<span class="review">(${product.reviewCount })</span>
@@ -139,8 +138,10 @@
 								<div class="backStar star"  	style="width:100%; height:auto;">☆☆☆☆☆</div>
 							</div>
 						</div>
+						<hr>
 					</div>
-					<div id="reviewWrite-wrap" style="text-align:center;">
+					<button id="reviewArcodian" onclick="loginCheck('${loginUser.memberId}'); reviewArcodian();">리뷰작성</button>
+					<div id="reviewWrite-wrap" style="text-align:center; display:none;">
 						<form id="reviewForm" action="#" method="post" enctype="multipart/form-data">
 							<div id="inputGrade">
 								<div id="inputStarGrade" style="font-weight:bold;font-size:30px;">
@@ -161,13 +162,15 @@
 							<button type="button" onclick="registerReview();">등록</button>
 						</form>
 					</div>
-					<div id="reviewGrade" class="">
-						<div></div>
-						<div></div>
-					</div>
+<!-- 리뷰리스트 영역 5개씩 페이징, 정렬, 필터-->
 					<div id="reviewList" class="">
 					</div>
 					<div id="reviewPaging" class="">
+						<div id="pagingDiv">
+							<a>이전</a>
+							<a>n</a>
+							<a>다음</a>
+						</div>
 					</div>
 				</div>
 				<div id="pQna" class="detail">
@@ -198,6 +201,7 @@
 	</div>
 </div>
 <script>
+//온로드 실행
 //별점그래프
 document.querySelector(".graphStar").style.width= ""+('${product.gradeAver}'/5)*100+"%";
 document.querySelector(".graphStar2").style.width= ""+('${product.gradeAver}'/5)*100+"%";
@@ -211,10 +215,9 @@ function calTotalPrice(){
 }
 
 //로그인 체크
-function loginCheck(doFunc){
+function loginCheck(loginId){
 	event.preventDefault();
-	console.log('${loginUser.memberId}');
-	if(${loginUser.memberId eq null}){
+	if(loginId==""){
 		alert("로그인을 해주세요.");
 		location.href="/member/loginView.strap";		
 	}
@@ -273,12 +276,25 @@ function effectStar(number){
 		}		
 	}
 }
+
 function effectStarEnd(){
 	for(var i=pointer+1; i<=5; i++){
 		inputStars.childNodes[2*i-1].style.color="black";
 	}
 }
 
+//리뷰작성 아코디언 버튼
+var reviewWrap = document.querySelector("#reviewWrite-wrap");
+function reviewArcodian(){
+	console.log(reviewWrap.style.display);
+	if(reviewWrap.style.display == "none"){
+		
+		console.log("!");
+		reviewWrap.style.display = "block";
+	}else{
+		reviewWrap.style.display = "none";
+	}
+}
 
 
 ///리뷰 작성 ajax
@@ -294,8 +310,65 @@ function registerReview(){
 		success:function(result){
 			if(result == "sucess"){
 				console.log("성공.");
+				printReview(1);
 			}else{
 				console.log("실패");
+			}
+		},
+		error:function(){}
+	});
+}
+
+printReview(1);
+
+//리뷰 리스트 출력
+function printReview(currentPage){
+// 	리스트 출력을 위해 필요한 값들:
+// 		상품번호, 로그인아이디, Search,Paging
+	var $reviewListDiv = document.querySelector("#reviewList");
+	var $reviewPaging = document.querySelector("#reviewPaging");
+	var productNo = ${product.productNo};
+	var page = 1;
+	if(currentPage > 1 ){
+		page = currentPage;		
+	}
+	
+	$.ajax({
+		url:"/review/detail/list.strap",
+		data:{
+			"productNo":productNo,
+			"page":page
+		},
+		type:"post",
+		success:function(rList){
+			if(rList.length < 1){
+				$reviewListDiv.innerHTML = "<h2>상품 리뷰가 없습니다.</h2>"
+			}else{
+				var rListStr = "";
+				for(var i in rList){
+					var oneReview = 
+						'<div class="oneReviewWrap row" style="border:1px solid black;">'+
+							'<div class="rImgWrap col-3">'+
+								'<img class="rThumbImg" src="'+rList[i].reviewImgRoot+'" onerror="this.src =\'/resources/image/logo.png\'" style="width:100px;height:100px;" >'+
+							'</div>'+
+							'<div class="rInfoWrap col-8">'+
+								'<div class="rGrade">'+
+									'<div class="oneReviewGradeWrap" 	style="position:relative; display:inline-block;">'+
+										'<div class="oneReviewGraph star" style="position:absolute; width:100%; overflow:hidden;"><h2>'+ "★".repeat(rList[i].reviewGrade) +'</h2></div>'+
+										'<div class="oneReviewBack star" 	style="width:100%; width:100%;"><h2>☆☆☆☆☆</h2></div>'+
+									'</div>'+
+								'</div>'+
+							'<div class="rUserTime">'+rList[i].memberNick+'</div>'+
+							'<div class="rBuyInfo">구매정보 추후 업데이트</div>'+
+							'<div class="rContents">'+rList[i].reviewContents+'</div>'+
+							'</div>'+
+							'<div class="btnArea col-1">'+
+									'<button class="reviewDetailBtn">펼치기</button>'+
+							'</div>'+
+						'</div>';
+						rListStr += oneReview;
+				}
+				$reviewListDiv.innerHTML = rListStr;
 			}
 		},
 		error:function(){}

@@ -3,6 +3,7 @@ package com.kh.strap.shop.review.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.kh.strap.common.Paging;
+import com.kh.strap.common.Search;
 import com.kh.strap.shop.review.domain.Review;
 import com.kh.strap.shop.review.service.ReviewService;
 
@@ -41,7 +45,19 @@ public class ReviewController {
 	}
 	
 	//상품상세페이지 내 상품후기 리스트 출력(정렬:최신순,평점순,내 후기)
-	
+	@ResponseBody
+	@RequestMapping(value="/review/detail/list.strap",produces="application/json;charset=utf-8",method=RequestMethod.POST)
+	public String viewReviewListOnDetail(
+			@RequestParam(value="page",required=false) Integer currentPage,
+			@ModelAttribute Search search,
+			Review review
+			) {
+		int page = (currentPage != null)? currentPage : 1;
+		review.setProductNo(search.getProductNo());
+		Paging paging = new Paging(rService.countReview(review), page, 5, 5);
+		List<Review> rList = rService.printReview(paging, search);
+		return new Gson().toJson(rList);
+	}
 	
 	//후기작성ajax
 	@ResponseBody
