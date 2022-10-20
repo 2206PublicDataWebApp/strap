@@ -25,7 +25,7 @@
 <!-- 컨텐츠 -->
 	<div id="contents" class="row">
 		<div class="sidebar col-3" >
-			<jsp:include page="/WEB-INF/views/common/sideBar.jsp"></jsp:include>
+			<jsp:include page="/WEB-INF/views/common/sideBarShop.jsp"></jsp:include>
 		</div>
 		<div class="contents-side col">
 		</div>

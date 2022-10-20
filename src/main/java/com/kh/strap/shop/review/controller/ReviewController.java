@@ -41,6 +41,8 @@ public class ReviewController {
 	//상품후기리스트 이동
 	@RequestMapping(value="/review/list.strap", method=RequestMethod.GET)
 	public ModelAndView viewReviewList(ModelAndView mv) {
+		
+		mv.setViewName("/shop/reviewList");
 		return mv;
 	}
 	

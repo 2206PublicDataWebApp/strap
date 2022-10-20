@@ -12,6 +12,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
 <style>
 
 .inputStars{
@@ -33,6 +34,9 @@
 </head>
 <body>
 <div class="wrap container">
+
+<i class="fa-solid fa-house-user"></i>
+
 <!-- 헤더&메뉴바 -->
 	<div id="header" class="row">
 		<div class="col">
@@ -124,8 +128,9 @@
 						<button id="infoArcodianBtn" onclick="detailArcodian();" style="width:100%;">상품 상세 정보 펼치기</button>
 					</div>
 				</div>
+<!-- 상품리뷰 영역 -->
 				<div id="pReview" class="detail">
-					<div id="pReview" class="">
+					<div id="pReview-wrap" class="">
 						<br><h3>상품리뷰</h3>
 						<hr>
 						<div class="grade-area" style="text-align:center">
@@ -173,17 +178,29 @@
 						</div>
 					</div>
 				</div>
+<!-- 상품문의 영역 -->
 				<div id="pQna" class="detail">
-					<div id="" class="">
+					<div id="pQna-wrap" class="">
 						<br><h3>상품Q&A</h3>
-						<button onclick="location.href='#';">문의작성</button><hr>
+						<hr>
 					</div>
-					<div id="qnaWrite-wrap" class="">
-						
-					</div>
-					<div id="qnaGrade" class="">
-						<div></div>
-						<div></div>
+					<button id="qnaArcodian" onclick="loginCheck('${loginUser.memberId}'); qnaArcodian();">문의작성</button><hr>
+					<div id="qnaWrite-wrap" class="" style="text-align:center; display:none;">
+						<form id="qnaForm" action="#" method="post">
+							<input type="hidden" name="memberId" 	id="memberId"	value="${loginUser.memberId }">
+							<input type="hidden" name="memberNick" 	id="memberNick"	value="${loginUser.memberNick }">
+							<input type="hidden" name="productNo" 	id="productNo"	value="${product.productNo }">
+							<input type="hidden" name="qnaCode" 	id="qnaCode"	value="QC2">
+							<select name="qnaType">
+								<option value="" selected disabled style="display:none">문의종류</option>
+								<option value="QC2QT1">주문/결제</option>
+								<option value="QC2QT2">배송</option>
+								<option value="QC2QT3">취소/반품/교환</option>
+								<option value="QC2QT4">기타</option>
+							</select>
+							<textarea name="qnaContents" id="qnaContents" placeholder="문의를 작성하세요."></textarea>
+							<button type="button" onclick="registerQna();">등록</button>
+						</form>
 					</div>
 					<div id="qnaList" class="">
 					</div>
@@ -222,7 +239,6 @@ function loginCheck(loginId){
 		location.href="/member/loginView.strap";		
 	}
 }
-
 
 //상세정보 펼치기
 var fold = true;
@@ -286,16 +302,12 @@ function effectStarEnd(){
 //리뷰작성 아코디언 버튼
 var reviewWrap = document.querySelector("#reviewWrite-wrap");
 function reviewArcodian(){
-	console.log(reviewWrap.style.display);
 	if(reviewWrap.style.display == "none"){
-		
-		console.log("!");
 		reviewWrap.style.display = "block";
 	}else{
 		reviewWrap.style.display = "none";
 	}
 }
-
 
 ///리뷰 작성 ajax
 function registerReview(){
@@ -332,7 +344,6 @@ function printReview(currentPage){
 	if(currentPage > 1 ){
 		page = currentPage;		
 	}
-	
 	$.ajax({
 		url:"/review/detail/list.strap",
 		data:{
@@ -354,7 +365,7 @@ function printReview(currentPage){
 							'<div class="rInfoWrap col-8">'+
 								'<div class="rGrade">'+
 									'<div class="oneReviewGradeWrap" 	style="position:relative; display:inline-block;">'+
-										'<div class="oneReviewGraph star" style="position:absolute; width:100%; overflow:hidden;"><h2>'+ "★".repeat(rList[i].reviewGrade) +'</h2></div>'+
+										'<div class="oneReviewGraph star" style="position:absolute; width:100%; overflow:hidden;"><h2>'+"★".repeat(rList[i].reviewGrade) +'</h2></div>'+
 										'<div class="oneReviewBack star" 	style="width:100%; width:100%;"><h2>☆☆☆☆☆</h2></div>'+
 									'</div>'+
 								'</div>'+
@@ -369,10 +380,55 @@ function printReview(currentPage){
 						rListStr += oneReview;
 				}
 				$reviewListDiv.innerHTML = rListStr;
+				$reviewPaging.innerHTML = "<div>"+
+												"<a onclick='alert(\"!\")'>이전</a>"+
+												"<a onclick='alert(\"!\")'>N</a>"+
+												"<a onclick='alert(\"!\")'>다음</a>"+
+										   "</div>";
 			}
 		},
 		error:function(){}
 	});
+}
+//문의작성 아코디언 버튼
+var qnaWrap = document.querySelector("#qnaWrite-wrap");
+function qnaArcodian(){
+	if(qnaWrap.style.display == "none"){
+		qnaWrap.style.display = "block";
+	}else{
+		qnaWrap.style.display = "none";
+	}
+}
+///문의 작성 ajax
+function registerQna(){
+	var form = document.querySelector("#qnaForm");
+	var formData = new FormData(form);
+	$.ajax({
+		url:"/review/register.strap",
+		data: formData,
+		type:"POST",
+        contentType: false,
+        processData: false,
+		success:function(result){
+			if(result == "sucess"){
+				console.log("성공.");
+				printReview(1);
+			}else{
+				console.log("실패");
+			}
+		},
+		error:function(){}
+	});
+}
+//////////////////페이징을 여기서 해야하나?........
+function paging(totalCount,page,pageLimit,naviSize){
+	var totalCount;
+	var pageLimit;
+	var startPage;
+	var endPage;
+	var naviSize;
+	var startNavi;
+	var endNavi;
 }
 </script>
 </body>

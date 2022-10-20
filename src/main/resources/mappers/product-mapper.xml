@@ -78,7 +78,7 @@
 	
 	<select id="selectAdminAllProduct" resultMap="ProductResultMap">
 		SELECT * FROM PRODUCT_TBL
-		AND PRODUCT_DELETE = 'N'
+		WHERE PRODUCT_DELETE = 'N'
 		ORDER BY PRODUCT_REGI_DATE DESC
 	</select>
 	

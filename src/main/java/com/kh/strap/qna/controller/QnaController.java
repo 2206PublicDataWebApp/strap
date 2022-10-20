@@ -13,6 +13,7 @@ public class QnaController {
 	@Autowired
 	private QnaServiceImpl qService;
 	
+	//문의 리스트 이동
 	@RequestMapping(value="/mypage/qnaView.strap", method=RequestMethod.GET)
 	public String showMyPage() {
 		return "mypage/qnaList";

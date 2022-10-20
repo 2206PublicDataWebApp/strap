@@ -10,11 +10,11 @@
 		<!-- 사이드바 사용시 -->
 		<ul class="list-group" style="text-align:center;">
 			<li class="sideBar-list list-group-item list-group-item-action">마이쇼핑</li>
-			<li class="sideBar-list list-group-item list-group-item-action">주문내역</li>
-			<li class="sideBar-list list-group-item list-group-item-action">취소/반품</li>
-			<li class="sideBar-list list-group-item list-group-item-action">상품후기</li>
-			<li class="sideBar-list list-group-item list-group-item-action">찜한상품</li>
-			<li class="sideBar-list list-group-item list-group-item-action">상품문의</li>
+			<li class="sideBar-list list-group-item list-group-item-action" onclick="location.href='/order/listView.strap';">주문내역</li>
+			<li class="sideBar-list list-group-item list-group-item-action" onclick="location.href='/order/cancel/listView.strap';">취소/반품</li>
+			<li class="sideBar-list list-group-item list-group-item-action" onclick="location.href='/review/list.strap';">상품후기</li>
+			<li class="sideBar-list list-group-item list-group-item-action" onclick="location.href='/product/like/listView.strap';">찜한상품</li>
+			<li class="sideBar-list list-group-item list-group-item-action" onclick="location.href='/shopQna/list.strap';">상품문의</li>
 		</ul>
 </body>
 </html>
