@@ -14,13 +14,20 @@
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
 	<style>
 		.findIdResultForm{
-			margin:100px auto;
+			margin:30px auto;
 			text-align: center;
 			width: 400px;
 			height: 400px;
+			border: 1px solid gray;
+			border-radius: 10px;
+			box-shadow: 5px 5px 5px 5px gray;
 		}
 		.findIdResultForm button,.findIdResultForm input{
-			width: 200px;
+			width: 250px;
+			height: 40px;
+		}
+		.findIdResultForm label{
+			margin-right: 200px;
 		}
 		
 		span.email, #certificationNumber{
@@ -37,6 +44,7 @@
 <body>
 	<div class="findIdResultForm">
 		<form action="/member/findPwdResult.strap" method="post">
+			<br>
 			<h3>비밀번호 찾기</h3>
 			<hr>
 			<label for="memberId">아이디</label><br>

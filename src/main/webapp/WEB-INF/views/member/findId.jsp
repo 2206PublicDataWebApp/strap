@@ -14,14 +14,20 @@
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
 	<style>
 		.findIdForm{
-			margin:100px auto;
+			margin:30px auto;
 			text-align: center;
 			width: 400px;
 			height: 400px;
+			border: 1px solid gray;
+			border-radius: 10px;
+			box-shadow: 5px 5px 5px 5px gray;
 		}
 		.findIdForm button,.findIdForm input{
-			width: 200px;
-			height: 30px;
+			width: 250px;
+			height: 40px;
+		}
+		.findIdForm label{
+			margin-right : 200px;
 		}
 		span.email, #certificationNumber{
 			display:none;
@@ -36,6 +42,7 @@
 <body>
 	<div class="findIdForm">
 		<form action="/member/findIdResult.strap" method="post">
+			<br>
 			<h3>아이디 찾기</h3>
 			<hr>
 			<label for="memberEmail">이메일</label><br>

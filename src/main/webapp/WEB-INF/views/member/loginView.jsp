@@ -13,22 +13,41 @@
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
 	<style>
-		.loginView{
-			margin: 100px auto;
-			text-align: center;
-			width: 400px;
-			height: 400px;
+		.contents{
+			width: 1200px;
+			height: 700px;
+			min-width: 1200px;
+			margin : 30px auto;
+			border : 1px solid gray;
+			border-radius: 10px;
+			overflow: hidden;
+			box-shadow: 5px 5px 5px 5px gray;
+		}
+		.loginImg{
+			width:70%;
+			height: 100%;
+			padding: 0;
+		}
+		.strapImg{
+			width: 100%;
+			height: 100%;
+		}
+		.loginForm{
+ 			margin: 150px auto;
+ 			text-align: center;
+ 			width:30%;
+			height: 100%;
 			line-height: 50%;
 		}
-		.loginView button,.loginView input{
-			width: 200px;
+		.loginForm button,.loginForm input{
+			width: 250px;
 		}
 		a{
 			text-decoration: none;
 			color: black;
 		}
 		.kakao{
-			width: 200px;
+			width: 250px;
 			height: 40px;
 		}
 		
@@ -36,24 +55,25 @@
 	</style>
 </head>
 <body>
-	<div class="wrap container">
-		<!-- 헤더&메뉴바 -->
-		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-		<!-- 컨텐츠 -->
-		<div class="contents">
-			<div class="loginView">
-					<h3>로그인</h3>
-					<hr><br><br>
-					<input type="text" id="memberId" name="memberId" placeholder="아이디"><br><br>
-					<input type="password" id="memberPwd" name="memberPwd" placeholder="비밀번호"><br><br><br><br>
-					<button class="btn btn-primary" id="loginBtn" type="button">로그인</button><br><br>
-					<a href="https://kauth.kakao.com/oauth/authorize?client_id=21529b6c9fe8f1a51afa1b59f685c562&redirect_uri=http://localhost:9999/member/socialEnroll.strap&response_type=code">
-						<img class="kakao login" src="/resources/image/kakao_login_medium_narrow.png"><br><br><br>
-					</a>
-					<a href="/member/findId.strap">아이디 찾기</a> <a href="/member/findPwd.strap">비밀번호 찾기</a><br><br><br><br>
-					<button class="btn btn-primary" type="button" onclick="location.href='/member/enroll.strap'">회원 가입</button>
-			</div>
+	<!-- 컨텐츠 -->
+	<div class="contents row" >
+		<div class="loginImg">
+			<img class="strapImg" src="/resources/image/member/strap.png">
 		</div>
+		<div class="loginForm">
+				<h3>STRAP</h3>
+				<hr><br><br>
+				<input type="text" id="memberId" name="memberId" placeholder="ID"><br><br>
+				<input type="password" id="memberPwd" name="memberPwd" placeholder="PW"><br><br><br><br>
+				<button class="btn btn-primary" id="loginBtn" type="button">로그인</button><br><br>
+				<a href="https://kauth.kakao.com/oauth/authorize?client_id=21529b6c9fe8f1a51afa1b59f685c562&redirect_uri=http://localhost:9999/member/socialEnroll.strap&response_type=code">
+					<img class="kakao login" src="/resources/image/kakao_login_medium_narrow.png"><br><br><br>
+				</a>
+				<a href="/member/findId.strap">아이디 찾기</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/member/findPwd.strap">비밀번호 찾기</a><br><br><br><br>
+				<button class="btn btn-primary" type="button" onclick="location.href='/member/enroll.strap'">회원 가입</button>
+		</div>
+	</div>
+	<div class="row">
 		<!-- 푸터 -->
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	</div>
