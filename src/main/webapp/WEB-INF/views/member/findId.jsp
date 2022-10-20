@@ -14,7 +14,7 @@
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
 	<style>
 		.findIdForm{
-			margin:30px auto;
+			margin:100px auto;
 			text-align: center;
 			width: 400px;
 			height: 400px;

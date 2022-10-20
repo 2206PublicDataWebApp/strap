@@ -23,7 +23,7 @@
 		</div>
 	</div>
 <!-- 컨텐츠 -->
-	<div id="contents" class="row">
+	<div id="contents" class="contents row">
 		<div class="contents-side col">
 
 		</div>

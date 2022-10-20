@@ -24,7 +24,7 @@
 		</div>
 	</div>
 
-	<div class="row">
+	<div class="contents row">
 		<div class="sidebar col-3" >
 			<jsp:include page="/WEB-INF/views/common/sideBarMyPage.jsp"></jsp:include>
 		</div>

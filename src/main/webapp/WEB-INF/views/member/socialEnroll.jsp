@@ -7,11 +7,15 @@
 <head>
 <meta charset="UTF-8">
 <title>스트랩 : 소셜 회원 가입</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
 	<style>
 		.registerForm{
-			margin:auto;
+			margin: 100px auto;
 			text-align: center;
 			width: 500px;
+			border: 1px solid gray;
+			border-radius: 10px;
+			box-shadow: 5px 5px 5px 5px gray;
 		}
 	</style>
 	<script src="/resources/js/jquery-3.6.1.min.js"></script>
@@ -19,6 +23,7 @@
 <body>
 	<div class="registerForm">
 		<form action="/member/socialRegister.strap" method="post">
+			<br>
 			<h3>STRAP</h3>
 			<hr>			
 			<label for="memberName">이름</label><br>
@@ -67,12 +72,13 @@
 			</c:if>
 	
 			<label for="memberJym">마이 짐</label><br>
-			<input type="text" id="memberJym" name="memberJym" size="35"><button type="button" onclick="showMap();">검색</button>
+			<input type="text" id="memberJym" name="memberJym" size="35"><button type="button" class="btn btn-primary" onclick="showMap();">검색</button>
 			<br><br>
 	
-			<button>가입하기</button>
+			<button class="btn btn-primary">가입하기</button>
 			<input type="hidden" name="memberId" value="${userInfo.get('memberId') }">
 			<input type="hidden" name="mProfilePath" value="${userInfo.get('mProfilePath') }">
+			<br><br>
 		</form>
 	</div>
 	<script>

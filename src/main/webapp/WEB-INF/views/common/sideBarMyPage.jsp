@@ -20,7 +20,7 @@ a:hover{
 </head>
 <body>
 	<!-- 사이드바 사용시 -->
-	<ul class="list-group" style="text-align:center;">
+	<ul class="list-group">
 		<li class="sideBar-list list-group-item list-group-item-action"><a href="/mypage/mypageView.strap">마이페이지</a></li>
 		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/noteBoxListView.strap'">쪽지함</a></li>
 		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/scheduleListView.strap'">캘린더</a></li>

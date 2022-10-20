@@ -19,7 +19,7 @@ public interface MemberService {
 
 	int idEmailCheck(Member member);
 
-	int changeTempPwd(Member member);
+	int changePwd(Member member);
 
 	int kakaoMembercheck(String memberId);
 
@@ -28,6 +28,8 @@ public interface MemberService {
 	int insertSocialMember(Member Member);
 
 	String memberPwdById(String memberId);
+
+	int memberNickCheck(String memberNick);
 
 
 }

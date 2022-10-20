@@ -17,7 +17,7 @@
 			width: 1200px;
 			height: 700px;
 			min-width: 1200px;
-			margin : 30px auto;
+			margin : 100px auto;
 			border : 1px solid gray;
 			border-radius: 10px;
 			overflow: hidden;
@@ -67,15 +67,11 @@
 				<input type="password" id="memberPwd" name="memberPwd" placeholder="PW"><br><br><br><br>
 				<button class="btn btn-primary" id="loginBtn" type="button">로그인</button><br><br>
 				<a href="https://kauth.kakao.com/oauth/authorize?client_id=21529b6c9fe8f1a51afa1b59f685c562&redirect_uri=http://localhost:9999/member/socialEnroll.strap&response_type=code">
-					<img class="kakao login" src="/resources/image/kakao_login_medium_narrow.png"><br><br><br>
+					<img class="kakao login" src="/resources/image/member/kakao_login_medium_narrow.png"><br><br><br>
 				</a>
 				<a href="/member/findId.strap">아이디 찾기</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="/member/findPwd.strap">비밀번호 찾기</a><br><br><br><br>
 				<button class="btn btn-primary" type="button" onclick="location.href='/member/enroll.strap'">회원 가입</button>
 		</div>
-	</div>
-	<div class="row">
-		<!-- 푸터 -->
-		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	</div>
 	<script>
 		$("#loginBtn").on("click",function(){

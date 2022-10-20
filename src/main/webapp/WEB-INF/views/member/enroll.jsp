@@ -9,14 +9,14 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
 <style>
 	.registerForm{
-		margin:30px auto;
+		margin:100px auto;
 		text-align: center;
 		width: 500px;
 		border: 1px solid gray;
 		border-radius: 10px;
 		box-shadow: 5px 5px 5px 5px gray;
 	}
-	span.id, span.pwd, span.pwdCheck{
+	span.id, span.pwd, span.pwdCheck, span.nick{
 		display:none;
 		font-size:12px;
 		top:12px;
@@ -34,16 +34,17 @@
 <body>
 	<div class="registerForm">
 		<form action="/member/register.strap" method="post">
+			<br>
 			<h3>STRAP</h3>
 			<hr>
 			<label for="memberId">아이디</label><br>
-			<input type="text" id="memberId" name="memberId" placeholder="영문,숫자 5~12자"><br>
+			<input type="text" id="memberId" name="memberId" placeholder="영문,숫자 5~12자" required><br>
 			<span class="id ok">이 아이디는 사용 가능합니다.</span>
 			<span class="id error">이 아이디는 사용 할 수 없습니다.</span>
 			<span class="id guide">아이디는 5글자 이상입니다.</span><br>
 			
 			<label for="memberPwd">비밀번호</label><br>
-			<input type="password" id="memberPwd" name="memberPwd"placeholder="영문,숫자 조합 최소 6자"><br>
+			<input type="password" id="memberPwd" name="memberPwd"placeholder="영문,숫자 조합 최소 6자" required><br>
 			<span class="pwd ok">사용가능한 비밀번호입니다.</span>
 			<span class="pwd guide">비밀번호는 영문,숫자 조합 최소 6자입니다.</span><br>
 			
@@ -52,13 +53,16 @@
 			<span class="pwdCheck error">비밀번호와 일치하지 않습니다.</span><br>
 			
 			<label for="memberName">이름</label><br>
-			<input type="text" id="memberName" name="memberName" placeholder="이름"><br><br>
+			<input type="text" id="memberName" name="memberName" placeholder="이름" required><br><br>
 			
 			<label for="memberEmail">이메일</label><br>
-			<input type="email" id="memberEmail" name="memberEmail" placeholder="계정 분실시 활용됩니다."><br><br>
+			<input type="email" id="memberEmail" name="memberEmail" placeholder="계정 분실시 활용됩니다." required><br><br>
 			
 			<label for="memberNick">닉네임</label><br>
-			<input type="text" id="memberNick" name="memberNick" placeholder="닉네임"><br><br>
+			<input type="text" id="memberNick" name="memberNick" placeholder="닉네임" required><br>
+			<span class="nick ok">이 닉네임은 사용 가능합니다.</span>
+			<span class="nick error">이 닉네임은 사용 할 수 없습니다.</span>
+			<span class="nick guide">닉네임은 2글자 이상입니다.</span><br>
 			
 			<label for="memberCareer">운동경력</label><br>
 			<select name="memberCareer" id="memberCareer">
@@ -88,7 +92,7 @@
 		
 			<label for="memberJym">마이 짐</label><br>
 			<input type="text" id="memberJym" name="memberJym" size="35"><button type="button" class="btn btn-primary" onclick="showMap();">검색</button><br><br>
-			<button class="btn btn-primary">가입하기</button>
+			<button class="btn btn-primary" onclick="return loginCheck();">가입하기</button>
 			<br><br><br>
 		</form>
 	</div>
@@ -125,6 +129,7 @@
 		});
 	});
 	
+	
 	$("#memberPwd").on("keyup",function(){
 		var memberPwd = $("#memberPwd").val();
 		var regExt = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,12}$/;
@@ -148,6 +153,46 @@
 			$(".pwdCheck.error").show();
 		};
 	})
+
+	$("#memberNick").on("keyup", function(){
+		var memberNick = $("#memberNick").val();
+		$.ajax({
+			url:"/member/memberNickCheck.strap",
+			type:"get",
+			data:{"memberNick" : memberNick},
+			success:function(result){
+				if(memberNick.length > 1){
+					if(result == "ok"){
+						$(".nick.guide").hide();
+						$(".nick.error").hide();
+						$(".nick.ok").show();
+					} else {
+						$(".nick.guide").hide();
+						$(".nick.ok").hide();
+						$(".nick.error").show();
+					} 
+				}else{
+					$(".nick.error").hide();
+					$(".nick.ok").hide();
+					$(".nick.guide").show();
+				}
+			},
+			error:function(){
+			}
+		});
+	});
+	
+	function loginCheck(){
+		if(	$(".id.ok").is(":visible") &&
+			$(".pwd.ok").is(":visible") &&
+			$(".pwdCheck.ok").is(":visible") &&
+			$(".nick.ok").is(":visible")) {
+			return true;
+		} else {
+			alert("회원 정보를 다시 확인해주세요");
+			return false;
+		}
+	}
 </script>
 </body>
 </html>
