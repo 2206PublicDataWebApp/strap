@@ -23,10 +23,10 @@ public class NoteBoxStoreLogic implements NoteBoxStore{
 	}
 
 	@Override
-	public List<NoteBox> selectAllNoteBox(SqlSession session, int currentPage, int noticeLimit) {
+	public List<NoteBox> selectAllNoteBox(SqlSession session, String memberId, int currentPage, int noticeLimit) {
 		int offset = (currentPage-1)*noticeLimit;
 		RowBounds rowBounds = new RowBounds(offset, noticeLimit);
-		List<NoteBox> nList = session.selectList("NoteBoxMapper.selectAllNoteBox", null, rowBounds);
+		List<NoteBox> nList = session.selectList("NoteBoxMapper.selectAllNoteBox", memberId, rowBounds);
 		return nList;
 	}
 

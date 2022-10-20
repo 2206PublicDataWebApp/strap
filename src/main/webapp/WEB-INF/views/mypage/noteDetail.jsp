@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
@@ -32,7 +33,7 @@
 		</div>
 		<div class="row">
 			<div class="col">
-				보낸 시간 : <fmt:formatDate pattern="yyyy-MM-dd / hh:mm:ss" value="${noteBox.senderTime }"/> || <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#reportNote" id="btn-2">신고</button>
+				보낸 시간 : <fmt:formatDate pattern="yyyy-MM-dd / hh:mm:ss" value="${noteBox.senderTime }"/>   ||   <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#reportNote" id="btn-2">신고</button>
 			</div>
 		</div>
 		<hr>
@@ -52,15 +53,72 @@
 			</div>
 		</div>
 		<br>
-		<div class="row text-center">
-			<div class="col">
-				<button class="btn btn-primary" id="accept">수락</button>
+		<c:if test="${noteBox.noteAccept eq 'N' }">
+			<div class="row text-center">
+				<div class="col">
+					<button class="btn btn-primary" id="accept">수락</button>
+				</div>
 			</div>
-		</div>
-		<div class="row text-center">
-			<div class="col" id="chat-column">
+			<div class="row text-center" id="chat-window" style="display:none;">
+				<div class="col">
+					<span id="chat-column">
+						
+					</span>
+				</div>
 			</div>
-		</div>
+			<br>
+			<div class="row text-center" id="chat-area" style="display:none;">
+				<div class="col">
+					<div class="row">
+						<div class="col">
+							<input type="text" id="chat-contents" required>
+							<button class="btn btn-primary" id="chat-btn">입력</button>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col" align="center">
+							<button class="btn btn-primary">일정잡기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+		</c:if>
+		
+		<c:if test="${noteBox.noteAccept eq 'Y' }">
+			<div class="row text-center">
+				<div class="col">
+					<button class="btn btn-primary" id="accept" style="display:none;">수락</button>
+				</div>
+			</div>
+			<div class="row text-center" id="chat-window" style="display:block;">
+				<div class="col">
+					<span id="chat-column">
+						
+					</span>
+				</div>
+			</div>
+			<br>
+			<div class="row text-center" id="chat-area" style="display:block;">
+				<div class="col">
+					<div class="row">
+						<div class="col">
+							<input type="text" id="chat-contents" required>
+							<button class="btn btn-primary" id="chat-btn">입력</button>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col" align="center">
+							<button class="btn btn-primary">일정잡기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+		</c:if>
+		
 	</div>
 	
 
@@ -107,6 +165,21 @@
 	</div>
 </div>
 <script>
+	
+	$.ajax({
+		url : "/notebox/noteChatListView.strap",
+		data : {
+			"noteNo":'${noteBox.noteNo }', 
+			"senderNick":'${noteBox.senderNick }'},
+		datatype : "html",
+		type : "get",
+		success:function(data){
+			$("#chat-column").html(data);
+		},error:function(){
+			alert("실패");
+		}
+	});
+
 	$(document).ready(function () {
 		$(".report-submit").on("click",function(){
 			var params = $("#report-form").serialize();
@@ -125,19 +198,42 @@
 		
 		$("#accept").on("click",function(){
 			$(this).hide();
-// 			$("#chat-window").show();
-// 			$("#chat-button").show();
-		});
-		
-		$("#accept").on("click",function(){
+			$("#chat-window").show();
+			$("#chat-area").show();
+			
 			$.ajax({
-				url : "/mypage/noteChatListView.strap",
-				data : {"noteNo":${noteBox.noteNo }},
+				url : "/notebox/noteChatListView.strap",
+				data : {
+					"noteNo":'${noteBox.noteNo }', 
+					"senderNick":'${noteBox.senderNick }'},
+				datatype : "html",
 				type : "get",
 				success:function(data){
 					$("#chat-column").html(data);
+					alert("수락 완료!");
 				},error:function(){
-					
+					alert("실패");
+				}
+			});
+		});
+		
+		$("#chat-btn").on("click",function(){
+			var cContents = $("#chat-contents").val();
+			$.ajax({
+				url : "/notebox/registerChat.strap",
+				data : {
+					"noteNo":'${noteBox.noteNo }',
+					"recipientId":'${noteBox.recipientId }',
+					"senderId":'${noteBox.senderId }',
+					"recipientNick":'${noteBox.recipientNick }',
+					"senderNick":'${noteBox.senderNick }',
+					"chatContents" : cContents},
+				type : "get",
+				success:function(data){
+					cContents.val("");
+					alert("쪽지 입력 성공");
+				},error:function(){
+					alert("쪽지 실패");
 				}
 			});
 		});

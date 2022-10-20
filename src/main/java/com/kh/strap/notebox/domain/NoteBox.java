@@ -16,6 +16,21 @@ public class NoteBox {
 	private String recipientNick;
 	private String senderNick;
 	
+	
+	public NoteBox() {}
+
+	public NoteBox(int noteNo, String recipientId, String senderId, String noteContents, String recipientNick,
+			String senderNick) {
+		super();
+		this.noteNo = noteNo;
+		this.recipientId = recipientId;
+		this.senderId = senderId;
+		this.noteContents = noteContents;
+		this.recipientNick = recipientNick;
+		this.senderNick = senderNick;
+	}
+
+
 	public int getNoteNo() {
 		return noteNo;
 	}

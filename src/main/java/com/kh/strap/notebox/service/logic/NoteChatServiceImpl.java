@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.kh.strap.notebox.domain.NoteBox;
 import com.kh.strap.notebox.domain.NoteChat;
 import com.kh.strap.notebox.service.NoteChatService;
 import com.kh.strap.notebox.store.logic.NoteChatStoreLogic;
 
-
+@Service
 public class NoteChatServiceImpl implements NoteChatService{
 	@Autowired
 	private SqlSession session;
@@ -20,5 +22,17 @@ public class NoteChatServiceImpl implements NoteChatService{
 	public List<NoteChat> printNoteChatList(Integer noteNo) {
 		List<NoteChat> nList = ncStore.selectNoteChatList(session, noteNo);
 		return nList;
+	}
+
+	@Override
+	public int modifyNoteBox(Integer noteNo) {
+		int result = ncStore.updateNoteBox(session, noteNo);
+		return result;
+	}
+
+	@Override
+	public int registNoteChat(NoteBox noteBox) {
+		int result = ncStore.insertNoteChat(session, noteBox);
+		return result;
 	}
 }
