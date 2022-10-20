@@ -13,99 +13,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
+<link rel="stylesheet" type="text/css" href="/resources/css/modal.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
-<style>
-#main-form {
-	margin-left: 10%;
-	margin-right: 10%;
-}
-
-textarea.form-controls {
-	min-height: calc(1.5em + 2rem + 2px);
-	border: #333;
-	border: 1px solid #ced4da;
-	border-radius: .25rem;
-}
-
-.form-controls:focus {
-	color: #212529;
-	background-color: #fff;
-	border-color: #86b7fe;
-	outline: 0;
-	box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25)
-}
-
-#btn-2 {
-	height: 40px;
-	border: 0;
-	color: white;
-	background-color: rgb(209, 24, 79);
-}
-
-#btn-2 {
-	color: #fff;
-	background-color: rgb(209, 24, 79);
-	border-color: rgb(209, 24, 79)
-}
-
-#btn-2:hover {
-	color: #fff;
-	background-color: rgb(216, 50, 100);
-	border-color: rgb(216, 50, 100)
-}
-
-.btn-outline-primary {
-	color: rgb(209, 24, 79);
-	border-color: rgb(209, 24, 79)
-}
-
-.btn-outline-primary:hover {
-	color: #fff;
-	background-color: rgb(209, 24, 79);
-	border-color: rgb(209, 24, 79)
-}
-
-#cutline {
-	visibility: hidden;
-}
-
-#thumbnailzone {
-	position: relative;
-	width: auto;
-	height: 200px;
-	border: 1px solid #aaa;
-	border-radius: .25rem;
-}
-
-#thumbnailzone img {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	/* border-radius: 5%; */
-	top: 50%;
-	left: 50%;
-	margin-top: 0;
-	transform: translate(-50%, -50%);
-	!important
-}
-
-#thumbnailzone .form-label {
-	width: 100%;
-}
-
-#thumbnailzone input {
-	position: relative;
-	width: 100%;
-}
-
-#ingHidden {
-	visibility: hidden;
-	height: 0px;
-	width: 0px;
-}
-</style>
 </head>
 <body>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
@@ -147,17 +57,10 @@ textarea.form-controls {
 				<button class="btn btn-primary" id="accept">수락</button>
 			</div>
 		</div>
-		<div class="row text-center border border-secondary border-opacity-50" id="chat-window" style="display:none;">
-			<div class="col">
-				**님과 채팅
-				<div class="row text-center border border-secondary border-opacity-50" >
-					<div class="col">
-						내용
-					</div>
-				</div>
+		<div class="row text-center">
+			<div class="col" id="chat-column">
 			</div>
 		</div>
-		
 	</div>
 	
 
@@ -222,24 +125,28 @@ textarea.form-controls {
 		
 		$("#accept").on("click",function(){
 			$(this).hide();
-			$("#chat-window").show();
+// 			$("#chat-window").show();
+// 			$("#chat-button").show();
 		});
 		
 		$("#accept").on("click",function(){
 			$.ajax({
-				url : "",
-				data : {},
+				url : "/mypage/noteChatListView.strap",
+				data : {"noteNo":${noteBox.noteNo }},
 				type : "get",
 				success:function(data){
-					
+					$("#chat-column").html(data);
 				},error:function(){
 					
 				}
 			});
 		});
-		
-		
 	});
+	
+	
+	
+	
+	
 	
 </script>
 
