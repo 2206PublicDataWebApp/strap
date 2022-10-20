@@ -86,12 +86,6 @@ public class ProductServiceImpl implements ProductService {
 	public int modifyProduct(Product product) {
 		return pStore.updateProduct(session, product);
 	}
-//상품리뷰 추가 시 동작	
-	@Override
-	public int modifyProductAfterReview(Review review, Product product) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 //관리자 상품 삭제
 	@Override
 	public int removeProduct(Product product) {

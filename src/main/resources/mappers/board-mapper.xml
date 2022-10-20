@@ -71,7 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
 	</select>
-	<!-- boardNo로 하나의 board를 가져오는 select -->
+	
 	<select id="selectOneByNo" resultMap="boardResultMap">
 		SELECT * FROM BOARD_TBL WHERE BOARD_NO = #{boardNo}
 	</select>
@@ -106,4 +106,3 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE BOARD_TBL SET BOARD_BAD=BOARD_BAD+1 WHERE BOARD_NO=#{boardNo}
 	</select>
 </mapper>
-

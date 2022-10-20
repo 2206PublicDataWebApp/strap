@@ -4,9 +4,11 @@ import java.util.List;
 
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
+import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.review.domain.Review;
 
 public interface ReviewService {
+
 	
 	//1.상품리뷰 insert
 	public int registerReview(Review review);

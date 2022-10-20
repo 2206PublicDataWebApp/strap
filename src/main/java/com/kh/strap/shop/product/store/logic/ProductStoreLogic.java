@@ -88,21 +88,7 @@ public class ProductStoreLogic implements ProductStore {
 	public int updateProduct(SqlSession session, Product product) {
 		return session.update("ProductMapper.updateProduct", product);
 	}
-//상품리뷰 추가 시 동작	
-	@Override
-	public int updateProductGradeSum(SqlSession session, Review review) {
-		return session.update("ProductMapper.updateProductGradeSum",review);
-	}
-	@Override
-	public int updateProductGradeAver(SqlSession session, Product product) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	@Override
-	public int updateProductReviewCount(SqlSession session, Product product) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
 	
 //관리자 상품 삭제
 	@Override
