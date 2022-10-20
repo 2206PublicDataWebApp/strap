@@ -34,6 +34,7 @@
 		<result column="DELIVERY_COMPLETE"	    property="deliveryComplete"/>
 		<result column="DELIVERY_NO" 			property="deliveryNo"/>
 		<result column="ORDER_DATE" 			property="orderDate"/>
+		<result column="PAY_NO" 				property="payNo"/>
   	</resultMap>
   	<resultMap type="OrderProduct" id="OrderProductResultMap">
   		<id 	column="ORDER_NO" 		property="orderNo"/>

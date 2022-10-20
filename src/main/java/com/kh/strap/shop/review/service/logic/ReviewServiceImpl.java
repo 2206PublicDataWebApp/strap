@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
+import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.review.domain.Review;
 import com.kh.strap.shop.review.service.ReviewService;
 import com.kh.strap.shop.review.store.ReviewStore;
@@ -20,7 +21,11 @@ public class ReviewServiceImpl implements ReviewService{
 	SqlSession session;
 	@Override
 	public int registerReview(Review review) {
-		return rStore.insertReview(session, review);
+		if(rStore.insertReview(session, review) > 0) {
+			return rStore.updateProductAfterReview(session, review);
+		}else {
+			return 0;
+		}
 	}
 	@Override
 	public List<Review> printReview(Paging paging, Search search) {

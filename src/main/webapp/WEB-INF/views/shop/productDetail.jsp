@@ -141,7 +141,7 @@
 						</div>
 					</div>
 					<div id="reviewWrite-wrap" style="text-align:center;">
-						<form action="#" method="post" enctype="multipart/form-data">
+						<form id="reviewForm" action="#" method="post" enctype="multipart/form-data">
 							<div id="inputGrade">
 								<div id="inputStarGrade" style="font-weight:bold;font-size:30px;">
 									<span class="inputStars" onclick="addGrade(1);" onmouseover="effectStar(1);" style="color:gold">☆</span>
@@ -151,14 +151,14 @@
 									<span class="inputStars" onclick="addGrade(5);" onmouseover="effectStar(5);">☆</span>
 								</div>
 							</div>
-							<input type="hidden" name="memberId" value="${session.loginUser.memberId }">
-							<input type="hidden" name="memberNick" value="${session.loginUser.memberNick }">
-							<input type="hidden" name="productNo" value="${product.productNo }">
+							<input type="hidden" name="memberId" 	id="memberId"	value="${session.loginUser.memberId }">
+							<input type="hidden" name="memberNick" 	id="memberNick"	value="${session.loginUser.memberNick }">
+							<input type="hidden" name="productNo" 	id="productNo"	value="${product.productNo }">
 							<input type="hidden" name="reviewGrade" id="gradeVal" value="1" readonly style="">
 							
-							<textarea name="reviewContents" placeholder="리뷰를 작성하세요."></textarea>
+							<textarea name="reviewContents" id="reviewContents" placeholder="리뷰를 작성하세요."></textarea>
 							<input type="file" name="reviewImg" id="rImgFile">
-							<button type="button" onclick="">등록</button>
+							<button type="button" onclick="registerReview();">등록</button>
 						</form>
 					</div>
 					<div id="reviewGrade" class="">
@@ -249,23 +249,42 @@ function addGrade(number){
 }
 
 //마우스오버 이펙트
-// var overPointer=1;
-// function effectStar(number){
-// 	if(number>overPointer){
-// 		for(var i=1; i<=number;i++){
-// 			inputStars.childNodes[2*i-1].style.color="gold";
-// 		}
-// 	}else{
-// 		for(var i=number+1; i<=5; i++){
-// 			inputStars.childNodes[2*i-1].style.color="black";
-// 		}		
-// 	}
-// 	overPointer=number;
-// 	addGrade(pointer);
-// }
+var overPointer=1;
+function effectStar(number){
+	if(number>overPointer){
+		for(var i=1; i<=number;i++){
+			inputStars.childNodes[2*i-1].style.color="gold";
+		}
+	}else{
+		for(var i=number+1; i<=5; i++){
+			inputStars.childNodes[2*i-1].style.color="black";
+		}		
+	}
+	overPointer=number;
+	addGrade(pointer);
+}
 
 
-
+///리뷰 작성 ajax
+function registerReview(){
+	var form = document.querySelector("#reviewForm");
+	var formData = new FormData(form);
+	$.ajax({
+		url:"/review/register.strap",
+		data: formData,
+		type:"POST",
+        contentType: false,
+        processData: false,
+		success:function(result){
+			if(result == "sucess"){
+				console.log("성공.");
+			}else{
+				console.log("실패");
+			}
+		},
+		error:function(){}
+	});
+}
 </script>
 </body>
 </html>

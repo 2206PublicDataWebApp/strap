@@ -48,9 +48,6 @@ public interface ProductService {
 	//상품 수정
 	public int modifyProduct(Product product);
 	
-//상품리뷰 추가 시 동작
-	public int modifyProductAfterReview(Review review,Product product);
-	
 //관리자 상품 삭제
 	public int removeProduct(Product product);
 	

@@ -139,9 +139,14 @@
 
 <!-- 리뷰등록 후 상품 수정	 -->
 <!-- 	리뷰평점으로 총점을 더하고 리뷰개수를 1 더해준다. 평점도 리셋한다. 컨트롤러단에서 미리 1씩 더하여 평점을 계산해서 넣는다. -->
-	<update id="updateProductGradeSum">
-		UPDATE PRODUCT_TBL 
-		SET GRADE_SUM = GRADE_SUM + #{reviewGrade}, REVIEW_COUNT = REVIEW_COUNT+1, GRADE_AVER=#{gradeAver}
+	<update id="updateProductAfterReview">
+		UPDATE PRODUCT_TBL
+		SET GRADE_AVER =(SELECT ROUND(AVG(REVIEW_GRADE),1),
+		                 FROM REVIEW_TBL
+		                 WHERE PRODUCT_NO = #{productNo})
+		REVIEW_COUNT=(SELECT COUNT(*)
+		               FROM REVIEW_TBL
+		               WHERE PRODUCT_NO = #{productNo}) 
 		WHERE PRODUCT_NO = #{productNo}
 	</update>
 

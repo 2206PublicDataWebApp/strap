@@ -52,14 +52,7 @@ public interface ProductStore {
 		//상품 수정
 		public int updateProduct(SqlSession session,Product product);
 		
-//상품리뷰 추가 시 동작
-		//상품 평점 합계 업데이트
-		public int updateProductGradeSum(SqlSession session,Review review);
-		//상품 평점 평균 업데이트
-		public int updateProductGradeAver(SqlSession session,Product product);
-		//리뷰 개수 업데이트
-		public int updateProductReviewCount(SqlSession session,Product product);
-		
+
 //관리자 상품 삭제
 		public int deleteProduct(SqlSession session,Product product);
 		

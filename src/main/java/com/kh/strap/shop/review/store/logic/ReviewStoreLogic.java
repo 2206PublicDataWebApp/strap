@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
+import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.review.domain.Review;
 import com.kh.strap.shop.review.store.ReviewStore;
 
@@ -18,7 +19,12 @@ public class ReviewStoreLogic implements ReviewStore{
 	public int insertReview(SqlSession session, Review review) {
 		return session.insert("ReviewMapper.insertReview", review);
 	}
-
+	
+	//상품리뷰 추가 시 동작	
+	@Override
+	public int updateProductAfterReview(SqlSession session, Review review) {
+		return session.update("ProductMapper.updateProductAfterReview",review);
+	}
 	@Override
 	public List<Review> selectReview(SqlSession session, Paging paging, Search search) {
 		return session.selectList("ReviewMapper.selectReview", search, new RowBounds(paging.getOffset(), paging.getPageLimit()));
