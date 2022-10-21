@@ -145,7 +145,7 @@
 						</div>
 						<hr>
 					</div>
-					<button id="reviewArcodian" onclick="loginCheck('${loginUser.memberId}'); reviewArcodian();">리뷰작성</button>
+					<button id="reviewArcodian" onclick="loginCheck('${loginUser.memberId}',function(){reviewArcodian();});">리뷰작성</button>
 					<div id="reviewWrite-wrap" style="text-align:center; display:none;">
 						<form id="reviewForm" action="#" method="post" enctype="multipart/form-data">
 							<div id="inputGrade">
@@ -184,7 +184,7 @@
 						<br><h3>상품Q&A</h3>
 						<hr>
 					</div>
-					<button id="qnaArcodian" onclick="loginCheck('${loginUser.memberId}'); qnaArcodian();">문의작성</button><hr>
+					<button id="qnaArcodian" onclick="loginCheck('${loginUser.memberId}',function(){qnaArcodian();});">문의작성</button><hr>
 					<div id="qnaWrite-wrap" class="" style="text-align:center; display:none;">
 						<form id="qnaForm" action="#" method="post">
 							<input type="hidden" name="memberId" 	id="memberId"	value="${loginUser.memberId }">
@@ -232,11 +232,13 @@ function calTotalPrice(){
 }
 
 //로그인 체크
-function loginCheck(loginId){
+function loginCheck(loginId,action){
 	event.preventDefault();
 	if(loginId==""){
 		alert("로그인을 해주세요.");
 		location.href="/member/loginView.strap";		
+	}else{
+		action();
 	}
 }
 

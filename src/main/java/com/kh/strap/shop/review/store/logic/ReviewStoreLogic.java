@@ -36,13 +36,13 @@ public class ReviewStoreLogic implements ReviewStore{
 	}
 
 	@Override
-	public int selectCountReview(SqlSession session, Review review) {
-		return session.selectOne("ReviewMapper.selectCountReview", review);
+	public int selectCountReview(SqlSession session, Search search) {
+		return session.selectOne("ReviewMapper.selectCountReview", search);
 	}
 
 	@Override
-	public int selectCountMemberReview(SqlSession session, Review review) {
-		return session.selectOne("ReviewMapper.selectCountMemberReview", review);
+	public int selectCountMemberReview(SqlSession session, Search search) {
+		return session.selectOne("ReviewMapper.selectCountMemberReview", search);
 	}
 	
 	@Override

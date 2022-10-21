@@ -29,7 +29,7 @@
 				</c:if>
 			</li>
 			</c:if>
-	        <li style="cursor: pointer;" onclick="location.href='/order/listView.strap';">마이쇼핑</li>
+	        <li style="cursor: pointer;" onclick="loginCheck('${loginUser.memberId}',function(){location.href='/review/list.strap';});">마이쇼핑</li>
 	        <li style="cursor: pointer;" onclick="location.href='/mypage/mypageView.strap';">
 				<img class="icon-img" src="/resources/images/mypage.png">
 	        </li>
@@ -49,6 +49,17 @@
     	</ul>
 	</div>
 </nav>
-
 </body>
+<script>
+//로그인 체크
+function loginCheck(loginId,action){
+	event.preventDefault();
+	if(loginId==""){
+		alert("로그인을 해주세요.");
+		location.href="/member/loginView.strap";		
+	}else{
+		action();
+	}
+}
+</script>
 </html>

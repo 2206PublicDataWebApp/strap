@@ -19,8 +19,8 @@ public interface ReviewStore {
 	
 	public List<Review> selectReview(SqlSession session,Paging paging,Search search);
 	public List<Review>selectMemberReview(SqlSession session,Paging paging,Search search);
-	public int selectCountReview(SqlSession session, Review review);
-	public int selectCountMemberReview(SqlSession session,Review review);
+	public int selectCountReview(SqlSession session, Search search);
+	public int selectCountMemberReview(SqlSession session,Search search);
 	public int deleteMemberReview(SqlSession session,Review review);
 
 

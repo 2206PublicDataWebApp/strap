@@ -2,6 +2,7 @@ package com.kh.strap.shop.review.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
+import com.kh.strap.member.domain.Member;
 import com.kh.strap.shop.review.domain.Review;
 import com.kh.strap.shop.review.service.ReviewService;
 
@@ -39,7 +41,7 @@ public class ReviewController {
 	ReviewService rService;
 	
 	//상품후기리스트 이동
-	@RequestMapping(value="/review/list.strap", method=RequestMethod.GET)
+	@RequestMapping(value="", method=RequestMethod.GET)
 	public ModelAndView viewReviewList(ModelAndView mv) {
 		
 		mv.setViewName("/shop/reviewList");
@@ -51,15 +53,36 @@ public class ReviewController {
 	@RequestMapping(value="/review/detail/list.strap",produces="application/json;charset=utf-8",method=RequestMethod.POST)
 	public String viewReviewListOnDetail(
 			@RequestParam(value="page",required=false) Integer currentPage,
-			@ModelAttribute Search search,
-			Review review
+			@ModelAttribute Search search
 			) {
 		int page = (currentPage != null)? currentPage : 1;
-		review.setProductNo(search.getProductNo());
-		Paging paging = new Paging(rService.countReview(review), page, 5, 5);
+		Paging paging = new Paging(rService.countReview(search), page, 5, 5);
 		List<Review> rList = rService.printReview(paging, search);
 		return new Gson().toJson(rList);
 	}
+	
+	//마이쇼핑 회원 후기 리스트 출력(필터: 날짜)
+	@RequestMapping(value="/review/list.strap",method=RequestMethod.GET)
+	public ModelAndView viewMemberReviewList(ModelAndView mv,
+			@ModelAttribute Search search,
+			@RequestParam(value="page",required=false) Integer currentPage,
+			HttpSession session) {
+		int page = (currentPage != null)? currentPage: 1;
+		System.out.println(search.toString());
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		search.setMemberId(loginUser.getMemberId());
+		Paging paging = new Paging(rService.countMemberReview(search), page, 10, 5);
+		List<Review> rList = rService.printMemberReview(paging, search);
+		
+		mv.addObject("rList",rList).
+		addObject("search",search).
+		addObject("paging",paging).
+		setViewName("/shop/reviewList");
+		return mv;
+	}
+	
+	
 	
 	//후기작성ajax
 	@ResponseBody

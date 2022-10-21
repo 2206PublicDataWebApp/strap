@@ -36,34 +36,37 @@
 		</if>
 	</select>
 	
-	<select id="selectMemberReview" resultMap="ReviewResultMap">
-		SELECT * FROM REVIEW_TBL
-		<where>
-			<if test='search.dayBefore != ""'>
-				REVIEW_TIME <![CDATA[>]]> (SYSDATE - #{dayBefore} AND
-			</if>
-			<if test='search.dayBefore == ""'>
-				REVIEW_TIME <![CDATA[>]]> #{startDate} AND REVIEW_TIME <![CDATA[<]]> #{endDate} AND
-			</if>
-			MEMBER_ID = #{memberId}
-		</where>
-	</select>
-	
 	<select id="selectCountReview" resultType="_int">
 		SELECT COUNT(*) FROM REVIEW_TBL
 		WHERE PRODUCT_NO = #{productNo}
 	</select>
 	
-	<select id="selectCountMemberReview" resultType="_int">
-		SELECT COUNT(*) FROM REVIEW_TBL
+	<select id="selectMemberReview" resultMap="ReviewResultMap">
+		SELECT * 
+		FROM REVIEW_TBL
 		<where>
-			<if test='search.dayBefore != ""'>
-				REVIEW_TIME <![CDATA[>]]> (SYSDATE - #{dayBefore} AND
-			</if>
-			<if test='search.dayBefore == ""'>
-				REVIEW_TIME <![CDATA[>]]> #{startDate} AND REVIEW_TIME <![CDATA[<]]> #{endDate} AND
-			</if>
 			MEMBER_ID = #{memberId}
+			<if test='dayBefore != 0 '>
+				AND REVIEW_TIME <![CDATA[>=]]> SYSDATE - #{dayBefore}
+			</if>
+			<if test='dayBefore ==0 and startDate != null'>
+				AND (REVIEW_TIME <![CDATA[>=]]> #{startDate} AND REVIEW_TIME <![CDATA[<=]]> #{endDate}+1 )
+			</if>	
+		</where>
+		ORDER BY REVIEW_TIME DESC;
+	</select>
+	
+	<select id="selectCountMemberReview" resultType="_int">
+		SELECT COUNT(*) 
+		FROM REVIEW_TBL
+		<where>
+			MEMBER_ID = #{memberId}
+			<if test='dayBefore != 0 '>
+				AND REVIEW_TIME <![CDATA[>=]]> SYSDATE - #{dayBefore}
+			</if>
+			<if test='dayBefore ==0 and startDate != null'>
+				AND (REVIEW_TIME <![CDATA[>=]]> #{startDate} AND REVIEW_TIME <![CDATA[<=]]> #{endDate}+1 )
+			</if>	
 		</where>
 	</select>
 	
