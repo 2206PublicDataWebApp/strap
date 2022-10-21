@@ -143,6 +143,20 @@
 								<div class="backStar star"  	style="width:100%; height:auto;">☆☆☆☆☆</div>
 							</div>
 						</div>
+						<div>
+							<span onclick="orderSubmit('aver','desc');" 	id="order-aver">평점높은순</span>
+							<span onclick="orderSubmit('aver','asc');" 	id="order-review">평점낮은순</span>
+							<span onclick="orderSubmit('date','desc');" 	id="order-sales">최신순</span>
+							<span onclick="orderSubmit('date','asc');" 	id="order-high-price">오래된순</span>
+							<span>점수별</span>
+							<select>
+								<option>5점</option>
+								<option>4점</option>
+								<option>3점</option>
+								<option>2점</option>
+								<option>1점</option>
+							</select>
+						</div>
 						<hr>
 					</div>
 					<button id="reviewArcodian" onclick="loginCheck('${loginUser.memberId}',function(){reviewArcodian();});">리뷰작성</button>
