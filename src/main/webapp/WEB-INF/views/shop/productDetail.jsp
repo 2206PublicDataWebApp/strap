@@ -143,19 +143,26 @@
 								<div class="backStar star"  	style="width:100%; height:auto;">☆☆☆☆☆</div>
 							</div>
 						</div>
-						<div>
-							<span onclick="orderSubmit('aver','desc');" 	id="order-aver">평점높은순</span>
-							<span onclick="orderSubmit('aver','asc');" 	id="order-review">평점낮은순</span>
-							<span onclick="orderSubmit('date','desc');" 	id="order-sales">최신순</span>
-							<span onclick="orderSubmit('date','asc');" 	id="order-high-price">오래된순</span>
-							<span>점수별</span>
-							<select>
-								<option>5점</option>
-								<option>4점</option>
-								<option>3점</option>
-								<option>2점</option>
-								<option>1점</option>
-							</select>
+						<div id="search-wrap">
+							<form id="search-form" action="/review/detail/list.strap" method="get">
+								<input id="searchColumn"  name="searchColumn" type="hidden">
+								<input id="orderCondition"  name="orderCondition" type="hidden">
+								<button >검색</button>
+							</form>
+							<div id="order-wrap">
+								<span onclick="orderSubmit('grade','desc',${product.productNo});" 	id="order-high-grade">평점높은순</span>
+								<span onclick="orderSubmit('grade','asc',${product.productNo});" 	id="order-low-grade">평점낮은순</span>
+								<span onclick="orderSubmit('rDate','desc',${product.productNo});" 	id="order-sales">최신순</span>
+								<span onclick="orderSubmit('rDate','asc',${product.productNo});" 	id="order-high-price">오래된순</span>
+								<span>점수별</span>
+								<select name="searchCondition" onchange="gradeFilterSubmit(${product.productNo});">
+									<option value="5">5점</option>
+									<option value="4">4점</option>
+									<option value="3">3점</option>
+									<option value="2">2점</option>
+									<option value="1">1점</option>
+								</select>
+							</div>
 						</div>
 						<hr>
 					</div>
@@ -185,11 +192,6 @@
 					<div id="reviewList" class="">
 					</div>
 					<div id="reviewPaging" class="">
-						<div id="pagingDiv">
-							<a>이전</a>
-							<a>n</a>
-							<a>다음</a>
-						</div>
 					</div>
 				</div>
 <!-- 상품문의 영역 -->
@@ -366,9 +368,12 @@ function printReview(currentPage){
 			"productNo":productNo,
 			"page":page
 		},
-		type:"post",
-		success:function(rList){
-			if(rList.length < 1){
+		type:"get",
+		success:function(result){
+			var paging = JSON.parse(result.paging);
+			var search = JSON.parse(result.search);
+			var rList = JSON.parse(result.rList);
+			if(result.rList.length < 1){
 				$reviewListDiv.innerHTML = "<h2>상품 리뷰가 없습니다.</h2>"
 			}else{
 				var rListStr = "";
@@ -396,11 +401,15 @@ function printReview(currentPage){
 						rListStr += oneReview;
 				}
 				$reviewListDiv.innerHTML = rListStr;
-				$reviewPaging.innerHTML = "<div>"+
-												"<a onclick='alert(\"!\")'>이전</a>"+
-												"<a onclick='alert(\"!\")'>N</a>"+
-												"<a onclick='alert(\"!\")'>다음</a>"+
-										   "</div>";
+				//페이징 하나하나ㅏㄱ ajax여야한다.
+				var pagingBefore = "<a href='/review/detail/list.strap' > 이전 </a>";
+				var pagingAfter = "<a href='/review/detail/list.strap'> 다음 </a>";
+				var pagingRepeat = "";
+				for(var j = paging.startNavi; j<=paging.endNavi; j++){
+					pagingRepeat += "<a href='/review/detail/list.strap'>" + j + "</a>";				
+				}
+				
+				$reviewPaging.innerHTML = pagingBefore + pagingRepeat + pagingAfter ;
 			}
 		},
 		error:function(){}
@@ -436,15 +445,24 @@ function registerQna(){
 		error:function(){}
 	});
 }
-//////////////////페이징을 여기서 해야하나?........
-function paging(totalCount,page,pageLimit,naviSize){
-	var totalCount;
-	var pageLimit;
-	var startPage;
-	var endPage;
-	var naviSize;
-	var startNavi;
-	var endNavi;
+
+//정렬 ajax
+function orderSubmit(column,order,pNo){
+	$.ajax({
+		url:"/review/detail/list.strap",
+		data:{
+			"searchColumn":column,
+			"orderCondition":order,
+			"productNo":pNo,
+		},
+		type:"get",
+		sueccess:function(result){
+			console.log(result);
+			console.log(result.paging.page);
+		},
+		error:function(){}
+	});
+	
 }
 </script>
 </body>

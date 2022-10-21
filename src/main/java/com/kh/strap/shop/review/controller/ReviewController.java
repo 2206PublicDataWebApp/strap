@@ -2,12 +2,12 @@ package com.kh.strap.shop.review.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -50,15 +50,29 @@ public class ReviewController {
 	
 	//상품상세페이지 내 상품후기 리스트 출력(정렬:최신순,평점순,내 후기)
 	@ResponseBody
-	@RequestMapping(value="/review/detail/list.strap",produces="application/json;charset=utf-8",method=RequestMethod.POST)
+	@RequestMapping(value="/review/detail/list.strap",produces="application/json;charset=utf-8",method=RequestMethod.GET)
 	public String viewReviewListOnDetail(
 			@RequestParam(value="page",required=false) Integer currentPage,
 			@ModelAttribute Search search
 			) {
 		int page = (currentPage != null)? currentPage : 1;
+		
+		System.out.println(search.toString());
+		
+		JSONObject jsonObject = new JSONObject();
 		Paging paging = new Paging(rService.countReview(search), page, 5, 5);
 		List<Review> rList = rService.printReview(paging, search);
-		return new Gson().toJson(rList);
+		
+		String rListJson = new Gson().toJson(rList);
+		String searchJson = new Gson().toJson(search);
+		String pagingJson = new Gson().toJson(paging);
+		
+		
+		jsonObject.put("paging", pagingJson);
+		jsonObject.put("search",searchJson);
+		jsonObject.put("rList",rListJson);
+		
+		return jsonObject.toString();
 	}
 	
 	//마이쇼핑 회원 후기 리스트 출력(필터: 날짜)

@@ -56,6 +56,10 @@ public class Search {
 			searchColumn = "PRODUCT_SALES";
 		}else if(searchColumn.equals("price")) {
 			searchColumn = "PRODUCT_PRICE";
+		}else if(searchColumn.equals("rDate")){
+			searchColumn = "REVIEW_TIME";
+		}else if(searchColumn.equals("grade")){
+			searchColumn = "REVIEW_GRADE";
 		}else {
 			searchColumn = "";
 		}
