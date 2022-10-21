@@ -53,7 +53,7 @@
 				AND (REVIEW_TIME <![CDATA[>=]]> #{startDate} AND REVIEW_TIME <![CDATA[<=]]> #{endDate}+1 )
 			</if>	
 		</where>
-		ORDER BY REVIEW_TIME DESC;
+		ORDER BY REVIEW_TIME DESC
 	</select>
 	
 	<select id="selectCountMemberReview" resultType="_int">
