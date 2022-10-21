@@ -56,31 +56,63 @@
   	
   	<select id="selectMemberOrder" resultMap="OrderResultMap">
   		SELECT * 
-  		FROM ORDER_TBL
-  		<where>
-			<if test='search.dayBefore != ""'>
-				ORDER_DATE <![CDATA[>]]> (SYSDATE - #{dayBefore} AND
-			</if>
-			<if test='search.dayBefore == ""'>
-				ORDER_DATE <![CDATA[>]]> #{startDate} AND ORDER_DATE <![CDATA[<]]> #{endDate} AND
-			</if>
+		FROM ORDER_TBL
+		<where>
 			MEMBER_ID = #{memberId}
+			<if test='dayBefore != 0 '>
+				AND ORDER_DATE <![CDATA[>=]]> SYSDATE - #{dayBefore}
+			</if>
+			<if test='dayBefore ==0 and startDate != null'>
+				AND (ORDER_DATE <![CDATA[>=]]> #{startDate} AND ORDER_DATE <![CDATA[<=]]> #{endDate}+1 )
+			</if>	
 		</where>
+		ORDER BY ORDER_DATE DESC
   	</select>
   	
-  	<select id="selectMemberCancelOrder" resultMap="OrderResultMap">
-  		SELECT *
-  		FROM ORDER_TBL
-  		<where>
-			<if test='search.dayBefore != ""'>
-				ORDER_DATE <![CDATA[>]]> (SYSDATE - #{dayBefore} AND
+	<select id="selectCountMemberOrder" resultType="_int">
+		SELECT COUNT(*) 
+		FROM ORDER_TBL
+		<where>
+			MEMBER_ID = #{memberId}
+			<if test='dayBefore != 0 '>
+				AND ORDER_DATE <![CDATA[>=]]> SYSDATE - #{dayBefore}
 			</if>
-			<if test='search.dayBefore == ""'>
-				ORDER_DATE <![CDATA[>]]> #{startDate} AND ORDER_DATE <![CDATA[<]]> #{endDate} AND
-			</if>
-			MEMBER_ID = #{memberId} AND ORDER_CANCEL = 'Y'
+			<if test='dayBefore ==0 and startDate != null'>
+				AND (ORDER_DATE <![CDATA[>=]]> #{startDate} AND ORDER_DATE <![CDATA[<=]]> #{endDate}+1 )
+			</if>	
 		</where>
+	</select>
+  	
+  	<select id="selectMemberCancelOrder" resultMap="OrderResultMap">
+  		SELECT * 
+		FROM ORDER_TBL
+		<where>
+			MEMBER_ID = #{memberId}
+			<if test='dayBefore != 0 '>
+				AND ORDER_DATE <![CDATA[>=]]> SYSDATE - #{dayBefore}
+			</if>
+			<if test='dayBefore ==0 and startDate != null'>
+				AND (ORDER_DATE <![CDATA[>=]]> #{startDate} AND ORDER_DATE <![CDATA[<=]]> #{endDate}+1 )
+			</if>	
+			AND ORDER_CANCEL = 'Y'
+		</where>
+		ORDER BY ORDER_DATE DESC
   	</select>
+  	
+	<select id="selectCountMemberCancelOrder" resultType="_int">
+		SELECT COUNT(*) 
+		FROM ORDER_TBL
+		<where>
+			MEMBER_ID = #{memberId}
+			<if test='dayBefore != 0 '>
+				AND ORDER_DATE <![CDATA[>=]]> SYSDATE - #{dayBefore}
+			</if>
+			<if test='dayBefore ==0 and startDate != null'>
+				AND (ORDER_DATE <![CDATA[>=]]> #{startDate} AND ORDER_DATE <![CDATA[<=]]> #{endDate}+1 )
+			</if>	
+			AND ORDER_CANCEL = 'Y'
+		</where>
+	</select>
   	
   	<update id="updatePayComplete">
   		UPDATE ORDER_TBL

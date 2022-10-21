@@ -37,6 +37,10 @@ public interface ProductService {
 	//검색상품 개수 카운트
 	public int countAdminProductSearch(Search search);
 	
+	//주문별 구매상품 목록 출력
+	public List<Product> printProductsOnOrder(int orderNo);
+	
+	
 //상품 상세 조회
 	public Product printOneProduct(Product product);
 	//상품 인포이미지 리스트 출력
@@ -59,9 +63,11 @@ public interface ProductService {
 	//주문 상세 출력
 	public Order printOneOrder(Order order);
 	//회원 주문내역 리스트 출력
-	public List<Order> printMemberOrder(Paging paging,Search search,Order order);
+	public List<Order> printMemberOrder(Paging paging,Search search);
+	public int countMemberOder(Search search);
 	//회원 주문취소 리스트 출력
-	public List<Order> printMemberCancelOrder(Paging paging,Search search,Order order);
+	public List<Order> printMemberCancelOrder(Paging paging,Search search);
+	public int countMemberCancelOrder(Search search);
 	
 //주문 수정
 	//결제 완료 시 PAY_COMPLETE 'Y' UPDATE

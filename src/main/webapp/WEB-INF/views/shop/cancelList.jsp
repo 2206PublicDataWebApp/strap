@@ -37,7 +37,7 @@ input:disabled {
 		<div class="contents-side col">
 			<div id="contents-wrap">
 				<div id="title">
-					<h2>리뷰내역</h2><hr>
+					<h2>취소 내역</h2><hr>
 				</div>
 				<div id="dateFilter">
 				
@@ -60,20 +60,33 @@ input:disabled {
 					</div>
 				</div>
 				<div id="list">
-					<c:forEach items="${rList}" var="review">
-						${review.reviewContents } <br>
-					</c:forEach>
+					<table>
+						<tr>
+							<th>구매상품</th>
+							<th>상태</th>
+							<th>상세조회</th>
+							<th>날짜</th>
+						</tr>
+						<tr>
+							<c:forEach items="${cancelList}" var="cancelOrder">
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</c:forEach>
+						</tr>
+					</table>
 				</div>
 				<div id="paging">
 					<div id="paging-wrap">
 					<c:if test="${paging.startNavi > paging.startPage }">
-						<a href="/review/list.strap?page=${paging.startNavi-1 }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>"><</a>
+						<a href="/order/cancel/listView.strap?page=${paging.startNavi-1 }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>"><</a>
 					</c:if>
 					<c:forEach begin="${paging.startNavi }" end="${paging.endNavi }" var="n">
-						<a href="/review/list.strap?page=${n }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>">${n }</a>
+						<a href="/order/cancel/listView.strap?page=${n }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>">${n }</a>
 					</c:forEach>
 					<c:if test="${paging.endNavi < paging.endPage }">
-						<a href="/review/list.strap?page=${paging.endNavi+1 }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>">></a>
+						<a href="/order/cancel/listView.strap?page=${paging.endNavi+1 }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>">></a>
 					</c:if>					
 				</div>		
 				</div>

@@ -19,6 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
+import com.kh.strap.member.domain.Member;
+import com.kh.strap.shop.product.domain.Order;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.service.ProductService;
@@ -125,12 +127,32 @@ public class ProductController {
 		return mv;
 	}
 	
-	//주문내역리스트 이동
-	@RequestMapping(value="/order/listView.strap", method=RequestMethod.GET)
-	public ModelAndView viewOrderList(ModelAndView mv) {
-		mv.setViewName("/shop/orderList");
+	//마이쇼핑 주문내역 리스트 출력(필터: 날짜)
+	@RequestMapping(value="/order/listView.strap",method=RequestMethod.GET)
+	public ModelAndView viewMemberReviewList(ModelAndView mv,
+			@ModelAttribute Search search,
+			@RequestParam(value="page",required=false) Integer currentPage,
+			HttpSession session) {
+		int page = (currentPage != null)? currentPage: 1;
+		System.out.println(search.toString());
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		search.setMemberId(loginUser.getMemberId());
+		Paging paging = new Paging(pService.countMemberOder(search), page, 10, 5);
+		List<Order> oList = pService.printMemberOrder(paging, search);
+		
+		////주문에 상품리스트를 담아야한다..!
+		oList.stream().forEach(order->{
+					order.setBuyProducts(pService.printProductsOnOrder(order.getOrderNo()));
+				});
+		System.out.println(oList.toString());
+		mv.addObject("oList",oList).
+		addObject("search",search).
+		addObject("paging",paging).
+		setViewName("/shop/orderList");
 		return mv;
 	}
+	
 	
 	//배송조회 
 	@RequestMapping(value="/order/deliveryView.strap", method=RequestMethod.GET)
@@ -144,14 +166,30 @@ public class ProductController {
 	public ModelAndView cancelOrder(ModelAndView mv) {
 		return mv;
 	}
-
 	
-	//취소반품리스트 이동
-	@RequestMapping(value="/order/cancel/listView.strap", method=RequestMethod.GET)
-	public ModelAndView viewCancelList(ModelAndView mv) {
-		mv.setViewName("/shop/cancelList");
-		return mv;
-	}
+	//마이쇼핑 취소반품 리스트 출력(필터: 날짜)
+		@RequestMapping(value="/order/cancel/listView.strap",method=RequestMethod.GET)
+		public ModelAndView viewMemberCancelList(ModelAndView mv,
+				@ModelAttribute Search search,
+				@RequestParam(value="page",required=false) Integer currentPage,
+				HttpSession session) {
+			int page = (currentPage != null)? currentPage: 1;
+			System.out.println(search.toString());
+			
+			Member loginUser = (Member)session.getAttribute("loginUser");
+			search.setMemberId(loginUser.getMemberId());
+			Paging paging = new Paging(pService.countMemberCancelOrder(search), page, 10, 5);
+			List<Order> cancelList = pService.printMemberCancelOrder(paging, search);
+			
+			mv.addObject("cancelList",cancelList).
+			addObject("search",search).
+			addObject("paging",paging).
+			setViewName("/shop/cancelList");
+			return mv;
+		}
+	
+	
+	
 	
 	//찜한상품리스트 이동
 	@RequestMapping(value="/product/like/listView.strap", method=RequestMethod.GET)

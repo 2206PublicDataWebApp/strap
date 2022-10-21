@@ -66,6 +66,14 @@ public class ProductServiceImpl implements ProductService {
 	public int countAdminProductSearch(Search search) {
 		return pStore.selectCountAdminProductSearch(session, search);
 	}
+
+//주문별 상품목록 조회
+	@Override
+	public List<Product> printProductsOnOrder(int orderNo) {
+		return pStore.selectProductsOnOrder(session, orderNo);
+	}
+
+	
 //상품 상세 조회
 	@Override
 	public Product printOneProduct(Product product) {
@@ -100,13 +108,24 @@ public class ProductServiceImpl implements ProductService {
 		return pStore.selectOneOrder(session, order);
 	}
 	@Override
-	public List<Order> printMemberOrder(Paging paging, Search search, Order order) {
-		return pStore.selectMemberOrder(session, paging, search, order);
+	public List<Order> printMemberOrder(Paging paging, Search search) {
+		return pStore.selectMemberOrder(session, paging, search);
 	}
 	@Override
-	public List<Order> printMemberCancelOrder(Paging paging, Search search, Order order) {
-		return pStore.selectMemberCancelOrder(session, paging, search, order);
+	public int countMemberOder(Search search) {
+		return pStore.selectCountMemberOrder(session, search);
 	}
+	@Override
+	public List<Order> printMemberCancelOrder(Paging paging, Search search) {
+		return pStore.selectMemberCancelOrder(session, paging, search);
+	}
+	@Override
+	public int countMemberCancelOrder(Search search) {
+		return pStore.selectCountMemberCancelOrder(session, search);
+	}
+
+	
+	
 //주문 수정
 	@Override
 	public int modifyPayCompleteOrder(Order order) {

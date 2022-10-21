@@ -109,6 +109,15 @@
 		(PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
 		AND PRODUCT_DELETE = 'N'
 	</select>
+	
+<!-- 주문별 상품목록 출력 -->
+	<select id="selectProductsOnOrder" resultMap="ProductResultMap">
+		SELECT P.* 
+		FROM PRODUCT_TBL P INNER JOIN ORDER_PRODUCT_TBL OP
+		ON P.PRODUCT_NO = OP.PRODUCT_NO
+		WHERE ORDER_NO = #{orderNo}
+	</select>
+
 
 <!-- 상품상세조회	 -->
 	<select id="selectOneProduct" resultMap="ProductResultMap">

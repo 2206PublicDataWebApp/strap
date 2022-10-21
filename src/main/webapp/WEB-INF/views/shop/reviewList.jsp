@@ -37,7 +37,7 @@ input:disabled {
 		<div class="contents-side col">
 			<div id="contents-wrap">
 				<div id="title">
-					<h2>리뷰내역</h2><hr>
+					<h2>나의 리뷰</h2><hr>
 				</div>
 				<div id="dateFilter">
 				
@@ -60,9 +60,22 @@ input:disabled {
 					</div>
 				</div>
 				<div id="list">
-					<c:forEach items="${rList}" var="review">
-						${review.reviewContents } <br>
-					</c:forEach>
+					<table>
+						<tr>
+							<th>상품평</th>
+							<th>평점</th>
+							<th>삭제</th>
+							<th>날짜</th>
+						</tr>
+						<c:forEach items="${rList}" var="review">
+							<tr>
+								<td onclick="location.href='/product/detailView.strap?productNo=${review.productNo}';">${review.reviewContents }</td>
+								<td>${review.reviewGrade }</td>
+								<td><button type="button">삭제하기</button></td>
+								<td>${review.reviewTime }</td>
+							</tr>
+						</c:forEach>
+					</table>
 				</div>
 				<div id="paging">
 					<div id="paging-wrap">
