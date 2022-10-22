@@ -21,7 +21,7 @@ public class ShopQnaStoreLogic implements ShopQnaStore {
 
 	@Override
 	public List<ShopQna> selectShopQnaByProductNo(SqlSession session, Paging paging,Search search) {
-		return session.selectList("ShopQnaMapper.selectShopQna", search, new RowBounds(paging.getOffset(), paging.getPageLimit()));
+		return session.selectList("ShopQnaMapper.selectMemberShopQna", search, new RowBounds(paging.getOffset(), paging.getPageLimit()));
 	}
 
 	@Override

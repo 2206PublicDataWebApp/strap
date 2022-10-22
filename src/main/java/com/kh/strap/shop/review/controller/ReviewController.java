@@ -48,7 +48,12 @@ public class ReviewController {
 		return mv;
 	}
 	
-	//상품상세페이지 내 상품후기 리스트 출력(정렬:최신순,평점순,내 후기)
+	/**
+	 * 상품 상세페이지 내 상품리뷰 리스트 출력(정렬:점수순,최신순,페이징)
+	 * @param currentPage
+	 * @param search
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/review/detail/list.strap",produces="application/json;charset=utf-8",method=RequestMethod.GET)
 	public String viewReviewListOnDetail(
@@ -57,25 +62,9 @@ public class ReviewController {
 			) {
 		int page = (currentPage != null)? currentPage : 1;
 		
-		
 		JSONObject jsonObject = new JSONObject();
 		Paging paging = new Paging(rService.countReview(search), page, 5, 5);
 		List<Review> rList = rService.printReview(paging, search);
-
-		System.out.println(search.getSearchColumn());
-		if(search.getSearchColumn() != null) {
-			if(search.getSearchColumn().equals("GRADE_AVER")) {search.setSearchColumn("aver");}
-			if(search.getSearchColumn().equals("REVIEW_COUNT")) {search.setSearchColumn("review");}
-			if(search.getSearchColumn().equals("PRODUCT_SALES")) {search.setSearchColumn("sales");}
-			if(search.getSearchColumn().equals("PRODUCT_PRICE")) { search.setSearchColumn("price");}
-			if(search.getSearchColumn().equals("REVIEW_TIME")) {search.setSearchColumn("rDate");}
-			if(search.getSearchColumn().equals("REVIEW_GRADE")) { search.setSearchColumn("grade");}
-		}
-		if(search.getSearchColumn() != null) {
-			if(search.getSearchColumn().equals("DESC")) search.setSearchColumn("desc");
-			if(search.getSearchColumn().equals("ASC")) search.setSearchColumn("asc");
-		}
-		System.out.println(search.toString());
 		
 		String rListJson = new Gson().toJson(rList);
 		String searchJson = new Gson().toJson(search);
@@ -138,7 +127,7 @@ public class ReviewController {
 			rImg.transferTo(new File(savePath+"\\"+reviewImgRename));
 			
 			if(rService.registerReview(review) > 0) {
-				return "sucess";
+				return "success";
 			}else {
 				return "fail";
 			}

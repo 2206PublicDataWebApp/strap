@@ -24,22 +24,26 @@ public class ShopQnaServiceImpl implements ShopQnaService {
 	}
 	@Override
 	public List<ShopQna> printShopQnaByProductNo(Paging paging,Search search) {
-		return qStore.selectShopQnaByMemberId(session,paging, search);
-	}
-	@Override
-	public List<ShopQna> printShopQnaByMemberId(Paging paging,Search search) {
-		return qStore.selectShopQnaByProductNo(session,paging, search);
-	}
-	@Override
-	public int removeShopQna(ShopQna qna) {
-		return qStore.deleteShopQna(session, qna);
+		return qStore.selectShopQnaByProductNo(session, paging, search);
 	}
 	@Override
 	public int countShopQna(Search search) {
 		return qStore.countShopQna(session, search);
 	}
+	
+	@Override
+	public List<ShopQna> printShopQnaByMemberId(Paging paging,Search search) {
+		return qStore.selectShopQnaByProductNo(session,paging, search);
+	}
 	@Override
 	public int countMemberShopQna(Search search) {
 		return qStore.countMemberShopQna(session, search);
 	}
+	
+	@Override
+	public int removeShopQna(ShopQna qna) {
+		return qStore.deleteShopQna(session, qna);
+	}
+
+
 }

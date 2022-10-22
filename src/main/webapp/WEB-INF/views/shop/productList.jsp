@@ -66,7 +66,7 @@
 							</div>
 							<div class="product-grade">
 								<img src="">
-								<span>${product.gradeAver }(${product.reviewCount })</span>
+								<span>★${product.gradeAver }(${product.reviewCount })</span>
 							</div>
 						</div>
 						<div class="oneProduct userMenu">
