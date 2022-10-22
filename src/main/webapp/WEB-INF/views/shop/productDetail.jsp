@@ -150,10 +150,10 @@
 								<button >검색</button>
 							</form>
 							<div id="order-wrap">
-								<span onclick="orderSubmit('grade','desc',${product.productNo});" 	id="order-high-grade">평점높은순</span>
-								<span onclick="orderSubmit('grade','asc',${product.productNo});" 	id="order-low-grade">평점낮은순</span>
-								<span onclick="orderSubmit('rDate','desc',${product.productNo});" 	id="order-sales">최신순</span>
-								<span onclick="orderSubmit('rDate','asc',${product.productNo});" 	id="order-high-price">오래된순</span>
+								<span onclick="printReview(1,'grade',undefined,'desc');" 	id="order-high-grade">점수높은순</span>
+								<span onclick="printReview(1,'grade',undefined,'asc');" 	id="order-low-grade">점수낮은순</span>
+								<span onclick="printReview(1,'rDate',undefined,'desc');" 	id="order-sales">최신순</span>
+								<span onclick="printReview(1,'rDate',undefined,'asc');" 	id="order-high-price">오래된순</span>
 								<span>점수별</span>
 								<select name="searchCondition" onchange="gradeFilterSubmit(${product.productNo});">
 									<option value="5">5점</option>
@@ -349,31 +349,36 @@ function registerReview(){
 	});
 }
 
-printReview(1);
+//페이지 최초 랜더링 시 리뷰 목록 출력
+printReview(1,undefined,undefined,undefined);
 
 //리뷰 리스트 출력
-function printReview(currentPage){
-// 	리스트 출력을 위해 필요한 값들:
-// 		상품번호, 로그인아이디, Search,Paging
+function printReview(page,searchColumn,searchCondition,orderCondition){
 	var $reviewListDiv = document.querySelector("#reviewList");
 	var $reviewPaging = document.querySelector("#reviewPaging");
 	var productNo = ${product.productNo};
-	var page = 1;
-	if(currentPage > 1 ){
-		page = currentPage;		
-	}
+	
 	$.ajax({
 		url:"/review/detail/list.strap",
 		data:{
 			"productNo":productNo,
-			"page":page
+			"page":page,
+			"searchColumn":searchColumn,
+			"searchCondition":searchCondition,
+			"orderCondition":orderCondition
 		},
 		type:"get",
 		success:function(result){
 			var paging = JSON.parse(result.paging);
 			var search = JSON.parse(result.search);
 			var rList = JSON.parse(result.rList);
-			if(result.rList.length < 1){
+			
+			console.log("searchColumn :" + search.searchColumn);
+			console.log("searchCondition :" + search.searchCondition);
+			console.log("orderCondition :" + search.orderCondition);
+			
+			
+			if(rList.length < 1){
 				$reviewListDiv.innerHTML = "<h2>상품 리뷰가 없습니다.</h2>"
 			}else{
 				var rListStr = "";
@@ -402,11 +407,13 @@ function printReview(currentPage){
 				}
 				$reviewListDiv.innerHTML = rListStr;
 				//페이징 하나하나ㅏㄱ ajax여야한다.
-				var pagingBefore = "<a href='/review/detail/list.strap' > 이전 </a>";
-				var pagingAfter = "<a href='/review/detail/list.strap'> 다음 </a>";
+				var pagingBefore = "<a href='#' onclick='event.preventDefault(); printReview("+(paging.startNavi - 1)+");' > 이전 </a>";
+				if(paging.startNavi == 1) pagingBefore = "";
+				var pagingAfter = "<a href='#' onclick='event.preventDefault(); printReview("+(paging.endNavi + 1)+ ");' > 다음 </a>";
+				if(paging.endNavi == paging.endPage) pagingAfter = "";
 				var pagingRepeat = "";
 				for(var j = paging.startNavi; j<=paging.endNavi; j++){
-					pagingRepeat += "<a href='/review/detail/list.strap'>" + j + "</a>";				
+					pagingRepeat += " <a href='#' onclick='event.preventDefault(); printReview("+ j +");' >" + j + "</a> ";				
 				}
 				
 				$reviewPaging.innerHTML = pagingBefore + pagingRepeat + pagingAfter ;
@@ -464,6 +471,29 @@ function orderSubmit(column,order,pNo){
 	});
 	
 }
+
+//리뷰 paging ajax
+// function rPaging(){
+	
+// 	$.ajax({
+// 		url:"/review/detail/list.strap",
+// 		data:{
+// 			"searchColumn":column,
+// 			"orderCondition":order,
+// 			"searchCondition":searchCondition,
+// 			"productNo":pNo,
+// 			"page":page,
+// 		},
+// 		type:"",
+// 		success:function(result){
+			
+			
+// 		},
+// 		error:function(){}
+// 	});
+// }
+
+
 </script>
 </body>
 </html>
