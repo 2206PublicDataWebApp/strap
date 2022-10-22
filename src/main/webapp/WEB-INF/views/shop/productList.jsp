@@ -40,11 +40,11 @@
 						<button >검색</button>
 					</form>
 					<div id="order-wrap">
-						<span onclick="orderSubmit('aver','desc');" 	id="order-aver">평점높은순</span>
-						<span onclick="orderSubmit('review','desc');" 	id="order-review">리뷰많은순</span>
-						<span onclick="orderSubmit('sales','desc');" 	id="order-sales">판매량많은순</span>
-						<span onclick="orderSubmit('price','desc');" 	id="order-high-price">가격높은순</span>
-						<span onclick="orderSubmit('price','asc');" 	id="order-low-price">가격낮은순</span>
+						<span onclick="orderSubmit('grade_aver','desc');" 		id="order-aver">평점높은순</span>
+						<span onclick="orderSubmit('review_count','desc');" 	id="order-review">리뷰많은순</span>
+						<span onclick="orderSubmit('product_sales','desc');" 	id="order-sales">판매량많은순</span>
+						<span onclick="orderSubmit('product_price','desc');" 	id="order-high-price">가격높은순</span>
+						<span onclick="orderSubmit('product_price','asc');" 	id="order-low-price">가격낮은순</span>
 					</div>
 				</div>
 			</div>

@@ -25,13 +25,10 @@
 	<select id="selectReview" resultMap="ReviewResultMap">
 		SELECT * FROM REVIEW_TBL
 		WHERE PRODUCT_NO = #{productNo}
-		<if test='searchCondition != null'>
-			AND REVIEW_GRADE = #{searchCondition}
-		</if>
-		<if test='searchColumn != null'>
+		<if test='searchColumn != null and searchColumn != ""'>
 			ORDER BY ${searchColumn} ${orderCondition}
 		</if>
-		<if test='searchColumn == null'>
+		<if test='searchColumn == null or searchColumn ==""'>
 			ORDER BY REVIEW_GRADE DESC
 		</if>
 	</select>

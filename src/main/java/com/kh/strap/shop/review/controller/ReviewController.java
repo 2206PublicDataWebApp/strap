@@ -57,16 +57,29 @@ public class ReviewController {
 			) {
 		int page = (currentPage != null)? currentPage : 1;
 		
-		System.out.println(search.toString());
 		
 		JSONObject jsonObject = new JSONObject();
 		Paging paging = new Paging(rService.countReview(search), page, 5, 5);
 		List<Review> rList = rService.printReview(paging, search);
+
+		System.out.println(search.getSearchColumn());
+		if(search.getSearchColumn() != null) {
+			if(search.getSearchColumn().equals("GRADE_AVER")) {search.setSearchColumn("aver");}
+			if(search.getSearchColumn().equals("REVIEW_COUNT")) {search.setSearchColumn("review");}
+			if(search.getSearchColumn().equals("PRODUCT_SALES")) {search.setSearchColumn("sales");}
+			if(search.getSearchColumn().equals("PRODUCT_PRICE")) { search.setSearchColumn("price");}
+			if(search.getSearchColumn().equals("REVIEW_TIME")) {search.setSearchColumn("rDate");}
+			if(search.getSearchColumn().equals("REVIEW_GRADE")) { search.setSearchColumn("grade");}
+		}
+		if(search.getSearchColumn() != null) {
+			if(search.getSearchColumn().equals("DESC")) search.setSearchColumn("desc");
+			if(search.getSearchColumn().equals("ASC")) search.setSearchColumn("asc");
+		}
+		System.out.println(search.toString());
 		
 		String rListJson = new Gson().toJson(rList);
 		String searchJson = new Gson().toJson(search);
 		String pagingJson = new Gson().toJson(paging);
-		
 		
 		jsonObject.put("paging", pagingJson);
 		jsonObject.put("search",searchJson);

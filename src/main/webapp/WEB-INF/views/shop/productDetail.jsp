@@ -150,18 +150,18 @@
 								<button >검색</button>
 							</form>
 							<div id="order-wrap">
-								<span onclick="printReview(1,'grade',undefined,'desc');" 	id="order-high-grade">점수높은순</span>
-								<span onclick="printReview(1,'grade',undefined,'asc');" 	id="order-low-grade">점수낮은순</span>
-								<span onclick="printReview(1,'rDate',undefined,'desc');" 	id="order-sales">최신순</span>
-								<span onclick="printReview(1,'rDate',undefined,'asc');" 	id="order-high-price">오래된순</span>
-								<span>점수별</span>
-								<select name="searchCondition" onchange="gradeFilterSubmit(${product.productNo});">
-									<option value="5">5점</option>
-									<option value="4">4점</option>
-									<option value="3">3점</option>
-									<option value="2">2점</option>
-									<option value="1">1점</option>
-								</select>
+								<span onclick="printReview(1,'review_grade','desc');" 	id="order-high-grade">점수높은순</span>
+								<span onclick="printReview(1,'review_grade','asc');" 	id="order-low-grade">점수낮은순</span>
+								<span onclick="printReview(1,'review_time','desc');" 	id="order-sales">최신순</span>
+								<span onclick="printReview(1,'review_time','asc');" 	id="order-high-price">오래된순</span>
+<!-- 								<span>점수별</span> -->
+<!-- 								<select name="searchCondition" onchange="printReview(1,undefined,undefined,undefined,4)"> -->
+<!-- 									<option value="5">5점</option> -->
+<!-- 									<option value="4">4점</option> -->
+<!-- 									<option value="3">3점</option> -->
+<!-- 									<option value="2">2점</option> -->
+<!-- 									<option value="1">1점</option> -->
+<!-- 								</select> -->
 							</div>
 						</div>
 						<hr>
@@ -350,13 +350,18 @@ function registerReview(){
 }
 
 //페이지 최초 랜더링 시 리뷰 목록 출력
-printReview(1,undefined,undefined,undefined);
+printReview(1,'review_grade','desc');
 
 //리뷰 리스트 출력
-function printReview(page,searchColumn,searchCondition,orderCondition){
+function printReview(page,searchColumn,orderCondition){
 	var $reviewListDiv = document.querySelector("#reviewList");
 	var $reviewPaging = document.querySelector("#reviewPaging");
 	var productNo = ${product.productNo};
+	
+	console.log("page :" + page);
+	console.log("searchColumn :" + searchColumn);
+	console.log("orderCondition :" + orderCondition);
+	
 	
 	$.ajax({
 		url:"/review/detail/list.strap",
@@ -364,7 +369,6 @@ function printReview(page,searchColumn,searchCondition,orderCondition){
 			"productNo":productNo,
 			"page":page,
 			"searchColumn":searchColumn,
-			"searchCondition":searchCondition,
 			"orderCondition":orderCondition
 		},
 		type:"get",
@@ -373,10 +377,7 @@ function printReview(page,searchColumn,searchCondition,orderCondition){
 			var search = JSON.parse(result.search);
 			var rList = JSON.parse(result.rList);
 			
-			console.log("searchColumn :" + search.searchColumn);
-			console.log("searchCondition :" + search.searchCondition);
-			console.log("orderCondition :" + search.orderCondition);
-			
+			console.log(search);
 			
 			if(rList.length < 1){
 				$reviewListDiv.innerHTML = "<h2>상품 리뷰가 없습니다.</h2>"
@@ -395,7 +396,7 @@ function printReview(page,searchColumn,searchCondition,orderCondition){
 										'<div class="oneReviewBack star" 	style="width:100%; width:100%;"><h2>☆☆☆☆☆</h2></div>'+
 									'</div>'+
 								'</div>'+
-							'<div class="rUserTime">'+rList[i].memberNick+'</div>'+
+							'<div class="rUserTime"><span>'+rList[i].memberNick+'</span><span>'+rList[i].reviewTime+'</span</div>'+
 							'<div class="rBuyInfo">구매정보 추후 업데이트</div>'+
 							'<div class="rContents">'+rList[i].reviewContents+'</div>'+
 							'</div>'+
@@ -406,17 +407,18 @@ function printReview(page,searchColumn,searchCondition,orderCondition){
 						rListStr += oneReview;
 				}
 				$reviewListDiv.innerHTML = rListStr;
+				
 				//페이징 하나하나ㅏㄱ ajax여야한다.
-				var pagingBefore = "<a href='#' onclick='event.preventDefault(); printReview("+(paging.startNavi - 1)+");' > 이전 </a>";
+				var pagingBefore = "<a href='#' onclick='event.preventDefault(); printReview("+(paging.startNavi - 1)+ ",\""+search.searchColumn+"\",\""+search.orderCondition+"\");' > 이전 </a>";
 				if(paging.startNavi == 1) pagingBefore = "";
-				var pagingAfter = "<a href='#' onclick='event.preventDefault(); printReview("+(paging.endNavi + 1)+ ");' > 다음 </a>";
+				var pagingAfter = "<a href='#' onclick='event.preventDefault(); printReview("+(paging.endNavi + 1)+ ",\""+search.searchColumn+"\",\""+search.orderCondition+"\");' > 다음 </a>";
 				if(paging.endNavi == paging.endPage) pagingAfter = "";
 				var pagingRepeat = "";
 				for(var j = paging.startNavi; j<=paging.endNavi; j++){
-					pagingRepeat += " <a href='#' onclick='event.preventDefault(); printReview("+ j +");' >" + j + "</a> ";				
+					pagingRepeat += " <a href='#' onclick='event.preventDefault(); printReview("+ j + ",\""+search.searchColumn+"\",\""+search.orderCondition+"\");' >" + j + "</a> ";				
 				}
 				
-				$reviewPaging.innerHTML = pagingBefore + pagingRepeat + pagingAfter ;
+				$reviewPaging.innerHTML = pagingBefore + pagingRepeat + pagingAfter;
 			}
 		},
 		error:function(){}
