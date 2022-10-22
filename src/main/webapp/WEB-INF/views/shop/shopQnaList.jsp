@@ -51,7 +51,7 @@ input:disabled {
 						</div>
 					</div>
 					<div id="inputDate">
-						<form id="search-form" action="/review/list.strap" method="get">
+						<form id="search-form" action="/shopQna/list.strap" method="get">
 							<input id="dayBefore"  name="dayBefore" type="hidden" value="0">
 							<input id="startDate" class="dInput"  name="startDate" type="date"  value="${search.startDate }" disabled required> ~ 
 							<input id="endDate"   class="dInput"  name="endDate" 	type="date" value="${search.endDate }" disabled required>
@@ -62,19 +62,19 @@ input:disabled {
 				<div id="list">
 					<table>
 						<tr>
-							<th>문의내용</th>
 							<th>답변여부</th>
+							<th>문의내용</th>
 							<th>답변보기</th>
 							<th>날짜</th>
 						</tr>
-						<tr>
 							<c:forEach items="${sqList}" var="sQna">
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<tr>
+									<td>${sQna.answerStatus }</td>
+									<td>${sQna.qnaContents }</td>
+									<td>답변보기</td>
+									<td>${sQna.qEnrollDate}</td>
+								</tr>
 							</c:forEach>
-						</tr>
 					</table>
 				</div>
 				<div id="paging">

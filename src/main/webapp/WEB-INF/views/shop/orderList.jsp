@@ -51,7 +51,7 @@ input:disabled {
 						</div>
 					</div>
 					<div id="inputDate">
-						<form id="search-form" action="/review/list.strap" method="get">
+						<form id="search-form" action="/order/listView.strap" method="get">
 							<input id="dayBefore"  name="dayBefore" type="hidden" value="0">
 							<input id="startDate" class="dInput"  name="startDate" type="date"  value="${search.startDate }" disabled required> ~ 
 							<input id="endDate"   class="dInput"  name="endDate" 	type="date" value="${search.endDate }" disabled required>

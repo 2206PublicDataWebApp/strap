@@ -168,25 +168,25 @@ public class ProductController {
 	}
 	
 	//마이쇼핑 취소반품 리스트 출력(필터: 날짜)
-		@RequestMapping(value="/order/cancel/listView.strap",method=RequestMethod.GET)
-		public ModelAndView viewMemberCancelList(ModelAndView mv,
-				@ModelAttribute Search search,
-				@RequestParam(value="page",required=false) Integer currentPage,
-				HttpSession session) {
-			int page = (currentPage != null)? currentPage: 1;
-			System.out.println(search.toString());
-			
-			Member loginUser = (Member)session.getAttribute("loginUser");
-			search.setMemberId(loginUser.getMemberId());
-			Paging paging = new Paging(pService.countMemberCancelOrder(search), page, 10, 5);
-			List<Order> cancelList = pService.printMemberCancelOrder(paging, search);
-			
-			mv.addObject("cancelList",cancelList).
-			addObject("search",search).
-			addObject("paging",paging).
-			setViewName("/shop/cancelList");
-			return mv;
-		}
+	@RequestMapping(value="/order/cancel/listView.strap",method=RequestMethod.GET)
+	public ModelAndView viewMemberCancelList(ModelAndView mv,
+			@ModelAttribute Search search,
+			@RequestParam(value="page",required=false) Integer currentPage,
+			HttpSession session) {
+		int page = (currentPage != null)? currentPage: 1;
+		System.out.println(search.toString());
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		search.setMemberId(loginUser.getMemberId());
+		Paging paging = new Paging(pService.countMemberCancelOrder(search), page, 10, 5);
+		List<Order> cancelList = pService.printMemberCancelOrder(paging, search);
+		
+		mv.addObject("cancelList",cancelList).
+		addObject("search",search).
+		addObject("paging",paging).
+		setViewName("/shop/cancelList");
+		return mv;
+	}
 	
 	
 	

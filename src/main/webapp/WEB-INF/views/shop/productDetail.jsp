@@ -393,7 +393,6 @@ function printReview(page,searchColumn,orderCondition){
 				}
 				$reviewListDiv.innerHTML = rListStr;
 				
-				//페이징 하나하나ㅏㄱ ajax여야한다.
 				var pagingBefore = "<a href='#' onclick='event.preventDefault(); printReview("+(paging.startNavi - 1)+ ",\""+search.searchColumn+"\",\""+search.orderCondition+"\");' > 이전 </a>";
 				if(paging.startNavi == 1) pagingBefore = "";
 				var pagingAfter = "<a href='#' onclick='event.preventDefault(); printReview("+(paging.endNavi + 1)+ ",\""+search.searchColumn+"\",\""+search.orderCondition+"\");' > 다음 </a>";
@@ -403,7 +402,7 @@ function printReview(page,searchColumn,orderCondition){
 					pagingRepeat += " <a href='#' onclick='event.preventDefault(); printReview("+ j + ",\""+search.searchColumn+"\",\""+search.orderCondition+"\");' >" + j + "</a> ";				
 				}
 				
-				$reviewPaging.innerHTML = pagingBefore + pagingRepeat + pagingAfter;
+				$reviewPaging.innerHTML = pagingBefore + pagingRepeat + pagingAfter
 			}
 		},
 		error:function(){}
@@ -458,7 +457,7 @@ function printShopQna(page){
 		success:function(result){
 			var paging = JSON.parse(result.paging);
 			var qList = JSON.parse(result.qList);
-			document.querySelector("#numberOfQna").innerHTML = "("+qList.length+")"
+			document.querySelector("#numberOfQna").innerHTML = "("+paging.totalCount+")";
 			if(qList.length < 1){
 				 $qnaListDiv.innerHTML = "<h2>상품 문의가 없습니다.</h2>"
 			}else{
@@ -480,20 +479,16 @@ function printShopQna(page){
 				}
 				$qnaListDiv.innerHTML = qListStr;
 				
-				//페이징 하나하나ㅏㄱ ajax여야한다.
 				var pagingBefore = "<a href='#' onclick='event.preventDefault(); printShopQna("+(paging.startNavi - 1)+");' > 이전 </a>";
-				if(paging.startNavi == 1) pagingBefore = "";
+				if(paging.startNavi == 1) {pagingBefore = "";}
 				var pagingAfter = "<a href='#' onclick='event.preventDefault(); printShopQna("+(paging.endNavi + 1)+ ");' > 다음 </a>";
-				if(paging.endNavi == paging.endPage) pagingAfter = "";
+				if(paging.endNavi == paging.endPage) {pagingAfter = "";}
 				var pagingRepeat = "";
 				for(var j = paging.startNavi; j<=paging.endNavi; j++){
-					pagingRepeat += " <a href='#' onclick='event.preventDefault(); printShopQna("+ j + ");>" + j + "</a> ";				
+					console.log(j);
+					pagingRepeat += "<a href='#' onclick='event.preventDefault(); printShopQna("+ j +");'>" + j + "</a> ";				
 				}
-				
-				console.log(pagingBefore+pagingAfter+pagingRepeat);
-				
-				
-				$qnaPaging.innerHTML = pagingBefore + pagingRepeat + pagingAfter;
+				$qnaPaging.innerHTML =  pagingBefore + pagingRepeat + pagingAfter;
 			}
 		},
 		error:function(){}
