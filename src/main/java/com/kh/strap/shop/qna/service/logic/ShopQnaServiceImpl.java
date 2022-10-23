@@ -33,7 +33,7 @@ public class ShopQnaServiceImpl implements ShopQnaService {
 	
 	@Override
 	public List<ShopQna> printShopQnaByMemberId(Paging paging,Search search) {
-		return qStore.selectShopQnaByProductNo(session,paging, search);
+		return qStore.selectShopQnaByMemberId(session, paging, search);
 	}
 	@Override
 	public int countMemberShopQna(Search search) {
