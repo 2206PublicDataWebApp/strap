@@ -54,11 +54,6 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 
-	@Override
-	public int changePwd(Member member) {
-		int result = mStore.changePwd(session, member);
-		return result;
-	}
 
 	@Override
 	public int kakaoMembercheck(String memberId) {
@@ -87,6 +82,42 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int memberNickCheck(String memberNick) {
 		int result = mStore.memberNickCheck(session, memberNick);
+		return result;
+	}
+
+	@Override
+	public int changePwd(Member member) {
+		int result = mStore.changePwd(session, member);
+		return result;
+	}
+	
+	@Override
+	public int changeNick(Member member) {
+		int result = mStore.changeNick(session, member);
+		return result;
+	}
+
+	@Override
+	public int changeEmail(Member member) {
+		int result = mStore.changeEmail(session, member);
+		return result;
+	}
+
+	@Override
+	public int changeCareer(Member member) {
+		int result = mStore.changeCareer(session, member);
+		return result;
+	}
+
+	@Override
+	public int changeSBD(Member member) {
+		int result = mStore.changeSBD(session, member);
+		return result;
+	}
+
+	@Override
+	public int changeJym(Member member) {
+		int result = mStore.changeJym(session, member);
 		return result;
 	}
 
