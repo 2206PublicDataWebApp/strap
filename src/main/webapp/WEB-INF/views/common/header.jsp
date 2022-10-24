@@ -31,10 +31,10 @@
 			</c:if>
 	        <li style="cursor: pointer;" onclick="loginCheck('${loginUser.memberId}',function(){location.href='/order/listView.strap';});">마이쇼핑</li>
 	        <li style="cursor: pointer;" onclick="location.href='/mypage/mypageView.strap';">
-				<img class="icon-img" src="/resources/images/mypage.png">
+				<i class="fa-regular fa-user"></i>
 	        </li>
 	        <li style="cursor: pointer;" onclick="location.href='/order/list.strap';">
-				<img class="icon-img" src="/resources/images/cart.png">
+				<i class="fa-solid fa-cart-shopping"></i>
 	        </li>
 			</ul>
 		</div>

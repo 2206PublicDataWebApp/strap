@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.shop.product.domain.Order;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
+import com.kh.strap.shop.product.domain.ProductLike;
 import com.kh.strap.shop.product.service.ProductService;
 
 @Controller
@@ -188,26 +190,44 @@ public class ProductController {
 		return mv;
 	}
 	
-	
-	
-	
-	//찜한상품리스트 이동
+	//마이쇼핑:찜한상품리스트 이동
 	@RequestMapping(value="/product/like/listView.strap", method=RequestMethod.GET)
-	public ModelAndView viewLikeList(ModelAndView mv) {
-		mv.setViewName("/shop/likeList");
+	public ModelAndView viewLikeList(ModelAndView mv,
+			Search search,
+			@RequestParam(value="page",required=false)Integer currentPage,
+			ProductLike like,
+			HttpSession session) {
+		int page = (currentPage != null)? currentPage : 1;
+		like.setMemberId(((Member)session.getAttribute("loginUser")).getMemberId());
+		Paging paging = new Paging(pService.countMemberProductLike(like), page, 5, 5);
+		List<Product>pList = pService.printMemberProductLike(paging, like);
+		mv.addObject("pList",pList).
+		addObject("paging",paging).
+		addObject("search",search).
+		addObject("url","listView").
+		setViewName("/shop/likeList");
 		return mv;
 	}
+	//로그인 멤버의 찜한 상품들
+	@ResponseBody
+	@RequestMapping(value="/product/member/likeList.strap",produces="application/json;charset=utf-8", method=RequestMethod.POST)
+	public String memberLikeList(
+			@RequestParam("memberId")String memberId) {
+		List<ProductLike> plList = pService.memberLikeList(memberId);
+		return new Gson().toJson(plList);
+	}
 	
-	//상품 찜하기
+	//상품 찜하고삭제하기
+	@ResponseBody
 	@RequestMapping(value="/product/like.strap", method=RequestMethod.GET)
-	public ModelAndView registerLike(ModelAndView mv) {
-		return mv;
-	}
-	
-	//상품 찜 취소
-	@RequestMapping(value="/product/likeCancel.strap", method=RequestMethod.GET)
-	public ModelAndView removeLike(ModelAndView mv) {
-		return mv;
+	public String controlProductLike(
+			@ModelAttribute ProductLike like) {
+		
+		if(pService.registerdeleteProductLike(like) > 0) {
+			return "register";
+		}else {
+			return "remove";
+		}
 	}
 	
 	//상품관리페이지 상품 목록

@@ -40,7 +40,6 @@ input:disabled {
 					<h2>나의 문의</h2><hr>
 				</div>
 				<div id="dateFilter">
-				
 					<div id="selectDate">
 					필터링(${search.dayBefore })
 						<div id="order-wrap">

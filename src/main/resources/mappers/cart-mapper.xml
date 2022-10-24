@@ -7,14 +7,12 @@
 	<resultMap type="Cart" id="CartResultMap">
 		<id		column="PRODUCT_NO" 			property="productNo"/>
 		<result column="MEMBER_ID"			    property="memberId"/>
-		<result column="PRODUCT_NAME" 			property="productName"/>
-		<result column="PRICE" 					property="price"/>
 		<result column="PRODUCT_AMOUNT" 		property="productAmount"/>
 	</resultMap>
 	
 	<insert id="insertCart">
 		INSERT INTO CART_TBL
-		VALUES(#{productNo},#{memberId},#{productName},#{price},#{productAmount})
+		VALUES(#{productNo},#{memberId},#{productAmount})
 	</insert>
 	
 	<select id="selectCheckCart" resultType="_int">

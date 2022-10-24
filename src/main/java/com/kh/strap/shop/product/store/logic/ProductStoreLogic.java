@@ -148,27 +148,38 @@ public class ProductStoreLogic implements ProductStore {
 	public int updateCancelOrder(SqlSession session, Order order) {
 		return session.update("OrderMapper.updateOrderCancel",order);
 	}
-//찜 추가
+//찜
+	//찜목록출력
+	@Override
+	public List<Product> selectMemberProductLike(SqlSession session, Paging paging, ProductLike like) {
+		return session.selectList("ProductMapper.selectMemberProductLike", like, new RowBounds(paging.getOffset(), paging.getPageLimit()));
+	}
+	//멤버 찜 카운트
+	@Override
+	public int selectCountMemberProductLike(SqlSession session, ProductLike like) {
+		return session.selectOne("ProductMapper.selectCountMemberProductLike",like);
+	}
+	//찜추가
 	@Override
 	public int insertProductLike(SqlSession session, ProductLike like) {
 		return session.insert("ProductMapper.insertProductLike", like);
 	}
-
-	@Override
-	public List<Product> selectProductLike(SqlSession session, Paging paging, ProductLike like) {
-		return session.selectList("ProductMapper.selectProductLike", like, new RowBounds(paging.getOffset(), paging.getPageLimit()));
-	}
-	
+	//찜체크
 	@Override
 	public int selectCheckProductLike(SqlSession session, ProductLike like) {
 		return session.selectOne("ProductMapper.selectCheckProductLike", like);
 	}
-
+	//찜삭제
 	@Override
 	public int deleteProductLike(SqlSession session, ProductLike like) {
 		return session.delete("ProductMapper.deleteProductLike", like);
 	}
 
+	//로그인 멤버의 찜목록
+	@Override
+	public List<ProductLike> selectMemberLikeList(SqlSession session, String memberId) {
+		return session.selectList("ProductMapper.selectMemberLikeList", memberId);
+	}
 
 
 }

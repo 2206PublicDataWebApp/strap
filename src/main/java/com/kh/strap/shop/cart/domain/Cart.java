@@ -4,19 +4,15 @@ public class Cart {
 
 	private int productNo;
 	private String memberId;
-	private String productName;
-	private int price;
 	private int productAmount;
 
 	public Cart() {
 	}
 
-	public Cart(int productNo, String memberId, String productName, int price, int productAmount) {
+	public Cart(int productNo, String memberId, int productAmount) {
 		super();
 		this.productNo = productNo;
 		this.memberId = memberId;
-		this.productName = productName;
-		this.price = price;
 		this.productAmount = productAmount;
 	}
 
@@ -36,22 +32,6 @@ public class Cart {
 		this.memberId = memberId;
 	}
 
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
-	public int getPrice() {
-		return price;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
 	public int getProductAmount() {
 		return productAmount;
 	}
@@ -62,8 +42,9 @@ public class Cart {
 
 	@Override
 	public String toString() {
-		return "Cart [productNo=" + productNo + ", memberId=" + memberId + ", productName=" + productName + ", price="
-				+ price + ", productAmount=" + productAmount + "]";
+		return "Cart [productNo=" + productNo + ", memberId=" + memberId + ", productAmount=" + productAmount + "]";
 	}
 
+	
+	
 }

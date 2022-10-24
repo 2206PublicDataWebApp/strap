@@ -60,11 +60,10 @@ input:disabled {
 					</div>
 				</div>
 				<div id="list">
-						
 <%-- 						<c:forEach items="${oList}" var="order"> --%>
 						<c:forEach begin="0" end="${oList.size()}" var="N" >
 <%-- 						${oList[N].orderDate gt oList[N-1].orderDate} --%>
-							<div>
+							<div class="OneOrder">
 								<div class="orderDate">
 <%-- 									<c:if test="${oList[N].orderDate lt oList[N-1].orderDate}"> --%>
 										<span><h4>${oList[N].orderDate}</h4></span>
@@ -93,8 +92,6 @@ input:disabled {
 									<div class="col"></div>
 								</div>
 							</div>
-						
-						
 						</c:forEach>
 				</div>
 				<div id="paging">

@@ -12,6 +12,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
 <style>
  .oneProduct{
  	display:inline-block;
@@ -65,15 +66,13 @@
 								<span class="p-price">${product.productPrice }</span>
 							</div>
 							<div class="product-grade">
-								<img src="">
 								<span>★${product.gradeAver }(${product.reviewCount })</span>
 							</div>
 						</div>
 						<div class="oneProduct userMenu">
 							<div class="p-menu-wrap">
-								<img src="/resources/image/like.png" width="25px" height="25px">
-								<img src="/resources/image/like2.png" width="25px" height="25px">
-								<img src="/resources/image/cart.png" width="30px" height="30px">
+								<span id="${product.productNo }" class="likeBtn" onclick="loginCheck('${loginUser.memberId}',function(){controlLike('${loginUser.memberId}',${product.productNo });});"><i class="fa-regular fa-heart"></i></span>
+								<span class="cartBtn"><i class="fa-solid fa-cart-shopping"></i></span>
 							</div>
 						</div>
 					</div>
@@ -108,6 +107,68 @@ function orderSubmit(column,order){
 	columnName.value = column;
 	orderCon.value = order;
 	searchForm.submit();
+}
+
+//로그인 체크
+function loginCheck(loginId,action){
+	event.preventDefault();
+	if(loginId==""){
+		alert("로그인을 해주세요.");
+// 		location.href="/member/loginView.strap";		
+	}else{
+		action();
+	}
+}
+
+
+///////찜 추가 및 삭제 함수
+function controlLike(memberId,productNo){
+	$.ajax({
+		url:"/product/like.strap",
+		data:{
+			"memberId":memberId,
+			"productNo":productNo
+		},
+		type:"get",
+		success:function(result){
+			if(result =="register"){
+// 				alert("찜 완료되었습니다.");	
+			}else{
+// 				alert("찜 취소되었습니다.")
+			}
+			memberLikeView();
+		},
+		error:function(){}
+	});
+}
+
+memberLikeView();
+//찜아이콘을 동적으로 변화시켜줄 함수
+function memberLikeView(){
+	//1.로그인 유저의 찜목록을 가져온다!
+	//2.상품번호를 id에 저장하고, 일치한다면 css를 붉게 물들인다.
+	if('${loginUser.memberId}' != ""){
+		$.ajax({
+			url:"/product/member/likeList.strap",
+			data:{
+				"memberId":'${loginUser.memberId}'
+			},
+			type:"post",
+			success: function(result){
+				console.log(result);
+				var likeBtnArr = document.querySelectorAll(".likeBtn");
+				for(var j = 0; j<likeBtnArr.length; j++){
+					likeBtnArr[j].style.color = "black";
+					for(i in result){
+						if(result[i].productNo ==likeBtnArr[j].id){
+							likeBtnArr[j].style.color = "red";
+						}
+					}
+				}
+			},
+			error: function(){}
+		});
+	}
 }
 
 </script>

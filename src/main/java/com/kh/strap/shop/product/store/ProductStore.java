@@ -88,10 +88,14 @@ public interface ProductStore {
 		//찜 등록
 		public int insertProductLike(SqlSession session,ProductLike like);
 		//찜 리스트 조회
-		public List<Product> selectProductLike(SqlSession session,Paging paging,ProductLike like);
+		public List<Product> selectMemberProductLike(SqlSession session,Paging paging,ProductLike like);
+		//찜한 상품 카운트
+		public int selectCountMemberProductLike(SqlSession session, ProductLike like);
 		//찜 여부 확인
 		public int selectCheckProductLike(SqlSession session,ProductLike like);
 		//찜 삭제
 		public int deleteProductLike(SqlSession session,ProductLike like);
+		//로그인 멤버의 찜목록
+		public List<ProductLike> selectMemberLikeList(SqlSession session, String memberId);
 
 }

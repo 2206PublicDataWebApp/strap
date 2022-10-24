@@ -80,14 +80,14 @@ public interface ProductService {
 	public int modifyCancelOrder(Order order);
 	
 //찜 추가
-	//찜버튼 클릭 시 찜 여부 체크 후 반환값이 0이면, insert
-	public int registerProductLike(ProductLike like);
+	//찜컨트롤 
+	public int registerdeleteProductLike(ProductLike like);
 	//회원 찜한 상품리스트 select
-	public List<Product> printProductLike(Paging paging,ProductLike like);
-	//찜 여부 체크
-	public int checkProductLike(ProductLike like);
-	//회원 찜한 상품 취소
-	public int removeProductLike(ProductLike like);
+	public List<Product> printMemberProductLike(Paging paging,ProductLike like);
+	//회원 찜한 상품 카운트
+	public int countMemberProductLike(ProductLike like);
+	//로그인 멤버의 찜한 상품들
+	public List<ProductLike> memberLikeList(String memberId);
 	
 	
 

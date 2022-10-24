@@ -14,7 +14,6 @@ import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.domain.ProductLike;
 import com.kh.strap.shop.product.service.ProductService;
 import com.kh.strap.shop.product.store.ProductStore;
-import com.kh.strap.shop.review.domain.Review;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -143,23 +142,36 @@ public class ProductServiceImpl implements ProductService {
 	public int modifyCancelOrder(Order order) {
 		return pStore.updateCancelOrder(session, order);
 	}
-//찜 추가
+//찜
+	//찜목록출력
 	@Override
-	public int registerProductLike(ProductLike like) {
-		return pStore.insertProductLike(session, like);
+	public List<Product> printMemberProductLike(Paging paging, ProductLike like) {
+		return pStore.selectMemberProductLike(session, paging, like);
 	}
+	//찜추가
 	@Override
-	public List<Product> printProductLike(Paging paging, ProductLike like) {
-		return pStore.selectProductLike(session, paging, like);
+	public int registerdeleteProductLike(ProductLike like) {
+		if(pStore.selectCheckProductLike(session, like) > 0) {
+			//찜체크가 있으면 딜리트
+			pStore.deleteProductLike(session, like);
+			return 0;
+		}else {
+			//찜체크가 없으면 인서트
+			pStore.insertProductLike(session, like);
+			return 1;
+		}
 	}
+	//로그인 멤버의 찜목록
 	@Override
-	public int checkProductLike(ProductLike like) {
-		return pStore.selectCheckProductLike(session, like);
+	public List<ProductLike> memberLikeList(String memberId) {
+		return pStore.selectMemberLikeList(session, memberId);
 	}
+	//멤버 찜 카운트
 	@Override
-	public int removeProductLike(ProductLike like) {
-		return pStore.deleteProductLike(session, like);
+	public int countMemberProductLike(ProductLike like) {
+		return pStore.selectCountMemberProductLike(session, like);
 	}
+	
 
 
 

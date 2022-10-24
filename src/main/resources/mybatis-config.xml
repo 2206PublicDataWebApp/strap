@@ -30,6 +30,8 @@
 		<typeAlias type="com.kh.strap.shop.product.domain.Order" 		alias="Order"/>
 		<typeAlias type="com.kh.strap.shop.product.domain.OrderProduct"	alias="OrderProduct"/>
 		<typeAlias type="com.kh.strap.shop.product.domain.ProductSubImg" alias="ProductSubImg"/>
+		<typeAlias type="com.kh.strap.shop.product.domain.ProductLike" 	alias="ProductLike"/>
+	
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/admin-mapper.xml"/>
