@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
 </head>
 <body>
 <header class="header">
@@ -33,7 +34,7 @@
 	        <li style="cursor: pointer;" onclick="location.href='/mypage/mypageView.strap';">
 				<i class="fa-regular fa-user"></i>
 	        </li>
-	        <li style="cursor: pointer;" onclick="location.href='/order/list.strap';">
+	        <li style="cursor: pointer;" onclick="loginCheck('${loginUser.memberId}',function(){location.href='/cart/cartView.strap';});">
 				<i class="fa-solid fa-cart-shopping"></i>
 	        </li>
 			</ul>

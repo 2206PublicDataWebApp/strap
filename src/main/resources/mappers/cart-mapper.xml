@@ -26,8 +26,8 @@
 	</select>
 	
 	<update id="updateQtyCart">
-		UPDATE CART_TBL SET PRODUCT_AMOUNT = #{productAmount}
-		WHERE MEMBER_ID = #{memberId} AND PRODUCT_ID = #{productNo}
+		UPDATE CART_TBL SET PRODUCT_AMOUNT = PRODUCT_AMOUNT + #{productAmount}
+		WHERE MEMBER_ID = #{memberId} AND PRODUCT_NO = #{productNo}
 	</update>
 	
 	<delete id="deleteCart">

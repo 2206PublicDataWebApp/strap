@@ -1,11 +1,19 @@
 package com.kh.strap.shop.cart.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.strap.member.domain.Member;
+import com.kh.strap.shop.cart.domain.Cart;
 import com.kh.strap.shop.cart.service.CartService;
 
 @Controller
@@ -23,8 +31,30 @@ public class CartController {
 	CartService cService;
 	
 	//장바구니 담기
-	@RequestMapping(value="/cart/register.strap", method=RequestMethod.GET)
-	public ModelAndView registerCart(ModelAndView mv) {
+	@ResponseBody
+	@RequestMapping(value="/cart/register.strap", method=RequestMethod.POST)
+	public String registerCart(
+			@ModelAttribute Cart cart) {
+		if(cService.registerCart(cart)>0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	//장바구니로 이동
+	@RequestMapping(value="/cart/cartView.strap",method=RequestMethod.GET)
+	public ModelAndView viewCart(ModelAndView mv,
+			Cart cart,
+			HttpSession session){
+		cart.setMemberId(((Member)session.getAttribute("loginUser")).getMemberId());
+		List<Cart> cList = cService.printCart(cart);
+		if(!cList.isEmpty()) {
+			mv.addObject("cList",cList).
+			setViewName("/shop/cart");
+		}else {
+			mv.addObject("cList",null).
+			setViewName("/shop/cart");
+		}
 		return mv;
 	}
 	

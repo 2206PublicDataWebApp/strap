@@ -72,7 +72,7 @@
 						<div class="oneProduct userMenu">
 							<div class="p-menu-wrap">
 								<span id="${product.productNo }" class="likeBtn" onclick="loginCheck('${loginUser.memberId}',function(){controlLike('${loginUser.memberId}',${product.productNo });});"><i class="fa-regular fa-heart"></i></span>
-								<span class="cartBtn"><i class="fa-solid fa-cart-shopping"></i></span>
+								<span class="cartBtn" onclick="loginCheck('${loginUser.memberId}',function(){addCart('${loginUser.memberId }',${product.productNo },1);})"><i class="fa-solid fa-cart-shopping"></i></span>
 							</div>
 						</div>
 					</div>
@@ -169,6 +169,28 @@ function memberLikeView(){
 			error: function(){}
 		});
 	}
+}
+
+//장바구니
+function addCart(memberId,productNo,productAmount){
+	$.ajax({
+		url:"/cart/register.strap",
+		data:{
+			"memberId":memberId,
+			"productNo":productNo,
+			"productAmount":productAmount
+		},
+		type:"post",
+		success:function(result){
+			if(result == "success"){
+				alert("상품이 장바구니에 추가되었습니다.");
+			}else{
+				
+			}
+		},
+		error:function(){}
+	});
+	
 }
 
 </script>

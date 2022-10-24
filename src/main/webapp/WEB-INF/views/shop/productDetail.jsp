@@ -77,7 +77,7 @@
 							</div>
 							<div id="function">
 								<span id="${product.productNo }" class="likeBtn" onclick="loginCheck('${loginUser.memberId}',function(){controlLike('${loginUser.memberId}',${product.productNo });});"><i class="fa-regular fa-heart"></i></span>
-								<i class="fa-solid fa-cart-shopping"></i>
+								<i class="fa-solid fa-share-nodes"></i>
 							</div>
 						</div>
 						<hr>
@@ -96,7 +96,7 @@
 								<fmt:formatNumber value="${product.productPrice }" pattern="#,###"/>
 						</div>
 						<div id="btn-wrap">
-							<button type="button">장바구니</button>
+							<button type="button" onclick="loginCheck('${loginUser.memberId}',function(){addCart('${loginUser.memberId }',${product.productNo },document.querySelector('#qty').value)});">장바구니</button>
 							<button type="button">주문하기</button>
 						</div>
 					</div>
@@ -541,6 +541,27 @@ function memberLikeView(){
 	}
 }
 
+//장바구니
+function addCart(memberId,productNo,productAmount){
+	$.ajax({
+		url:"/cart/register.strap",
+		data:{
+			"memberId":memberId,
+			"productNo":productNo,
+			"productAmount":productAmount
+		},
+		type:"post",
+		success:function(result){
+			if(result == "success"){
+				alert("상품이 장바구니에 추가되었습니다.");
+			}else{
+				
+			}
+		},
+		error:function(){}
+	});
+	
+}
 </script>
 </body>
 </html>
