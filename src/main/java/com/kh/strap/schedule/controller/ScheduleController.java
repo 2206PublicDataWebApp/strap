@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.strap.schedule.service.logic.ScheduleServiceImpl;
+import com.kh.strap.schedule.service.ScheduleService;
 
 
 @Controller
 public class ScheduleController {
 	@Autowired
-	private ScheduleServiceImpl scService;
+	private ScheduleService scService;
 	
 	// 마이페이지 캘린더 페이지
 	@RequestMapping(value="/mypage/scheduleListView.strap", method=RequestMethod.GET)

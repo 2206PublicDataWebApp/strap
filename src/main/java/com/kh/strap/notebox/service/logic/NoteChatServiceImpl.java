@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
 import com.kh.strap.notebox.domain.NoteBox;
 import com.kh.strap.notebox.domain.NoteChat;
 import com.kh.strap.notebox.service.NoteChatService;
-import com.kh.strap.notebox.store.logic.NoteChatStoreLogic;
+import com.kh.strap.notebox.store.NoteChatStore;
 
 @Service
 public class NoteChatServiceImpl implements NoteChatService{
 	@Autowired
 	private SqlSession session;
 	@Autowired
-	private NoteChatStoreLogic ncStore;
+	private NoteChatStore ncStore;
 	
 	@Override
 	public List<NoteChat> printNoteChatList(Integer noteNo) {

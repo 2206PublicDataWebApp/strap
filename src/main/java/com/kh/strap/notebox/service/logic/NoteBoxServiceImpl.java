@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.strap.notebox.domain.NoteBox;
 import com.kh.strap.notebox.service.NoteBoxService;
-import com.kh.strap.notebox.store.logic.NoteBoxStoreLogic;
+import com.kh.strap.notebox.store.NoteBoxStore;
 
 @Service
 public class NoteBoxServiceImpl implements NoteBoxService {
@@ -16,7 +16,7 @@ public class NoteBoxServiceImpl implements NoteBoxService {
 	@Autowired
 	private SqlSession session;
 	@Autowired
-	private NoteBoxStoreLogic nStore;
+	private NoteBoxStore nStore;
 	
 	@Override
 	public int getTotalCount(String searchCondition, String searchValue) {

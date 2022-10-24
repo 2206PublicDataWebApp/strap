@@ -6,8 +6,6 @@
 <mapper namespace="NoteChatMapper">
 	<resultMap type= "NoteChat" id="noteChatResultMap">
 		<id property="chatNo" column="CHAT_NO"/>
-		<result property="recipientId" column="RECIPIENT_ID"/>
-		<result property="recipientNick" column="RECIPIENT_NICK"/>
 		<result property="senderId" column="SENDER_ID"/>
 		<result property="senderNick" column="SENDER_NICK"/>
 		<result property="chatContents" column="CHAT_CONTENTS"/>
@@ -15,12 +13,12 @@
 	</resultMap>
 	<select id="selectAllNoteChat" resultMap="noteChatResultMap">
 		SELECT * FROM NOTECHAT_TBL
-		WHERE CHAT_NO = #{noteNo} 
+		WHERE CHAT_NO = #{noteNo} ORDER BY SENDER_DATE DESC
 <!-- 		AND RECIPIENT_ID = 'user02' -->
   	</select>
   	<insert id="insertNoteChat">
   		INSERT INTO NOTECHAT_TBL 
-  		VALUES(#{noteNo}, #{recipientId}, #{recipientNick}, #{senderId}, #{senderNick}, #{noteContents}, DEFAULT)
+  		VALUES(#{noteNo}, #{senderId}, #{senderNick}, #{noteContents}, TO_CHAR(SYSDATE,'YYYY.MM.DD HH24:MI'))
   	</insert>
 	
 </mapper>

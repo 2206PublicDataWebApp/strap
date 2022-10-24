@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.strap.schedule.service.ScheduleService;
-import com.kh.strap.schedule.store.logic.ScheduleStoreLogic;
+import com.kh.strap.schedule.store.ScheduleStore;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
@@ -13,7 +13,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Autowired
 	private SqlSession session;
 	@Autowired
-	private ScheduleStoreLogic scStore;
+	private ScheduleStore scStore;
 	
 	
 }

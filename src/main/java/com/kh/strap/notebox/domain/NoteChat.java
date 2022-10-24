@@ -4,12 +4,10 @@ import java.util.Date;
 
 public class NoteChat {
 	private int chatNo;
-	private String recipientId;
-	private String recipientNick;
 	private String senderId;
 	private String senderNick;
 	private String chatContents;
-	private Date senderDate;
+	private String senderDate;
 	
 	
 	
@@ -18,18 +16,6 @@ public class NoteChat {
 	}
 	public void setChatNo(int chatNo) {
 		this.chatNo = chatNo;
-	}
-	public String getRecipientId() {
-		return recipientId;
-	}
-	public void setRecipientId(String recipientId) {
-		this.recipientId = recipientId;
-	}
-	public String getRecipientNick() {
-		return recipientNick;
-	}
-	public void setRecipientNick(String recipientNick) {
-		this.recipientNick = recipientNick;
 	}
 	public String getSenderId() {
 		return senderId;
@@ -49,18 +35,18 @@ public class NoteChat {
 	public void setChatContents(String chatContents) {
 		this.chatContents = chatContents;
 	}
-	public Date getSenderDate() {
+	public String getSenderDate() {
 		return senderDate;
 	}
-	public void setSenderDate(Date senderDate) {
+	public void setSenderDate(String senderDate) {
 		this.senderDate = senderDate;
 	}
 	
 	
 	@Override
 	public String toString() {
-		return "NoteChat [chatNo=" + chatNo + ", recipientId=" + recipientId + ", recipientNick=" + recipientNick
-				+ ", senderId=" + senderId + ", senderNick=" + senderNick + ", chatContents=" + chatContents
-				+ ", senderDate=" + senderDate + "]";
+		return "NoteChat [chatNo=" + chatNo + ", senderId=" + senderId + ", senderNick=" + senderNick
+				+ ", chatContents=" + chatContents + ", senderDate=" + senderDate + "]";
 	}
+
 }

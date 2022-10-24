@@ -53,7 +53,8 @@
 			</div>
 		</div>
 		<br>
-		<c:if test="${noteBox.noteAccept eq 'N' }">
+		<!-- 수락 전  -->
+		<c:if test="${noteBox.noteAccept eq 'N' }"> 
 			<div class="row text-center">
 				<div class="col">
 					<button class="btn btn-primary" id="accept">수락</button>
@@ -85,7 +86,7 @@
 			</div>
 			<br>
 		</c:if>
-		
+		<!-- 수락 후 -->
 		<c:if test="${noteBox.noteAccept eq 'Y' }">
 			<div class="row text-center">
 				<div class="col">
@@ -170,16 +171,36 @@
 		url : "/notebox/noteChatListView.strap",
 		data : {
 			"noteNo":'${noteBox.noteNo }', 
-			"senderNick":'${noteBox.senderNick }'},
-		datatype : "html",
+			"senderNick":'${noteBox.senderNick }',
+			"recipientId":'${noteBox.recipientId }',
+			"recipientNick":'${noteBox.recipientNick }'},
+		datatype : "json",
 		type : "get",
 		success:function(data){
-			$("#chat-column").html(data);
-		},error:function(){
-			alert("실패");
+// 			console.log(data.ncList);
+// 			$("#chat-column").html(data.nList.chatContents);
+			var noteNo = data.noteNo;
+			var senderNick = data.senderNick;
+			var recipientId = data.recipientId;
+			var recipientNick = data.recipientNick;
+			var ncList = data.ncList;
+			var memberId = data.memberId;
+			console.log(noteNo);
+			console.log(senderNick);
+			console.log(recipientId);
+			console.log(ncList);
+			console.log(memberId);
+			var url = "/notebox/noteChatView.strap?senderNick="+senderNick+"&recipientId="+recipientId+"&recipientNick="+recipientNick+"&ncList="+ncList+"&memberId="+memberId;
+			const encoded = encodeURI(url);
+			$("#chat-column").load(encoded);
+// 			alert("성공");
+		},error:function(data){
+			console.log(data)
+// 			alert("실패");
 		}
 	});
-
+	
+	// 신고 ajax
 	$(document).ready(function () {
 		$(".report-submit").on("click",function(){
 			var params = $("#report-form").serialize();
@@ -196,6 +217,7 @@
 			});
 		});
 		
+		// 수락 ajax
 		$("#accept").on("click",function(){
 			$(this).hide();
 			$("#chat-window").show();
@@ -217,21 +239,21 @@
 			});
 		});
 		
+		// 쪽지 입력 ajax
 		$("#chat-btn").on("click",function(){
-			var cContents = $("#chat-contents").val();
+			var cContents = $("#chat-contents");
 			$.ajax({
 				url : "/notebox/registerChat.strap",
 				data : {
 					"noteNo":'${noteBox.noteNo }',
-					"recipientId":'${noteBox.recipientId }',
 					"senderId":'${noteBox.senderId }',
-					"recipientNick":'${noteBox.recipientNick }',
 					"senderNick":'${noteBox.senderNick }',
-					"chatContents" : cContents},
+					"chatContents" : cContents.val()},
 				type : "get",
 				success:function(data){
-					cContents.val("");
+					console.log(data);
 					alert("쪽지 입력 성공");
+					cContents.val("");
 				},error:function(){
 					alert("쪽지 실패");
 				}
