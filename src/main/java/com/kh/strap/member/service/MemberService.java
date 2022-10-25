@@ -41,5 +41,7 @@ public interface MemberService {
 
 	int changeJym(Member member);
 
+	int changeImg(Member member);
+
 
 }

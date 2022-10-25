@@ -69,11 +69,11 @@
 			<div id="essential info">
 				<span>기본 회원 정보(필수) </span>
 				<hr>
-				<table class="table">
+				<table class="table" style="table-layout:fixed;">
 					<tr>
-						<th width="200px;">아이디</th>
-						<td width="600px;" id="memberId">${loginUser.memberId }</td>
-						<td width="150px;"></td>
+						<th width="250px;">아이디</th>
+						<td width="750px;" id="memberId">${loginUser.memberId }</td>
+						<td width="200px;"></td>
 					</tr>
 					<tr id="pwdTr">
 						<th>비밀번호</th>
@@ -223,22 +223,39 @@
 			<div id="optional info">
 				<span>추가 회원 정보(선택) </span>
 				<hr>
-				<table class="table" >
-					<tr>
-						<th>사진</th>
-						<td></td>
-						<td><button class="btn btn-light" onclick="modifyImg();">사진 변경</button></td>
+				<table class="table" style="table-layout:fixed;">
+					<tr id="imgTr">
+						<th width="250px">사진</th>
+						<td width="750px;">
+							<img width="100px" height="100px" alt="프로필 사진" style="margin-left:150px;" src="/resources/image/member/profileImg_default.png">
+						</td>
+						<td width="200px;"><button class="btn btn-light" onclick="modifyImg();">사진 변경</button></td>
+					</tr>
+					<!-- 사진 변경 -->
+					<tr id="change-imgTr" style="display: none;">
+						<th width="250px">사진</th>
+						<td width="750px;">
+							<img class="preview" width="100px" height="100px" alt="프로필 사진" style="margin-left:150px;" src="/resources/image/member/profileImg_default.png">
+						<br><br>
+						<button id="defaultBtn" class="btn btn-light" id="">기본 이미지</button>
+						<label for="mProfileName" class="btn btn-light" style="display:inline-block; width: 200px;">사진 선택</label>
+						<input id="mProfileName" name="mProfileName" type="file" accept="image/jpeg, image/jpg, image/png" hidden="hidden" multiple="multiple">
+						<br><br>
+						<button class="btn btn-light" onclick="modifyImgCancel();">취소</button>
+						<button class="btn btn-light" id="modifyImgFinishBtn" onclick="modifyImgFinish();">변경</button>
+						</td>
+						<td width="200px;"></td>
 					</tr>
 					<tr id="introduceTr">
-						<th width="200px;">자기 소개</th>
-						<td width="600px;">${loginUser.memberIntroduce }</td>
-						<td width="150px;"><button class="btn btn-light" onclick="modifyIntroduce();">자기소개 변경</button></td>
+						<th>자기 소개</th>
+						<td>${loginUser.memberIntroduce }</td>
+						<td><button class="btn btn-light" onclick="modifyIntroduce();">자기소개 변경</button></td>
 					</tr>
 					<!-- 자기소개 변경 -->
 					<tr id="change-introduceTr" style="display: none;">
-						<th width="200px;">자기 소개</th>
-						<td width="600px;">
-						<textarea name="memberIntroduce" id="memberIntroduce" rows="10" cols="100"></textarea>
+						<th>자기 소개</th>
+						<td>
+						<textarea name="memberIntroduce" id="memberIntroduce" rows="10" cols="90"></textarea>
 						<br><br>
 						<button class="btn btn-light" onclick="modifyIntroduceCancel();">취소</button>
 						<button class="btn btn-light" id="modifyIntroduceFinishBtn" onclick="modifyIntroduceFinish();">변경</button>
@@ -277,6 +294,42 @@
 	</div>
 </div>
 <script type="text/javascript">
+
+	function modifyImgFinish(){
+		if(confirm("사진을 변경하시겠습니까?")){
+			var memberId = $("#memberId").text();
+			//form 객체를 만들어 controller로 파일 넘기기
+			var formData = new FormData();
+			formData.append("mProfileName", $("#mProfileName")[0].files[0]);
+			formData.append("memberId", memberId);
+			$.ajax({
+				url:"/member/profileImg.strap",
+				type:"post",
+				enctype: 'multipart/form-data',
+				processData: false,
+				contentType: false,
+				data: formData,
+				success:function(result){
+					console.log(result)
+				},
+				error:function(result){
+					console.log("실패")
+				}
+			})		
+		}
+	};
+	
+	$("#mProfileName").on("change",function(e){
+		var img = e.target.files[0];
+		if(img != null){
+		//URL.createObjectURL(img) 매개변수에 들어온 파일의 바이너리 데이터를 추출한다
+		$(".preview").attr("src",URL.createObjectURL(img));
+		}
+	})
+	$("#defaultBtn").on("click",function(){
+		$(".preview").attr("src","/resources/image/member/profileImg_default.png");
+	})
+
 	function modifyPwd(){
 		$("#pwdTr").hide();
 		$("#change-pwdTr").show();
@@ -304,6 +357,10 @@
 	function modifyJym(){
 		$("#jymTr").hide();
 		$("#change-jymTr").show();
+	}
+	function modifyImg(){
+		$("#imgTr").hide();
+		$("#change-imgTr").show();
 	}
 	function modifyPwdCancel(){
 		$("#pwd").val("");
@@ -346,6 +403,10 @@
 	function modifyJymCancel(){
 		$("#change-jymTr").hide();
 		$("#jymTr").show();
+	}
+	function modifyImgCancel(){
+		$("#change-imgTr").hide();
+		$("#imgTr").show();
 	}
 	function modifyPwdFinish(){
 		var memberId = $("#memberId").text();

@@ -96,4 +96,8 @@
   	<update id="changeJym">
   		UPDATE MEMBER_TBL SET MEMBER_JYM = #{memberJym} WHERE MEMBER_ID = #{memberId}
   	</update>
+  	<!-- 프로필 사진 변경 -->
+  	<update id="changeImg">
+  		UPDATE MEMBER_TBL SET M_PROFILE_NAME = #{mProfileName}, M_PROFILE_RENAME = #{mProfileRename}, M_PROFILE_PATH = #{mProfilePath} WHERE MEMBER_ID = #{memberId}
+  	</update>
 </mapper>

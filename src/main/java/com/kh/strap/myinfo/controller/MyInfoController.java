@@ -1,5 +1,11 @@
 package com.kh.strap.myinfo.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.strap.member.domain.Member;
@@ -203,5 +210,41 @@ public class MyInfoController {
 		} else {
 			return "no";
 		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/member/profileImg.strap", method = RequestMethod.POST)
+	public String modifProfileImg(
+			HttpSession session
+			,HttpServletRequest request
+			,@RequestParam("memberId") String memberId
+			,@RequestParam("mProfileName") MultipartFile uploadFile
+			) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\profileUploadFiles";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String mProfileName = uploadFile.getOriginalFilename();
+		String mProfileRename = sdf.format(new Date(System.currentTimeMillis()))+"."+mProfileName.substring(mProfileName.lastIndexOf(".")+1);
+		String mProfilePath = null;
+		File file = new File(savePath);
+		if(!file.exists()) {
+			file.mkdir();
+		}
+		try {
+			uploadFile.transferTo(new File(savePath+"\\"+mProfileRename));
+			mProfilePath = savePath+"\\"+mProfileRename;
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(savePath);
+		System.out.println(mProfileName);
+		System.out.println(mProfileRename);
+		System.out.println(mProfilePath);
+		Member member = mService.memberById(memberId);
+		member.setmProfileName(mProfileName);
+		member.setmProfileRename(mProfileRename);
+		member.setmProfilePath(mProfilePath);
+		int result = mService.changeImg(member);
+		return "ok";
 	}
 }

@@ -43,4 +43,6 @@ public interface MemberStore {
 
 	int changeJym(SqlSession session, Member member);
 
+	int changeImg(SqlSession session, Member member);
+
 }

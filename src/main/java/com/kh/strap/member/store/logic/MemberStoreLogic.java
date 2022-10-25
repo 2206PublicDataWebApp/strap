@@ -115,4 +115,10 @@ public class MemberStoreLogic implements MemberStore{
 		return result;
 	}
 
+	@Override
+	public int changeImg(SqlSession session, Member member) {
+		int result = session.update("MemberMapper.changeImg",member);
+		return result;
+	}
+
 }

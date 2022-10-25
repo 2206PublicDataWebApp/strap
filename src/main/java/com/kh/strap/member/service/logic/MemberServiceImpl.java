@@ -121,6 +121,12 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 
+	@Override
+	public int changeImg(Member member) {
+		int result = mStore.changeImg(session, member);
+		return result;
+	}
+
 	
 	
 }
