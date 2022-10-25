@@ -28,7 +28,7 @@
 		</div>
 	</div>
 	<!-- 컨텐츠 -->
-	<div id="contents" class="row">
+	<div id="contents" class="row" style="width:60%; margin:50px auto;">
 		<div class="contents col">
 			<div id="inner-header">
 				<h1>Strap추천 보충제</h1>
@@ -54,9 +54,9 @@
 					<div class="number" style="position:relative;top:20px; right:20px;width:50px;background-color:rgba(255,255,255,0.8)">${n.count }</div>
 					<div class="product-wrap">
 						<div class="oneProduct thumb" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
-							<img class="thumb-img" src="${product.mainImgRoot }" onerror="this.src='';" width="150px" height="150px">
+							<img class="thumb-img" src="${product.mainImgRoot }" onerror="this.src='';" width="110px" height="100px">
 						</div>
-						<div class="oneProduct info">
+						<div class="oneProduct info" style="width:70%;">
 							<div class="product-title" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
 								<span class="p-brand">[${product.productBrand }]</span>
 								<span class="p-name"> ${product.productName }</span>

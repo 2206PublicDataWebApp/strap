@@ -27,15 +27,72 @@
 		</div>
 	</div>
 <!-- 컨텐츠 -->
-	<div id="contents" class="row">
-<!-- 		<div class="sidebar col-3" > -->
-<%-- 			<jsp:include page="/WEB-INF/views/common/sideBar.jsp"></jsp:include> --%>
-<!-- 		</div> -->
-		<div class="contents-side col">
-			 <button onclick="kakaoPay()">카카오페이</button>
-			 <button onclick="kginisis()">kg이니시스(웹표준)</button>
+		<div id="contents" class="row" style="width:60%; margin:50px auto;">
+			<div class="col-9" style="height:2000px;">
+				<div id="contents-header">
+					<h1>주문 페이지</h1><hr>
+					<div id="ordererInfo" class="row" style="border-bottom:1px solid #c0c0c0;">
+						<div class="col">
+							<div><h3>주문자 정보</h3></div>
+							<span id="name">일용자</span>/
+							<span id="phone">01000000000</span>/
+							<span id="email">khuser01@naver.com</span>
+						</div>
+						<div class="col">
+							<button>변경</button>
+						</div>
+					</div>
+					<div id="deliverInfo">
+						<div><h3>배송지 정보</h3></div>
+						<input type="text" placeholder="일용자"> <input type="button" value="주소검색"> <br>
+						<input type="text" placeholder="우편번호" readonly> <input type="text" placeholder="주소" readonly> <br>
+						<input type="text" placeholder="상세주소"> <br>
+						<select>
+							<option>010</option>
+							<option>017</option>
+							<option>019</option>
+							<option>011</option>
+							<option>016</option>
+						</select>
+						<input type="text" placeholder="'-'를제외한 7~8자리 숫자를 입력해주세요."> <br>
+						<input type="checkbox"> 회원 주소 불러오기
+					</div>
+					<div id="productInfo">
+						<div><h3>구매상품 정보</h3>
+						
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-3"  style="height:500px;position:sticky;top:0;">
+				<div class="order-side" style="height:80%;width:95%;margin:100px auto; border: 1px solid #c0c0c0;text-align:center;">
+					 <h3>결제 금액</h3>
+					 <div id="productsPrice">
+					 	<span>상품금액</span>
+					 	<div>0000원</div>
+					 </div>
+					 <div id="discountAmount">
+					 	<span>할인 금액</span>
+					 	<div>0원</div>
+					 </div>
+					 <div id="finalPrice">
+					 	<span>최종 결제금액</span>
+					 	<div>0000원</div>
+					 </div>
+					 <div id="agreement">
+					 	<div>처리위탁 및 3자 제공 동의>></div>
+					 	<div>결제대행서비스 이용 동의>></div>
+					 	<input type="checkbox"">
+					 	<span>구매조건 및 이용약관에 동의하며 결제를 진행합니다.</span>
+					 </div>
+					 <div id="paymenteBtn">
+					 	<button>결제하기</button>
+<!-- 						 <button onclick="kakaoPay()">카카오페이</button> -->
+<!-- 						 <button onclick="kginisis()">kg이니시스(웹표준)</button> -->
+					 </div>
+				</div>
+			</div>
 		</div>
-	</div>
 <!-- 푸터 -->
 	<div id="footer" class="row">
 		<div class="col">
@@ -46,8 +103,6 @@
 <script>
 	var IMP = window.IMP; // 생략 가능
 	IMP.init("imp46682011"); // 예: imp00000000
-	
-	
 	//카카오 결제 API
 	// IMP.request_pay(param, callback) 결제창 호출
 	function kakaoPay(){
@@ -77,7 +132,6 @@
 	    $("#final-support-submit").submit();
 	});
 	}
-
 function kginisis(){
 	  //class가 btn_payment인 태그를 선택했을 때 작동한다.
 		IMP.request_pay({
@@ -111,9 +165,6 @@ function kginisis(){
 				    alert(msg);
 				});
 }
-	
-	
-	
   </script>
 </body>
 </html>

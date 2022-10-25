@@ -22,7 +22,7 @@ public class Member {
 	private int memberManner;		//16.매너 점수
 	private String memberType;		//17.회원 종류
 	private String memberIntroduce;	//18.회원 종류
-	private String memberAdreess;	//19.회원 종류
+	private String memberAdreess;	//19.회원 주소
 	
 	
 

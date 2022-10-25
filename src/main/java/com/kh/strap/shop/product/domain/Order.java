@@ -3,30 +3,27 @@ package com.kh.strap.shop.product.domain;
 import java.sql.Date;
 import java.util.List;
 
+import com.kh.strap.member.domain.Member;
+
 public class Order {
 	
 	private List<Product> buyProducts;  	//구매상품 리스트
-	private Product product; // 상품
+	private Member member;					//주문에 멤버가 있음
 	private int orderNo;					//주문번호
 	private int payNo;						//결제번호
 	private int productNo;					//상품번호
 	private int deliveryFee;				//배송료
 	private int couponNo;					//쿠폰번호
-	private int discountAmount;			//할인액
+	private int discountAmount;				//할인액
 	private int finalCost;					//최종결제금액
 	private String memberId;				//회원아이디
-	private String memberName;				//회원이름
-	private String memberEmail;				//회원이메일
-	private String memberPhone;				//회원휴대폰번호
 	private String address;					//주소
-	private String addressDetail;			//상세주소
-	private String postNo;					//우편번호
 	private String contactPhone;			//배송연락처
 	private String deliveryRequest;			//배송요청
 	private String agreeYn;					//동의여부
 	private String paymentMethod;			//결제수단
 	private String cardKind;				//카드종류
-	private int monthlyPay;				//할부
+	private int monthlyPay;					//할부
 	private String bankKind;				//은행종류
 	private String bankPayerName;			//입금자명
 	private String payComplete;				//결제완료여부
@@ -39,15 +36,14 @@ public class Order {
 	
 	public Order() {}
 
-	public Order(List<Product> buyProducts, Product product, int orderNo, int payNo, int productNo, int deliveryFee,
-			int couponNo, int discountAmount, int finalCost, String memberId, String memberName, String memberEmail,
-			String memberPhone, String address, String addressDetail, String postNo, String contactPhone,
+	public Order(List<Product> buyProducts, Member member, int orderNo, int payNo, int productNo, int deliveryFee,
+			int couponNo, int discountAmount, int finalCost, String memberId, String address, String contactPhone,
 			String deliveryRequest, String agreeYn, String paymentMethod, String cardKind, int monthlyPay,
 			String bankKind, String bankPayerName, String payComplete, String orderCancel, String orderBack,
 			String deliveryStart, String deliveryComplete, String deliveryNo, Date orderDate) {
 		super();
 		this.buyProducts = buyProducts;
-		this.product = product;
+		this.member = member;
 		this.orderNo = orderNo;
 		this.payNo = payNo;
 		this.productNo = productNo;
@@ -56,12 +52,7 @@ public class Order {
 		this.discountAmount = discountAmount;
 		this.finalCost = finalCost;
 		this.memberId = memberId;
-		this.memberName = memberName;
-		this.memberEmail = memberEmail;
-		this.memberPhone = memberPhone;
 		this.address = address;
-		this.addressDetail = addressDetail;
-		this.postNo = postNo;
 		this.contactPhone = contactPhone;
 		this.deliveryRequest = deliveryRequest;
 		this.agreeYn = agreeYn;
@@ -87,12 +78,12 @@ public class Order {
 		this.buyProducts = buyProducts;
 	}
 
-	public Product getProduct() {
-		return product;
+	public Member getMember() {
+		return member;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setMember(Member member) {
+		this.member = member;
 	}
 
 	public int getOrderNo() {
@@ -159,52 +150,12 @@ public class Order {
 		this.memberId = memberId;
 	}
 
-	public String getMemberName() {
-		return memberName;
-	}
-
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
-	}
-
-	public String getMemberEmail() {
-		return memberEmail;
-	}
-
-	public void setMemberEmail(String memberEmail) {
-		this.memberEmail = memberEmail;
-	}
-
-	public String getMemberPhone() {
-		return memberPhone;
-	}
-
-	public void setMemberPhone(String memberPhone) {
-		this.memberPhone = memberPhone;
-	}
-
 	public String getAddress() {
 		return address;
 	}
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public String getAddressDetail() {
-		return addressDetail;
-	}
-
-	public void setAddressDetail(String addressDetail) {
-		this.addressDetail = addressDetail;
-	}
-
-	public String getPostNo() {
-		return postNo;
-	}
-
-	public void setPostNo(String postNo) {
-		this.postNo = postNo;
 	}
 
 	public String getContactPhone() {
@@ -329,18 +280,14 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [buyProducts=" + buyProducts + ", product=" + product + ", orderNo=" + orderNo + ", payNo="
-				+ payNo + ", productNo=" + productNo + ", deliveryFee=" + deliveryFee + ", couponNo=" + couponNo
+		return "Order [buyProducts=" + buyProducts + ", member=" + member + ", orderNo=" + orderNo + ", payNo=" + payNo
+				+ ", productNo=" + productNo + ", deliveryFee=" + deliveryFee + ", couponNo=" + couponNo
 				+ ", discountAmount=" + discountAmount + ", finalCost=" + finalCost + ", memberId=" + memberId
-				+ ", memberName=" + memberName + ", memberEmail=" + memberEmail + ", memberPhone=" + memberPhone
-				+ ", address=" + address + ", addressDetail=" + addressDetail + ", postNo=" + postNo + ", contactPhone="
-				+ contactPhone + ", deliveryRequest=" + deliveryRequest + ", agreeYn=" + agreeYn + ", paymentMethod="
-				+ paymentMethod + ", cardKind=" + cardKind + ", monthlyPay=" + monthlyPay + ", bankKind=" + bankKind
-				+ ", bankPayerName=" + bankPayerName + ", payComplete=" + payComplete + ", orderCancel=" + orderCancel
-				+ ", orderBack=" + orderBack + ", deliveryStart=" + deliveryStart + ", deliveryComplete="
-				+ deliveryComplete + ", deliveryNo=" + deliveryNo + ", orderDate=" + orderDate + "]";
+				+ ", address=" + address + ", contactPhone=" + contactPhone + ", deliveryRequest=" + deliveryRequest
+				+ ", agreeYn=" + agreeYn + ", paymentMethod=" + paymentMethod + ", cardKind=" + cardKind
+				+ ", monthlyPay=" + monthlyPay + ", bankKind=" + bankKind + ", bankPayerName=" + bankPayerName
+				+ ", payComplete=" + payComplete + ", orderCancel=" + orderCancel + ", orderBack=" + orderBack
+				+ ", deliveryStart=" + deliveryStart + ", deliveryComplete=" + deliveryComplete + ", deliveryNo="
+				+ deliveryNo + ", orderDate=" + orderDate + "]";
 	}
-	
-
-	
 }

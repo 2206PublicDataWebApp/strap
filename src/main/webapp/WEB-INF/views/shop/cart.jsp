@@ -78,7 +78,7 @@
 			</div>
 			<div id="cartBtn">
 				<button>쇼핑계속</button>
-				<button>구매하기</button>
+				<button onclick="if(confirm('선택 상품을 구매하시겠습니까?')) location.href='/orderView.strap';">구매하기</button>
 			</div>
 		</div>
 	</div>

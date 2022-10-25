@@ -13,12 +13,7 @@
 		<result column="DISCOUNT_AMOUNT" 		property="discountAmount"/>
 		<result column="FINAL_COST" 			property="finalCost"/>
 		<result column="MEMBER_ID" 				property="memberId"/>
-		<result column="MEMBER_NAME" 			property="memberName"/>
-		<result column="MEMBER_EMAIL" 			property="memberEmail"/>
-		<result column="MEMBER_PHONE" 			property="memberPhone"/>
 		<result column="ADDRESS" 				property="address"/>
-		<result column="ADDRESS_DETAIL" 		property="addressDetail"/>
-		<result column="POST_NO" 				property="postNo"/>
 		<result column="CONTACT_PHONE" 			property="contactPhone"/>
 		<result column="DELIVERY_REQUEST" 		property="deliveryRequest"/>
 		<result column="AGREE_YN" 				property="agreeYn"/>
