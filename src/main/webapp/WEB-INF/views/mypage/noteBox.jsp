@@ -72,7 +72,7 @@
 						<c:forEach items="${nList }" var="notebox" varStatus="i">
 							<tr align="center">
 								<td>${i.count }</td>
-								<td><a href="#none" onclick="reportPopup(${notebox.noteNo });">${notebox.noteTitle }</a></td>
+								<td><a href="#none" onclick="notePopup('${notebox.noteNo }', '${notebox.recipientId }', '${notebox.senderId }');">${notebox.noteTitle }</a></td>
 								<td>${notebox.senderNick }</td>
 								<td><fmt:formatDate pattern="yyyy-MM-dd / hh:mm:ss" value="${notebox.senderTime }"/> </td>
 							</tr>
@@ -137,8 +137,8 @@
 	<script>
 		var reportWindow;
 		
-		function reportPopup(nNo){
-			reportWindow = window.open("/mypage/noteDetailView.strap?noteNo=" + nNo, '_blank', 'width=600, height=800,resizable=no'); return false
+		function notePopup(nNo, rId, sId){
+			noteWindow = window.open("/mypage/noteDetailView.strap?noteNo=" + nNo +"&recipientId=" + rId + "&senderId=" + sId, '_blank', 'width=600, height=800,resizable=no'); return false
 		}
 	</script>
 	

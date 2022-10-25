@@ -18,9 +18,18 @@
 
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
+		var list = '${scList}'
+		console.log(list);
 		var calendarEl = document.getElementById('calendar');
 
-		var calendar = new FullCalendar.Calendar(calendarEl, {
+		var events = list.map(function(item) {
+            return {
+                title : item.reservationTitle,
+                start : item.reservationDate + "T" + item.reservationTime
+            }
+        });
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
 			headerToolbar : {
 				left : 'prev,next today',
 				center : 'title',
@@ -49,49 +58,7 @@
 			},
 			editable : true,
 			dayMaxEvents : true, // allow "more" link when too many events
-			events : [ {
-				title : 'All Day Event',
-				start : '2022-10-01'
-			}, {
-				title : 'Long Event',
-				start : '2022-10-07',
-				end : '2022-10-10'
-			}, {
-				groupId : 999,
-				title : 'Repeating Event',
-				start : '2022-10-09T16:00:00'
-			}, {
-				groupId : 999,
-				title : 'Repeating Event',
-				start : '2022-10-16T16:00:00'
-			}, {
-				title : 'Conference',
-				start : '2022-10-11',
-				end : '2022-10-13'
-			}, {
-				title : 'Meeting',
-				start : '2022-10-12T10:30:00',
-				end : '2022-10-12T12:30:00'
-			}, {
-				title : 'Lunch',
-				start : '2022-10-12T12:00:00'
-			}, {
-				title : 'Meeting',
-				start : '2022-10-25 01:43'
-			}, {
-				title : 'Happy Hour',
-				start : '2022-10-12T17:30:00'
-			}, {
-				title : 'Dinner',
-				start : '2022-10-12T20:00:00'
-			}, {
-				title : 'Birthday Party',
-				start : '2022-10-13T07:00:00'
-			}, {
-				title : 'Click for Google',
-				url : 'http://google.com/',
-				start : '2022-10-28'
-			} ]
+			events : events
 		});
 
 		calendar.render();

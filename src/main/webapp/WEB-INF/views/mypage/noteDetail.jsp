@@ -112,20 +112,23 @@
 					</div>
 					<hr>
 					<div class="row">
-						<div class="col" align="center">
-							날짜 : <input type="Datetime-local" required/>
+						<div class="col-4" align="center">
+							날짜 : <input type="date" id="meet-date" required/>
 						</div>
-						<div class="col" align="center">
-							시간 : <input class="timepicker" required/>
+						<div class="col-4" align="center">
+							시간 : <input class="timepicker" id="meet-time" required/>
 						</div>
-						<div class="col" align="center">
-							메모 : <input type="text"  placeholder="ex)운동부위" required/>
+						<div class="col-4" align="center">
+							메모 : <input type="text" id="meet-memo"  placeholder="ex)운동부위" required/>
 						</div>
 					</div>
 					<br>
 					<div class="row">
-						<div class="col" align="center">
-							<button class="btn btn-primary">일정잡기</button>
+						<div class="col" align="right" >
+							<button class="btn btn-primary" onclick="matchSchedule();">일정잡기</button>
+						</div>
+						<div class="col" align="left">
+							<button class="btn btn-primary" onclick="window.close();">닫기</button>
 						</div>
 					</div>
 				</div>
@@ -179,6 +182,13 @@
 	</div>
 </div>
 <script>
+// 	var now_utc = meet-date.now() // 지금 날짜를 밀리초로
+// 	//getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환
+// 	var timeOff = new Date().getTimezoneOffset()*60000; // 분단위를 밀리초로 변환
+// 	//new Date(now_utc-timeOff).toISOString()은 '2022-05-11T18:09:38.134Z'를 반환
+// 	var today = new Date(now_utc-timeOff).toISOString().split("T")[0];
+// 	document.getElementById("meet-date").setAttribute("min", today);
+
 	$('.timepicker').timepicker({
 	    timeFormat: 'HH:mm',
 	    interval: 30,
@@ -191,7 +201,7 @@
 	    scrollbar: true
 	});
 	
-	
+	//쪽지 대화 
 	$.ajax({
 		url : "/notebox/noteChatListView.strap",
 		data : {
@@ -210,11 +220,6 @@
 			var recipientNick = data.recipientNick;
 			var ncList = data.ncList;
 			var memberId = data.memberId;
-			console.log(noteNo);
-			console.log(senderNick);
-			console.log(recipientId);
-			console.log(ncList);
-			console.log(memberId);
 			var url = "/notebox/noteChatView.strap?senderNick="+senderNick+"&recipientId="+recipientId+"&recipientNick="+recipientNick+"&ncList="+ncList+"&memberId="+memberId;
 			const encoded = encodeURI(url);
 			$("#chat-column").load(encoded);
@@ -286,6 +291,52 @@
 		});
 	});
 	
+	// 일정 잡기
+	function matchSchedule(){
+		var meetDate = $("#meet-date")
+		var meetTime = $("#meet-time")
+		var meetMemo = $("#meet-memo").val()
+		var meetDateTime = meetDate.val()+ " " + meetTime.val();
+// 		alert("날짜 + 시간 : "+   );
+		
+		if(meetDate.val()==""){
+			alert("날짜를 선택하세요");
+		}else if(meetMemo==""){
+			alert("메모를 작성해주세요");
+		}
+		console.log('${noteBox.recipientId }');
+		console.log('${noteBox.recipientNick }');
+		console.log('${noteBox.senderId }');
+		console.log('${noteBox.senderNick }');
+		console.log(meetMemo);
+		console.log(meetDateTime);
+		$.ajax({
+			url : "/schedule/registerSchedule.strap",
+			data : {
+				"matchMemberId" : '${noteBox.recipientId }',
+				"matchMemberNick" : '${noteBox.recipientNick }',
+				"memberId" : '${noteBox.senderId }',
+				"memberNick" : '${noteBox.senderNick }',
+				"matchDetail" : meetMemo,				
+				"meetDate" : meetDateTime,
+			},
+			type : "post",
+			success:function(result){
+				console.log(result);
+				if(result == "success"){
+					alert("일정이 등록되었습니다");
+					opener.location.href="/mypage/scheduleListView.strap"
+					window.close();
+				} else {
+					alert("값이 없음");
+				}
+			},
+			error:function(result){
+				alert(result);
+				alert("전송 실패");
+			}
+		});
+	};
 	
 	
 	
