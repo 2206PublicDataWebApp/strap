@@ -21,17 +21,6 @@
 	.contents-side.col th, .contents-side.col td{
 		height: 50px;
 	}
-	.registerForm{
-		margin:0px auto;
-		text-align: center;
-		width: 500px;
-	}
-	.registerForm input{
-		text-align: center;
-	}
-	.registerForm label{
-		margin-right: 120px;
-	}
 	select.select{
 		width: 185px;
 	}
@@ -51,10 +40,6 @@
 		right:10px;
 		
 	}
-	span.ok{color:green;}
-	span.error{color:red;}
-	span.guide{color:red;}
-	}
 </style>
 </head>
 <body>
@@ -67,7 +52,7 @@
 		</div>
 	
 		<div class="contents row">
-			<div class="sidebar col-3" >
+			<div class="sidebar col-3">
 				<jsp:include page="/WEB-INF/views/common/sideBarMyPage.jsp"></jsp:include>
 			</div>
 			<div class="contents-side col">
@@ -153,7 +138,7 @@
 		var reportWindow;
 		
 		function reportPopup(nNo){
-			reportWindow = window.open("/mypage/noteDetailView.strap?noteNo=" + nNo, '_blank', 'width=600, height=600,resizable=no'); return false
+			reportWindow = window.open("/mypage/noteDetailView.strap?noteNo=" + nNo, '_blank', 'width=600, height=800,resizable=no'); return false
 		}
 	</script>
 	

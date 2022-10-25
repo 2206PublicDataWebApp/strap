@@ -16,10 +16,11 @@
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
 <link rel="stylesheet" type="text/css" href="/resources/css/modal.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 </head>
 <body>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 	<div class="container">
 		<div class="row">
 			<div class="col">
@@ -109,6 +110,18 @@
 							<button class="btn btn-primary" id="chat-btn">입력</button>
 						</div>
 					</div>
+					<hr>
+					<div class="row">
+						<div class="col" align="center">
+							날짜 : <input type="Datetime-local" required/>
+						</div>
+						<div class="col" align="center">
+							시간 : <input class="timepicker" required/>
+						</div>
+						<div class="col" align="center">
+							메모 : <input type="text"  placeholder="ex)운동부위" required/>
+						</div>
+					</div>
 					<br>
 					<div class="row">
 						<div class="col" align="center">
@@ -166,6 +179,18 @@
 	</div>
 </div>
 <script>
+	$('.timepicker').timepicker({
+	    timeFormat: 'HH:mm',
+	    interval: 30,
+	    minTime: '8',
+	    maxTime: '9:00pm',
+	    defaultTime: '8',
+	    startTime: '8:00',
+	    dynamic: false,
+	    dropdown: true,
+	    scrollbar: true
+	});
+	
 	
 	$.ajax({
 		url : "/notebox/noteChatListView.strap",

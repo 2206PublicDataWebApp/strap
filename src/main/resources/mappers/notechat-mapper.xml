@@ -18,7 +18,7 @@
   	</select>
   	<insert id="insertNoteChat">
   		INSERT INTO NOTECHAT_TBL 
-  		VALUES(#{noteNo}, #{senderId}, #{senderNick}, #{noteContents}, TO_CHAR(SYSDATE,'YYYY.MM.DD HH24:MI'))
+  		VALUES(#{noteNo}, #{senderId}, #{senderNick}, #{noteContents}, TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI'))
   	</insert>
 	
 </mapper>

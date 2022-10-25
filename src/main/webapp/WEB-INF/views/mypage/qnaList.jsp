@@ -13,7 +13,33 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
+<style>
+.contents-side.col {
+	padding-left: 15px;
+}
 
+.contents-side.col th, .contents-side.col td {
+	height: 50px;
+}
+
+
+select.select {
+	width: 185px;
+}
+
+
+td button {
+	width: 200px;
+}
+
+
+span.id, span.pwd, span.pwdCheck, span.nick {
+	display: none;
+	font-size: 12px;
+	top: 12px;
+	right: 10px;
+}
+</style>
 </head>
 <body>
 <div class="wrap container">
@@ -29,8 +55,12 @@
 			<jsp:include page="/WEB-INF/views/common/sideBarMyPage.jsp"></jsp:include>
 		</div>
 		<div class="contents-side col">
-			<p align="center" style=" font-size:34px; font-family:malgun gothic;">[ 문의 ]<p>
-		</div>
+				<div id="essential info">
+					<span> 문의 </span>
+					<hr>
+					
+				</div>
+			</div>
 	</div>
 	<div class="row">
 		<div class="col">

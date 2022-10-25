@@ -12,14 +12,12 @@
 		<result property="noteTitle" column="NOTE_TITLE"/>
 		<result property="noteContents" column="NOTE_CONTENTS"/>
 		<result property="noteAccept" column="NOTE_ACCEPT"/>
-		<result property="matchDate" column="MATCH_DATE"/>
-		<result property="matchTime" column="MEET_TIME"/>
 		<result property="noteStatus" column="NOTE_STATUS"/>
 		<result property="recipientNick" column="RECIPIENT_NICK"/>
 		<result property="senderNick" column="SENDER_NICK"/>
 	</resultMap>
 	<select id="selectAllNoteBox" resultMap="noteBoxResultMap">
-		SELECT NOTE_NO, RECIPIENT_ID, SENDER_ID, SENDER_TIME, NOTE_TITLE, NOTE_CONTENTS, NOTE_ACCEPT, MATCH_DATE, MATCH_TIME, NOTE_STATUS, RECIPIENT_NICK, SENDER_NICK FROM NOTEBOX_TBL N
+		SELECT NOTE_NO, RECIPIENT_ID, SENDER_ID, SENDER_TIME, NOTE_TITLE, NOTE_CONTENTS, NOTE_ACCEPT, NOTE_STATUS, RECIPIENT_NICK, SENDER_NICK FROM NOTEBOX_TBL N
 		LEFT OUTER JOIN REPORT_TBL R ON N.NOTE_NO = R.CONTENTS_NO WHERE (REPORT_PROCESS IS NULL AND RECIPIENT_ID = #{memberId}) OR NOTE_ACCEPT = 'Y' ORDER BY NOTE_NO DESC
   	</select>
 	<select id="selectTotalCount" resultType="_int">
