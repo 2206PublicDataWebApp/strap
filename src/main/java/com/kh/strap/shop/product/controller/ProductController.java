@@ -115,10 +115,17 @@ public class ProductController {
 		return mv;
 	}
 	
-	//구매(주문페이지) 이동
-	@RequestMapping(value="/orderView.strap", method=RequestMethod.GET)
-	public ModelAndView viewOrderPage(ModelAndView mv) {
+	//상세페이지 -> 주문페이지 이동
+	@RequestMapping(value="detail/orderView.strap", method=RequestMethod.GET)
+	public ModelAndView viewOrderPageFromDetail(ModelAndView mv) {
+		
 		mv.setViewName("/shop/order");
+		return mv;
+	}
+	
+	//장바구니 -> 주문페이지 이동
+	@RequestMapping(value="cart/orderView.strap", method=RequestMethod.GET)
+	public ModelAndView viewOrderPageFromCart(ModelAndView mv) {
 		return mv;
 	}
 	

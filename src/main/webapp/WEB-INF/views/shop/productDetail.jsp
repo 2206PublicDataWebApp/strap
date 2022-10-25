@@ -97,7 +97,7 @@
 						</div>
 						<div id="btn-wrap">
 							<button type="button" onclick="loginCheck('${loginUser.memberId}',function(){addCart('${loginUser.memberId }',${product.productNo },document.querySelector('#qty').value)});">장바구니</button>
-							<button type="button" onclick="if(confirm('선택 상품을 구매하시겠습니까?')) location.href='/orderView.strap';">주문하기</button>
+							<button type="button" onclick="if(confirm('선택 상품을 구매하시겠습니까?')){loginCheck('${loginUser.memberId }',function(){location.href='detail/orderView.strap?qty=document.querySelector(#qty')&productNo=${product.productNo}'})};">주문하기</button>
 						</div>
 					</div>
 				</div>

@@ -30,7 +30,7 @@
 	</div>
 <!-- 컨텐츠 -->
 		<div id="contents" class="row" style="width:60%; margin:50px auto;">
-			<div class="col-9" style="height:2000px;">
+			<div class="col-9">
 				<div id="contents-header">
 					<h1>주문 페이지</h1><hr>
 					<div id="ordererInfo" class="row" style="border-bottom:1px solid #c0c0c0;">
