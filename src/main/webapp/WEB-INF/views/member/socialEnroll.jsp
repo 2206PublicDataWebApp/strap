@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
 	<style>
 		.registerForm{
-			margin: 100px auto;
+			margin: 50px auto;
 			text-align: center;
 			width: 500px;
 			border: 1px solid gray;

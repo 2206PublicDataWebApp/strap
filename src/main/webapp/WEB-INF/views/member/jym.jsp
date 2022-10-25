@@ -293,6 +293,7 @@ function jibun(element){
 	var name = $(element).children().eq(0).text();
 	opener.document.querySelector("#memberJym").value = address + ", " + name;
 	alert("주소가 입력되었습니다.");
+	close();
 }
 
 

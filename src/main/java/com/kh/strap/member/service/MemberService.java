@@ -31,5 +31,17 @@ public interface MemberService {
 
 	int memberNickCheck(String memberNick);
 
+	int changeNick(Member member);
+
+	int changeEmail(Member member);
+
+	int changeCareer(Member member);
+
+	int changeSBD(Member member);
+
+	int changeJym(Member member);
+
+	int changeImg(Member member);
+
 
 }
