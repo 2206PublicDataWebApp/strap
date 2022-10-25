@@ -44,7 +44,7 @@
 <nav>
     <div class="navBar">
     	<ul>
-			<li onclick="location.href='#';">매칭</li>
+			<li onclick="location.href='/match/matchingView.strap';">매칭</li>
 	  		<li onclick="location.href='/product/listView.strap';">보충제</li>
 	  		<li onclick="location.href='/board/list.strap';">게시판</li>
     	</ul>

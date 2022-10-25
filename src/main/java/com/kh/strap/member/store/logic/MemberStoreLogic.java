@@ -121,4 +121,10 @@ public class MemberStoreLogic implements MemberStore{
 		return result;
 	}
 
+	@Override
+	public int changeIntroduce(SqlSession session, Member member) {
+		int result = session.update("MemberMapper.changeIntroduce",member);
+		return result;
+	}
+
 }

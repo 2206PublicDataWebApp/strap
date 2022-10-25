@@ -12,7 +12,7 @@ public class Member {
 	private String memberNick;		//6.닉네임
 	private String memberJym;		//7.마이짐
 	private String memberCareer;	//8.구력
-	private String memberSBD;			//9.3대
+	private String memberSBD;		//9.3대
 	private String mProfileName;	//10.프로필 사진 이름
 	private String mProfileRename;	//11.프로필 사진 리네임
 	private String mProfilePath;	//12.프로필 사진경로
@@ -21,8 +21,8 @@ public class Member {
 	private String adminStatus;		//15.관리자 상태
 	private int memberManner;		//16.매너 점수
 	private String memberType;		//17.회원 종류
-	private String memberIntroduce;	//18.회원 종류
-	private String memberAdreess;	//19.회원 종류
+	private String memberIntroduce;	//18.자기소개
+	private String memberAdreess;	//19.주소
 	
 	
 

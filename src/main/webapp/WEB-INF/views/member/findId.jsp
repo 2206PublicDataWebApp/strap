@@ -49,8 +49,8 @@
 			<input type="email" id="memberEmail" name="memberEmail" placeholder="이메일 입력"><br>
 			<span class="email error">이메일 주소를 다시 확인해주세요</span>
 			<input type="text" id="certificationNumber" name="certificationNumber" placeholder="인증번호 입력"><br><br>
-			<button type="button" id="certificationBtn" class="btn btn-primary">인증요청</button><br><br>
-			<button type="submit" id="findIdBtn" onclick="return numberCheck();" class="btn btn-primary" disabled="disabled">아이디 찾기</button>
+			<button type="button" id="certificationBtn" class="btn btn-dark">인증요청</button><br><br>
+			<button type="submit" id="findIdBtn" onclick="return numberCheck();" class="btn btn-dark" disabled="disabled">아이디 찾기</button>
 		</form>		
 	</div>
 	

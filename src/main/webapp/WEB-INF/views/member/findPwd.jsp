@@ -52,9 +52,9 @@
 			<label for="memberEmail">이메일</label><br>
 			<input type="email" id="memberEmail" name="memberEmail" placeholder="이메일 입력"><br>
 			<span class="email error">이메일 주소를 다시 확인해주세요</span>
-			<input type="text" id="certificationNumber" name="certificationNumber" placeholder="인증번호"><br>
-			<button type="button" id="certificationBtn" class="btn btn-primary">인증요청</button><br><br>
-			<button type="submit" id="findPwdBtn" class="btn btn-primary" onclick="return numberCheck();" disabled="disabled">비밀번호 찾기</button>	
+			<input type="text" id="certificationNumber" name="certificationNumber" placeholder="인증번호"><br><br>
+			<button type="button" id="certificationBtn" class="btn btn-dark">인증요청</button><br><br>
+			<button type="submit" id="findPwdBtn" class="btn btn-dark" onclick="return numberCheck();" disabled="disabled">비밀번호 찾기</button>	
 		</form>
 	</div>
 	<script>

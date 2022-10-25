@@ -20,9 +20,7 @@
 		height: 50px;
 	}
 	.registerForm{
-		margin:0px auto;
-		text-align: center;
-		width: 500px;
+		margin:0px auto; text-align: center; width: 500px;
 	}
 	.registerForm input{
 		text-align: center;
@@ -40,16 +38,17 @@
 		width:  180px;
 	}
 	span.id, span.pwd, span.pwdCheck, span.nick, span.email{
-		display:none;
-		font-size:12px;
-		top:12px;
-		right:10px;
-		
+		display:none; font-size:12px; top:12px; right:10px;
 	}
 	span.ok{color:green;}
 	span.error{color:red;}
 	span.guide{color:red;}
+	
+	.imgDiv{
+		width: 100px; height: 100px; border-radius: 50px; margin-left:50px; margin-bottom:25px;
+		overflow: hidden;
 	}
+		
 	</style>
 </head>
 <body>
@@ -227,7 +226,14 @@
 					<tr id="imgTr">
 						<th width="250px">사진</th>
 						<td width="750px;">
-							<img width="100px" height="100px" alt="프로필 사진" style="margin-left:150px;" src="/resources/image/member/profileImg_default.png">
+							<div class="imgDiv">
+								<c:if test="${loginUser.mProfileRename eq null}">
+									<img width="100%" height="100%" alt="프로필 사진" src="/resources/profileUploadFiles/default.png">
+								</c:if>
+								<c:if test="${loginUser.mProfileRename ne null}">
+									<img width="100px" height="100px" alt="프로필 사진" src="/resources/profileUploadFiles/${loginUser.mProfileRename }">
+								</c:if>
+							</div>
 						</td>
 						<td width="200px;"><button class="btn btn-light" onclick="modifyImg();">사진 변경</button></td>
 					</tr>
@@ -235,10 +241,18 @@
 					<tr id="change-imgTr" style="display: none;">
 						<th width="250px">사진</th>
 						<td width="750px;">
-							<img class="preview" width="100px" height="100px" alt="프로필 사진" style="margin-left:150px;" src="/resources/image/member/profileImg_default.png">
-						<br><br>
+							<div class="imgDiv">
+							<c:if test="${loginUser.mProfileRename eq null}">
+								<img class="preview" width="100px" height="100px" alt="프로필 사진" src="/resources/profileUploadFiles/default.png">
+							</c:if>
+							<c:if test="${loginUser.mProfileRename ne null}">
+								<img class="preview" width="100px" height="100px" alt="프로필 사진" src="/resources/profileUploadFiles/${loginUser.mProfileRename }">
+							</c:if>
+							</div>
+						<br>
 						<button id="defaultBtn" class="btn btn-light" id="">기본 이미지</button>
 						<label for="mProfileName" class="btn btn-light" style="display:inline-block; width: 200px;">사진 선택</label>
+						<input id="mProfileName" name="mProfileName" type="file" accept="image/jpeg, image/jpg, image/png" hidden="hidden" multiple="multiple">
 						<input id="mProfileName" name="mProfileName" type="file" accept="image/jpeg, image/jpg, image/png" hidden="hidden" multiple="multiple">
 						<br><br>
 						<button class="btn btn-light" onclick="modifyImgCancel();">취소</button>
@@ -295,29 +309,59 @@
 </div>
 <script type="text/javascript">
 
+	var formData = new FormData();
 	function modifyImgFinish(){
-		if(confirm("사진을 변경하시겠습니까?")){
-			var memberId = $("#memberId").text();
-			//form 객체를 만들어 controller로 파일 넘기기
-			var formData = new FormData();
-			formData.append("mProfileName", $("#mProfileName")[0].files[0]);
-			formData.append("memberId", memberId);
-			$.ajax({
-				url:"/member/profileImg.strap",
-				type:"post",
-				enctype: 'multipart/form-data',
-				processData: false,
-				contentType: false,
-				data: formData,
-				success:function(result){
-					console.log(result)
-				},
-				error:function(result){
-					console.log("실패")
+		//선택된 사진이 있는지?
+		if($("#mProfileName")[0].files[0] != null){
+			if(confirm("사진을 변경하시겠습니까?")){
+				//preview img src에 따라 선택
+				//선택한 이미지로
+				if($(".preview").attr("src") != "/resources/profileUploadFiles/default.png"){
+					var memberId = $("#memberId").text();
+					formData.append("mProfileName", $("#mProfileName")[0].files[0]);
+					formData.append("memberId", memberId);
+					$.ajax({
+						url:"/member/profileImg.strap",
+						type:"post",
+						enctype: 'multipart/form-data',
+						processData: false,
+						contentType: false,
+						data: formData,
+						success:function(result){
+							if(result=="ok"){
+								alert("프로필 사진이 변경되었습니다.");
+								location.href="/mypage/myinfoView.strap"
+							}
+						},
+					})		
 				}
-			})		
+				//기본 이미지로
+				else{
+					changeDefaultImg();
+				}
+			}
+		//선택된 사진이 없으면 기본이미지로 변경
+		}else{
+			if(confirm("기본 이미지로 변경하시겠습니까?")){
+				changeDefaultImg();
 		}
+		
 	};
+	
+	function changeDefaultImg(){
+		$.ajax({
+			url:"/member/profileDefaultImg.strap",
+			type:"post",
+			data: {"defaultImg" : "defaultImg"},
+			success:function(result){
+				if(result=="ok"){
+					alert("기본 이미지로 사진이 변경되었습니다.");
+					location.href="/mypage/myinfoView.strap"
+				}
+			},
+		})
+	};
+	}
 	
 	$("#mProfileName").on("change",function(e){
 		var img = e.target.files[0];
@@ -327,7 +371,7 @@
 		}
 	})
 	$("#defaultBtn").on("click",function(){
-		$(".preview").attr("src","/resources/image/member/profileImg_default.png");
+		$(".preview").attr("src","/resources/profileUploadFiles/default.png");
 	})
 
 	function modifyPwd(){
@@ -407,6 +451,14 @@
 	function modifyImgCancel(){
 		$("#change-imgTr").hide();
 		$("#imgTr").show();
+		//취소했을떄 preview 원래대로
+		var mProfileRename = '${loginUser.mProfileRename}';
+		if(mProfileRename == ''){
+			var src = "default.png";
+		}else{
+			var src = '${loginUser.mProfileRename }';
+		}
+		$(".preview").attr("src", "/resources/profileUploadFiles/"+src);
 	}
 	function modifyPwdFinish(){
 		var memberId = $("#memberId").text();

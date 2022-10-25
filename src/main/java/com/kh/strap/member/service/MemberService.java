@@ -43,5 +43,7 @@ public interface MemberService {
 
 	int changeImg(Member member);
 
+	int changeIntroduce(Member member);
+
 
 }

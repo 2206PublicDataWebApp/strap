@@ -127,6 +127,12 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 
+	@Override
+	public int changeIntroduce(Member member) {
+		int result = mStore.changeIntroduce(session, member);
+		return result;
+	}
+
 	
 	
 }
