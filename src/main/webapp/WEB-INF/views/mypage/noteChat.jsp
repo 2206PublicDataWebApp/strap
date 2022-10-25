@@ -9,12 +9,12 @@
 		<div class="row text-center border border-secondary border-opacity-50" >
 			<div class="col">
 				내용
-					<c:forEach items="${nList }" var="noteChat" varStatus="i">
+					<c:forEach items="${ncList }" var="noteChat" varStatus="i">
 						<c:if test="${noteChat.senderId eq memberId }">
-							<p align="right">${noteChat.chatContents } <fmt:formatDate pattern="a hh:mm:ss" value="${noteChat.senderDate }"/></p> <br>
+							<p align="right">${noteChat.chatContents } - ${noteChat.senderDate }</p> <br>
 						</c:if>
-						<c:if test="${noteChat.recipientId eq memberId }">
-							<p align="left">${noteChat.chatContents } <fmt:formatDate pattern="a hh:mm:ss" value="${noteChat.senderDate }"/></p> <br>
+						<c:if test="${noteChat.senderId ne memberId }">
+							<p align="left">${noteChat.chatContents } - ${noteChat.senderDate }</p> <br>
 						</c:if>
 					</c:forEach>
 			</div>

@@ -29,7 +29,12 @@
 			<jsp:include page="/WEB-INF/views/common/sideBarMyPage.jsp"></jsp:include>
 		</div>
 		<div class="contents-side col">
-			<p align="center" style=" font-size:34px; font-family:malgun gothic;">[ 마이 페이지 ]<p>
+			<div id="essential info">
+				<span> 마이페이지 </span>
+				<hr>
+				<h3>매너온도 추가</h3>
+				<h3>대시보드 추가(시간있 으면)</h3>
+			</div>
 		</div>
 	</div>
 	<div class="row">

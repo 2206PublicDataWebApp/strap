@@ -23,16 +23,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.strap.admin.domain.Admin;
 import com.kh.strap.admin.domain.Notice;
-import com.kh.strap.admin.service.logic.AdminServiceImpl;
-import com.kh.strap.admin.service.logic.NoticeServiceImpl;
+import com.kh.strap.admin.service.AdminService;
+import com.kh.strap.admin.service.NoticeService;
 
 
 @Controller
 public class AdminController {
 	@Autowired
-	private AdminServiceImpl aService;
+	private AdminService aService;
 	@Autowired
-	private NoticeServiceImpl nService;
+	private NoticeService nService;
 	/**
 	 * 
 	 * @param mv

@@ -10,8 +10,6 @@ public class NoteBox {
 	private String noteTitle;
 	private String noteContents;
 	private String noteAccept;
-	private Date matchDate;
-	private Date matchTime;
 	private String noteStatus;
 	private String recipientNick;
 	private String senderNick;
@@ -101,26 +99,6 @@ public class NoteBox {
 	}
 
 
-	public Date getMatchDate() {
-		return matchDate;
-	}
-
-
-	public void setMatchDate(Date matchDate) {
-		this.matchDate = matchDate;
-	}
-
-
-	public Date getMatchTime() {
-		return matchTime;
-	}
-
-
-	public void setMatchTime(Date matchTime) {
-		this.matchTime = matchTime;
-	}
-
-
 	public String getNoteStatus() {
 		return noteStatus;
 	}
@@ -151,7 +129,7 @@ public class NoteBox {
 	public String toString() {
 		return "NoteBox [noteNo=" + noteNo + ", recipientId=" + recipientId + ", senderId=" + senderId + ", senderTime="
 				+ senderTime + ", noteTitle=" + noteTitle + ", noteContents=" + noteContents + ", noteAccept="
-				+ noteAccept + ", matchDate=" + matchDate + ", matchTime=" + matchTime + ", noteStatus=" + noteStatus
+				+ noteAccept + ", noteStatus=" + noteStatus
 				+ ", recipientNick=" + recipientNick + ", senderNick=" + senderNick + "]";
 	}
 }

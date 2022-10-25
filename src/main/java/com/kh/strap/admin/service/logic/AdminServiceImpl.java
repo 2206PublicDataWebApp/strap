@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.strap.admin.domain.Admin;
 import com.kh.strap.admin.service.AdminService;
-import com.kh.strap.admin.store.logic.AdminStoreLogic;
+import com.kh.strap.admin.store.AdminStore;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -14,7 +14,7 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private SqlSession session;
 	@Autowired
-	private AdminStoreLogic aStore;
+	private AdminStore aStore;
 	
 	@Override
 	public Admin loginAdmin(Admin admin) {

@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.kh.strap.admin.domain.Notice;
 import com.kh.strap.admin.service.NoticeService;
-import com.kh.strap.admin.store.logic.NoticeStoreLogic;
+import com.kh.strap.admin.store.NoticeStore;
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
 	@Autowired
 	private SqlSession session;
 	@Autowired
-	private NoticeStoreLogic nStore;
+	private NoticeStore nStore;
 	
 	@Override
 	public int registerNotice(Notice notice) {
