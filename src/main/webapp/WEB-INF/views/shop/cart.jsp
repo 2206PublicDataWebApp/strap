@@ -52,21 +52,33 @@
 							</div>
 							<div>
 								<div class="qtyCon">
-									<button class="downQty" type="button" onclick="if(document.querySelectorAll('.qty')[${n.count-1}].value > 1)document.querySelectorAll('.qty')[${n.count-1}].value--; calTotalPrice(${n.count-1},${cart.product.productPrice });">-</button>
-									<input class="qty" type="text" width="60px" value="${cart.productAmount }" readonly style="width:50px;text-align:center;">
-									<button class="upQty" type="button" onclick="document.querySelectorAll('.qty')[${n.count-1}].value++; calTotalPrice(${n.count-1},${cart.product.productPrice });">+</button>
+									<button class="downQty" type="button" onclick="if(document.querySelectorAll('.qty')[${n.count-1}].value > 1)document.querySelectorAll('.qty')[${n.count-1}].value--; calCartPrice(${n.count-1},${cart.product.productPrice });modifyCartQty(${n.count-1 },${cart.productNo });calCartTotalPrice();">-</button>
+									<input class="qty" type="text" width="60px" value="${cart.productAmount }" readonly style="width:50px;text-align:center;" onChange="alert('!');">
+									<button class="upQty" type="button" onclick="document.querySelectorAll('.qty')[${n.count-1}].value++; calCartPrice(${n.count-1},${cart.product.productPrice });modifyCartQty(${n.count-1 },${cart.productNo });calCartTotalPrice();">+</button>
 								</div>
-								<div class="cartPrice"></div>
+								<div class="cartPrice-wrap">
+										<span class='wonSymbol'>\</span>
+										<span class="cartPrice">
+											${cart.product.productPrice * cart.productAmount }
+										</span>
+								</div>
 							</div>
 						</div>
 					</div>
 				</c:forEach>	
 			</div>
-			<div id="totalPrice">
-			
+			<hr>
+			<h3>상품 구매 가격</h3>
+			<div id="totalPrice-wrap">
+				<h2>
+					<span class='wonSymbol'>\</span>
+					<span id="totalPrice">
+					</span>
+				</h2>
 			</div>
 			<div id="cartBtn">
-			
+				<button>쇼핑계속</button>
+				<button>구매하기</button>
 			</div>
 		</div>
 	</div>
@@ -78,6 +90,7 @@
 	</div>
 </div>
 <script>
+
 //정렬
 function orderSubmit(column,order){
 	var searchForm = document.querySelector("#search-form");
@@ -169,17 +182,49 @@ function addCart(memberId,productNo,productAmount){
 		},
 		error:function(){}
 	});
-	
 }
 
-//총 가격 계산
-function calTotalPrice(n,price){
-	var totalPriceTag = document.querySelectorAll(".cartPrice")[n];
+// 가격 계산
+function calCartPrice(n,price){
+	var cartPriceTag = document.querySelectorAll(".cartPrice")[n];
 	var totalPrice = document.querySelectorAll('.qty')[n].value * price;
-	console.log(document.querySelectorAll('.qty')[n].value);
-	console.log(price);
-	console.log(totalPrice);
-	totalPriceTag.innerHTML = "<span id='wonSymbol'>\\</span> " + totalPrice.toLocaleString();
+	cartPriceTag.innerText = totalPrice.toLocaleString();
+}
+
+// 장바구니 총 가격 계산
+calCartTotalPrice();
+function calCartTotalPrice(){
+	var $totalPrice = document.querySelector("#totalPrice");
+	var sumPrice = 0;
+	for(var i = 0; i<'${cList.size()}'; i++){
+		var temp = document.querySelectorAll(".cartPrice")[i].innerHTML.replace(",","");
+		sumPrice += Number(temp);
+	}
+	console.log("합계" + sumPrice);
+	$totalPrice.innerText = sumPrice.toLocaleString();
+}
+
+// 장바구니 수량변경 ajax
+function modifyCartQty(n,productNo){
+	var productAmount = document.querySelectorAll(".qty")[n].value;
+	var memberId = '${loginUser.memberId}';
+	$.ajax({
+		url:"/cart/modify.strap",
+		data:{
+			"productAmount":productAmount,
+			"memberId":memberId,
+			"productNo":productNo
+		},
+		type:"get",
+		success:function(result){
+			if(result == "success"){
+				console.log("수정성공");
+				calCartTotalPrice();
+			}else{
+			}
+		},
+		error:function(){}
+	});
 }
 
 </script>

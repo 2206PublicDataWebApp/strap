@@ -48,13 +48,13 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public int modifyQtyCart(Cart cart) {
-		return cStore.updateQtyCart(session, cart);
+	public int removeCart(Cart cart) {
+		return cStore.deleteCart(session, cart);
 	}
 
 	@Override
-	public int removeCart(Cart cart) {
-		return cStore.deleteCart(session, cart);
+	public int modifyToQtyCart(Cart cart) {
+		return cStore.updateToQtyCart(session, cart);
 	}
 
 }

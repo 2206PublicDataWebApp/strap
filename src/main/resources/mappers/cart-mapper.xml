@@ -30,6 +30,11 @@
 		WHERE MEMBER_ID = #{memberId} AND PRODUCT_NO = #{productNo}
 	</update>
 	
+	<update id="updateToQtyCart">
+		UPDATE CART_TBL SET PRODUCT_AMOUNT = #{productAmount}
+		WHERE MEMBER_ID = #{memberId} AND PRODUCT_NO = #{productNo}
+	</update>
+	
 	<delete id="deleteCart">
 		DELETE FROM CART_TBL
 		WHERE MEMBER_ID = #{memberId} AND PRODUCT_ID = #{productNo} 

@@ -36,4 +36,9 @@ public class CartStoreLogic implements CartStore {
 		return session.delete("CartMapper.deleteCart", cart);
 	}
 
+	@Override
+	public int updateToQtyCart(SqlSession session, Cart cart) {
+		return session.update("CartMapper.updateToQtyCart",cart);
+	}
+
 }

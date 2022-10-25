@@ -65,15 +65,23 @@ public class CartController {
 	}
 	
 	//장바구니 수량 변경 ajax
-	@RequestMapping(value="cart/modify.strap", method=RequestMethod.GET)
-	public ModelAndView modifyQtyCart(ModelAndView mv) {
-		return mv;
+	@ResponseBody
+	@RequestMapping(value="/cart/modify.strap", method=RequestMethod.GET)
+	public String modifyQtyCart(
+			@ModelAttribute Cart cart) {
+		if(cService.modifyToQtyCart(cart)>0) {
+			return "success";
+		}else {
+			return "fail";
+		}
 	}
 	
 	//장바구니 삭제 ajax
-	@RequestMapping(value="cart/remove.strap", method=RequestMethod.GET)
-	public ModelAndView removeCart(ModelAndView mv) {
-		return mv;
+	@ResponseBody
+	@RequestMapping(value="/cart/remove.strap", method=RequestMethod.GET)
+	public String removeCart(
+			@ModelAttribute Cart cart) {
+		return "";
 	}
 	
 	
