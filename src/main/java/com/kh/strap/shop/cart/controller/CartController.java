@@ -81,8 +81,22 @@ public class CartController {
 	@RequestMapping(value="/cart/remove.strap", method=RequestMethod.GET)
 	public String removeCart(
 			@ModelAttribute Cart cart) {
-		return "";
+		if(cService.removeCart(cart)>0) {
+			return "success";
+		}else {
+			return "fail";
+		}
 	}
 	
-	
+	//장바구니 상품 체크상태 변경
+	@ResponseBody
+	@RequestMapping(value="/cart/modifyCheck.strap",method=RequestMethod.GET)
+	public String modifyCheckCart(
+			@ModelAttribute Cart cart) {
+		if(cService.modifyCheckCart(cart) > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
 }

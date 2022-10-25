@@ -8,16 +8,18 @@ public class Cart {
 	private int productNo;
 	private String memberId;
 	private int productAmount;
+	private String cartCheck;
 
 	public Cart() {
 	}
 
-	public Cart(Product product, int productNo, String memberId, int productAmount) {
+	public Cart(Product product, int productNo, String memberId, int productAmount, String cartCheck) {
 		super();
 		this.product = product;
 		this.productNo = productNo;
 		this.memberId = memberId;
 		this.productAmount = productAmount;
+		this.cartCheck = cartCheck;
 	}
 
 	public Product getProduct() {
@@ -52,12 +54,17 @@ public class Cart {
 		this.productAmount = productAmount;
 	}
 
+	public String getCartCheck() {
+		return cartCheck;
+	}
+
+	public void setCartCheck(String cartCheck) {
+		this.cartCheck = cartCheck;
+	}
+
 	@Override
 	public String toString() {
 		return "Cart [product=" + product + ", productNo=" + productNo + ", memberId=" + memberId + ", productAmount="
-				+ productAmount + "]";
+				+ productAmount + ", cartCheck=" + cartCheck + "]";
 	}
-
-	
-	
 }

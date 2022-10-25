@@ -46,8 +46,8 @@
 									<span class="pName">${cart.product.productName }</span>
 								</div>
 								<div class="cartCheck">
-									<input type="checkbox">
-									<button type="button">X</button>
+									<input  class="cartCheck" type="checkbox" name="cartCheck" onchange="cartCheck(this,'${loginUser.memberId }',${cart.productNo });" <c:if test="${cart.cartCheck eq 'Y'}">checked</c:if>>
+									<button type="button" onclick="removeCart(${cart.productNo},'${loginUser.memberId }');">X</button>
 								</div>
 							</div>
 							<div>
@@ -147,7 +147,6 @@ function memberLikeView(){
 			},
 			type:"post",
 			success: function(result){
-				console.log(result);
 				var likeBtnArr = document.querySelectorAll(".likeBtn");
 				for(var j = 0; j<likeBtnArr.length; j++){
 					likeBtnArr[j].style.color = "black";
@@ -197,10 +196,11 @@ function calCartTotalPrice(){
 	var $totalPrice = document.querySelector("#totalPrice");
 	var sumPrice = 0;
 	for(var i = 0; i<'${cList.size()}'; i++){
-		var temp = document.querySelectorAll(".cartPrice")[i].innerHTML.replace(",","");
-		sumPrice += Number(temp);
+		if(document.querySelectorAll(".cartCheck")[2*i+1].checked){
+			var temp = document.querySelectorAll(".cartPrice")[i].innerHTML.replace(",","");
+			sumPrice += Number(temp);
+		}
 	}
-	console.log("합계" + sumPrice);
 	$totalPrice.innerText = sumPrice.toLocaleString();
 }
 
@@ -218,9 +218,55 @@ function modifyCartQty(n,productNo){
 		type:"get",
 		success:function(result){
 			if(result == "success"){
-				console.log("수정성공");
 				calCartTotalPrice();
 			}else{
+			}
+		},
+		error:function(){}
+	});
+}
+
+//장바구니에서 상품 삭제
+function removeCart(productNo,memberId){
+	$.ajax({
+		url:"/cart/remove.strap",
+		data:{
+			"productNo":productNo,
+			"memberId":memberId
+		},
+		type:"get",
+		success:function(result){
+			if(result == "success"){
+				location.href="/cart/cartView.strap";
+			}else{
+			}
+		},
+		error:function(){}
+	});
+}
+
+//장바구니 상품 체크 여부
+function cartCheck(checkBtn,memberId,productNo){
+	var cartCheck = "";
+	if(checkBtn.checked){
+		cartCheck = "Y";
+	}else{
+		cartCheck = "N";
+	}
+	$.ajax({
+		url:"/cart/modifyCheck.strap",
+		data:{
+			"cartCheck":cartCheck,
+			"memberId":memberId,
+			"productNo":productNo
+			
+		},
+		type:"get",
+		success:function(result){
+			if(result == "success"){
+				calCartTotalPrice();
+			}else{
+				
 			}
 		},
 		error:function(){}
