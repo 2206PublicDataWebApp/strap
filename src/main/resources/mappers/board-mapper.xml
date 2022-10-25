@@ -17,7 +17,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		<result property="boardDate" 		column="BOARD_DATE"/>
   		<result property="boardCount" 		column="BOARD_COUNT"/>
   		<result property="boardLikeIt" 		column="BOARD_LIKEIT"/>
-  		<!-- <result property="boardBad" 		column="BOARD_BAD"/> -->
   	</resultMap>
   	
   	<!-- 게시글 등록 -->
@@ -26,6 +25,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		,#{boardTitle},#{boardContents},#{boardCategory},#{bFileName}
   		,#{bFileRename},#{bFilePath},DEFAULT,DEFAULT,DEFAULT)
   	</insert>
+
+	<!-- 게시글 수정 -->
+	<update id="updateBoard">
+  		UPDATE BOARD_TBL SET BOARD_TITLE = #{boardTitle}, BOARD_CONTENTS = #{boardContents}, BOARD_CATEGORY = #{boardCategory}, B_FILE_NAME = #{bFileName }, B_FILE_RENAME = #{bFileRename}, B_FILE_PATH = #{bFilePath}, BOARD_DATE = DEFAULT
+  		WHERE BOARD_NO = #{boardNo}
+  	</update>
+
+	<!-- 게시물 삭제 -->
+	<delete id="deleteBoard">
+		DELETE FROM BOARD_TBL WHERE BOARD_NO = #{boardNo}
+	</delete>
 
   	<!-- 모든 게시글 SELECT -->
   	<select id="selectAllBoard" resultMap="boardResultMap">
@@ -81,31 +91,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE BOARD_TBL SET BOARD_COUNT=BOARD_COUNT+1 WHERE BOARD_NO=#{boardNo}
 	</update>
 	
-	<!-- 게시글 추천/비추천 -->
-	<!-- <insert id="insertGoodBadCount">
-		INSERT INTO BOARD_RECORD_TBL VALUES(SEQ_RECORDNO.NEXTVAL, #{memberNick}, #{boardNo}, #{goodOrBad})
-	</insert>
-	
-	<select id="selectCountGood" resultType="_int">
-		SELECT COUNT(*) FROM BOARD_RECORD_TBL WHERE BOARD_NO=#{boardNo} AND GOOD_OR_BAD='GOOD'
-	</select>
-	
-	<select id="selectCountBad" resultType="_int">
-		SELECT COUNT(*) FROM BOARD_RECORD_TBL WHERE BOARD_NO=#{boardNo} AND GOOD_OR_BAD='BAD'
-	</select>
-	
-	<select id="selectBoardRecord" resultType="_int">
-		SELECT COUNT(*) FROM BOARD_RECORD_TBL WHERE BOARD_NO=#{boardNo} AND MEMBER_NICK=#{memberNick}
-	</select>
-	
-	<select id="updateGood">
-		UPDATE BOARD_TBL SET BOARD_GOOD=BOARD_GOOD+1 WHERE BOARD_NO=#{boardNo}
-	</select>
-	
-	<select id="updateBad">
-		UPDATE BOARD_TBL SET BOARD_BAD=BOARD_BAD+1 WHERE BOARD_NO=#{boardNo}
-	</select> -->
-	
 	<!-- 게시글 추천수 -->
 	<update id="updateLike" parameterType="int">
 		UPDATE BOARD_TBL SET BOARD_LIKEIT = BOARD_LIKEIT+1 WHERE BOARD_NO = #{boardNo}
@@ -140,5 +125,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 게시글 추천 중복 방지 select -->
 	<select id="likeCheck" resultType="int">
 		SELECT COUNT(*) FROM BOARD_LIKE_TBL WHERE BOARD_NO = #{boardNo} AND MEMBER_NICK = #{memberNick}
+	</select>
+	
+	<!-- 댓글 관리 -->
+	<resultMap type="BoardReply" id="replyResultMap">
+		<id		property="replyNo" 			column="REPLY_NO" />
+		<result property="boardNo"   	 	column="BOARD_NO" />
+		<result property="replyContents"	column="REPLY_CONTENTS" />
+		<result property="memberNick" 		column="MEMBER_NICK" />
+   <!-- <result property="replyNick" 		column="REPLY_NICK" /> -->
+		<result property="replyDate" 		column="REPLY_DATE" />
+		<result property="replyDepth" 		column="REPLY_DEPTH" />
+		<result property="replyGroup" 		column="REPLY_GROUP" />
+	</resultMap>
+	
+	<insert id="insertReply">
+		INSERT INTO BOARD_REPLY_TBL VALUES(SEQ_BOARD_REPLYNO.NEXTVAL, #{BoardNo}, #{replyContents}, #{memberNick}, DEFAULT, DEFAULT, DEFAULT)
+	</insert>
+	<update id="modifyReply">
+		UPDATE BOARD_REPLY_TBL SET REPLY_CONTENTS = #{replyContents}, REPLY_DATE = DEFAULT WHERE REPLY_NO = #{replyNo}
+	</update>
+	<delete id="deleteReply">
+		 DELETE FROM BOARD_REPLY_TBL WHERE REPLY_NO = #{replyNo }
+	</delete>
+	<select id="selectAllReply" resultMap="replyResultMap">
+		SELECT * FROM BOARD_REPLY_TBL WHERE BOARD_NO = #{boardNo} ORDER BY REPLY_DATE DESC
 	</select>
 </mapper>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.strap.board.domain.Board;
+import com.kh.strap.board.domain.BoardReply;
 import com.kh.strap.board.service.BoardService;
 import com.kh.strap.board.store.logic.BoardStoreLogic;
 
@@ -53,22 +54,6 @@ public class BoardServiceImpl implements BoardService {
 		int result = bStore.updateBoardCount(session, boardNo);
 		return result;
 	}
-
-	/*
-	 * @Override public int getCountGood(Integer boardNo) { int count =
-	 * bStore.selectCountGood(session, boardNo); return count; }
-	 * 
-	 * @Override public int getCountBad(Integer boardNo) { int count =
-	 * bStore.selectCountBad(session, boardNo); return count; }
-	 * 
-	 * @Override public int getBoardRecord(String memberNick, Integer boardNo) { int
-	 * result=bStore.selectBoardRecord(session, memberNick, boardNo); return result;
-	 * }
-	 * 
-	 * @Override public int addGoodBadCount(Integer boardNo, String memberNick,
-	 * String goodOrBad) { int result=bStore.insertGoodBadCount(session, boardNo,
-	 * memberNick, goodOrBad); return result; }
-	 */
 	
 	@Override
 	public void updateLike(Integer boardNo) throws Exception{
@@ -104,6 +89,43 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void updateLikeCheckCancel(Integer boardNo,String memberNick)throws Exception{
 		bStore.updateLikeCheckCancel(session, boardNo, memberNick);
+	}
+
+	// 게시글 수정
+	@Override
+	public int modifyOneByNo(Board board) {
+		int result = bStore.updateOneByNo(session, board);
+		return result;
+	}
+
+	@Override
+	public int removeOneByNo(int boardNo) {
+		int result = bStore.deleteOneByNo(session, boardNo);
+		return result;
+	}
+
+	@Override
+	public int registerReply(BoardReply bReply) {
+		int result = bStore.insertReply(session, bReply);
+		return result;
+	}
+
+	@Override
+	public List<BoardReply> printAllReply(int boardNo) {
+		List<BoardReply> brList = bStore.selectAllReply(session, boardNo);
+		return brList;
+	}
+
+	@Override
+	public int modifyReply(BoardReply bReply) {
+		int result = bStore.modifyReply(session, bReply);
+		return result;
+	}
+
+	@Override
+	public int deleteReply(Integer replyNo) {
+		int result = bStore.deleteReply(session, replyNo);
+		return result;
 	}
 }
 

@@ -12,7 +12,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
-<link rel="stylesheet" type="text/css" href="/resources/css/border.css">
+<!-- <link rel="stylesheet" type="text/css" href="/resources/css/border.css"> -->
 <!-- 썸대노트 -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

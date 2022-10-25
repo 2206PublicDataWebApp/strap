@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.strap.board.domain.Board;
+import com.kh.strap.board.domain.BoardReply;
 
 public interface BoardStore {
 	public int insertBoard(SqlSessionTemplate session, Board board);
@@ -34,18 +35,20 @@ public interface BoardStore {
 
 	void updateLikeCheckCancel(SqlSession session, Integer boardNo, String memberNick) throws Exception;
 	
-	/*
-	 * public int selectCountGood(SqlSessionTemplate session, Integer boardNo);
-	 * 
-	 * public int selectCountBad(SqlSessionTemplate session, Integer boardNo);
-	 * 
-	 * public int selectBoardRecord(SqlSessionTemplate session, String memberNick,
-	 * Integer boardNo);
-	 * 
-	 * public int insertGoodBadCount(SqlSessionTemplate session, Integer boardNo,
-	 * String memberNick, String goodOrBad);
-	 */
+	public int updateOneByNo(SqlSessionTemplate session,Board board);
 	
+	public int deleteOneByNo(SqlSession session, int boardNo);
+	
+	public int insertReply(SqlSession session, BoardReply bReply);
+	
+	// 댓글 전체조회
+	public List<BoardReply> selectAllReply(SqlSession session, int boardNo);
+	
+	// 댓글 수정
+	public int modifyReply(SqlSession session, BoardReply bReply);
+	
+	// 댓글 삭제
+	public int deleteReply(SqlSession session, Integer replyNo);
 }
 
 

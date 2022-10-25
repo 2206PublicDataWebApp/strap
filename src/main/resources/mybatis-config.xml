@@ -11,6 +11,7 @@
 	<typeAliases>
 		<typeAlias type="com.kh.strap.admin.domain.Admin" 				alias="Admin"/>
 		<typeAlias type="com.kh.strap.board.domain.Board" 				alias="Board"/>
+		<typeAlias type="com.kh.strap.board.domain.BoardReply" 			alias="BoardReply"/>
 		<typeAlias type="com.kh.strap.match.domain.Match" 				alias="Match"/>
 		<typeAlias type="com.kh.strap.mypage.domain.MyPage" 			alias="MyPage"/>
 		<typeAlias type="com.kh.strap.notebox.domain.NoteBox" 			alias="NoteBox"/>

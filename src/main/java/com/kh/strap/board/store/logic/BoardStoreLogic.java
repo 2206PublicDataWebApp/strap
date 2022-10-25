@@ -10,6 +10,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.strap.board.domain.Board;
+import com.kh.strap.board.domain.BoardReply;
 import com.kh.strap.board.store.BoardStore;
 
 
@@ -60,34 +61,6 @@ public class BoardStoreLogic implements BoardStore{
 		 return session.update("BoardMapper.updateBoardCount", boardNo);
 	 }
 
-		/*
-		 * @Override public int selectCountGood(SqlSessionTemplate session, Integer
-		 * boardNo) { 
-		 * int count=session.selectOne("BoardMapper.selectCountGood",
-		 * boardNo); return count; }
-		 * 
-		 * @Override public int selectCountBad(SqlSessionTemplate session, Integer
-		 * boardNo) { int count=session.selectOne("BoardMapper.selectCountBad",
-		 * boardNo); return count; }
-		 * 
-		 * @Override public int selectBoardRecord(SqlSessionTemplate session, String
-		 * memberNick, Integer boardNo) { HashMap<String, String> paramMap=new
-		 * HashMap<String, String>(); paramMap.put("boardNo", boardNo.toString());
-		 * paramMap.put("memberNick", memberNick); int
-		 * result=session.selectOne("BoardMapper.selectBoardRecord", paramMap); return
-		 * result; }
-		 * 
-		 * @Override public int insertGoodBadCount(SqlSessionTemplate session, Integer
-		 * boardNo, String memberNick, String goodOrBad) { HashMap<String, String>
-		 * paramMap=new HashMap<String, String>(); paramMap.put("boardNo",
-		 * boardNo.toString()); paramMap.put("memberNick", memberNick);
-		 * paramMap.put("goodOrBad", goodOrBad);
-		 * 
-		 * int result=session.insert("BoardMapper.insertGoodBadCount", paramMap);
-		 * if(goodOrBad.equals("GOOD")) { session.update("BoardMapper.updateGood",
-		 * boardNo); } else { session.update("BoardMapper.updateBad", boardNo); } return
-		 * result; }
-		 */
 	 
 	 @Override
 		public void updateLike(SqlSession session, Integer boardNo) throws Exception{
@@ -141,6 +114,44 @@ public class BoardStoreLogic implements BoardStore{
 			map.put("boardNo", boardNo);
 			session.update("BoardMapper.updateLikeCheckCancel", map);
 		}
+
+		@Override
+		public int updateOneByNo(SqlSessionTemplate session, Board board) {
+			int result = session.update("BoardMapper.updateBoard", board);
+			return result;
+		}
+
+		@Override
+		public int deleteOneByNo(SqlSession session, int boardNo) {
+			int result = session.delete("BoardMapper.deleteBoard", boardNo);
+			return result;
+		}
+
+		@Override
+		public int insertReply(SqlSession session, BoardReply bReply) {
+			int result = session.insert("BoardMapper.insertReply", bReply);
+			return result;
+		}
+
+		@Override
+		public List<BoardReply> selectAllReply(SqlSession session, int boardNo) {
+			List<BoardReply> brList = session.selectList("BoardMapper.selectAllReply", boardNo);
+			return brList;
+		}
+
+		@Override
+		public int modifyReply(SqlSession session, BoardReply bReply) {
+			int result = session.update("BoardMapper.modifyReply", bReply);
+			return result;
+		}
+
+		@Override
+		public int deleteReply(SqlSession session, Integer replyNo) {
+			int result = session.delete("BoardMapper.deleteReply", replyNo);
+			return result;
+		}
+
+		
 }
 
 

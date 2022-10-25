@@ -3,6 +3,7 @@ package com.kh.strap.board.service;
 import java.util.List;
 
 import com.kh.strap.board.domain.Board;
+import com.kh.strap.board.domain.BoardReply;
 
 public interface BoardService {
 	public int registerBoard(Board board);
@@ -29,15 +30,24 @@ public interface BoardService {
 
 	void updateLikeCheckCancel(Integer boardNo, String memberNick) throws Exception;
 	
-	/*
-	 * // 추천 public int getCountGood(Integer boardNo); // 비추천 public int
-	 * getCountBad(Integer boardNo);
-	 * 
-	 * public int getBoardRecord(String memberNick, Integer boardNo);
-	 * 
-	 * public int addGoodBadCount(Integer boardNo, String memberNick, String
-	 * goodOrBad);
-	 */
+	// 수정
+	public int modifyOneByNo(Board board);
+	
+	// 게시글 삭제
+	public int removeOneByNo(int boardNo);
+	
+	// 댓글
+	// 댓글 등록
+	public int registerReply(BoardReply bReply);
+	
+	// 댓글 리스트
+	public List<BoardReply> printAllReply(int boardNo);
+	
+	// 댓글 수정
+	public int modifyReply(BoardReply bReply);
+	
+	// 댓글 삭제
+	public int deleteReply(Integer replyNo);
 }
 
 
