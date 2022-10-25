@@ -17,10 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
+import com.kh.strap.member.domain.Member;
+import com.kh.strap.shop.product.domain.Order;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
+import com.kh.strap.shop.product.domain.ProductLike;
 import com.kh.strap.shop.product.service.ProductService;
 
 @Controller
@@ -125,12 +129,32 @@ public class ProductController {
 		return mv;
 	}
 	
-	//주문내역리스트 이동
-	@RequestMapping(value="/order/listView.strap", method=RequestMethod.GET)
-	public ModelAndView viewOrderList(ModelAndView mv) {
-		mv.setViewName("/shop/orderList");
+	//마이쇼핑 주문내역 리스트 출력(필터: 날짜)
+	@RequestMapping(value="/order/listView.strap",method=RequestMethod.GET)
+	public ModelAndView viewMemberReviewList(ModelAndView mv,
+			@ModelAttribute Search search,
+			@RequestParam(value="page",required=false) Integer currentPage,
+			HttpSession session) {
+		int page = (currentPage != null)? currentPage: 1;
+		System.out.println(search.toString());
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		search.setMemberId(loginUser.getMemberId());
+		Paging paging = new Paging(pService.countMemberOder(search), page, 10, 5);
+		List<Order> oList = pService.printMemberOrder(paging, search);
+		
+		////주문에 상품리스트를 담아야한다..!
+		oList.stream().forEach(order->{
+					order.setBuyProducts(pService.printProductsOnOrder(order.getOrderNo()));
+				});
+		System.out.println(oList.toString());
+		mv.addObject("oList",oList).
+		addObject("search",search).
+		addObject("paging",paging).
+		setViewName("/shop/orderList");
 		return mv;
 	}
+	
 	
 	//배송조회 
 	@RequestMapping(value="/order/deliveryView.strap", method=RequestMethod.GET)
@@ -144,32 +168,66 @@ public class ProductController {
 	public ModelAndView cancelOrder(ModelAndView mv) {
 		return mv;
 	}
-
 	
-	//취소반품리스트 이동
-	@RequestMapping(value="/order/cancel/listView.strap", method=RequestMethod.GET)
-	public ModelAndView viewCancelList(ModelAndView mv) {
-		mv.setViewName("/shop/cancelList");
+	//마이쇼핑 취소반품 리스트 출력(필터: 날짜)
+	@RequestMapping(value="/order/cancel/listView.strap",method=RequestMethod.GET)
+	public ModelAndView viewMemberCancelList(ModelAndView mv,
+			@ModelAttribute Search search,
+			@RequestParam(value="page",required=false) Integer currentPage,
+			HttpSession session) {
+		int page = (currentPage != null)? currentPage: 1;
+		System.out.println(search.toString());
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		search.setMemberId(loginUser.getMemberId());
+		Paging paging = new Paging(pService.countMemberCancelOrder(search), page, 10, 5);
+		List<Order> cancelList = pService.printMemberCancelOrder(paging, search);
+		
+		mv.addObject("cancelList",cancelList).
+		addObject("search",search).
+		addObject("paging",paging).
+		setViewName("/shop/cancelList");
 		return mv;
 	}
 	
-	//찜한상품리스트 이동
+	//마이쇼핑:찜한상품리스트 이동
 	@RequestMapping(value="/product/like/listView.strap", method=RequestMethod.GET)
-	public ModelAndView viewLikeList(ModelAndView mv) {
-		mv.setViewName("/shop/likeList");
+	public ModelAndView viewLikeList(ModelAndView mv,
+			Search search,
+			@RequestParam(value="page",required=false)Integer currentPage,
+			ProductLike like,
+			HttpSession session) {
+		int page = (currentPage != null)? currentPage : 1;
+		like.setMemberId(((Member)session.getAttribute("loginUser")).getMemberId());
+		Paging paging = new Paging(pService.countMemberProductLike(like), page, 5, 5);
+		List<Product>pList = pService.printMemberProductLike(paging, like);
+		mv.addObject("pList",pList).
+		addObject("paging",paging).
+		addObject("search",search).
+		addObject("url","listView").
+		setViewName("/shop/likeList");
 		return mv;
 	}
+	//로그인 멤버의 찜한 상품들
+	@ResponseBody
+	@RequestMapping(value="/product/member/likeList.strap",produces="application/json;charset=utf-8", method=RequestMethod.POST)
+	public String memberLikeList(
+			@RequestParam("memberId")String memberId) {
+		List<ProductLike> plList = pService.memberLikeList(memberId);
+		return new Gson().toJson(plList);
+	}
 	
-	//상품 찜하기
+	//상품 찜하고삭제하기
+	@ResponseBody
 	@RequestMapping(value="/product/like.strap", method=RequestMethod.GET)
-	public ModelAndView registerLike(ModelAndView mv) {
-		return mv;
-	}
-	
-	//상품 찜 취소
-	@RequestMapping(value="/product/likeCancel.strap", method=RequestMethod.GET)
-	public ModelAndView removeLike(ModelAndView mv) {
-		return mv;
+	public String controlProductLike(
+			@ModelAttribute ProductLike like) {
+		
+		if(pService.registerdeleteProductLike(like) > 0) {
+			return "register";
+		}else {
+			return "remove";
+		}
 	}
 	
 	//상품관리페이지 상품 목록

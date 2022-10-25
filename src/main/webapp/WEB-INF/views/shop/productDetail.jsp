@@ -34,9 +34,6 @@
 </head>
 <body>
 <div class="wrap container">
-
-<i class="fa-solid fa-house-user"></i>
-
 <!-- 헤더&메뉴바 -->
 	<div id="header" class="row">
 		<div class="col">
@@ -79,9 +76,8 @@
 								<fmt:formatNumber value="${product.productPrice }" pattern="#,###"/>
 							</div>
 							<div id="function">
-								<img id="like" src="/resources/image/like.png" width="40px" height="36px">
-								<img id="like" src="/resources/image/like2.png" width="40px" height="36px">
-								<img id="url"  src="/resources/image/link.png" width="40px" height="36px">
+								<span id="${product.productNo }" class="likeBtn" onclick="loginCheck('${loginUser.memberId}',function(){controlLike('${loginUser.memberId}',${product.productNo });});"><i class="fa-regular fa-heart"></i></span>
+								<i class="fa-solid fa-share-nodes"></i>
 							</div>
 						</div>
 						<hr>
@@ -100,7 +96,7 @@
 								<fmt:formatNumber value="${product.productPrice }" pattern="#,###"/>
 						</div>
 						<div id="btn-wrap">
-							<button type="button">장바구니</button>
+							<button type="button" onclick="loginCheck('${loginUser.memberId}',function(){addCart('${loginUser.memberId }',${product.productNo },document.querySelector('#qty').value)});">장바구니</button>
 							<button type="button">주문하기</button>
 						</div>
 					</div>
@@ -131,7 +127,7 @@
 <!-- 상품리뷰 영역 -->
 				<div id="pReview" class="detail">
 					<div id="pReview-wrap" class="">
-						<br><h3>상품리뷰</h3>
+						<br><h3>상품리뷰<span id="numberOfReview"></span></h3>
 						<hr>
 						<div class="grade-area" style="text-align:center">
 							<div class="gradeInfo" style="font-size:30px;">
@@ -143,11 +139,19 @@
 								<div class="backStar star"  	style="width:100%; height:auto;">☆☆☆☆☆</div>
 							</div>
 						</div>
+						<div id="search-wrap">
+							<div id="order-wrap">
+								<span onclick="printReview(1,'review_grade','desc');" 	id="order-high-grade">점수높은순</span>
+								<span onclick="printReview(1,'review_grade','asc');" 	id="order-low-grade">점수낮은순</span>
+								<span onclick="printReview(1,'review_time','desc');" 	id="order-sales">최신순</span>
+								<span onclick="printReview(1,'review_time','asc');" 	id="order-high-price">오래된순</span>
+							</div>
+						</div>
 						<hr>
 					</div>
-					<button id="reviewArcodian" onclick="loginCheck('${loginUser.memberId}'); reviewArcodian();">리뷰작성</button>
+					<button id="reviewArcodian" onclick="loginCheck('${loginUser.memberId}',function(){reviewArcodian();});">리뷰작성</button>
 					<div id="reviewWrite-wrap" style="text-align:center; display:none;">
-						<form id="reviewForm" action="#" method="post" enctype="multipart/form-data">
+						<form id="reviewForm" action="#" method="post">
 							<div id="inputGrade">
 								<div id="inputStarGrade" style="font-weight:bold;font-size:30px;">
 									<span class="inputStars" onclick="addGrade(1);" onmouseover="effectStar(1);" onmouseout="effectStarEnd()" style="color:gold">☆</span>
@@ -171,37 +175,33 @@
 					<div id="reviewList" class="">
 					</div>
 					<div id="reviewPaging" class="">
-						<div id="pagingDiv">
-							<a>이전</a>
-							<a>n</a>
-							<a>다음</a>
-						</div>
 					</div>
 				</div>
 <!-- 상품문의 영역 -->
 				<div id="pQna" class="detail">
 					<div id="pQna-wrap" class="">
-						<br><h3>상품Q&A</h3>
+						<br><h3>상품Q&A<span id="numberOfQna"></span></h3>
 						<hr>
 					</div>
-					<button id="qnaArcodian" onclick="loginCheck('${loginUser.memberId}'); qnaArcodian();">문의작성</button><hr>
+					<button id="qnaArcodian" onclick="loginCheck('${loginUser.memberId}',function(){qnaArcodian();});">문의작성</button><hr>
 					<div id="qnaWrite-wrap" class="" style="text-align:center; display:none;">
 						<form id="qnaForm" action="#" method="post">
 							<input type="hidden" name="memberId" 	id="memberId"	value="${loginUser.memberId }">
 							<input type="hidden" name="memberNick" 	id="memberNick"	value="${loginUser.memberNick }">
 							<input type="hidden" name="productNo" 	id="productNo"	value="${product.productNo }">
 							<input type="hidden" name="qnaCode" 	id="qnaCode"	value="QC2">
-							<select name="qnaType">
-								<option value="" selected disabled style="display:none">문의종류</option>
+							<select name="qnaType" >
 								<option value="QC2QT1">주문/결제</option>
 								<option value="QC2QT2">배송</option>
 								<option value="QC2QT3">취소/반품/교환</option>
 								<option value="QC2QT4">기타</option>
 							</select>
 							<textarea name="qnaContents" id="qnaContents" placeholder="문의를 작성하세요."></textarea>
+							 비밀문의<input type="checkbox" name ="secretStatus" value = "Y">
 							<button type="button" onclick="registerQna();">등록</button>
 						</form>
 					</div>
+<!-- 상품문의 리스트					 -->
 					<div id="qnaList" class="">
 					</div>
 					<div id="qnaPaging" class="">
@@ -232,11 +232,13 @@ function calTotalPrice(){
 }
 
 //로그인 체크
-function loginCheck(loginId){
+function loginCheck(loginId,action){
 	event.preventDefault();
 	if(loginId==""){
 		alert("로그인을 해주세요.");
 		location.href="/member/loginView.strap";		
+	}else{
+		action();
 	}
 }
 
@@ -320,38 +322,44 @@ function registerReview(){
         contentType: false,
         processData: false,
 		success:function(result){
-			if(result == "sucess"){
-				console.log("성공.");
-				printReview(1);
+			if(result == "success"){
+				printReview(1,'review_grade','desc');
 			}else{
-				console.log("실패");
 			}
 		},
 		error:function(){}
 	});
 }
 
-printReview(1);
-
+//페이지 최초 랜더링 시 리뷰 목록 출력
+printReview(1,'review_grade','desc');
 //리뷰 리스트 출력
-function printReview(currentPage){
-// 	리스트 출력을 위해 필요한 값들:
-// 		상품번호, 로그인아이디, Search,Paging
+function printReview(page,searchColumn,orderCondition){
 	var $reviewListDiv = document.querySelector("#reviewList");
 	var $reviewPaging = document.querySelector("#reviewPaging");
 	var productNo = ${product.productNo};
-	var page = 1;
-	if(currentPage > 1 ){
-		page = currentPage;		
-	}
+	
+	console.log("page :" + page);
+	console.log("searchColumn :" + searchColumn);
+	console.log("orderCondition :" + orderCondition);
+	
+	
 	$.ajax({
 		url:"/review/detail/list.strap",
 		data:{
 			"productNo":productNo,
-			"page":page
+			"page":page,
+			"searchColumn":searchColumn,
+			"orderCondition":orderCondition
 		},
-		type:"post",
-		success:function(rList){
+		type:"get",
+		success:function(result){
+			var paging = JSON.parse(result.paging);
+			var search = JSON.parse(result.search);
+			var rList = JSON.parse(result.rList);
+			
+			console.log(search);
+			document.querySelector("#numberOfReview").innerHTML = "("+paging.totalCount+")"
 			if(rList.length < 1){
 				$reviewListDiv.innerHTML = "<h2>상품 리뷰가 없습니다.</h2>"
 			}else{
@@ -369,7 +377,7 @@ function printReview(currentPage){
 										'<div class="oneReviewBack star" 	style="width:100%; width:100%;"><h2>☆☆☆☆☆</h2></div>'+
 									'</div>'+
 								'</div>'+
-							'<div class="rUserTime">'+rList[i].memberNick+'</div>'+
+							'<div class="rUserTime">'+rList[i].memberNick+''+rList[i].reviewTime+'</div>'+
 							'<div class="rBuyInfo">구매정보 추후 업데이트</div>'+
 							'<div class="rContents">'+rList[i].reviewContents+'</div>'+
 							'</div>'+
@@ -380,11 +388,17 @@ function printReview(currentPage){
 						rListStr += oneReview;
 				}
 				$reviewListDiv.innerHTML = rListStr;
-				$reviewPaging.innerHTML = "<div>"+
-												"<a onclick='alert(\"!\")'>이전</a>"+
-												"<a onclick='alert(\"!\")'>N</a>"+
-												"<a onclick='alert(\"!\")'>다음</a>"+
-										   "</div>";
+				
+				var pagingBefore = "<a href='#' onclick='event.preventDefault(); printReview("+(paging.startNavi - 1)+ ",\""+search.searchColumn+"\",\""+search.orderCondition+"\");' > 이전 </a>";
+				if(paging.startNavi == 1) pagingBefore = "";
+				var pagingAfter = "<a href='#' onclick='event.preventDefault(); printReview("+(paging.endNavi + 1)+ ",\""+search.searchColumn+"\",\""+search.orderCondition+"\");' > 다음 </a>";
+				if(paging.endNavi == paging.endPage) pagingAfter = "";
+				var pagingRepeat = "";
+				for(var j = paging.startNavi; j<=paging.endNavi; j++){
+					pagingRepeat += " <a href='#' onclick='event.preventDefault(); printReview("+ j + ",\""+search.searchColumn+"\",\""+search.orderCondition+"\");' >" + j + "</a> ";				
+				}
+				
+				$reviewPaging.innerHTML = pagingBefore + pagingRepeat + pagingAfter
 			}
 		},
 		error:function(){}
@@ -404,15 +418,16 @@ function registerQna(){
 	var form = document.querySelector("#qnaForm");
 	var formData = new FormData(form);
 	$.ajax({
-		url:"/review/register.strap",
+		url:"/shopQna/register.strap",
 		data: formData,
 		type:"POST",
         contentType: false,
         processData: false,
 		success:function(result){
-			if(result == "sucess"){
+			console.log(result);
+			if(result == "success"){
 				console.log("성공.");
-				printReview(1);
+				printShopQna(1);
 			}else{
 				console.log("실패");
 			}
@@ -420,15 +435,132 @@ function registerQna(){
 		error:function(){}
 	});
 }
-//////////////////페이징을 여기서 해야하나?........
-function paging(totalCount,page,pageLimit,naviSize){
-	var totalCount;
-	var pageLimit;
-	var startPage;
-	var endPage;
-	var naviSize;
-	var startNavi;
-	var endNavi;
+
+//페이지 최초 랜더링 시 문의 목록 출력
+printShopQna(1);
+//문의 리스트 출력
+function printShopQna(page){
+	var $qnaListDiv = document.querySelector("#qnaList");
+	var $qnaPaging = document.querySelector("#qnaPaging");
+	var productNo = ${product.productNo};
+	$.ajax({
+		url:"/shopQna/detail/list.strap",
+		data:{
+			"productNo":productNo,
+			"page":page,
+		},
+		type:"get",
+		success:function(result){
+			var paging = JSON.parse(result.paging);
+			var qList = JSON.parse(result.qList);
+			document.querySelector("#numberOfQna").innerHTML = "("+paging.totalCount+")";
+			if(qList.length < 1){
+				 $qnaListDiv.innerHTML = "<h2>상품 문의가 없습니다.</h2>"
+			}else{
+				var qListStr = "";
+				for(var i in qList){
+					var oneShopQna = '<table class="shopQnaTable">'+
+										'<tr>'+
+											'<td class="answerYn">'+qList[i].answerStatus +'</td>'+
+											'<td class="answerTitle">'+
+												'<span class="answerType">['+ qList[i].qnaType +']</span>'+
+												'<span >문의글 입니다.</span>'+
+												'<span class="secretIcon"><i class="fa-solid fa-lock"></i></span>'+
+											'</td>'+
+											'<td>'+qList[i].memberNick+'</td>'+
+											'<td>'+qList[i].qEnrollDate+'</td>'+
+										'</tr>'+
+									'</table>';
+						qListStr += oneShopQna;
+				}
+				$qnaListDiv.innerHTML = qListStr;
+				
+				var pagingBefore = "<a href='#' onclick='event.preventDefault(); printShopQna("+(paging.startNavi - 1)+");' > 이전 </a>";
+				if(paging.startNavi == 1) {pagingBefore = "";}
+				var pagingAfter = "<a href='#' onclick='event.preventDefault(); printShopQna("+(paging.endNavi + 1)+ ");' > 다음 </a>";
+				if(paging.endNavi == paging.endPage) {pagingAfter = "";}
+				var pagingRepeat = "";
+				for(var j = paging.startNavi; j<=paging.endNavi; j++){
+					console.log(j);
+					pagingRepeat += "<a href='#' onclick='event.preventDefault(); printShopQna("+ j +");'>" + j + "</a> ";				
+				}
+				$qnaPaging.innerHTML =  pagingBefore + pagingRepeat + pagingAfter;
+			}
+		},
+		error:function(){}
+	});
+}
+
+
+///////찜 추가 및 삭제 함수
+function controlLike(memberId,productNo){
+	$.ajax({
+		url:"/product/like.strap",
+		data:{
+			"memberId":memberId,
+			"productNo":productNo
+		},
+		type:"get",
+		success:function(result){
+			if(result =="register"){
+// 				alert("찜 완료되었습니다.");	
+			}else{
+// 				alert("찜 취소되었습니다.")
+			}
+			memberLikeView();
+		},
+		error:function(){}
+	});
+}
+memberLikeView();
+//찜아이콘을 동적으로 변화시켜줄 함수
+function memberLikeView(){
+	//1.로그인 유저의 찜목록을 가져온다!
+	//2.상품번호를 id에 저장하고, 일치한다면 css를 붉게 물들인다.
+	if('${loginUser.memberId}' != ""){
+		$.ajax({
+			url:"/product/member/likeList.strap",
+			data:{
+				"memberId":'${loginUser.memberId}'
+			},
+			type:"post",
+			success: function(result){
+				console.log(result);
+				var likeBtnArr = document.querySelectorAll(".likeBtn");
+				for(var j = 0; j<likeBtnArr.length; j++){
+					likeBtnArr[j].style.color = "black";
+					for(i in result){
+						if(result[i].productNo ==likeBtnArr[j].id){
+							likeBtnArr[j].style.color = "red";
+						}
+					}
+				}
+			},
+			error: function(){}
+		});
+	}
+}
+
+//장바구니
+function addCart(memberId,productNo,productAmount){
+	$.ajax({
+		url:"/cart/register.strap",
+		data:{
+			"memberId":memberId,
+			"productNo":productNo,
+			"productAmount":productAmount
+		},
+		type:"post",
+		success:function(result){
+			if(result == "success"){
+				alert("상품이 장바구니에 추가되었습니다.");
+			}else{
+				
+			}
+		},
+		error:function(){}
+	});
+	
 }
 </script>
 </body>

@@ -17,29 +17,18 @@
 		<result column="ANSWER_CONTENTS" 		property="answerContents"/>
 		<result column="SECRET_STATUS" 			property="secretStatus"/>
 		<result column="MEMBER_ID" 				property="memberId"/>
+		<result column="MEMBER_NICK"			property="memberNick"/>
 	</resultMap>
 	
 	<insert id="insertShopQna">
 		INSERT INTO QNA_TBL
-		VALUES(SEQ_QNA_NO.NEXTVAL,#{productNo},#{qnaCode},#{qnaType},#{qnaTitle},#{qnaContents},DEFAULT,DEFAULT,DEFAULT,#{answerContents},#{secretStatus},#{memberId})
+		VALUES(SEQ_QNA_NO.NEXTVAL,#{productNo},#{qnaCode},#{qnaType},#{qnaTitle},#{qnaContents},DEFAULT,DEFAULT,DEFAULT,#{answerContents},#{secretStatus},#{memberId},#{memberNick})
 	</insert>
 	
 	<select id="selectShopQna" resultMap="sQnaResultMap">
 		SELECT * FROM QNA_TBL
 		WHERE PRODUCT_NO = #{productNo}
-	</select>
-	
-	<select id="selectMemberShopQna" resultMap="sQnaResultMap">
-		SELECT * FROM QNA_TBL
-		<where>
-			<if test='search.dayBefore != ""'>
-				Q_ENROLL_DATE <![CDATA[>]]> (SYSDATE - #{dayBefore} AND
-			</if>
-			<if test='search.dayBefore == ""'>
-				Q_ENROLL_DATE <![CDATA[>]]> #{startDate} AND Q_ENROLL_DATE <![CDATA[<]]> #{endDate} AND
-			</if>
-			MEMBER_ID = #{memberId}
-		</where>
+		ORDER BY Q_ENROLL_DATE DESC
 	</select>
 	
 	<select id="selectCountShopQna" resultType="_int">
@@ -47,17 +36,34 @@
 		WHERE PRODUCT_NO = #{productNo}
 	</select>
 	
-	<select id="selectCountMemberShopQna" resultType="_int">
-		SELECT COUNT(*) FROM QNA_TBL
+	<select id="selectMemberShopQna" resultMap="sQnaResultMap">
+		SELECT * 
+		FROM QNA_TBL
 		<where>
-			<if test='search.dayBefore != ""'>
-				Q_ENROLL_DATE <![CDATA[>]]> (SYSDATE - #{dayBefore} AND
-			</if>
-			<if test='search.dayBefore == ""'>
-				Q_ENROLL_DATE <![CDATA[>]]> #{startDate} AND Q_ENROLL_DATE <![CDATA[<]]> #{endDate} AND
-			</if>
 			MEMBER_ID = #{memberId}
+			<if test='dayBefore != 0 '>
+				AND Q_ENROLL_DATE <![CDATA[>=]]> SYSDATE - #{dayBefore}
+			</if>
+			<if test='dayBefore ==0 and startDate != null'>
+				AND (Q_ENROLL_DATE <![CDATA[>=]]> #{startDate} AND Q_ENROLL_DATE <![CDATA[<=]]> #{endDate}+1 )
+			</if>	
 		</where>
+		ORDER BY Q_ENROLL_DATE DESC
+	</select>
+	
+	<select id="selectCountMemberShopQna" resultType="_int">
+		SELECT COUNT(*) 
+		FROM QNA_TBL
+		<where>
+			MEMBER_ID = #{memberId}
+			<if test='dayBefore != 0 '>
+				AND Q_ENROLL_DATE <![CDATA[>=]]> SYSDATE - #{dayBefore}
+			</if>
+			<if test='dayBefore ==0 and startDate != null'>
+				AND (Q_ENROLL_DATE <![CDATA[>=]]> #{startDate} AND Q_ENROLL_DATE <![CDATA[<=]]> #{endDate}+1 )
+			</if>	
+		</where>
+		ORDER BY Q_ENROLL_DATE DESC
 	</select>
 	
 	<delete id="deleteShopQna">

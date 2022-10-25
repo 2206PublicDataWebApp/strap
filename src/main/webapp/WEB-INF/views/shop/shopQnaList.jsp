@@ -37,10 +37,9 @@ input:disabled {
 		<div class="contents-side col">
 			<div id="contents-wrap">
 				<div id="title">
-					<h2>주문내역</h2><hr>
+					<h2>나의 문의</h2><hr>
 				</div>
 				<div id="dateFilter">
-				
 					<div id="selectDate">
 					필터링(${search.dayBefore })
 						<div id="order-wrap">
@@ -51,7 +50,7 @@ input:disabled {
 						</div>
 					</div>
 					<div id="inputDate">
-						<form id="search-form" action="/order/listView.strap" method="get">
+						<form id="search-form" action="/shopQna/list.strap" method="get">
 							<input id="dayBefore"  name="dayBefore" type="hidden" value="0">
 							<input id="startDate" class="dInput"  name="startDate" type="date"  value="${search.startDate }" disabled required> ~ 
 							<input id="endDate"   class="dInput"  name="endDate" 	type="date" value="${search.endDate }" disabled required>
@@ -60,50 +59,33 @@ input:disabled {
 					</div>
 				</div>
 				<div id="list">
-<%-- 						<c:forEach items="${oList}" var="order"> --%>
-						<c:forEach begin="0" end="${oList.size()}" var="N" >
-<%-- 						${oList[N].orderDate gt oList[N-1].orderDate} --%>
-							<div class="OneOrder">
-								<div class="orderDate">
-<%-- 									<c:if test="${oList[N].orderDate lt oList[N-1].orderDate}"> --%>
-										<span><h4>${oList[N].orderDate}</h4></span>
-<%-- 									</c:if> --%>
-<%-- 									<c:if test="${oList[N].orderDate gt oList[N-1].orderDate}"> --%>
-<%-- 										<span><h4>${oList[N].orderDate}</h4></span> --%>
-<%-- 									</c:if> --%>
-								</div>
-								<div class="row">
-									<div class="productImg col">
-										<img src="${oList[N].buyProducts[0].mainImgRoot }" style="width:100px;height:100px;">
-									</div>
-									<div class="orderInfo col">
-										<div class="productInfo">
-											<span>[${oList[N].buyProducts[0].productBrand}]</span>
-											<span>${oList[N].buyProducts[0].productName }</span>
-										</div>
-										<div class="row">
-											<div class="finalCost col">
-												<span>${oList[N].finalCost }</span>
-											</div>
-											<div class="Qty col">
-											</div>
-										</div>
-									</div>
-									<div class="col"></div>
-								</div>
-							</div>
-						</c:forEach>
+					<table>
+						<tr>
+							<th>답변여부</th>
+							<th>문의내용</th>
+							<th>답변보기</th>
+							<th>날짜</th>
+						</tr>
+							<c:forEach items="${sqList}" var="sQna">
+								<tr>
+									<td>${sQna.answerStatus }</td>
+									<td>${sQna.qnaContents }</td>
+									<td>답변보기</td>
+									<td>${sQna.qEnrollDate}</td>
+								</tr>
+							</c:forEach>
+					</table>
 				</div>
 				<div id="paging">
 					<div id="paging-wrap">
 					<c:if test="${paging.startNavi > paging.startPage }">
-						<a href="/order/listView.strap?page=${paging.startNavi-1 }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>"><</a>
+						<a href="/shopQna/list.strap?page=${paging.startNavi-1 }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>"><</a>
 					</c:if>
 					<c:forEach begin="${paging.startNavi }" end="${paging.endNavi }" var="n">
-						<a href="/order/listView.strap?page=${n }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>">${n }</a>
+						<a href="/shopQna/list.strap?page=${n }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>">${n }</a>
 					</c:forEach>
 					<c:if test="${paging.endNavi < paging.endPage }">
-						<a href="/order/listView.strap?page=${paging.endNavi+1 }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>">></a>
+						<a href="/shopQna/list.strap?page=${paging.endNavi+1 }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>">></a>
 					</c:if>					
 				</div>		
 				</div>

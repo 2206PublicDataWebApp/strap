@@ -36,6 +36,10 @@
 		<result column="INFO_RENAME" property="imgReName"/>
 		<result column="INFO_ROOT" property="imgRoot"/>
 	</resultMap>
+	<resultMap type="ProductLike" id="ProductLikeResultMap">
+		<id 	column="PRODUCT_NO" property="productNo"/>
+		<result column="MEMBER_ID" property="memberId"/>
+	</resultMap>
 	
 
 <!-- 상품정보 등록 -->	
@@ -109,6 +113,15 @@
 		(PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
 		AND PRODUCT_DELETE = 'N'
 	</select>
+	
+<!-- 주문별 상품목록 출력 -->
+	<select id="selectProductsOnOrder" resultMap="ProductResultMap">
+		SELECT P.* 
+		FROM PRODUCT_TBL P INNER JOIN ORDER_PRODUCT_TBL OP
+		ON P.PRODUCT_NO = OP.PRODUCT_NO
+		WHERE ORDER_NO = #{orderNo}
+	</select>
+
 
 <!-- 상품상세조회	 -->
 	<select id="selectOneProduct" resultMap="ProductResultMap">
@@ -164,10 +177,17 @@
 	</insert>
 
 <!-- 찜 목록 출력	 -->
-	<select id="selectProductLike" resultMap="ProductResultMap">
-		SELECT * 
+	<select id="selectMemberProductLike" resultMap="ProductResultMap">
+		SELECT P.* 
 		FROM PRODUCT_TBL P JOIN PRODUCT_LIKE_TBL PL
 		ON P.PRODUCT_NO = PL.PRODUCT_NO
+		WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+<!-- 멤버 찜 카운트 -->
+	<select id="selectCountMemberProductLike" resultType="_int">
+		SELECT COUNT(*)
+		FROM PRODUCT_LIKE_TBL
 		WHERE MEMBER_ID = #{memberId}
 	</select>
 
@@ -184,5 +204,10 @@
 		WHERE MEMBER_ID = #{memberId} AND PRODUCT_NO = #{productNo}
 	</delete>
 	
-	
+<!-- 멤버가 들고다닐 찜리스트 -->
+	<select id="selectMemberLikeList" resultMap="ProductLikeResultMap">
+		SELECT *
+		FROM PRODUCT_LIKE_TBL
+		WHERE MEMBER_ID= #{memberId}
+	</select>
 </mapper>

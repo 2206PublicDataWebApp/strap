@@ -1,6 +1,5 @@
 package com.kh.strap.shop.product.store.logic;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -14,7 +13,6 @@ import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.domain.ProductLike;
 import com.kh.strap.shop.product.store.ProductStore;
-import com.kh.strap.shop.review.domain.Review;
 
 @Repository
 public class ProductStoreLogic implements ProductStore {
@@ -66,6 +64,13 @@ public class ProductStoreLogic implements ProductStore {
 	public int selectCountAdminProductSearch(SqlSession session, Search search) {
 		return session.selectOne("ProductMapper.selectCountAdminProductSearch", search);
 	}
+	
+//주문별 상품목록 조회	
+	@Override
+	public List<Product> selectProductsOnOrder(SqlSession session, int orderNo) {
+		return session.selectList("ProductMapper.selectProductsOnOrder", orderNo);
+	}
+	
 //상품 상세 조회
 	@Override
 	public Product selectOneProduct(SqlSession session, Product product) {
@@ -97,94 +102,84 @@ public class ProductStoreLogic implements ProductStore {
 //주문 등록
 	@Override
 	public int insertOrder(SqlSession session, Order order) {
-		return session.insert("", order);
+		return session.insert("OrderMapper.insertOrder", order);
 	}
 //주문 조회
 	@Override
 	public Order selectOneOrder(SqlSession session, Order order) {
-		return session.selectOne("", order);
+		return session.selectOne("OrderMapper.selectOneOrder", order);
 	}
 
 	@Override
-	public List<Order> selectMemberOrder(SqlSession session, Paging paging, Search search, Order order) {
-		
-		HashMap<String,Object> hashMap = new HashMap<>();
-		hashMap.put("search",search);
-		hashMap.put("order",order);
-		return session.selectList("", hashMap, new RowBounds(paging.getOffset(), paging.getPageLimit()));
+	public List<Order> selectMemberOrder(SqlSession session, Paging paging, Search search) {
+		return session.selectList("OrderMapper.selectMemberOrder", search, new RowBounds(paging.getOffset(), paging.getPageLimit()));
+	}
+	@Override
+	public int selectCountMemberOrder(SqlSession session,Search search) {
+		return session.selectOne("OrderMapper.selectCountMemberOrder", search);
 	}
 
 	@Override
-	public List<Order> selectMemberCancelOrder(SqlSession session, Paging paging, Search search, Order order) {
-		
-		HashMap<String,Object> hashMap = new HashMap<>();
-		hashMap.put("search",search);
-		hashMap.put("order",order);
-		return session.selectList("",hashMap,new RowBounds(paging.getOffset(),paging.getPageLimit()));
+	public List<Order> selectMemberCancelOrder(SqlSession session, Paging paging, Search search) {
+		return session.selectList("OrderMapper.selectMemberCancelOrder",search,new RowBounds(paging.getOffset(),paging.getPageLimit()));
+	}
+	
+	@Override
+	public int selectCountMemberCancelOrder(SqlSession session,Search search) {
+		return session.selectOne("OrderMapper.selectCountMemberCancelOrder", search);
 	}
 //주문 수정
 	@Override
 	public int updatePayCompleteOrder(SqlSession session, Order order) {
-		return session.update("", order);
+		return session.update("OrderMapper.updatePayComplete", order);
 	}
 	
 	@Override
 	public int updateDeliveryStartOrder(SqlSession session, Order order) {
-		return session.update("",order);
+		return session.update("OrderMapper.updateDeliveryStart",order);
 	}
 
 	@Override
 	public int updateDeliveryCompleteOrder(SqlSession session, Order order) {
-		return session.update("",order);
+		return session.update("OrderMapper.updateDeliveryComplete",order);
 	}
 
 	@Override
 	public int updateCancelOrder(SqlSession session, Order order) {
-		return session.update("",order);
+		return session.update("OrderMapper.updateOrderCancel",order);
 	}
-//찜 추가
+//찜
+	//찜목록출력
+	@Override
+	public List<Product> selectMemberProductLike(SqlSession session, Paging paging, ProductLike like) {
+		return session.selectList("ProductMapper.selectMemberProductLike", like, new RowBounds(paging.getOffset(), paging.getPageLimit()));
+	}
+	//멤버 찜 카운트
+	@Override
+	public int selectCountMemberProductLike(SqlSession session, ProductLike like) {
+		return session.selectOne("ProductMapper.selectCountMemberProductLike",like);
+	}
+	//찜추가
 	@Override
 	public int insertProductLike(SqlSession session, ProductLike like) {
 		return session.insert("ProductMapper.insertProductLike", like);
 	}
-
-	@Override
-	public List<Product> selectProductLike(SqlSession session, Paging paging, ProductLike like) {
-		return session.selectList("ProductMapper.selectProductLike", like, new RowBounds(paging.getOffset(), paging.getPageLimit()));
-	}
-	
+	//찜체크
 	@Override
 	public int selectCheckProductLike(SqlSession session, ProductLike like) {
 		return session.selectOne("ProductMapper.selectCheckProductLike", like);
 	}
-
+	//찜삭제
 	@Override
 	public int deleteProductLike(SqlSession session, ProductLike like) {
 		return session.delete("ProductMapper.deleteProductLike", like);
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	//로그인 멤버의 찜목록
+	@Override
+	public List<ProductLike> selectMemberLikeList(SqlSession session, String memberId) {
+		return session.selectList("ProductMapper.selectMemberLikeList", memberId);
+	}
 
 
 }

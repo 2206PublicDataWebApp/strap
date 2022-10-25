@@ -48,17 +48,6 @@ public class Search {
 
 	public void setSearchColumn(String searchColumn) {
 		
-		if(searchColumn.equals("aver")) {
-			searchColumn = "GRADE_AVER";
-		}else if(searchColumn.equals("review")) {
-			searchColumn = "REVIEW_COUNT";
-		}else if(searchColumn.equals("sales")) {
-			searchColumn = "PRODUCT_SALES";
-		}else if(searchColumn.equals("price")) {
-			searchColumn = "PRODUCT_PRICE";
-		}else {
-			searchColumn = "";
-		}
 		this.searchColumn = searchColumn;
 	}
 
@@ -75,12 +64,6 @@ public class Search {
 	}
 
 	public void setOrderCondition(String orderCondition) {
-		if(orderCondition.equals("desc")) {
-			orderCondition = "DESC";
-		}else if(orderCondition.equals("asc")) {
-			orderCondition = "ASC";
-		}
-		
 		this.orderCondition = orderCondition;
 	}
 
@@ -93,10 +76,14 @@ public class Search {
 	}
 
 	public Date getStartDate() {
+
 		return startDate;
 	}
 
 	public void setStartDate(Date startDate) {
+//		if(startDate == null) {
+//			startDate =  java.sql.Date .valueOf("999-03-06");
+//		}
 		this.startDate = startDate;
 	}
 
@@ -105,6 +92,9 @@ public class Search {
 	}
 
 	public void setEndDate(Date endDate) {
+//		if(endDate == null) {
+//			endDate = new Date(System.currentTimeMillis());
+//		}
 		this.endDate = endDate;
 	}
 

@@ -1,9 +1,12 @@
 package com.kh.strap.shop.product.domain;
 
 import java.sql.Date;
+import java.util.List;
 
 public class Order {
 	
+	private List<Product> buyProducts;  	//구매상품 리스트
+	private Product product; // 상품
 	private int orderNo;					//주문번호
 	private int payNo;						//결제번호
 	private int productNo;					//상품번호
@@ -36,13 +39,15 @@ public class Order {
 	
 	public Order() {}
 
-	public Order(int orderNo, int payNo, int productNo, int deliveryFee, int couponNo, int discountAmount,
-			int finalCost, String memberId, String memberName, String memberEmail, String memberPhone, String address,
-			String addressDetail, String postNo, String contactPhone, String deliveryRequest, String agreeYn,
-			String paymentMethod, String cardKind, int monthlyPay, String bankKind, String bankPayerName,
-			String payComplete, String orderCancel, String orderBack, String deliveryStart, String deliveryComplete,
-			String deliveryNo, Date orderDate) {
+	public Order(List<Product> buyProducts, Product product, int orderNo, int payNo, int productNo, int deliveryFee,
+			int couponNo, int discountAmount, int finalCost, String memberId, String memberName, String memberEmail,
+			String memberPhone, String address, String addressDetail, String postNo, String contactPhone,
+			String deliveryRequest, String agreeYn, String paymentMethod, String cardKind, int monthlyPay,
+			String bankKind, String bankPayerName, String payComplete, String orderCancel, String orderBack,
+			String deliveryStart, String deliveryComplete, String deliveryNo, Date orderDate) {
 		super();
+		this.buyProducts = buyProducts;
+		this.product = product;
 		this.orderNo = orderNo;
 		this.payNo = payNo;
 		this.productNo = productNo;
@@ -74,18 +79,20 @@ public class Order {
 		this.orderDate = orderDate;
 	}
 
-	@Override
-	public String toString() {
-		return "Order [orderNo=" + orderNo + ", payNo=" + payNo + ", productNo=" + productNo + ", deliveryFee="
-				+ deliveryFee + ", couponNo=" + couponNo + ", discountAmount=" + discountAmount + ", finalCost="
-				+ finalCost + ", memberId=" + memberId + ", memberName=" + memberName + ", memberEmail=" + memberEmail
-				+ ", memberPhone=" + memberPhone + ", address=" + address + ", addressDetail=" + addressDetail
-				+ ", postNo=" + postNo + ", contactPhone=" + contactPhone + ", deliveryRequest=" + deliveryRequest
-				+ ", agreeYn=" + agreeYn + ", paymentMethod=" + paymentMethod + ", cardKind=" + cardKind
-				+ ", monthlyPay=" + monthlyPay + ", bankKind=" + bankKind + ", bankPayerName=" + bankPayerName
-				+ ", payComplete=" + payComplete + ", orderCancel=" + orderCancel + ", orderBack=" + orderBack
-				+ ", deliveryStart=" + deliveryStart + ", deliveryComplete=" + deliveryComplete + ", deliveryNo="
-				+ deliveryNo + ", orderDate=" + orderDate + "]";
+	public List<Product> getBuyProducts() {
+		return buyProducts;
+	}
+
+	public void setBuyProducts(List<Product> buyProducts) {
+		this.buyProducts = buyProducts;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	public int getOrderNo() {
@@ -319,6 +326,21 @@ public class Order {
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}
+
+	@Override
+	public String toString() {
+		return "Order [buyProducts=" + buyProducts + ", product=" + product + ", orderNo=" + orderNo + ", payNo="
+				+ payNo + ", productNo=" + productNo + ", deliveryFee=" + deliveryFee + ", couponNo=" + couponNo
+				+ ", discountAmount=" + discountAmount + ", finalCost=" + finalCost + ", memberId=" + memberId
+				+ ", memberName=" + memberName + ", memberEmail=" + memberEmail + ", memberPhone=" + memberPhone
+				+ ", address=" + address + ", addressDetail=" + addressDetail + ", postNo=" + postNo + ", contactPhone="
+				+ contactPhone + ", deliveryRequest=" + deliveryRequest + ", agreeYn=" + agreeYn + ", paymentMethod="
+				+ paymentMethod + ", cardKind=" + cardKind + ", monthlyPay=" + monthlyPay + ", bankKind=" + bankKind
+				+ ", bankPayerName=" + bankPayerName + ", payComplete=" + payComplete + ", orderCancel=" + orderCancel
+				+ ", orderBack=" + orderBack + ", deliveryStart=" + deliveryStart + ", deliveryComplete="
+				+ deliveryComplete + ", deliveryNo=" + deliveryNo + ", orderDate=" + orderDate + "]";
+	}
+	
 
 	
 }

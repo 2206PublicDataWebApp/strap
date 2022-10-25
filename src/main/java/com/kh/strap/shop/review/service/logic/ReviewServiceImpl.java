@@ -40,11 +40,11 @@ public class ReviewServiceImpl implements ReviewService{
 		return rStore.deleteMemberReview(session, review);
 	}
 	@Override
-	public int countReview(Review review) {
-		return rStore.selectCountReview(session, review);
+	public int countReview(Search search) {
+		return rStore.selectCountReview(session, search);
 	}
 	@Override
-	public int countMemberReview(Review reivew) {
-		return rStore.selectCountMemberReview(session, reivew);
+	public int countMemberReview(Search search) {
+		return rStore.selectCountMemberReview(session, search);
 	}
 }

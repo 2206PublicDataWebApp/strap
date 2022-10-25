@@ -37,6 +37,10 @@ public interface ProductService {
 	//검색상품 개수 카운트
 	public int countAdminProductSearch(Search search);
 	
+	//주문별 구매상품 목록 출력
+	public List<Product> printProductsOnOrder(int orderNo);
+	
+	
 //상품 상세 조회
 	public Product printOneProduct(Product product);
 	//상품 인포이미지 리스트 출력
@@ -59,9 +63,11 @@ public interface ProductService {
 	//주문 상세 출력
 	public Order printOneOrder(Order order);
 	//회원 주문내역 리스트 출력
-	public List<Order> printMemberOrder(Paging paging,Search search,Order order);
+	public List<Order> printMemberOrder(Paging paging,Search search);
+	public int countMemberOder(Search search);
 	//회원 주문취소 리스트 출력
-	public List<Order> printMemberCancelOrder(Paging paging,Search search,Order order);
+	public List<Order> printMemberCancelOrder(Paging paging,Search search);
+	public int countMemberCancelOrder(Search search);
 	
 //주문 수정
 	//결제 완료 시 PAY_COMPLETE 'Y' UPDATE
@@ -74,14 +80,14 @@ public interface ProductService {
 	public int modifyCancelOrder(Order order);
 	
 //찜 추가
-	//찜버튼 클릭 시 찜 여부 체크 후 반환값이 0이면, insert
-	public int registerProductLike(ProductLike like);
+	//찜컨트롤 
+	public int registerdeleteProductLike(ProductLike like);
 	//회원 찜한 상품리스트 select
-	public List<Product> printProductLike(Paging paging,ProductLike like);
-	//찜 여부 체크
-	public int checkProductLike(ProductLike like);
-	//회원 찜한 상품 취소
-	public int removeProductLike(ProductLike like);
+	public List<Product> printMemberProductLike(Paging paging,ProductLike like);
+	//회원 찜한 상품 카운트
+	public int countMemberProductLike(ProductLike like);
+	//로그인 멤버의 찜한 상품들
+	public List<ProductLike> memberLikeList(String memberId);
 	
 	
 

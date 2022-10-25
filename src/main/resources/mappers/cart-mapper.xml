@@ -7,14 +7,13 @@
 	<resultMap type="Cart" id="CartResultMap">
 		<id		column="PRODUCT_NO" 			property="productNo"/>
 		<result column="MEMBER_ID"			    property="memberId"/>
-		<result column="PRODUCT_NAME" 			property="productName"/>
-		<result column="PRICE" 					property="price"/>
 		<result column="PRODUCT_AMOUNT" 		property="productAmount"/>
+		<result column="CART_CHECK"				property="cartCheck"/>
 	</resultMap>
 	
 	<insert id="insertCart">
 		INSERT INTO CART_TBL
-		VALUES(#{productNo},#{memberId},#{productName},#{price},#{productAmount})
+		VALUES(#{productNo},#{memberId},#{productAmount},DEFAULT)
 	</insert>
 	
 	<select id="selectCheckCart" resultType="_int">
@@ -28,12 +27,28 @@
 	</select>
 	
 	<update id="updateQtyCart">
+		UPDATE CART_TBL SET PRODUCT_AMOUNT = PRODUCT_AMOUNT + #{productAmount}
+		WHERE MEMBER_ID = #{memberId} AND PRODUCT_NO = #{productNo}
+	</update>
+	
+	<update id="updateToQtyCart">
 		UPDATE CART_TBL SET PRODUCT_AMOUNT = #{productAmount}
-		WHERE MEMBER_ID = #{memberId} AND PRODUCT_ID = #{productNo}
+		WHERE MEMBER_ID = #{memberId} AND PRODUCT_NO = #{productNo}
+	</update>
+	
+	<update id="updateCheckCart">
+		UPDATE CART_TBL 
+		<if test='cartCheck == "Y"'>
+		SET CART_CHECK = 'Y'
+		</if>
+		<if test='cartCheck == "N"'>
+		SET CART_CHECK = 'N'
+		</if>
+		WHERE MEMBER_ID = #{memberId} AND PRODUCT_NO = #{productNo}
 	</update>
 	
 	<delete id="deleteCart">
 		DELETE FROM CART_TBL
-		WHERE MEMBER_ID = #{memberId} AND PRODUCT_ID = #{productNo} 
+		WHERE MEMBER_ID = #{memberId} AND PRODUCT_NO = #{productNo} 
 	</delete>
 </mapper>

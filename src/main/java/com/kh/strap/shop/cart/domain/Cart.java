@@ -1,23 +1,33 @@
 package com.kh.strap.shop.cart.domain;
 
+import com.kh.strap.shop.product.domain.Product;
+
 public class Cart {
 
+	private Product product;
 	private int productNo;
 	private String memberId;
-	private String productName;
-	private int price;
 	private int productAmount;
+	private String cartCheck;
 
 	public Cart() {
 	}
 
-	public Cart(int productNo, String memberId, String productName, int price, int productAmount) {
+	public Cart(Product product, int productNo, String memberId, int productAmount, String cartCheck) {
 		super();
+		this.product = product;
 		this.productNo = productNo;
 		this.memberId = memberId;
-		this.productName = productName;
-		this.price = price;
 		this.productAmount = productAmount;
+		this.cartCheck = cartCheck;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	public int getProductNo() {
@@ -36,22 +46,6 @@ public class Cart {
 		this.memberId = memberId;
 	}
 
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
-	public int getPrice() {
-		return price;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
 	public int getProductAmount() {
 		return productAmount;
 	}
@@ -60,10 +54,17 @@ public class Cart {
 		this.productAmount = productAmount;
 	}
 
-	@Override
-	public String toString() {
-		return "Cart [productNo=" + productNo + ", memberId=" + memberId + ", productName=" + productName + ", price="
-				+ price + ", productAmount=" + productAmount + "]";
+	public String getCartCheck() {
+		return cartCheck;
 	}
 
+	public void setCartCheck(String cartCheck) {
+		this.cartCheck = cartCheck;
+	}
+
+	@Override
+	public String toString() {
+		return "Cart [product=" + product + ", productNo=" + productNo + ", memberId=" + memberId + ", productAmount="
+				+ productAmount + ", cartCheck=" + cartCheck + "]";
+	}
 }

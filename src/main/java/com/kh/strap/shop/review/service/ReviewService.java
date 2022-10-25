@@ -20,9 +20,9 @@ public interface ReviewService {
 	//3.회원 페이지 리뷰 select
 	public List<Review> printMemberReview(Paging paging,Search search);
 	//상품REVIEW건수 카운트
-	public int countReview(Review review);
+	public int countReview(Search search);
 	//회원REVIEW건수 카운트
-	public int countMemberReview(Review reivew);
+	public int countMemberReview(Search search);
 	//4.회원 페이지 리뷰 delete
 	public int removeMemberReview(Review review);
 

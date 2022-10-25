@@ -40,6 +40,9 @@ public interface ProductStore {
 		//검색상품 개수 카운트(관리자)
 		public int selectCountAdminProductSearch(SqlSession session,Search search);
 		
+//주문별 구매상품 목록 출력
+		public List<Product> selectProductsOnOrder(SqlSession session ,int orderNo);
+		
 //상품 상세 조회
 		public Product selectOneProduct(SqlSession session,Product product);
 		//인포이미지 리스트 조회
@@ -64,9 +67,11 @@ public interface ProductStore {
 		//주문 상세 출력
 		public Order selectOneOrder(SqlSession session,Order order);
 		//회원 주문내역 리스트 출력
-		public List<Order> selectMemberOrder(SqlSession session,Paging paging,Search search,Order order);
+		public List<Order> selectMemberOrder(SqlSession session,Paging paging,Search search);
+		public int selectCountMemberOrder(SqlSession session,Search search);
 		//회원 주문 취소 리스트 출력
-		public List<Order> selectMemberCancelOrder(SqlSession session,Paging paging,Search search,Order order);
+		public List<Order> selectMemberCancelOrder(SqlSession session,Paging paging,Search search);
+		public int selectCountMemberCancelOrder(SqlSession session, Search search);
 		
 //주문 수정
 		//주문 완료
@@ -83,10 +88,14 @@ public interface ProductStore {
 		//찜 등록
 		public int insertProductLike(SqlSession session,ProductLike like);
 		//찜 리스트 조회
-		public List<Product> selectProductLike(SqlSession session,Paging paging,ProductLike like);
+		public List<Product> selectMemberProductLike(SqlSession session,Paging paging,ProductLike like);
+		//찜한 상품 카운트
+		public int selectCountMemberProductLike(SqlSession session, ProductLike like);
 		//찜 여부 확인
 		public int selectCheckProductLike(SqlSession session,ProductLike like);
 		//찜 삭제
 		public int deleteProductLike(SqlSession session,ProductLike like);
+		//로그인 멤버의 찜목록
+		public List<ProductLike> selectMemberLikeList(SqlSession session, String memberId);
 
 }
