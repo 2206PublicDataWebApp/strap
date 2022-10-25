@@ -129,6 +129,19 @@ public class ProductController {
 		return mv;
 	}
 	
+	//주문페이지에서 주소 저장 (,_)로 구분
+	@ResponseBody
+	@RequestMapping(value="/member/modifyAddr.strap",method=RequestMethod.POST)
+	public String modifyMemberAddr(
+			@ModelAttribute Member member) {
+		//없으면 저장, 있으면 변경
+		if(pService.modifyMemberAddr(member) > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	
 	//마이쇼핑 주문내역 리스트 출력(필터: 날짜)
 	@RequestMapping(value="/order/listView.strap",method=RequestMethod.GET)
 	public ModelAndView viewMemberReviewList(ModelAndView mv,

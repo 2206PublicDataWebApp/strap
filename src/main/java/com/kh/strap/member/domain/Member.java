@@ -22,7 +22,7 @@ public class Member {
 	private int memberManner;		//16.매너 점수
 	private String memberType;		//17.회원 종류
 	private String memberIntroduce;	//18.회원 종류
-	private String memberAdreess;	//19.회원 주소
+	private String memberAddress;	//19.회원 주소
 	
 	
 
@@ -34,12 +34,12 @@ public class Member {
 		this.memberIntroduce = memberIntroduce;
 	}
 
-	public String getMemberAdreess() {
-		return memberAdreess;
+	public String getMemberAddress() {
+		return memberAddress;
 	}
 
-	public void setMemberAdreess(String memberAdreess) {
-		this.memberAdreess = memberAdreess;
+	public void setMemberAddress(String memberAddress) {
+		this.memberAddress = memberAddress;
 	}
 
 	public Member() {}
@@ -169,7 +169,7 @@ public class Member {
 				+ ", mProfileName=" + mProfileName + ", mProfileRename=" + mProfileRename + ", mProfilePath="
 				+ mProfilePath + ", mRegisterDate=" + mRegisterDate + ", memberStatus=" + memberStatus
 				+ ", adminStatus=" + adminStatus + ", memberManner=" + memberManner + ", memberType=" + memberType
-				+ ", memberIntroduce=" + memberIntroduce + ", memberAdreess=" + memberAdreess + "]";
+				+ ", memberIntroduce=" + memberIntroduce + ", memberAddress=" + memberAddress + "]";
 	}
 
 	

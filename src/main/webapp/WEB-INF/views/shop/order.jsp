@@ -17,6 +17,8 @@
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <!-- 아래 제이쿼리는 1.0이상이면 원하는 버전을 사용하셔도 무방합니다. -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<!-- 다음주소API -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 <div class="wrap container">
@@ -34,33 +36,50 @@
 					<div id="ordererInfo" class="row" style="border-bottom:1px solid #c0c0c0;">
 						<div class="col">
 							<div><h3>주문자 정보</h3></div>
-							<span id="name">일용자</span>/
-							<span id="phone">01000000000</span>/
-							<span id="email">khuser01@naver.com</span>
-						</div>
-						<div class="col">
-							<button>변경</button>
+							<span id="name">${loginUser.memberName }</span>/
+							<span id="email">${loginUser.memberEmail }</span>
 						</div>
 					</div>
-					<div id="deliverInfo">
+					<div id="deliverInfo" style="border-bottom:1px solid #c0c0c0;">
 						<div><h3>배송지 정보</h3></div>
-						<input type="text" placeholder="일용자"> <input type="button" value="주소검색"> <br>
-						<input type="text" placeholder="우편번호" readonly> <input type="text" placeholder="주소" readonly> <br>
-						<input type="text" placeholder="상세주소"> <br>
-						<select>
-							<option>010</option>
-							<option>017</option>
-							<option>019</option>
-							<option>011</option>
-							<option>016</option>
+						<input type="text" id="receiver" placeholder="수령인 이름" required> <input type="button" value="주소검색" onclick="daumAddr();"> <br>
+						<input type="text" id="postCode" placeholder="우편번호" readonly> <input type="text" id="roadAddress" placeholder="주소" readonly> <br>
+						<input type="text" id="detailAddr" placeholder="상세주소"> <br>
+						<select id="phoneHeadNum">
+							<option value="010">010</option>
+							<option value="017">017</option>
+							<option value="019">019</option>
+							<option value="011">011</option>
+							<option value="016">016</option>
 						</select>
 						<input type="text" placeholder="'-'를제외한 7~8자리 숫자를 입력해주세요."> <br>
-						<input type="checkbox"> 회원 주소 불러오기
+						<input type="checkbox" onchange="getMemberInfo(this);"> 회원 주소 불러오기
+						<button type="button" onclick="registerAddr();">기본 배송지로 저장</button>
 					</div>
-					<div id="productInfo">
-						<div><h3>구매상품 정보</h3>
-						
-						</div>
+					<div id="productInfo" style="border-bottom:1px solid #c0c0c0;">
+						<div><h3>구매상품 정보</h3></div>
+					</div>
+					<div id="couponInfo" style="border-bottom:1px solid #c0c0c0;">
+						<div><h3>쿠폰</h3></div>
+						<button type="button">쿠폰 선택</button>
+						<input type="text" placeholder="쿠폰적용" readonly>
+					</div>
+					<div id="payMethod" style="border-bottom:1px solid #c0c0c0;">
+						<div><h3>결제 수단</h3></div>
+						<button type="button">신용카드</button>
+						<button type="button">실시간 계좌이체</button>
+						<button type="button">가상계좌</button>
+						<button type="button">카카오페이</button>
+						<button type="button">네이버페이</button>
+					</div>
+					<div id="cardInfo" style="border-bottom:1px solid #c0c0c0;">
+						<div><h3>신용카드 정보</h3></div>
+					</div>
+					<div id="bankInfo" style="border-bottom:1px solid #c0c0c0;">
+						<div><h3>은행 정보</h3></div>
+					</div>
+					<div id="kakaoInfo" style="border-bottom:1px solid #c0c0c0;">
+						<div><h3>카카오페이 안내</h3></div>
 					</div>
 				</div>
 			</div>
@@ -87,8 +106,8 @@
 					 </div>
 					 <div id="paymenteBtn">
 					 	<button>결제하기</button>
-<!-- 						 <button onclick="kakaoPay()">카카오페이</button> -->
-<!-- 						 <button onclick="kginisis()">kg이니시스(웹표준)</button> -->
+						 <button onclick="kakaoPay()">카카오페이</button>
+						 <button onclick="kginisis()">kg이니시스(웹표준)</button>
 					 </div>
 				</div>
 			</div>
@@ -165,6 +184,105 @@ function kginisis(){
 				    alert(msg);
 				});
 }
-  </script>
+
+//주소API
+    function daumAddr() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var roadAddr = data.roadAddress; // 도로명 주소 변수
+                var extraRoadAddr = ''; // 참고 항목 변수
+
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraRoadAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if(extraRoadAddr !== ''){
+                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('postCode').value = data.zonecode;
+                document.getElementById("roadAddress").value = roadAddr;
+                
+                var guideTextBox = document.getElementById("guide");
+                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+                if(data.autoRoadAddress) {
+                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                    guideTextBox.style.display = 'block';
+
+                } else if(data.autoJibunAddress) {
+                    var expJibunAddr = data.autoJibunAddress;
+                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                    guideTextBox.style.display = 'block';
+                } else {
+                    guideTextBox.innerHTML = '';
+                    guideTextBox.style.display = 'none';
+                }
+            }
+        }).open();
+    }
+
+//주소창: 회원정보 가져오기
+function getMemberInfo(check){
+	var receiver = document.querySelector("#receiver");
+	var postCode = document.querySelector("#postCode");
+	var postroadAddress = document.querySelector("#roadAddress");
+	var detailAddr = document.querySelector("#detailAddr");
+	var addrArr = '${loginUser.memberAddress}'.split(",_");
+	if(check.checked){
+		if('${loginUser.memberAddress ne null}'){
+			receiver.value = '${loginUser.memberName}';
+			postCode.value = addrArr[0];
+			postroadAddress.value = addrArr[1];
+			detailAddr.value = addrArr[2];
+		}
+	}else{
+		receiver.value="";
+		postCode.value="";
+		postroadAddress.value="";
+		detailAddr.value ="";
+	}
+}
+    
+//배송지 등록
+function registerAddr(){
+	var receiver = document.querySelector("#receiver").value;
+	var postCode = document.querySelector("#postCode").value;
+	var postroadAddress = document.querySelector("#roadAddress").value;
+	var detailAddr = document.querySelector("#detailAddr").value;
+	var memberAddress = postCode + ",_" + postroadAddress +",_"+ detailAddr;
+	var memberId = '${loginUser.memberId}';
+	
+	$.ajax({
+		url:"/member/modifyAddr.strap",
+		data:{
+			"memberId":memberId,
+			"memberAddress":memberAddress
+		},
+		type:"post",
+		success:function(result){
+			if(result =="success"){
+				alert("기본배송지로 등록되었습니다.");
+			}else{
+				
+			}
+		},
+		error:function(){}
+	});
+	
+}
+
+</script>
 </body>
 </html>

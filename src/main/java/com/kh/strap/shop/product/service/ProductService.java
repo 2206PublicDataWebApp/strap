@@ -4,11 +4,11 @@ import java.util.List;
 
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
+import com.kh.strap.member.domain.Member;
 import com.kh.strap.shop.product.domain.Order;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.domain.ProductLike;
-import com.kh.strap.shop.review.domain.Review;
 
 public interface ProductService {
 
@@ -89,7 +89,8 @@ public interface ProductService {
 	//로그인 멤버의 찜한 상품들
 	public List<ProductLike> memberLikeList(String memberId);
 	
-	
+//멤버 주소 등록 및 수정
+	public int modifyMemberAddr(Member member);
 
 	
 	

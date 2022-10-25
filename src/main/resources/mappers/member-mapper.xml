@@ -23,7 +23,7 @@
   		<result property="memberManner"		column="MEMBER_MANNER"/>
   		<result property="memberType"		column="MEMBER_TYPE"/>
   		<result property="memberIntroduce"		column="MEMBER_INTRODUCE"/>
-  		<result property="memberAdreess"		column="MEMBER_ADDRESS"/>
+  		<result property="memberAddress"		column="MEMBER_ADDRESS"/>
   	</resultMap>
   	<resultMap type="Member" id="IdAndCreateDate">
   		<id property="memberId" 			column="MEMBER_ID"/>
@@ -100,4 +100,8 @@
   	<update id="changeImg">
   		UPDATE MEMBER_TBL SET M_PROFILE_NAME = #{mProfileName}, M_PROFILE_RENAME = #{mProfileRename}, M_PROFILE_PATH = #{mProfilePath} WHERE MEMBER_ID = #{memberId}
   	</update>
+	<!--상품 주문페이지: 회원 주소 변경 -->
+	<update id="updateMemberAddr">
+		UPDATE MEMBER_TBL SET MEMBER_ADDRESS = #{memberAddress} WHERE MEMBER_ID = #{memberId}
+	</update>
 </mapper>
