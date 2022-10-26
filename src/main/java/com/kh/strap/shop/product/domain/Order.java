@@ -7,14 +7,15 @@ import com.kh.strap.member.domain.Member;
 
 public class Order {
 	
-	private List<Product> buyProducts;  	//구매상품 리스트
+	private List<Product> buyProducts;  	//주문 상품 정보
+	private List<OrderProduct> orderProducts; //주문 상품리스트
 	private Member member;					//주문에 멤버가 있음
 	private int orderNo;					//주문번호
 	private int payNo;						//결제번호
 	private int productNo;					//상품번호
 	private int deliveryFee;				//배송료
 	private int couponNo;					//쿠폰번호
-	private int discountAmount;				//할인액
+	private int discountAmount;			//할인액
 	private int finalCost;					//최종결제금액
 	private String memberId;				//회원아이디
 	private String address;					//주소
@@ -23,7 +24,7 @@ public class Order {
 	private String agreeYn;					//동의여부
 	private String paymentMethod;			//결제수단
 	private String cardKind;				//카드종류
-	private int monthlyPay;					//할부
+	private int monthlyPay;				//할부
 	private String bankKind;				//은행종류
 	private String bankPayerName;			//입금자명
 	private String payComplete;				//결제완료여부
@@ -36,13 +37,15 @@ public class Order {
 	
 	public Order() {}
 
-	public Order(List<Product> buyProducts, Member member, int orderNo, int payNo, int productNo, int deliveryFee,
-			int couponNo, int discountAmount, int finalCost, String memberId, String address, String contactPhone,
-			String deliveryRequest, String agreeYn, String paymentMethod, String cardKind, int monthlyPay,
-			String bankKind, String bankPayerName, String payComplete, String orderCancel, String orderBack,
-			String deliveryStart, String deliveryComplete, String deliveryNo, Date orderDate) {
+	public Order(List<Product> buyProducts, List<OrderProduct> orderProducts, Member member, int orderNo, int payNo,
+			int productNo, int deliveryFee, int couponNo, int discountAmount, int finalCost, String memberId,
+			String address, String contactPhone, String deliveryRequest, String agreeYn, String paymentMethod,
+			String cardKind, int monthlyPay, String bankKind, String bankPayerName, String payComplete,
+			String orderCancel, String orderBack, String deliveryStart, String deliveryComplete, String deliveryNo,
+			Date orderDate) {
 		super();
 		this.buyProducts = buyProducts;
+		this.orderProducts = orderProducts;
 		this.member = member;
 		this.orderNo = orderNo;
 		this.payNo = payNo;
@@ -76,6 +79,14 @@ public class Order {
 
 	public void setBuyProducts(List<Product> buyProducts) {
 		this.buyProducts = buyProducts;
+	}
+
+	public List<OrderProduct> getOrderProducts() {
+		return orderProducts;
+	}
+
+	public void setOrderProducts(List<OrderProduct> orderProducts) {
+		this.orderProducts = orderProducts;
 	}
 
 	public Member getMember() {
@@ -280,14 +291,16 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [buyProducts=" + buyProducts + ", member=" + member + ", orderNo=" + orderNo + ", payNo=" + payNo
-				+ ", productNo=" + productNo + ", deliveryFee=" + deliveryFee + ", couponNo=" + couponNo
-				+ ", discountAmount=" + discountAmount + ", finalCost=" + finalCost + ", memberId=" + memberId
-				+ ", address=" + address + ", contactPhone=" + contactPhone + ", deliveryRequest=" + deliveryRequest
-				+ ", agreeYn=" + agreeYn + ", paymentMethod=" + paymentMethod + ", cardKind=" + cardKind
-				+ ", monthlyPay=" + monthlyPay + ", bankKind=" + bankKind + ", bankPayerName=" + bankPayerName
-				+ ", payComplete=" + payComplete + ", orderCancel=" + orderCancel + ", orderBack=" + orderBack
-				+ ", deliveryStart=" + deliveryStart + ", deliveryComplete=" + deliveryComplete + ", deliveryNo="
-				+ deliveryNo + ", orderDate=" + orderDate + "]";
+		return "Order [buyProducts=" + buyProducts + ", orderProducts=" + orderProducts + ", member=" + member
+				+ ", orderNo=" + orderNo + ", payNo=" + payNo + ", productNo=" + productNo + ", deliveryFee="
+				+ deliveryFee + ", couponNo=" + couponNo + ", discountAmount=" + discountAmount + ", finalCost="
+				+ finalCost + ", memberId=" + memberId + ", address=" + address + ", contactPhone=" + contactPhone
+				+ ", deliveryRequest=" + deliveryRequest + ", agreeYn=" + agreeYn + ", paymentMethod=" + paymentMethod
+				+ ", cardKind=" + cardKind + ", monthlyPay=" + monthlyPay + ", bankKind=" + bankKind
+				+ ", bankPayerName=" + bankPayerName + ", payComplete=" + payComplete + ", orderCancel=" + orderCancel
+				+ ", orderBack=" + orderBack + ", deliveryStart=" + deliveryStart + ", deliveryComplete="
+				+ deliveryComplete + ", deliveryNo=" + deliveryNo + ", orderDate=" + orderDate + "]";
 	}
+
+	
 }

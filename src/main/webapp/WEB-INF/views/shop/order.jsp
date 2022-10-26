@@ -19,6 +19,14 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <!-- 다음주소API -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<style>
+	input{
+		margin-bottom:20px;
+	}
+	.distict{
+		padding:20px;
+	}
+</style>
 </head>
 <body>
 <div class="wrap container">
@@ -33,17 +41,18 @@
 			<div class="col-9">
 				<div id="contents-header">
 					<h1>주문 페이지</h1><hr>
-					<div id="ordererInfo" class="row" style="border-bottom:1px solid #c0c0c0;">
+					<div id="ordererInfo" class="row distict" style="border-bottom:1px solid #c0c0c0;">
 						<div class="col">
 							<div><h3>주문자 정보</h3></div>
 							<span id="name">${loginUser.memberName }</span>/
 							<span id="email">${loginUser.memberEmail }</span>
 						</div>
 					</div>
-					<div id="deliverInfo" style="border-bottom:1px solid #c0c0c0;">
+					<br>
+					<div id="deliverInfo" class="distict" style="border-bottom:1px solid #c0c0c0;">
 						<div><h3>배송지 정보</h3></div>
-						<input type="text" id="receiver" placeholder="수령인 이름" required> <input type="button" value="주소검색" onclick="daumAddr();"> <br>
-						<input type="text" id="postCode" placeholder="우편번호" readonly> <input type="text" id="roadAddress" placeholder="주소" readonly> <br>
+						<input type="button" value="주소검색" onclick="daumAddr();"> 
+						<input type="text" id="postCode" placeholder="우편번호" readonly>  <br> <input type="text" id="roadAddress" placeholder="주소" readonly> <br>
 						<input type="text" id="detailAddr" placeholder="상세주소"> <br>
 						<select id="phoneHeadNum">
 							<option value="010">010</option>
@@ -52,19 +61,51 @@
 							<option value="011">011</option>
 							<option value="016">016</option>
 						</select>
-						<input type="text" placeholder="'-'를제외한 7~8자리 숫자를 입력해주세요."> <br>
+						<input type="text" id="phoneBodyNum" placeholder="'-'를제외한 7~8자리 숫자를 입력해주세요."> <br>
 						<input type="checkbox" onchange="getMemberInfo(this);"> 회원 주소 불러오기
 						<button type="button" onclick="registerAddr();">기본 배송지로 저장</button>
 					</div>
-					<div id="productInfo" style="border-bottom:1px solid #c0c0c0;">
+					<div id="productInfo" class="distict" style="border-bottom:1px solid #c0c0c0;">
 						<div><h3>구매상품 정보</h3></div>
+						<c:forEach items="${cList }" var="cart" varStatus="n" >
+							<div class="oneCart row" style="margin: 3px auto;">
+								<div class="pImg col-3" style="text-align:center;">
+									<img src="${cart.product.mainImgRoot }" style="width:80px;height:70px;">
+								</div>
+								<div class="cartInfo col-6">
+									<div>
+										<div class="pName">
+											<span class="brandName">[${cart.product.productBrand }]</span>
+											<span class="pName">${cart.product.productName }</span>
+										</div>
+									</div>
+									<div>
+										<div class="cartPrice-wrap">
+												<span class='wonSymbol'>\</span>
+												<span class="cartPrice">
+													<fmt:formatNumber value="${cart.product.productPrice}" pattern="#,###"/> 
+												</span>
+												<span class="pQty">
+													${cart.productAmount }개
+												</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-3">
+									<span class='wonSymbol'>\</span>
+									<span class="cartPrice">
+										<fmt:formatNumber value="${cart.product.productPrice * cart.productAmount }" pattern="#,###"/> 
+									</span>
+								</div>
+							</div>
+						</c:forEach>	
 					</div>
-					<div id="couponInfo" style="border-bottom:1px solid #c0c0c0;">
+					<div id="couponInfo" class="distict" style="border-bottom:1px solid #c0c0c0;">
 						<div><h3>쿠폰</h3></div>
 						<button type="button">쿠폰 선택</button>
 						<input type="text" placeholder="쿠폰적용" readonly>
 					</div>
-					<div id="payMethod" style="border-bottom:1px solid #c0c0c0;">
+					<div id="payMethod" class="distict" style="border-bottom:1px solid #c0c0c0;">
 						<div><h3>결제 수단</h3></div>
 						<button type="button">신용카드</button>
 						<button type="button">실시간 계좌이체</button>
@@ -72,13 +113,13 @@
 						<button type="button">카카오페이</button>
 						<button type="button">네이버페이</button>
 					</div>
-					<div id="cardInfo" style="border-bottom:1px solid #c0c0c0;">
+					<div id="cardInfo" class="distict"  style="border-bottom:1px solid #c0c0c0;">
 						<div><h3>신용카드 정보</h3></div>
 					</div>
-					<div id="bankInfo" style="border-bottom:1px solid #c0c0c0;">
+					<div id="bankInfo" class="distict" style="border-bottom:1px solid #c0c0c0;">
 						<div><h3>은행 정보</h3></div>
 					</div>
-					<div id="kakaoInfo" style="border-bottom:1px solid #c0c0c0;">
+					<div id="kakaoInfo" class="distict" style="border-bottom:1px solid #c0c0c0;">
 						<div><h3>카카오페이 안내</h3></div>
 					</div>
 				</div>
@@ -92,6 +133,10 @@
 					 </div>
 					 <div id="discountAmount">
 					 	<span>할인 금액</span>
+					 	<div>0원</div>
+					 </div>
+					 <div id="deleivery">
+					 	<span>배송료</span>
 					 	<div>0원</div>
 					 </div>
 					 <div id="finalPrice">
@@ -257,7 +302,6 @@ function getMemberInfo(check){
     
 //배송지 등록
 function registerAddr(){
-	var receiver = document.querySelector("#receiver").value;
 	var postCode = document.querySelector("#postCode").value;
 	var postroadAddress = document.querySelector("#roadAddress").value;
 	var detailAddr = document.querySelector("#detailAddr").value;
@@ -282,6 +326,55 @@ function registerAddr(){
 	});
 	
 }
+
+//////////////////ORDER_TBL에 넣을 값들 셋팅
+var orderNo; // 주문번호 날짜+고유번호 셋팅
+var payNo; // 아임포트에서 반환되는 결제번호
+var discountAmount = 0;
+var finalCost;
+var deliveryFee = 3000;
+if(finalCost >= 30000){
+	deliveryFee = 0;
+}
+var couponNo = 0;
+var memberId ='${loginUser.memberId}';
+var address = document.querySelector("#postCode").value+",_"+document.querySelector("#roadAddress").value+",_"+document.querySelector("#detailAddr").value;
+var contactPhone = document.querySelector("#phoneHeadNum").value + document.querySelector("#phoneBodyNum").value;
+var deliveryRequest;
+var agreeYn;
+var paymentMethod;
+var cardKind;
+var monthlyPay;
+var bankKind;
+var bankPayerName;
+//////////////////OrderProduct에 담을 값
+var orderNo;
+var productNo;
+var orderQty; 
+///////////////////
+var payComplete;
+var payComplete;
+var orderCancel;
+var orderBack;
+var deliveryStart;
+var deliveryComplete;
+var deliveryNo;
+var orderDate;
+//////////////////ORDER_PRODUCT_TBL에 넣을 값들 셋팅
+var orderNo;
+var productNo;
+var orderQty;
+
+
+function getDiscountAmount(){
+	//쿠폰 할인액
+}
+
+function getFinalCost(){
+	//총 상품가격 - 할인가격
+	
+}
+
 
 </script>
 </body>

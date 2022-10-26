@@ -23,6 +23,13 @@ public class Product {
 
 	public Product() {
 	}
+	
+	
+
+	public Product(int productNo) {
+		super();
+		this.productNo = productNo;
+	}
 
 	public Product(int productNo, String productName, String productBrand, int productPrice, String productDesc,
 			int gradeSum, Date productRegiDate, Date productModiDate, int productSales, String mainImgName,

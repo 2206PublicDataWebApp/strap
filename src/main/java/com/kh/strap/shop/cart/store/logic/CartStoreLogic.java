@@ -25,6 +25,12 @@ public class CartStoreLogic implements CartStore {
 	public List<Cart> selectCart(SqlSession session, Cart cart) {
 		return session.selectList("CartMapper.selectCart", cart);
 	}
+	
+	@Override
+	public List<Cart> selectCheckedCart(SqlSession session, String memberId) {
+		return session.selectList("CartMapper.selectCartChecked",memberId);
+	}
+	
 
 	@Override
 	public int updateQtyCart(SqlSession session, Cart cart) {
@@ -45,5 +51,9 @@ public class CartStoreLogic implements CartStore {
 	public int updateCheckCart(SqlSession session, Cart cart) {
 		return session.update("CartMapper.updateCheckCart", cart);
 	}
+
+
+
+
 
 }

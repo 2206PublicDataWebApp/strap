@@ -46,6 +46,11 @@ public class CartServiceImpl implements CartService {
 		
 		return cList;
 	}
+	
+	@Override
+	public List<Cart> printCheckedCart(String memberId) {
+		return cStore.selectCheckedCart(session, memberId);
+	}
 
 	@Override
 	public int removeCart(Cart cart) {
@@ -61,6 +66,8 @@ public class CartServiceImpl implements CartService {
 	public int modifyCheckCart(Cart cart) {
 		return cStore.updateCheckCart(session, cart);
 	}
+
+
 	
 	
 

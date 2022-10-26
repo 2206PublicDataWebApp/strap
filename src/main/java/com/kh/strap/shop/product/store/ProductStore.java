@@ -100,6 +100,5 @@ public interface ProductStore {
 
 		//멤버 주소 등록 및 수정
 		public int updateMemberAddr(SqlSession session,Member member);
-		public int selectCheckMemberAddr(SqlSession session,Member member);
 		
 }
