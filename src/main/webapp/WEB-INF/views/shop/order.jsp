@@ -26,6 +26,9 @@
 	.distict{
 		padding:20px;
 	}
+	.guideMenu{
+		display:none;
+	}
 </style>
 </head>
 <body>
@@ -53,22 +56,22 @@
 						<div><h3>배송지 정보</h3></div>
 						<input type="button" value="주소검색" onclick="daumAddr();"> 
 						<input type="text" id="postCode" placeholder="우편번호" readonly>  <br> <input type="text" id="roadAddress" placeholder="주소" readonly> <br>
-						<input type="text" id="detailAddr" placeholder="상세주소"> <br>
-						<select id="phoneHeadNum">
+						<input type="text" id="detailAddr" placeholder="상세주소" onchange="updateInput();" required> <br>
+						<select id="phoneHeadNum" oninput="updateInput();">
 							<option value="010">010</option>
 							<option value="017">017</option>
 							<option value="019">019</option>
 							<option value="011">011</option>
 							<option value="016">016</option>
 						</select>
-						<input type="text" id="phoneBodyNum" placeholder="'-'를제외한 7~8자리 숫자를 입력해주세요."> <br>
-						<input type="checkbox" onchange="getMemberInfo(this);"> 회원 주소 불러오기
+						<input type="text" id="phoneBodyNum" placeholder="'-'를제외한 7~8자리 숫자를 입력해주세요." onchange="updateInput();" required> <br>
+						<input type="checkbox" onchange="getMemberInfo(this); updateInput();"> 회원 주소 불러오기
 						<button type="button" onclick="registerAddr();">기본 배송지로 저장</button>
 					</div>
 					<div id="productInfo" class="distict" style="border-bottom:1px solid #c0c0c0;">
 						<div><h3>구매상품 정보</h3></div>
 						<c:forEach items="${cList }" var="cart" varStatus="n" >
-							<div class="oneCart row" style="margin: 3px auto;">
+							<div class="oneCart row" style="margin: 10px auto;">
 								<div class="pImg col-3" style="text-align:center;">
 									<img src="${cart.product.mainImgRoot }" style="width:80px;height:70px;">
 								</div>
@@ -98,54 +101,117 @@
 									</span>
 								</div>
 							</div>
+							<input type="hidden" class="calPrice" value="${cart.product.productPrice * cart.productAmount }">
 						</c:forEach>	
 					</div>
 					<div id="couponInfo" class="distict" style="border-bottom:1px solid #c0c0c0;">
 						<div><h3>쿠폰</h3></div>
 						<button type="button">쿠폰 선택</button>
-						<input type="text" placeholder="쿠폰적용" readonly>
+						<input type="text" placeholder="쿠폰적용" readonly onchange="calculatorCost();">
 					</div>
 					<div id="payMethod" class="distict" style="border-bottom:1px solid #c0c0c0;">
 						<div><h3>결제 수단</h3></div>
-						<button type="button">신용카드</button>
-						<button type="button">실시간 계좌이체</button>
-						<button type="button">가상계좌</button>
-						<button type="button">카카오페이</button>
-						<button type="button">네이버페이</button>
+						
+						<input type="radio" class="btn-check" name="paymentMethod" id="card" autocomplete="off" onchange="guideMenuVisible(this,0);">
+						<label class="btn btn-outline-success" for="card">신용카드</label>
+						
+						<input type="radio" class="btn-check" name="paymentMethod" id="rBanking" autocomplete="off" onchange="guideMenuVisible(this,1);">
+						<label class="btn btn-outline-success" for="rBanking">실시간 계좌이체</label>
+						
+						<input type="radio" class="btn-check" name="paymentMethod" id="vBanking" autocomplete="off" onchange="guideMenuVisible(this,2);">
+						<label class="btn btn-outline-success" for="vBanking">가상계좌</label>
+						
+						<input type="radio" class="btn-check" name="paymentMethod" id="kakao" autocomplete="off" onchange="guideMenuVisible(this,3);">
+						<label class="btn btn-outline-success" for="kakao">카카오페이</label>
+						
+						<input type="radio" class="btn-check" name="paymentMethod" id="naver" autocomplete="off" onchange="guideMenuVisible(this,4);">
+						<label class="btn btn-outline-success" for="naver">네이버페이</label>
+						
+						
 					</div>
-					<div id="cardInfo" class="distict"  style="border-bottom:1px solid #c0c0c0;">
+					<div id="cardInfo" class="distict guideMenu"  style="border-bottom:1px solid #c0c0c0;width:80%;">
 						<div><h3>신용카드 정보</h3></div>
+						카드사선택
+						<select>
+							<option>KB국민카드</option>
+							<option>신한카드</option>
+							<option>현대카드</option>
+							<option>삼성카드</option>
+							<option>우리카드</option>
+							<option>롯데카드</option>
+							<option>NH농협카드</option>
+							<option>하나카드</option>
+							<option>비씨카드</option>
+							<option>씨티카드</option>
+						</select>
 					</div>
-					<div id="bankInfo" class="distict" style="border-bottom:1px solid #c0c0c0;">
-						<div><h3>은행 정보</h3></div>
+					<div id="rBankInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
+						<div id="rBanking-guide" style="background-color:rgb(230,230,230);padding:20px;">
+							<h4>실시간계좌이체 결제 안내</h4>
+								<ul>
+									<li>본인 명의의 은행 계좌를 이용해 결제하실 수 있습니다.</li>
+									<li>은행 점검 시간에는 결제가 불가할 수 있습니다.</li>
+								</ul>
+						</div>
 					</div>
-					<div id="kakaoInfo" class="distict" style="border-bottom:1px solid #c0c0c0;">
+					<div id="vBankInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
+						<div id="vBanking-guide" style="background-color:rgb(230,230,230);padding:20px;">
+							<h4>가상계좌 이체 안내</h4>
+								<ul>
+									<li>안내1</li>
+									<li>안내2</li>
+								</ul>
+						</div>
+					</div>
+					<div id="kakaoInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
 						<div><h3>카카오페이 안내</h3></div>
+					</div>
+					<div id="naverInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
+						<div id="rBanking-guide" style="background-color:rgb(230,230,230);padding:20px;">
+							<h4>네이버페이 혜택 안내</h4>
+								<ul>
+									<li>네이버쇼핑을 통해 방문 시 1% 적립(그 외 0.2%)</li>
+									<li>충전포인트로 결제 시 1.5% 적립 + 소득공제</li>
+									<li>주문 변경 시 카드사 혜택 및 할부 적용 여부는 해당 카드사 정책에 따라 변경될 수 있습니다.</li>
+								</ul>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-3"  style="height:500px;position:sticky;top:0;">
-				<div class="order-side" style="height:80%;width:95%;margin:100px auto; border: 1px solid #c0c0c0;text-align:center;">
+			<div class="col-3" style="height:800px;position:sticky;top:0;">
+				<div class="order-side" style="height:80%;width:95%;margin:100px auto; border: 1px solid #c0c0c0;width:80%;text-align:center;">
 					 <h3>결제 금액</h3>
-					 <div id="productsPrice">
+					 <div id="productsPrice-wrap">
 					 	<span>상품금액</span>
-					 	<div>0000원</div>
+					 	<div>
+					 		<span class='wonSymbol'>\</span>
+					 		<span id="productsPrice"></span>
+					 	</div>
 					 </div>
-					 <div id="discountAmount">
+					 <div id="discountAmount-wrap">
 					 	<span>할인 금액</span>
-					 	<div>0원</div>
+					 	<div>
+					 		<span class='wonSymbol'>\</span>
+					 		<span id="discountAmount"></span>
+					 	</div>
 					 </div>
-					 <div id="deleivery">
+					 <div id="deleiveryFee-wrap">
 					 	<span>배송료</span>
-					 	<div>0원</div>
+					 	<div>
+					 		<span class='wonSymbol'>\</span>
+					 		<span id="deleiveryFee"></span>
+					 	</div>
 					 </div>
-					 <div id="finalPrice">
+					 <div id="finalCost-wrap">
 					 	<span>최종 결제금액</span>
-					 	<div>0000원</div>
+					 	<div>
+					 		<span class='wonSymbol'>\</span>
+					 		<span id=finalCost style="color:darkorange;font-weight:bold;font-size:30px;"></span>
+					 	</div>
 					 </div>
-					 <div id="agreement">
-					 	<div>처리위탁 및 3자 제공 동의>></div>
-					 	<div>결제대행서비스 이용 동의>></div>
+					 <div id="agreement" >
+					 	<div  style="font-size:12px;">처리위탁 및 3자 제공 동의>></div>
+					 	<div  style="font-size:12px;">결제대행서비스 이용 동의>></div>
 					 	<input type="checkbox"">
 					 	<span>구매조건 및 이용약관에 동의하며 결제를 진행합니다.</span>
 					 </div>
@@ -258,29 +324,13 @@ function kginisis(){
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 document.getElementById('postCode').value = data.zonecode;
                 document.getElementById("roadAddress").value = roadAddr;
-                
-                var guideTextBox = document.getElementById("guide");
-                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-                if(data.autoRoadAddress) {
-                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
-                    guideTextBox.style.display = 'block';
-
-                } else if(data.autoJibunAddress) {
-                    var expJibunAddr = data.autoJibunAddress;
-                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
-                    guideTextBox.style.display = 'block';
-                } else {
-                    guideTextBox.innerHTML = '';
-                    guideTextBox.style.display = 'none';
-                }
             }
         }).open();
     }
 
 //주소창: 회원정보 가져오기
 function getMemberInfo(check){
-	var receiver = document.querySelector("#receiver");
+	var receiver = "";
 	var postCode = document.querySelector("#postCode");
 	var postroadAddress = document.querySelector("#roadAddress");
 	var detailAddr = document.querySelector("#detailAddr");
@@ -330,16 +380,58 @@ function registerAddr(){
 //////////////////ORDER_TBL에 넣을 값들 셋팅
 var orderNo; // 주문번호 날짜+고유번호 셋팅
 var payNo; // 아임포트에서 반환되는 결제번호
-var discountAmount = 0;
-var finalCost;
-var deliveryFee = 3000;
-if(finalCost >= 30000){
-	deliveryFee = 0;
-}
 var couponNo = 0;
-var memberId ='${loginUser.memberId}';
-var address = document.querySelector("#postCode").value+",_"+document.querySelector("#roadAddress").value+",_"+document.querySelector("#detailAddr").value;
-var contactPhone = document.querySelector("#phoneHeadNum").value + document.querySelector("#phoneBodyNum").value;
+
+//금액계산
+var productsPrice=0;
+var discountAmount=0;
+var deliveryFee=0;
+var finalCost=0;
+calculatorCost();
+//금액을 초기화할 함수, 할인값변경 시 초기화?
+function calculatorCost(){
+	var $productsPrice = document.querySelector("#productsPrice");
+	var $discountAmount = document.querySelector("#discountAmount");
+	var $deleiveryFee = document.querySelector("#deleiveryFee");
+	var $finalCost = document.querySelector("#finalCost");
+	
+	
+	productsPrice = getProductsPrice();
+	discountAmount = 0;
+	deliveryFee = 3000;
+	if(productsPrice >= 30000){
+		deliveryFee = 0;
+	}
+	finalCost = productsPrice - discountAmount + deliveryFee;
+	
+	$productsPrice.innerHTML = productsPrice.toLocaleString();
+	$discountAmount.innerHTML = discountAmount.toLocaleString();
+	$deleiveryFee.innerHTML = deliveryFee.toLocaleString();
+	$finalCost.innerHTML = finalCost.toLocaleString();
+	console.log(productsPrice);
+	console.log(discountAmount);
+	console.log(deliveryFee);
+	console.log(finalCost);
+}
+
+//주문자 정보
+//연락처와 주소는 입력하는 마지막값으로 초기화 되어야한다.
+//고로 연락처와 주소의 input값이 변경되는 이벤트 발생 시 초기화.
+var memberId;
+var address;
+var contactPhone;
+function updateInput(){
+	memberId ='${loginUser.memberId}';
+	address = document.querySelector("#postCode").value+",_"+document.querySelector("#roadAddress").value+",_"+document.querySelector("#detailAddr").value;
+	contactPhone = document.querySelector("#phoneHeadNum").value + document.querySelector("#phoneBodyNum").value;
+	console.log(address);
+	console.log(memberId);
+	console.log(contactPhone);
+}
+
+
+
+
 var deliveryRequest;
 var agreeYn;
 var paymentMethod;
@@ -366,15 +458,25 @@ var productNo;
 var orderQty;
 
 
-function getDiscountAmount(){
-	//쿠폰 할인액
-}
-
-function getFinalCost(){
+function getProductsPrice(){
 	//총 상품가격 - 할인가격
-	
+	var totalPrice = 0;
+	<c:forEach items="${cList }" var="cart" varStatus="n" >
+		totalPrice += ${cart.product.productPrice * cart.productAmount};
+	</c:forEach>
+	return totalPrice;
 }
 
+
+//가이드메뉴 
+function guideMenuVisible(thisCheck,n){
+	if(thisCheck.checked){
+		for(var i=0; i<5; i++){
+			document.querySelectorAll(".guideMenu")[i].style.display="none";
+		}
+		document.querySelectorAll(".guideMenu")[n].style.display="block";
+	}
+}
 
 </script>
 </body>
