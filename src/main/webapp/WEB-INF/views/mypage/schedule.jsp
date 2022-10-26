@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -18,16 +19,7 @@
 
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
-		var list = '${scList}'
-		console.log(list);
 		var calendarEl = document.getElementById('calendar');
-
-		var events = list.map(function(item) {
-            return {
-                title : item.reservationTitle,
-                start : item.reservationDate + "T" + item.reservationTime
-            }
-        });
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
 			headerToolbar : {
@@ -58,7 +50,23 @@
 			},
 			editable : true,
 			dayMaxEvents : true, // allow "more" link when too many events
-			events : events
+			events : [
+				$.ajax({
+					type : "get",
+					url : "/mypage/scheduleList.strap",
+					success : function(response){
+						console.log(response);
+						for(i = 0;i < response.length; i++) {
+							calendar.addEvent({
+								title: response[i]['title'],
+								start: response[i]['start']
+							})
+						}
+					}
+				})
+				
+			]
+				
 		});
 
 		calendar.render();

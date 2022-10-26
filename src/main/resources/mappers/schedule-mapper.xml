@@ -18,6 +18,6 @@
 		INSERT INTO SCHEDULE_TBL VALUES(SEQ_SCHEDULE_NO.NEXTVAL, #{matchMemberId}, #{matchMemberNick}, #{memberId}, #{memberNick}, #{matchDetail}, TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI'), #{meetDate})
 	</insert>
 	<select id="selectAllSchedule" resultMap="scheduleResultMap">
-		SELECT * FROM SCHEDULE_TBL WHERE MEMBER_ID = #{memberId}
+		SELECT * FROM SCHEDULE_TBL WHERE MEMBER_ID = #{memberId} OR MATCH_MEMBER_ID = #{memberId}
 	</select>
 </mapper>

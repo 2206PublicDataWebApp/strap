@@ -32,35 +32,43 @@ public class ScheduleController {
 	 * @return
 	 */
 	// 캘린더 페이지
-	@RequestMapping(value="/mypage/scheduleListView.strap", method=RequestMethod.GET)
+	@RequestMapping(value="/mypage/scheduleView.strap", method=RequestMethod.GET)
 	public ModelAndView showSchedule(ModelAndView mv, HttpServletRequest request) {
+		mv.setViewName("mypage/schedule");
+		return mv;
+	}
+	
+	// 캘린더 일정 조회
+	@ResponseBody
+	@RequestMapping(value="/mypage/scheduleList.strap",produces="application/json;charset=utf-8", method=RequestMethod.GET)
+	public String showScheduleList(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String memberId = member.getMemberId();
 		List<Schedule> scList = scService.printAllSchedule(memberId);
 		System.out.println(scList);
-		
-//		JSONArray jsonArr = new JSONArray();
-//		for(int i = 0; i < scList.size(); i++) {
-//			JSONObject jsonObj = new JSONObject();
-//			if(memberId.equals(scList.get(i).getMemberId())) {
-//				jsonObj.put("memberId", scList.get(i).getMemberId());
-//				jsonObj.put("memberNick", scList.get(i).getMemberNick());
-//			} else {
-//				jsonObj.put("matchMemberId", scList.get(i).getMatchMemberId());
-//				jsonObj.put("matchMemberNick", scList.get(i).getMatchMemberNick());
-//			}
-//			jsonObj.put("title", scList.get(i).getMatchDetail());
-//			jsonObj.put("start", scList.get(i).getMeetDate());
-//			jsonArr.add(jsonObj);
-//		}
-//		System.out.println(jsonArr);
-//		mv.addObject("jsonArr", jsonArr.toJSONString());
-		mv.addObject("scList",scList);
-		mv.setViewName("mypage/schedule");
-		return mv;
+		JSONArray jsonArr = new JSONArray();
+		System.out.println(scList.size());
+		for(int i = 0; i < scList.size(); i++) {
+			JSONObject jsonObj = new JSONObject();
+			if (memberId.equals(scList.get(i).getMatchMemberId())) {
+				jsonObj.put("title",scList.get(i).getMemberNick() + " " + scList.get(i).getMatchDetail());
+			} else {
+				jsonObj.put("title",scList.get(i).getMatchMemberNick() + " " + scList.get(i).getMatchDetail());
+			}
+			jsonObj.put("start",scList.get(i).getMeetDate());
+			jsonArr.add(jsonObj);
+		}
+		System.out.println(jsonArr);
+		return jsonArr.toString();
 	}
 	
+	
+	/**
+	 * 
+	 * @param schedule
+	 * @return
+	 */
 	// 일정 등록
 	@ResponseBody
 	@RequestMapping(value="/schedule/registerSchedule.strap", method=RequestMethod.POST)
