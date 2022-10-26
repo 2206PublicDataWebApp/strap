@@ -18,4 +18,8 @@ public class MatchController {
 	public String matchView() {
 		return "/match/matchingView";
 	}
+	@RequestMapping("/match/matchingMember.strap")
+	public String matchingMember() {
+		return "/match/matchingMember";
+	}
 }

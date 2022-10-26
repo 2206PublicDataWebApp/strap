@@ -102,8 +102,13 @@ public class MemberController {
 	 */
 	@RequestMapping(value="/member/register.strap", method=RequestMethod.POST)
 	public String insertMember(
-			@ModelAttribute Member member) {
+			@ModelAttribute Member member
+			,String jymAddress
+			,String jymTitle
+			) {
+		String memberJym = jymAddress +"," +jymTitle;
 		System.out.println(member.toString());
+		member.setMemberJym(memberJym);
 		String rawPwd = member.getMemberPwd();
 		String encodePwd = passwordEncoder.encode(member.getMemberPwd());
 		member.setMemberPwd(encodePwd);

@@ -291,7 +291,8 @@ function removeAllChildNods(el) {
 function jibun(element){
 	var address = $(element).children().eq(2).text();
 	var name = $(element).children().eq(0).text();
-	opener.document.querySelector("#memberJym").value = address + ", " + name;
+	opener.document.querySelector("#jymAddress").value = address;
+	opener.document.querySelector("#jymTitle").value = name;
 	alert("주소가 입력되었습니다.");
 	close();
 }
