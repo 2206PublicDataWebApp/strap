@@ -41,15 +41,15 @@
 		</div>
 	</div>
 <!-- 컨텐츠 -->
-	<div id="contents" class="row" style="width:80%;margin:0 auto;">
+	<div id="contents" class="row" style="width:55%; margin:50px auto;">
 		<div class="contents-side col">
 			<div id="detail-wrap" style="font-size:20px;">
 				<div id="pInfo-wrap" class="row detail ">
 					<div id="pImg" class="col" style="text-align:center;">
 						<div id="zoomImg">
-							<img id="zoom" src="${product.mainImgRoot }" width="500px" height="400px" onerror="" style="border:1px solid black">
+							<img id="zoom" src="${product.mainImgRoot }" width="400px" height="360px" onerror="" style="border:1px solid black">
 						</div>
-						<div id="onImg">
+						<div id="onImg" style="margin:5px auto;">
 							<img src="${product.mainImgRoot }" width="15%" height="80px" onerror="" onmouseover="document.querySelector('#zoom').src=this.src" style="border:1px solid black">
 							<c:forEach items="${subList }" var="subImg">
 								<img src="${subImg.subRoot }" width="15%" height="80px" onerror="" onmouseover="document.querySelector('#zoom').src=this.src" style="border:1px solid black">
@@ -97,7 +97,7 @@
 						</div>
 						<div id="btn-wrap">
 							<button type="button" onclick="loginCheck('${loginUser.memberId}',function(){addCart('${loginUser.memberId }',${product.productNo },document.querySelector('#qty').value)});">장바구니</button>
-							<button type="button">주문하기</button>
+							<button type="button" onclick="if(confirm('선택 상품을 구매하시겠습니까?')){loginCheck('${loginUser.memberId }',function(){location.href='/detail/orderView.strap?qty='+document.querySelector('#qty').value+'&productNo=${product.productNo}'});};">주문하기</button>
 						</div>
 					</div>
 				</div>
@@ -113,7 +113,7 @@
 							${product.productDesc }
 						</div>
 					</div>
-					<div id="infoImg-wrap" style="width:80%;margin:0 auto;height:600px;overflow:hidden;">
+					<div id="infoImg-wrap" style="width:90%;margin:0 auto;height:600px;overflow:hidden;">
 						<c:forEach items="${infoList }" var="info">
 							<div class="oneInfo">
 								<img src="${info.imgRoot }" width="100%">
@@ -560,8 +560,16 @@ function addCart(memberId,productNo,productAmount){
 		},
 		error:function(){}
 	});
+}
+
+//주문페이지로 이동
+function toOrderPage(){
+	
+	
 	
 }
+
+
 </script>
 </body>
 </html>

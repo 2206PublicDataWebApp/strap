@@ -3,6 +3,7 @@ package com.kh.strap.shop.product.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -21,6 +22,8 @@ import com.google.gson.Gson;
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.shop.cart.domain.Cart;
+import com.kh.strap.shop.cart.service.CartService;
 import com.kh.strap.shop.product.domain.Order;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
@@ -63,14 +66,16 @@ public class ProductController {
 	
 	@Autowired
 	ProductService pService;
+	@Autowired
+	CartService cService;
 	
 	//보충제 리스트 출력
 	@RequestMapping(value="/product/listView.strap", method=RequestMethod.GET)
 	public ModelAndView viewProductList(ModelAndView mv,
 			Search search,
-			@RequestParam(value="page",required=false)Integer currentPage) {
+			@RequestParam(value="page",required=false)Integer currentPage
+			) {
 		int page = (currentPage != null)? currentPage : 1;
-		
 		Paging paging = new Paging(pService.countAllProduct(), page, 25, 5);
 		List<Product>pList = pService.printAllProduct(paging, search);
 		mv.addObject("pList",pList).
@@ -101,12 +106,14 @@ public class ProductController {
 	//상품 상세 페이지
 	@RequestMapping(value="/product/detailView.strap", method=RequestMethod.GET)
 	public ModelAndView viewProductDetail(ModelAndView mv,
-			@ModelAttribute Product product) {
+			@ModelAttribute Product product,
+			HttpSession session) {
 		
 		Product productResult = pService.printOneProduct(product);
 		List<ProductImg> infoList = pService.printInfoImgByNo(product);
 		List<ProductImg> subList = pService.printSubImgByNo(product);
 		
+		session.setAttribute("forOrderProduct", productResult);
 		
 		mv.addObject("product",productResult).
 		addObject("infoList",infoList).
@@ -115,10 +122,35 @@ public class ProductController {
 		return mv;
 	}
 	
-	//구매(주문페이지) 이동
-	@RequestMapping(value="/orderView.strap", method=RequestMethod.GET)
-	public ModelAndView viewOrderPage(ModelAndView mv) {
-		mv.setViewName("/shop/order");
+	//상세페이지 -> 주문페이지 이동
+	@RequestMapping(value="/detail/orderView.strap", method=RequestMethod.GET)
+	public ModelAndView viewOrderPageFromDetail(ModelAndView mv,
+			@RequestParam("qty")Integer qty,
+			HttpSession session
+			) {
+		//상세페이지에서 세션에 저장된 product값을 Cart List에 담아서 주문페이지로 전달
+		Product product = (Product)session.getAttribute("forOrderProduct");
+		List<Cart> cList = new ArrayList<>();
+		Cart cart = new Cart(product,qty);
+		cList.add(cart);
+		mv.addObject("cList",cList).
+		setViewName("/shop/order");
+		return mv;
+	}
+	
+	//장바구니 -> 주문페이지 이동
+	@RequestMapping(value="/cart/orderView.strap", method=RequestMethod.GET)
+	public ModelAndView viewOrderPageFromCart(ModelAndView mv,
+			HttpSession session) {
+		//로그인한 회원의 장바구니 체크가 되어있는 상품들을 List로 가져와 주문페이지로 전달
+		//카트에 product를 담아주어야함.
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		List<Cart> cList = cService.printCheckedCart(loginUser.getMemberId());
+		cList.stream().forEach(cart->{
+			cart.setProduct((pService.printOneProduct(new Product(cart.getProductNo()))));
+		});
+		mv.addObject("cList",cList).
+		setViewName("/shop/order");
 		return mv;
 	}
 	
@@ -127,6 +159,19 @@ public class ProductController {
 	public ModelAndView orderProduct(ModelAndView mv) {
 		mv.setViewName("/shop/orderComplete");
 		return mv;
+	}
+	
+	//주문페이지에서 주소 저장 (,_)로 구분
+	@ResponseBody
+	@RequestMapping(value="/member/modifyAddr.strap",method=RequestMethod.POST)
+	public String modifyMemberAddr(
+			@ModelAttribute Member member) {
+		//없으면 저장, 있으면 변경
+		if(pService.modifyMemberAddr(member) > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
 	}
 	
 	//마이쇼핑 주문내역 리스트 출력(필터: 날짜)

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
+import com.kh.strap.member.domain.Member;
 import com.kh.strap.shop.product.domain.Order;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
@@ -181,5 +182,9 @@ public class ProductStoreLogic implements ProductStore {
 		return session.selectList("ProductMapper.selectMemberLikeList", memberId);
 	}
 
-
+	//주문페이지: 멤버 주소 ajax
+	@Override
+	public int updateMemberAddr(SqlSession session, Member member) {
+		return session.update("MemberMapper.updateMemberAddr", member);
+	}
 }

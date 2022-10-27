@@ -12,6 +12,15 @@ public class Cart {
 
 	public Cart() {
 	}
+	
+	
+	
+
+	public Cart(Product product, int productAmount) {
+		super();
+		this.product = product;
+		this.productAmount = productAmount;
+	}
 
 	public Cart(Product product, int productNo, String memberId, int productAmount, String cartCheck) {
 		super();

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
+import com.kh.strap.member.domain.Member;
 import com.kh.strap.shop.product.domain.Order;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
@@ -170,6 +171,12 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public int countMemberProductLike(ProductLike like) {
 		return pStore.selectCountMemberProductLike(session, like);
+	}
+	
+	//주문페이지: 멤버 주소 변경, 업데이트만 하면됨.
+	@Override
+	public int modifyMemberAddr(Member member) {
+		return pStore.updateMemberAddr(session, member);
 	}
 	
 
