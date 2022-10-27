@@ -102,7 +102,13 @@
 		window.open("/member/showMap.strap",null,"width=700,height=600,resizable=no");
 	}
 	function myInfo(){
-		
+		var memberCareer = '${loginUser.memberCareer}';
+		var memberSBD = '${loginUser.memberSBD}';
+		var memberJym = '${loginUser.memberJym}'.split(",");
+		var jymAddress = memberJym[0];
+		var jymTitle = memberJym[1];
+		var memberGender = '${loginUser.memberGender}';
+		var memberIntroduce = '${loginUser.memberIntroduce}';
 	}
 </script>
 </body>
