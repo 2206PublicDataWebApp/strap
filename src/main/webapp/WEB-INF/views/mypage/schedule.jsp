@@ -71,9 +71,6 @@
 						}
 					}
 				})
-				
-			]
-				
 		});
 
 		calendar.render();
