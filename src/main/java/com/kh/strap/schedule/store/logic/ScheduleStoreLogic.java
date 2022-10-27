@@ -23,4 +23,15 @@ public class ScheduleStoreLogic implements ScheduleStore{
 		return scList;
 	}
 
+	@Override
+	public int deleteSchedule(SqlSession session, Integer matchNo) {
+		int result = session.delete("ScheduleMapper.deleteSchedule", matchNo);
+		return result;
+	}
+
+	@Override
+	public int updateSchedule(SqlSession session, Schedule schedule) {
+		int result = session.update("ScheduleMapper.updateSchedule", schedule);
+		return result;
+	}
 }

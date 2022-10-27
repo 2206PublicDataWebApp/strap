@@ -13,11 +13,11 @@
 	</resultMap>
 	<select id="selectAllNoteChat" resultMap="noteChatResultMap">
 		SELECT * FROM NOTECHAT_TBL
-		WHERE CHAT_NO = #{noteNo} ORDER BY SENDER_DATE DESC
+		WHERE CHAT_NO = #{noteNo} ORDER BY SENDER_DATE ASC
 <!-- 		AND RECIPIENT_ID = 'user02' -->
   	</select>
   	<insert id="insertNoteChat">
-  		INSERT INTO NOTECHAT_TBL 
+  		INSERT INTO NOTECHAT_TBL
   		VALUES(#{noteNo}, #{senderId}, #{senderNick}, #{noteContents}, TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI'))
   	</insert>
 	

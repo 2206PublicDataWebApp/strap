@@ -74,7 +74,11 @@ public class NoteBoxController {
 	@RequestMapping(value="/mypage/noteDetailView.strap", method=RequestMethod.GET)
 	public ModelAndView showNoteDetail(ModelAndView mv, HttpServletRequest request
 			,@ModelAttribute NoteBox noteBox) {
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String memberId = member.getMemberId();
 		NoteBox nOne = nService.printOneByNo(noteBox);
+		mv.addObject("memberId", memberId);
 		mv.addObject("noteBox", nOne);
 		mv.setViewName("mypage/noteDetail");
 		return mv;
