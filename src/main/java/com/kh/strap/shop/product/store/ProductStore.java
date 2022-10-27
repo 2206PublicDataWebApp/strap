@@ -42,7 +42,7 @@ public interface ProductStore {
 		public int selectCountAdminProductSearch(SqlSession session,Search search);
 		
 //주문별 구매상품 목록 출력
-		public List<Product> selectProductsOnOrder(SqlSession session ,int orderNo);
+		public List<Product> selectProductsOnOrder(SqlSession session ,String orderNo);
 		
 //상품 상세 조회
 		public Product selectOneProduct(SqlSession session,Product product);
@@ -65,6 +65,8 @@ public interface ProductStore {
 //주문 상품 List 등록
 		public int insertOrderProducts(SqlSession session, OrderProduct orderProduct);
 		
+		public int selectGetTobePaidFinalCost(SqlSession session, String merchant_uid);
+		
 //주문 조회
 		//주문 상세 출력
 		public Order selectOneOrder(SqlSession session,Order order);
@@ -77,13 +79,13 @@ public interface ProductStore {
 		
 //주문 수정
 		//주문 완료
-		public int updatePayCompleteOrder(SqlSession session,Order order);
+		public int updatePayCompleteOrder(SqlSession session,String merchant_uid);
 		//배송 시작
-		public int updateDeliveryStartOrder(SqlSession session, Order order);
+		public int updateDeliveryStartOrder(SqlSession session, String merchant_uid);
 		//배송 완료
-		public int updateDeliveryCompleteOrder(SqlSession session,Order order);
+		public int updateDeliveryCompleteOrder(SqlSession session,String merchant_uid);
 		//주문 취소
-		public int updateCancelOrder(SqlSession session,Order order);
+		public int updateCancelOrder(SqlSession session,String merchant_uid);
 		
 		
 //찜 추가

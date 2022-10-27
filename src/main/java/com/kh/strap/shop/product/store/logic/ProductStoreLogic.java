@@ -70,7 +70,7 @@ public class ProductStoreLogic implements ProductStore {
 	
 //주문별 상품목록 조회	
 	@Override
-	public List<Product> selectProductsOnOrder(SqlSession session, int orderNo) {
+	public List<Product> selectProductsOnOrder(SqlSession session, String orderNo) {
 		return session.selectList("ProductMapper.selectProductsOnOrder", orderNo);
 	}
 	
@@ -112,6 +112,11 @@ public class ProductStoreLogic implements ProductStore {
 	public int insertOrderProducts(SqlSession session, OrderProduct orderProduct) {
 		return session.insert("OrderMapper.insertOrderProducts", orderProduct);
 	}
+//결제금액체크	
+	@Override
+	public int selectGetTobePaidFinalCost(SqlSession session, String merchant_uid) {
+		return session.selectOne("OrderMapper.selectGetToBePaidFinalCost",merchant_uid);
+	}
 	
 //주문 조회
 	@Override
@@ -139,23 +144,23 @@ public class ProductStoreLogic implements ProductStore {
 	}
 //주문 수정
 	@Override
-	public int updatePayCompleteOrder(SqlSession session, Order order) {
-		return session.update("OrderMapper.updatePayComplete", order);
+	public int updatePayCompleteOrder(SqlSession session, String merchant_uid) {
+		return session.update("OrderMapper.updatePayComplete", merchant_uid);
 	}
 	
 	@Override
-	public int updateDeliveryStartOrder(SqlSession session, Order order) {
-		return session.update("OrderMapper.updateDeliveryStart",order);
+	public int updateDeliveryStartOrder(SqlSession session, String merchant_uid) {
+		return session.update("OrderMapper.updateDeliveryStart",merchant_uid);
 	}
 
 	@Override
-	public int updateDeliveryCompleteOrder(SqlSession session, Order order) {
-		return session.update("OrderMapper.updateDeliveryComplete",order);
+	public int updateDeliveryCompleteOrder(SqlSession session, String merchant_uid) {
+		return session.update("OrderMapper.updateDeliveryComplete",merchant_uid);
 	}
 
 	@Override
-	public int updateCancelOrder(SqlSession session, Order order) {
-		return session.update("OrderMapper.updateOrderCancel",order);
+	public int updateCancelOrder(SqlSession session, String merchant_uid) {
+		return session.update("OrderMapper.updateOrderCancel",merchant_uid);
 	}
 //찜
 	//찜목록출력
@@ -195,5 +200,7 @@ public class ProductStoreLogic implements ProductStore {
 	public int updateMemberAddr(SqlSession session, Member member) {
 		return session.update("MemberMapper.updateMemberAddr", member);
 	}
+
+
 
 }

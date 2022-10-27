@@ -39,7 +39,7 @@ public interface ProductService {
 	public int countAdminProductSearch(Search search);
 	
 	//주문별 구매상품 목록 출력
-	public List<Product> printProductsOnOrder(int orderNo);
+	public List<Product> printProductsOnOrder(String orderNo);
 	
 	
 //상품 상세 조회
@@ -61,6 +61,9 @@ public interface ProductService {
 	public int registerOrder(Order order);
 	//주문 상품 List 등록
 	public int registerOrderProducts(OrderProduct orderProduct);
+	
+//결제: 결제금액과 주문 금액 체크
+	public int getTobePaidFinalCost(String merchant_uid);
 
 //주문 조회
 	//주문 상세 출력
@@ -74,13 +77,13 @@ public interface ProductService {
 	
 //주문 수정
 	//결제 완료 시 PAY_COMPLETE 'Y' UPDATE
-	public int modifyPayCompleteOrder(Order order);
+	public int modifyPayCompleteOrder(String merchant_uid);
 	//배송 시작 시 DELIVERY_START 'Y' UPDATE
-	public int modifyDeliveryStartOrder(Order order);
+	public int modifyDeliveryStartOrder(String merchant_uid);
 	//배송 완료 시 DELIVERY_COMPLETE 'Y' UPDATE
-	public int modifyDeliveryCompleteOrder(Order order);
+	public int modifyDeliveryCompleteOrder(String merchant_uid);
 	//회원 주문 취소 시 ORDER_CANCEL 'Y'
-	public int modifyCancelOrder(Order order);
+	public int modifyCancelOrder(String merchant_uid);
 	
 //찜 추가
 	//찜컨트롤 

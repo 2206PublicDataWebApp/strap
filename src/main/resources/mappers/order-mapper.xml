@@ -35,12 +35,12 @@
   	
   	<insert id="insertOrder">
   		INSERT INTO ORDER_TBL
-  		VALUES(SEQ_ORDER_NO.NEXTVAL,#{deliveryFee},#{discountAmount},#{finalCost},#{memberId},#{address},#{contactPhone},#{deliveryRequest},#{agreeYn},#{paymentMethod},#{cardKind},DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{memberNick},-1)
+  		VALUES(#{orderNo},#{deliveryFee},#{discountAmount},#{finalCost},#{memberId},#{address},#{contactPhone},#{deliveryRequest},#{agreeYn},#{paymentMethod},#{cardKind},DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{memberNick},-1)
   	</insert>
   	
   	<insert id="insertOrderProducts">
   		INSERT INTO ORDER_PRODUCT_TBL
-  		VALUES(SEQ_ORDER_NO.CURRVAL,#{productNo},#{orderQty})
+  		VALUES(#{orderNo},#{productNo},#{orderQty})
   	</insert>
   	
   	<select id="selectOneOrder" resultMap="OrderResultMap">
@@ -77,6 +77,12 @@
 			</if>	
 		</where>
 	</select>
+	
+	<select id="selectGetToBePaidFinalCost" resultType="_int">
+		SELECT FINAL_COST
+		FROM ORDER_TBL
+		WHERE ORDER_NO = #{merchant_uid}
+	</select>
   	
   	<select id="selectMemberCancelOrder" resultMap="OrderResultMap">
   		SELECT * 
@@ -111,7 +117,7 @@
   	
   	<update id="updatePayComplete">
   		UPDATE ORDER_TBL
-  		SET PAY_COMPLETE = #{payComplete}
+  		SET PAY_COMPLETE = 'Y'
   		WHERE ORDER_NO = #{orderNo}
   	</update>
   	

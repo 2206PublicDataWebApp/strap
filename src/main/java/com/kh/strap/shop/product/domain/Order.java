@@ -10,7 +10,7 @@ public class Order {
 	private List<Product> buyProducts;  	//주문 상품 정보
 	private List<OrderProduct> orderProducts; //주문 상품리스트
 	private Member member;					//주문에 멤버가 있음
-	private int orderNo;					//주문번호
+	private String orderNo;					//주문번호
 	private int payNo;						//결제번호
 	private int deliveryFee;				//배송료
 	private int discountAmount;			//할인액
@@ -32,7 +32,7 @@ public class Order {
 	
 	public Order() {}
 
-	public Order(List<Product> buyProducts, List<OrderProduct> orderProducts, Member member, int orderNo, int payNo,
+	public Order(List<Product> buyProducts, List<OrderProduct> orderProducts, Member member, String orderNo, int payNo,
 			int deliveryFee, int discountAmount, int finalCost, String memberId, String address, String contactPhone,
 			String deliveryRequest, String agreeYn, String paymentMethod, String cardKind, String payComplete,
 			String orderCancel, String deliveryStart, String deliveryComplete, String deliveryNo, Date orderDate,
@@ -86,11 +86,11 @@ public class Order {
 		this.member = member;
 	}
 
-	public int getOrderNo() {
+	public String getOrderNo() {
 		return orderNo;
 	}
 
-	public void setOrderNo(int orderNo) {
+	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
 	}
 
@@ -249,4 +249,6 @@ public class Order {
 				+ deliveryComplete + ", deliveryNo=" + deliveryNo + ", orderDate=" + orderDate + ", memberNick="
 				+ memberNick + "]";
 	}
+
+	
 }

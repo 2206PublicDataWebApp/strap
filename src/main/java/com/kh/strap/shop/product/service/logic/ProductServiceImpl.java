@@ -70,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
 
 //주문별 상품목록 조회
 	@Override
-	public List<Product> printProductsOnOrder(int orderNo) {
+	public List<Product> printProductsOnOrder(String orderNo) {
 		return pStore.selectProductsOnOrder(session, orderNo);
 	}
 
@@ -108,6 +108,12 @@ public class ProductServiceImpl implements ProductService {
 	public int registerOrderProducts(OrderProduct orderProduct) {
 		return pStore.insertOrderProducts(session, orderProduct);
 	}
+//결제금액 체크	
+	@Override
+	public int getTobePaidFinalCost(String merchant_uid) {
+		return pStore.selectGetTobePaidFinalCost(session, merchant_uid);
+	}
+	
 //주문 조회
 	@Override
 	public Order printOneOrder(Order order) {
@@ -134,20 +140,20 @@ public class ProductServiceImpl implements ProductService {
 	
 //주문 수정
 	@Override
-	public int modifyPayCompleteOrder(Order order) {
-		return pStore.updatePayCompleteOrder(session, order);
+	public int modifyPayCompleteOrder(String merchant_uid) {
+		return pStore.updatePayCompleteOrder(session, merchant_uid);
 	}
 	@Override
-	public int modifyDeliveryStartOrder(Order order) {
-		return pStore.updateDeliveryStartOrder(session, order);
+	public int modifyDeliveryStartOrder(String merchant_uid) {
+		return pStore.updateDeliveryStartOrder(session, merchant_uid);
 	}
 	@Override
-	public int modifyDeliveryCompleteOrder(Order order) {
-		return pStore.updateDeliveryCompleteOrder(session, order);
+	public int modifyDeliveryCompleteOrder(String merchant_uid) {
+		return pStore.updateDeliveryCompleteOrder(session, merchant_uid);
 	}
 	@Override
-	public int modifyCancelOrder(Order order) {
-		return pStore.updateCancelOrder(session, order);
+	public int modifyCancelOrder(String merchant_uid) {
+		return pStore.updateCancelOrder(session, merchant_uid);
 	}
 //찜
 	//찜목록출력
@@ -184,6 +190,7 @@ public class ProductServiceImpl implements ProductService {
 	public int modifyMemberAddr(Member member) {
 		return pStore.updateMemberAddr(session, member);
 	}
+
 
 	
 

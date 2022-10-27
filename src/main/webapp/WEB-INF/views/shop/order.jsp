@@ -138,20 +138,13 @@
 						
 					</div>
 					<div id="cardInfo" class="distict guideMenu"  style="border-bottom:1px solid #c0c0c0;width:80%;">
-						<div><h3>신용카드 정보</h3></div>
-						카드사선택
-						<select>
-							<option>KB국민카드</option>
-							<option>신한카드</option>
-							<option>현대카드</option>
-							<option>삼성카드</option>
-							<option>우리카드</option>
-							<option>롯데카드</option>
-							<option>NH농협카드</option>
-							<option>하나카드</option>
-							<option>비씨카드</option>
-							<option>씨티카드</option>
-						</select>
+						<div id="card-guide" style="background-color:rgb(230,230,230);padding:20px;">
+							<h4>신용카드 결제 안내</h4>
+								<ul>
+									<li>안내1</li>
+									<li>안내2</li>
+								</ul>
+						</div>
 					</div>
 					<div id="rBankInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
 						<div id="rBanking-guide" style="background-color:rgb(230,230,230);padding:20px;">
@@ -172,10 +165,16 @@
 						</div>
 					</div>
 					<div id="kakaoInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
-						<div><h3>카카오페이 안내</h3></div>
+						<div id="kakaopay-guide" style="background-color:rgb(230,230,230);padding:20px;">
+							<h4>카카오페이 안내</h4>
+								<ul>
+									<li>안내1</li>
+									<li>안내2</li>
+								</ul>
+						</div>
 					</div>
 					<div id="naverInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
-						<div id="rBanking-guide" style="background-color:rgb(230,230,230);padding:20px;">
+						<div id="naverpay-guide" style="background-color:rgb(230,230,230);padding:20px;">
 							<h4>네이버페이 혜택 안내</h4>
 								<ul>
 									<li>네이버쇼핑을 통해 방문 시 1% 적립(그 외 0.2%)</li>
@@ -247,7 +246,7 @@ function kginisis(){
 		IMP.request_pay({
 				    pg : 'html5_inicis', 
 				    pay_method : paymentMethod,
-				    merchant_uid : 'merchant_' + new Date().getTime(),
+				    merchant_uid : orderNo,
 				    name : orderProductName /*상품명*/,
 				    amount : 100 /*상품 가격*/, 
 				    buyer_email : memberEmail /*구매자 이메일*/,
@@ -258,24 +257,26 @@ function kginisis(){
 				}, function(rsp) {
 					var result = '';
 				    if ( rsp.success ) {
+				    	console.log(rsp);
 				        var msg = '결제가 완료되었습니다.';
 				        msg += '고유ID : ' + rsp.imp_uid;
 				        msg += '상점 거래ID : ' + rsp.merchant_uid;
 				        msg += '결제 금액 : ' + rsp.paid_amount;
 				        msg += '카드 승인번호 : ' + rsp.apply_num;
-				        result ='0';
-				        
-				        
 				        $.ajax({
-				            url: "{서버의 결제 정보를 받는 endpoint}", // 예: https://www.myservice.com/payments/complete
+				            url: "/order/payment/completeCheck.strap", // 예: https://www.myservice.com/payments/complete
 				            method: "POST",
 				            headers: { "Content-Type": "application/json" },
 				            data: {
 				                imp_uid: rsp.imp_uid,
-				                merchant_uid: rsp.merchant_uid
+				                merchant_uid: rsp.merchant_uid,
+				                paid_amount:rsp.paid_amount,
+				                status:rsp.status
 				            },
 				            success:function(result){
 				            	 // 가맹점 서버 결제 API 성공시 로직
+				            	 //결제 성공 시 페이지 이동
+// 				    	location.href= $.getContextPath()+"/Cart/Success";
 				            },
 				            error:function(){}
 				        });
@@ -283,11 +284,6 @@ function kginisis(){
 				    } else {
 				        var msg = '결제에 실패하였습니다.';
 				        msg += '에러내용 : ' + rsp.error_msg;
-				        result ='1';
-				    }
-				    if(result=='0') {
-				    	//결제 성공 시 페이지 이동
-// 				    	location.href= $.getContextPath()+"/Cart/Success";
 				    }
 				    alert(msg);
 				});
@@ -431,7 +427,7 @@ if('${cList.size()}' > 1){
 }
 
 var ordererName='${loginUser.memberName}';
-var deliveryRequest = document.querySelector("#deliveryRequest").value;
+var deliveryRequest = "";
 var agreeYn;
 var paymentMethod = "";//guideMenuVisible()에서 초기화
 var cardKind;
@@ -444,7 +440,7 @@ var deliveryComplete;
 var deliveryNo;
 var orderDate;
 //////////////////ORDER_PRODUCT_TBL에 넣을 값들 셋팅
-var orderNo;
+var orderNo = ""; // insertOrder()에서 초기화
 var productNo;
 var orderQty;
 
@@ -477,19 +473,23 @@ function insertOrder(){
 	//deliveryFee,couponNo,discountAmount,finalCost,memberId,address,contactPhone,
 	//deliveryRequest,agreeYn,paymentMethod,
 	//주문 상품들 배열을 서버로 보내주어야함.
+	orderNo = (new Date().getFullYear())+""+(new Date().getMonth()+1) +(new Date().getDate())+new Date().getTime()+Math.floor(Math.random()*99);
+	
+	
 	var jsonArr = new Array();
 	<c:forEach items="${cList }" var="cart" varStatus="n" >
 		var jsonTemp = new Object();
-		jsonTemp.orderQty =${cart.productAmount};
+		deliveryRequest = document.querySelector("#deliveryRequest").value;
+		jsonTemp.orderNo = orderNo;
 		jsonTemp.productNo =${cart.productNo};
-// 		jsonTemp = JSON.stringify(jsonTemp);
+		jsonTemp.orderQty =${cart.productAmount};
 		jsonArr.push(jsonTemp);
 	</c:forEach>
 	jsonArr = JSON.stringify(jsonArr);
-	
 	$.ajax({
 		url:"/order/record.strap",
 		data:{
+			"orderNo":orderNo,
 			"jsonArr":jsonArr,
 			"finalCost":finalCost,
 			"deliveryFee":deliveryFee,
@@ -507,7 +507,6 @@ function insertOrder(){
 			if(result=="success"){
 				alert("주문레코드insert완료");
 			}else{
-				
 			}
 		},
 		error:function(){}

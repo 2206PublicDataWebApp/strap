@@ -158,11 +158,31 @@ public class ProductController {
 		return mv;
 	}
 	
-	//주문페이지->결제
-	@RequestMapping(value="/order/payment.strap", method=RequestMethod.GET)
-	public ModelAndView orderProduct(ModelAndView mv) {
-		mv.setViewName("/shop/orderComplete");
-		return mv;
+	//주문페이지->결제검증
+	@ResponseBody
+	@RequestMapping(value="/order/payment/completeCheck.strap", method=RequestMethod.POST)
+	public String orderProduct(
+			@RequestParam("imp_uid")String imp_uid,
+			@RequestParam("merchant_uid")String merchant_uid,
+			@RequestParam("paid_amount")Integer paid_amount,
+			@RequestParam("status")String status) {
+		
+		if(paid_amount == pService.getTobePaidFinalCost(merchant_uid)) {
+			//주문테이블 수정 결제완료 'Y'
+			pService.modifyPayCompleteOrder(merchant_uid);
+				if(status.equals("paid")) {
+					return "{ status: 'success', message: '일반 결제 성공' }";
+					
+				}else if(status.equals("ready")) {
+					//db에 가상계좌 정보 저장?
+					return "{ status: 'vbankIssued', message: '가상계좌 발급 성공' }";
+				}else {
+					return "";
+				}
+			}else {
+			//결제금액과 결제되어야 할 금액이 다름! 결제금액 불일치, 위변조 결제
+			return "{ status: 'forgery', message: '위조된 결제시도' }";
+		}
 	}
 	
 	//주문 레코드 INSERT AJAX
@@ -170,10 +190,11 @@ public class ProductController {
 	@RequestMapping(value="/order/record.strap",method=RequestMethod.POST)
 	public String registerOrderRecord(
 			@ModelAttribute Order order,
-			@RequestParam("jsonArr") String jsonArr) {
-		System.out.println(jsonArr);
+			@RequestParam("jsonArr") String jsonArr,
+			@RequestParam("orderNo") String orderNo) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
+			order.setOrderNo(orderNo);
 			if(pService.registerOrder(order)>0) {
 				//json배열을 자바의 List로 변경하고 이를 이용하여 DB에 INSERT한다.
 				List<OrderProduct> opList =objectMapper.readValue(jsonArr, objectMapper.getTypeFactory().constructCollectionType(List.class, OrderProduct.class));
