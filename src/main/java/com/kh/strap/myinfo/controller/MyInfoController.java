@@ -176,7 +176,7 @@ public class MyInfoController {
 		Member member = new Member();
 		member.setMemberId(memberId);
 		member.setMemberIntroduce(memberIntroduce);
-		int result = mService.changeSBD(member);
+		int result = mService.changeIntroduce(member);
 		if(result==1) {
 			//바로 적용을 위해 변경된 닉네임으로 세션 다시 저장
 			session = request.getSession();
@@ -211,14 +211,22 @@ public class MyInfoController {
 			return "no";
 		}
 	}
-	
+	/**
+	 * 프로필 사진 변경
+	 * @param session
+	 * @param request
+	 * @param memberId
+	 * @param uploadFile
+	 * @param defaultImg
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/member/profileImg.strap", method = RequestMethod.POST)
 	public String modifProfileImg(
 			HttpSession session
 			,HttpServletRequest request
 			,@RequestParam("memberId") String memberId
-			,@RequestParam("mProfileName") MultipartFile uploadFile
+			,@RequestParam(value="mProfileName") MultipartFile uploadFile
 			) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "\\profileUploadFiles";
@@ -236,15 +244,45 @@ public class MyInfoController {
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(savePath);
-		System.out.println(mProfileName);
-		System.out.println(mProfileRename);
-		System.out.println(mProfilePath);
 		Member member = mService.memberById(memberId);
 		member.setmProfileName(mProfileName);
 		member.setmProfileRename(mProfileRename);
 		member.setmProfilePath(mProfilePath);
 		int result = mService.changeImg(member);
-		return "ok";
+		if(result==1) {
+			//변경한 프로필로 세션 다시 저장
+			session.setAttribute("loginUser", member);
+			return "ok";
+		} else {
+			return "no";
+		}
 	}
+	
+	/**
+	 * 프로필 기본 이미지로 변경 (null)
+	 * @param session
+	 * @param request
+	 * @param defaultImg
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/member/profileDefaultImg.strap", method = RequestMethod.POST)
+	public String modifDefaultProfileImg(
+			HttpSession session
+			,HttpServletRequest request
+			,@RequestParam(value="defaultImg") String defaultImg
+			) {
+		Member member = (Member)session.getAttribute("loginUser");
+		member.setmProfileName(null);
+		member.setmProfileRename(null);
+		member.setmProfilePath(null);
+		int result = mService.changeImg(member);
+		if(result==1) {
+			return "ok";
+		}else {
+			return "no";
+		}
+	}
+	
+	
 }

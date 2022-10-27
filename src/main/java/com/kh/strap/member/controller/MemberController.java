@@ -102,8 +102,13 @@ public class MemberController {
 	 */
 	@RequestMapping(value="/member/register.strap", method=RequestMethod.POST)
 	public String insertMember(
-			@ModelAttribute Member member) {
+			@ModelAttribute Member member
+			,String jymAddress
+			,String jymTitle
+			) {
+		String memberJym = jymAddress +"," +jymTitle;
 		System.out.println(member.toString());
+		member.setMemberJym(memberJym);
 		String rawPwd = member.getMemberPwd();
 		String encodePwd = passwordEncoder.encode(member.getMemberPwd());
 		member.setMemberPwd(encodePwd);
@@ -293,11 +298,10 @@ public class MemberController {
 		  sb.append(charSet[idx]);
 		}
 		//임시 비밀번호로 테이블 변경
-		System.out.println(sb);
+		String memberPwd = passwordEncoder.encode(sb.toString());
 		Member member = new Member();
 		member.setMemberId(memberId);
-		member.setMemberPwd(sb.toString());
-		System.out.println(member);
+		member.setMemberPwd(memberPwd);
 		int result = mService.changePwd(member);
 		//이메일 발송
 		String subject = "[스트랩] 임시 비밀번호 전송";

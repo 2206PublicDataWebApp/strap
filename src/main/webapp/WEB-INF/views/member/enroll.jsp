@@ -90,9 +90,11 @@
 			<input type="radio" id="memberGender" name="memberGender" value="M" checked>Male
 			<input type="radio" id="memberGender" name="memberGender" value="F">Female<br><br>
 		
-			<label for="memberJym">마이 짐</label><br>
-			<input type="text" id="memberJym" name="memberJym" size="35"><button type="button" class="btn btn-primary" onclick="showMap();">검색</button><br><br>
-			<button class="btn btn-primary" onclick="return loginCheck();">가입하기</button>
+			<label>마이 짐</label><br>
+			<input type="text" id="jymAddress" name="jymAddress" style="width: 280px;">
+			<input type="text" id="jymTitle" name="jymTitle" style="width: 216px;">
+			<button type="button" class="btn btn-dark" onclick="showMap();">검색</button><br><br>
+			<button class="btn btn-dark" onclick="return loginCheck();">가입하기</button>
 			<br><br><br>
 		</form>
 	</div>

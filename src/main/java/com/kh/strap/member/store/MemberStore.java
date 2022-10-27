@@ -45,4 +45,6 @@ public interface MemberStore {
 
 	int changeImg(SqlSession session, Member member);
 
+	int changeIntroduce(SqlSession session, Member member);
+
 }
