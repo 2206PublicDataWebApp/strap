@@ -31,9 +31,9 @@ public class NoteBoxServiceImpl implements NoteBoxService {
 	}
 
 	@Override
-	public NoteBox printOneByNo(Integer noteNo) {
-		NoteBox noteBox = nStore.selectOneByNo(session, noteNo);
-		return noteBox;
+	public NoteBox printOneByNo(NoteBox noteBox) {
+		NoteBox nOne = nStore.selectOneByNo(session, noteBox);
+		return nOne;
 	}
 	
 }

@@ -8,5 +8,5 @@ import com.kh.strap.notebox.domain.NoteBox;
 public interface NoteBoxService {
 	public int getTotalCount(String searchCondition, String searchValue);
 	public List<NoteBox> printNoteBoxList(String memberId, int currentPage, int noticeLimit);
-	public NoteBox printOneByNo(Integer noteNo);
+	public NoteBox printOneByNo(NoteBox noteBox);
 }

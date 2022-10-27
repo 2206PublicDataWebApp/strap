@@ -23,7 +23,7 @@ a:hover{
 	<ul class="list-group">
 		<li class="sideBar-list list-group-item list-group-item-action"><a href="/mypage/mypageView.strap">마이페이지</a></li>
 		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/noteBoxListView.strap'">쪽지함</a></li>
-		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/scheduleListView.strap'">캘린더</a></li>
+		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/scheduleView.strap'">캘린더</a></li>
 		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/myinfoView.strap'">정보조회</a></li>
 		<li class="sideBar-list list-group-item list-group-item-action"><a href="www.google.com">장바구니</a></li>
 		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/qnaView.strap'">문의</a></li>
