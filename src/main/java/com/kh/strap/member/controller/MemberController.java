@@ -132,7 +132,8 @@ public class MemberController {
 		System.out.println(passwordEncoder.matches(memberPwd, encodePwd));
 		
 		if(passwordEncoder.matches(memberPwd, encodePwd)) {
-			//로그인 시 닉네임으로 세션 등록
+			//로그인 시 최근 접속일 갱신 및 세션등록
+			mService.updateLastDate(memberId);
 			Member member = mService.memberById(memberId);
 			member.setMemberPwd(null);
 			HttpSession session = request.getSession();

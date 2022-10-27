@@ -45,5 +45,7 @@ public interface MemberService {
 
 	int changeIntroduce(Member member);
 
+	void updateLastDate(String memberId);
+
 
 }

@@ -127,4 +127,10 @@ public class MemberStoreLogic implements MemberStore{
 		return result;
 	}
 
+	@Override
+	public void updateLastDate(SqlSession session, String memberId) {
+		session.update("MemberMapper.updateLastDate",memberId);
+		
+	}
+
 }

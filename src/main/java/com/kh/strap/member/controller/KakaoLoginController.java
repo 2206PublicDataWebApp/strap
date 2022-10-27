@@ -42,6 +42,11 @@ public class KakaoLoginController {
 			,HttpServletRequest request) {
 		String access_token = kService.getToken(code);
 		Map<String, Object> userInfo = kService.getUserInfo(access_token);
+		//에러처리, 회원가입 중 새로고침 시 로그인페이지로 이동 
+		if(userInfo == null || userInfo.isEmpty()) {
+			mv.setViewName("redirect:/member/loginView.strap");
+			return mv;
+		}
 		String memberId = (String)userInfo.get("memberId");
 		int result = mService.kakaoMembercheck(memberId);
 		

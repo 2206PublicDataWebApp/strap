@@ -4,9 +4,48 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace= "MatchMapper">
-<!--   	<resultMap type= "Match" id=""> -->
-<!--   		<id property="" column=""/> -->
-<!--   		<result property="" column=""/> -->
-<!--   		<result property="" column=""/> -->
-<!--   	</resultMap> -->
+	<resultMap type="Member" id="MemberResultMap">
+  		<id property="memberId" 			column="MEMBER_ID"/>
+  		<result property="memberPwd" 		column="MEMBER_PWD"/>
+  		<result property="memberName" 		column="MEMBER_NAME"/>
+  		<result property="memberEmail"		column="MEMBER_EMAIL"/>
+  		<result property="memberGender"		column="MEMBER_GENDER"/>
+  		<result property="memberNick" 		column="MEMBER_NICK"/>
+  		<result property="memberJym"		column="MEMBER_JYM"/>
+  		<result property="memberCareer" 	column="MEMBER_CAREER"/>
+  		<result property="memberSBD" 		column="MEMBER_SBD"/>
+  		<result property="mProfileName" 	column="M_PROFILE_NAME"/>
+  		<result property="mProfileRename" 	column="M_PROFILE_RENAME"/>
+  		<result property="mProfilePath" 	column="M_PROFILE_PATH"/>
+  		<result property="mRegisterDate" 	column="M_REGISTER_DATE"/>
+  		<result property="memberStatus" 	column="MEMBER_STATUS"/>
+  		<result property="adminStatus" 		column="ADMIN_STATUS"/>
+  		<result property="memberManner"		column="MEMBER_MANNER"/>
+  		<result property="memberType"		column="MEMBER_TYPE"/>
+  		<result property="memberIntroduce"		column="MEMBER_INTRODUCE"/>
+  		<result property="memberAddress"		column="MEMBER_ADDRESS"/>
+  	</resultMap>
+  	
+<!--   	<select id="sameMember" resultMap="MemberResultMap"> -->
+  	
+<!--   	</select> -->
+  	<select id="sameMember" resultMap="MemberResultMap">
+  	
+  	</select>
+  	<select id="localMember" resultMap="MemberResultMap">
+	  	SELECT * FROM
+	  	(SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER,
+	  	RANK() OVER(ORDER BY M_LAST_DATE DESC) RANK FROM MEMBER_TBL WHERE MEMBER_JYM LIKE '%'||'부천시'||'%')
+		WHERE ROWNUM <![CDATA[<]]> 6
+<!-- 		AND ROWNUM &lt; 6 -->
+  	</select>
+<!--   	<select id="SBDMember" resultMap="MemberResultMap"> -->
+  	
+<!--   	</select> -->
+<!--   	<select id="careerMember" resultMap="MemberResultMap"> -->
+  	
+<!--   	</select> -->
+<!--   	<select id="genderMember" resultMap="MemberResultMap"> -->
+  	
+<!--   	</select> -->
 </mapper>
