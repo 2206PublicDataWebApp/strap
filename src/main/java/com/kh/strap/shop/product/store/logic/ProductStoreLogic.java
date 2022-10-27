@@ -10,6 +10,7 @@ import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.shop.product.domain.Order;
+import com.kh.strap.shop.product.domain.OrderProduct;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.domain.ProductLike;
@@ -18,6 +19,7 @@ import com.kh.strap.shop.product.store.ProductStore;
 @Repository
 public class ProductStoreLogic implements ProductStore {
 
+	
 //상품 등록
 	@Override
 	public int insertProduct(SqlSession session, Product product) {
@@ -105,6 +107,12 @@ public class ProductStoreLogic implements ProductStore {
 	public int insertOrder(SqlSession session, Order order) {
 		return session.insert("OrderMapper.insertOrder", order);
 	}
+//주문 상품 List 등록
+	@Override
+	public int insertOrderProducts(SqlSession session, OrderProduct orderProduct) {
+		return session.insert("OrderMapper.insertOrderProducts", orderProduct);
+	}
+	
 //주문 조회
 	@Override
 	public Order selectOneOrder(SqlSession session, Order order) {
@@ -187,4 +195,5 @@ public class ProductStoreLogic implements ProductStore {
 	public int updateMemberAddr(SqlSession session, Member member) {
 		return session.update("MemberMapper.updateMemberAddr", member);
 	}
+
 }

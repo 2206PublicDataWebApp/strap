@@ -7,9 +7,7 @@
   
   	<resultMap type="Order" id="OrderResultMap">
 		<id	 	column="ORDER_NO" 				property="orderNo"/>  	
-		<result column="PRODUCT_NO" 			property="productNo"/>
 		<result column="DELIVERY_FEE" 			property="deliveryFee"/>
-		<result column="COUPON_NO" 				property="couponNo"/>
 		<result column="DISCOUNT_AMOUNT" 		property="discountAmount"/>
 		<result column="FINAL_COST" 			property="finalCost"/>
 		<result column="MEMBER_ID" 				property="memberId"/>
@@ -19,16 +17,13 @@
 		<result column="AGREE_YN" 				property="agreeYn"/>
 		<result column="PAYMENT_METHOD" 		property="paymentMethod"/>
 		<result column="CARD_KIND" 				property="cardKind"/>
-		<result column="MONTHLY_PAY" 			property="monthlyPay"/>
-		<result column="BANK_KIND" 				property="bankKind"/>
-		<result column="BANK_PAYER_NAME" 		property="bankPayerName"/>
 		<result column="PAY_COMPLETE" 			property="payComplete"/>
 		<result column="ORDER_CANCEL" 			property="orderCancel"/>
-		<result column="ORDER_BACK" 			property="orderBack"/>
 		<result column="DELIVERY_START" 		property="deliveryStart"/>
 		<result column="DELIVERY_COMPLETE"	    property="deliveryComplete"/>
 		<result column="DELIVERY_NO" 			property="deliveryNo"/>
 		<result column="ORDER_DATE" 			property="orderDate"/>
+		<result column="MEMBER_NICK"			property="memberNick"/>
 		<result column="PAY_NO" 				property="payNo"/>
   	</resultMap>
   	<resultMap type="OrderProduct" id="OrderProductResultMap">
@@ -40,7 +35,12 @@
   	
   	<insert id="insertOrder">
   		INSERT INTO ORDER_TBL
-  		VALUES(SEQ_ORDER_NO.NEXTVAL)
+  		VALUES(SEQ_ORDER_NO.NEXTVAL,#{deliveryFee},#{discountAmount},#{finalCost},#{memberId},#{address},#{contactPhone},#{deliveryRequest},#{agreeYn},#{paymentMethod},#{cardKind},DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{memberNick},-1)
+  	</insert>
+  	
+  	<insert id="insertOrderProducts">
+  		INSERT INTO ORDER_PRODUCT_TBL
+  		VALUES(SEQ_ORDER_NO.CURRVAL,#{productNo},#{orderQty})
   	</insert>
   	
   	<select id="selectOneOrder" resultMap="OrderResultMap">

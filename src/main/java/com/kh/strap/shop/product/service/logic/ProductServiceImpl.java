@@ -10,6 +10,7 @@ import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.shop.product.domain.Order;
+import com.kh.strap.shop.product.domain.OrderProduct;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.domain.ProductLike;
@@ -102,6 +103,11 @@ public class ProductServiceImpl implements ProductService {
 	public int registerOrder(Order order) {
 		return pStore.insertOrder(session, order);
 	}
+//주문 상품 List 등록
+	@Override
+	public int registerOrderProducts(OrderProduct orderProduct) {
+		return pStore.insertOrderProducts(session, orderProduct);
+	}
 //주문 조회
 	@Override
 	public Order printOneOrder(Order order) {
@@ -178,6 +184,7 @@ public class ProductServiceImpl implements ProductService {
 	public int modifyMemberAddr(Member member) {
 		return pStore.updateMemberAddr(session, member);
 	}
+
 	
 
 

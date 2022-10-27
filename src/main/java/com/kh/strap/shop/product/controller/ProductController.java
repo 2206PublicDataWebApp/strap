@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
@@ -25,6 +28,7 @@ import com.kh.strap.member.domain.Member;
 import com.kh.strap.shop.cart.domain.Cart;
 import com.kh.strap.shop.cart.service.CartService;
 import com.kh.strap.shop.product.domain.Order;
+import com.kh.strap.shop.product.domain.OrderProduct;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.domain.ProductLike;
@@ -161,6 +165,32 @@ public class ProductController {
 		return mv;
 	}
 	
+	//주문 레코드 INSERT AJAX
+	@ResponseBody
+	@RequestMapping(value="/order/record.strap",method=RequestMethod.POST)
+	public String registerOrderRecord(
+			@ModelAttribute Order order,
+			@RequestParam("jsonArr") String jsonArr) {
+		System.out.println(jsonArr);
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			if(pService.registerOrder(order)>0) {
+				//json배열을 자바의 List로 변경하고 이를 이용하여 DB에 INSERT한다.
+				List<OrderProduct> opList =objectMapper.readValue(jsonArr, objectMapper.getTypeFactory().constructCollectionType(List.class, OrderProduct.class));
+				opList.stream().forEach(orderProduct ->{
+					pService.registerOrderProducts(orderProduct);
+				});
+				return "success";
+			}else {
+				return "fail";
+			}
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		} 
+		return "fail";
+	}
 	//주문페이지에서 주소 저장 (,_)로 구분
 	@ResponseBody
 	@RequestMapping(value="/member/modifyAddr.strap",method=RequestMethod.POST)

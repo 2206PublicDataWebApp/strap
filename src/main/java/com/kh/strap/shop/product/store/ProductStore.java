@@ -8,6 +8,7 @@ import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.shop.product.domain.Order;
+import com.kh.strap.shop.product.domain.OrderProduct;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.domain.ProductLike;
@@ -61,7 +62,8 @@ public interface ProductStore {
 		
 //주문 등록
 		public int insertOrder(SqlSession session,Order order);
-		
+//주문 상품 List 등록
+		public int insertOrderProducts(SqlSession session, OrderProduct orderProduct);
 		
 //주문 조회
 		//주문 상세 출력
