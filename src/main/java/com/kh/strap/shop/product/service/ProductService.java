@@ -84,6 +84,9 @@ public interface ProductService {
 	public int modifyDeliveryCompleteOrder(String merchant_uid);
 	//회원 주문 취소 시 ORDER_CANCEL 'Y'
 	public int modifyCancelOrder(String merchant_uid);
+	//가상계좌 등록
+	public int modifyVBankInfo(Order order);
+	
 	
 //찜 추가
 	//찜컨트롤 

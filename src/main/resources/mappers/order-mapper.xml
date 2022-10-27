@@ -25,6 +25,10 @@
 		<result column="ORDER_DATE" 			property="orderDate"/>
 		<result column="MEMBER_NICK"			property="memberNick"/>
 		<result column="PAY_NO" 				property="payNo"/>
+		<result column="VBANK_DUEDATE" 			property="vBankDueDate"/>
+		<result column="VBANK_HOLDER" 			property="vBankHolder"/>
+		<result column="VBANK_NAME" 			property="vBankName"/>
+		<result column="VBANK_NUM" 				property="vBankNum"/>
   	</resultMap>
   	<resultMap type="OrderProduct" id="OrderProductResultMap">
   		<id 	column="ORDER_NO" 		property="orderNo"/>
@@ -35,13 +39,19 @@
   	
   	<insert id="insertOrder">
   		INSERT INTO ORDER_TBL
-  		VALUES(#{orderNo},#{deliveryFee},#{discountAmount},#{finalCost},#{memberId},#{address},#{contactPhone},#{deliveryRequest},#{agreeYn},#{paymentMethod},#{cardKind},DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{memberNick},-1)
+  		VALUES(#{orderNo},#{deliveryFee},#{discountAmount},#{finalCost},#{memberId},#{address},#{contactPhone},#{deliveryRequest},#{agreeYn},#{paymentMethod},#{cardKind},DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{memberNick},-1,#{vBankDueDate},#{vBankHolder},#{vBankName},#{vBankNum})
   	</insert>
   	
   	<insert id="insertOrderProducts">
   		INSERT INTO ORDER_PRODUCT_TBL
   		VALUES(#{orderNo},#{productNo},#{orderQty})
   	</insert>
+  	
+  	<update id="updateVBankInfo">
+  		UPDATE ORDER_TBL 
+  		SET VBANK_DUEDATE = #{vBankDueDate},VBANK_HOLDER= #{vBankHolder}, VBANK_NAME=#{vBankName},VBANK_NUM=#{vBankNum}
+  		WHERE ORDER_NO = #{orderNo}
+  	</update>
   	
   	<select id="selectOneOrder" resultMap="OrderResultMap">
   		SELECT *

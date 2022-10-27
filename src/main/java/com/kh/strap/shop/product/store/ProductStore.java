@@ -86,7 +86,7 @@ public interface ProductStore {
 		public int updateDeliveryCompleteOrder(SqlSession session,String merchant_uid);
 		//주문 취소
 		public int updateCancelOrder(SqlSession session,String merchant_uid);
-		
+		public int updateVBankInfo(SqlSession session,Order order);
 		
 //찜 추가
 		//찜 등록

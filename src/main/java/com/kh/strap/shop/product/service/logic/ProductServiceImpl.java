@@ -155,6 +155,11 @@ public class ProductServiceImpl implements ProductService {
 	public int modifyCancelOrder(String merchant_uid) {
 		return pStore.updateCancelOrder(session, merchant_uid);
 	}
+	@Override
+	public int modifyVBankInfo(Order order) {
+		return pStore.updateVBankInfo(session, order);
+	}
+	
 //찜
 	//찜목록출력
 	@Override
@@ -190,6 +195,7 @@ public class ProductServiceImpl implements ProductService {
 	public int modifyMemberAddr(Member member) {
 		return pStore.updateMemberAddr(session, member);
 	}
+
 
 
 	

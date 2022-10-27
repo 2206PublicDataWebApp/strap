@@ -162,6 +162,12 @@ public class ProductStoreLogic implements ProductStore {
 	public int updateCancelOrder(SqlSession session, String merchant_uid) {
 		return session.update("OrderMapper.updateOrderCancel",merchant_uid);
 	}
+	@Override
+	public int updateVBankInfo(SqlSession session, Order order) {
+		return session.update("OrderMapper.updateVBankInfo",order);
+	}
+	
+	
 //찜
 	//찜목록출력
 	@Override
@@ -200,6 +206,8 @@ public class ProductStoreLogic implements ProductStore {
 	public int updateMemberAddr(SqlSession session, Member member) {
 		return session.update("MemberMapper.updateMemberAddr", member);
 	}
+
+
 
 
 

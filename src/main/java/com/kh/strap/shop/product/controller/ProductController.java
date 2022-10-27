@@ -165,7 +165,8 @@ public class ProductController {
 			@RequestParam("imp_uid")String imp_uid,
 			@RequestParam("merchant_uid")String merchant_uid,
 			@RequestParam("paid_amount")Integer paid_amount,
-			@RequestParam("status")String status) {
+			@RequestParam("status")String status,
+			@ModelAttribute Order order){
 		
 		if(paid_amount == pService.getTobePaidFinalCost(merchant_uid)) {
 			//주문테이블 수정 결제완료 'Y'
@@ -175,6 +176,9 @@ public class ProductController {
 					
 				}else if(status.equals("ready")) {
 					//db에 가상계좌 정보 저장?
+					order.setOrderNo(merchant_uid);
+					pService.modifyVBankInfo(order);
+					
 					return "{ status: 'vbankIssued', message: '가상계좌 발급 성공' }";
 				}else {
 					return "";
