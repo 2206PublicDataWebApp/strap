@@ -45,7 +45,14 @@
 			},
 			eventClick : function(arg) {
 				if (confirm('정말 일정을 삭제하시겠습니까?\n(※상대방과 합의되지 않은 결정은 후기에 불이익이 있을 수 있습니다.)')) {
-					arg.event.remove()
+					$.ajax({
+						type : "post",
+						url : "/mypage/scheduleList.strap",
+						success : function(response){
+							window.location.reload()
+							}
+						}
+					})
 				}
 			},
 			editable : true,

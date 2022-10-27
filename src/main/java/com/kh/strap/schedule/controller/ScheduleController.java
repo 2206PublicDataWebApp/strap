@@ -82,4 +82,12 @@ public class ScheduleController {
 	}
 	
 	
+	// 일정 삭제
+	@ResponseBody
+	@RequestMapping(value="/schedule/removeSchedule.strap", method=RequestMethod.POST)
+	public String removeSchedule(@ModelAttribute Schedule schedule) {
+		return "ffjfjdsfdfsdf";
+	}
+	
+	
 }
