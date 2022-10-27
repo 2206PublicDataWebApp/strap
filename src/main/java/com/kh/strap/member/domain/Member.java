@@ -21,7 +21,7 @@ public class Member {
 	private String adminStatus;		//15.관리자 상태
 	private int memberManner;		//16.매너 점수
 	private String memberType;		//17.회원 종류
-	private String memberIntroduce;	//18.회원 종류
+	private String memberIntroduce;	//18.회원 소개
 	private String memberAddress;	//19.회원 주소
 
 	
