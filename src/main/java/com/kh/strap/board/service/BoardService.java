@@ -1,6 +1,7 @@
 package com.kh.strap.board.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kh.strap.board.domain.Board;
 import com.kh.strap.board.domain.BoardReply;
@@ -36,7 +37,6 @@ public interface BoardService {
 	// 게시글 삭제
 	public int removeOneByNo(int boardNo);
 	
-	// 댓글
 	// 댓글 등록
 	public int registerReply(BoardReply bReply);
 	

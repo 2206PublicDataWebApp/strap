@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -375,13 +377,8 @@ public class BoardController {
 			return "common/errorPage";
 		}
 	}
-	
-	/**
-	 * 댓글 등록
-	 * @param bReply
-	 * @param session
-	 * @return
-	 */
+    
+	// 댓글 등록
 	@ResponseBody
 	@RequestMapping(value="/board/addReply.strap", method=RequestMethod.POST)
 	public String boardAddReply(
@@ -399,11 +396,7 @@ public class BoardController {
 		}
 	}
 	
-	/**
-	 * 댓글 리스트
-	 * @param boardNo
-	 * @return
-	 */
+	// 댓글 리스트
 	@ResponseBody
 	@RequestMapping(value="/board/listReply.strap"
 	, produces="application/json;charset=utf-8"
@@ -419,11 +412,7 @@ public class BoardController {
 		return null;
 	}
 	
-	/**
-	 * 댓글 수정
-	 * @param bReply
-	 * @return
-	 */
+	// 댓글 수정
 	@ResponseBody
 	@RequestMapping(value="/board/modifyReply.strap", method=RequestMethod.POST)
 	public String boardModifyReply(

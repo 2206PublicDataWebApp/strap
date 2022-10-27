@@ -1,6 +1,7 @@
 package com.kh.strap.board.store;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -38,7 +39,7 @@ public interface BoardStore {
 	public int updateOneByNo(SqlSessionTemplate session,Board board);
 	
 	public int deleteOneByNo(SqlSession session, int boardNo);
-	
+
 	public int insertReply(SqlSession session, BoardReply bReply);
 	
 	// 댓글 전체조회

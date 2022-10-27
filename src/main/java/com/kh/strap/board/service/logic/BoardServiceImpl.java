@@ -1,6 +1,8 @@
 package com.kh.strap.board.service.logic;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,7 +105,7 @@ public class BoardServiceImpl implements BoardService {
 		int result = bStore.deleteOneByNo(session, boardNo);
 		return result;
 	}
-
+	
 	@Override
 	public int registerReply(BoardReply bReply) {
 		int result = bStore.insertReply(session, bReply);
@@ -127,6 +129,7 @@ public class BoardServiceImpl implements BoardService {
 		int result = bStore.deleteReply(session, replyNo);
 		return result;
 	}
+	
 }
 
 

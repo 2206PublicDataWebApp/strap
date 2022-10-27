@@ -133,7 +133,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="boardNo"   	 	column="BOARD_NO" />
 		<result property="replyContents"	column="REPLY_CONTENTS" />
 		<result property="memberNick" 		column="MEMBER_NICK" />
-   <!-- <result property="replyNick" 		column="REPLY_NICK" /> -->
 		<result property="replyDate" 		column="REPLY_DATE" />
 		<result property="replyDepth" 		column="REPLY_DEPTH" />
 		<result property="replyGroup" 		column="REPLY_GROUP" />

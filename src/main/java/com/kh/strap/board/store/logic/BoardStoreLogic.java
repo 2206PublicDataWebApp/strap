@@ -150,8 +150,6 @@ public class BoardStoreLogic implements BoardStore{
 			int result = session.delete("BoardMapper.deleteReply", replyNo);
 			return result;
 		}
-
-		
 }
 
 

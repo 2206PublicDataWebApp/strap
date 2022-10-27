@@ -119,14 +119,12 @@
         }
     });
 }); */
-
 function boardRemove(value) {
 	event.preventDefault(); // 하이퍼링크 이동 방지
 	if(confirm("게시물을 삭제하시겠습니까?")) {
 		location.href="/board/remove.strap?page="+value;
 	}
 }
-
 getListReply();
 function getListReply() {
 	var boardNo = "${board.boardNo}";
@@ -161,7 +159,6 @@ function getListReply() {
 		}
 	});
 }	
-
 function removeReply(replyNo) {
 		if(confirm("정말 삭제?")) {
 		$.ajax({
@@ -181,7 +178,6 @@ function removeReply(replyNo) {
 		});	
 	}
 }
-
 $("#rSubmit").on("click", function() {
 	var boardNo = "${board.boardNo}";
 	var replyContents = $("#replyContents").val();
@@ -206,8 +202,6 @@ $("#rSubmit").on("click", function() {
 		}
 	});
 });
-
-
 function modifyView(obj, replyContents, replyNo) {
 	event.preventDefault();
 	var $tr = $("<tr>");
