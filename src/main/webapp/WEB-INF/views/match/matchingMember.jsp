@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,17 +13,30 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
-	<style>
-		.contents-side{text-align: center;}
-		#myInfo{table-layout: fixed; width: 400px; margin: 0 auto; border-collapse:separate; border-radius: 10px;}
-		#myInfo th{width: 100px; margin-left: 15px;}
-		#myInfo td{width: 300px; }
-		#myInfo select{border: 0px}
-		#myInfo textarea{width: 280px; height: 50px; resize: none;}
-	</style>
+<style>
+	.contents-side{text-align: center;}
+	#memberList{table-layout: fixed; width: 700px; height:250px; margin: 0 auto; padding-left: 30px;}
+	.member{float:left; width: 100px; height: 200px; margin: 15px;}
+	.img{width: 100px; height: 100px; overflow: hidden; border-radius: 70px;}
+	.nick{width: 100px; height: 50px;}
+	.nick button{width: 110px; height: 30px; font-size: 12px;}
+	#profile{display:none; margin:0 auto; width: 700px; height: 1000px; border:1px solid lightgray;border-radius: 10px;}
+	#info{width: 100%; height: 300px;}
+	#info table{text-align: left;}
+	#infoTable input, #infoTable textarea{border: 0} 
+	#infoTable th{width: 150px; text-align: center;} 
+	#info-img{float:left; width: 33%; height: 300px;padding:30px;}
+	#info-detail{float:left; width: 67%; height: 300px;}
+	#imgs{width: 100%; height: 300px;}
+	.profile-img{float:left; width: 33.3%; height: 300px;border:1px solid lightgray;border-radius: 10px;}
+	#manner{width: 100%; height: 100px; text-align: left; padding: 20px;}
+	#msg{width: 100%; height: 300px;}
+	#noteTitle{width: 566px; border: 1px solid lightgray; border-radius: 10px;}	
+</style>
+
 </head>
 <body>
-	<div class="wrap container">
+<div class="wrap container">
 <!-- 헤더&메뉴바 -->
 	<div id="header" class="row">
 		<div class="col">
@@ -32,62 +46,89 @@
 <!-- 컨텐츠 -->
 	<div id="contents" class="contents row">
 		<div class="contents-side col">
-			<br><br>
-			<h6><i>내 운동정보를 불러오거나 입력하세요</i></h6>
+		<br><br>
+			<div id="memberList">
+				<h6 align="center"><b>내 주변 친구</b></h6>
+				<c:forEach items="${mList }" var="member">
+					<div class="member">
+						<div class="img">
+							<c:if test="${member.mProfileRename eq null }">
+								<img width="100%" height="100%" src="/resources/profileUploadFiles/default.png">
+							</c:if>
+							<c:if test="${member.mProfileRename ne null }">
+								<img alt="이미지" width="100%" height="100%" src="/resources/profileUploadFiles/${member.mProfileRename }">
+							</c:if>
+						</div>
+						<br>
+						<div class="nick">						
+							<button onclick="profileDetail('${member.mProfileRename}','${member.memberNick}','${member.memberCareer}','${member.memberSBD}','${member.memberJym}','${member.memberGender}','${member.memberIntroduce}','${member.memberManner}');" class="btn btn-light">${member.memberNick }</button>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+			<div id="profile">
+				<div id="info">
+					<div id="info-img">
+						<div class="img" style="width: 150px; height:150px; ">
+						<img id="profileImg" width="100%" height="100%" src="/resources/profileUploadFiles/default.png">
+						</div>
+						<br>
+						<div class="nick">
+							<button class="btn btn-light nickname" style="width: 150px;">언제철들래</button>
+						</div>
+					</div>
+					<div id="info-detail">
+						<table id="infoTable" class="table">
+							<tr>
+								<th>운동경력</th>
+								<td>
+									<input type="text" id="memberCareer">
+								</td>
+							</tr>
+							<tr>
+								<th>3대 기록</th>
+								<td>
+									<input type="text" id="memberSBD">
+								</td>
+							</tr>
+							<tr>
+								<th>마이짐</th>
+								<td>
+									<input type="text" id="jymAddress" name="jymAddress" style="width: 250px;border:0;" readonly><br>
+									<input type="text" id="jymTitle" name="jymTitle" style="width: 250px;border:0;" readonly>	
+								</td>
+							</tr>
+							<tr>
+								<th>성별</th>
+								<td>
+									<input type="text" id="memberGender" name="memberGender" style="width: 250px;border: 0" readonly> 
+								</td>
+							</tr>
+							<tr>
+								<th>자기소개</th>
+								<td><textarea id="memberIntroduce" style="width: 280px; height: 60px;" readonly></textarea></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div id="imgs">
+					<div class="profile-img"></div>
+					<div class="profile-img"></div>
+					<div class="profile-img"></div>
+				</div>
+				<div id="manner">
+					<span style="display: inline-block; width: 150px; padding-left: 30px;">3대 매너점수</span>
+					<span id="memberManner" class="alert alert-dark" style="display:inline-block; width: 465px; text-align: center;"></span>
+				</div>
+				<div id="msg">
+					<br>
+					<input type="text" id="noteTitle" name="noteTitle" placeholder="쪽지 제목">
+					<textarea id="noteContents" name="noteContents" rows="7" cols="73" placeholder="쪽지 내용" style="border:1px solid lightgray; border-radius: 10px; resize: none"></textarea> <br><br>
+					<button class="btn btn-dark" onclick="sendNote()">쪽지 보내기</button>
+				</div>
+			</div>
 			<br>
-			<table id="myInfo" class="table">
-				<tr>
-					<th>운동경력</th>
-					<td>
-						<select name="memberCareer" id="memberCareer">
-							<option value="1">1년 이하</option>
-							<option value="1-2">1년~2년</option>
-							<option value="2-3">2년~3년</option>
-							<option value="3-5">3년~5년</option>
-							<option value="5-10">5년~10년</option>
-							<option value="10">10년 이상</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th>3대 기록</th>
-					<td>
-						<select name="memberSBD" id="memberSBD">
-							<option value="200">200 이하</option>
-							<option value="200~300">200~300</option>
-							<option value="300~350">300~350</option>
-							<option value="350~400">350~400</option>
-							<option value="400~450">400~450</option>
-							<option value="450~500">450~500</option>
-							<option value="500~600">500~600</option>
-							<option value="600">600 이상</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th>마이짐</th>
-					<td>
-						<input type="text" id="jymAddress" name="jymAddress" style="width: 280px;"><br>
-						<input type="text" id="jymTitle" name="jymTitle" style="width: 217px;">
-						<button type="button" class="btn btn-dark" onclick="showMap();">검색</button>
-					</td>
-				</tr>
-				<tr>
-					<th>성별</th>
-					<td>
-						<input type="radio" id="memberGender" name="memberGender" value="M" checked>Male
-						<input type="radio" id="memberGender" name="memberGender" value="F" style="margin-left: 30px;">Female
-					</td>
-				</tr>
-				<tr>
-					<th>자기소개</th>
-					<td><textarea></textarea></td>
-				</tr>
-			</table>
-			<br>
-			<button class="btn btn-dark" onclick="myInfo()">내 운동정보 불러오기</button>
-			<button class="btn btn-dark" onclick="example()">운동 파트너 찾기</button>
-			<br><br><br><br>	
+			<button class="btn btn-dark">새로 추천 받기</button>
 		</div>
 	</div>
 <!-- 푸터	 -->
@@ -97,18 +138,86 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-	function showMap(){
-		window.open("/member/showMap.strap",null,"width=700,height=600,resizable=no");
+<script>
+	function sendNote(){
+		var recipientNick = $(".nickname").text();
+		var noteTitle = $("#noteTitle").val();
+		var noteContents = $("#noteContents").val();
+		if(!noteTitle.length == 0 && !noteContents.length==0){
+			if(confirm("쪽지를 보내시겠습니까?")){
+				$.ajax({
+					url:"/match/sendNote.strap",
+					type:"post",
+					data:{"recipientNick":recipientNick,"noteTitle":noteTitle, "noteContents":noteContents},
+					success:function(result){
+						console.log(result)
+						if(result=="ok"){
+							alert("쪽지 보내기 성공! 상대가 쪽지를 수락하면 마이페이지의 1:1 쪽지창이 개설됩니다.")
+						} else {
+							alert("쪽지 보내기 실패!")
+						}
+					},
+					error:function(result){
+						alert("관리자에게 문의 바랍니다.");
+					}
+				})
+			}
+		} 
 	}
-	function myInfo(){
-		var memberCareer = '${loginUser.memberCareer}';
-		var memberSBD = '${loginUser.memberSBD}';
-		var memberJym = '${loginUser.memberJym}'.split(",");
-		var jymAddress = memberJym[0];
-		var jymTitle = memberJym[1];
-		var memberGender = '${loginUser.memberGender}';
-		var memberIntroduce = '${loginUser.memberIntroduce}';
+	function profileDetail(mProfileRename,memberNick, memberCareer,memberSBD,memberJym,memberGender,memberIntroduce,memberManner){
+		$("#profile").show();
+		var jym = memberJym.split(",");
+		var jymAddress = jym[0];
+		var jymTitle = jym[1];
+		//profileImt
+		$("#profileImg").attr("src","/resources/profileUploadFiles/"+mProfileRename);
+		//nickname
+		$(".nickname").text(memberNick);
+		//Career
+		if(memberCareer =='1'){
+			$("#memberCareer").val("1년 이하");
+		} else if(memberCareer == '1-2'){
+			$("#memberCareer").val("1년~2년");
+		} else if(memberCareer == '2-3'){
+			$("#memberCareer").val("2년~3년");
+		} else if(memberCareer == '3-5'){
+			$("#memberCareer").val("3년~5년");
+		} else if(memberCareer == '5-10'){
+			$("#memberCareer").val("5년~10년");
+		} else if(memberCareer == '10'){
+			$("#memberCareer").val("10년 이상");
+		}
+		//SBD
+		if(memberSBD == '200'){
+			$("#memberSBD").val("200이하");
+		}else if(memberSBD = '200~300'){
+			$("#memberSBD").val("200~300");
+		}else if(memberSBD = '300~350'){
+			$("#memberSBD").val("300~350");
+		}else if(memberSBD = '350~400'){
+			$("#memberSBD").val("350~400");
+		}else if(memberSBD = '400~450'){
+			$("#memberSBD").val("400~450");
+		}else if(memberSBD = '450~500'){
+			$("#memberSBD").val("450~500");
+		}else if(memberSBD = '500~600'){
+			$("#memberSBD").val("500~600");
+		}else if(memberSBD = '600'){
+			$("#memberSBD").val("600이상");
+		}
+		//JYM
+		$("#jymAddress").val(jymAddress);
+		$("#jymTitle").val(jymTitle);
+		//Gender
+		if(memberGender ='M'){
+		$("#memberGender").val('남성');
+		} else if(memberGender = 'F'){
+		$("#memberGender").val('여성');
+		}
+		//manner
+		$("#memberManner").text(memberManner+'점');
+		//Introduce
+		$("#memberIntroduce").val(memberIntroduce);
 	}
 </script>
 </body>

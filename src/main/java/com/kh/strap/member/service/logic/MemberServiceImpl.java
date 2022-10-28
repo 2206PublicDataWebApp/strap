@@ -133,6 +133,12 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 
+	@Override
+	public void updateLastDate(String memberId) {
+		mStore.updateLastDate(session, memberId);
+		
+	}
+
 	
 	
 }
