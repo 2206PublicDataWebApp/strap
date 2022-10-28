@@ -138,7 +138,7 @@
 		var reportWindow;
 		
 		function notePopup(nNo, rId, sId){
-			noteWindow = window.open("/mypage/noteDetailView.strap?noteNo=" + nNo +"&recipientId=" + rId + "&senderId=" + sId, '_blank', 'width=600, height=800,resizable=no'); return false
+			noteWindow = window.open("/mypage/noteDetailView.strap?noteNo=" + nNo +"&recipientId=" + rId + "&senderId=" + sId, '_blank', 'width=600, height=850,resizable=no'); return false
 		}
 	</script>
 	
