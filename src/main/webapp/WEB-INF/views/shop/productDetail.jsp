@@ -16,6 +16,7 @@
 <style>
 
 .inputStars{
+	color:gray;
 	display:inline-block;
 	height:auto;
 }
@@ -23,6 +24,12 @@
 	animation-name: rectani3;
     animation-duration: 1s;
     color:gold;
+}
+.graphStar{
+	color:gold;
+}
+.backStar{
+	color:gray;
 }
 
 @keyframes rectani3{
@@ -63,7 +70,7 @@
 						<div id="star">
 							<div class="starGrade" 	style="position:relative; display:inline-block;">
 								<div class="graphStar star" style="position:absolute; width:100%; overflow:hidden;"><h2>★★★★★</h2></div>
-								<div class="backStar star" 	style="width:100%; width:100%;"><h2>☆☆☆☆☆</h2></div>
+								<div class="backStar star" 	style="width:100%; width:100%;"><h2>★★★★★</h2></div>
 							</div>
 							<div class="gradeInfo" style="display:inline-block;font-size:20px;">
 								<span class="aver">${product.gradeAver }</span>
@@ -135,8 +142,8 @@
 									<span class="review">(${product.reviewCount })</span>
 							</div>
 							<div class="starGrade" 	style="position:relative; display:inline-block; font-size:60px;">
-								<div class="graphStar2 star" 	style="position:absolute; width:100%; overflow:hidden; height:auto;">★★★★★</div>
-								<div class="backStar star"  	style="width:100%; height:auto;">☆☆☆☆☆</div>
+								<div class="graphStar graphStar2" 	style="position:absolute; width:100%; overflow:hidden; height:auto;">★★★★★</div>
+								<div class="backStar"  	style="width:100%; height:auto;">★★★★★</div>
 							</div>
 						</div>
 						<div id="search-wrap">
@@ -154,11 +161,11 @@
 						<form id="reviewForm" action="#" method="post">
 							<div id="inputGrade">
 								<div id="inputStarGrade" style="font-weight:bold;font-size:30px;">
-									<span class="inputStars" onclick="addGrade(1);" onmouseover="effectStar(1);" onmouseout="effectStarEnd()" style="color:gold">☆</span>
-									<span class="inputStars" onclick="addGrade(2);" onmouseover="effectStar(2);" onmouseout="effectStarEnd()">☆</span>
-									<span class="inputStars" onclick="addGrade(3);" onmouseover="effectStar(3);" onmouseout="effectStarEnd()">☆</span>
-									<span class="inputStars" onclick="addGrade(4);" onmouseover="effectStar(4);" onmouseout="effectStarEnd()">☆</span>
-									<span class="inputStars" onclick="addGrade(5);" onmouseover="effectStar(5);" onmouseout="effectStarEnd()">☆</span>
+									<span class="inputStars" onclick="addGrade(1);" onmouseover="effectStar(1);" onmouseout="effectStarEnd()" style="color:gold">★</span>
+									<span class="inputStars" onclick="addGrade(2);" onmouseover="effectStar(2);" onmouseout="effectStarEnd()">★</span>
+									<span class="inputStars" onclick="addGrade(3);" onmouseover="effectStar(3);" onmouseout="effectStarEnd()">★</span>
+									<span class="inputStars" onclick="addGrade(4);" onmouseover="effectStar(4);" onmouseout="effectStarEnd()">★</span>
+									<span class="inputStars" onclick="addGrade(5);" onmouseover="effectStar(5);" onmouseout="effectStarEnd()">★</span>
 								</div>
 							</div>
 							<input type="hidden" name="memberId" 	id="memberId"	value="${loginUser.memberId }">
@@ -269,7 +276,7 @@ function addGrade(number){
 		//자식요소가 1,3,5,7,9
 	if(number < pointer){
 		for(var i=number+1; i<=5; i++){
-			inputStars.childNodes[2*i-1].style.color="black";
+			inputStars.childNodes[2*i-1].style.color="gray";
 		}
 	}else{
 		for(var i=1; i<=number;i++){
@@ -290,14 +297,14 @@ function effectStar(number){
 		}
 	}else{
 		for(var i=pointer+1; i<=5; i++){
-			inputStars.childNodes[2*i-1].style.color="black";
+			inputStars.childNodes[2*i-1].style.color="gray";
 		}		
 	}
 }
 
 function effectStarEnd(){
 	for(var i=pointer+1; i<=5; i++){
-		inputStars.childNodes[2*i-1].style.color="black";
+		inputStars.childNodes[2*i-1].style.color="gray";
 	}
 }
 
@@ -373,8 +380,8 @@ function printReview(page,searchColumn,orderCondition){
 							'<div class="rInfoWrap col-8">'+
 								'<div class="rGrade">'+
 									'<div class="oneReviewGradeWrap" 	style="position:relative; display:inline-block;">'+
-										'<div class="oneReviewGraph star" style="position:absolute; width:100%; overflow:hidden;"><h2>'+"★".repeat(rList[i].reviewGrade) +'</h2></div>'+
-										'<div class="oneReviewBack star" 	style="width:100%; width:100%;"><h2>☆☆☆☆☆</h2></div>'+
+										'<div class="graphStar" style="position:absolute; width:100%; overflow:hidden;"><h2>'+"★".repeat(rList[i].reviewGrade) +'</h2></div>'+
+										'<div class="backStar" 	style="width:100%; width:100%;"><h2>★★★★★</h2></div>'+
 									'</div>'+
 								'</div>'+
 							'<div class="rUserTime">'+rList[i].memberNick+''+rList[i].reviewTime+'</div>'+

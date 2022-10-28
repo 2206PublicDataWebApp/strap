@@ -20,12 +20,10 @@ public class Product {
 	private String productDelete;  			//상품 삭제여부
 	private double gradeAver;					//평점 평균
 	private int reviewCount;				//리뷰개수
+	private int orderQty;					//주문상품 수량체크용
 
 	public Product() {
 	}
-	
-	
-
 	public Product(int productNo) {
 		super();
 		this.productNo = productNo;
@@ -34,7 +32,7 @@ public class Product {
 	public Product(int productNo, String productName, String productBrand, int productPrice, String productDesc,
 			int gradeSum, Date productRegiDate, Date productModiDate, int productSales, String mainImgName,
 			String mainImgReName, String mainImgRoot, String couponList, String productDelete, double gradeAver,
-			int reviewCount) {
+			int reviewCount, int orderQty) {
 		super();
 		this.productNo = productNo;
 		this.productName = productName;
@@ -52,6 +50,7 @@ public class Product {
 		this.productDelete = productDelete;
 		this.gradeAver = gradeAver;
 		this.reviewCount = reviewCount;
+		this.orderQty = orderQty;
 	}
 
 	public int getProductNo() {
@@ -182,6 +181,14 @@ public class Product {
 		this.reviewCount = reviewCount;
 	}
 
+	public int getOrderQty() {
+		return orderQty;
+	}
+
+	public void setOrderQty(int orderQty) {
+		this.orderQty = orderQty;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [productNo=" + productNo + ", productName=" + productName + ", productBrand=" + productBrand
@@ -189,10 +196,6 @@ public class Product {
 				+ ", productRegiDate=" + productRegiDate + ", productModiDate=" + productModiDate + ", productSales="
 				+ productSales + ", mainImgName=" + mainImgName + ", mainImgReName=" + mainImgReName + ", mainImgRoot="
 				+ mainImgRoot + ", couponList=" + couponList + ", productDelete=" + productDelete + ", gradeAver="
-				+ gradeAver + ", reviewCount=" + reviewCount + "]";
+				+ gradeAver + ", reviewCount=" + reviewCount + ", orderQty=" + orderQty + "]";
 	}
-
-	
-	
-	
 }
