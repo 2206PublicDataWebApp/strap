@@ -267,14 +267,14 @@ function kginisis(){
 				            url: "/order/payment/completeCheck.strap", // 예: https://www.myservice.com/payments/complete
 				            method: "POST",
 				            data: {
-				                imp_uid: rsp.imp_uid,
-				                merchant_uid: rsp.merchant_uid,
-				                paid_amount:rsp.paid_amount,
-				                status:rsp.status,
-				                vbank_date:rsp.vbank_date,
-				                vbank_holder:rsp.vbank_holder,
-				                vbank_name:rsp.vbank_name,
-				                vbank_num:rsp.vbank_num
+				                "imp_uid": rsp.imp_uid,
+				                "merchant_uid": rsp.merchant_uid,
+				                "paid_amount":rsp.paid_amount,
+				                "status":rsp.status,
+				                "vBankDueDate":rsp.vbank_date,
+				                "vBankHolder":rsp.vbank_holder,
+				                "vBankName":rsp.vbank_name,
+				                "vBankNum":rsp.vbank_num
 				            },
 				            success:function(result){
 				            	 // 가맹점 서버 검증로직 후 
