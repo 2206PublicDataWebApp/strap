@@ -1,5 +1,12 @@
 package com.kh.strap.admin.store;
 
-public interface BannerStore {
+import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+
+import com.kh.strap.admin.domain.Banner;
+
+public interface BannerStore {
+	public List<Banner> selectAllBanner(SqlSession session);
+	public int insertBanner(SqlSession session, Banner banner);
 }

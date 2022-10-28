@@ -12,4 +12,10 @@
 		<result property="bannerFileRename" column="BANNER_FILERENAME"/>
 		<result property="bannerFilepath" column="BANNER_FILEPATH"/>
 	</resultMap>
+	<select id="selectAllBanner" resultMap="bannerResultMap">
+		SELECT * FROM BANNER_TBL
+	</select>
+	<insert id="insertBanner">
+		INSERT INTO BANNER_TBL VALUES(SEQ_BANNER_NO.NEXTVAL, #{bannerTitle}, DEFAULT, #{bannerFilename}, #{bannerFileRename}, #{bannerFilepath})
+	</insert>
 </mapper>
