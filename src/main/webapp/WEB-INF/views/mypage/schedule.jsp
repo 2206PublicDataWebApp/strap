@@ -50,7 +50,6 @@
 						url : "/mypage/scheduleList.strap",
 						success : function(response){
 							window.location.reload()
-							}
 						}
 					})
 				}

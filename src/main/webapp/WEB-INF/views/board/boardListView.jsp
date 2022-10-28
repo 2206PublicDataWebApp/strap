@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +20,7 @@
 		<!-- 헤더&메뉴바 -->
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<!-- 컨텐츠 -->
-		<div class="contents" style="height: 500px;">
+		<div class="contents">
 			<div id="contents-wrap">
 			<!-- 카테고리 -->
 			<ul class="nav nav-pills" style="justify-content: center; padding: 40px;">
@@ -62,59 +63,51 @@
 								</button>						
 							</div>
 						</form>
-				<div class="contents-noside">
-					<!-- 게시글 리스트 -->
-					<table class="table table-hover table-fixed" align="center" border="2">
+				<div class="contents-noside" style="width: 1000px; margin: auto; height: 800px;">
+					<table class="table" style="text-align:center;">
 						<tr>
-							<th class="table-primary" style="text-align: center">번호</th>
-							<th class="table-primary" style="text-align: center">카테고리</th>
-							<th class="table-primary" style="text-align: center">제목</th>
-							<th class="table-primary" style="text-align: center">작성자</th>
-							<th class="table-primary" style="text-align: center">등록일</th>
-							<th class="table-primary" style="text-align: center">조회</th>
-							<th class="table-primary" style="text-align: center">추천</th>
+							<th>번호</th>
+							<th>카테고리</th>
+							<th>제목</th>
+							<th>작성자</th>
+							<th>등록일</th>
+							<th>조회</th>
+							<th>추천</th>
 							<!-- <th class="table-primary" style="text-align: center">비추천</th> -->
 						</tr>
-					
+						<!-- 공지사항 리스트 -->
+						<c:if test="${!empty nList }">
+							<c:forEach items="${nList }" var="notice" varStatus="i">
+								<tr align="center">
+									<td class="table-secondary">${i.count }</td>
+									<td class="table-secondary">공지</td>
+									<td class="table-secondary">
+										<a href="/admin/noticeDetailView.strap?noticeNo=${notice.noticeNo }&page=${currentPage }"
+										style="text-decoration-line: none; color: black;">${notice.noticeTitle }</a>
+									</td>
+									<td class="table-secondary">${notice.noticeWriter }</td>
+									<td class="table-secondary">
+										<fmt:formatDate pattern="yyyy-MM-dd" value="${notice.nCreateDate }"/>
+									</td>
+									<td class="table-secondary">${notice.noticeCount }</td>
+									<td class="table-secondary">&nbsp;&nbsp;&nbsp;</td>
+								</tr>
+							</c:forEach>
+						</c:if>
+						<!-- 게시글 리스트 -->
 						<c:if test="${!empty bList }">
 							<c:forEach items="${bList }" var="Board" varStatus="i">
 								<tr>
-									<th scope="row" style="text-align:center">${Board.boardNo }</th>
-									<td style="text-align:center">${Board.boardCategory }</td>
-									<td><a href="/board/detail.strap?boardNo=${Board.boardNo }&page=${currentPage }">${Board.boardTitle }</a></td>
-									<td style="text-align:center">${Board.memberNick }</td>
-									<td style="text-align:center">${Board.boardDate }</td>
-									<td style="text-align:center">${Board.boardCount }</td>
-									<%-- <td style="text-align:center">${Board.boardGood }</td>
-									<td style="text-align:center">${Board.boardBad }</td> --%>
-									<td style="text-align:center">${Board.boardLikeIt }</td>
+									<th scope="row">${Board.boardNo }</th>
+									<td>${Board.boardCategory }</td>
+									<td><a href="/board/detail.strap?boardNo=${Board.boardNo }&page=${currentPage }"
+									style="text-decoration-line: none; color: black;">${Board.boardTitle }</a></td>
+									<td>${Board.memberNick }</td>
+									<td>${Board.boardDate }</td>
+									<td>${Board.boardCount }</td>
+									<td>${Board.boardLikeIt }</td>
 								</tr>
 							</c:forEach>
-					<tr align="center" height="20">
-					<td align="center" colspan="6">
-					<nav class="page" aria-label="Page navigation example">
-							<ul class="pagination" style="display: inline-block;">
-								<li class="page-item">
-									<c:if test="${currentPage > 5}">
-										<a class="page-link" href="/board/${urlVal }.strap?page=${startNavi - 1}&searchCondition=${searchCondition}&searchValue=${searchValue}" aria-label="Previous">
-											<span aria-hidden="true">&laquo;</span>
-										</a>
-									</c:if>
-								</li>
-								<c:forEach var="p" begin="${startNavi }" end="${endNavi }">
-									<li class="page-item"><a class="page-link" href="/board/${urlVal }.strap?page=${p }&searchCondition=${searchCondition}&searchValue=${searchValue}">${p }</a></li>
-								</c:forEach>
-								<c:if test="${maxPage-4 > currentPage }">
-									<li class="page-item">
-										<a class="page-link" href="/board/${urlVal }.strap?page=${endNavi + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" aria-label="Next">
-											<span aria-hidden="true">&raquo;</span>
-										</a>
-									</li>
-								</c:if>
-							</ul>
-								</nav>
-									</td>
-								</tr>
 							</c:if>
 							<!-- 게시글이 없을 때 -->
 							<c:if test="${empty bList }">
@@ -123,8 +116,42 @@
 								</tr>
 							</c:if>
 						</table>
-						<div style="float: right;">
-							<button type="button" class="btn btn-primary" onclick="location.href='/board/writeView.strap'">글쓰기</button>
+					<div>
+						<div>
+						<!-- 페이징 처리 -->
+							<nav aria-label="Page navigation example">
+							<div>
+							<div>
+	          					<ul class="pagination" style="justify-content: center;">
+									<c:if test="${currentPage != 1 }">
+										<li class="page-item">
+											<a class="page-link" href="/board/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}"><span aria-hidden="true">&laquo;</span></a>
+										</li>
+									</c:if>
+									<c:forEach var="p" begin="${startNavi }" end="${endNavi }">
+										<c:if test="${currentPage eq p }">
+										<li class="page-item">
+											<a class="page-link" href="#">${p }</a>
+											</li>
+										</c:if>
+										<c:if test="${currentPage ne p }">
+										<li class="page-item">
+											<a class="page-link" href="/board/${urlVal }.strap?page=${p }&searchCondition=${searchCondition}&searchValue=${searchValue}">${p }</a>
+										</li>
+										</c:if>
+									</c:forEach>
+									<c:if test="${maxPage > currentPage }">
+										<li class="page-item">
+											<a class="page-link" href="/board/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}"><span aria-hidden="true">&raquo;</span></a>
+										</li>
+									</c:if>
+								</ul>
+							</div>
+							<div>
+								<button type="button" class="btn btn-primary" onclick="location.href='/board/writeView.strap'">글쓰기</button>
+							</div>
+							</div>
+							</nav>
 						</div>
 					</div>
 				</div>

@@ -1,5 +1,12 @@
 package com.kh.strap.board.controller;
 
+import com.kh.strap.admin.controller.*;
+import com.kh.strap.admin.domain.*;
+import com.kh.strap.admin.service.*;
+import com.kh.strap.admin.service.logic.*;
+import com.kh.strap.admin.store.*;
+import com.kh.strap.admin.store.logic.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -34,12 +41,14 @@ import com.kh.strap.board.service.logic.BoardServiceImpl;
 import com.kh.strap.member.domain.Member;
 
 
+@SuppressWarnings("unused")
 @Controller
 public class BoardController {
 	
 	@Autowired
 	private BoardServiceImpl bService;
-	
+	@Autowired
+	private NoticeService nService;
 	/**
 	 * 게시글 작성 페이지 이동
 	 * @return : "/board/boardWrite"
@@ -86,6 +95,7 @@ public class BoardController {
 		int currentPage = (page != null) ? page : 1;
 		int totalCount = bService.getTotalCount("","");
 		int boardLimit = 10;
+		int noticeLimit = 5;
 		int naviLimit = 5;
 		int maxPage;
 		int startNavi;
@@ -97,6 +107,8 @@ public class BoardController {
 			endNavi = maxPage;
 		}
 		List<Board> bList = bService.printAllBoard(currentPage, boardLimit);
+		List<Notice> nList = nService.printNoticeList(currentPage, noticeLimit);
+		
 		if(!bList.isEmpty()) {
 			mv.addObject("urlVal", "list");
 			mv.addObject("maxPage", maxPage);
@@ -104,6 +116,7 @@ public class BoardController {
 			mv.addObject("startNavi", startNavi);
 			mv.addObject("endNavi", endNavi);
 			mv.addObject("bList", bList);
+			mv.addObject("nList", nList);
 		}
 		mv.setViewName("board/boardListView");
 		return mv;

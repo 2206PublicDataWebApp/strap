@@ -23,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   	<insert id="insertBoard">
   		INSERT INTO BOARD_TBL VALUES(SEQ_BOARDNO.NEXTVAL,#{memberNick}
   		,#{boardTitle},#{boardContents},#{boardCategory},#{bFileName}
-  		,#{bFileRename},#{bFilePath},DEFAULT,DEFAULT,DEFAULT)
+  		,#{bFileRename},#{bFilePath},DEFAULT,DEFAULT,DEFAULT,DEFAULT)
   	</insert>
 
 	<!-- 게시글 수정 -->
@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   	<!-- 모든 게시글 SELECT -->
   	<select id="selectAllBoard" resultMap="boardResultMap">
   		SELECT BOARD_NO,MEMBER_NICK,BOARD_TITLE,BOARD_CONTENTS,BOARD_CATEGORY,B_FILE_NAME,B_FILE_RENAME,B_FILE_PATH,BOARD_DATE,BOARD_COUNT,BOARD_LIKEIT
-  		FROM BOARD_TBL ORDER BY BOARD_NO DESC
+  		FROM BOARD_TBL ORDER BY FIX DESC, BOARD_DATE DESC
   	</select>
   	
   	<!-- 게시판 게시글 수 return -->
