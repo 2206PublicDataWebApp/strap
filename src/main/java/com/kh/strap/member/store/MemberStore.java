@@ -47,4 +47,6 @@ public interface MemberStore {
 
 	int changeIntroduce(SqlSession session, Member member);
 
+	void updateLastDate(SqlSession session, String memberId);
+
 }

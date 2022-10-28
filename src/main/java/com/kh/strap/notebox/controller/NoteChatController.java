@@ -1,7 +1,9 @@
 package com.kh.strap.notebox.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,8 +33,18 @@ public class NoteChatController {
 	@Autowired
 	private NoteChatService ncService;
 		
-	
-		// 쪽지 내 채팅목록
+		/**
+		 * 
+		 * @param mv
+		 * @param request
+		 * @param senderNick
+		 * @param recipientId
+		 * @param recipientNick
+		 * @param ncList
+		 * @param memberId
+		 * @return
+		 */
+		// 쪽지대화 조회
 		@ResponseBody
 		@RequestMapping(value="/notebox/noteChatView.strap",produces="application/json;charset=utf-8", method=RequestMethod.GET)
 		public ModelAndView showNoteChat(ModelAndView mv, HttpServletRequest request
@@ -42,14 +54,23 @@ public class NoteChatController {
 				,@RequestParam("ncList") String ncList
 				,@RequestParam("memberId") String memberId
 				) {
-//			HttpSession session = request.getSession();
-//			Member member = (Member)session.getAttribute("loginUser");
-//			String userId = member.getMemberId();
+//			// 오늘 날짜
+//			String pattern = "yyyy-MM-dd";
+//			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+//			String date = simpleDateFormat.format(new Date());
+//			System.out.println(date);
+			
 			Gson gson = new Gson();
-//			gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
 			String jsonString = ncList;
 			NoteChat[] array = gson.fromJson(jsonString, NoteChat[].class);
 		    List<NoteChat> list = Arrays.asList(array);
+//		    // 날짜 비교
+//		    for(int i = 0; i < list.size(); i++) {
+//		    	String senderDate = list.get(i).getSenderDate();
+//		    	senderDate.substring(0,10);
+//		    	System.out.println(senderDate);
+//		    }
+		    
 		    
 		    if(memberId.equals(recipientId)) {
 				mv.addObject("senderNick", senderNick);
@@ -123,12 +144,14 @@ public class NoteChatController {
 		@RequestMapping(value="/notebox/registerChat.strap", method=RequestMethod.GET)
 		public ModelAndView registChat(ModelAndView mv, HttpServletRequest request
 				,@ModelAttribute NoteBox noteBox
+				,@RequestParam("senderNick") String senderNick
 				,@RequestParam("chatContents") String chatContents) {
-			noteBox.setNoteContents(chatContents);
 			HttpSession session = request.getSession();
 			Member member = (Member)session.getAttribute("loginUser");
 			String memberId = member.getMemberId();
 			noteBox.setSenderId(memberId);
+			noteBox.setSenderNick(senderNick);
+			noteBox.setNoteContents(chatContents);
 			int result = ncService.registNoteChat(noteBox);
 			
 //			mv.addObject("noteNo", noteNo);

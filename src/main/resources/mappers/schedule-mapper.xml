@@ -20,4 +20,11 @@
 	<select id="selectAllSchedule" resultMap="scheduleResultMap">
 		SELECT * FROM SCHEDULE_TBL WHERE MEMBER_ID = #{memberId} OR MATCH_MEMBER_ID = #{memberId}
 	</select>
+	<delete id="deleteSchedule">
+		DELETE FROM SCHEDULE_TBL WHERE MATCH_NO = #{matchNo}
+	</delete>
+	<update id="updateSchedule">
+		UPDATE SCHEDULE_TBL SET MEET_DATE = #{meetDate}
+		WHERE MATCH_NO = #{matchNo}
+	</update>
 </mapper>

@@ -23,9 +23,17 @@ public class Member {
 	private String memberType;		//17.회원 종류
 	private String memberIntroduce;	//18.회원 소개
 	private String memberAddress;	//19.회원 주소
+	private Date memberLastDate;	//20.최근 접속일
 
 	
-	
+
+	public Date getMemberLastDate() {
+		return memberLastDate;
+	}
+
+	public void setMemberLastDate(Date memberLastDate) {
+		this.memberLastDate = memberLastDate;
+	}
 
 	public String getMemberIntroduce() {
 		return memberIntroduce;
@@ -170,8 +178,11 @@ public class Member {
 				+ ", mProfileName=" + mProfileName + ", mProfileRename=" + mProfileRename + ", mProfilePath="
 				+ mProfilePath + ", mRegisterDate=" + mRegisterDate + ", memberStatus=" + memberStatus
 				+ ", adminStatus=" + adminStatus + ", memberManner=" + memberManner + ", memberType=" + memberType
-				+ ", memberIntroduce=" + memberIntroduce + ", memberAddress=" + memberAddress + "]";
+				+ ", memberIntroduce=" + memberIntroduce + ", memberAddress=" + memberAddress + ", memberLastDate="
+				+ memberLastDate + "]";
 	}
+
+	
 
 	
 

@@ -17,17 +17,16 @@ public class NoteBox {
 	
 	public NoteBox() {}
 
-	public NoteBox(int noteNo, String recipientId, String senderId, String noteContents, String recipientNick,
+	public NoteBox(String recipientId, String senderId, String noteTitle, String noteContents, String recipientNick,
 			String senderNick) {
 		super();
-		this.noteNo = noteNo;
 		this.recipientId = recipientId;
 		this.senderId = senderId;
+		this.noteTitle = noteTitle;
 		this.noteContents = noteContents;
 		this.recipientNick = recipientNick;
 		this.senderNick = senderNick;
 	}
-
 
 	public int getNoteNo() {
 		return noteNo;

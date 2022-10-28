@@ -24,7 +24,7 @@
 		.member{float:left; width: 100px; height: 200px; margin: 15px;}
 		.img{width: 100px; height: 100px; overflow: hidden; border-radius: 70px;}
 		.nick{width: 100px; height: 50px;}
-		.nick button{width: 100px; height: 50px; font-size: 12px;}
+		.nick button{width: 110px; height: 30px; font-size: 12px;}
 		#profile{margin:0 auto; width: 700px; height: 1000px; border:1px solid lightgray;border-radius: 10px;}
 		#info{width: 100%; height: 300px;}
 		#info-img{float:left; width: 30%; height: 300px;padding:50px;}
@@ -96,7 +96,7 @@
 			<div id="memberList">
 				<div class="member">
 					<div class="img">
-						<img width="100%" height="140px" src="/resources/image/matching/strap.png">
+						<img width="100%" height="100%" src="/resources/image/matching/strap.png">
 					</div>
 					<br>
 					<div class="nick">
@@ -105,7 +105,7 @@
 				</div>
 				<div class="member">
 					<div class="img">
-						<img width="100%" height="140px" src="/resources/image/matching/img2.jpg">
+						<img width="100%" height="100%" src="/resources/image/matching/img2.jpg">
 					</div>
 					<br>
 					<div class="nick">
@@ -152,7 +152,7 @@
 				<div id="info">
 					<div id="info-img">
 						<div class="img">
-						<img width="100%" height="140px" src="/resources/image/matching/strap.png">
+						<img width="100%" height="100%" src="/resources/image/matching/strap.png">
 						</div>
 						<br>
 						<div class="nick">
@@ -298,7 +298,7 @@
 			alert("로그인 후 이용가능합니다.");
 			location.href='/member/loginView.strap';
 		}else{
-			location.href='/match/matchingMember.strap';
+			location.href='/match/matchingFind.strap';
 		}
 		
 	}

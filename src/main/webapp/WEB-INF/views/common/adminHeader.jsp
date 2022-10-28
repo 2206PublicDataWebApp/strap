@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <meta charset="UTF-8">
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
 <!-- 합쳐지고 최소화된 최신 CSS -->
@@ -9,47 +10,72 @@
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
-.title{
-	background-color:skyblue;
-	font-size:50px;
+body { 
+	background-color: #EAEAEA;
 }
+#title-img{
+ 	width:250px;
+ 	height: 100px;
+ 	object-fit: contain;
+	cursor: pointer;"
+}
+
 .navbar{
-	background-color:gold;
+	background-color:black;
+}
+.nav-menu{
+	font-weight: 1000;
 }
 .admin-title{
 	text-decoration:none;
 	color:black;
 }
 .admin-menu{
+	color: white;
 	text-decoration:none;
 }
+#admin-logout{
+	color: black;
+	text-decoration:none;
+}
+
+
 </style>
 
 <body>
 	<div class="container text-center">
 		<header class="header row text-center">
-			<div class="title col">
-				<a class="admin-title" href="/admin/mainView.strap">STRAP</a>
+			<div class="col-3">
+				<a class="admin-title" href="/admin/mainView.strap"><img id="title-img" alt="메인" src="/resources/image/admin/logo.png"></a>
+			</div>
+			<div class="title col" align="left">
+				<br><br>
+				<h5>관리자 페이지</h5>
+			</div>
+			<div class="col" align="right">
+<%-- 				<br> <b>${sessionScope.loginUser.memberNick }</b><br> --%>
+				<br>
+				<h6><a id="admin-logout" href="/admin/logout.strap">로그아웃</a></h6>
 			</div>
 		</header>
 		<div class="navbar row">
-			<div class="col">
+			<div class="nav-menu col">
 				<a class="admin-menu" href="#">문의 관리</a>
 			</div>
-			<div class="col">
+			<div class="nav-menu col">
 				<a class="admin-menu" href="#">신고 관리</a>
 			</div>
-			<div class="col">
+			<div class="nav-menu col">
 				<a class="admin-menu" href="#">상품 등록</a>
 			</div>
-			<div class="col">
+			<div class="nav-menu col">
 				<a class="admin-menu" href="#">회원 검색</a>
 			</div>
-			<div class="col">
+			<div class="nav-menu col">
 				<a class="admin-menu" href="/admin/noticeListView.strap">공지사항</a>
 			</div>
-			<div class="col">
-				<a class="admin-menu" href="#">배너</a>
+			<div class="nav-menu col">
+				<a class="admin-menu" href="/admin/bannerListView.strap">배너</a>
 			</div>
 		</div>
 	</div>

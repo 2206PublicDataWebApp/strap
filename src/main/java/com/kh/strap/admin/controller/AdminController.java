@@ -25,6 +25,7 @@ import com.kh.strap.admin.domain.Admin;
 import com.kh.strap.admin.domain.Notice;
 import com.kh.strap.admin.service.AdminService;
 import com.kh.strap.admin.service.NoticeService;
+import com.kh.strap.member.domain.Member;
 
 
 @Controller
@@ -53,19 +54,28 @@ public class AdminController {
 	// 로그인 기능 >>>> ※※※※세션 추가해야 함※※※※※
 	@ResponseBody
 	@RequestMapping(value="/admin/login.strap", produces="text/plain;charset=utf-8", method=RequestMethod.POST)
-	public String showAdminMain(@ModelAttribute Admin admin) {
-		
+	public String showAdminMain(@ModelAttribute Admin admin, HttpServletRequest request) {
 		Admin loginAdmin = aService.loginAdmin(admin);
-		System.out.println(loginAdmin);
 		if(loginAdmin != null) {
+			loginAdmin.setAdminPwd(null);
+			HttpSession session = request.getSession();
+			session.setAttribute("loginUser", loginAdmin);
 			return "성공";
-//			mv.addObject("adminId", admin.getAdminId());
-//			mv.setViewName("admin/adminMain");
-			
 		} else {
 			return "실패";
 		}
 	}
+	
+	// 로그아웃
+	@RequestMapping(value="/admin/logout.strap")
+	public ModelAndView adminLogout(ModelAndView mv, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.invalidate();
+		mv.setViewName("admin/adminLogin");
+		return mv;
+	}
+	
+	
 	
 	/**
 	 * 

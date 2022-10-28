@@ -29,6 +29,18 @@ public class ScheduleServiceImpl implements ScheduleService {
 		List<Schedule> scList = scStore.selectAllSchedule(session, memberId);
 		return scList;
 	}
+
+	@Override
+	public int removeSchedule(Integer matchNo) {
+		int result = scStore.deleteSchedule(session, matchNo);
+		return result;
+	}
+
+	@Override
+	public int modifySchedule(Schedule schedule) {
+		int result = scStore.updateSchedule(session, schedule);
+		return result;
+	}
 	
 	
 }

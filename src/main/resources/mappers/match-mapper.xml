@@ -4,9 +4,65 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace= "MatchMapper">
-<!--   	<resultMap type= "Match" id=""> -->
-<!--   		<id property="" column=""/> -->
-<!--   		<result property="" column=""/> -->
-<!--   		<result property="" column=""/> -->
-<!--   	</resultMap> -->
+	<resultMap type="Member" id="MemberResultMap">
+  		<id property="memberId" 			column="MEMBER_ID"/>
+  		<result property="memberPwd" 		column="MEMBER_PWD"/>
+  		<result property="memberName" 		column="MEMBER_NAME"/>
+  		<result property="memberEmail"		column="MEMBER_EMAIL"/>
+  		<result property="memberGender"		column="MEMBER_GENDER"/>
+  		<result property="memberNick" 		column="MEMBER_NICK"/>
+  		<result property="memberJym"		column="MEMBER_JYM"/>
+  		<result property="memberCareer" 	column="MEMBER_CAREER"/>
+  		<result property="memberSBD" 		column="MEMBER_SBD"/>
+  		<result property="mProfileName" 	column="M_PROFILE_NAME"/>
+  		<result property="mProfileRename" 	column="M_PROFILE_RENAME"/>
+  		<result property="mProfilePath" 	column="M_PROFILE_PATH"/>
+  		<result property="mRegisterDate" 	column="M_REGISTER_DATE"/>
+  		<result property="memberStatus" 	column="MEMBER_STATUS"/>
+  		<result property="adminStatus" 		column="ADMIN_STATUS"/>
+  		<result property="memberManner"		column="MEMBER_MANNER"/>
+  		<result property="memberType"		column="MEMBER_TYPE"/>
+  		<result property="memberIntroduce"		column="MEMBER_INTRODUCE"/>
+  		<result property="memberAddress"		column="MEMBER_ADDRESS"/>
+  	</resultMap>
+  	<resultMap type="NoteBox" id="NoteBoxResultMap">
+  		<id property="noteNo" 			column="NOTE_NO"/>
+  		<result property="recipientId" 		column="RECIPIENT_ID"/>
+  		<result property="senderId" 		column="SENDER_ID"/>
+  		<result property="senderTime" 		column="SENDER_TIME"/>
+  		<result property="noteTitle" 		column="NOTE_TITLE"/>
+  		<result property="noteContents" 		column="NOTE_CONTENTS"/>
+  		<result property="noteAccept" 		column="NOTE_ACCEPT"/>
+  		<result property="noteStatus" 		column="NOTE_STATUS"/>
+  		<result property="recipientNick" 		column="RECIPIENT_NICK"/>
+  		<result property="senderNick" 		column="SENDER_NICK"/>
+  	</resultMap>
+<!--   	<select id="sameMember" resultMap="MemberResultMap"> -->
+  	
+<!--   	</select> -->
+  	<select id="sameMember" resultMap="MemberResultMap">
+  	
+  	</select>
+  	<select id="localMember" resultMap="MemberResultMap">
+	  	SELECT * FROM
+	  	(SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_JYM, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER,
+	  	RANK() OVER(ORDER BY M_LAST_DATE DESC) RANK FROM MEMBER_TBL WHERE MEMBER_JYM LIKE '%'||#{memberJym}||'%' AND NOT MEMBER_ID = #{memberId})
+		WHERE ROWNUM <![CDATA[<]]> 6
+<!-- 		AND ROWNUM &lt; 6 -->
+  	</select>
+<!--   	<select id="SBDMember" resultMap="MemberResultMap"> -->
+  	
+<!--   	</select> -->
+<!--   	<select id="careerMember" resultMap="MemberResultMap"> -->
+  	
+<!--   	</select> -->
+<!--   	<select id="genderMember" resultMap="MemberResultMap"> -->
+  	
+<!--   	</select> -->
+	<select id="findIdByNick" resultType="String">
+		SELECT MEMBER_ID FROM MEMBER_TBL WHERE MEMBER_NICK = #{memberNick} AND MEMBER_STATUS = 'Y'
+	</select>
+	<insert id="insertNoteBox">
+		INSERT INTO NOTEBOX_TBL VALUES(SEQ_NOTEBOX_NO.NEXTVAL, #{recipientId},#{senderId},SYSTIMESTAMP,#{noteTitle},#{noteContents},DEFAULT,DEFAULT,#{recipientNick},#{senderNick})
+	</insert>
 </mapper>

@@ -1,6 +1,8 @@
 package com.kh.strap.schedule.controller;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,6 +37,16 @@ public class ScheduleController {
 	// 캘린더 페이지
 	@RequestMapping(value="/mypage/scheduleView.strap", method=RequestMethod.GET)
 	public ModelAndView showSchedule(ModelAndView mv, HttpServletRequest request) {
+		TimerTask task = new TimerTask() {
+		    @Override
+		    public void run() {
+		        System.out.println("-------------");
+//		        getUrl(); //특정메소드
+		    }
+		};
+
+		new Timer().scheduleAtFixedRate(task, 0l, 3000);
+		
 		mv.setViewName("mypage/schedule");
 		return mv;
 	}
@@ -46,11 +59,10 @@ public class ScheduleController {
 		Member member = (Member)session.getAttribute("loginUser");
 		String memberId = member.getMemberId();
 		List<Schedule> scList = scService.printAllSchedule(memberId);
-		System.out.println(scList);
 		JSONArray jsonArr = new JSONArray();
-		System.out.println(scList.size());
 		for(int i = 0; i < scList.size(); i++) {
 			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("matchNo",scList.get(i).getMatchNo());
 			if (memberId.equals(scList.get(i).getMatchMemberId())) {
 				jsonObj.put("title",scList.get(i).getMemberNick() + " " + scList.get(i).getMatchDetail());
 			} else {
@@ -59,7 +71,6 @@ public class ScheduleController {
 			jsonObj.put("start",scList.get(i).getMeetDate());
 			jsonArr.add(jsonObj);
 		}
-		System.out.println(jsonArr);
 		return jsonArr.toString();
 	}
 	
@@ -81,12 +92,30 @@ public class ScheduleController {
 		}
 	}
 	
+	// 일정 수정
+	@ResponseBody
+	@RequestMapping(value="/schedule/modifySchedule.strap", method=RequestMethod.POST)
+	public String modifySchedule(@ModelAttribute Schedule schedule) {
+		System.out.println(schedule);
+		int result = scService.modifySchedule(schedule);
+		if(result > 0) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+	
 	
 	// 일정 삭제
 	@ResponseBody
 	@RequestMapping(value="/schedule/removeSchedule.strap", method=RequestMethod.POST)
-	public String removeSchedule(@ModelAttribute Schedule schedule) {
-		return "ffjfjdsfdfsdf";
+	public String removeSchedule(@RequestParam("matchNo") Integer matchNo) {
+		int result = scService.removeSchedule(matchNo);
+		if (result > 0) {
+			return "success";
+		} else {
+			return "fail";
+		}
 	}
 	
 	

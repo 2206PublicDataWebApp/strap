@@ -86,9 +86,9 @@
 				<option value="600">600 이상</option>
 			</select><br><br>
 			
-			<label for="memberGender">성별</label><br>
-			<input type="radio" id="memberGender" name="memberGender" value="M" checked>Male
-			<input type="radio" id="memberGender" name="memberGender" value="F">Female<br><br>
+			<label>성별</label><br>
+			<input type="radio" id="Male" name="memberGender" value="M" checked>Male
+			<input type="radio" id="Female" name="memberGender" value="F">Female<br><br>
 		
 			<label>마이 짐</label><br>
 			<input type="text" id="jymAddress" name="jymAddress" style="width: 280px;">
