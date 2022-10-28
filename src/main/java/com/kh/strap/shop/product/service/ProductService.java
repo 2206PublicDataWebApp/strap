@@ -40,7 +40,7 @@ public interface ProductService {
 	
 	//주문별 구매상품 목록 출력
 	public List<Product> printProductsOnOrder(String orderNo);
-	
+	public List<OrderProduct> printOrderProductsOnOrder(String orderNo);
 	
 //상품 상세 조회
 	public Product printOneProduct(Product product);
@@ -67,7 +67,7 @@ public interface ProductService {
 
 //주문 조회
 	//주문 상세 출력
-	public Order printOneOrder(Order order);
+	public Order printOneOrder(String merchant_uid);
 	//회원 주문내역 리스트 출력
 	public List<Order> printMemberOrder(Paging paging,Search search);
 	public int countMemberOder(Search search);

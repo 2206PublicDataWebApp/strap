@@ -73,6 +73,10 @@ public class ProductStoreLogic implements ProductStore {
 	public List<Product> selectProductsOnOrder(SqlSession session, String orderNo) {
 		return session.selectList("ProductMapper.selectProductsOnOrder", orderNo);
 	}
+	@Override
+	public List<OrderProduct> selectOrderProductsOnOrder(SqlSession session, String orderNo) {
+		return session.selectList("OrderMapper.",orderNo);
+	}
 	
 //상품 상세 조회
 	@Override
@@ -120,8 +124,8 @@ public class ProductStoreLogic implements ProductStore {
 	
 //주문 조회
 	@Override
-	public Order selectOneOrder(SqlSession session, Order order) {
-		return session.selectOne("OrderMapper.selectOneOrder", order);
+	public Order selectOneOrder(SqlSession session, String merchant_uid) {
+		return session.selectOne("OrderMapper.selectOneOrder", merchant_uid);
 	}
 
 	@Override
@@ -206,6 +210,8 @@ public class ProductStoreLogic implements ProductStore {
 	public int updateMemberAddr(SqlSession session, Member member) {
 		return session.update("MemberMapper.updateMemberAddr", member);
 	}
+
+
 
 
 

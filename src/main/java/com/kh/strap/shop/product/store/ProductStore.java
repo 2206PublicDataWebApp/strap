@@ -43,7 +43,7 @@ public interface ProductStore {
 		
 //주문별 구매상품 목록 출력
 		public List<Product> selectProductsOnOrder(SqlSession session ,String orderNo);
-		
+		public List<OrderProduct> selectOrderProductsOnOrder(SqlSession session,String orderNo);
 //상품 상세 조회
 		public Product selectOneProduct(SqlSession session,Product product);
 		//인포이미지 리스트 조회
@@ -69,7 +69,7 @@ public interface ProductStore {
 		
 //주문 조회
 		//주문 상세 출력
-		public Order selectOneOrder(SqlSession session,Order order);
+		public Order selectOneOrder(SqlSession session,String merchant_uid);
 		//회원 주문내역 리스트 출력
 		public List<Order> selectMemberOrder(SqlSession session,Paging paging,Search search);
 		public int selectCountMemberOrder(SqlSession session,Search search);

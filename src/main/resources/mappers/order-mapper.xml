@@ -29,6 +29,7 @@
 		<result column="VBANK_HOLDER" 			property="vBankHolder"/>
 		<result column="VBANK_NAME" 			property="vBankName"/>
 		<result column="VBANK_NUM" 				property="vBankNum"/>
+		<result column="ORDER_STATUS" 			property="orderStatus"/>
   	</resultMap>
   	<resultMap type="OrderProduct" id="OrderProductResultMap">
   		<id 	column="ORDER_NO" 		property="orderNo"/>
@@ -39,7 +40,7 @@
   	
   	<insert id="insertOrder">
   		INSERT INTO ORDER_TBL
-  		VALUES(#{orderNo},#{deliveryFee},#{discountAmount},#{finalCost},#{memberId},#{address},#{contactPhone},#{deliveryRequest},#{agreeYn},#{paymentMethod},#{cardKind},DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{memberNick},-1,#{vBankDueDate},#{vBankHolder},#{vBankName},#{vBankNum})
+  		VALUES(#{orderNo},#{deliveryFee},#{discountAmount},#{finalCost},#{memberId},#{address},#{contactPhone},#{deliveryRequest},#{agreeYn},#{paymentMethod},#{cardKind},DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{memberNick},-1,#{vBankDueDate},#{vBankHolder},#{vBankName},#{vBankNum},DEFAULT)
   	</insert>
   	
   	<insert id="insertOrderProducts">
@@ -56,6 +57,12 @@
   	<select id="selectOneOrder" resultMap="OrderResultMap">
   		SELECT *
   		FROM ORDER_TBL
+  		WHERE ORDER_NO = #{orderNo}
+  	</select>
+  	
+  	<select id="selectOrderProductsOnOrder" resultMap="OrderProductResultMap">
+  		SESLECT *
+  		FROM ORDER_PRODUCT_TBL
   		WHERE ORDER_NO = #{orderNo}
   	</select>
   	
@@ -127,7 +134,7 @@
   	
   	<update id="updatePayComplete">
   		UPDATE ORDER_TBL
-  		SET PAY_COMPLETE = 'Y'
+  		SET PAY_COMPLETE = 'Y', ORDER_STATUS = 'paid'
   		WHERE ORDER_NO = #{orderNo}
   	</update>
   	

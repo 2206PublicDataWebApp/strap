@@ -248,7 +248,7 @@ function kginisis(){
 				    pay_method : paymentMethod,
 				    merchant_uid : orderNo,
 				    name : orderProductName /*상품명*/,
-				    amount : 100 /*상품 가격*/, 
+				    amount : finalCost /*상품 가격*/, 
 				    buyer_email : memberEmail /*구매자 이메일*/,
 				    buyer_name : ordererName,
 				    buyer_tel : contactPhone/*구매자 연락처*/,
@@ -266,7 +266,7 @@ function kginisis(){
 				        $.ajax({
 				            url: "/order/payment/completeCheck.strap", // 예: https://www.myservice.com/payments/complete
 				            method: "POST",
-				            headers: { "Content-Type": "application/json" },
+// 				            headers: { "Content-Type": "application/json" },
 				            data: {
 				                imp_uid: rsp.imp_uid,
 				                merchant_uid: rsp.merchant_uid,
@@ -278,9 +278,35 @@ function kginisis(){
 				                vbank_num:rsp.vbank_num
 				            },
 				            success:function(result){
-				            	 // 가맹점 서버 결제 API 성공시 로직
-				            	 //결제 성공 시 페이지 이동
-// 				    	location.href= $.getContextPath()+"/Cart/Success";
+				            	 // 가맹점 서버 검증로직 후 
+				            	 console.log(result);
+				            	 switch(result.status){
+				            	 case "success":
+				            		 //결제완료 페이지 이동
+				            		 location.href="/order/completeView.strap?merchant_uid="+merchant_uid;
+				            		break;
+				            	 case "vbankIssued":
+				            		 //가상계좌 발급페이지 이동
+				            		 break;
+				            	 case "forgery":
+				            		 //위변조 결제, 환불처리
+// 				            		 console.log(result.status + "위변조결제");
+// 				            		 $.ajax({
+// 				            			 url:"https://api.iamport.kr/payments/cancel",
+// 				            			 Authorization:"1546448204854828",
+// 				            			 data:{
+// 				            				 "reason":result.message, // 가맹점 클라이언트로부터 받은 환불사유
+// 				            		         "imp_uid":result.imp_uid , // imp_uid를 환불 `unique key`로 입력
+// // 				            		         "amount": cancel_request_amount, // 가맹점 클라이언트로부터 받은 환불금액
+// 				            			 },
+// 				            			 type:"post",
+// 				            			 successl:function(data){
+// 				            				 console.log(data);
+// 				            			 },
+// 				            			 error:function(){}
+// 				            		 });
+				            		 break;
+				            	 }
 				            },
 				            error:function(){}
 				        });
@@ -392,10 +418,10 @@ function calculatorCost(){
 	
 	productsPrice = getProductsPrice();
 	discountAmount = 0;
-	deliveryFee = 3000;
-	if(productsPrice >= 30000){
-		deliveryFee = 0;
-	}
+// 	deliveryFee = 3000;
+// 	if(productsPrice >= 30000){
+// 		deliveryFee = 0;
+// 	}
 	finalCost = productsPrice - discountAmount + deliveryFee;
 	
 	$productsPrice.innerHTML = productsPrice.toLocaleString();

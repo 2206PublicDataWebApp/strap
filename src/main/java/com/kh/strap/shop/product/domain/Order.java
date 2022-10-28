@@ -34,6 +34,7 @@ public class Order {
 	private String vBankHolder;				//가상 계좌 예금주
 	private String vBankName;				//가상계좌 은행이름
 	private String vBankNum;				//가상계좌번호
+	private String orderStatus;				//주문상태: ordered(주문상태), paid(결제상태), ready(가상계좌발급상태) , canceled(취소상태)
 	
 	
 	public Order() {}

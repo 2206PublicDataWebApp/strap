@@ -73,7 +73,11 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> printProductsOnOrder(String orderNo) {
 		return pStore.selectProductsOnOrder(session, orderNo);
 	}
-
+//주문별 주문상품목록 조회
+	@Override
+	public List<OrderProduct> printOrderProductsOnOrder(String orderNo) {
+		return pStore.selectOrderProductsOnOrder(session, orderNo);
+	}
 	
 //상품 상세 조회
 	@Override
@@ -116,8 +120,8 @@ public class ProductServiceImpl implements ProductService {
 	
 //주문 조회
 	@Override
-	public Order printOneOrder(Order order) {
-		return pStore.selectOneOrder(session, order);
+	public Order printOneOrder(String merchant_uid) {
+		return pStore.selectOneOrder(session, merchant_uid);
 	}
 	@Override
 	public List<Order> printMemberOrder(Paging paging, Search search) {
@@ -195,20 +199,4 @@ public class ProductServiceImpl implements ProductService {
 	public int modifyMemberAddr(Member member) {
 		return pStore.updateMemberAddr(session, member);
 	}
-
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
-	
 }

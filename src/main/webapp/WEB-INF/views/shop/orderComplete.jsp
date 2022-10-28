@@ -23,8 +23,47 @@
 		</div>
 	</div>
 <!-- 컨텐츠 -->
-	<div id="contents" class="row">
-		<div class="contents-side col">
+	<div id="contents" class="row" style="width:60%; margin:50px auto;">
+		<div class="contents col">
+		<h1>주문이 완료되었습니다.</h1><hr>
+		
+<!-- 		임시복붙 -->
+		<div><h3>구매상품 정보</h3></div>
+		${completeOrder }
+<%-- 						<c:forEach items="${completeOrder. }" var="cart" varStatus="n" > --%>
+<!-- 							<div class="oneCart row" style="margin: 10px auto;"> -->
+<!-- 								<div class="pImg col-3" style="text-align:center;"> -->
+<%-- 									<img src="${cart.product.mainImgRoot }" style="width:80px;height:70px;"> --%>
+<!-- 								</div> -->
+<!-- 								<div class="cartInfo col-6"> -->
+<!-- 									<div> -->
+<!-- 										<div class="pName"> -->
+<%-- 											<span class="brandName">[${cart.product.productBrand }]</span> --%>
+<%-- 											<span class="pName">${cart.product.productName }</span> --%>
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 									<div> -->
+<!-- 										<div class="cartPrice-wrap"> -->
+<!-- 												<span class='wonSymbol'>\</span> -->
+<!-- 												<span class="cartPrice"> -->
+<%-- 													<fmt:formatNumber value="${cart.product.productPrice}" pattern="#,###"/>  --%>
+<!-- 												</span> -->
+<!-- 												<span class="pQty"> -->
+<%-- 													${cart.productAmount }개 --%>
+<!-- 												</span> -->
+<!-- 										</div> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 								<div class="col-3"> -->
+<!-- 									<span class='wonSymbol'>\</span> -->
+<!-- 									<span class="cartPrice"> -->
+<%-- 										<fmt:formatNumber value="${cart.product.productPrice * cart.productAmount }" pattern="#,###"/>  --%>
+<!-- 									</span> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<%-- 							<input type="hidden" class="calPrice" value="${cart.product.productPrice * cart.productAmount }"> --%>
+<%-- 						</c:forEach>	 --%>
+					</div>
 		</div>
 	</div>
 <!-- 푸터 -->

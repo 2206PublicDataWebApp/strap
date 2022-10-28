@@ -162,30 +162,35 @@ public class ProductController {
 	@ResponseBody
 	@RequestMapping(value="/order/payment/completeCheck.strap", method=RequestMethod.POST)
 	public String orderProduct(
-			@RequestParam("imp_uid")String imp_uid,
-			@RequestParam("merchant_uid")String merchant_uid,
-			@RequestParam("paid_amount")Integer paid_amount,
-			@RequestParam("status")String status,
+			@RequestParam("imp_uid")String imp_uid, //결제번호
+			@RequestParam("merchant_uid")String merchant_uid, //주문번호
+			@RequestParam("paid_amount")Integer paid_amount, //결제금액
+			@RequestParam("status")String status, //주문상태
 			@ModelAttribute Order order){
 		
+		//1.결제된 금액과 주문했던 금액을 비교한다.
 		if(paid_amount == pService.getTobePaidFinalCost(merchant_uid)) {
-			//주문테이블 수정 결제완료 'Y'
-			pService.modifyPayCompleteOrder(merchant_uid);
+				System.out.println("검증성공");
 				if(status.equals("paid")) {
+					//2-1. 결제상태가 'paid'라면 결제 성공처리
+					//ORDER_STATUS = paid , PAY_COMPLETE = Y
+					pService.modifyPayCompleteOrder(merchant_uid);
 					return "{ status: 'success', message: '일반 결제 성공' }";
 					
 				}else if(status.equals("ready")) {
-					//db에 가상계좌 정보 저장?
+					//2-2. 결제상태가 'ready'라면 주문테이블에 가상계좌 입금정보 UPDATE
 					order.setOrderNo(merchant_uid);
 					pService.modifyVBankInfo(order);
-					
 					return "{ status: 'vbankIssued', message: '가상계좌 발급 성공' }";
+					
 				}else {
+					//아임포트 응답값 rsp.status의 그 외 응답값 확인 필요.
 					return "";
 				}
 			}else {
-			//결제금액과 결제되어야 할 금액이 다름! 결제금액 불일치, 위변조 결제
-			return "{ status: 'forgery', message: '위조된 결제시도' }";
+			//결제금액과 결제되어야 할 금액이 다른경우. 결제금액 불일치, 위변조 결제
+				System.out.println("검증 실패");
+				return "{ status: 'forgery', message: '위조된 결제시도' }";
 		}
 	}
 	
@@ -198,16 +203,19 @@ public class ProductController {
 			@RequestParam("orderNo") String orderNo) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
+			//1.주문레코드를 INSERT한다.
 			order.setOrderNo(orderNo);
 			if(pService.registerOrder(order)>0) {
-				//json배열을 자바의 List로 변경하고 이를 이용하여 DB에 INSERT한다.
+				//2.json배열을 자바의 List로 변경하고 이를 이용하여 DB에 INSERT한다.
 				List<OrderProduct> opList =objectMapper.readValue(jsonArr, objectMapper.getTypeFactory().constructCollectionType(List.class, OrderProduct.class));
 				opList.stream().forEach(orderProduct ->{
 					pService.registerOrderProducts(orderProduct);
 				});
 				return "success";
+				
 			}else {
 				return "fail";
+				
 			}
 		} catch (JsonMappingException e) {
 			e.printStackTrace();
@@ -216,6 +224,24 @@ public class ProductController {
 		} 
 		return "fail";
 	}
+	
+	//결제 및 가상계좌 발급 완료 -> 주문 완료 페이지
+	@RequestMapping(value="/order/completeView.strap",method=RequestMethod.GET)
+	public ModelAndView viewOrderCompletePage(ModelAndView mv,
+			@RequestParam("merchant_uid")String merchant_uid) {
+		
+		Order completeOrder = pService.printOneOrder(merchant_uid);
+		//OrderProduct를 담아야한다.
+		completeOrder.setOrderProducts(pService.printOrderProductsOnOrder(merchant_uid));
+		//Product를 담아야한다.
+		completeOrder.setBuyProducts(pService.printProductsOnOrder(merchant_uid));
+		mv.addObject("completeOrder",completeOrder).
+		setViewName("/shop/orderComplete");
+		return mv;
+	}
+	
+	
+	
 	//주문페이지에서 주소 저장 (,_)로 구분
 	@ResponseBody
 	@RequestMapping(value="/member/modifyAddr.strap",method=RequestMethod.POST)
