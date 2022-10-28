@@ -1,6 +1,8 @@
 package com.kh.strap.match.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -60,11 +62,20 @@ public class MatchController {
 			HttpServletRequest request
 			,HttpSession session) {
 		Member member = (Member)request.getSession().getAttribute("loginUser");
+		Member mOne = new Member();
 		String local = member.getMemberJym().split(" ")[1];
-		System.out.println(local);
-		member.setMemberJym(local);
-		List<Member> mList = mService.localMember(member);
+		mOne.setMemberId(member.getMemberId());
+		mOne.setMemberJym(local);
+		//내 주변 회원 목록을 가져오고 jsp로 넘기기
+		List<Member> mList = mService.localMember(mOne);
 		request.setAttribute("mList", mList);
+		//내 주변 회원목록을 추천 이력 테이블에 insert
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("mList", mList);
+		map.put("user", member.getMemberId());
+		int result = mService.inserLocalRecord(map);
+		System.out.println("result :" + result);
+		
 		return "/match/matchingMember";
 	}
 	/**

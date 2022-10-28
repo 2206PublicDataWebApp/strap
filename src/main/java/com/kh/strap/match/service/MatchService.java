@@ -1,6 +1,7 @@
 package com.kh.strap.match.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.notebox.domain.NoteBox;
@@ -14,5 +15,7 @@ public interface MatchService {
 	String findIdByNick(String recipientNick);
 
 	int insertNoteBox(NoteBox nb);
+
+	int inserLocalRecord(Map<String, Object> map);
 
 }
