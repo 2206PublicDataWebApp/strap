@@ -10,6 +10,7 @@ import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.shop.product.domain.Order;
+import com.kh.strap.shop.product.domain.OrderProduct;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.domain.ProductLike;
@@ -69,10 +70,14 @@ public class ProductServiceImpl implements ProductService {
 
 //주문별 상품목록 조회
 	@Override
-	public List<Product> printProductsOnOrder(int orderNo) {
+	public List<Product> printProductsOnOrder(String orderNo) {
 		return pStore.selectProductsOnOrder(session, orderNo);
 	}
-
+//주문별 주문상품목록 조회
+	@Override
+	public List<OrderProduct> printOrderProductsOnOrder(String orderNo) {
+		return pStore.selectOrderProductsOnOrder(session, orderNo);
+	}
 	
 //상품 상세 조회
 	@Override
@@ -102,10 +107,21 @@ public class ProductServiceImpl implements ProductService {
 	public int registerOrder(Order order) {
 		return pStore.insertOrder(session, order);
 	}
+//주문 상품 List 등록
+	@Override
+	public int registerOrderProducts(OrderProduct orderProduct) {
+		return pStore.insertOrderProducts(session, orderProduct);
+	}
+//결제금액 체크	
+	@Override
+	public int getTobePaidFinalCost(String merchant_uid) {
+		return pStore.selectGetTobePaidFinalCost(session, merchant_uid);
+	}
+	
 //주문 조회
 	@Override
-	public Order printOneOrder(Order order) {
-		return pStore.selectOneOrder(session, order);
+	public Order printOneOrder(String merchant_uid) {
+		return pStore.selectOneOrder(session, merchant_uid);
 	}
 	@Override
 	public List<Order> printMemberOrder(Paging paging, Search search) {
@@ -128,21 +144,26 @@ public class ProductServiceImpl implements ProductService {
 	
 //주문 수정
 	@Override
-	public int modifyPayCompleteOrder(Order order) {
-		return pStore.updatePayCompleteOrder(session, order);
+	public int modifyPayCompleteOrder(String merchant_uid) {
+		return pStore.updatePayCompleteOrder(session, merchant_uid);
 	}
 	@Override
-	public int modifyDeliveryStartOrder(Order order) {
-		return pStore.updateDeliveryStartOrder(session, order);
+	public int modifyDeliveryStartOrder(String merchant_uid) {
+		return pStore.updateDeliveryStartOrder(session, merchant_uid);
 	}
 	@Override
-	public int modifyDeliveryCompleteOrder(Order order) {
-		return pStore.updateDeliveryCompleteOrder(session, order);
+	public int modifyDeliveryCompleteOrder(String merchant_uid) {
+		return pStore.updateDeliveryCompleteOrder(session, merchant_uid);
 	}
 	@Override
-	public int modifyCancelOrder(Order order) {
-		return pStore.updateCancelOrder(session, order);
+	public int modifyCancelOrder(String merchant_uid) {
+		return pStore.updateCancelOrder(session, merchant_uid);
 	}
+	@Override
+	public int modifyVBankInfo(Order order) {
+		return pStore.updateVBankInfo(session, order);
+	}
+	
 //찜
 	//찜목록출력
 	@Override
@@ -178,17 +199,4 @@ public class ProductServiceImpl implements ProductService {
 	public int modifyMemberAddr(Member member) {
 		return pStore.updateMemberAddr(session, member);
 	}
-	
-
-
-
-
-
-
-
-
-
-
-
-	
 }
