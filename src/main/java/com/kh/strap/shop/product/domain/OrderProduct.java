@@ -2,24 +2,24 @@ package com.kh.strap.shop.product.domain;
 
 public class OrderProduct {
 
-	private int orderNo;
+	private String orderNo;
 	private int productNo;
 	private int orderQty;
 	
 	public OrderProduct () {}
 
-	public OrderProduct(int orderNo, int productNo, int orderQty) {
+	public OrderProduct(String orderNo, int productNo, int orderQty) {
 		super();
 		this.orderNo = orderNo;
 		this.productNo = productNo;
 		this.orderQty = orderQty;
 	}
 
-	public int getOrderNo() {
+	public String getOrderNo() {
 		return orderNo;
 	}
 
-	public void setOrderNo(int orderNo) {
+	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
 	}
 
@@ -43,6 +43,6 @@ public class OrderProduct {
 	public String toString() {
 		return "OrderProduct [orderNo=" + orderNo + ", productNo=" + productNo + ", orderQty=" + orderQty + "]";
 	}
-	
+
 	
 }

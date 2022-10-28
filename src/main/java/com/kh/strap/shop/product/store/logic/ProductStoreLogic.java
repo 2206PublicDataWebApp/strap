@@ -10,6 +10,7 @@ import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.shop.product.domain.Order;
+import com.kh.strap.shop.product.domain.OrderProduct;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.domain.ProductLike;
@@ -18,6 +19,7 @@ import com.kh.strap.shop.product.store.ProductStore;
 @Repository
 public class ProductStoreLogic implements ProductStore {
 
+	
 //상품 등록
 	@Override
 	public int insertProduct(SqlSession session, Product product) {
@@ -68,8 +70,12 @@ public class ProductStoreLogic implements ProductStore {
 	
 //주문별 상품목록 조회	
 	@Override
-	public List<Product> selectProductsOnOrder(SqlSession session, int orderNo) {
+	public List<Product> selectProductsOnOrder(SqlSession session, String orderNo) {
 		return session.selectList("ProductMapper.selectProductsOnOrder", orderNo);
+	}
+	@Override
+	public List<OrderProduct> selectOrderProductsOnOrder(SqlSession session, String orderNo) {
+		return session.selectList("OrderMapper.selectOrderProductsOnOrder",orderNo);
 	}
 	
 //상품 상세 조회
@@ -105,10 +111,21 @@ public class ProductStoreLogic implements ProductStore {
 	public int insertOrder(SqlSession session, Order order) {
 		return session.insert("OrderMapper.insertOrder", order);
 	}
+//주문 상품 List 등록
+	@Override
+	public int insertOrderProducts(SqlSession session, OrderProduct orderProduct) {
+		return session.insert("OrderMapper.insertOrderProducts", orderProduct);
+	}
+//결제금액체크	
+	@Override
+	public int selectGetTobePaidFinalCost(SqlSession session, String merchant_uid) {
+		return session.selectOne("OrderMapper.selectGetToBePaidFinalCost",merchant_uid);
+	}
+	
 //주문 조회
 	@Override
-	public Order selectOneOrder(SqlSession session, Order order) {
-		return session.selectOne("OrderMapper.selectOneOrder", order);
+	public Order selectOneOrder(SqlSession session, String merchant_uid) {
+		return session.selectOne("OrderMapper.selectOneOrder", merchant_uid);
 	}
 
 	@Override
@@ -131,24 +148,30 @@ public class ProductStoreLogic implements ProductStore {
 	}
 //주문 수정
 	@Override
-	public int updatePayCompleteOrder(SqlSession session, Order order) {
-		return session.update("OrderMapper.updatePayComplete", order);
+	public int updatePayCompleteOrder(SqlSession session, String merchant_uid) {
+		return session.update("OrderMapper.updatePayComplete", merchant_uid);
 	}
 	
 	@Override
-	public int updateDeliveryStartOrder(SqlSession session, Order order) {
-		return session.update("OrderMapper.updateDeliveryStart",order);
+	public int updateDeliveryStartOrder(SqlSession session, String merchant_uid) {
+		return session.update("OrderMapper.updateDeliveryStart",merchant_uid);
 	}
 
 	@Override
-	public int updateDeliveryCompleteOrder(SqlSession session, Order order) {
-		return session.update("OrderMapper.updateDeliveryComplete",order);
+	public int updateDeliveryCompleteOrder(SqlSession session, String merchant_uid) {
+		return session.update("OrderMapper.updateDeliveryComplete",merchant_uid);
 	}
 
 	@Override
-	public int updateCancelOrder(SqlSession session, Order order) {
-		return session.update("OrderMapper.updateOrderCancel",order);
+	public int updateCancelOrder(SqlSession session, String merchant_uid) {
+		return session.update("OrderMapper.updateOrderCancel",merchant_uid);
 	}
+	@Override
+	public int updateVBankInfo(SqlSession session, Order order) {
+		return session.update("OrderMapper.updateVBankInfo",order);
+	}
+	
+	
 //찜
 	//찜목록출력
 	@Override
@@ -187,4 +210,11 @@ public class ProductStoreLogic implements ProductStore {
 	public int updateMemberAddr(SqlSession session, Member member) {
 		return session.update("MemberMapper.updateMemberAddr", member);
 	}
+
+
+
+
+
+
+
 }

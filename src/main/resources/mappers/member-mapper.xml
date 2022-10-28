@@ -117,5 +117,4 @@
 	<update id="updateMemberAddr">
 		UPDATE MEMBER_TBL SET MEMBER_ADDRESS = #{memberAddress} WHERE MEMBER_ID = #{memberId}
 	</update>
-
 </mapper>

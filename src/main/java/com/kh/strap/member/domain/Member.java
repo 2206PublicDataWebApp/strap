@@ -26,7 +26,6 @@ public class Member {
 	private Date memberLastDate;	//20.최근 접속일
 
 	
-	
 
 	public Date getMemberLastDate() {
 		return memberLastDate;

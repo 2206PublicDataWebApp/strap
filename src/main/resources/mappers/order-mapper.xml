@@ -7,9 +7,7 @@
   
   	<resultMap type="Order" id="OrderResultMap">
 		<id	 	column="ORDER_NO" 				property="orderNo"/>  	
-		<result column="PRODUCT_NO" 			property="productNo"/>
 		<result column="DELIVERY_FEE" 			property="deliveryFee"/>
-		<result column="COUPON_NO" 				property="couponNo"/>
 		<result column="DISCOUNT_AMOUNT" 		property="discountAmount"/>
 		<result column="FINAL_COST" 			property="finalCost"/>
 		<result column="MEMBER_ID" 				property="memberId"/>
@@ -19,17 +17,19 @@
 		<result column="AGREE_YN" 				property="agreeYn"/>
 		<result column="PAYMENT_METHOD" 		property="paymentMethod"/>
 		<result column="CARD_KIND" 				property="cardKind"/>
-		<result column="MONTHLY_PAY" 			property="monthlyPay"/>
-		<result column="BANK_KIND" 				property="bankKind"/>
-		<result column="BANK_PAYER_NAME" 		property="bankPayerName"/>
 		<result column="PAY_COMPLETE" 			property="payComplete"/>
 		<result column="ORDER_CANCEL" 			property="orderCancel"/>
-		<result column="ORDER_BACK" 			property="orderBack"/>
 		<result column="DELIVERY_START" 		property="deliveryStart"/>
 		<result column="DELIVERY_COMPLETE"	    property="deliveryComplete"/>
 		<result column="DELIVERY_NO" 			property="deliveryNo"/>
 		<result column="ORDER_DATE" 			property="orderDate"/>
+		<result column="MEMBER_NICK"			property="memberNick"/>
 		<result column="PAY_NO" 				property="payNo"/>
+		<result column="VBANK_DUEDATE" 			property="vBankDueDate"/>
+		<result column="VBANK_HOLDER" 			property="vBankHolder"/>
+		<result column="VBANK_NAME" 			property="vBankName"/>
+		<result column="VBANK_NUM" 				property="vBankNum"/>
+		<result column="ORDER_STATUS" 			property="orderStatus"/>
   	</resultMap>
   	<resultMap type="OrderProduct" id="OrderProductResultMap">
   		<id 	column="ORDER_NO" 		property="orderNo"/>
@@ -40,12 +40,29 @@
   	
   	<insert id="insertOrder">
   		INSERT INTO ORDER_TBL
-  		VALUES(SEQ_ORDER_NO.NEXTVAL)
+  		VALUES(#{orderNo},#{deliveryFee},#{discountAmount},#{finalCost},#{memberId},#{address},#{contactPhone},#{deliveryRequest},#{agreeYn},#{paymentMethod},#{cardKind},DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{memberNick},-1,#{vBankDueDate},#{vBankHolder},#{vBankName},#{vBankNum},DEFAULT)
   	</insert>
+  	
+  	<insert id="insertOrderProducts">
+  		INSERT INTO ORDER_PRODUCT_TBL
+  		VALUES(#{orderNo},#{productNo},#{orderQty})
+  	</insert>
+  	
+  	<update id="updateVBankInfo">
+  		UPDATE ORDER_TBL 
+  		SET VBANK_DUEDATE = #{vBankDueDate},VBANK_HOLDER= #{vBankHolder}, VBANK_NAME=#{vBankName},VBANK_NUM=#{vBankNum}
+  		WHERE ORDER_NO = #{orderNo}
+  	</update>
   	
   	<select id="selectOneOrder" resultMap="OrderResultMap">
   		SELECT *
   		FROM ORDER_TBL
+  		WHERE ORDER_NO = #{orderNo}
+  	</select>
+  	
+  	<select id="selectOrderProductsOnOrder" resultMap="OrderProductResultMap">
+  		SELECT *
+  		FROM ORDER_PRODUCT_TBL
   		WHERE ORDER_NO = #{orderNo}
   	</select>
   	
@@ -76,6 +93,12 @@
 				AND (ORDER_DATE <![CDATA[>=]]> #{startDate} AND ORDER_DATE <![CDATA[<=]]> #{endDate}+1 )
 			</if>	
 		</where>
+	</select>
+	
+	<select id="selectGetToBePaidFinalCost" resultType="_int">
+		SELECT FINAL_COST
+		FROM ORDER_TBL
+		WHERE ORDER_NO = #{merchant_uid}
 	</select>
   	
   	<select id="selectMemberCancelOrder" resultMap="OrderResultMap">
@@ -111,7 +134,7 @@
   	
   	<update id="updatePayComplete">
   		UPDATE ORDER_TBL
-  		SET PAY_COMPLETE = #{payComplete}
+  		SET PAY_COMPLETE = 'Y', ORDER_STATUS = 'paid'
   		WHERE ORDER_NO = #{orderNo}
   	</update>
   	

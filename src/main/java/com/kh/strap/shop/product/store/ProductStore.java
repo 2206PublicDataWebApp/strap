@@ -8,6 +8,7 @@ import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.shop.product.domain.Order;
+import com.kh.strap.shop.product.domain.OrderProduct;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.domain.ProductLike;
@@ -41,8 +42,8 @@ public interface ProductStore {
 		public int selectCountAdminProductSearch(SqlSession session,Search search);
 		
 //주문별 구매상품 목록 출력
-		public List<Product> selectProductsOnOrder(SqlSession session ,int orderNo);
-		
+		public List<Product> selectProductsOnOrder(SqlSession session ,String orderNo);
+		public List<OrderProduct> selectOrderProductsOnOrder(SqlSession session,String orderNo);
 //상품 상세 조회
 		public Product selectOneProduct(SqlSession session,Product product);
 		//인포이미지 리스트 조회
@@ -61,11 +62,14 @@ public interface ProductStore {
 		
 //주문 등록
 		public int insertOrder(SqlSession session,Order order);
+//주문 상품 List 등록
+		public int insertOrderProducts(SqlSession session, OrderProduct orderProduct);
 		
+		public int selectGetTobePaidFinalCost(SqlSession session, String merchant_uid);
 		
 //주문 조회
 		//주문 상세 출력
-		public Order selectOneOrder(SqlSession session,Order order);
+		public Order selectOneOrder(SqlSession session,String merchant_uid);
 		//회원 주문내역 리스트 출력
 		public List<Order> selectMemberOrder(SqlSession session,Paging paging,Search search);
 		public int selectCountMemberOrder(SqlSession session,Search search);
@@ -75,14 +79,14 @@ public interface ProductStore {
 		
 //주문 수정
 		//주문 완료
-		public int updatePayCompleteOrder(SqlSession session,Order order);
+		public int updatePayCompleteOrder(SqlSession session,String merchant_uid);
 		//배송 시작
-		public int updateDeliveryStartOrder(SqlSession session, Order order);
+		public int updateDeliveryStartOrder(SqlSession session, String merchant_uid);
 		//배송 완료
-		public int updateDeliveryCompleteOrder(SqlSession session,Order order);
+		public int updateDeliveryCompleteOrder(SqlSession session,String merchant_uid);
 		//주문 취소
-		public int updateCancelOrder(SqlSession session,Order order);
-		
+		public int updateCancelOrder(SqlSession session,String merchant_uid);
+		public int updateVBankInfo(SqlSession session,Order order);
 		
 //찜 추가
 		//찜 등록
