@@ -187,51 +187,58 @@
 		</c:if>
 		
 	</div>
-	
 
-<!--Report Modal -->
-<div class="modal fade" id="reportNote" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">쪽지 신고</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<div class="modal-body p-5 pt-0">
-					<form id="report-form">
-					<input type="hidden" value="RC1" name="contentsCode">
-					<input type="hidden" value=${noteBox.noteNo } name="contentsNo">
-					<input type="hidden" value=${noteBox.senderId } name="reportMember">
-					<input type="hidden" value=${noteBox.senderNick } name="reportMemberNick">
-					<input type="hidden" value=${noteBox.noteTitle } name="noteTitle">
-					<input type="hidden" value=${noteBox.noteContents } name="noteContents">
-<%-- 					<input type="hidden" value=${. } name="memberId">  신고자 추가해야함--%>
-						<div class="form-floating mb-3">
-							<p>신고 종류</p>
-							<select class="form-select" aria-label="Default select example" name="reportType">
-								<option value="RT1">영리목적/홍보성</option>
-								<option value="RT2">불법정보</option>
-								<option value="RT3">음란/선정성</option>
-								<option value="RT4">욕설/인신공격</option>
-								<option value="RT5">직거래</option>
-								<option value="RT6">표시광고위반</option>
-								<option value="RT7">판매방식 부적합</option>
-								<option value="RT8">게시물 정책위반</option>
-								<option value="RT9">기타</option>
-							</select>
-						</div>
-						<div class="mb-3">
-							<textarea class="form-control" placeholder="신고 내용을 입력해주세요" id="notice-textarea" name="reportContents" style="height: 150px" required></textarea>
-						</div>
-					<button class="report-submit w-100 mb-2 btn btn-lg btn-danger">신고</button>
-					</form>
+
+	<!--Report Modal -->
+	<div class="modal fade" id="reportNote" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">쪽지 신고</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-body p-5 pt-0">
+						<form id="report-form">
+							<input type="hidden" value="RC1" name="contentsCode"> <input
+								type="hidden" value=${noteBox.noteNo } name="contentsNo">
+							<input type="hidden" value=${noteBox.senderId }
+								name="reportMember"> <input type="hidden"
+								value=${noteBox.senderNick } name="reportMemberNick"> <input
+								type="hidden" value=${noteBox.noteTitle } name="noteTitle">
+							<input type="hidden" value=${noteBox.noteContents }
+								name="noteContents">
+							<%-- 					<input type="hidden" value=${. } name="memberId">  신고자 추가해야함--%>
+							<div class="form-floating mb-3">
+								<p>신고 종류</p>
+								<select class="form-select" aria-label="Default select example"
+									name="reportType">
+									<option value="RT1">영리목적/홍보성</option>
+									<option value="RT2">불법정보</option>
+									<option value="RT3">음란/선정성</option>
+									<option value="RT4">욕설/인신공격</option>
+									<option value="RT5">직거래</option>
+									<option value="RT6">표시광고위반</option>
+									<option value="RT7">판매방식 부적합</option>
+									<option value="RT8">게시물 정책위반</option>
+									<option value="RT9">기타</option>
+								</select>
+							</div>
+							<div class="mb-3">
+								<textarea class="form-control" placeholder="신고 내용을 입력해주세요"
+									id="notice-textarea" name="reportContents"
+									style="height: 150px" required></textarea>
+							</div>
+							<button class="report-submit w-100 mb-2 btn btn-lg btn-danger">신고</button>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<script>
+	<script>
 	var now_utc = Date.now() // 지금 날짜를 밀리초로
 	//getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환
 	var timeOff = new Date().getTimezoneOffset()*60000; // 분단위를 밀리초로 변환

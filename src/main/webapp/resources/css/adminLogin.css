@@ -2,7 +2,7 @@
 
 body{
     height: 100vh;
-    background: url(/resources/images/adminLogin.jpg) no-repeat center;
+    background: url(/resources/image/admin/adminLogin.jpg) no-repeat center;
     background-size: cover;
 }
 

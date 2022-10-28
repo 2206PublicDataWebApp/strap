@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BannerMapper">
+	<resultMap type= "Banner" id="bannerResultMap">
+		<id property="bannerNo" column="BANNER_NO"/>
+		<result property="bannerTitle" column="BANNER_TITLE"/>
+		<result property="enrollDate" column="ENROLL_DATE"/>
+		<result property="bannerFilename" column="BANNER_FILENAME"/>
+		<result property="bannerFileRename" column="BANNER_FILERENAME"/>
+		<result property="bannerFilepath" column="BANNER_FILEPATH"/>
+	</resultMap>
+</mapper>
