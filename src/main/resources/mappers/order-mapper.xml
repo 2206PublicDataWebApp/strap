@@ -61,7 +61,7 @@
   	</select>
   	
   	<select id="selectOrderProductsOnOrder" resultMap="OrderProductResultMap">
-  		SESLECT *
+  		SELECT *
   		FROM ORDER_PRODUCT_TBL
   		WHERE ORDER_NO = #{orderNo}
   	</select>

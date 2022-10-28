@@ -266,7 +266,6 @@ function kginisis(){
 				        $.ajax({
 				            url: "/order/payment/completeCheck.strap", // 예: https://www.myservice.com/payments/complete
 				            method: "POST",
-// 				            headers: { "Content-Type": "application/json" },
 				            data: {
 				                imp_uid: rsp.imp_uid,
 				                merchant_uid: rsp.merchant_uid,
@@ -280,31 +279,17 @@ function kginisis(){
 				            success:function(result){
 				            	 // 가맹점 서버 검증로직 후 
 				            	 console.log(result);
-				            	 switch(result.status){
+				            	 switch(result){
 				            	 case "success":
 				            		 //결제완료 페이지 이동
-				            		 location.href="/order/completeView.strap?merchant_uid="+merchant_uid;
+				            		 location.href="/order/completeView.strap?merchant_uid="+orderNo;
 				            		break;
 				            	 case "vbankIssued":
 				            		 //가상계좌 발급페이지 이동
+				            		 location.href="/order/completeView.strap?merchant_uid="+orderNo;
 				            		 break;
 				            	 case "forgery":
 				            		 //위변조 결제, 환불처리
-// 				            		 console.log(result.status + "위변조결제");
-// 				            		 $.ajax({
-// 				            			 url:"https://api.iamport.kr/payments/cancel",
-// 				            			 Authorization:"1546448204854828",
-// 				            			 data:{
-// 				            				 "reason":result.message, // 가맹점 클라이언트로부터 받은 환불사유
-// 				            		         "imp_uid":result.imp_uid , // imp_uid를 환불 `unique key`로 입력
-// // 				            		         "amount": cancel_request_amount, // 가맹점 클라이언트로부터 받은 환불금액
-// 				            			 },
-// 				            			 type:"post",
-// 				            			 successl:function(data){
-// 				            				 console.log(data);
-// 				            			 },
-// 				            			 error:function(){}
-// 				            		 });
 				            		 break;
 				            	 }
 				            },

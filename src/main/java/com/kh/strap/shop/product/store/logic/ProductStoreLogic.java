@@ -75,7 +75,7 @@ public class ProductStoreLogic implements ProductStore {
 	}
 	@Override
 	public List<OrderProduct> selectOrderProductsOnOrder(SqlSession session, String orderNo) {
-		return session.selectList("OrderMapper.",orderNo);
+		return session.selectList("OrderMapper.selectOrderProductsOnOrder",orderNo);
 	}
 	
 //상품 상세 조회

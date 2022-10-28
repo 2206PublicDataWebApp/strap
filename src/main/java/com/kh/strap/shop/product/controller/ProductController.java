@@ -160,7 +160,7 @@ public class ProductController {
 	
 	//주문페이지->결제검증
 	@ResponseBody
-	@RequestMapping(value="/order/payment/completeCheck.strap", method=RequestMethod.POST)
+	@RequestMapping(value="/order/payment/completeCheck.strap",method=RequestMethod.POST)
 	public String orderProduct(
 			@RequestParam("imp_uid")String imp_uid, //결제번호
 			@RequestParam("merchant_uid")String merchant_uid, //주문번호
@@ -175,13 +175,13 @@ public class ProductController {
 					//2-1. 결제상태가 'paid'라면 결제 성공처리
 					//ORDER_STATUS = paid , PAY_COMPLETE = Y
 					pService.modifyPayCompleteOrder(merchant_uid);
-					return "{ status: 'success', message: '일반 결제 성공' }";
+					return "success";
 					
 				}else if(status.equals("ready")) {
 					//2-2. 결제상태가 'ready'라면 주문테이블에 가상계좌 입금정보 UPDATE
 					order.setOrderNo(merchant_uid);
 					pService.modifyVBankInfo(order);
-					return "{ status: 'vbankIssued', message: '가상계좌 발급 성공' }";
+					return "vbankIssued";
 					
 				}else {
 					//아임포트 응답값 rsp.status의 그 외 응답값 확인 필요.
@@ -190,7 +190,7 @@ public class ProductController {
 			}else {
 			//결제금액과 결제되어야 할 금액이 다른경우. 결제금액 불일치, 위변조 결제
 				System.out.println("검증 실패");
-				return "{ status: 'forgery', message: '위조된 결제시도' }";
+				return "forgery";
 		}
 	}
 	
