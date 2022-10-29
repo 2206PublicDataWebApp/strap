@@ -80,7 +80,7 @@ public class ProductController {
 			@RequestParam(value="page",required=false)Integer currentPage
 			) {
 		int page = (currentPage != null)? currentPage : 1;
-		Paging paging = new Paging(pService.countAllProduct(), page, 25, 5);
+		Paging paging = new Paging(pService.countAllProduct(), page, 10, 5);
 		List<Product>pList = pService.printAllProduct(paging, search);
 		mv.addObject("pList",pList).
 		addObject("paging",paging).
@@ -97,7 +97,7 @@ public class ProductController {
 			@RequestParam(value="page",required=false)Integer currentPage) {
 		int page = (currentPage != null)? currentPage : 1;
 		
-		Paging paging = new Paging(pService.countSearchProduct(search),page,25,5);
+		Paging paging = new Paging(pService.countSearchProduct(search),page,10,5);
 		List<Product>pList = pService.printAllProductSearch(paging, search);
 		mv.addObject("pList",pList).
 		addObject("paging",paging).

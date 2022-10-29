@@ -15,6 +15,36 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
 <style>
 
+#pImg img{
+	border:1px solid #c0c0c0;
+	border-radius:4px;
+}
+
+#qtyControl button{
+	font-size:16px;
+	font-weight:bold;
+}
+#btn-wrap button{
+	width:48%;
+	height:70px;
+	border-radius:4px;
+	border: 2px solid darkorange;
+}
+
+.pageNav{
+	item-align:center;
+	vertical-align:bottom;
+	background-color:rgb(250,250,250);
+	border: 1px solid rgb(230,230,230);
+	border-top-left-radius:8px;
+	border-top-right-radius:8px;
+}
+#moveNav a{
+	text-decoration:none;
+	color:gray;
+	vertical-align: bottom;
+}
+
 .inputStars{
 	color:gray;
 	display:inline-block;
@@ -23,13 +53,23 @@
 .inputStars:hover{
 	animation-name: rectani3;
     animation-duration: 1s;
-    color:gold;
+    color:darkorange;
 }
 .graphStar{
-	color:gold;
+	color:darkorange;
 }
 .backStar{
 	color:gray;
+}
+
+#reviewPaging a{
+ color:gray;
+ text-decoration:none;
+}
+
+#qnaPaging a{
+ color:gray;
+ text-decoration:none;
 }
 
 @keyframes rectani3{
@@ -54,18 +94,18 @@
 				<div id="pInfo-wrap" class="row detail ">
 					<div id="pImg" class="col" style="text-align:center;">
 						<div id="zoomImg">
-							<img id="zoom" src="${product.mainImgRoot }" width="400px" height="360px" onerror="" style="border:1px solid black">
+							<img id="zoom" src="${product.mainImgRoot }" width="400px" height="360px" onerror="">
 						</div>
 						<div id="onImg" style="margin:5px auto;">
-							<img src="${product.mainImgRoot }" width="15%" height="80px" onerror="" onmouseover="document.querySelector('#zoom').src=this.src" style="border:1px solid black">
+							<img src="${product.mainImgRoot }" width="15%" height="70px" onerror="" onmouseover="document.querySelector('#zoom').src=this.src">
 							<c:forEach items="${subList }" var="subImg">
-								<img src="${subImg.subRoot }" width="15%" height="80px" onerror="" onmouseover="document.querySelector('#zoom').src=this.src" style="border:1px solid black">
+								<img src="${subImg.subRoot }" width="15%" height="70px" onerror="" onmouseover="document.querySelector('#zoom').src=this.src">
 							</c:forEach>
 						</div>
 					</div>
-					<div id="pInfo" class="col" style="text-align:center;">
-						<div id="pTitle">
-							<span id="pName"><h3>[${product.productBrand }] ${product.productName }</h3></span>
+					<div id="pInfo" class="col" style="text-align:center; item-align:center; padding:15px;">
+						<div id="pTitle" style="height:50px;">
+							<span id="pName" style="font-weight:bold; font-size:25px;">[${product.productBrand }] ${product.productName }</span>
 						</div>
 						<div id="star">
 							<div class="starGrade" 	style="position:relative; display:inline-block;">
@@ -77,42 +117,49 @@
 								<span class="review">(${product.reviewCount })</span>
 							</div>
 						</div>
-						<div id="pPrice" style="text-align:center; font-size:30px;">
+						<div id="pPrice" style="text-align:center; font-size:26px;font-weight:bold;">
 							<div id="price">
 								<span id='wonSymbol'>\</span> 
-								<fmt:formatNumber value="${product.productPrice }" pattern="#,###"/>
+								<span id="price" style="font-size:30px;">
+									<fmt:formatNumber value="${product.productPrice }" pattern="#,###"/>
+								</span>
 							</div>
-							<div id="function">
-								<span id="${product.productNo }" class="likeBtn" onclick="loginCheck('${loginUser.memberId}',function(){controlLike('${loginUser.memberId}',${product.productNo });});"><i class="fa-regular fa-heart"></i></span>
+							<div id="function" style="color:gray;">
+								<span id="${product.productNo }" class="likeBtn" onclick="loginCheck('${loginUser.memberId}',function(){controlLike('${loginUser.memberId}',${product.productNo });});"><i class="fa-solid fa-heart"></i></span>
 								<i class="fa-solid fa-share-nodes"></i>
 							</div>
 						</div>
 						<hr>
 						<div id="pQty">
-							<span id="qtyLabel">구매수량</span>
-							<span id="qtyControl">
-								<button id="downQty" type="button" onclick="if(document.querySelector('#qty').value > 1)document.querySelector('#qty').value--; calTotalPrice();">-</button>
-								<input id="qty" type="text" width="60px" value="1" readonly style="width:50px;text-align:center;">
-								<button id="upQty" type="button" onclick="document.querySelector('#qty').value++; calTotalPrice();">+</button>
+<!-- 							<span id="qtyLabel">구매수량</span> -->
+							<span id="qtyControl" class="btn-group" role="group" style="border:1px solid gray;">
+								<button class="btn" id="downQty" type="button" onclick="if(document.querySelector('#qty').value > 1)document.querySelector('#qty').value--; calTotalPrice();">-</button>
+								<input  class="btn" id="qty" type="text" width="60px" value="1" readonly style="width:50px;text-align:center;">
+								<button class="btn" id="upQty" type="button" onclick="document.querySelector('#qty').value++; calTotalPrice();">+</button>
 							</span>
 						</div>
-						<div id="pTotalPrice" style="font-size:30px;">
-							<span id="totalPriceLabel">상품 구매 가격</span>
+						<div id="pTotalPrice" style="font-size:23px;padding:12px;">
+							<span id="totalPriceLabel">총 상품금액  </span>
 							<span id="totalPrice">
-								<span id='wonSymbol'>\</span> 
-								<fmt:formatNumber value="${product.productPrice }" pattern="#,###"/>
+								<span id='wonSymbol'>\</span>
+								<span style="font-size:36px;color:darkorange;font-weight:bold;">
+									<fmt:formatNumber value="${product.productPrice }" pattern="#,###"/>
+								</span> 
 						</div>
+						<hr>
 						<div id="btn-wrap">
-							<button type="button" onclick="loginCheck('${loginUser.memberId}',function(){addCart('${loginUser.memberId }',${product.productNo },document.querySelector('#qty').value)});">장바구니</button>
-							<button type="button" onclick="if(confirm('선택 상품을 구매하시겠습니까?')){loginCheck('${loginUser.memberId }',function(){location.href='/detail/orderView.strap?qty='+document.querySelector('#qty').value+'&productNo=${product.productNo}'});};">주문하기</button>
+							<button type="button" style="font-weight:bold;color:darkorange;background-color:white;"onclick="loginCheck('${loginUser.memberId}',function(){addCart('${loginUser.memberId }',${product.productNo },document.querySelector('#qty').value)});">장바구니</button>
+							<button type="button" style="font-weight:bold;color:white;background-color:darkorange;" onclick="if(confirm('선택 상품을 구매하시겠습니까?')){loginCheck('${loginUser.memberId }',function(){location.href='/detail/orderView.strap?qty='+document.querySelector('#qty').value+'&productNo=${product.productNo}'});};">주문하기</button>
 						</div>
 					</div>
 				</div>
-				<div id="moveNav" class="detail row" style="text-align:center;position:sticky;top:0px;background-color:white;">
+				<hr>
+				<div id="moveNav" class="detail row" style="text-align:center;position:sticky;top:0px;background-color:white;z-index:1000;height:42px;">
 					<div class="pageNav col"><a href="#">상품정보</a></div>
-					<div class="pageNav col"><a href="#pReview">상품후기</a></div>
-					<div class="pageNav col"><a href="#pQna">상품문의</a></div>
+					<div class="pageNav col"><a href="#pReview">상품후기 (${product.reviewCount })</a></div>
+					<div class="pageNav col"><a href="#pQna">상품문의<span id="numberOfQna"></span></a></div>
 				</div>
+<!-- 상품상세설명 -->
 				<div id="pDetail" class="detail">
 					<div id="productDesc-wrap">
 						<div id="desc" style="width:70%; margin:0 auto;">
@@ -120,48 +167,44 @@
 							${product.productDesc }
 						</div>
 					</div>
-					<div id="infoImg-wrap" style="width:90%;margin:0 auto;height:600px;overflow:hidden;">
+					<div id="infoImg-wrap" style="width:100%;margin:0 auto;height:600px;overflow:hidden;">
 						<c:forEach items="${infoList }" var="info">
 							<div class="oneInfo">
 								<img src="${info.imgRoot }" width="100%">
 							</div>
 						</c:forEach>
 					</div>
-					<div id="arcodianBtn" style="width:90%; margin:0 auto;">
-						<button id="infoArcodianBtn" onclick="detailArcodian();" style="width:100%;">상품 상세 정보 펼치기</button>
+					<div id="arcodianBtn" style="width:100%; margin:0 auto;text-align:center;">
+						<div id="gradiantDiv" style="height:100px; position:relative; top:-70px;  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 4.17%, rgba(255, 255, 255, 0.961) 71.35%, #FFFFFF 100%);"></div>
+						<button id="infoArcodianBtn" onclick="detailArcodian();" style="width:70%; border-radius:5px; padding:8px; background-color:white; border:1px solid gray;">상품 상세 정보 펼치기▽</button>
 					</div>
 				</div>
 <!-- 상품리뷰 영역 -->
 				<div id="pReview" class="detail">
 					<div id="pReview-wrap" class="">
-						<br><h3>상품리뷰<span id="numberOfReview"></span></h3>
+						<br><h3>구매만족도</h3>
 						<hr>
 						<div class="grade-area" style="text-align:center">
 							<div class="gradeInfo" style="font-size:30px;">
-									<span class="aver">${product.gradeAver }</span>
+									<span class="aver">${product.gradeAver }점</span>
 									<span class="review">(${product.reviewCount })</span>
 							</div>
-							<div class="starGrade" 	style="position:relative; display:inline-block; font-size:60px;">
+							<div class="starGrade" 	style="position:relative; display:inline-block; font-size:50px; vertical-align:middle;">
 								<div class="graphStar graphStar2" 	style="position:absolute; width:100%; overflow:hidden; height:auto;">★★★★★</div>
 								<div class="backStar"  	style="width:100%; height:auto;">★★★★★</div>
 							</div>
 						</div>
-						<div id="search-wrap">
-							<div id="order-wrap">
-								<span onclick="printReview(1,'review_grade','desc');" 	id="order-high-grade">점수높은순</span>
-								<span onclick="printReview(1,'review_grade','asc');" 	id="order-low-grade">점수낮은순</span>
-								<span onclick="printReview(1,'review_time','desc');" 	id="order-sales">최신순</span>
-								<span onclick="printReview(1,'review_time','asc');" 	id="order-high-price">오래된순</span>
-							</div>
-						</div>
 						<hr>
 					</div>
-					<button id="reviewArcodian" onclick="loginCheck('${loginUser.memberId}',function(){reviewArcodian();});">리뷰작성</button>
+					<div style="text-align:right;">
+						<button id="reviewArcodian" onclick="loginCheck('${loginUser.memberId}',function(){reviewArcodian();});">리뷰작성</button>
+					</div>
+					<hr>
 					<div id="reviewWrite-wrap" style="text-align:center; display:none;">
 						<form id="reviewForm" action="#" method="post">
 							<div id="inputGrade">
 								<div id="inputStarGrade" style="font-weight:bold;font-size:30px;">
-									<span class="inputStars" onclick="addGrade(1);" onmouseover="effectStar(1);" onmouseout="effectStarEnd()" style="color:gold">★</span>
+									<span class="inputStars" onclick="addGrade(1);" onmouseover="effectStar(1);" onmouseout="effectStarEnd()" style="color:darkorange">★</span>
 									<span class="inputStars" onclick="addGrade(2);" onmouseover="effectStar(2);" onmouseout="effectStarEnd()">★</span>
 									<span class="inputStars" onclick="addGrade(3);" onmouseover="effectStar(3);" onmouseout="effectStarEnd()">★</span>
 									<span class="inputStars" onclick="addGrade(4);" onmouseover="effectStar(4);" onmouseout="effectStarEnd()">★</span>
@@ -178,19 +221,30 @@
 							<button type="button" onclick="registerReview();">등록</button>
 						</form>
 					</div>
+					<hr>
+					<div id="search-wrap" style="text-align:center;color:gray;">
+							<div id="order-wrap">
+								<span onclick="printReview(1,'review_grade','desc');" 	id="order-high-grade">평점높은순</span>
+								<span onclick="printReview(1,'review_grade','asc');" 	id="order-low-grade">평점낮은순</span>
+								<span onclick="printReview(1,'review_time','desc');" 	id="order-sales">최신순</span>
+								<span onclick="printReview(1,'review_time','asc');" 	id="order-high-price">오래된순</span>
+							</div>
+						</div>
 <!-- 리뷰리스트 영역 5개씩 페이징, 정렬, 필터-->
 					<div id="reviewList" class="">
 					</div>
-					<div id="reviewPaging" class="">
+					<div id="reviewPaging" class="" style="width:200px;margin:auto;text-decoration:none;">
 					</div>
 				</div>
 <!-- 상품문의 영역 -->
 				<div id="pQna" class="detail">
 					<div id="pQna-wrap" class="">
-						<br><h3>상품Q&A<span id="numberOfQna"></span></h3>
+						<br><h3>상품Q&A<span id="numberOfQna2"></span></h3>
 						<hr>
 					</div>
-					<button id="qnaArcodian" onclick="loginCheck('${loginUser.memberId}',function(){qnaArcodian();});">문의작성</button><hr>
+					<div style="text-align:right;">
+						<button id="qnaArcodian" onclick="loginCheck('${loginUser.memberId}',function(){qnaArcodian();});">문의작성</button><hr>
+					</div>
 					<div id="qnaWrite-wrap" class="" style="text-align:center; display:none;">
 						<form id="qnaForm" action="#" method="post">
 							<input type="hidden" name="memberId" 	id="memberId"	value="${loginUser.memberId }">
@@ -211,7 +265,7 @@
 <!-- 상품문의 리스트					 -->
 					<div id="qnaList" class="">
 					</div>
-					<div id="qnaPaging" class="">
+					<div id="qnaPaging" class="" style="width:200px;margin:auto; text-decoration:none;">
 					</div>
 				</div>
 			</div>
@@ -235,7 +289,7 @@ function calTotalPrice(){
 	var totalPriceTag = document.querySelector("#totalPrice");
 	var totalPrice = document.querySelector('#qty').value * '${product.productPrice}';
 	console.log(totalPrice);
-	totalPriceTag.innerHTML = "<span id='wonSymbol'>\\</span> " + totalPrice.toLocaleString();
+	totalPriceTag.innerHTML = "<span id='wonSymbol'>\\</span><span style='font-size:36px;color:darkorange;font-weight:bold;'> " + totalPrice.toLocaleString() + "</span>";
 }
 
 //로그인 체크
@@ -258,11 +312,13 @@ function detailArcodian(){
 	if(fold){
 		infoImgDiv.style.height="auto";
 		fold=false;
-		infoArcodianBtn.innerText="상품 상세 정보 접기"
+		document.querySelector("#gradiantDiv").style.display = "none";
+		infoArcodianBtn.innerText="상품 상세 정보 접기△"
 	}else{
 		infoImgDiv.style.height="600px";
 		fold=true;
-		infoArcodianBtn.innerText="상품 상세 정보 펼치기"
+		document.querySelector("#gradiantDiv").style.display = "block";
+		infoArcodianBtn.innerText="상품 상세 정보 펼치기▽"
 	}
 	
 }
@@ -280,7 +336,7 @@ function addGrade(number){
 		}
 	}else{
 		for(var i=1; i<=number;i++){
-			inputStars.childNodes[2*i-1].style.color="gold";
+			inputStars.childNodes[2*i-1].style.color="darkorange";
 		}
 	}
 	pointer = number;
@@ -293,7 +349,7 @@ var overPointer=1;
 function effectStar(number){
 	if(number>overPointer){
 		for(var i=1; i<=number;i++){
-			inputStars.childNodes[2*i-1].style.color="gold";
+			inputStars.childNodes[2*i-1].style.color="darkorange";
 		}
 	}else{
 		for(var i=pointer+1; i<=5; i++){
@@ -366,7 +422,7 @@ function printReview(page,searchColumn,orderCondition){
 			var rList = JSON.parse(result.rList);
 			
 			console.log(search);
-			document.querySelector("#numberOfReview").innerHTML = "("+paging.totalCount+")"
+// 			document.querySelector("#numberOfReview").innerHTML = "("+paging.totalCount+")"
 			if(rList.length < 1){
 				$reviewListDiv.innerHTML = "<h2>상품 리뷰가 없습니다.</h2>"
 			}else{
@@ -396,13 +452,17 @@ function printReview(page,searchColumn,orderCondition){
 				}
 				$reviewListDiv.innerHTML = rListStr;
 				
-				var pagingBefore = "<a href='#' onclick='event.preventDefault(); printReview("+(paging.startNavi - 1)+ ",\""+search.searchColumn+"\",\""+search.orderCondition+"\");' > 이전 </a>";
+				var pagingBefore = "<a href='#' onclick='event.preventDefault(); printReview("+(paging.startNavi - 1)+ ",\""+search.searchColumn+"\",\""+search.orderCondition+"\");' > < </a>";
 				if(paging.startNavi == 1) pagingBefore = "";
-				var pagingAfter = "<a href='#' onclick='event.preventDefault(); printReview("+(paging.endNavi + 1)+ ",\""+search.searchColumn+"\",\""+search.orderCondition+"\");' > 다음 </a>";
+				var pagingAfter = "<a href='#' onclick='event.preventDefault(); printReview("+(paging.endNavi + 1)+ ",\""+search.searchColumn+"\",\""+search.orderCondition+"\");' > > </a>";
 				if(paging.endNavi == paging.endPage) pagingAfter = "";
 				var pagingRepeat = "";
 				for(var j = paging.startNavi; j<=paging.endNavi; j++){
-					pagingRepeat += " <a href='#' onclick='event.preventDefault(); printReview("+ j + ",\""+search.searchColumn+"\",\""+search.orderCondition+"\");' >" + j + "</a> ";				
+					if(paging.page == j){
+						pagingRepeat += " <a href='#' style='font-weight:bold;' onclick='event.preventDefault(); printReview("+ j + ",\""+search.searchColumn+"\",\""+search.orderCondition+"\");' >" + j + "</a> ";
+					}else{
+						pagingRepeat += " <a href='#' onclick='event.preventDefault(); printReview("+ j + ",\""+search.searchColumn+"\",\""+search.orderCondition+"\");' >" + j + "</a> ";
+					}
 				}
 				
 				$reviewPaging.innerHTML = pagingBefore + pagingRepeat + pagingAfter
@@ -461,6 +521,7 @@ function printShopQna(page){
 			var paging = JSON.parse(result.paging);
 			var qList = JSON.parse(result.qList);
 			document.querySelector("#numberOfQna").innerHTML = "("+paging.totalCount+")";
+			document.querySelector("#numberOfQna2").innerHTML = "("+paging.totalCount+")";
 			if(qList.length < 1){
 				 $qnaListDiv.innerHTML = "<h2>상품 문의가 없습니다.</h2>"
 			}else{
@@ -482,14 +543,17 @@ function printShopQna(page){
 				}
 				$qnaListDiv.innerHTML = qListStr;
 				
-				var pagingBefore = "<a href='#' onclick='event.preventDefault(); printShopQna("+(paging.startNavi - 1)+");' > 이전 </a>";
+				var pagingBefore = "<a href='#' onclick='event.preventDefault(); printShopQna("+(paging.startNavi - 1)+");' > < </a>";
 				if(paging.startNavi == 1) {pagingBefore = "";}
-				var pagingAfter = "<a href='#' onclick='event.preventDefault(); printShopQna("+(paging.endNavi + 1)+ ");' > 다음 </a>";
+				var pagingAfter = "<a href='#' onclick='event.preventDefault(); printShopQna("+(paging.endNavi + 1)+ ");' > > </a>";
 				if(paging.endNavi == paging.endPage) {pagingAfter = "";}
 				var pagingRepeat = "";
 				for(var j = paging.startNavi; j<=paging.endNavi; j++){
-					console.log(j);
-					pagingRepeat += "<a href='#' onclick='event.preventDefault(); printShopQna("+ j +");'>" + j + "</a> ";				
+					if(paging.page == j){
+						pagingRepeat += "<a href='#' style='font-weight:bold;' onclick='event.preventDefault(); printShopQna("+ j +");'>" + j + "</a> ";
+					}else{
+						pagingRepeat += "<a href='#' onclick='event.preventDefault(); printShopQna("+ j +");'>" + j + "</a> ";
+					}
 				}
 				$qnaPaging.innerHTML =  pagingBefore + pagingRepeat + pagingAfter;
 			}
@@ -535,10 +599,10 @@ function memberLikeView(){
 				console.log(result);
 				var likeBtnArr = document.querySelectorAll(".likeBtn");
 				for(var j = 0; j<likeBtnArr.length; j++){
-					likeBtnArr[j].style.color = "black";
+					likeBtnArr[j].style.color = "gray";
 					for(i in result){
 						if(result[i].productNo ==likeBtnArr[j].id){
-							likeBtnArr[j].style.color = "red";
+							likeBtnArr[j].style.color = "darkorange";
 						}
 					}
 				}
