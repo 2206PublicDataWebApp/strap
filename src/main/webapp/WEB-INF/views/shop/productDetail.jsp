@@ -75,6 +75,11 @@
 @keyframes rectani3{
     0%{}
 	100%{background: linear-gradient(to right top, white,yellow);color: transparent;-webkit-background-clip: text;}
+	
+}
+#order-wrap span{
+	display:inline-block;
+	padding:7px;
 }
 
 </style>
@@ -196,8 +201,13 @@
 						</div>
 						<hr>
 					</div>
-					<div style="text-align:right;">
-						<button id="reviewArcodian" onclick="loginCheck('${loginUser.memberId}',function(){reviewArcodian();});">리뷰작성</button>
+					<div id="pReviewWrite" class="row">
+						<div class="col">
+							<h3>상품후기</h3>
+						</div>
+						<div class="col" style="text-align:right;">
+							<button id="reviewArcodian" onclick="loginCheck('${loginUser.memberId}',function(){reviewArcodian();});">후기작성</button>
+						</div>
 					</div>
 					<hr>
 					<div id="reviewWrite-wrap" style="text-align:center; display:none;">
@@ -216,7 +226,7 @@
 							<input type="hidden" name="productNo" 	id="productNo"	value="${product.productNo }">
 							<input type="hidden" name="reviewGrade" id="gradeVal" value="1" readonly style="">
 							
-							<textarea name="reviewContents" id="reviewContents" placeholder="리뷰를 작성하세요."></textarea>
+							<textarea name="reviewContents" id="reviewContents" placeholder="상품후기를 작성하세요."></textarea>
 							<input type="file" name="reviewImg" id="rImgFile">
 							<button type="button" onclick="registerReview();">등록</button>
 						</form>
@@ -224,10 +234,10 @@
 					<hr>
 					<div id="search-wrap" style="text-align:center;color:gray;">
 							<div id="order-wrap">
-								<span onclick="printReview(1,'review_grade','desc');" 	id="order-high-grade">평점높은순</span>
-								<span onclick="printReview(1,'review_grade','asc');" 	id="order-low-grade">평점낮은순</span>
-								<span onclick="printReview(1,'review_time','desc');" 	id="order-sales">최신순</span>
-								<span onclick="printReview(1,'review_time','asc');" 	id="order-high-price">오래된순</span>
+								<span onclick="printReview(1,'review_grade','desc');" 	class="rOrder" id="order-high-grade"> 평점높은순 </span>
+								<span onclick="printReview(1,'review_grade','asc');" 	class="rOrder" id="order-low-grade"> 평점낮은순 </span>
+								<span onclick="printReview(1,'review_time','desc');" 	class="rOrder" id="order-sales"> 최신순 </span>
+								<span onclick="printReview(1,'review_time','asc');" 	class="rOrder" id="order-high-price"> 오래된순 </span>
 							</div>
 						</div>
 <!-- 리뷰리스트 영역 5개씩 페이징, 정렬, 필터-->
@@ -420,6 +430,32 @@ function printReview(page,searchColumn,orderCondition){
 			var paging = JSON.parse(result.paging);
 			var search = JSON.parse(result.search);
 			var rList = JSON.parse(result.rList);
+			console.log(search.searchColumn);
+			console.log(search.orderCondition);
+			
+			//정렬 표시
+			for(var k=0;k<4;k++){
+				document.querySelectorAll(".rOrder")[k].style.fontWeight="normal";
+				document.querySelectorAll(".rOrder")[k].style.textDecoration="none";
+			}
+			if(search.searchColumn=="review_grade" && search.orderCondition=="desc"){
+				document.querySelector("#order-high-grade").style.fontWeight="bolder";
+				document.querySelector("#order-high-grade").style.textDecoration="underline";
+			}
+			if(search.searchColumn=="review_grade"&& search.orderCondition=="asc" ){
+				document.querySelector("#order-low-grade").style.fontWeight="bolder";
+				document.querySelector("#order-low-grade").style.textDecoration="underline";
+			}
+			if(search.searchColumn=="review_time" && search.orderCondition =="desc"){
+				document.querySelector("#order-sales").style.fontWeight="bolder";
+				document.querySelector("#order-sales").style.textDecoration="underline";
+			}
+			if(search.searchColumn=="review_time" && search.orderCondition =="asc"){
+				document.querySelector("#order-high-price").style.fontWeight="bolder";
+				document.querySelector("#order-high-price").style.textDecoration="underline";
+			}
+			
+		
 			
 			console.log(search);
 // 			document.querySelector("#numberOfReview").innerHTML = "("+paging.totalCount+")"
