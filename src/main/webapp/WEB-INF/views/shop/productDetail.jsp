@@ -82,6 +82,19 @@
 	padding:7px;
 }
 
+.rInfo{
+	width:500px;
+	margin:auto;
+}
+
+.rContents{
+	overflow:hidden;
+   	white-space:nowrap;
+	text-overflow:ellipsis;
+	margin:0 auto;
+}
+
+
 </style>
 </head>
 <body>
@@ -499,20 +512,19 @@ function printReview(page,searchColumn,orderCondition){
 					var oneReview = 
 						'<div class="oneReviewWrap row" style="border-bottom:1px solid #c0c0c0; margin:2px auto; padding:12px;">'+
 							'<div class="rInfoWrap col">'+
-								'<div class="rGrade">'+
+								'<div class="rGrade rInfo">'+
 									'<div class="oneReviewGradeWrap" 	style="position:relative; display:inline-block;">'+
 										'<div class="graphStar" style="position:absolute; width:100%; overflow:hidden;"><h2>'+"★".repeat(rList[i].reviewGrade) +'</h2></div>'+
 										'<div class="backStar" 	style="width:100%; width:100%;"><h2>★★★★★</h2></div>'+
 									'</div>'+
 								'</div>'+
-								'<div class="rUserTime">'+rList[i].memberNick+''+rList[i].reviewTime+'</div>'+
-								'<div class="rBuyInfo">구매정보 추후 업데이트</div>'+
-								'<div class="rContents">'+rList[i].reviewContents+'</div>'+
+								'<div class="rUserTime rInfo">'+rList[i].memberNick+''+rList[i].reviewTime+'</div>'+
+								'<div class="rContents rInfo">'+rList[i].reviewContents+'</div>'+
 								'</div>'+
 							'<div class="rImgWrap col-3" style="text-align:center;">'+
 								'<img class="rThumbImg" src="'+rList[i].reviewImgRoot+'" onerror="this.src =\'/resources/image/logo.png\'" style="width:100px;height:100px;" >'+
 								'<div class="btnArea col-1" style="width:100px;margin:0 auto;">'+
-										'<button class="reviewDetailBtn" style="background-color:white;border-style:none;width:100%;">펼치기▽</button>'+
+										'<button class="reviewDetailBtn" onclick="rFold('+i+');" style="background-color:white;border-style:none;width:100%;">펼치기▽</button>'+
 								'</div>'+
 							'</div>'+
 						'</div>';
@@ -539,6 +551,30 @@ function printReview(page,searchColumn,orderCondition){
 		error:function(){}
 	});
 }
+
+//리뷰 펼치기 버튼
+function rFold(num){
+	console.log(num);
+	var thisWhiteSpaceVal = document.querySelectorAll(".rContents")[num].style.whiteSpace;
+	var thisImg = document.querySelectorAll(".rThumbImg")[num];
+	var thisImgWrap = document.querySelectorAll(".rImgWrap")[num];
+	var reviewDetailBtn = document.querySelectorAll(".reviewDetailBtn")[num];
+	console.log(thisWhiteSpaceVal);
+	if(thisWhiteSpaceVal=="normal"){
+		document.querySelectorAll(".rContents")[num].style.whiteSpace = "nowrap";
+		thisImg.style.width="100px";
+		thisImg.style.height="100px";
+		thisImgWrap.className="rImgWrap col-3";
+		reviewDetailBtn.innerText = "펼치기▽";
+	}else{
+		document.querySelectorAll(".rContents")[num].style.whiteSpace = "normal";
+		thisImg.style.width="400px";
+		thisImg.style.height="500px";
+		thisImgWrap.className="rImgWrap";
+		reviewDetailBtn.innerText = "접기△";
+	}
+}
+
 //문의작성 아코디언 버튼
 var qnaWrap = document.querySelector("#qnaWrite-wrap");
 function qnaArcodian(){
