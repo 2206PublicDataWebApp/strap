@@ -46,7 +46,7 @@
 }
 
 .inputStars{
-	color:gray;
+	color:#c0c0c0;
 	display:inline-block;
 	height:auto;
 }
@@ -59,7 +59,7 @@
 	color:darkorange;
 }
 .backStar{
-	color:gray;
+	color:#c0c0c0;
 }
 
 #reviewPaging a{
@@ -129,7 +129,7 @@
 									<fmt:formatNumber value="${product.productPrice }" pattern="#,###"/>
 								</span>
 							</div>
-							<div id="function" style="color:gray;">
+							<div id="function" style="color:#c0c0c0;">
 								<span id="${product.productNo }" class="likeBtn" onclick="loginCheck('${loginUser.memberId}',function(){controlLike('${loginUser.memberId}',${product.productNo });});"><i class="fa-solid fa-heart"></i></span>
 								<i class="fa-solid fa-share-nodes"></i>
 							</div>
@@ -137,7 +137,7 @@
 						<hr>
 						<div id="pQty">
 <!-- 							<span id="qtyLabel">구매수량</span> -->
-							<span id="qtyControl" class="btn-group" role="group" style="border:1px solid gray;">
+							<span id="qtyControl" class="btn-group" role="group" style="border:1px solid #c0c0c0;">
 								<button class="btn" id="downQty" type="button" onclick="if(document.querySelector('#qty').value > 1)document.querySelector('#qty').value--; calTotalPrice();">-</button>
 								<input  class="btn" id="qty" type="text" width="60px" value="1" readonly style="width:50px;text-align:center;">
 								<button class="btn" id="upQty" type="button" onclick="document.querySelector('#qty').value++; calTotalPrice();">+</button>
@@ -160,7 +160,7 @@
 				</div>
 				<hr>
 				<div id="moveNav" class="detail row" style="text-align:center;position:sticky;top:0px;background-color:white;z-index:1000;height:42px;">
-					<div class="pageNav col"><a href="#">상품정보</a></div>
+					<div class="pageNav col"><a href="#contents">상품정보</a></div>
 					<div class="pageNav col"><a href="#pReview">상품후기 (${product.reviewCount })</a></div>
 					<div class="pageNav col"><a href="#pQna">상품문의<span id="numberOfQna"></span></a></div>
 				</div>
@@ -181,7 +181,7 @@
 					</div>
 					<div id="arcodianBtn" style="width:100%; margin:0 auto;text-align:center;">
 						<div id="gradiantDiv" style="height:100px; position:relative; top:-70px;  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 4.17%, rgba(255, 255, 255, 0.961) 71.35%, #FFFFFF 100%);"></div>
-						<button id="infoArcodianBtn" onclick="detailArcodian();" style="width:70%; border-radius:5px; padding:8px; background-color:white; border:1px solid gray;">상품 상세 정보 펼치기▽</button>
+						<button id="infoArcodianBtn" onclick="detailArcodian();" style="width:70%; border-radius:5px; padding:8px; background-color:white; border:1px solid #c0c0c0;">상품 상세 정보 펼치기▽</button>
 					</div>
 				</div>
 <!-- 상품리뷰 영역 -->
@@ -206,12 +206,14 @@
 							<h3>상품후기</h3>
 						</div>
 						<div class="col" style="text-align:right;">
-							<button id="reviewArcodian" onclick="loginCheck('${loginUser.memberId}',function(){reviewArcodian();});">후기작성</button>
+							<button id="reviewArcodian" style="font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:40px;"  onclick="loginCheck('${loginUser.memberId}',function(){reviewArcodian();});">후기작성</button>
 						</div>
 					</div>
 					<hr>
+<!-- 리뷰작성 -->
 					<div id="reviewWrite-wrap" style="text-align:center; display:none;">
 						<form id="reviewForm" action="#" method="post">
+						보충제 상품은 어떠셨나요? 평점과 후기를 남겨보세요!
 							<div id="inputGrade">
 								<div id="inputStarGrade" style="font-weight:bold;font-size:30px;">
 									<span class="inputStars" onclick="addGrade(1);" onmouseover="effectStar(1);" onmouseout="effectStarEnd()" style="color:darkorange">★</span>
@@ -225,10 +227,18 @@
 							<input type="hidden" name="memberNick" 	id="memberNick"	value="${loginUser.memberNick }">
 							<input type="hidden" name="productNo" 	id="productNo"	value="${product.productNo }">
 							<input type="hidden" name="reviewGrade" id="gradeVal" value="1" readonly style="">
-							
-							<textarea name="reviewContents" id="reviewContents" placeholder="상품후기를 작성하세요."></textarea>
-							<input type="file" name="reviewImg" id="rImgFile">
-							<button type="button" onclick="registerReview();">등록</button>
+							<div id="rInputTextarea" style="width:440px;height:240px;margin:auto; padding:5px;border:2px solid darkorange; border-top-left-radius:7px;border-top-right-radius:7px;">
+								<textarea name="reviewContents" id="reviewContents" onkeyup="countText(this,300);" style="width:400px;height:200px;border-style:none;padding:5px;" placeholder="다른 고객님에게 도움이 되도록 상품에 대한 솔직한 평가를 남겨주세요.(상품 품질과 관계 없는 배송,포장,질문,상품 가격 등은 상품문의에 남겨주세요.)"></textarea>
+								<div style="text-align:left;font-size:14px;padding:5px;">
+									<span id="inputCount">(0/300)</span>
+								</div>
+							</div>
+							<div id="rFile" class="input-group mb-3" style="text-align:center;width:440px;margin:auto;">
+								<input type="file" name="reviewImg" class="form-control" id="rImgFile">
+							</div>
+							<div id="rBtn">
+								<button type="button"  style="font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:40px;" onclick="registerReview();">후기 작성 완료</button>
+							</div>
 						</form>
 					</div>
 					<hr>
@@ -253,7 +263,7 @@
 						<hr>
 					</div>
 					<div style="text-align:right;">
-						<button id="qnaArcodian" onclick="loginCheck('${loginUser.memberId}',function(){qnaArcodian();});">문의작성</button><hr>
+						<button id="qnaArcodian" style="font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:40px;" onclick="loginCheck('${loginUser.memberId}',function(){qnaArcodian();});">문의작성</button><hr>
 					</div>
 					<div id="qnaWrite-wrap" class="" style="text-align:center; display:none;">
 						<form id="qnaForm" action="#" method="post">
@@ -313,6 +323,32 @@ function loginCheck(loginId,action){
 	}
 }
 
+//텍스트 체크
+function countText(thisInput,limit){
+	var count = thisInput.value.length;
+	if(count>limit){
+		thisInput.value=thisInput.value.substring(0,limit);
+		count=limit;		
+	}
+	var text = "("+count+"/"+limit+")"
+	document.querySelector("#inputCount").innerText = text;
+}
+
+//스무스스크롤
+$(document).ready(function(){
+  $("a[href^='#']").on('click', function(event) {
+    if (this.hash !== "") {
+      event.preventDefault();
+      var hash = this.hash;
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 800, function(){
+        window.location.hash = hash;
+      });
+    } 
+  });
+});
+
 //상세정보 펼치기
 var fold = true;
 function detailArcodian(){
@@ -342,7 +378,7 @@ function addGrade(number){
 		//자식요소가 1,3,5,7,9
 	if(number < pointer){
 		for(var i=number+1; i<=5; i++){
-			inputStars.childNodes[2*i-1].style.color="gray";
+			inputStars.childNodes[2*i-1].style.color="#c0c0c0";
 		}
 	}else{
 		for(var i=1; i<=number;i++){
@@ -363,14 +399,14 @@ function effectStar(number){
 		}
 	}else{
 		for(var i=pointer+1; i<=5; i++){
-			inputStars.childNodes[2*i-1].style.color="gray";
+			inputStars.childNodes[2*i-1].style.color="#c0c0c0";
 		}		
 	}
 }
 
 function effectStarEnd(){
 	for(var i=pointer+1; i<=5; i++){
-		inputStars.childNodes[2*i-1].style.color="gray";
+		inputStars.childNodes[2*i-1].style.color="#c0c0c0";
 	}
 }
 
@@ -454,10 +490,6 @@ function printReview(page,searchColumn,orderCondition){
 				document.querySelector("#order-high-price").style.fontWeight="bolder";
 				document.querySelector("#order-high-price").style.textDecoration="underline";
 			}
-			
-		
-			
-			console.log(search);
 // 			document.querySelector("#numberOfReview").innerHTML = "("+paging.totalCount+")"
 			if(rList.length < 1){
 				$reviewListDiv.innerHTML = "<h2>상품 리뷰가 없습니다.</h2>"
@@ -465,23 +497,23 @@ function printReview(page,searchColumn,orderCondition){
 				var rListStr = "";
 				for(var i in rList){
 					var oneReview = 
-						'<div class="oneReviewWrap row" style="border:1px solid black;">'+
-							'<div class="rImgWrap col-3">'+
-								'<img class="rThumbImg" src="'+rList[i].reviewImgRoot+'" onerror="this.src =\'/resources/image/logo.png\'" style="width:100px;height:100px;" >'+
-							'</div>'+
-							'<div class="rInfoWrap col-8">'+
+						'<div class="oneReviewWrap row" style="border-bottom:1px solid #c0c0c0; margin:2px auto; padding:12px;">'+
+							'<div class="rInfoWrap col">'+
 								'<div class="rGrade">'+
 									'<div class="oneReviewGradeWrap" 	style="position:relative; display:inline-block;">'+
 										'<div class="graphStar" style="position:absolute; width:100%; overflow:hidden;"><h2>'+"★".repeat(rList[i].reviewGrade) +'</h2></div>'+
 										'<div class="backStar" 	style="width:100%; width:100%;"><h2>★★★★★</h2></div>'+
 									'</div>'+
 								'</div>'+
-							'<div class="rUserTime">'+rList[i].memberNick+''+rList[i].reviewTime+'</div>'+
-							'<div class="rBuyInfo">구매정보 추후 업데이트</div>'+
-							'<div class="rContents">'+rList[i].reviewContents+'</div>'+
-							'</div>'+
-							'<div class="btnArea col-1">'+
-									'<button class="reviewDetailBtn">펼치기</button>'+
+								'<div class="rUserTime">'+rList[i].memberNick+''+rList[i].reviewTime+'</div>'+
+								'<div class="rBuyInfo">구매정보 추후 업데이트</div>'+
+								'<div class="rContents">'+rList[i].reviewContents+'</div>'+
+								'</div>'+
+							'<div class="rImgWrap col-3" style="text-align:center;">'+
+								'<img class="rThumbImg" src="'+rList[i].reviewImgRoot+'" onerror="this.src =\'/resources/image/logo.png\'" style="width:100px;height:100px;" >'+
+								'<div class="btnArea col-1" style="width:100px;margin:0 auto;">'+
+										'<button class="reviewDetailBtn" style="background-color:white;border-style:none;width:100%;">펼치기▽</button>'+
+								'</div>'+
 							'</div>'+
 						'</div>';
 						rListStr += oneReview;
@@ -635,7 +667,7 @@ function memberLikeView(){
 				console.log(result);
 				var likeBtnArr = document.querySelectorAll(".likeBtn");
 				for(var j = 0; j<likeBtnArr.length; j++){
-					likeBtnArr[j].style.color = "gray";
+					likeBtnArr[j].style.color = "#c0c0c0";
 					for(i in result){
 						if(result[i].productNo ==likeBtnArr[j].id){
 							likeBtnArr[j].style.color = "darkorange";
