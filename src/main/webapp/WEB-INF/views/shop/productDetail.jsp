@@ -38,6 +38,7 @@
 	border: 1px solid rgb(230,230,230);
 	border-top-left-radius:8px;
 	border-top-right-radius:8px;
+	padding:5px;
 }
 #moveNav a{
 	text-decoration:none;
@@ -110,7 +111,7 @@
 		<div class="contents-side col">
 			<div id="detail-wrap" style="font-size:20px;">
 				<div id="pInfo-wrap" class="row detail ">
-					<div id="pImg" class="col" style="text-align:center;">
+					<div id="pImg" class="col" style="text-align:center;padding:15px;">
 						<div id="zoomImg">
 							<img id="zoom" src="${product.mainImgRoot }" width="400px" height="360px" onerror="">
 						</div>
@@ -172,7 +173,7 @@
 					</div>
 				</div>
 				<hr>
-				<div id="moveNav" class="detail row" style="text-align:center;position:sticky;top:0px;background-color:white;z-index:1000;height:42px;">
+				<div id="moveNav" class="detail row" style="text-align:center;position:sticky;top:0px;background-color:white;z-index:1000;height:42px; font-size:16px">
 					<div class="pageNav col"><a href="#contents">상품정보</a></div>
 					<div class="pageNav col"><a href="#pReview">상품후기 (${product.reviewCount })</a></div>
 					<div class="pageNav col"><a href="#pQna">상품문의<span id="numberOfQna"></span></a></div>
@@ -241,7 +242,7 @@
 							<input type="hidden" name="productNo" 	id="productNo"	value="${product.productNo }">
 							<input type="hidden" name="reviewGrade" id="gradeVal" value="1" readonly style="">
 							<div id="rInputTextarea" style="width:440px;height:240px;margin:auto; padding:5px;border:2px solid darkorange; border-top-left-radius:7px;border-top-right-radius:7px;">
-								<textarea name="reviewContents" id="reviewContents" onkeyup="countText(this,300);" style="width:400px;height:200px;border-style:none;padding:5px;" placeholder="다른 고객님에게 도움이 되도록 상품에 대한 솔직한 평가를 남겨주세요.(상품 품질과 관계 없는 배송,포장,질문,상품 가격 등은 상품문의에 남겨주세요.)"></textarea>
+								<textarea name="reviewContents" id="reviewContents" onkeyup="countText(this,300);" style="width:400px;height:200px;border-style:none;padding:5px;" required placeholder="다른 고객님에게 도움이 되도록 상품에 대한 솔직한 평가를 남겨주세요.(상품 품질과 관계 없는 배송,포장,질문,상품 가격 등은 상품문의에 남겨주세요.)"></textarea>
 								<div style="text-align:left;font-size:14px;padding:5px;">
 									<span id="inputCount">(0/300)</span>
 								</div>
@@ -253,9 +254,9 @@
 								<button type="button"  style="font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:40px;" onclick="registerReview();">후기 작성 완료</button>
 							</div>
 						</form>
-					</div>
 					<hr>
-					<div id="search-wrap" style="text-align:center;color:gray;">
+					</div>
+					<div id="search-wrap" style="text-align:center;color:gray; font-size:16px;">
 							<div id="order-wrap">
 								<span onclick="printReview(1,'review_grade','desc');" 	class="rOrder" id="order-high-grade"> 평점높은순 </span>
 								<span onclick="printReview(1,'review_grade','asc');" 	class="rOrder" id="order-low-grade"> 평점낮은순 </span>
@@ -266,39 +267,55 @@
 <!-- 리뷰리스트 영역 5개씩 페이징, 정렬, 필터-->
 					<div id="reviewList" class="">
 					</div>
-					<div id="reviewPaging" class="" style="width:200px;margin:auto;text-decoration:none;">
+					<div id="reviewPaging" class="" style="width:200px;margin:auto;text-decoration:none;text-align:center;font-size:16px;">
 					</div>
 				</div>
 <!-- 상품문의 영역 -->
-				<div id="pQna" class="detail">
-					<div id="pQna-wrap" class="">
-						<br><h3>상품Q&A<span id="numberOfQna2"></span></h3>
-						<hr>
+				<div id="pQna" class="detail row">
+					<div id="pQna-wrap" class="col">
+						<h3>상품Q&A<span id="numberOfQna2"></span></h3>
 					</div>
-					<div style="text-align:right;">
-						<button id="qnaArcodian" style="font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:40px;" onclick="loginCheck('${loginUser.memberId}',function(){qnaArcodian();});">문의작성</button><hr>
+					<div class="col" style="text-align:right;">
+						<button id="qnaArcodian" style="font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:40px;" onclick="loginCheck('${loginUser.memberId}',function(){qnaArcodian();});">문의작성</button>
 					</div>
+					<hr>
+<!-- 문의작성					 -->
 					<div id="qnaWrite-wrap" class="" style="text-align:center; display:none;">
 						<form id="qnaForm" action="#" method="post">
+						 	궁금한 점이 있으신가요? 문의를 남겨보세요!
 							<input type="hidden" name="memberId" 	id="memberId"	value="${loginUser.memberId }">
 							<input type="hidden" name="memberNick" 	id="memberNick"	value="${loginUser.memberNick }">
 							<input type="hidden" name="productNo" 	id="productNo"	value="${product.productNo }">
 							<input type="hidden" name="qnaCode" 	id="qnaCode"	value="QC2">
-							<select name="qnaType" >
-								<option value="QC2QT1">주문/결제</option>
-								<option value="QC2QT2">배송</option>
-								<option value="QC2QT3">취소/반품/교환</option>
-								<option value="QC2QT4">기타</option>
-							</select>
-							<textarea name="qnaContents" id="qnaContents" placeholder="문의를 작성하세요."></textarea>
-							 비밀문의<input type="checkbox" name ="secretStatus" value = "Y">
-							<button type="button" onclick="registerQna();">등록</button>
+							<div id="qnaSelect" style="font-size:16px;">
+								<span style="color:gray; font-size:12px;">※문의유형을 꼭 선택해주세요.</span>
+								<select id="qnaTypeSelect" name="qnaType" required >
+									<option value="" disabled selected style="display:none;">유형선택</option>
+									<option value="QC2QT1">주문/결제</option>
+									<option value="QC2QT2">배송</option>
+									<option value="QC2QT3">취소/반품/교환</option>
+									<option value="QC2QT4">기타</option>
+								</select>
+							</div>
+							<div id="qInputTextarea" style="width:440px;height:240px;margin:auto; padding:5px;border:2px solid darkorange; border-radius:7px;">
+								<textarea name="qnaContents" id="qnaContents" onkeyup="countText(this,300);" style="width:400px;height:200px;border-style:none;padding:5px;" placeholder="문의를 작성하세요." required></textarea>
+								<div style="text-align:left;font-size:14px;padding:5px;">
+									<span id="inputCount">(0/300)</span>
+								</div>
+							</div>
+							<div id="qBtn" style="font-size:16px;">
+								 <label>
+									 <i class="fa-solid fa-lock"></i>비밀문의<input type="checkbox" name ="secretStatus" value = "Y">
+									<button type="button" onclick="registerQna();">등록</button>
+								 </label>
+							</div>
 						</form>
+						<hr>
 					</div>
 <!-- 상품문의 리스트					 -->
 					<div id="qnaList" class="">
 					</div>
-					<div id="qnaPaging" class="" style="width:200px;margin:auto; text-decoration:none;">
+					<div id="qnaPaging" class="" style="width:200px;margin:auto; text-decoration:none;text-align:center;font-size:16px;">
 					</div>
 				</div>
 			</div>
@@ -344,7 +361,8 @@ function countText(thisInput,limit){
 		count=limit;		
 	}
 	var text = "("+count+"/"+limit+")"
-	document.querySelector("#inputCount").innerText = text;
+// 	document.querySelector("#inputCount").innerText = text;
+	thisInput.nextElementSibling.childNodes[1].innerText = text;
 }
 
 //스무스스크롤
@@ -510,21 +528,21 @@ function printReview(page,searchColumn,orderCondition){
 				var rListStr = "";
 				for(var i in rList){
 					var oneReview = 
-						'<div class="oneReviewWrap row" style="border-bottom:1px solid #c0c0c0; margin:2px auto; padding:12px;">'+
-							'<div class="rInfoWrap col">'+
-								'<div class="rGrade rInfo">'+
+						'<div class="oneReviewWrap row" style="border-bottom:1px solid #c0c0c0; margin:2px auto; padding:5px;">'+
+							'<div class="rInfoWrap col" style="text-align:left;">'+
+								'<div class="rGrade rInfo" style="margin:2px;">'+
 									'<div class="oneReviewGradeWrap" 	style="position:relative; display:inline-block;">'+
-										'<div class="graphStar" style="position:absolute; width:100%; overflow:hidden;"><h2>'+"★".repeat(rList[i].reviewGrade) +'</h2></div>'+
-										'<div class="backStar" 	style="width:100%; width:100%;"><h2>★★★★★</h2></div>'+
+										'<div class="graphStar" style="position:absolute; width:100%; overflow:hidden;font-size:16px;">'+"★".repeat(rList[i].reviewGrade) +'</div>'+
+										'<div class="backStar" 	style="width:100%; width:100%;font-size:16px;">★★★★★</div>'+
 									'</div>'+
 								'</div>'+
-								'<div class="rUserTime rInfo">'+rList[i].memberNick+''+rList[i].reviewTime+'</div>'+
-								'<div class="rContents rInfo">'+rList[i].reviewContents+'</div>'+
+								'<div class="rUserTime rInfo" style="font-size:14px;color:gray; margin:2px;">'+rList[i].memberNick+' ｜ '+rList[i].reviewTime+'</div>'+
+								'<div class="rContents rInfo" style="font-size:15px;margin:4px 2px;">'+rList[i].reviewContents+'</div>'+
 								'</div>'+
 							'<div class="rImgWrap col-3" style="text-align:center;">'+
-								'<img class="rThumbImg" src="'+rList[i].reviewImgRoot+'" onerror="this.src =\'/resources/image/logo.png\'" style="width:100px;height:100px;" >'+
+								'<img class="rThumbImg" src="'+rList[i].reviewImgRoot+'" onerror="this.src =\'/resources/image/logo.png\'" style="width:70px;height:70px;" >'+
 								'<div class="btnArea col-1" style="width:100px;margin:0 auto;">'+
-										'<button class="reviewDetailBtn" onclick="rFold('+i+');" style="background-color:white;border-style:none;width:100%;">펼치기▽</button>'+
+										'<button class="reviewDetailBtn" onclick="rFold('+i+');" style="font-size:14px;background-color:white;border-style:none;width:100%;">펼치기▽</button>'+
 								'</div>'+
 							'</div>'+
 						'</div>';
@@ -558,12 +576,14 @@ function rFold(num){
 	var thisWhiteSpaceVal = document.querySelectorAll(".rContents")[num].style.whiteSpace;
 	var thisImg = document.querySelectorAll(".rThumbImg")[num];
 	var thisImgWrap = document.querySelectorAll(".rImgWrap")[num];
+	var thisrInfoWrap = document.querySelectorAll(".rInfoWrap")[num];
 	var reviewDetailBtn = document.querySelectorAll(".reviewDetailBtn")[num];
+	
 	console.log(thisWhiteSpaceVal);
 	if(thisWhiteSpaceVal=="normal"){
 		document.querySelectorAll(".rContents")[num].style.whiteSpace = "nowrap";
-		thisImg.style.width="100px";
-		thisImg.style.height="100px";
+		thisImg.style.width="70px";
+		thisImg.style.height="70px";
 		thisImgWrap.className="rImgWrap col-3";
 		reviewDetailBtn.innerText = "펼치기▽";
 	}else{
@@ -588,23 +608,28 @@ function qnaArcodian(){
 function registerQna(){
 	var form = document.querySelector("#qnaForm");
 	var formData = new FormData(form);
-	$.ajax({
-		url:"/shopQna/register.strap",
-		data: formData,
-		type:"POST",
-        contentType: false,
-        processData: false,
-		success:function(result){
-			console.log(result);
-			if(result == "success"){
-				console.log("성공.");
-				printShopQna(1);
-			}else{
-				console.log("실패");
-			}
-		},
-		error:function(){}
-	});
+	var qnaSelectVal = document.querySelector("#qnaTypeSelect").value;
+	if(qnaSelectVal == ""){
+		alert("문의유형을 선택해주세요.");		
+	}else{
+		$.ajax({
+			url:"/shopQna/register.strap",
+			data: formData,
+			type:"POST",
+	        contentType: false,
+	        processData: false,
+			success:function(result){
+				console.log(result);
+				if(result == "success"){
+					console.log("성공.");
+					printShopQna(1);
+				}else{
+					console.log("실패");
+				}
+			},
+			error:function(){}
+		});
+	}
 }
 
 //페이지 최초 랜더링 시 문의 목록 출력
@@ -631,16 +656,58 @@ function printShopQna(page){
 			}else{
 				var qListStr = "";
 				for(var i in qList){
-					var oneShopQna = '<table class="shopQnaTable">'+
+					var qnaTypetxt = "";
+					var qnaAnswer = "";
+					var answerColor = "gray";
+					var answerContents = "답변 대기중 입니다.";
+					var onclickTxt = 'onclick="qnaDetail(this);"';
+					if(qList[i].secretStatus == 'Y' || qList[i].memberId !='${loginUser.memberId}'){
+						onclickTxt = '';
+					}
+					if(qList[i].answerContents != null){
+						answerContents = qList[i].answerContents;
+					}
+					switch(qList[i].qnaType){
+					case "QC2QT1":
+						qnaTypetxt = "주문/결제";
+						break;
+					case "QC2QT2":
+						qnaTypetxt = "배송";
+						break;
+					case "QC2QT3":
+						qnaTypetxt = "취소/반품/교환";
+						break;
+					case "QC2QT4":
+						qnaTypetxt = "기타";
+						break;
+					}
+					switch(qList[i].answerStatus){
+					case "Y":
+						qnaAnswer = "답변완료";
+						answerColor = "darkorange";
+						break;
+					case "N":
+						qnaAnswer = "답변대기";
+						break;
+					}
+					var oneShopQna = '<table class="shopQnaTable table" style="font-size:15px;">'+
 										'<tr>'+
-											'<td class="answerYn">'+qList[i].answerStatus +'</td>'+
-											'<td class="answerTitle">'+
-												'<span class="answerType">['+ qList[i].qnaType +']</span>'+
+											'<td class="answerYn col-2" style="font-weight:bold; color:'+answerColor+';">'+ qnaAnswer +'</td>'+
+											'<td class="answerTitle col-4" '+onclickTxt+'>'+
+												'<span class="answerType"> ['+ qnaTypetxt +']</span>'+
 												'<span >문의글 입니다.</span>'+
 												'<span class="secretIcon"><i class="fa-solid fa-lock"></i></span>'+
 											'</td>'+
-											'<td>'+qList[i].memberNick+'</td>'+
-											'<td>'+qList[i].qEnrollDate+'</td>'+
+											'<td class="col-2">'+qList[i].memberNick+'</td>'+
+											'<td class="col-2">'+qList[i].qEnrollDate+'</td>'+
+										'</tr>'+
+										'<tr style="display:none;">'+
+											'<td colspan="1" style="border-style:none;"></td>'+
+											'<td colspan="3" style="text-align:left;border-style:none;">'+qList[i].qnaContents+'</td>'+
+										'</tr>'+
+										'<tr style="display:none;">'+
+											'<td colspan="1" style="border-style:none;"></td>'+
+											'<td colspan="3" style="text-align:left;border-style:none;background-color:rgb(240,240,240)">'+answerContents+'</td>'+
 										'</tr>'+
 									'</table>';
 						qListStr += oneShopQna;
@@ -666,6 +733,19 @@ function printShopQna(page){
 	});
 }
 
+//문의글 온클릭 함수
+function qnaDetail(thisQna){
+// 	document.querySelector(".answerTitle").parentElement.parentElement.childNodes[2]
+	var qArea = thisQna.parentElement.parentElement.childNodes[1];
+	var aArea = thisQna.parentElement.parentElement.childNodes[2];
+	if(qArea.style.display == "none"){
+		qArea.style.display = "table-row";
+		aArea.style.display = "table-row";
+	}else{
+		qArea.style.display = "none";
+		aArea.style.display = "none";
+	}
+}
 
 ///////찜 추가 및 삭제 함수
 function controlLike(memberId,productNo){
