@@ -464,6 +464,7 @@ function registerReview(){
 		success:function(result){
 			if(result == "success"){
 				printReview(1,'review_grade','desc');
+				document.querySelector("#reviewContents").value = "";
 			}else{
 			}
 		},
@@ -621,10 +622,9 @@ function registerQna(){
 			success:function(result){
 				console.log(result);
 				if(result == "success"){
-					console.log("성공.");
 					printShopQna(1);
+					document.querySelector("#qnaContents").value = "";
 				}else{
-					console.log("실패");
 				}
 			},
 			error:function(){}
@@ -656,17 +656,18 @@ function printShopQna(page){
 			}else{
 				var qListStr = "";
 				for(var i in qList){
-					var qnaTypetxt = "";
-					var qnaAnswer = "";
-					var answerColor = "gray";
-					var answerContents = "답변 대기중 입니다.";
+					//답변 조건 충족 시 onclick 추가
 					var onclickTxt = 'onclick="qnaDetail(this);"';
-					if(qList[i].secretStatus == 'Y' || qList[i].memberId !='${loginUser.memberId}'){
+					if(qList[i].secretStatus == 'Y' && qList[i].memberId !='${loginUser.memberId}'){
 						onclickTxt = '';
 					}
+					//답변이 없을 경우 답변 대기중 출력
+					var answerContents = "답변 대기중 입니다.";
 					if(qList[i].answerContents != null){
 						answerContents = qList[i].answerContents;
 					}
+					//주문타입 
+					var qnaTypetxt = "";
 					switch(qList[i].qnaType){
 					case "QC2QT1":
 						qnaTypetxt = "주문/결제";
@@ -681,6 +682,9 @@ function printShopQna(page){
 						qnaTypetxt = "기타";
 						break;
 					}
+					//답변여부
+					var qnaAnswer = "";
+					var answerColor = "gray";
 					switch(qList[i].answerStatus){
 					case "Y":
 						qnaAnswer = "답변완료";
@@ -690,13 +694,19 @@ function printShopQna(page){
 						qnaAnswer = "답변대기";
 						break;
 					}
+					//비밀글 여부
+					var secretIcon = '<i class="fa-solid fa-lock"></i>';
+					if(qList[i].secretStatus != 'Y'){
+						secretIcon='';	
+					}
+					
 					var oneShopQna = '<table class="shopQnaTable table" style="font-size:15px;">'+
 										'<tr>'+
 											'<td class="answerYn col-2" style="font-weight:bold; color:'+answerColor+';">'+ qnaAnswer +'</td>'+
 											'<td class="answerTitle col-4" '+onclickTxt+'>'+
 												'<span class="answerType"> ['+ qnaTypetxt +']</span>'+
 												'<span >문의글 입니다.</span>'+
-												'<span class="secretIcon"><i class="fa-solid fa-lock"></i></span>'+
+												'<span class="secretIcon">'+secretIcon+'</span>'+
 											'</td>'+
 											'<td class="col-2">'+qList[i].memberNick+'</td>'+
 											'<td class="col-2">'+qList[i].qEnrollDate+'</td>'+
@@ -735,7 +745,6 @@ function printShopQna(page){
 
 //문의글 온클릭 함수
 function qnaDetail(thisQna){
-// 	document.querySelector(".answerTitle").parentElement.parentElement.childNodes[2]
 	var qArea = thisQna.parentElement.parentElement.childNodes[1];
 	var aArea = thisQna.parentElement.parentElement.childNodes[2];
 	if(qArea.style.display == "none"){
@@ -809,6 +818,7 @@ function addCart(memberId,productNo,productAmount){
 		success:function(result){
 			if(result == "success"){
 				alert("상품이 장바구니에 추가되었습니다.");
+				markCart();
 			}else{
 				
 			}

@@ -99,4 +99,21 @@ public class CartController {
 			return "fail";
 		}
 	}
+	
+	//장바구니 알러트
+	@ResponseBody
+	@RequestMapping(value="/cart/mark.strap",method=RequestMethod.POST)
+	public String markCart(HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		if(loginUser != null) {
+			int countCart = cService.getCountCart(loginUser.getMemberId());
+			if(countCart > 0) {
+				return countCart+"";
+			}else {
+				return "";
+			}
+		}else {
+			return "";
+		}
+	}
 }

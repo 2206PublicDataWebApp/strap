@@ -210,6 +210,7 @@ function addCart(memberId,productNo,productAmount){
 		success:function(result){
 			if(result == "success"){
 				alert("상품이 장바구니에 추가되었습니다.");
+				markCart();
 			}else{
 				
 			}
