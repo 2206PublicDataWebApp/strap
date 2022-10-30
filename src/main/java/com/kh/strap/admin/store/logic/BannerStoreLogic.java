@@ -23,4 +23,16 @@ public class BannerStoreLogic implements BannerStore {
 		return result;
 	}
 
+	@Override
+	public int updateBanner(SqlSession session, Banner banner) {
+		int result = session.update("BannerMapper.updateBanner", banner);
+		return result;
+	}
+
+	@Override
+	public int deleteBanner(SqlSession session, Integer bannerNo) {
+		int result = session.delete("BannerMapper.deleteBanner", bannerNo);
+		return result;
+	}
+
 }

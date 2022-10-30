@@ -28,4 +28,16 @@ public class BannerServiceImpl implements BannerService {
 		int result = bnStore.insertBanner(session, banner);
 		return result;
 	}
+
+	@Override
+	public int modifyBanner(Banner banner) {
+		int result = bnStore.updateBanner(session, banner);
+		return result;
+	}
+
+	@Override
+	public int removeBanner(Integer bannerNo) {
+		int result = bnStore.deleteBanner(session, bannerNo);
+		return result;
+	}
 }

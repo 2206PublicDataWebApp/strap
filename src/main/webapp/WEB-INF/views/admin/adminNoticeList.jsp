@@ -11,8 +11,12 @@
 <body>
 	<jsp:include page="/WEB-INF/views/common/adminHeader.jsp"></jsp:include>
 	<div class="container">
+		<div id="essential info">
+			<br>
+			<p style="text-align:left; font-size:20px;">공지사항</p>
+			<hr>
+		</div>
 		<div class="table-responsive">
-		<p align="center" style=" font-size:34px; font-family:malgun gothic;">[ 공지사항 관리 ]<p>
 		<table align="center" border="1" width="" class="table table-striped table-hover">
 			<tr>
 <%-- 				<c:if test="${loginAdmin.adminName eq '관리자'}"> <!-- 관리자만 공지사항 등록 가능 --> --%>
@@ -94,6 +98,7 @@
 		</c:if>
 		</table>
 		</div>
+		<br>
 	</div>
 </body>
 </html>

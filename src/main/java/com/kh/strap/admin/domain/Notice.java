@@ -14,6 +14,7 @@ public class Notice {
 	private Date nCreateDate;
 	private Date nUpdateDate;
 	private String nStatus;
+	private int fix;
 	
 	public int getNoticeNo() {
 		return noticeNo;
@@ -81,13 +82,19 @@ public class Notice {
 	public void setnStatus(String nStatus) {
 		this.nStatus = nStatus;
 	}
-	
+	public int getFix() {
+		return fix;
+	}
+	public void setFix(int fix) {
+		this.fix = fix;
+	}
 	@Override
 	public String toString() {
 		return "Notice [noticeNo=" + noticeNo + ", noticeTitle=" + noticeTitle + ", noticeContents=" + noticeContents
 				+ ", noticeWriter=" + noticeWriter + ", noticeFilename=" + noticeFilename + ", noticeFileRename="
 				+ noticeFileRename + ", noticeFilepath=" + noticeFilepath + ", noticeCount=" + noticeCount
-				+ ", nCreateDate=" + nCreateDate + ", nUpdateDate=" + nUpdateDate + ", nStatus=" + nStatus + "]";
+				+ ", nCreateDate=" + nCreateDate + ", nUpdateDate=" + nUpdateDate + ", nStatus=" + nStatus + ", fix="
+				+ fix + "]";
 	}
 	
 }

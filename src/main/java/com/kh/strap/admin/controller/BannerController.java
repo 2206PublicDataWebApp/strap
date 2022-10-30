@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ public class BannerController {
 	 * @param mv
 	 * @return
 	 */
-	// 배너 페이지 조회
+	// 관리자 배너 페이지 조회
 	@RequestMapping(value="/admin/bannerListView.strap", method=RequestMethod.GET)
 	public ModelAndView showBannerList(ModelAndView mv) {
 		List<Banner> bnList = bnService.printAllBanner();
@@ -38,15 +39,22 @@ public class BannerController {
 		mv.setViewName("admin/adminBanner");
 		return mv;
 	}
-	
-	// 배너 등록
+	/**
+	 * 
+	 * @param mv
+	 * @param bannerTitle
+	 * @param uploadFile
+	 * @param request
+	 * @return
+	 */
+	// 관리자 배너 등록
 	@RequestMapping(value="/admin/registerBanner.strap", method=RequestMethod.POST)
 	public ModelAndView registBannerList(ModelAndView mv
-			,@ModelAttribute Banner banner
+			,@RequestParam("bannerTitle") String bannerTitle
 			,@RequestParam(value="bannerFilename", required=false) MultipartFile uploadFile
 			, HttpServletRequest request) {
-			System.out.println(banner);
-			System.out.println(request.getSession());
+			Banner banner = new Banner();
+			banner.setBannerTitle(bannerTitle);
 		try {
 			String bannerFilename = uploadFile.getOriginalFilename();
 			if(!bannerFilename.equals("")) {
@@ -78,4 +86,65 @@ public class BannerController {
 		return mv;
 	}
 	
+	/**
+	 * 
+	 * @param banner
+	 * @param mv
+	 * @param reloadFile
+	 * @param request
+	 * @return
+	 */
+	// 관리자 배너 수정
+	@RequestMapping(value="/admin/modifyBanner.strap", method=RequestMethod.POST)
+	public ModelAndView modifyBanner(@ModelAttribute Banner banner, ModelAndView mv
+			, @RequestParam(value="reloadFile", required=false) MultipartFile reloadFile
+			, HttpServletRequest request) {
+		System.out.println(banner);
+		try {
+			String bannerFilename = reloadFile.getOriginalFilename();
+			if(reloadFile != null && !bannerFilename.equals("")) {
+				String root = request.getSession().getServletContext().getRealPath("resources");
+				String savePath = root + "\\bnuploadFiles";
+				File file = new File(savePath + "\\" + banner.getBannerFileRename());
+				if(file.exists()) {
+					file.delete();
+				}
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+				String bannerFileRename = sdf.format(new Date(System.currentTimeMillis()))
+						+ "." + bannerFilename.substring(bannerFilename.lastIndexOf(".")+1);
+				String bannerFilepath = savePath + "\\" + bannerFileRename;
+				reloadFile.transferTo(new File(bannerFilepath));
+				banner.setBannerFilename(bannerFilename);
+				banner.setBannerFileRename(bannerFileRename);
+				banner.setBannerFilepath(bannerFilepath);
+			}
+			int result = bnService.modifyBanner(banner);
+			mv.setViewName("redirect:/admin/bannerListView.strap");
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
+		}
+		return mv;
+	}
+	
+	/**
+	 * 
+	 * @param mv
+	 * @param bnNoList
+	 * @return
+	 */
+	// 관리자 배너 삭제
+	@RequestMapping(value="/admin/deleteBanner.strap", method=RequestMethod.POST)
+	public ModelAndView removeBanner(ModelAndView mv
+			,@RequestParam("bnNoList") String bnNoList
+			) {
+		System.out.println(bnNoList);
+		String[] bnNoListArr = bnNoList.split(",");
+		for(int i = 0; i < bnNoListArr.length; i++) {
+			int bannerNo = Integer.parseInt(bnNoListArr[i]);
+			System.out.println(bannerNo);
+			int result = bnService.removeBanner(bannerNo);
+		}
+		mv.setViewName("redirect:/admin/bannerListView.strap");
+		return mv;
+	}
 }

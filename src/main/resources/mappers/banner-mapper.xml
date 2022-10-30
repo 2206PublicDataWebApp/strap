@@ -13,9 +13,16 @@
 		<result property="bannerFilepath" column="BANNER_FILEPATH"/>
 	</resultMap>
 	<select id="selectAllBanner" resultMap="bannerResultMap">
-		SELECT * FROM BANNER_TBL
+		SELECT * FROM BANNER_TBL ORDER BY ENROLL_DATE DESC
 	</select>
 	<insert id="insertBanner">
 		INSERT INTO BANNER_TBL VALUES(SEQ_BANNER_NO.NEXTVAL, #{bannerTitle}, DEFAULT, #{bannerFilename}, #{bannerFileRename}, #{bannerFilepath})
 	</insert>
+	<update id="updateBanner">
+		UPDATE BANNER_TBL SET BANNER_TITLE = #{bannerTitle}, BANNER_FILENAME = #{bannerFilename}, BANNER_FILERENAME = #{bannerFileRename}, BANNER_FILEPATH = #{bannerFilepath}
+		WHERE BANNER_NO = #{bannerNo}
+	</update>
+	<delete id="deleteBanner">
+		DELETE FROM BANNER_TBL WHERE BANNER_NO = #{bannerNo }
+	</delete>
 </mapper>
