@@ -57,6 +57,17 @@
 		WHERE MEMBER_ID = #{memberId} AND PRODUCT_NO = #{productNo}
 	</update>
 	
+	<update id="updateAllCheckCart">
+		UPDATE CART_TBL 
+		<if test='cartCheck == "Y"'>
+		SET CART_CHECK = 'Y'
+		</if>
+		<if test='cartCheck == "N"'>
+		SET CART_CHECK = 'N'
+		</if>
+		WHERE MEMBER_ID = #{memberId}
+	</update>
+	
 	<delete id="deleteCart">
 		DELETE FROM CART_TBL
 		WHERE MEMBER_ID = #{memberId} AND PRODUCT_NO = #{productNo} 

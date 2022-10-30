@@ -100,6 +100,19 @@ public class CartController {
 		}
 	}
 	
+	//장바구니 상품 일괄 체크상태 변경
+	@ResponseBody
+	@RequestMapping(value="/cart/.modifyAllCheck.strap",method=RequestMethod.GET)
+	public String modifyAllCheckCart(
+			@ModelAttribute Cart cart) {
+		if(cService.modifyAllCheckCart(cart) > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+		
+	}
+	
 	//장바구니 알러트
 	@ResponseBody
 	@RequestMapping(value="/cart/mark.strap",method=RequestMethod.POST)

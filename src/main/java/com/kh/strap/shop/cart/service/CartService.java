@@ -20,6 +20,8 @@ public interface CartService {
 	public int modifyToQtyCart(Cart cart);
 	//5.장바구니 상품 체크 상태 변경
 	public int modifyCheckCart(Cart cart);
+	//장바구니 상품 일괄 체크 상태 변경
+	public int modifyAllCheckCart(Cart cart);
 	//6.장바구니상품제거:
 	public int removeCart(Cart cart);
 	

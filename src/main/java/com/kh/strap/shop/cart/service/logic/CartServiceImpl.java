@@ -72,6 +72,12 @@ public class CartServiceImpl implements CartService {
 		return cStore.updateCheckCart(session, cart);
 	}
 
+	@Override
+	public int modifyAllCheckCart(Cart cart) {
+		return cStore.updateAllCheckCart(session, cart);
+	}
+
+
 
 
 

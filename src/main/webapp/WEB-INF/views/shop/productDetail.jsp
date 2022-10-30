@@ -271,6 +271,7 @@
 					</div>
 				</div>
 <!-- 상품문의 영역 -->
+				<hr>
 				<div id="pQna" class="detail row">
 					<div id="pQna-wrap" class="col">
 						<h3>상품Q&A<span id="numberOfQna2"></span></h3>
@@ -306,7 +307,7 @@
 							<div id="qBtn" style="font-size:16px;">
 								 <label>
 									 <i class="fa-solid fa-lock"></i>비밀문의<input type="checkbox" name ="secretStatus" value = "Y">
-									<button type="button" onclick="registerQna();">등록</button>
+									<button type="button" style="font-weight:bold; margin-top:5px;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:40px;" onclick="registerQna();">문의작성 완료</button>
 								 </label>
 							</div>
 						</form>

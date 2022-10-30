@@ -75,7 +75,7 @@
 								<span class="p-brand">[${product.productBrand }]</span>
 								<span class="p-name"> ${product.productName }</span>
 							</div>
-							<div class="product-grade">
+							<div class="product-grade" style="margin:5px;">
 								<span><span style="color:darkorange;">★</span>${product.gradeAver }(${product.reviewCount })</span>
 							</div>
 						</div>

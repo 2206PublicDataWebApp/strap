@@ -57,6 +57,11 @@ public class CartStoreLogic implements CartStore {
 		return session.update("CartMapper.updateCheckCart", cart);
 	}
 
+	@Override
+	public int updateAllCheckCart(SqlSession session, Cart cart) {
+		return session.update("CartMapper.updateAllCheckCart",cart);
+	}
+
 
 
 

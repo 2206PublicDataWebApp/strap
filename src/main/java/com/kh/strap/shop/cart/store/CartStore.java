@@ -17,6 +17,7 @@ public interface CartStore {
 	public int updateQtyCart(SqlSession session,Cart cart);
 	public int updateToQtyCart(SqlSession session,Cart cart);
 	public int updateCheckCart(SqlSession session,Cart cart);
+	public int updateAllCheckCart(SqlSession session,Cart cart);
 	public int deleteCart(SqlSession session,Cart cart);
 
 }
