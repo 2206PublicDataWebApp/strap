@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>
 
 <html>
 <head>
@@ -37,17 +38,15 @@ input:disabled {
 		<div class="contents-side col">
 			<div id="contents-wrap">
 				<div id="title">
-					<h2>주문내역</h2><hr>
+					<h3>주문내역</h3><hr>
 				</div>
 				<div id="dateFilter">
-				
 					<div id="selectDate">
-					필터링(${search.dayBefore })
 						<div id="order-wrap">
-							<span onclick="dateFilter(31);" 	id="order-aver">1개월</span>
-							<span onclick="dateFilter(183);"	id="order-review">6개월</span>
-							<span onclick="dateFilter(365);"	id="order-sales">1년</span>
-							<span onclick="abled();" 			id="order-high-price">기간선택</span>
+							<button onclick="dateFilter(31);" 	id="order-aver">1개월</button>
+							<button onclick="dateFilter(183);"	id="order-review">6개월</button>
+							<button onclick="dateFilter(365);"	id="order-sales">1년</button>
+							<button onclick="abled();" 			id="order-high-price">기간선택</button>
 						</div>
 					</div>
 					<div id="inputDate">
@@ -60,55 +59,69 @@ input:disabled {
 					</div>
 				</div>
 				<div id="list">
-<%-- 						<c:forEach items="${oList}" var="order"> --%>
-						<c:forEach begin="0" end="${oList.size()}" var="N" >
-<%-- 						${oList[N].orderDate gt oList[N-1].orderDate} --%>
-							<div class="OneOrder">
-								<div class="orderDate">
-<%-- 									<c:if test="${oList[N].orderDate lt oList[N-1].orderDate}"> --%>
-										<span><h4>${oList[N].orderDate}</h4></span>
-<%-- 									</c:if> --%>
-<%-- 									<c:if test="${oList[N].orderDate gt oList[N-1].orderDate}"> --%>
-<%-- 										<span><h4>${oList[N].orderDate}</h4></span> --%>
-<%-- 									</c:if> --%>
-								</div>
-								<div class="row">
-									<div class="productImg col">
-										<img src="${oList[N].buyProducts[0].mainImgRoot }" style="width:100px;height:100px;">
+					<c:forEach items="${oList }" var="order" varStatus="n" >
+						<div style="margin: 0px auto;border-bottom:1px solid #c0c0c0;padding-bottom:5px;">
+							<span class="orderDate" style="font-size:20px;font-weight:bold;">${order.orderDate }</span>
+							<span class="orderNo">주문번호:  ${order.orderNo }</span>
+						</div>
+						<div style="margin: 0px auto;border-bottom:1px solid #c0c0c0;padding-bottom:5px;">
+							<span class="orderStatus">주문상태: ${order.orderStatus }</span>
+						</div>
+						<div class="oneOrderWrap" style="border:1px solid solid #c0c0c0; border-radius:7px;margin-bottom:40px;">
+							<c:forEach items="${order.buyProducts }" var="product" varStatus="n" >
+								<div class="oneCart row" style="margin: 0px auto; border-bottom:1px solid #c0c0c0; padding:9px; background-color:rgb(255,253,244);">
+									<div class="pImg col-3" style="text-align:center;margin:auto;">
+										<img src="${product.mainImgRoot }" style="width:80px;height:70px;">
 									</div>
-									<div class="orderInfo col">
-										<div class="productInfo">
-											<span>[${oList[N].buyProducts[0].productBrand}]</span>
-											<span>${oList[N].buyProducts[0].productName }</span>
+									<div class="cartInfo col-6" style="text-align:center;">
+										<div class="pName" style="margin:auto;padding:5px;font-size:14px;font-weight:bold;">
+											<span class="brandName">[${product.productBrand }]</span>
+											<span class="pName">${product.productName }</span>
 										</div>
-										<div class="row">
-											<div class="finalCost col">
-												<span>${oList[N].finalCost }</span>
-											</div>
-											<div class="Qty col">
-											</div>
+										<div class="cartPrice-wrap" style="margin:auto;">
+												<span class='wonSymbol'>\</span>
+												<span class="cartPrice">
+													<fmt:formatNumber value="${product.productPrice }" pattern="#,###"/> 
+												</span>
+												<span> * </span>
+												<span class="pQty">
+													${product.orderQty }개
+												</span>
 										</div>
 									</div>
-									<div class="col"></div>
+									<div class="col-3" style="margin:auto;font-size:20px;font-weight:bold;"">
+										<span class='wonSymbol'>\</span>
+										<span class="cartPrice">
+											<fmt:formatNumber value="${product.productPrice  * product.orderQty }" pattern="#,###"/> 
+										</span>
+									</div>
 								</div>
+								<input type="hidden" class="calPrice" value="${product.productPrice  * product.orderQty }">
+							</c:forEach>
+							<div class="">
+								<span style="color:gray;">
+									<i class="fa-solid fa-house"></i> 
+								</span>
+								${order.address }
 							</div>
-						</c:forEach>
+						</div>
+					</c:forEach>
 				</div>
 				<nav aria-label="Page navigation example" style="width:200px;margin:10px auto; border-style:none; color:gray;">
 				  <ul class="pagination">
 				    <li class="page-item">
 				    <c:if test="${paging.startNavi > paging.startPage }">
-				      <a class="page-link" href="/product/${url}.strap?page=${paging.startNavi-1 }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}" aria-label="<">
+				      <a class="page-link" href="/order/listView.strap?page=${paging.startNavi-1 }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>"aria-label="<">
 				        <span aria-hidden="true">&laquo;</span>
 				      </a>
 				     </c:if>
 				    </li>
 				    <c:forEach begin="${paging.startNavi }" end="${paging.endNavi }" var="n">
-				    <li class="page-item"><a class="page-link" <c:if test="${paging.page eq n }">style="font-weight:bold;"</c:if>  href="/product/${url }.strap?page=${n }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}">${n }</a></li>
+				    <li class="page-item"><a class="page-link" <c:if test="${paging.page eq n }">style="font-weight:bold;"</c:if>  href="/order/listView.strap?page=${n }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>">${n }</a></li>
 				    </c:forEach>
 				    <c:if test="${paging.endNavi < paging.endPage }">
 				    <li class="page-item">
-				      <a class="page-link" href="/product/${url }.strap?page=${paging.endNavi+1 }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}" aria-label=">">
+				      <a class="page-link" href="/order/listView.strap?page=${paging.endNavi+1 }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>" aria-label=">">
 				        <span aria-hidden="true">&raquo;</span>
 				      </a>
 				    </li>

@@ -505,7 +505,8 @@ var address = "";
 var contactPhone ="";
 function updateInput(){
 	memberId ='${loginUser.memberId}';
-	address = document.querySelector("#postCode").value+",_"+document.querySelector("#roadAddress").value+",_"+document.querySelector("#detailAddr").value;
+	//주문테이블 저장용 주소는 형식을 만든다.
+	address = "["+document.querySelector("#postCode").value+"]"+document.querySelector("#roadAddress").value+" "+document.querySelector("#detailAddr").value;
 	contactPhone = document.querySelector("#phoneBodyNum").value;
 }
 var productBrand = '[${cList[0].product.productBrand}]'; //첫번째 상품.

@@ -81,17 +81,17 @@ input:disabled {
 				  <ul class="pagination">
 				    <li class="page-item">
 				    <c:if test="${paging.startNavi > paging.startPage }">
-				      <a class="page-link" href="/product/${url}.strap?page=${paging.startNavi-1 }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}" aria-label="<">
+				      <a class="page-link" href="/order/cancel/listView.strap?page=${paging.startNavi-1 }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>"aria-label="<">
 				        <span aria-hidden="true">&laquo;</span>
 				      </a>
 				     </c:if>
 				    </li>
 				    <c:forEach begin="${paging.startNavi }" end="${paging.endNavi }" var="n">
-				    <li class="page-item"><a class="page-link" <c:if test="${paging.page eq n }">style="font-weight:bold;"</c:if>  href="/product/${url }.strap?page=${n }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}">${n }</a></li>
+				    <li class="page-item"><a class="page-link" <c:if test="${paging.page eq n }">style="font-weight:bold;"</c:if>  href="/order/cancel/listView.strap?page=${n }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>">${n }</a></li>
 				    </c:forEach>
 				    <c:if test="${paging.endNavi < paging.endPage }">
 				    <li class="page-item">
-				      <a class="page-link" href="/product/${url }.strap?page=${paging.endNavi+1 }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}" aria-label=">">
+				      <a class="page-link" href="/order/cancel/listView.strap?page=${paging.endNavi+1 }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>" aria-label=">">
 				        <span aria-hidden="true">&raquo;</span>
 				      </a>
 				    </li>
