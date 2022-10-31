@@ -1,6 +1,7 @@
 package com.kh.strap.match.store;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -16,5 +17,7 @@ public interface MatchStore {
 	String findIdByNick(SqlSession session, String recipientNick);
 
 	int insertNoteBox(SqlSession session, NoteBox nb);
+
+	int inserLocalRecord(SqlSession session, Map<String, Object> map);
 
 }

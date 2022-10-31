@@ -1,6 +1,7 @@
 package com.kh.strap.match.service.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,11 @@ public class MatchServiceImpl implements MatchService {
 	@Override
 	public int insertNoteBox(NoteBox nb) {
 		int result = mStore.insertNoteBox(session, nb);
+		return result;
+	}
+	@Override
+	public int inserLocalRecord(Map<String, Object> map) {
+		int result = mStore.inserLocalRecord(session, map);
 		return result;
 	}
 	
