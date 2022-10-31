@@ -154,10 +154,10 @@
 										<span class="pName">${cart.product.productName }</span>
 									</div>
 									<div class="cartPrice-wrap" style="margin:auto;">
-											<span class='wonSymbol'>\</span>
 											<span class="cartPrice">
 												<fmt:formatNumber value="${cart.product.productPrice}" pattern="#,###"/> 
 											</span>
+											<span class='wonSymbol'>원</span>
 											<span> * </span>
 											<span class="pQty">
 												${cart.productAmount }개
@@ -165,10 +165,10 @@
 									</div>
 								</div>
 								<div class="col-3" style="margin:auto;font-size:20px;font-weight:bold;"">
-									<span class='wonSymbol'>\</span>
 									<span class="cartPrice">
 										<fmt:formatNumber value="${cart.product.productPrice * cart.productAmount }" pattern="#,###"/> 
 									</span>
+									<span class='wonSymbol'>원</span>
 								</div>
 							</div>
 							<input type="hidden" class="calPrice" value="${cart.product.productPrice * cart.productAmount }">
@@ -253,31 +253,31 @@
 					 <div id="productsPrice-wrap" class="stickyInfo">
 				 		<span >상품금액</span>
 				 		<span class="stickyPriceTxt" style="float:right;">
-					 		<span class='wonSymbol'>\</span>
 					 		<span id="productsPrice"></span>
+					 		<span class='wonSymbol'>원</span>
 				 		</span>
 					 </div>
 					 <hr>
 					 <div id="discountAmount-wrap" class="stickyInfo">
 					 	<span>할인 금액</span>
 					 	<span class="stickyPriceTxt" style="float:right;">
-					 		<span class='wonSymbol'>\</span>
 					 		<span id="discountAmount"></span>
+					 		<span class='wonSymbol'>원</span>
 					 	</span>
 					 </div>
 					 <div id="deleiveryFee-wrap" class="stickyInfo">
 					 	<span>배송비</span>
 					 	<span  class="stickyPriceTxt" style="float:right;">
-					 		<span class='wonSymbol'>\</span>
 					 		<span id="deleiveryFee"></span>
+					 		<span class='wonSymbol'>원</span>
 					 	</span>
 					 </div>
 					 <hr>
 					 <div id="finalCost-wrap" class="stickyInfo">
 					 	<span>최종 결제금액</span>
 					 	<span class="stickyPriceTxt" style="float:right;">
-					 		<span class='wonSymbol'>\</span>
 					 		<span id=finalCost style="color:darkorange;font-weight:bold;font-size:26px;"></span>
+					 		<span class='wonSymbol'>원</span>
 					 	</span>
 					 </div>
 					 <hr>

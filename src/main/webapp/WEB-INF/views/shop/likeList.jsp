@@ -40,32 +40,34 @@
 			</div>
 			<div id="inner-contents">
 				<c:forEach items="${pList }" var="product" varStatus="n">
-					<div class="number" style="position:relative;top:20px; right:20px;width:50px;background-color:rgba(255,255,255,0.8)">${n.count }</div>
-					<div class="product-wrap">
-						<div class="oneProduct thumb" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
-							<img class="thumb-img" src="${product.mainImgRoot }" onerror="this.src='';" width="150px" height="150px">
+					<div class="product-wrap row" style="text-align: center;align-items: center;padding:9px; border-bottom: 1px solid #c0c0c0;">
+						<div class="oneProduct col-1 number" style="font-weight:bold; font-size:20px;">${n.count + paging.offset }</div>
+						<div class="oneProduct col-2 thumb" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
+							<img class="thumb-img" src="${product.mainImgRoot }" onerror="this.src='';" width="100px" height="92px">
 						</div>
-						<div class="oneProduct info">
-							<div class="product-title" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
+						<div class="oneProduct col info" style="width:70%;">
+							<div class="product-title" style="font-size:14px; font-weight:bold;" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
 								<span class="p-brand">[${product.productBrand }]</span>
 								<span class="p-name"> ${product.productName }</span>
 							</div>
-							<div class="product-proce">
-								<span id="wonSymbol">\</span>
-								<span class="p-price">${product.productPrice }</span>
-							</div>
-							<div class="product-grade">
-								<span>★${product.gradeAver }(${product.reviewCount })</span>
+							<div class="product-grade" style="margin:5px;">
+								<span><span style="color:darkorange;">★</span>${product.gradeAver }(${product.reviewCount })</span>
 							</div>
 						</div>
-						<div class="oneProduct userMenu">
-							<div class="p-menu-wrap">
-								<span id="${product.productNo }" class="likeBtn" onclick="loginCheck('${loginUser.memberId}',function(){controlLike('${loginUser.memberId}',${product.productNo });});"><i class="fa-regular fa-heart"></i></span>
-								<span class="cartBtn"><i class="fa-solid fa-cart-shopping"></i></span>
+						<div class="oneProduct col-2 product-price">
+								<span class="p-price" style="font-size:20px;font-weight:bold;">
+									<fmt:formatNumber value="${product.productPrice }" pattern="#,###"/>
+								</span>
+								<span id="wonSymbol" style="font-weight:bold;">원</span>
+							</div>
+						<div class="oneProduct col-2 userMenu">
+							<div class="p-menu-wrap" style="color:#c0c0c0;">
+								<span id="${product.productNo }" class="likeBtn shopmenu" onclick="loginCheck('${loginUser.memberId}',function(){controlLike('${loginUser.memberId}',${product.productNo });});"><i class="fa-solid fa-heart"></i></span>
+								<span class="cartBtn shopmenu" onclick="loginCheck('${loginUser.memberId}',function(){addCart('${loginUser.memberId }',${product.productNo },1);})"><i class="fa-solid fa-cart-shopping"></i></span>
 							</div>
 						</div>
 					</div>
-				</c:forEach>	
+				</c:forEach>
 				<nav aria-label="Page navigation example" style="width:200px;margin:10px auto; border-style:none; color:gray;">
 				  <ul class="pagination">
 				    <li class="page-item">
@@ -157,10 +159,10 @@ function memberLikeView(){
 				console.log(result);
 				var likeBtnArr = document.querySelectorAll(".likeBtn");
 				for(var j = 0; j<likeBtnArr.length; j++){
-					likeBtnArr[j].style.color = "black";
+					likeBtnArr[j].style.color = "#c0c0c0";
 					for(i in result){
 						if(result[i].productNo ==likeBtnArr[j].id){
-							likeBtnArr[j].style.color = "red";
+							likeBtnArr[j].style.color = "darkorange";
 						}
 					}
 				}
@@ -168,6 +170,30 @@ function memberLikeView(){
 			error: function(){}
 		});
 	}
+}
+
+
+//장바구니
+function addCart(memberId,productNo,productAmount){
+	$.ajax({
+		url:"/cart/register.strap",
+		data:{
+			"memberId":memberId,
+			"productNo":productNo,
+			"productAmount":productAmount
+		},
+		type:"post",
+		success:function(result){
+			if(result == "success"){
+				alert("상품이 장바구니에 추가되었습니다.");
+				markCart();
+			}else{
+				
+			}
+		},
+		error:function(){}
+	});
+	
 }
 
 </script>

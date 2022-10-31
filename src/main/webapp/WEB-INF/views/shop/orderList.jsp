@@ -18,6 +18,18 @@
 input:disabled {
   background: #ccc;
 }
+#order-wrap button{
+	width:120px;
+	height:auto;
+	background-color : white;
+	border: 2px solid gray;
+	border-radius: 15px;
+	margin:5px;
+	padding:auto;
+	font-size:13px;
+	font-weight:bold;
+	color:gray;
+}
 
 </style>
 
@@ -35,74 +47,80 @@ input:disabled {
 		<div class="sidebar col-3" >
 			<jsp:include page="/WEB-INF/views/common/sideBarShop.jsp"></jsp:include>
 		</div>
-		<div class="contents-side col">
+		<div class="contents-side col-7">
 			<div id="contents-wrap">
 				<div id="title">
-					<h3>주문내역</h3><hr>
+					<h3>주문내역 (${paging.totalCount })</h3><hr>
 				</div>
-				<div id="dateFilter">
+				<div id="dateFilter" style="text-align:center;">
 					<div id="selectDate">
 						<div id="order-wrap">
-							<button onclick="dateFilter(31);" 	id="order-aver">1개월</button>
-							<button onclick="dateFilter(183);"	id="order-review">6개월</button>
-							<button onclick="dateFilter(365);"	id="order-sales">1년</button>
-							<button onclick="abled();" 			id="order-high-price">기간선택</button>
+							<button onclick="dateFilter(0);" 	<c:if test="${search.dayBefore eq 0 and search.startDate eq null}">style="border:2px solid darkorange; color:darkorange"</c:if>	 	id="order-aver">전체</button>
+							<button onclick="dateFilter(31);" 	<c:if test="${search.dayBefore eq 31}">style="border:2px solid darkorange; color:darkorange"</c:if>	 	id="order-aver">1개월</button>
+							<button onclick="dateFilter(183);" 	<c:if test="${search.dayBefore eq 183}">style="border:2px solid darkorange; color:darkorange"</c:if>	id="order-review">6개월</button>
+							<button onclick="dateFilter(365);" 	<c:if test="${search.dayBefore eq 365}">style="border:2px solid darkorange; color:darkorange"</c:if>	id="order-sales">1년</button>
+							<button onclick="abled();" 		    <c:if test="${search.startDate ne null}">style="border:2px solid darkorange; color:darkorange"</c:if>	id="order-high-price">기간선택</button>
 						</div>
 					</div>
-					<div id="inputDate">
+					<div id="inputDate" <c:if test="${search.startDate eq null}">style="display:none;"</c:if>>
 						<form id="search-form" action="/order/listView.strap" method="get">
 							<input id="dayBefore"  name="dayBefore" type="hidden" value="0">
 							<input id="startDate" class="dInput"  name="startDate" type="date"  value="${search.startDate }" disabled required> ~ 
 							<input id="endDate"   class="dInput"  name="endDate" 	type="date" value="${search.endDate }" disabled required>
-							<button id="dBtn"  disabled >검색</button>
+							<button id="dBtn" style="font-weight:bold;color:darkorange;background-color:white;border:1px solid darkorange; border-radius:4px;"  disabled >검색</button>
 						</form>
 					</div>
 				</div>
 				<div id="list">
 					<c:forEach items="${oList }" var="order" varStatus="n" >
-						<div style="margin: 0px auto;border-bottom:1px solid #c0c0c0;padding-bottom:5px;">
+						<div style="margin: 0px auto;padding-bottom:5px;">
 							<span class="orderDate" style="font-size:20px;font-weight:bold;">${order.orderDate }</span>
-							<span class="orderNo">주문번호:  ${order.orderNo }</span>
+							<span class="orderNo" >주문번호: <a href="#" style="text-decoration:none;" >${order.orderNo } ></a></span>
 						</div>
-						<div style="margin: 0px auto;border-bottom:1px solid #c0c0c0;padding-bottom:5px;">
-							<span class="orderStatus">주문상태: ${order.orderStatus }</span>
-						</div>
-						<div class="oneOrderWrap" style="border:1px solid solid #c0c0c0; border-radius:7px;margin-bottom:40px;">
-							<c:forEach items="${order.buyProducts }" var="product" varStatus="n" >
-								<div class="oneCart row" style="margin: 0px auto; border-bottom:1px solid #c0c0c0; padding:9px; background-color:rgb(255,253,244);">
-									<div class="pImg col-3" style="text-align:center;margin:auto;">
-										<img src="${product.mainImgRoot }" style="width:80px;height:70px;">
-									</div>
-									<div class="cartInfo col-6" style="text-align:center;">
-										<div class="pName" style="margin:auto;padding:5px;font-size:14px;font-weight:bold;">
-											<span class="brandName">[${product.productBrand }]</span>
-											<span class="pName">${product.productName }</span>
+						<div class="orderBorder" style="border:1px solid gray;padding:12px;margin:5px 0px 30px;">
+							<div style="margin: 0px auto;border-bottom:1px solid #c0c0c0; padding:4px;background-color:rgb(250,250,250)">
+								<span class="orderStatus">주문상태: ${order.orderStatus }</span>
+							</div>
+							<div class="oneOrderWrap" style="border:1px solid solid #c0c0c0;">
+								<c:forEach items="${order.buyProducts }" var="product" varStatus="n" >
+									<div class="oneCart row" style="margin: 0px auto; border-bottom:1px solid #c0c0c0; padding:9px;">
+										<div class="pImg col-3" style="text-align:center;margin:auto;">
+											<img src="${product.mainImgRoot }" style="width:80px;height:70px;">
 										</div>
-										<div class="cartPrice-wrap" style="margin:auto;">
-												<span class='wonSymbol'>\</span>
-												<span class="cartPrice">
-													<fmt:formatNumber value="${product.productPrice }" pattern="#,###"/> 
-												</span>
-												<span> * </span>
-												<span class="pQty">
-													${product.orderQty }개
-												</span>
+										<div class="cartInfo col-6" style="text-align:left;">
+											<div class="pName" style="margin:auto;padding:5px 0px;font-size:14px;font-weight:bold;">
+												<span class="brandName">[${product.productBrand }]</span>
+												<span class="pName">${product.productName }</span>
+											</div>
+											<div class="cartPrice-wrap" style="margin:auto;">
+													<span class="cartPrice">
+														<fmt:formatNumber value="${product.productPrice }" pattern="#,###"/> 
+													</span>
+													<span class='wonSymbol'>원</span>
+													<span> * </span>
+													<span class="pQty">
+														${product.orderQty }개
+													</span>
+											</div>
+										</div>
+										<div class="col-3" style="margin:auto;font-size:20px;font-weight:bold;"">
+											<span class="cartPrice">
+												<fmt:formatNumber value="${product.productPrice  * product.orderQty }" pattern="#,###"/> 
+											</span>
+											<span class='wonSymbol'>원</span>
 										</div>
 									</div>
-									<div class="col-3" style="margin:auto;font-size:20px;font-weight:bold;"">
-										<span class='wonSymbol'>\</span>
-										<span class="cartPrice">
-											<fmt:formatNumber value="${product.productPrice  * product.orderQty }" pattern="#,###"/> 
-										</span>
-									</div>
+									<input type="hidden" class="calPrice" value="${product.productPrice  * product.orderQty }">
+								</c:forEach>
+								<div class="">
+									<span style="color:gray;">
+										<i class="fa-solid fa-house"></i> 
+									</span>
+									<span>
+										${order.address }
+									</span>
+									<button style="float:right;margin-top:5px; font-weight:bold;color:darkorange;background-color:white;border:1px solid darkorange; border-radius:4px;">배송조회</button>
 								</div>
-								<input type="hidden" class="calPrice" value="${product.productPrice  * product.orderQty }">
-							</c:forEach>
-							<div class="">
-								<span style="color:gray;">
-									<i class="fa-solid fa-house"></i> 
-								</span>
-								${order.address }
 							</div>
 						</div>
 					</c:forEach>
@@ -144,6 +162,8 @@ var startDate = document.querySelector("#startDate");
 var endDate = document.querySelector("#endDate");
 var dBtn = document.querySelector("#dBtn");
 
+
+
 function dateFilter(day){
 	var searchForm = document.querySelector("#search-form");
 	var dayBefore = document.querySelector("#dayBefore");
@@ -152,6 +172,7 @@ function dateFilter(day){
 	startDate.disabled = true;	
 	endDate.disabled = true;	
 	dBtn.disabled = true;
+	document.querySelector("#inputDate").style.display="none";
 	
 	searchForm.submit();
 }
@@ -161,6 +182,13 @@ function abled(){
 	dBtn.disabled = false;	
 	var dayBefore = document.querySelector("#dayBefore");
 	dayBefore.value=0;
+	for(var i=0; i<5; i++){
+		document.querySelectorAll("#order-wrap button")[i].style.color="gray";
+		document.querySelectorAll("#order-wrap button")[i].style.border="2px solid gray";
+	}
+	document.querySelectorAll("#order-wrap button")[4].style.color="darkorange";
+	document.querySelectorAll("#order-wrap button")[4].style.border="2px solid darkorange";
+	document.querySelector("#inputDate").style.display="block";
 }
 
 </script>

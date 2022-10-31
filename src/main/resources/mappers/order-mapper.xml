@@ -71,7 +71,7 @@
 		FROM ORDER_TBL
 		<where>
 			MEMBER_ID = #{memberId}
-			AND (ORDER_STATUS =  'paid') OR (ORDER_STATUS = 'ready')
+			AND ((ORDER_STATUS =  'paid') OR (ORDER_STATUS = 'ready'))
 			<if test='dayBefore != 0 '>
 				AND ORDER_DATE <![CDATA[>=]]> SYSDATE - #{dayBefore}
 			</if>
@@ -87,7 +87,7 @@
 		FROM ORDER_TBL
 		<where>
 			MEMBER_ID = #{memberId}
-			AND (ORDER_STATUS =  'paid') OR (ORDER_STATUS = 'ready')
+			AND ((ORDER_STATUS =  'paid') OR (ORDER_STATUS = 'ready'))
 			<if test='dayBefore != 0 '>
 				AND ORDER_DATE <![CDATA[>=]]> SYSDATE - #{dayBefore}
 			</if>

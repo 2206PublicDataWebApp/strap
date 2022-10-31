@@ -50,10 +50,10 @@
 							</div>
 							<div>
 								<div class="cartPrice-wrap" style="text-align:center;">
-									<span class='wonSymbol'>\</span>
 									<span class="cartPrice">
 										<fmt:formatNumber value="${product.productPrice}" pattern="#,###"/> 
-									</span>*
+									</span>
+									<span class='wonSymbol'>원</span>*
 									<span class="pQty">
 										${product.orderQty }개
 									</span>
@@ -61,10 +61,10 @@
 							</div>
 						</div>
 						<div class="col-3"  style="font-size:20px;font-weight:bold;text-align:center;">
-							<span class='wonSymbol'>\</span>
 							<span class="cartPrice">
 								<fmt:formatNumber value="${product.productPrice * product.orderQty }" pattern="#,###"/> 
 							</span>
+							<span class='wonSymbol'>원</span>
 						</div>
 					</div>
 					<input type="hidden" class="calPrice" value="${product.productPrice * product.orderQty }">
