@@ -99,4 +99,34 @@ public class CartController {
 			return "fail";
 		}
 	}
+	
+	//장바구니 상품 일괄 체크상태 변경
+	@ResponseBody
+	@RequestMapping(value="/cart/.modifyAllCheck.strap",method=RequestMethod.GET)
+	public String modifyAllCheckCart(
+			@ModelAttribute Cart cart) {
+		if(cService.modifyAllCheckCart(cart) > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+		
+	}
+	
+	//장바구니 알러트
+	@ResponseBody
+	@RequestMapping(value="/cart/mark.strap",method=RequestMethod.POST)
+	public String markCart(HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		if(loginUser != null) {
+			int countCart = cService.getCountCart(loginUser.getMemberId());
+			if(countCart > 0) {
+				return countCart+"";
+			}else {
+				return "";
+			}
+		}else {
+			return "";
+		}
+	}
 }

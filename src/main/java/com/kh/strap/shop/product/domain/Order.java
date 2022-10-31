@@ -44,7 +44,8 @@ public class Order {
 			int deliveryFee, int discountAmount, int finalCost, String memberId, String address, String contactPhone,
 			String deliveryRequest, String agreeYn, String paymentMethod, String cardKind, String payComplete,
 			String orderCancel, String deliveryStart, String deliveryComplete, String deliveryNo, Date orderDate,
-			String memberNick, Timestamp vBankDueDate, String vBankHolder, String vBankName, String vBankNum) {
+			String memberNick, Timestamp vBankDueDate, String vBankHolder, String vBankName, String vBankNum,
+			String orderStatus) {
 		super();
 		this.buyProducts = buyProducts;
 		this.orderProducts = orderProducts;
@@ -72,6 +73,7 @@ public class Order {
 		this.vBankHolder = vBankHolder;
 		this.vBankName = vBankName;
 		this.vBankNum = vBankNum;
+		this.orderStatus = orderStatus;
 	}
 
 
@@ -335,6 +337,16 @@ public class Order {
 	}
 
 
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+
+
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Order [buyProducts=" + buyProducts + ", orderProducts=" + orderProducts + ", member=" + member
@@ -345,6 +357,8 @@ public class Order {
 				+ ", orderCancel=" + orderCancel + ", deliveryStart=" + deliveryStart + ", deliveryComplete="
 				+ deliveryComplete + ", deliveryNo=" + deliveryNo + ", orderDate=" + orderDate + ", memberNick="
 				+ memberNick + ", vBankDueDate=" + vBankDueDate + ", vBankHolder=" + vBankHolder + ", vBankName="
-				+ vBankName + ", vBankNum=" + vBankNum + "]";
+				+ vBankName + ", vBankNum=" + vBankNum + ", orderStatus=" + orderStatus + "]";
 	}
+	
+	
 }

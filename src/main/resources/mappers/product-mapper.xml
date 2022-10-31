@@ -21,6 +21,7 @@
 		<result column="PRODUCT_DELETE" 		property="productDelete"/>
 		<result column="GRADE_AVER" 			property="gradeAver"/>
 		<result column="REVIEW_COUNT" 			property="reviewCount"/>
+		<result column="ORDER_QTY" 				property="orderQty"/>
 	</resultMap>
 	<resultMap type="ProductSubImg" id="SubImgResultMap">
 		<id 	column="IMG_NO" property="imgNo"/>
@@ -114,9 +115,9 @@
 		AND PRODUCT_DELETE = 'N'
 	</select>
 	
-<!-- 주문별 상품목록 출력 -->
+<!-- 주문별 상품목록 출력 qty를 위해 조인한다. -->
 	<select id="selectProductsOnOrder" resultMap="ProductResultMap">
-		SELECT P.* 
+		SELECT P.* ,OP.ORDER_QTY
 		FROM PRODUCT_TBL P INNER JOIN ORDER_PRODUCT_TBL OP
 		ON P.PRODUCT_NO = OP.PRODUCT_NO
 		WHERE ORDER_NO = #{orderNo}

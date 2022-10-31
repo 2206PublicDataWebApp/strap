@@ -31,6 +31,11 @@ public class CartStoreLogic implements CartStore {
 		return session.selectList("CartMapper.selectCartChecked",memberId);
 	}
 	
+	@Override
+	public int selectGetCountCart(SqlSession session, String memberId) {
+		return session.selectOne("CartMapper.selectGetCountCart", memberId);
+	}
+	
 
 	@Override
 	public int updateQtyCart(SqlSession session, Cart cart) {
@@ -51,6 +56,13 @@ public class CartStoreLogic implements CartStore {
 	public int updateCheckCart(SqlSession session, Cart cart) {
 		return session.update("CartMapper.updateCheckCart", cart);
 	}
+
+	@Override
+	public int updateAllCheckCart(SqlSession session, Cart cart) {
+		return session.update("CartMapper.updateAllCheckCart",cart);
+	}
+
+
 
 
 

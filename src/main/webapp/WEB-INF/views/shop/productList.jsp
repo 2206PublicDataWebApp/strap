@@ -15,8 +15,20 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
 <style>
  .oneProduct{
- 	display:inline-block;
  }
+ .orderBtn{
+ 	color:gray;
+ 	margin: 0 12px;
+ }
+ .shopmenu{
+ 	font-size:20px;
+ 	margin:5px;
+ }
+ .pagination a{
+ 	color:#c0c0c0;
+ 	border-style:none;
+ }
+ 
 </style>
 </head>
 <body>
@@ -28,66 +40,80 @@
 		</div>
 	</div>
 	<!-- 컨텐츠 -->
-	<div id="contents" class="row" style="width:60%; margin:50px auto;">
+	<div id="contents" class="row" style="width:80%; margin:50px auto;">
 		<div class="contents col">
 			<div id="inner-header">
-				<h1>Strap추천 보충제</h1>
-				<h2>${paging.totalCount }개의 보충제가 기다리고 있습니다.</h2><hr>
-				<div id="search-wrap">
+				<div id="search-wrap" style="text-align: center;">
+					<h2>스트랩 추천보충제!</h2>
 					<form id="search-form" action="/product/search.strap" method="get">
-						<input id="searchVal" name="searchVal" type="text" value="${search.searchVal }" placeholder="상품검색">
-						<input id="searchColumn"  name="searchColumn" type="hidden">
-						<input id="orderCondition"  name="orderCondition" type="hidden">
-						<button >검색</button>
+						<div id="search_border" style="border:2px solid darkorange; border-radius:4px; display:inline-block;">
+							<input id="searchVal" name="searchVal" type="text" value="${search.searchVal }" placeholder=" 보충제를 검색하세요." style="border-style:none; padding:4px; width:400px;">
+							<input id="searchColumn"  name="searchColumn" type="hidden">
+							<input id="orderCondition"  name="orderCondition" type="hidden">
+							<button style="background-color:white;border-style:none;"><i class="fa-solid fa-magnifying-glass"></i></button>
+						</div>
 					</form>
 					<div id="order-wrap">
-						<span onclick="orderSubmit('grade_aver','desc');" 		id="order-aver">평점높은순</span>
-						<span onclick="orderSubmit('review_count','desc');" 	id="order-review">리뷰많은순</span>
-						<span onclick="orderSubmit('product_sales','desc');" 	id="order-sales">판매량많은순</span>
-						<span onclick="orderSubmit('product_price','desc');" 	id="order-high-price">가격높은순</span>
-						<span onclick="orderSubmit('product_price','asc');" 	id="order-low-price">가격낮은순</span>
+						<span onclick="orderSubmit('grade_aver','desc');" 		class="orderBtn" <c:if test="${search.searchColumn eq 'grade_aver' or search.searchColumn eq null or search.searchColumn eq ''}">style="font-weight:bold"</c:if> id="order-aver">평점순</span>
+						<span onclick="orderSubmit('review_count','desc');" 	class="orderBtn" <c:if test="${search.searchColumn eq 'review_count' }">style="font-weight:bold"</c:if> id="order-review">리뷰순</span>
+						<span onclick="orderSubmit('product_sales','desc');" 	class="orderBtn" <c:if test="${search.searchColumn eq 'product_sales' }">style="font-weight:bold"</c:if> id="order-sales">판매량순</span>
+						<span onclick="orderSubmit('product_price','desc');" 	class="orderBtn" <c:if test="${search.searchColumn eq 'product_price' and search.orderCondition eq 'desc' }">style="font-weight:bold"</c:if> id="order-high-price">높은가격순</span>
+						<span onclick="orderSubmit('product_price','asc');" 	class="orderBtn" <c:if test="${search.searchColumn eq 'product_price' and search.orderCondition eq 'asc' }">style="font-weight:bold"</c:if> id="order-low-price">낮은가격순</span>
 					</div>
 				</div>
 			</div>
+			<div style="text-align:center"><h3>총 <span style="color:darkorange;">${paging.totalCount }</span>개의 보충제가 있습니다.</h3></div><hr>
 			<div id="inner-contents">
 				<c:forEach items="${pList }" var="product" varStatus="n">
-					<div class="number" style="position:relative;top:20px; right:20px;width:50px;background-color:rgba(255,255,255,0.8)">${n.count }</div>
-					<div class="product-wrap">
-						<div class="oneProduct thumb" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
-							<img class="thumb-img" src="${product.mainImgRoot }" onerror="this.src='';" width="110px" height="100px">
+					<div class="product-wrap row" style="text-align: center;align-items: center;padding:9px; border-bottom: 1px solid #c0c0c0;">
+						<div class="oneProduct col-1 number" style="font-weight:bold; font-size:20px;">${n.count + paging.offset }</div>
+						<div class="oneProduct col-2 thumb" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
+							<img class="thumb-img" src="${product.mainImgRoot }" onerror="this.src='';" width="100px" height="92px">
 						</div>
-						<div class="oneProduct info" style="width:70%;">
-							<div class="product-title" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
+						<div class="oneProduct col info" style="width:70%;">
+							<div class="product-title" style="font-size:14px; font-weight:bold;" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
 								<span class="p-brand">[${product.productBrand }]</span>
 								<span class="p-name"> ${product.productName }</span>
 							</div>
-							<div class="product-proce">
-								<span id="wonSymbol">\</span>
-								<span class="p-price">${product.productPrice }</span>
-							</div>
-							<div class="product-grade">
-								<span>★${product.gradeAver }(${product.reviewCount })</span>
+							<div class="product-grade" style="margin:5px;">
+								<span><span style="color:darkorange;">★</span>${product.gradeAver }(${product.reviewCount })</span>
 							</div>
 						</div>
-						<div class="oneProduct userMenu">
-							<div class="p-menu-wrap">
-								<span id="${product.productNo }" class="likeBtn" onclick="loginCheck('${loginUser.memberId}',function(){controlLike('${loginUser.memberId}',${product.productNo });});"><i class="fa-regular fa-heart"></i></span>
-								<span class="cartBtn" onclick="loginCheck('${loginUser.memberId}',function(){addCart('${loginUser.memberId }',${product.productNo },1);})"><i class="fa-solid fa-cart-shopping"></i></span>
+						<div class="oneProduct col-2 product-price">
+								<span id="wonSymbol" style="font-weight:bold;">\</span>
+								<span class="p-price" style="font-size:20px;font-weight:bold;">
+									<fmt:formatNumber value="${product.productPrice }" pattern="#,###"/>
+								</span>
+							</div>
+						<div class="oneProduct col-2 userMenu">
+							<div class="p-menu-wrap" style="color:#c0c0c0;">
+								<span id="${product.productNo }" class="likeBtn shopmenu" onclick="loginCheck('${loginUser.memberId}',function(){controlLike('${loginUser.memberId}',${product.productNo });});"><i class="fa-solid fa-heart"></i></span>
+								<span class="cartBtn shopmenu" onclick="loginCheck('${loginUser.memberId}',function(){addCart('${loginUser.memberId }',${product.productNo },1);})"><i class="fa-solid fa-cart-shopping"></i></span>
 							</div>
 						</div>
 					</div>
 				</c:forEach>	
-				<div id="paging-wrap">
-					<c:if test="${paging.startNavi > paging.startPage }">
-						<a href="/product/${url}.strap?page=${paging.startNavi-1 }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}"><</a>
-					</c:if>
-					<c:forEach begin="${paging.startNavi }" end="${paging.endNavi }" var="n">
-						<a href="/product/${url }.strap?page=${n }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}">${n }</a>
-					</c:forEach>
-					<c:if test="${paging.endNavi < paging.endPage }">
-						<a href="/product/${url }.strap?page=${paging.endNavi+1 }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}">></a>
-					</c:if>					
-				</div>			
+				<nav aria-label="Page navigation example" style="width:200px;margin:10px auto; border-style:none; color:#c0c0c0;">
+				  <ul class="pagination">
+				    <li class="page-item">
+				    <c:if test="${paging.startNavi > paging.startPage }">
+				      <a class="page-link" href="/product/${url}.strap?page=${paging.startNavi-1 }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}" aria-label="<">
+				        <span aria-hidden="true">&laquo;</span>
+				      </a>
+				     </c:if>
+				    </li>
+				    <c:forEach begin="${paging.startNavi }" end="${paging.endNavi }" var="n">
+				    <li class="page-item"><a class="page-link" <c:if test="${paging.page eq n }">style="font-weight:bold;"</c:if>  href="/product/${url }.strap?page=${n }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}">${n }</a></li>
+				    </c:forEach>
+				    <c:if test="${paging.endNavi < paging.endPage }">
+				    <li class="page-item">
+				      <a class="page-link" href="/product/${url }.strap?page=${paging.endNavi+1 }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}" aria-label=">">
+				        <span aria-hidden="true">&raquo;</span>
+				      </a>
+				    </li>
+				    </c:if>
+				  </ul>
+				</nav>
 			</div>
 		</div>
 	</div>
@@ -158,10 +184,10 @@ function memberLikeView(){
 				console.log(result);
 				var likeBtnArr = document.querySelectorAll(".likeBtn");
 				for(var j = 0; j<likeBtnArr.length; j++){
-					likeBtnArr[j].style.color = "black";
+					likeBtnArr[j].style.color = "#c0c0c0";
 					for(i in result){
 						if(result[i].productNo ==likeBtnArr[j].id){
-							likeBtnArr[j].style.color = "red";
+							likeBtnArr[j].style.color = "darkorange";
 						}
 					}
 				}
@@ -184,6 +210,7 @@ function addCart(memberId,productNo,productAmount){
 		success:function(result){
 			if(result == "success"){
 				alert("상품이 장바구니에 추가되었습니다.");
+				markCart();
 			}else{
 				
 			}

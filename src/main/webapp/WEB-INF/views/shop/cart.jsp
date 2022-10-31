@@ -17,6 +17,19 @@
  .oneProduct{
  	display:inline-block;
  }
+ input[type="checkbox"]{
+ 	width:20px;
+ 	height:20px;
+ }
+ .cartbtn{
+ 	font-weight:bold;
+ 	background-color:darkorange; 
+ 	border:2px solid darkorange;
+ 	height:70px;
+ 	width:200px;
+ 	padding:12px;
+ }
+ 
 </style>
 </head>
 <body>
@@ -31,54 +44,71 @@
 	<div id="contents" class="row">
 		<div class="contents col">
 			<div id="inner-header">
-				<h1>장바구니(${cList.size() })</h1>
+				<h2>장바구니(${cList.size() })</h2>
 			</div>
-			<div id="inner-contents">
+			<div class="col-8" style="margin:auto;padding:12px;border-bottom:1px solid #c0c0c0;">
+				전체체크 <input id="allCheckbox" type="checkbox" onchange="allCheck(this);">  ※30,000원 이상 무료 배송!
+			</div>
+			<div class="col-8" style="margin:auto;">
 				<c:forEach items="${cList }" var="cart" varStatus="n" >
-					<div class="oneCart row">
-						<div class="pImg col-3">
-							<img src="${cart.product.mainImgRoot }" style="width:150px;height:150px;">
+					<div class="oneCart row" style="border-bottom:1px solid #c0c0c0; padding:12px;text-align:center; margin:auto;">
+						<div class="cartCheck col-1" style="margin:auto;">
+							<input  class="cartCheck" type="checkbox" name="cartCheck" onchange="cartCheck(this,'${loginUser.memberId }',${cart.productNo });" <c:if test="${cart.cartCheck eq 'Y'}">checked</c:if>>
 						</div>
-						<div class="cartInfo col-6">
-							<div>
-								<div class="pName">
-									<span class="brandName">[${cart.product.productBrand }]</span>
-									<span class="pName">${cart.product.productName }</span>
-								</div>
-								<div class="cartCheck">
-									<input  class="cartCheck" type="checkbox" name="cartCheck" onchange="cartCheck(this,'${loginUser.memberId }',${cart.productNo });" <c:if test="${cart.cartCheck eq 'Y'}">checked</c:if>>
-									<button type="button" onclick="removeCart(${cart.productNo},'${loginUser.memberId }');">X</button>
-								</div>
+						<div class="pImg col-1" style="margin:auto;">
+							<img src="${cart.product.mainImgRoot }" style="width:80px;height:80px;">
+						</div>
+						<div class="pName cartInfo col" style="margin:auto;font-size:14px;">
+							<div style="font-weight:bold;">
+								<span class="brandName">[${cart.product.productBrand }]</span>
+								<span class="pName">${cart.product.productName }</span>
 							</div>
-							<div>
-								<div class="qtyCon">
-									<button class="downQty" type="button" onclick="if(document.querySelectorAll('.qty')[${n.count-1}].value > 1)document.querySelectorAll('.qty')[${n.count-1}].value--; calCartPrice(${n.count-1},${cart.product.productPrice });modifyCartQty(${n.count-1 },${cart.productNo });calCartTotalPrice();">-</button>
-									<input class="qty" type="text" width="60px" value="${cart.productAmount }" readonly style="width:50px;text-align:center;" onChange="alert('!');">
-									<button class="upQty" type="button" onclick="document.querySelectorAll('.qty')[${n.count-1}].value++; calCartPrice(${n.count-1},${cart.product.productPrice });modifyCartQty(${n.count-1 },${cart.productNo });calCartTotalPrice();">+</button>
-								</div>
-								<div class="cartPrice-wrap">
-										<span class='wonSymbol'>\</span>
-										<span class="cartPrice">
-											<fmt:formatNumber value="${cart.product.productPrice * cart.productAmount }" pattern="#,###"/> 
-										</span>
-								</div>
+							<div style="padding:5px;">
+								<span id='wonSymbol'>\</span> 
+								<fmt:formatNumber value="${cart.product.productPrice }" pattern="#,###"/>
 							</div>
+						</div>
+						<div class="qtyCon btn-group cartQty col-2" role="group" style="border:1px solid #c0c0c0; margin:auto;">
+							<button class="btn downQty" type="button" onclick="if(document.querySelectorAll('.qty')[${n.count-1}].value > 1)document.querySelectorAll('.qty')[${n.count-1}].value--; calCartPrice(${n.count-1},${cart.product.productPrice });modifyCartQty(${n.count-1 },${cart.productNo });calCartTotalPrice();">-</button>
+							<input class="btn qty" type="text" width="60px" value="${cart.productAmount }" readonly style="width:50px; text-align:center;">
+							<button class="btn upQty" type="button" onclick="document.querySelectorAll('.qty')[${n.count-1}].value++; calCartPrice(${n.count-1},${cart.product.productPrice });modifyCartQty(${n.count-1 },${cart.productNo });calCartTotalPrice();">+</button>
+						</div>
+						<div class="cartPrice-wrap col" style="margin:auto;font-size:20px;font-weight:bold;">
+								<span class='wonSymbol'>\</span>
+								<span class="cartPrice">
+									<fmt:formatNumber value="${cart.product.productPrice * cart.productAmount }" pattern="#,###"/> 
+								</span>
+						</div>
+						<div class="col-1" style="margin:auto;">
+								<button type="button" style="background-color:white;border-style:none;font-weight:bold;font-size:20px;" onclick="removeCart(${cart.productNo},'${loginUser.memberId }');">X</button>
 						</div>
 					</div>
-				</c:forEach>	
-			</div>
-			<hr>
-			<h3>상품 구매 가격</h3>
-			<div id="totalPrice-wrap">
-				<h2>
-					<span class='wonSymbol'>\</span>
-					<span id="totalPrice">
-					</span>
-				</h2>
-			</div>
-			<div id="cartBtn">
-				<button>쇼핑계속</button>
-				<button onclick="if(confirm('선택 상품을 구매하시겠습니까?')) location.href='/cart/orderView.strap';">구매하기</button>
+				</c:forEach>
+<!-- 장바구니토탈가격					 -->
+				<div id="totalPrice-wrap" class="row" style="border-bottom:1px solid #c0c0c0;margin:20px; padding:12px;text-align:center;">
+					<div class="col" style="margin:auto;font-size:20px;">
+						<div>총 상품 금액</div> 
+						<span class='wonSymbol' style="font-size:20px;">\</span>
+						<span id="totalPrice" style="font-size:35px;font-weight:bold;color:darkorange;">
+						</span>
+					</div>
+					<div class="col" style="margin:auto;font-size:20px;">
+						<div>배송료</div> 
+						<span class='wonSymbol' style="font-size:20px;">\</span>
+						<span id="deliverFee" style="font-size:35px;font-weight:bold;color:darkorange;">
+						</span>
+					</div>
+					<div class="col" style="margin:auto;font-size:20px;">
+						<div>총 결제 금액</div> 
+						<span class='wonSymbol' style="font-size:20px;">\</span>
+						<span id="finalCost" style="font-size:35px;font-weight:bold;color:darkorange;">
+						</span>
+					</div>
+				</div>
+				<div id="cartBtn" style="text-align:center;margin:10px;">
+					<button class="cartbtn" style="color:darkorange;background-color:white;" onclick="location.href='/product/listView.strap';">쇼핑계속</button>
+					<button class="cartbtn" style="color:white;background-color:darkorange;" onclick="if(confirm('선택 상품을 구매하시겠습니까?')) location.href='/cart/orderView.strap';">구매하기</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -194,6 +224,8 @@ function calCartPrice(n,price){
 calCartTotalPrice();
 function calCartTotalPrice(){
 	var $totalPrice = document.querySelector("#totalPrice");
+	var $deliverFee = document.querySelector("#deliverFee");
+	var $finalCost = document.querySelector("#finalCost");
 	var sumPrice = 0;
 	for(var i = 0; i<'${cList.size()}'; i++){
 		if(document.querySelectorAll(".cartCheck")[2*i+1].checked){
@@ -202,7 +234,17 @@ function calCartTotalPrice(){
 		}
 	}
 	$totalPrice.innerText = sumPrice.toLocaleString();
+//배송료 및 최종 가격 계산
+	var deliverFee = 0;
+	if(sumPrice < 30000){
+		deliverFee = 3000;
+	}
+	var finalCost = sumPrice + deliverFee;
+	$deliverFee.innerText = deliverFee.toLocaleString();
+	$finalCost.innerText = finalCost.toLocaleString();
 }
+
+
 
 // 장바구니 수량변경 ajax
 function modifyCartQty(n,productNo){
@@ -273,6 +315,51 @@ function cartCheck(checkBtn,memberId,productNo){
 	});
 }
 
+//전체체크
+function allCheck(allCheck){
+	var size = '${cList.size() }';
+	var cartCheck = "";
+ 	if(allCheck.checked){
+ 		for(var j=0; j<size; j++){
+	 		document.querySelectorAll(".cartCheck")[2*j+1].checked = true;
+ 		}
+ 		cartCheck = 'Y';
+ 	}else{
+ 		for(var j=0; j<size; j++){
+	 		document.querySelectorAll(".cartCheck")[2*j+1].checked = false;
+ 		}
+ 		cartCheck = 'N';
+ 	}
+ 	$.ajax({
+ 		url:"/cart/.modifyAllCheck.strap",
+ 		data:{
+			"cartCheck":cartCheck,
+			"memberId":'${loginUser.memberId}',
+ 		},
+ 		type:"get",
+		success:function(result){
+			if(result == "success"){
+				calCartTotalPrice();
+			}else{
+			}
+		},
+ 		error:function(){}
+ 	});
+}
+
+//랜더링 시 전체체크상태 검토 
+allCheckCheck();
+function allCheckCheck(){
+	var isAllCheck = true;
+	for(var j=0; j<'${cList.size() }'; j++){
+		if(document.querySelectorAll(".cartCheck")[2*j+1].checked == false){
+			isAllCheck = false;
+		}
+	}
+	if(isAllCheck == true){
+		document.querySelector("#allCheckbox").checked = true;
+	}
+}
 </script>
 </body>
 </html>

@@ -80,7 +80,7 @@ public class ProductController {
 			@RequestParam(value="page",required=false)Integer currentPage
 			) {
 		int page = (currentPage != null)? currentPage : 1;
-		Paging paging = new Paging(pService.countAllProduct(), page, 25, 5);
+		Paging paging = new Paging(pService.countAllProduct(), page, 10, 5);
 		List<Product>pList = pService.printAllProduct(paging, search);
 		mv.addObject("pList",pList).
 		addObject("paging",paging).
@@ -97,7 +97,7 @@ public class ProductController {
 			@RequestParam(value="page",required=false)Integer currentPage) {
 		int page = (currentPage != null)? currentPage : 1;
 		
-		Paging paging = new Paging(pService.countSearchProduct(search),page,25,5);
+		Paging paging = new Paging(pService.countSearchProduct(search),page,10,5);
 		List<Product>pList = pService.printAllProductSearch(paging, search);
 		mv.addObject("pList",pList).
 		addObject("paging",paging).
@@ -233,13 +233,12 @@ public class ProductController {
 		Order completeOrder = pService.printOneOrder(merchant_uid);
 		//OrderProduct를 담아야한다.
 		completeOrder.setOrderProducts(pService.printOrderProductsOnOrder(merchant_uid));
-		//Product를 담아야한다.
+		//Product를 담아야한다.//여기서 qty를 같이 담자.
 		completeOrder.setBuyProducts(pService.printProductsOnOrder(merchant_uid));
 		mv.addObject("completeOrder",completeOrder).
 		setViewName("/shop/orderComplete");
 		return mv;
 	}
-	
 	
 	
 	//주문페이지에서 주소 저장 (,_)로 구분
@@ -273,7 +272,6 @@ public class ProductController {
 		oList.stream().forEach(order->{
 					order.setBuyProducts(pService.printProductsOnOrder(order.getOrderNo()));
 				});
-		System.out.println(oList.toString());
 		mv.addObject("oList",oList).
 		addObject("search",search).
 		addObject("paging",paging).

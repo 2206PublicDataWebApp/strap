@@ -539,6 +539,10 @@ function getAfterThreeDay(){
 	month = (month<10)? '0'+ month : month;
 	return year +""+ month +""+ day + "2359";
 }
+
+/////환불 함수
+
+  
 </script>
 </body>
 </html>

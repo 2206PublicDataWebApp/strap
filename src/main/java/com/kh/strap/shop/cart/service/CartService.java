@@ -14,12 +14,17 @@ public interface CartService {
 	public List<Cart> printCart(Cart cart);
 	//3.체크된 장바구니 상품 목록 반환
 	public List<Cart> printCheckedCart(String memberId);
+	//장바구니 상태 마크
+	public int getCountCart(String memberId);
 	//4.장바구니에서 수량 변경 시 수량값으로 업데이트
 	public int modifyToQtyCart(Cart cart);
 	//5.장바구니 상품 체크 상태 변경
 	public int modifyCheckCart(Cart cart);
+	//장바구니 상품 일괄 체크 상태 변경
+	public int modifyAllCheckCart(Cart cart);
 	//6.장바구니상품제거:
 	public int removeCart(Cart cart);
+	
 	
 	
 }

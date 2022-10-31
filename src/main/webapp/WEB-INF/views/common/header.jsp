@@ -11,7 +11,7 @@
 <body>
 <header class="header">
 	<div class="logo" >
-		<img src="/resources/images/logo.png" style="width: 450px; height: 110px; object-fit: cover; cursor: pointer;" onclick="location.href='/';">
+		<img src="/resources/image/logo.png" style="width: 450px; height: 110px; object-fit: cover; cursor: pointer;" onclick="location.href='/';">
 	</div>
 	<div class="login-wrap">
 		<div id="text-menu">
@@ -36,6 +36,7 @@
 	        </li>
 	        <li style="cursor: pointer;" onclick="loginCheck('${loginUser.memberId}',function(){location.href='/cart/cartView.strap';});">
 				<i class="fa-solid fa-cart-shopping"></i>
+				<div id="cartMarker" style="display:none;position:relative;left:-10px;bottom:15px;height:16px;width:16px;border-radius:25px;background-color:red;color:white;font-size:10px;text-align:center;"></div>
 	        </li>
 			</ul>
 		</div>
@@ -62,5 +63,24 @@ function loginCheck(loginId,action){
 		action();
 	}
 }
+//장바구니 마크
+markCart();
+function markCart(){
+	if('${loginUser.memberId}' != null){
+		$.ajax({
+			url:"/cart/mark.strap",
+			data:{},
+			type:"post",
+			success:function(count){
+				if(Number(count)>0){
+					document.querySelector("#cartMarker").style.display="inline-block";
+					document.querySelector("#cartMarker").innerText=count;
+				}
+			},
+			error:function(){}
+		});
+	}
+}
+
 </script>
 </html>
