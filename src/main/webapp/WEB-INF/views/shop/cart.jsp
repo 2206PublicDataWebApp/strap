@@ -107,7 +107,7 @@
 				</div>
 				<div id="cartBtn" style="text-align:center;margin:10px;">
 					<button class="cartbtn" style="color:darkorange;background-color:white;" onclick="location.href='/product/listView.strap';">쇼핑계속</button>
-					<button class="cartbtn" style="color:white;background-color:darkorange;" onclick="if(confirm('선택 상품을 구매하시겠습니까?')) location.href='/cart/orderView.strap';">구매하기</button>
+					<button class="cartbtn" style="color:white;background-color:darkorange;" onclick="if(confirm('선택 상품을 구매하시겠습니까?')&&finalCost!=0){location.href='/cart/orderView.strap';}else{alert('구매할 상품을 선택해주세요.');}">구매하기</button>
 				</div>
 			</div>
 		</div>
@@ -221,6 +221,7 @@ function calCartPrice(n,price){
 }
 
 // 장바구니 총 가격 계산
+var finalCost = 0;
 calCartTotalPrice();
 function calCartTotalPrice(){
 	var $totalPrice = document.querySelector("#totalPrice");
@@ -235,11 +236,11 @@ function calCartTotalPrice(){
 	}
 	$totalPrice.innerText = sumPrice.toLocaleString();
 //배송료 및 최종 가격 계산
-	var deliverFee = 0;
-	if(sumPrice < 30000){
-		deliverFee = 3000;
+	var deliverFee = 3000;
+	if(sumPrice >= 30000 || sumPrice == 0){
+		deliverFee = 0;
 	}
-	var finalCost = sumPrice + deliverFee;
+	finalCost = sumPrice + deliverFee;
 	$deliverFee.innerText = deliverFee.toLocaleString();
 	$finalCost.innerText = finalCost.toLocaleString();
 }

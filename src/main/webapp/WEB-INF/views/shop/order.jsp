@@ -20,16 +20,47 @@
 <!-- 다음주소API -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
-	input{
-		margin-bottom:20px;
+	body{
+		font-size:14px;
 	}
+	input{
+		margin-bottom:12px;
+		border-style:none;
+		padding:3px;
+	}
+		input[type="text"]{
+			width:60%;
+			border-bottom:1px solid #c0c0c0; 
+		}
+	.inputWrap{
+	}	
+		
 	.distict{
-		padding:20px;
+		padding:12px;
 	}
 	.guideMenu{
 		display:none;
 		height:250px;
 	}
+	.subTitleTxt{
+		display:inline-block;
+		padding:6px 0px;
+		font-size:17px;
+		font-weight:bold;
+	}
+	.inputLabel{
+		display:inline-block;
+		width: 130px;
+		text-align:left;
+	}
+	.btn-outline-success{
+		width:100px;
+		height:50px;
+		font-size:14px;
+		font-weight:bold;
+		vertical-align:middle;
+	}
+	
 </style>
 </head>
 <body>
@@ -41,68 +72,84 @@
 		</div>
 	</div>
 <!-- 컨텐츠 -->
-		<div id="contents" class="row" style="width:60%; margin:50px auto;">
-			<div class="col-9">
-				<div id="contents-header">
-					<h1>주문 페이지</h1><hr>
+		<div id="contents" class="row" style="width:60%; margin:50px auto;font-size:16px;">
+			<div id="pageTItle" class="col-8" style="border-bottom:1px solid #c0c0c0;height:50px;">
+				<span style="font-size:20px;font-weight:bold;padding:12px;">주문/결제</span>
+			</div>
+			<div class="col-8">
 					<div id="ordererInfo" class="row distict" style="border-bottom:1px solid #c0c0c0;">
 						<div class="col">
-							<div><h3>주문자 정보</h3></div>
+							<div><span class="subTitleTxt">주문자 정보</span></div>
 							<span id="name">${loginUser.memberName }</span>/
 							<span id="email">${loginUser.memberEmail }</span>
 						</div>
 					</div>
-					<br>
 					<div id="deliverInfo" class="distict" style="border-bottom:1px solid #c0c0c0;">
-						<div><h3>배송지 정보</h3></div>
-						<input type="button" value="주소검색" onclick="daumAddr();"> 
-						<input type="text" id="postCode" placeholder="우편번호" readonly>  <br> <input type="text" id="roadAddress" placeholder="주소" readonly> <br>
-						<input type="text" id="detailAddr" placeholder="상세주소" onchange="updateInput();" required> <br>
-						<select id="phoneHeadNum" oninput="updateInput();">
-							<option value="010">010</option>
-							<option value="017">017</option>
-							<option value="019">019</option>
-							<option value="011">011</option>
-							<option value="016">016</option>
-						</select>
-						<input type="text" id="phoneBodyNum" placeholder="'-'를제외한 7~8자리 숫자를 입력해주세요." onchange="updateInput();" required> <br>
-						<select id="deliveryRequest" name="deliveryRequest" > 
-							<option value="" selected disabled style="display:none;">배송 요청</option>
-							<option value="안전하게 와주세요.">안전하게 와주세요.</option>
-							<option value="배송전에 연락주세요.">배송전에 연락주세요.</option>
-							<option value="집 앞에 놓아주세요.">집 앞에 놓아주세요.</option>
-							<option id="userInputRqt">직접 입력</option>
-						</select><br>
-						<input type="checkbox" onchange="getMemberInfo(this); updateInput();"> 회원 주소 불러오기
-						<button type="button" onclick="registerAddr();">기본 배송지로 저장</button>
+						<div>
+							<span class="subTitleTxt" style="margin-right:10px;">배송정보 입력 </span>
+							<input type="checkbox" id="getAddressCheck" onchange="getMemberInfo(this); updateInput();"> <label for="getAddressCheck">기본 배송지 불러오기</label>
+							<input type="button" style="font-size:13px;font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:30px;" value="주소검색" onclick="daumAddr();"> 
+						</div>
+						<div id="addrInput-wrap">
+							<div class="inputWrap">
+								<span class="inputLabel">우편번호 </span>
+								<input type="text" id="postCode" placeholder="우편번호" readonly>
+							</div>
+							<div class="inputWrap">
+								<span class="inputLabel">주소 </span>
+								<input type="text" id="roadAddress" placeholder="주소" readonly>
+							</div>
+							<div class="inputWrap">
+								<span class="inputLabel">상세주소 </span>
+								<input type="text" id="detailAddr" placeholder="상세주소" onchange="updateInput();" required>
+							</div>
+							<div class="inputWrap">
+								<span class="inputLabel">연락처 </span>
+								<input type="text" id="phoneBodyNum" placeholder="'-'를제외한 10~11자리 숫자를 입력해주세요." onchange="updateInput();" required>
+							</div>
+							<div class="inputWrap">
+								<span class="inputLabel">배송 요청사항 </span>
+								<select id="deliveryRequest" name="deliveryRequest" style="width:60%;" oninput="directInput();"> 
+									<option value="" selected disabled style="display:none;">메시지를 선택해주세요.</option>
+									<option value="안전하게 와주세요.">안전하게 와주세요.</option>
+									<option value="배송전에 연락주세요.">배송전에 연락주세요.</option>
+									<option value="집 앞에 놓아주세요.">집 앞에 놓아주세요.</option>
+									<option value="directInput">직접 입력</option>
+								</select>
+								<div style="padding:12px;">
+									<span class="inputLabel"></span>
+									<input id="userInputRqt" required type="text" disabled style="width:90%;margin:0px auto;" placeholder="배송메시지 입력해주세요.">
+								</div>
+							</div>
+							<div class="inputWrap" style="text-align:right;">
+								<button type="button" style="font-size:13px;font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:30px;" onclick="registerAddr();">배송지 저장하기</button>
+							</div>
+						</div>
 					</div>
-					<div id="productInfo" class="distict" style="border-bottom:1px solid #c0c0c0;">
-						<div><h3>구매상품 정보</h3></div>
+					<div id="productInfo" class="distict" style=" background-color:rgb(255,253,244);">
+						<div style="margin: 0px auto;border-bottom:1px solid #c0c0c0;padding-bottom:5px;"><span class="subTitleTxt" >구매상품 정보</span></div>
 						<c:forEach items="${cList }" var="cart" varStatus="n" >
-							<div class="oneCart row" style="margin: 10px auto;">
-								<div class="pImg col-3" style="text-align:center;">
+							<div class="oneCart row" style="margin: 0px auto;border-bottom:1px solid #c0c0c0; padding:9px;">
+								<div class="pImg col-3" style="text-align:center;margin:auto;">
 									<img src="${cart.product.mainImgRoot }" style="width:80px;height:70px;">
 								</div>
-								<div class="cartInfo col-6">
-									<div>
-										<div class="pName">
-											<span class="brandName">[${cart.product.productBrand }]</span>
-											<span class="pName">${cart.product.productName }</span>
-										</div>
+								<div class="cartInfo col-6" style="text-align:center;">
+									<div class="pName" style="margin:auto;padding:5px;font-size:14px;font-weight:bold;">
+										<span class="brandName">[${cart.product.productBrand }]</span>
+										<span class="pName">${cart.product.productName }</span>
 									</div>
-									<div>
-										<div class="cartPrice-wrap">
-												<span class='wonSymbol'>\</span>
-												<span class="cartPrice">
-													<fmt:formatNumber value="${cart.product.productPrice}" pattern="#,###"/> 
-												</span>
-												<span class="pQty">
-													${cart.productAmount }개
-												</span>
-										</div>
+									<div class="cartPrice-wrap" style="margin:auto;">
+											<span class='wonSymbol'>\</span>
+											<span class="cartPrice">
+												<fmt:formatNumber value="${cart.product.productPrice}" pattern="#,###"/> 
+											</span>
+											<span> * </span>
+											<span class="pQty">
+												${cart.productAmount }개
+											</span>
 									</div>
 								</div>
-								<div class="col-3">
+								<div class="col-3" style="margin:auto;font-size:20px;font-weight:bold;"">
 									<span class='wonSymbol'>\</span>
 									<span class="cartPrice">
 										<fmt:formatNumber value="${cart.product.productPrice * cart.productAmount }" pattern="#,###"/> 
@@ -110,21 +157,21 @@
 								</div>
 							</div>
 							<input type="hidden" class="calPrice" value="${cart.product.productPrice * cart.productAmount }">
-						</c:forEach>	
+						</c:forEach>
 					</div>
 					<div id="couponInfo" class="distict" style="border-bottom:1px solid #c0c0c0;">
-						<div><h3>쿠폰</h3></div>
-						<button type="button">쿠폰 선택</button>
+						<div><span class="subTitleTxt">쿠폰</span></div>
+						<button type="button" style="font-size:13px;font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:30px;">쿠폰 선택</button>
 						<input type="text" placeholder="쿠폰적용" readonly onchange="calculatorCost();">
 					</div>
 					<div id="payMethod" class="distict" style="border-bottom:1px solid #c0c0c0;">
-						<div><h3>결제 수단</h3></div>
+						<div><span class="subTitleTxt">결제 수단</span></div>
 						
 						<input type="radio" class="btn-check" name="paymentMethod" id="card" value="card" autocomplete="off" onchange="guideMenuVisible(this,0);">
-						<label class="btn btn-outline-success" for="card">신용카드</label>
+						<label class="btn btn-outline-success" for="card"">신용카드</label>
 						
 						<input type="radio" class="btn-check" name="paymentMethod" id="rBanking" value="trans" autocomplete="off" onchange="guideMenuVisible(this,1);">
-						<label class="btn btn-outline-success" for="rBanking">실시간 계좌이체</label>
+						<label class="btn btn-outline-success" for="rBanking">실시간 <br>계좌이체</label>
 						
 						<input type="radio" class="btn-check" name="paymentMethod" id="vBanking" value="vbank" autocomplete="off" onchange="guideMenuVisible(this,2);">
 						<label class="btn btn-outline-success" for="vBanking">가상계좌</label>
@@ -135,11 +182,10 @@
 						<input type="radio" class="btn-check" name="paymentMethod" id="naver" value="naverpay" autocomplete="off" onchange="guideMenuVisible(this,4);">
 						<label class="btn btn-outline-success" for="naver">네이버페이</label>
 						
-						
 					</div>
 					<div id="cardInfo" class="distict guideMenu"  style="border-bottom:1px solid #c0c0c0;width:80%;">
 						<div id="card-guide" style="background-color:rgb(230,230,230);padding:20px;">
-							<h4>신용카드 결제 안내</h4>
+							<span class="subTitleTxt">신용카드 결제 안내</span>
 								<ul>
 									<li>안내1</li>
 									<li>안내2</li>
@@ -148,7 +194,7 @@
 					</div>
 					<div id="rBankInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
 						<div id="rBanking-guide" style="background-color:rgb(230,230,230);padding:20px;">
-							<h4>실시간계좌이체 결제 안내</h4>
+							<span class="subTitleTxt">실시간계좌이체 결제 안내</span>
 								<ul>
 									<li>본인 명의의 은행 계좌를 이용해 결제하실 수 있습니다.</li>
 									<li>은행 점검 시간에는 결제가 불가할 수 있습니다.</li>
@@ -157,7 +203,7 @@
 					</div>
 					<div id="vBankInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
 						<div id="vBanking-guide" style="background-color:rgb(230,230,230);padding:20px;">
-							<h4>가상계좌 이체 안내</h4>
+							<span class="subTitleTxt">가상계좌 이체 안내</span>
 								<ul>
 									<li>안내1</li>
 									<li>안내2</li>
@@ -166,7 +212,7 @@
 					</div>
 					<div id="kakaoInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
 						<div id="kakaopay-guide" style="background-color:rgb(230,230,230);padding:20px;">
-							<h4>카카오페이 안내</h4>
+							<span class="subTitleTxt">카카오페이 안내</span>
 								<ul>
 									<li>안내1</li>
 									<li>안내2</li>
@@ -175,7 +221,7 @@
 					</div>
 					<div id="naverInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
 						<div id="naverpay-guide" style="background-color:rgb(230,230,230);padding:20px;">
-							<h4>네이버페이 혜택 안내</h4>
+							<span class="subTitleTxt">네이버페이 혜택 안내</span>
 								<ul>
 									<li>네이버쇼핑을 통해 방문 시 1% 적립(그 외 0.2%)</li>
 									<li>충전포인트로 결제 시 1.5% 적립 + 소득공제</li>
@@ -183,11 +229,11 @@
 								</ul>
 						</div>
 					</div>
-				</div>
 			</div>
-			<div class="col-3" style="height:700px;position:sticky;top:0;">
-				<div class="order-side" style="height:80%;width:95%;margin:70px auto; border: 1px solid #c0c0c0;width:80%;text-align:center;">
-					 <h3>결제 금액</h3>
+<!-- 스띠키 사이드			 -->
+			<div class="col-4" style="height:700px;position:sticky;top:0;">
+				<div class="order-side" style="height:80%;width:95%;margin:0px auto; border: 1px solid #c0c0c0;width:80%;text-align:center;">
+					 <span>결제 금액</span>
 					 <div id="productsPrice-wrap">
 					 	<span>상품금액</span>
 					 	<div>
@@ -223,7 +269,7 @@
 					 	<span>구매조건 및 이용약관에 동의하며 결제를 진행합니다.</span>
 					 </div>
 					 <div id="paymenteBtn">
-						 <button onclick="if(paymentMethod==''){alert('결제수단을 선택해주세요.')}else{insertOrder(); kginisis()}">결제하기</button>
+						 <button style="font-size:13px;font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:30px;" onclick="if(paymentMethod==''){alert('결제수단을 선택해주세요.')}else{insertOrder(); kginisis()}">결제하기</button>
 					 </div>
 				</div>
 			</div>
@@ -336,7 +382,7 @@ function kginisis(){
         }).open();
     }
 
-//주소창: 회원정보 가져오기
+//주소창: 회원정보 가져오기 // ajax가 아닌 세션에서 가져옴.
 function getMemberInfo(check){
 	var receiver = "";
 	var postCode = document.querySelector("#postCode");
@@ -383,6 +429,15 @@ function registerAddr(){
 		error:function(){}
 	});
 }
+/////배송요청 직접입력
+function directInput(){
+	if(document.querySelector("#deliveryRequest").value == "directInput"){
+		document.querySelector("#userInputRqt").disabled = false;
+	}else{
+		document.querySelector("#userInputRqt").disabled = true;
+	}
+}
+
 
 //////////////////ORDER_TBL에 넣을 값들 셋팅
 var orderNo; // 주문번호 날짜+고유번호 셋팅
@@ -429,10 +484,7 @@ var contactPhone ="";
 function updateInput(){
 	memberId ='${loginUser.memberId}';
 	address = document.querySelector("#postCode").value+",_"+document.querySelector("#roadAddress").value+",_"+document.querySelector("#detailAddr").value;
-	contactPhone = document.querySelector("#phoneHeadNum").value + document.querySelector("#phoneBodyNum").value;
-	console.log(address);
-	console.log(memberId);
-	console.log(contactPhone);
+	contactPhone = document.querySelector("#phoneBodyNum").value;
 }
 var productBrand = '[${cList[0].product.productBrand}]'; //첫번째 상품.
 var productName = '${cList[0].product.productName}';
@@ -494,7 +546,9 @@ function insertOrder(){
 	var jsonArr = new Array();
 	<c:forEach items="${cList }" var="cart" varStatus="n" >
 		var jsonTemp = new Object();
-		deliveryRequest = document.querySelector("#deliveryRequest").value;
+// 		deliveryRequest = document.querySelector("#deliveryRequest").value;
+		deliveryRequest = (document.querySelector("#deliveryRequest").value != "directInput")?document.querySelector("#deliveryRequest").value:document.querySelector("#userInputRqt").value;
+		
 		jsonTemp.orderNo = orderNo;
 		jsonTemp.productNo =${cart.productNo};
 		jsonTemp.orderQty =${cart.productAmount};
@@ -535,8 +589,10 @@ function getAfterThreeDay(){
 	afterThreeDays = new Date(now.setDate(now.getDate()+3));
 	var year = afterThreeDays.getFullYear();
 	var month = afterThreeDays.getMonth()+1;
-	var day = afterThreeDays.getDate();
 	month = (month<10)? '0'+ month : month;
+	var day = afterThreeDays.getDate();
+	day =  (day<10)? '0' + day : day;
+	console.log(year +""+ month +""+ day + "2359");
 	return year +""+ month +""+ day + "2359";
 }
 
