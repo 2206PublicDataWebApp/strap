@@ -60,6 +60,17 @@
 		font-weight:bold;
 		vertical-align:middle;
 	}
+	.stickyPriceTxt{
+		float:right;
+		font-size:20px;
+		font-weight:bold;
+	}
+	.stickyInfo{
+		margin:2px;
+		height:30px;
+		margin:auto;
+		font-size:12px;
+	}
 	
 </style>
 </head>
@@ -185,7 +196,7 @@
 					</div>
 					<div id="cardInfo" class="distict guideMenu"  style="border-bottom:1px solid #c0c0c0;width:80%;">
 						<div id="card-guide" style="background-color:rgb(230,230,230);padding:20px;">
-							<span class="subTitleTxt">신용카드 결제 안내</span>
+							<span class="subTitleTxt">신용카드 결제 안내</span><hr>
 								<ul>
 									<li>안내1</li>
 									<li>안내2</li>
@@ -194,7 +205,7 @@
 					</div>
 					<div id="rBankInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
 						<div id="rBanking-guide" style="background-color:rgb(230,230,230);padding:20px;">
-							<span class="subTitleTxt">실시간계좌이체 결제 안내</span>
+							<span class="subTitleTxt">실시간계좌이체 결제 안내</span><hr>
 								<ul>
 									<li>본인 명의의 은행 계좌를 이용해 결제하실 수 있습니다.</li>
 									<li>은행 점검 시간에는 결제가 불가할 수 있습니다.</li>
@@ -203,7 +214,7 @@
 					</div>
 					<div id="vBankInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
 						<div id="vBanking-guide" style="background-color:rgb(230,230,230);padding:20px;">
-							<span class="subTitleTxt">가상계좌 이체 안내</span>
+							<span class="subTitleTxt">가상계좌 이체 안내</span><hr>
 								<ul>
 									<li>안내1</li>
 									<li>안내2</li>
@@ -212,7 +223,7 @@
 					</div>
 					<div id="kakaoInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
 						<div id="kakaopay-guide" style="background-color:rgb(230,230,230);padding:20px;">
-							<span class="subTitleTxt">카카오페이 안내</span>
+							<span class="subTitleTxt">카카오페이 안내</span><hr>
 								<ul>
 									<li>안내1</li>
 									<li>안내2</li>
@@ -221,7 +232,7 @@
 					</div>
 					<div id="naverInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
 						<div id="naverpay-guide" style="background-color:rgb(230,230,230);padding:20px;">
-							<span class="subTitleTxt">네이버페이 혜택 안내</span>
+							<span class="subTitleTxt">네이버페이 혜택 안내</span><hr>
 								<ul>
 									<li>네이버쇼핑을 통해 방문 시 1% 적립(그 외 0.2%)</li>
 									<li>충전포인트로 결제 시 1.5% 적립 + 소득공제</li>
@@ -231,45 +242,52 @@
 					</div>
 			</div>
 <!-- 스띠키 사이드			 -->
-			<div class="col-4" style="height:700px;position:sticky;top:0;">
-				<div class="order-side" style="height:80%;width:95%;margin:0px auto; border: 1px solid #c0c0c0;width:80%;text-align:center;">
-					 <span>결제 금액</span>
-					 <div id="productsPrice-wrap">
-					 	<span>상품금액</span>
-					 	<div>
+			<div class="col-4" style="height:570px;position:sticky;top:0;font-size:14px;vertical-align:middle;">
+				<div class="order-side" style="height:80%;width:95%;margin:0px auto;padding:12px; border: 1px solid #c0c0c0;width:80%;text-align:left;">
+					 <span style="font-size:16px;font-weight:bold;margin:auto;">주문 결제 금액</span>
+					 <hr>
+					 <div id="productsPrice-wrap" class="stickyInfo">
+				 		<span >상품금액</span>
+				 		<span class="stickyPriceTxt" style="float:right;">
 					 		<span class='wonSymbol'>\</span>
 					 		<span id="productsPrice"></span>
-					 	</div>
+				 		</span>
 					 </div>
-					 <div id="discountAmount-wrap">
+					 <hr>
+					 <div id="discountAmount-wrap" class="stickyInfo">
 					 	<span>할인 금액</span>
-					 	<div>
+					 	<span class="stickyPriceTxt" style="float:right;">
 					 		<span class='wonSymbol'>\</span>
 					 		<span id="discountAmount"></span>
-					 	</div>
+					 	</span>
 					 </div>
-					 <div id="deleiveryFee-wrap">
-					 	<span>배송료</span>
-					 	<div>
+					 <div id="deleiveryFee-wrap" class="stickyInfo">
+					 	<span>배송비</span>
+					 	<span  class="stickyPriceTxt" style="float:right;">
 					 		<span class='wonSymbol'>\</span>
 					 		<span id="deleiveryFee"></span>
-					 	</div>
+					 	</span>
 					 </div>
-					 <div id="finalCost-wrap">
+					 <hr>
+					 <div id="finalCost-wrap" class="stickyInfo">
 					 	<span>최종 결제금액</span>
-					 	<div>
+					 	<span class="stickyPriceTxt" style="float:right;">
 					 		<span class='wonSymbol'>\</span>
-					 		<span id=finalCost style="color:darkorange;font-weight:bold;font-size:30px;"></span>
-					 	</div>
+					 		<span id=finalCost style="color:darkorange;font-weight:bold;font-size:26px;"></span>
+					 	</span>
 					 </div>
-					 <div id="agreement" >
-					 	<div  style="font-size:12px;">처리위탁 및 3자 제공 동의>></div>
-					 	<div  style="font-size:12px;">결제대행서비스 이용 동의>></div>
-					 	<input type="checkbox"">
-					 	<span>구매조건 및 이용약관에 동의하며 결제를 진행합니다.</span>
+					 <hr>
+					 <div id="agreement" style="height:105px;">
+					 	<div  style="font-size:10px;">처리위탁 및 3자 제공 동의   <span style="float:right;">내용보기>></span></div>
+					 	<div  style="font-size:10px;">결제대행서비스 이용 동의   <span style="float:right;">내용보기>></span></div>
+					 	<hr>
+					 	<span style="font-size:12px;line-height:2px;">
+						 	<input type="checkbox"">
+					 		구매조건 및 이용약관에 동의하며 결제를 진행합니다.
+					 	</span>
 					 </div>
-					 <div id="paymenteBtn">
-						 <button style="font-size:13px;font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:30px;" onclick="if(paymentMethod==''){alert('결제수단을 선택해주세요.')}else{insertOrder(); kginisis()}">결제하기</button>
+					 <div id="paymenteBtn" style="text-align:center;">
+						 <button style="font-size:26px;font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:50px;width:90%;" onclick="if(paymentMethod==''){alert('결제수단을 선택해주세요.')}else{insertOrder(); kginisis()}">결제하기</button>
 					 </div>
 				</div>
 			</div>
