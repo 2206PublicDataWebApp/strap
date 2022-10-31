@@ -43,24 +43,24 @@
 						</div>
 						<div class="cartInfo col-6">
 							<div>
-								<div class="pName">
+								<div class="pName" style="font-weight:bold;text-align:center;">
 									<span class="brandName">[${product.productBrand }]</span>
 									<span class="pName">${product.productName }</span>
 								</div>
 							</div>
 							<div>
-								<div class="cartPrice-wrap">
+								<div class="cartPrice-wrap" style="text-align:center;">
 									<span class='wonSymbol'>\</span>
 									<span class="cartPrice">
 										<fmt:formatNumber value="${product.productPrice}" pattern="#,###"/> 
-									</span>
+									</span>*
 									<span class="pQty">
 										${product.orderQty }개
 									</span>
 								</div>
 							</div>
 						</div>
-						<div class="col-3">
+						<div class="col-3"  style="font-size:20px;font-weight:bold;text-align:center;">
 							<span class='wonSymbol'>\</span>
 							<span class="cartPrice">
 								<fmt:formatNumber value="${product.productPrice * product.orderQty }" pattern="#,###"/> 
@@ -71,8 +71,9 @@
 				</c:forEach>	
 			</div>
 			<div id="order-info" class="row">
-				<div id="order-info" class="col-7" style="height:350px;margin:70px auto; border: 1px solid #c0c0c0;text-align:center;">
+				<div id="order-info" class="col-6" style="height:350px;margin:70px auto;padding:20px 40px; border: 1px solid #c0c0c0;text-align:left;">
 					<div id="orderInfo">
+						<h3>주문 정보</h3><hr>
 						<table>
 							<tr>
 								<th>주문번호 : </th>
@@ -109,55 +110,48 @@
 						</table>
 					</div>
 				</div>
-				<div id="paid-info" class="col-5"	>
-					<div class="order-side" style="height:350px;margin:70px auto; border: 1px solid #c0c0c0;text-align:center;">
-						 <h3>결제 금액</h3>
-						 <div id="productsPrice-wrap">
-						 	<span>상품금액</span>
-						 	<div>
-						 		<span class='wonSymbol'>\</span>
-						 		<span id="productsPrice">
-						 			<fmt:formatNumber value="${completeOrder.finalCost + completeOrder.discountAmount - completeOrder.deliveryFee }" pattern="#,###"/>
-						 		</span>
-						 	</div>
-						 </div>
-						 <div id="discountAmount-wrap">
-						 	<span>할인 금액</span>
-						 	<div>
-						 		<span class='wonSymbol'>\</span>
-						 		<span id="discountAmount">
-						 			<fmt:formatNumber value="${completeOrder.discountAmount }" pattern="#,###"/>
-						 		</span>
-						 	</div>
-						 </div>
-						 <div id="deleiveryFee-wrap">
-						 	<span>배송료</span>
-						 	<div>
-						 		<span class='wonSymbol'>\</span>
-						 		<span id="deleiveryFee">
-						 			<fmt:formatNumber value="${completeOrder.deliveryFee }" pattern="#,###"/>
-						 		</span>
-						 	</div>
-						 </div>
-						 <div id="finalCost-wrap">
-						 	<span>최종 결제금액</span>
-						 	<div>
-						 		<span class='wonSymbol'>\</span>
-						 		<span id=finalCost style="color:darkorange;font-weight:bold;font-size:30px;">
-						 			<fmt:formatNumber value="${completeOrder.finalCost }" pattern="#,###"/> 
-						 		</span>
-						 	</div>
-						 </div>
-						 <div id="agreement" >
-						 	<div  style="font-size:12px;">처리위탁 및 3자 제공 동의>></div>
-						 	<div  style="font-size:12px;">결제대행서비스 이용 동의>></div>
-						 </div>
-					</div>
+				<div id="paid-info" class="col-6">
+					<div class="order-side" style="height:350px;margin:70px auto;padding:20px 40px; border: 1px solid #c0c0c0;text-align:left;">
+						 <h3>결제 금액</h3><hr>
+						 <table>
+							<tr>
+								<th>상품금액 : </th>
+								<td>
+							 		<span id="productsPrice" style="font-weight:bold;font-size:18px;">
+							 			<fmt:formatNumber value="${completeOrder.finalCost + completeOrder.discountAmount - completeOrder.deliveryFee }" pattern="#,###"/>원
+							 		</span>
+								</td>
+							</tr>
+							<tr>
+								<th>할인 금액 : </th>
+								<td>
+							 		<span id="discountAmount" style="font-weight:bold;font-size:18px;">
+							 			<fmt:formatNumber value="${completeOrder.discountAmount }" pattern="#,###"/>원
+							 		</span>
+								</td>
+							</tr>
+							<tr>
+								<th>배송비 : </th>
+								<td>
+							 		<span id="deleiveryFee" style="font-weight:bold;font-size:18px;">
+							 			<fmt:formatNumber value="${completeOrder.deliveryFee }" pattern="#,###"/>원
+							 		</span>
+								</td>
+							</tr>
+							<tr style="padding:12px;">
+								<th>최종 결제금액 : </th>
+								<td>
+							 		<span id=finalCost style="color:darkorange;font-weight:bold;font-size:20px;">
+							 			<fmt:formatNumber value="${completeOrder.finalCost }" pattern="#,###"/>원
+							 		</span>
+								</td>
+							</tr>
+						</table>
 				</div>
-				<div id="orderComBtn">
-					<button onclick="location.href='/product/listView.strap';">쇼핑계속</button>
-					<button onclick="location.href='/order/listView.strap';">주문내역</button>
-				</div>
+			</div>
+			<div id="orderComBtn" style="text-align:center;">
+				<button style="font-size:26px;font-weight:bold;color:darkorange;background-color:white;border: 2px solid darkorange;border-radius:4px;height:70px;width:200px;" onclick="location.href='/product/listView.strap';">쇼핑계속</button>
+				<button style="font-size:26px;font-weight:bold;color:white;background-color:darkorange;border: 2px solid darkorange;border-radius:4px;height:70px;width:200px;" onclick="location.href='/order/listView.strap';">주문내역</button>
 			</div>
 		</div>
 	</div>

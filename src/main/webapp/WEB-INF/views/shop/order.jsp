@@ -41,22 +41,26 @@
 	.guideMenu{
 		display:none;
 		height:250px;
+		font-size: 13px;
 	}
 	.subTitleTxt{
 		display:inline-block;
 		padding:6px 0px;
-		font-size:17px;
+		font-size:14px;
 		font-weight:bold;
 	}
 	.inputLabel{
 		display:inline-block;
 		width: 130px;
 		text-align:left;
+		font-size:12px;
+		font-weight:bold;
+		padding: 0px 10px;
 	}
 	.btn-outline-success{
 		width:100px;
 		height:50px;
-		font-size:14px;
+		font-size:11px;
 		font-weight:bold;
 		vertical-align:middle;
 	}
@@ -179,23 +183,23 @@
 						<div><span class="subTitleTxt">결제 수단</span></div>
 						
 						<input type="radio" class="btn-check" name="paymentMethod" id="card" value="card" autocomplete="off" onchange="guideMenuVisible(this,0);">
-						<label class="btn btn-outline-success" for="card"">신용카드</label>
+						<label class="btn btn-outline-success" for="card"">신용카드<br><i class="fa-regular fa-credit-card"></i></label>
 						
 						<input type="radio" class="btn-check" name="paymentMethod" id="rBanking" value="trans" autocomplete="off" onchange="guideMenuVisible(this,1);">
-						<label class="btn btn-outline-success" for="rBanking">실시간 <br>계좌이체</label>
+						<label class="btn btn-outline-success" for="rBanking">계좌이체<br><i class="fa-solid fa-right-left"></i></label>
 						
 						<input type="radio" class="btn-check" name="paymentMethod" id="vBanking" value="vbank" autocomplete="off" onchange="guideMenuVisible(this,2);">
-						<label class="btn btn-outline-success" for="vBanking">가상계좌</label>
+						<label class="btn btn-outline-success" for="vBanking">무통장입금<br><i class="fa-solid fa-won-sign"></i></label>
 						
 						<input type="radio" class="btn-check" name="paymentMethod" id="kakao" value="kakaopay" autocomplete="off" onchange="guideMenuVisible(this,3);">
-						<label class="btn btn-outline-success" for="kakao">카카오페이</label>
+						<label class="btn btn-outline-success" for="kakao">카카오페이<img src="/resources/image/kakaopay.png" width="50%" height="50%";></label>
 						
 						<input type="radio" class="btn-check" name="paymentMethod" id="naver" value="naverpay" autocomplete="off" onchange="guideMenuVisible(this,4);">
-						<label class="btn btn-outline-success" for="naver">네이버페이</label>
+						<label class="btn btn-outline-success" for="naver">네이버페이<img src="/resources/image/naverpay.png"width="50%" heifht="50%"></label>
 						
 					</div>
 					<div id="cardInfo" class="distict guideMenu"  style="border-bottom:1px solid #c0c0c0;width:80%;">
-						<div id="card-guide" style="background-color:rgb(230,230,230);padding:20px;">
+						<div id="card-guide" style="background-color:rgb(250,250,250);padding:20px;">
 							<span class="subTitleTxt">신용카드 결제 안내</span><hr>
 								<ul>
 									<li>안내1</li>
@@ -204,7 +208,7 @@
 						</div>
 					</div>
 					<div id="rBankInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
-						<div id="rBanking-guide" style="background-color:rgb(230,230,230);padding:20px;">
+						<div id="rBanking-guide" style="background-color:rgb(250,250,250);padding:20px;">
 							<span class="subTitleTxt">실시간계좌이체 결제 안내</span><hr>
 								<ul>
 									<li>본인 명의의 은행 계좌를 이용해 결제하실 수 있습니다.</li>
@@ -213,7 +217,7 @@
 						</div>
 					</div>
 					<div id="vBankInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
-						<div id="vBanking-guide" style="background-color:rgb(230,230,230);padding:20px;">
+						<div id="vBanking-guide" style="background-color:rgb(250,250,250);padding:20px;">
 							<span class="subTitleTxt">가상계좌 이체 안내</span><hr>
 								<ul>
 									<li>안내1</li>
@@ -222,7 +226,7 @@
 						</div>
 					</div>
 					<div id="kakaoInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
-						<div id="kakaopay-guide" style="background-color:rgb(230,230,230);padding:20px;">
+						<div id="kakaopay-guide" style="background-color:rgb(250,250,250);padding:20px;">
 							<span class="subTitleTxt">카카오페이 안내</span><hr>
 								<ul>
 									<li>안내1</li>
@@ -231,7 +235,7 @@
 						</div>
 					</div>
 					<div id="naverInfo" class="distict guideMenu" style="border-bottom:1px solid #c0c0c0;width:80%;">
-						<div id="naverpay-guide" style="background-color:rgb(230,230,230);padding:20px;">
+						<div id="naverpay-guide" style="background-color:rgb(250,250,250);padding:20px;">
 							<span class="subTitleTxt">네이버페이 혜택 안내</span><hr>
 								<ul>
 									<li>네이버쇼핑을 통해 방문 시 1% 적립(그 외 0.2%)</li>
@@ -282,12 +286,12 @@
 					 	<div  style="font-size:10px;">결제대행서비스 이용 동의   <span style="float:right;">내용보기>></span></div>
 					 	<hr>
 					 	<span style="font-size:12px;line-height:2px;">
-						 	<input type="checkbox"">
+						 	<input id="agreeCheck" type="checkbox"">
 					 		구매조건 및 이용약관에 동의하며 결제를 진행합니다.
 					 	</span>
 					 </div>
 					 <div id="paymenteBtn" style="text-align:center;">
-						 <button style="font-size:26px;font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:50px;width:90%;" onclick="if(paymentMethod==''){alert('결제수단을 선택해주세요.')}else{insertOrder(); kginisis()}">결제하기</button>
+						 <button style="font-size:26px;font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:50px;width:90%;" onclick="clickPayBtn();">결제하기</button>
 					 </div>
 				</div>
 			</div>
@@ -551,6 +555,20 @@ function guideMenuVisible(thisCheck,n){
 	console.log(document.querySelectorAll("input[name='paymentMethod']")[n].value);
 	paymentMethod = document.querySelectorAll("input[name='paymentMethod']")[n].value;
 }
+//결제버튼 온클릭
+function clickPayBtn(){
+	if(paymentMethod==''){
+		alert('결제수단을 선택해주세요.')
+	}else{
+	}
+		if(document.querySelector("#agreeCheck").checked){
+			insertOrder(); 
+			kginisis();
+		}else{
+			alert("구매조건 및 이용약관에 동의해주세요.");
+		}
+	}
+
 
 //////////////결제버튼 클릭 후 order테이블에 주문 레코드 삽입 ajax insert
 function insertOrder(){
