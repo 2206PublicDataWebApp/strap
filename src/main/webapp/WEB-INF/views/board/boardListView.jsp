@@ -23,7 +23,7 @@
 		<div class="contents">
 			<div id="contents-wrap">
 			<!-- 카테고리 -->
-			<ul class="nav nav-pills" style="justify-content: center; padding: 40px;">
+			<ul class="nav nav-pills" style="justify-content: center; padding: 40px; transform: translate(40px, 10px);">
 				<button type="button" style="height: 40px; margin-right: 20px; --bs-btn-hover-bg: white;" class="btn btn-outline-primary">
 					 <li style="margin-top: -7px;" class="nav-item">
 					 	<a class="nav-link" style="--bs-nav-link-color: black; --bs-nav-link-hover-color: blue;" href="#">전체</a>
@@ -41,8 +41,8 @@
 	  			</button>
   			</ul>
   					<!-- 검색창 -->
-						<form action="/board/search.strap" method="get" style="transform: translate(24%); margin-bottom: 50px;">
-							<select style="float: left; width: 10%!important;" class="form-select w-25"
+						<form action="/board/search.strap" method="get" style="transform: translate(30%); margin-bottom: 50px;">
+							<select style="float: left; width: 8%!important;" class="form-select w-25"
 								aria-label="Default select example" aria-label="Default select example" name="searchCondition">
 								<option value="all"
 									<c:if test="${searchCondition == 'all' }">selected</c:if>>전체</option>
@@ -54,7 +54,7 @@
 									<c:if test="${searchCondition == 'member' }">selected</c:if>>작성자</option>									
 							</select> 
 							<div style="height: 40px; display: contents" class="input-group mb-3">
-								<input style="float: left; width: 40%!important;" 
+								<input style="float: left; width: 30%!important;" 
 											  class="form-control" aria-describedby="inputGroup-sizing-default" type="text" name="searchValue" value="${searchValue }"> 
 								<button style="float: left; border:none; height:38px; width:40px; border: 1px solid #ced4da;
 											   border-top-right-radius: 8px; border-bottom-right-radius: 8px;
@@ -116,12 +116,10 @@
 								</tr>
 							</c:if>
 						</table>
-					<div>
-						<div>
-						<!-- 페이징 처리 -->
-							<nav aria-label="Page navigation example">
-							<div>
-							<div>
+					<!-- 페이징 처리 -->
+							<div class="col-md-11 offset-md-5 py-5 text-center">
+								<div style="float: left;">
+									<nav aria-label="Page navigation example">
 	          					<ul class="pagination" style="justify-content: center;">
 									<c:if test="${currentPage != 1 }">
 										<li class="page-item">
@@ -146,17 +144,17 @@
 										</li>
 									</c:if>
 								</ul>
-							</div>
-							<div>
-								<button type="button" class="btn btn-primary" onclick="location.href='/board/writeView.strap'">글쓰기</button>
-							</div>
-							</div>
 							</nav>
-						</div>
-					</div>
+								</div>
+								<div>
+								<button type="button" class="btn btn-primary" onclick="location.href='/board/writeView.strap'">글쓰기</button>
+								</div>
+							</div>
 				</div>
 			</div>
 		</div>
+	</div>
+	
 		<!-- 푸터 -->
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </body>

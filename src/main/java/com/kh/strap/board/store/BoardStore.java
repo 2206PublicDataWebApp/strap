@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.strap.board.domain.Board;
+import com.kh.strap.board.domain.BoardReReply;
 import com.kh.strap.board.domain.BoardReply;
 
 public interface BoardStore {
@@ -40,6 +41,7 @@ public interface BoardStore {
 	
 	public int deleteOneByNo(SqlSession session, int boardNo);
 
+	// 댓글 등록
 	public int insertReply(SqlSession session, BoardReply bReply);
 	
 	// 댓글 전체조회
@@ -50,6 +52,10 @@ public interface BoardStore {
 	
 	// 댓글 삭제
 	public int deleteReply(SqlSession session, Integer replyNo);
+	
+	public int insertReReply(SqlSession session, BoardReReply bReReply);
+	
+	public List<BoardReReply> selectAllReReply(SqlSession session, Map<String, Object> map);
 }
 
 

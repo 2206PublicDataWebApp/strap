@@ -10,6 +10,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.strap.board.domain.Board;
+import com.kh.strap.board.domain.BoardReReply;
 import com.kh.strap.board.domain.BoardReply;
 import com.kh.strap.board.store.BoardStore;
 
@@ -127,12 +128,14 @@ public class BoardStoreLogic implements BoardStore{
 			return result;
 		}
 
+		// 댓글 등록
 		@Override
 		public int insertReply(SqlSession session, BoardReply bReply) {
 			int result = session.insert("BoardMapper.insertReply", bReply);
 			return result;
 		}
 
+		// 댓글 리스트
 		@Override
 		public List<BoardReply> selectAllReply(SqlSession session, int boardNo) {
 			List<BoardReply> brList = session.selectList("BoardMapper.selectAllReply", boardNo);
@@ -149,6 +152,18 @@ public class BoardStoreLogic implements BoardStore{
 		public int deleteReply(SqlSession session, Integer replyNo) {
 			int result = session.delete("BoardMapper.deleteReply", replyNo);
 			return result;
+		}
+
+		@Override
+		public int insertReReply(SqlSession session, BoardReReply bReReply) {
+			int result = session.insert("BoardMapper.insertReReply", bReReply);
+			return result;
+		}
+
+		@Override
+		public List<BoardReReply> selectAllReReply(SqlSession session, Map<String, Object> map) {
+			List<BoardReReply> bReList = session.selectList("BoardMapper.selectAllReReply", map);
+			return bReList;
 		}
 }
 
