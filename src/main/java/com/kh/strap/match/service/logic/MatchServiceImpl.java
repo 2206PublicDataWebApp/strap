@@ -3,9 +3,13 @@ package com.kh.strap.match.service.logic;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.kh.strap.match.service.MatchService;
 import com.kh.strap.match.store.MatchStore;
@@ -45,6 +49,55 @@ public class MatchServiceImpl implements MatchService {
 	public int inserLocalRecord(Map<String, Object> map) {
 		int result = mStore.inserLocalRecord(session, map);
 		return result;
+	}
+	@Override
+	public List<Member> localRefresh(Member mOne) {
+		List<Member> mList = mStore.localRefresh(session, mOne);
+		return mList;
+	}
+	@Override
+	public int updateLocalRecord(Map<String, Object> map) {
+		int result = mStore.updateLocalRecord(session, map);
+		return result;
+	}
+	@Override
+	public void minusCount(Member mOne) {
+		mStore.minusCount(session,mOne);
+	}
+	@Override
+	public void resetLocalRecord(String memberId) {
+		mStore.resetLocalRecord(session, memberId);	
+	}
+
+	@Override
+	public int getCountNumber(String memberId) {
+		int result = mStore.getCountNum(session, memberId);
+		return result;
+	}
+	@Override
+	public List<Member> mannerMember(Member mOne) {
+		List<Member> mList = mStore.mannerMember(session, mOne);
+		return mList;
+	}
+	@Override
+	public List<Member> mannerRefresh(Member mOne) {
+		List<Member> mList = mStore.mannerRefresh(session, mOne);
+		return mList;
+	}
+	@Override
+	public int updateMannerRecord(Map<String, Object> map) {
+		int result = mStore.updateMannerRecord(session, map);
+		return result;
+	}
+	@Override
+	public int inserMannerRecord(Map<String, Object> map) {
+		int result = mStore.inserMannerRecord(session, map);
+		return result;
+	}
+	@Override
+	public void resetMannerRecord(String memberId) {
+		mStore.resetMannerRecord(session, memberId);
+		
 	}
 	
 	

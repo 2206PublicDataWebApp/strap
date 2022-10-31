@@ -20,4 +20,24 @@ public interface MatchStore {
 
 	int inserLocalRecord(SqlSession session, Map<String, Object> map);
 
+	List<Member> localRefresh(SqlSession session, Member mOne);
+
+	int updateLocalRecord(SqlSession session, Map<String, Object> map);
+
+	void minusCount(SqlSession session, Member mOne);
+
+	void resetLocalRecord(SqlSession session, String memberId);
+
+	int getCountNum(SqlSession session, String memberId);
+
+	List<Member> mannerMember(SqlSession session, Member mOne);
+
+	List<Member> mannerRefresh(SqlSession session, Member mOne);
+
+	int updateMannerRecord(SqlSession session, Map<String, Object> map);
+
+	int inserMannerRecord(SqlSession session, Map<String, Object> map);
+
+	void resetMannerRecord(SqlSession session, String memberId);
+
 }
