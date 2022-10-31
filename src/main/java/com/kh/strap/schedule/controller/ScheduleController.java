@@ -37,15 +37,16 @@ public class ScheduleController {
 	// 캘린더 페이지
 	@RequestMapping(value="/mypage/scheduleView.strap", method=RequestMethod.GET)
 	public ModelAndView showSchedule(ModelAndView mv, HttpServletRequest request) {
-		TimerTask task = new TimerTask() {
-		    @Override
-		    public void run() {
-		        System.out.println("-------------");
-//		        getUrl(); //특정메소드
-		    }
-		};
-
-		new Timer().scheduleAtFixedRate(task, 0l, 3000);
+//		타이머
+//		TimerTask task = new TimerTask() {
+//		    @Override
+//		    public void run() {
+//		        System.out.println("-------------------");
+////		        getUrl(); //특정메소드
+//		    }
+//		};
+//
+//		new Timer().scheduleAtFixedRate(task, 0l, 2000);
 		
 		mv.setViewName("mypage/schedule");
 		return mv;
