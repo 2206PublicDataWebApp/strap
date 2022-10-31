@@ -25,6 +25,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 
 	@Override
+	public int registDaySchedule(Schedule schedule) {
+		int result = scStore.insertDaySchedule(session, schedule);
+		return result;
+	}
+
+	@Override
 	public List<Schedule> printAllSchedule(String memberId) {
 		List<Schedule> scList = scStore.selectAllSchedule(session, memberId);
 		return scList;

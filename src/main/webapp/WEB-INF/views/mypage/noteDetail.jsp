@@ -213,8 +213,7 @@
 							<%-- 					<input type="hidden" value=${. } name="memberId">  신고자 추가해야함--%>
 							<div class="form-floating mb-3">
 								<p>신고 종류</p>
-								<select class="form-select" aria-label="Default select example"
-									name="reportType">
+								<select class="form-select" aria-label="Default select example"	name="reportType">
 									<option value="RT1">영리목적/홍보성</option>
 									<option value="RT2">불법정보</option>
 									<option value="RT3">음란/선정성</option>
@@ -245,6 +244,7 @@
 	//new Date(now_utc-timeOff).toISOString()은 '2022-05-11T18:09:38.134Z'를 반환
 	var today = new Date(now_utc-timeOff).toISOString().split("T")[0]; //2022-05-11
 	document.getElementById("meet-date").setAttribute("min", today);
+	
 	$('.timepicker').timepicker({
 	    timeFormat: 'HH:mm',
 	    interval: 30,

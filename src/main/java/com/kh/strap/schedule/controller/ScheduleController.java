@@ -52,6 +52,11 @@ public class ScheduleController {
 		return mv;
 	}
 	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
 	// 캘린더 일정 조회
 	@ResponseBody
 	@RequestMapping(value="/mypage/scheduleList.strap",produces="application/json;charset=utf-8", method=RequestMethod.GET)
@@ -64,12 +69,18 @@ public class ScheduleController {
 		for(int i = 0; i < scList.size(); i++) {
 			JSONObject jsonObj = new JSONObject();
 			jsonObj.put("matchNo",scList.get(i).getMatchNo());
-			if (memberId.equals(scList.get(i).getMatchMemberId())) {
-				jsonObj.put("title",scList.get(i).getMemberNick() + " " + scList.get(i).getMatchDetail());
+			if(scList.get(i).getMatchMemberId() == null) {
+				jsonObj.put("start",scList.get(i).getMatchDate());
+				jsonObj.put("title",scList.get(i).getMatchDetail());
+				jsonObj.put("color",scList.get(i).getColor());
 			} else {
-				jsonObj.put("title",scList.get(i).getMatchMemberNick() + " " + scList.get(i).getMatchDetail());
+				if (memberId.equals(scList.get(i).getMatchMemberId())) {
+					jsonObj.put("title",scList.get(i).getMemberNick() + " " + scList.get(i).getMatchDetail());
+				} else {
+					jsonObj.put("title",scList.get(i).getMatchMemberNick() + " " + scList.get(i).getMatchDetail());
+				}
+				jsonObj.put("start",scList.get(i).getMeetDate());
 			}
-			jsonObj.put("start",scList.get(i).getMeetDate());
 			jsonArr.add(jsonObj);
 		}
 		return jsonArr.toString();
@@ -81,7 +92,7 @@ public class ScheduleController {
 	 * @param schedule
 	 * @return
 	 */
-	// 일정 등록
+	// 매칭 일정 등록
 	@ResponseBody
 	@RequestMapping(value="/schedule/registerSchedule.strap", method=RequestMethod.POST)
 	public String registSchedule(@ModelAttribute Schedule schedule) {
@@ -93,11 +104,35 @@ public class ScheduleController {
 		}
 	}
 	
-	// 일정 수정
+	// 일정 등록
+	@RequestMapping(value="/schedule/registerDaySchedule.strap", method=RequestMethod.POST)
+	public ModelAndView registDaySchedule(ModelAndView mv, @ModelAttribute Schedule schedule, HttpServletRequest request
+			,@RequestParam("addTime") String addTime
+			,@RequestParam("matchDate") String matchDate) {
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String memberId = member.getMemberId();
+		String memberName = member.getMemberName();
+		schedule.setMemberId(memberId);
+		schedule.setMemberNick(memberName);
+		schedule.setMatchDate(matchDate + " " + addTime);
+		int result = scService.registDaySchedule(schedule);
+		
+		mv.setViewName("redirect:/mypage/scheduleView.strap");
+		return mv;
+
+	}
+	
+	
+	/**
+	 * 
+	 * @param schedule
+	 * @return
+	 */
+	// 매칭 일정 수정
 	@ResponseBody
 	@RequestMapping(value="/schedule/modifySchedule.strap", method=RequestMethod.POST)
 	public String modifySchedule(@ModelAttribute Schedule schedule) {
-		System.out.println(schedule);
 		int result = scService.modifySchedule(schedule);
 		if(result > 0) {
 			return "success";
@@ -106,7 +141,11 @@ public class ScheduleController {
 		}
 	}
 	
-	
+	/**
+	 * 
+	 * @param matchNo
+	 * @return
+	 */
 	// 일정 삭제
 	@ResponseBody
 	@RequestMapping(value="/schedule/removeSchedule.strap", method=RequestMethod.POST)

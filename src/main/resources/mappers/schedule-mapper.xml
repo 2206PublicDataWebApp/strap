@@ -13,9 +13,15 @@
 		<result property="matchDetail" column="MATCH_DETAIL"/>
 		<result property="matchDate" column="MATCH_DATE"/>
 		<result property="meetDate" column="MEET_DATE"/>
+		<result property="endDate" column="END_DATE"/>
+		<result property="color" column="COLOR"/>
+		
 	</resultMap>
 	<insert id="insertSchedule">
-		INSERT INTO SCHEDULE_TBL VALUES(SEQ_SCHEDULE_NO.NEXTVAL, #{matchMemberId}, #{matchMemberNick}, #{memberId}, #{memberNick}, #{matchDetail}, TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI'), #{meetDate})
+		INSERT INTO SCHEDULE_TBL VALUES(SEQ_SCHEDULE_NO.NEXTVAL, #{matchMemberId}, #{matchMemberNick}, #{memberId}, #{memberNick}, #{matchDetail}, TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI'), #{meetDate}, null, null)
+	</insert>
+	<insert id="insertDaySchedule">
+		INSERT INTO SCHEDULE_TBL VALUES(SEQ_SCHEDULE_NO.NEXTVAL, #{matchMemberId}, #{matchMemberNick}, #{memberId}, #{memberNick}, #{matchDetail}, #{matchDate}, #{meetDate}, #{endDate}, #{color})
 	</insert>
 	<select id="selectAllSchedule" resultMap="scheduleResultMap">
 		SELECT * FROM SCHEDULE_TBL WHERE MEMBER_ID = #{memberId} OR MATCH_MEMBER_ID = #{memberId}
