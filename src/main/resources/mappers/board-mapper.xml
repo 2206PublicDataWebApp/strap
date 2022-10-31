@@ -128,7 +128,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 댓글 관리 -->
-	<resultMap type="BoardReply" id="replyResultMap">
+	<resultMap type="BoardReply" 			id="replyResultMap">
 		<id		property="replyNo" 			column="REPLY_NO" />
 		<result property="boardNo"   	 	column="BOARD_NO" />
 		<result property="replyContents"	column="REPLY_CONTENTS" />
@@ -149,5 +149,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	<select id="selectAllReply" resultMap="replyResultMap">
 		SELECT * FROM BOARD_REPLY_TBL WHERE BOARD_NO = #{boardNo} ORDER BY REPLY_DATE DESC
+	</select>
+
+	<!-- 대댓글 관리 -->
+		<resultMap type="BoardReReply"		    id="replyReResultMap">
+			<id		property="reReplyNo" 		column="RE_REPLY_NO" />
+			<result	property="replyNo" 			column="REPLY_NO" />
+			<result property="boardNo"   	 	column="BOARD_NO" />
+			<result property="reReplyContents"	column="RE_REPLY_CONTENTS" />
+			<result property="memberNick" 		column="MEMBER_NICK" />
+			<result property="reReplyDate" 		column="RE_REPLY_DATE" />
+		</resultMap>	
+	
+	<insert id="insertReReply">
+		INSERT INTO BOARD_RE_REPLY_TBL VALUES(SEQ_BOARD_RE_REPLYNO.NEXTVAL, #{replyNo}, #{BoardNo}, #{reReplyContents}, #{memberNick}, DEFAULT)
+	</insert>
+	<!-- 일단 요걸로 대댓글 리스트 가져오면되고 대댓글 테이블은 replyNo, boardNo 두개다 갖고있는상태로 만들면돼  -->
+	<select id="selectAllReReply" resultMap="replyReResultMap" parameterType = "hashmap">
+		SELECT * FROM BOARD_RE_REPLY_TBL WHERE BOARD_NO = #{boardNo} AND REPLY_NO = #{replyNo}
 	</select>
 </mapper>

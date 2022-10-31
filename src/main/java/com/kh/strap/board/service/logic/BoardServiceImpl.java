@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.strap.board.domain.Board;
+import com.kh.strap.board.domain.BoardReReply;
 import com.kh.strap.board.domain.BoardReply;
 import com.kh.strap.board.service.BoardService;
 import com.kh.strap.board.store.logic.BoardStoreLogic;
@@ -106,12 +107,14 @@ public class BoardServiceImpl implements BoardService {
 		return result;
 	}
 	
+	// 댓글 등록
 	@Override
 	public int registerReply(BoardReply bReply) {
 		int result = bStore.insertReply(session, bReply);
 		return result;
 	}
 
+	// 댓글 리스트
 	@Override
 	public List<BoardReply> printAllReply(int boardNo) {
 		List<BoardReply> brList = bStore.selectAllReply(session, boardNo);
@@ -129,7 +132,18 @@ public class BoardServiceImpl implements BoardService {
 		int result = bStore.deleteReply(session, replyNo);
 		return result;
 	}
-	
+
+	@Override
+	public int registerReReply(BoardReReply bReReply) {
+		int result = bStore.insertReReply(session, bReReply);
+		return result;
+	}
+
+	@Override
+	public List<BoardReReply> printAllReReply(Map<String, Object> map) {
+		List<BoardReReply> bReList = bStore.selectAllReReply(session,map);
+		return bReList;
+	}
 }
 
 

@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,14 +37,19 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.kh.strap.admin.domain.Notice;
 import com.kh.strap.board.domain.Board;
+import com.kh.strap.board.domain.BoardReReply;
 import com.kh.strap.board.domain.BoardReply;
 import com.kh.strap.board.service.logic.BoardServiceImpl;
 import com.kh.strap.member.domain.Member;
 
 
-@SuppressWarnings("unused")
 @Controller
 public class BoardController {
+	
+	@ExceptionHandler({NullPointerException.class, NumberFormatException.class})
+	public String errorHandler() {
+		return "redirect:/home.strap";
+	}
 	
 	@Autowired
 	private BoardServiceImpl bService;
@@ -438,6 +444,7 @@ public class BoardController {
 		}
 	}
 	
+	// 댓글 삭제
 	@ResponseBody
 	@RequestMapping(value="/board/deleteReply.strap", method=RequestMethod.GET)
 	public String boardDeleteReply(
@@ -448,5 +455,46 @@ public class BoardController {
 		} else {
 			return "fail";
 		}
+	}
+	
+	// 대댓글 등록
+	@ResponseBody
+	@RequestMapping(value="/board/addReReply.strap", method=RequestMethod.POST)
+	public String boardAddReReply(
+			@RequestParam("replyNo") int replyNo
+			, @ModelAttribute BoardReReply bReReply
+			, HttpSession session) {
+		Member member = (Member) session.getAttribute("loginUser");
+		String memberNick = member.getMemberNick();
+		int boardNo = bReReply.getBoardNo();
+		System.out.println(replyNo);
+		bReReply.setMemberNick(memberNick);
+		int result = bService.registerReReply(bReReply);
+		if(result > 0) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+	
+	// 대댓글 리스트
+	@ResponseBody
+	@RequestMapping(value="/board/listReReply.strap"
+	, produces="application/json;charset=utf-8"
+	, method=RequestMethod.GET)
+	public String boardReListReply(
+			@RequestParam("boardNo") int boardNo
+			, @RequestParam("replyNo") int replyNo) {
+		int bNo = (boardNo == 0) ? 1 : boardNo;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("boardNo", boardNo);
+		map.put("replyNo", replyNo);
+		List<BoardReReply> bReList = bService.printAllReReply(map);
+		System.out.println("bReList::"+bReList);
+		if(!bReList.isEmpty()) {
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			return gson.toJson(bReList);
+		}
+		return null;
 	}
 }

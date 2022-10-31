@@ -13,6 +13,7 @@
 		<typeAlias type="com.kh.strap.admin.domain.Banner" 				alias="Banner"/>
 		<typeAlias type="com.kh.strap.board.domain.Board" 				alias="Board"/>
 		<typeAlias type="com.kh.strap.board.domain.BoardReply" 			alias="BoardReply"/>
+		<typeAlias type="com.kh.strap.board.domain.BoardReReply" 		alias="BoardReReply"/>
 		<typeAlias type="com.kh.strap.match.domain.Match" 				alias="Match"/>
 		<typeAlias type="com.kh.strap.mypage.domain.MyPage" 			alias="MyPage"/>
 		<typeAlias type="com.kh.strap.notebox.domain.NoteBox" 			alias="NoteBox"/>

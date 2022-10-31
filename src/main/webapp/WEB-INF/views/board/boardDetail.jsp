@@ -24,8 +24,11 @@
 		<!-- 컨텐츠 -->
 		<div class="contents">
 			<div id="contents-wrap">
+			<div class="contents-noside" style="width: 1000px; margin: auto; height: 800px;
+			transform: translate(10px, 60px);">
 		<!-- 작성자/조회수 -->
-		<div class="position-relative" style="margin-bottom: 25px;">			
+		<div class="position-relative" style="margin-bottom: 25px;">	
+		${bReReply.replyNo }
 				${board.memberNick }
 			<div class="position-absolute top-0 end-0">
 				조회수 ${board.boardCount }		
@@ -48,13 +51,14 @@
 		</div>
 		<!-- 추천/비추천 -->
 		<div class="col-md-11 offset-md-5 py-5 text-center">
-			<div style="float: left;">
+			<div style="float: left; transform: translate(45px, 0px);">
 	         	<form action="/board/updateLike" method="post" style="display: inline">
 					<input type="hidden" name="memberNick" value="${sessionScope.loginUser.memberNick }"/>
 					<input type="hidden" name="boardNo" value="${board.boardNo }"/>
 					<input type="hidden" name="page" value="${page }"/>
 	            <button class="btn btn-primary" id="like_btn" type="submit"><i class="fa-solid fa-thumbs-up fa-lg"></i> 추천 <b>${board.boardLikeIt }</b></button>
 	            </form>
+				
 	            <%-- <form action="/board/updateLike" method="post" style="display: inline">
 					<input type="hidden" name="memberNick" value="${sessionScope.loginUser.memberNick }"/>
 					<input type="hidden" name="boardNo" value="${board.boardNo }"/>
@@ -67,12 +71,9 @@
 						<button onclick="location.href='/board/modifyView.strap?boardNo=${board.boardNo }&page=${page}';" class="btn btn-info">수정</button>
 						<button onclick="boardRemove(${page});" class="btn btn-danger">삭제</button>
 				</div>
-				<div>
-						<button onclick="location.href='/board/list.strap?page=${page}'" class="btn btn-primary">목록으로</button>
-				</div>
 		</div>
 	
-		<!-- 	댓글 등록 -->
+		<!-- 댓글 등록 -->
 		<table align="center" width="500" border="1">
 			<tr>
 				<td><textarea rows="3" cols="55" name="replyContents"
@@ -82,24 +83,58 @@
 				</td>
 			</tr>
 		</table>
-		<!-- 	댓글 목록 -->
-	<table align="center" width="500" border="1" id="rtb">
-		<thead>
-			<tr>
-				<!-- 댓글 갯수 -->
-				<td colspan="4"><b id="rCount"></b></td>
-			</tr>
-		</thead>
-		<tbody>
-		
-		</tbody>
-	</table>
+		<!-- 댓글 목록 -->
+		<table align="center" width="500" border="1" id="rtb">
+			<thead>
+				<tr>
+					<!-- 댓글 갯수 -->
+					<td colspan="4"><b id="rCount"></b></td>
+				</tr>
+			</thead>
+			<tbody>
+			
+			</tbody>
+		</table>
+			<!-- <!-- 대댓글 등록 -->
+			<table align="center" width="500" border="1">
+				<tr>
+					<td><textarea rows="3" cols="55" name="reReplyContents"
+							id="reReplyContents"></textarea></td>
+					<td>
+						<button id="rReSubmit">등록하기</button>
+					</td>
+				</tr>
+			</table>
+			대댓글 목록
+			<table align="center" width="500" border="1" id="rRetb">
+				<thead>
+					<tr>
+						대댓글 갯수
+						<td colspan="4"><b id="rReCount"></b></td>
+					</tr>
+				</thead>
+				<tbody>
+				
+				</tbody>
+			</table> -->
+	
+		<div style="text-align: center; transform: translate(10px, 30px);">
+			<button onclick="location.href='/board/list.strap?page=${page}'" class="btn btn-primary">목록으로</button>
+		</div>
+	</div>
 	</div>
 </div>
 </div>
 		<!-- 푸터 -->
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 <script>
+
+$(document).ready(function() {
+	getListReply();
+	getReListReply();
+});
+
+
 /* $("#like_btn").on("click", function() {
 	var boardNo = ${board.boardNo};
 	var memberNick = ${member.memberNick}
@@ -125,7 +160,7 @@ function boardRemove(value) {
 		location.href="/board/remove.strap?page="+value;
 	}
 }
-getListReply();
+
 function getListReply() {
 	var boardNo = "${board.boardNo}";
 	$.ajax({
@@ -136,6 +171,7 @@ function getListReply() {
 			var $tableBody = $("#rtb tbody");
 			$tableBody.html(""); // 내용 초기화 후 append
 			$("#rCount").text("댓글 (" + brList.length +")"); // 댓글 카운트
+			console.log('brList::'+brList);
 			if(brList != null) {
 				for(var i in brList) {
 					var $tr = $("<tr>");
@@ -145,7 +181,7 @@ function getListReply() {
 																													// \" 이스케이프 문자
 					var $btnArea = $("<td width='80'>").append("<a href='javascript:void(0);' onclick='modifyView(this,\""+brList[i].replyContents+"\","+brList[i].replyNo+")'>수정</a> ")
 													   .append("<a href='javascript:void(0);' onclick='removeReply("+brList[i].replyNo+")'>삭제</a>")
-													  // .append("<a href='javascript:void(0);' onclick='removeReply()' id="reCommentBtn">등록</a>");
+													   //.append("<a href='javascript:void(0);' onclick='rReSubmit()'>등록</a>");
 					$tr.append($memberNick);
 					$tr.append($rContent);
 					$tr.append($rDate);
@@ -231,6 +267,71 @@ function modifyReply(obj, rNo) {
 		}
 	});
 }
+
+/* $("#rReSubmit").on("click", function() {
+	var boardNo = "${board.boardNo}";
+	var replyNo = "${bReReply.replyNo}";
+	var reReplyContents = $("#reReplyContents").val();
+	$.ajax({
+		url : "/board/addReReply.strap",
+		type : "post",
+		data : {
+			"boardNo"	: boardNo,
+			"replyNo"	: replyNo,
+			"reReplyContents" : reReplyContents
+		},
+		success : function(result) {
+			if(result == "success") {
+				alert("댓글 등록 성공");
+				$("#reReplyContents").val(""); // 작성 후 내용 초기화
+				getReListReply(); // 댓글 리스트 출력
+			} else {
+				alert("댓글 등록 실패");
+			}
+		},
+		error : function() {
+			alert("서버 요청 실패");
+		}
+	});
+}); */
+
+//대댓글 불러오기 - 댓글리스트 가져올때 해당 메소드 호출
+/*   function getReListReply() {
+	var boardNo = "${board.boardNo}";
+	var replyNo = "${bReply.replyNo}";
+	$.ajax({
+		url : '/board/listReReply.strap' 
+		, data : {
+			"boardNo" : boardNo,
+			"replyNo" : replyNo
+		} ,
+		type : 'get',
+		sucess : function(r) {
+			var $tableBody = $("#rRetb tbody");
+			$tableBody.html(""); // 내용 초기화 후 append
+			$("#rReCount").text("댓글 (" + bReList.length +")"); // 댓글 카운트
+			if(bReList != null) {
+				for(var i in bReList) {
+					var $tr = $("<tr>");
+					var $memberNick = $("<td width='100'>").text(bReList[i].memberNick);
+					var $reReplyContents = $("<td>").text(bReList[i].reReplyContents);
+					var $reReplyDate = $("<td width='100'>").text(bReList[i].reReplyDate);
+																													// \" 이스케이프 문자
+					var $btnReArea = $("<td width='80'>").append("<a href='javascript:void(0);' onclick='reModifyView(this,\""+bReList[i].reReplyContents+"\","+bReList[i].reReplyNo+")'>수정</a> ")
+													   .append("<a href='javascript:void(0);' onclick='reRemoveReply("+bReList[i].reReplyNo+")'>삭제</a>")
+					$tr.append($memberNick);
+					$tr.append($reReplyContents);
+					$tr.append($reReplyDate);
+					$tr.append($btnReArea);
+					$tableBody.append($tr);
+				}
+			}			
+		}, error : function(e) {
+			console.log('error::'+e);
+		}
+		
+	})
+}  */
 </script>
 </body>
 </html>

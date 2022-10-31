@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.strap.board.domain.Board;
+import com.kh.strap.board.domain.BoardReReply;
 import com.kh.strap.board.domain.BoardReply;
 
 public interface BoardService {
@@ -48,6 +49,12 @@ public interface BoardService {
 	
 	// 댓글 삭제
 	public int deleteReply(Integer replyNo);
+	
+	// 댓글 등록
+	public int registerReReply(BoardReReply bReReply);
+	
+	// 댓글 리스트
+	public List<BoardReReply> printAllReReply(Map<String, Object> map);
 }
 
 
