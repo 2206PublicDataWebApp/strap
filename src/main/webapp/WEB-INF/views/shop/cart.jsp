@@ -64,8 +64,8 @@
 								<span class="pName">${cart.product.productName }</span>
 							</div>
 							<div style="padding:5px;">
-								<span id='wonSymbol'>\</span> 
 								<fmt:formatNumber value="${cart.product.productPrice }" pattern="#,###"/>
+								<span id='wonSymbol'>원</span> 
 							</div>
 						</div>
 						<div class="qtyCon btn-group cartQty col-2" role="group" style="border:1px solid #c0c0c0; margin:auto;">
@@ -74,10 +74,10 @@
 							<button class="btn upQty" type="button" onclick="document.querySelectorAll('.qty')[${n.count-1}].value++; calCartPrice(${n.count-1},${cart.product.productPrice });modifyCartQty(${n.count-1 },${cart.productNo });calCartTotalPrice();">+</button>
 						</div>
 						<div class="cartPrice-wrap col" style="margin:auto;font-size:20px;font-weight:bold;">
-								<span class='wonSymbol'>\</span>
 								<span class="cartPrice">
 									<fmt:formatNumber value="${cart.product.productPrice * cart.productAmount }" pattern="#,###"/> 
 								</span>
+								<span class='wonSymbol'>원</span>
 						</div>
 						<div class="col-1" style="margin:auto;">
 								<button type="button" style="background-color:white;border-style:none;font-weight:bold;font-size:20px;" onclick="removeCart(${cart.productNo},'${loginUser.memberId }');">X</button>
@@ -88,26 +88,26 @@
 				<div id="totalPrice-wrap" class="row" style="border-bottom:1px solid #c0c0c0;margin:20px; padding:12px;text-align:center;">
 					<div class="col" style="margin:auto;font-size:20px;">
 						<div>총 상품 금액</div> 
-						<span class='wonSymbol' style="font-size:20px;">\</span>
 						<span id="totalPrice" style="font-size:35px;font-weight:bold;color:darkorange;">
 						</span>
+						<span class='wonSymbol' style="font-size:20px;">원</span>
 					</div>
 					<div class="col" style="margin:auto;font-size:20px;">
 						<div>배송료</div> 
-						<span class='wonSymbol' style="font-size:20px;">\</span>
 						<span id="deliverFee" style="font-size:35px;font-weight:bold;color:darkorange;">
 						</span>
+						<span class='wonSymbol' style="font-size:20px;">원</span>
 					</div>
 					<div class="col" style="margin:auto;font-size:20px;">
 						<div>총 결제 금액</div> 
-						<span class='wonSymbol' style="font-size:20px;">\</span>
 						<span id="finalCost" style="font-size:35px;font-weight:bold;color:darkorange;">
 						</span>
+						<span class='wonSymbol' style="font-size:20px;">원</span>
 					</div>
 				</div>
 				<div id="cartBtn" style="text-align:center;margin:10px;">
 					<button class="cartbtn" style="color:darkorange;background-color:white;" onclick="location.href='/product/listView.strap';">쇼핑계속</button>
-					<button class="cartbtn" style="color:white;background-color:darkorange;" onclick="if(confirm('선택 상품을 구매하시겠습니까?')) location.href='/cart/orderView.strap';">구매하기</button>
+					<button class="cartbtn" style="color:white;background-color:darkorange;" onclick="if(confirm('선택 상품을 구매하시겠습니까?')&&finalCost!=0){location.href='/cart/orderView.strap';}else{alert('구매할 상품을 선택해주세요.');}">구매하기</button>
 				</div>
 			</div>
 		</div>
@@ -221,6 +221,7 @@ function calCartPrice(n,price){
 }
 
 // 장바구니 총 가격 계산
+var finalCost = 0;
 calCartTotalPrice();
 function calCartTotalPrice(){
 	var $totalPrice = document.querySelector("#totalPrice");
@@ -235,11 +236,11 @@ function calCartTotalPrice(){
 	}
 	$totalPrice.innerText = sumPrice.toLocaleString();
 //배송료 및 최종 가격 계산
-	var deliverFee = 0;
-	if(sumPrice < 30000){
-		deliverFee = 3000;
+	var deliverFee = 3000;
+	if(sumPrice >= 30000 || sumPrice == 0){
+		deliverFee = 0;
 	}
-	var finalCost = sumPrice + deliverFee;
+	finalCost = sumPrice + deliverFee;
 	$deliverFee.innerText = deliverFee.toLocaleString();
 	$finalCost.innerText = finalCost.toLocaleString();
 }

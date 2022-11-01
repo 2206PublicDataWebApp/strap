@@ -263,11 +263,13 @@ public class ProductController {
 		int page = (currentPage != null)? currentPage: 1;
 		System.out.println(search.toString());
 		
+		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		search.setMemberId(loginUser.getMemberId());
-		Paging paging = new Paging(pService.countMemberOder(search), page, 10, 5);
+		Paging paging = new Paging(pService.countMemberOder(search), page, 5, 5);
 		List<Order> oList = pService.printMemberOrder(paging, search);
 		
+		System.out.println(paging.toString());
 		////주문에 상품리스트를 담아야한다..!
 		oList.stream().forEach(order->{
 					order.setBuyProducts(pService.printProductsOnOrder(order.getOrderNo()));
@@ -304,7 +306,7 @@ public class ProductController {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		search.setMemberId(loginUser.getMemberId());
-		Paging paging = new Paging(pService.countMemberCancelOrder(search), page, 10, 5);
+		Paging paging = new Paging(pService.countMemberCancelOrder(search), page, 5, 5);
 		List<Order> cancelList = pService.printMemberCancelOrder(paging, search);
 		
 		mv.addObject("cancelList",cancelList).

@@ -50,7 +50,7 @@
   	
   	<update id="updateVBankInfo">
   		UPDATE ORDER_TBL 
-  		SET VBANK_DUEDATE = #{vBankDueDate},VBANK_HOLDER= #{vBankHolder}, VBANK_NAME=#{vBankName},VBANK_NUM=#{vBankNum}
+  		SET VBANK_DUEDATE = #{vBankDueDate},VBANK_HOLDER= #{vBankHolder}, VBANK_NAME=#{vBankName},VBANK_NUM=#{vBankNum},ORDER_STATUS='ready'
   		WHERE ORDER_NO = #{orderNo}
   	</update>
   	
@@ -71,6 +71,7 @@
 		FROM ORDER_TBL
 		<where>
 			MEMBER_ID = #{memberId}
+			AND ((ORDER_STATUS =  'paid') OR (ORDER_STATUS = 'ready'))
 			<if test='dayBefore != 0 '>
 				AND ORDER_DATE <![CDATA[>=]]> SYSDATE - #{dayBefore}
 			</if>
@@ -86,6 +87,7 @@
 		FROM ORDER_TBL
 		<where>
 			MEMBER_ID = #{memberId}
+			AND ((ORDER_STATUS =  'paid') OR (ORDER_STATUS = 'ready'))
 			<if test='dayBefore != 0 '>
 				AND ORDER_DATE <![CDATA[>=]]> SYSDATE - #{dayBefore}
 			</if>

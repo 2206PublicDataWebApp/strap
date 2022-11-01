@@ -54,11 +54,11 @@
 						</div>
 					</form>
 					<div id="order-wrap">
-						<span onclick="orderSubmit('grade_aver','desc');" 		class="orderBtn" <c:if test="${search.searchColumn eq 'grade_aver' or search.searchColumn eq null or search.searchColumn eq ''}">style="font-weight:bold"</c:if> id="order-aver">평점순</span>
-						<span onclick="orderSubmit('review_count','desc');" 	class="orderBtn" <c:if test="${search.searchColumn eq 'review_count' }">style="font-weight:bold"</c:if> id="order-review">리뷰순</span>
-						<span onclick="orderSubmit('product_sales','desc');" 	class="orderBtn" <c:if test="${search.searchColumn eq 'product_sales' }">style="font-weight:bold"</c:if> id="order-sales">판매량순</span>
-						<span onclick="orderSubmit('product_price','desc');" 	class="orderBtn" <c:if test="${search.searchColumn eq 'product_price' and search.orderCondition eq 'desc' }">style="font-weight:bold"</c:if> id="order-high-price">높은가격순</span>
-						<span onclick="orderSubmit('product_price','asc');" 	class="orderBtn" <c:if test="${search.searchColumn eq 'product_price' and search.orderCondition eq 'asc' }">style="font-weight:bold"</c:if> id="order-low-price">낮은가격순</span>
+						<span onclick="orderSubmit('grade_aver','desc');" 		class="orderBtn" <c:if test="${search.searchColumn eq 'grade_aver' or search.searchColumn eq null or search.searchColumn eq ''}">style="font-weight:bold;color:darkorange;"</c:if> id="order-aver">평점순</span>
+						<span onclick="orderSubmit('review_count','desc');" 	class="orderBtn" <c:if test="${search.searchColumn eq 'review_count' }">style="font-weight:bold;color:darkorange;"</c:if> id="order-review">리뷰순</span>
+						<span onclick="orderSubmit('product_sales','desc');" 	class="orderBtn" <c:if test="${search.searchColumn eq 'product_sales' }">style="font-weight:bold;color:darkorange;"</c:if> id="order-sales">판매량순</span>
+						<span onclick="orderSubmit('product_price','desc');" 	class="orderBtn" <c:if test="${search.searchColumn eq 'product_price' and search.orderCondition eq 'desc' }">style="font-weight:bold;color:darkorange;"</c:if> id="order-high-price">높은가격순</span>
+						<span onclick="orderSubmit('product_price','asc');" 	class="orderBtn" <c:if test="${search.searchColumn eq 'product_price' and search.orderCondition eq 'asc' }">style="font-weight:bold;color:darkorange;"</c:if> id="order-low-price">낮은가격순</span>
 					</div>
 				</div>
 			</div>
@@ -80,10 +80,10 @@
 							</div>
 						</div>
 						<div class="oneProduct col-2 product-price">
-								<span id="wonSymbol" style="font-weight:bold;">\</span>
 								<span class="p-price" style="font-size:20px;font-weight:bold;">
 									<fmt:formatNumber value="${product.productPrice }" pattern="#,###"/>
 								</span>
+								<span id="wonSymbol" style="font-weight:bold;">원</span>
 							</div>
 						<div class="oneProduct col-2 userMenu">
 							<div class="p-menu-wrap" style="color:#c0c0c0;">
@@ -103,7 +103,7 @@
 				     </c:if>
 				    </li>
 				    <c:forEach begin="${paging.startNavi }" end="${paging.endNavi }" var="n">
-				    <li class="page-item"><a class="page-link" <c:if test="${paging.page eq n }">style="font-weight:bold;"</c:if>  href="/product/${url }.strap?page=${n }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}">${n }</a></li>
+				    <li class="page-item"><a class="page-link" <c:if test="${paging.page eq n }">style="font-weight:bold;color:darkorange"</c:if>  href="/product/${url }.strap?page=${n }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}">${n }</a></li>
 				    </c:forEach>
 				    <c:if test="${paging.endNavi < paging.endPage }">
 				    <li class="page-item">

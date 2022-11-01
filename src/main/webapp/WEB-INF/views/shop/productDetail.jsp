@@ -138,10 +138,10 @@
 						</div>
 						<div id="pPrice" style="text-align:center; font-size:26px;font-weight:bold;">
 							<div id="price">
-								<span id='wonSymbol'>\</span> 
 								<span id="price" style="font-size:30px;">
 									<fmt:formatNumber value="${product.productPrice }" pattern="#,###"/>
 								</span>
+								<span id='wonSymbol'>원</span> 
 							</div>
 							<div id="function" style="color:#c0c0c0;">
 								<span id="${product.productNo }" class="likeBtn" onclick="loginCheck('${loginUser.memberId}',function(){controlLike('${loginUser.memberId}',${product.productNo });});"><i class="fa-solid fa-heart"></i></span>
@@ -160,10 +160,10 @@
 						<div id="pTotalPrice" style="font-size:23px;padding:12px;">
 							<span id="totalPriceLabel">총 상품금액  </span>
 							<span id="totalPrice">
-								<span id='wonSymbol'>\</span>
 								<span style="font-size:36px;color:darkorange;font-weight:bold;">
 									<fmt:formatNumber value="${product.productPrice }" pattern="#,###"/>
 								</span> 
+								<span id='wonSymbol'>원</span>
 						</div>
 						<hr>
 						<div id="btn-wrap">
@@ -340,7 +340,7 @@ function calTotalPrice(){
 	var totalPriceTag = document.querySelector("#totalPrice");
 	var totalPrice = document.querySelector('#qty').value * '${product.productPrice}';
 	console.log(totalPrice);
-	totalPriceTag.innerHTML = "<span id='wonSymbol'>\\</span><span style='font-size:36px;color:darkorange;font-weight:bold;'> " + totalPrice.toLocaleString() + "</span>";
+	totalPriceTag.innerHTML = "<span style='font-size:36px;color:darkorange;font-weight:bold;'> " + totalPrice.toLocaleString() + "</span><span id='wonSymbol'>원</span>";
 }
 
 //로그인 체크
