@@ -24,6 +24,7 @@
 </style>
 </head>
 <body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <div class="wrap container">
 <!-- 헤더&메뉴바 -->
 	<div id="header" class="row">
@@ -62,6 +63,7 @@
 			</div>
 		</div>
 	</div>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 		<!-- 푸터	 -->
 	<div id="footer" class="row">

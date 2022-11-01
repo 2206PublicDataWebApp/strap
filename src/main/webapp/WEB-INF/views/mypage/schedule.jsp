@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!doctype html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -17,7 +16,7 @@
 <link href="/resources/js/main.css" rel="stylesheet" />
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/ko.js"></script>
-
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		var calendarEl = document.getElementById('calendar');
@@ -32,17 +31,13 @@
 			navLinks : true, // can click day/week names to navigate views
 			selectable : true,
 			selectMirror : true,
-			select : function(arg) {
-				var title = alert('매칭시스템을 이용해 보세요~~!!');
-// 				if (title) {
-// 					calendar.addEvent({
-// 						title : title,
-// 						start : arg.start,
-// 						end : arg.end,
-// 						allDay : arg.allDay
-// 					})
-// 				}
-				calendar.unselect()
+// 			select: function(info) {
+// 					alert('clicked ' + info.dateStr);
+// 					calendar.unselect()
+// 				},			
+			dateClick : function(info) {
+				$('#addSchedule').modal('show');
+				$("#date").val(info.dateStr);
 			},
 			eventClick : function(info) {
 				console.log(info);
@@ -108,11 +103,13 @@
 					type : "get",
 					url : "/mypage/scheduleList.strap",
 					success : function(response){
+						console.log(response)
 						for(i = 0;i < response.length; i++) {
 							calendar.addEvent({
 								id: response[i]['matchNo'],
 								title: response[i]['title'],
-								start: response[i]['start']
+								start: response[i]['start'],
+								color: response[i]['color']
 							})
 						}
 					}
@@ -120,7 +117,7 @@
 			]
         })
 		calendar.render();
-	})		
+	})
 </script>
 <style>
 /* body { */
@@ -160,9 +157,16 @@ span.id, span.pwd, span.pwdCheck, span.nick {
 	top: 12px;
 	right: 10px;
 }
+
+.ui-timepicker-container{
+	z-index: 10000!important
+}
+
 </style>
 </head>
 <body>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 	<div class="wrap container">
 		<!-- 헤더&메뉴바 -->
 		<div class="row">
@@ -190,51 +194,48 @@ span.id, span.pwd, span.pwdCheck, span.nick {
 		</div>
 	</div>
 	
-	
-
-	
-	<button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#reportNote" id="btn-2">신고</button>
-	<!--Select Calendar Modal -->
-	<div class="modal fade" id="reportNote" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<!--Add Schedule Modal -->
+	<div class="modal fade" id="addSchedule" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
+			<div class="modal-content" style="width:400px">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">쪽지 신고</h5>
+					<h5 class="modal-title" id="exampleModalLabel">개인 일정 추가</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-body p-5 pt-0">
-						<form id="report-form">
-						<input type="hidden" value="RC1" name="contentsCode">
-						<input type="hidden" value=${noteBox.noteNo } name="contentsNo">
-						<input type="hidden" value=${noteBox.senderId } name="reportMember">
-						<input type="hidden" value=${noteBox.senderNick } name="reportMemberNick">
-						<input type="hidden" value=${noteBox.noteTitle } name="noteTitle">
-						<input type="hidden" value=${noteBox.noteContents } name="noteContents">
-	<%-- 					<input type="hidden" value=${. } name="memberId">  신고자 추가해야함--%>
-							<div class="form-floating mb-3">
-								<p>신고 종류</p>
-								<select class="form-select" aria-label="Default select example" name="reportType">
-									<option value="RT1">영리목적/홍보성</option>
-									<option value="RT2">불법정보</option>
-									<option value="RT3">음란/선정성</option>
-									<option value="RT4">욕설/인신공격</option>
-									<option value="RT5">직거래</option>
-									<option value="RT6">표시광고위반</option>
-									<option value="RT7">판매방식 부적합</option>
-									<option value="RT8">게시물 정책위반</option>
-									<option value="RT9">기타</option>
-								</select>
+						<form id="addSchedule-form" action="/schedule/registerDaySchedule.strap" method="post">
+							<input type="hidden" value="#FBBC04" name="color"> 
+							<input type="hidden" id="date" name="matchDate">
+							<div class="mb-3">
+								시간 : <input class="timepicker form-control" name="addTime" required/>
 							</div>
 							<div class="mb-3">
-								<textarea class="form-control" placeholder="신고 내용을 입력해주세요" id="notice-textarea" name="reportContents" style="height: 150px" required></textarea>
+								메모 : <input type="text" class="form-control" name="matchDetail" required/>
 							</div>
-						<button class="report-submit w-100 mb-2 btn btn-lg btn-danger">신고</button>
+							<button class="w-100 mb-2 btn btn-lg btn-dark" type="submit">일정추가</button>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
+<script>
+	$(document).ready(function(){
+		$('.timepicker').timepicker({
+		    timeFormat: 'HH:mm',
+		    interval: 30,
+		    minTime: '8',
+		    maxTime: '9:00pm',
+		    defaultTime: '8',
+		    startTime: '8:00',
+		    dynamic: false,
+		    dropdown: true,
+		    scrollbar: true
+		});
+	});
+</script>
 </body>
 </html>

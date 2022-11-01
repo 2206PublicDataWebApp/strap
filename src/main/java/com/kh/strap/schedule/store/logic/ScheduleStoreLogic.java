@@ -18,6 +18,12 @@ public class ScheduleStoreLogic implements ScheduleStore{
 	}
 
 	@Override
+	public int insertDaySchedule(SqlSession session, Schedule schedule) {
+		int result = session.insert("ScheduleMapper.insertDaySchedule",schedule);
+		return result;
+	}
+
+	@Override
 	public List<Schedule> selectAllSchedule(SqlSession session, String memberId) {
 		List<Schedule> scList = session.selectList("ScheduleMapper.selectAllSchedule", memberId);
 		return scList;

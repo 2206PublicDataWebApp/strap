@@ -9,6 +9,8 @@ public class Schedule {
 	private String matchDetail;
 	private String matchDate;
 	private String meetDate;
+	private String endDate;
+	private String color;
 	
 	
 	public int getMatchNo() {
@@ -59,12 +61,25 @@ public class Schedule {
 	public void setMeetDate(String meetDate) {
 		this.meetDate = meetDate;
 	}
-	
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
 	
 	@Override
 	public String toString() {
 		return "Schedule [matchNo=" + matchNo + ", matchMemberId=" + matchMemberId + ", matchMemberNick="
 				+ matchMemberNick + ", memberId=" + memberId + ", memberNick=" + memberNick + ", matchDetail="
-				+ matchDetail + ", matchDate=" + matchDate + ", meetDate=" + meetDate + "]";
+				+ matchDetail + ", matchDate=" + matchDate + ", meetDate=" + meetDate + ", endDate=" + endDate
+				+ ", color=" + color + "]";
 	}
+	
 }

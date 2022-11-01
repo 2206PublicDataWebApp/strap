@@ -51,7 +51,7 @@ public class AdminController {
 	 * @param admin
 	 * @return
 	 */
-	// 로그인 기능 >>>> ※※※※세션 추가해야 함※※※※※
+	// 로그인 기능 
 	@ResponseBody
 	@RequestMapping(value="/admin/login.strap", produces="text/plain;charset=utf-8", method=RequestMethod.POST)
 	public String showAdminMain(@ModelAttribute Admin admin, HttpServletRequest request) {
@@ -98,7 +98,8 @@ public class AdminController {
 	// 관리자 공지사항 리스트
 	@RequestMapping(value="/admin/noticeListView.strap", method=RequestMethod.GET)
 	public ModelAndView showAdminNoticeList(ModelAndView mv
-			,@RequestParam(value="page", required=false) Integer page) {
+			,@RequestParam(value="page", required=false) Integer page
+			, HttpServletRequest request) {
 		int currentPage = (page != null) ? page : 1;
 		int totalCount = nService.getTotalCount("","");
 		int noticeLimit = 10;
@@ -151,6 +152,10 @@ public class AdminController {
 			, @ModelAttribute Notice notice
 			, @RequestParam(value="uploadFile", required=false) MultipartFile uploadFile
 			, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Admin admin = (Admin)session.getAttribute("loginUser");
+		String adminName = admin.getAdminName();
+		notice.setNoticeWriter(adminName);
 		try {
 			String noticeFilename = uploadFile.getOriginalFilename();
 			if(!noticeFilename.equals("")) {
