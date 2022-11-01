@@ -40,4 +40,42 @@ public interface MatchStore {
 
 	void resetMannerRecord(SqlSession session, String memberId);
 
+	List<Member> careerMember(SqlSession session, Member mOne);
+
+	List<Member> careerRefresh(SqlSession session, Member mOne);
+
+	int updateCareerRecord(SqlSession session, Map<String, Object> map);
+
+	int inserCareerRecord(SqlSession session, Map<String, Object> map);
+
+	void resetCareerRecord(SqlSession session, String memberId);
+
+	List<Member> SBDMember(SqlSession session, Member mOne);
+
+	List<Member> SBDRefresh(SqlSession session, Member mOne);
+
+	int updateSBDRecord(SqlSession session, Map<String, Object> map);
+
+	int insertSBDRecord(SqlSession session, Map<String, Object> map);
+
+	void resetSBDRecord(SqlSession session, String memberId);
+
+	List<Member> genderMember(SqlSession session, Member mOne);
+
+	List<Member> genderRefresh(SqlSession session, Member mOne);
+
+	void updateGenderRecord(SqlSession session, Map<String, Object> map);
+
+	void insertGenderRecord(SqlSession session, Map<String, Object> map);
+
+	void resetGenderRecord(SqlSession session, String memberId);
+
+	List<Member> sameRefresh(SqlSession session, Member mOne);
+
+	void updateSameRecord(SqlSession session, Map<String, Object> map);
+
+	void insertSameRecord(SqlSession session, Map<String, Object> map);
+
+	void resetSameRecord(SqlSession session, String memberId);
+
 }

@@ -189,7 +189,7 @@
 	}
 	
 	function myInfoClose(){
-		if(confirm("닫으시면 저장하지 않은 정보는 반영되지 않습니다.")){
+		if(confirm("내 정보를 닫습니다.")){
 		$("#myInfoDiv").hide();
 		$(".myInfoShow").show();
 		$(".myInfoClose").hide();

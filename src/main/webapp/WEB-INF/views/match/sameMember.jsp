@@ -48,7 +48,7 @@
 		<div class="contents-side col">
 		<br><br>
 			<div id="memberList">
-				<h6 align="center"><b>매너 점수가 높은 회원</b></h6>
+				<h6 align="center"><b>내 운동정보와 비슷한 회원</b></h6>
 				<c:forEach items="${mList }" var="member">
 					<div class="member">
 						<div class="img">
@@ -129,7 +129,7 @@
 				</div>
 			</div>
 			<br>
-			<button onclick="mannerRefresh();" class="btn btn-dark">새로 추천 받기</button>
+			<button onclick="sameRefresh();" class="btn btn-dark">새로 추천 받기</button>
 		</div>
 	</div>
 <!-- 푸터	 -->
@@ -140,7 +140,7 @@
 	</div>
 </div>
 <script>
-	function mannerRefresh(){
+	function sameRefresh(){
 		var count ;
 		$.ajax({
 			url: "/match/countNumber.strap",
@@ -149,7 +149,7 @@
 				count = result
 				if(confirm("회원을 새로 추천받으시겠습니까? 하루:3회 (남은 횟수:"+count+"회)")){
 					if(count >  0){
-							location.href="/match/mannerRefresh.strap";
+							location.href="/match/sameRefresh.strap";
 					} else{
 							alert("일일 횟수 3회를 모두 사용하였습니다.")
 					}

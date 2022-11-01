@@ -70,17 +70,37 @@
   		<result property="senderNick" 		column="SENDER_NICK"/>
   	</resultMap>
 <!-- 회원 추천 순서대로 쿼리문 작성함 -->
-  	<!-- 내 주변 친구 추천 목록 가져오기 -->
+  	<!-- 내 주변 회원 추천 목록 가져오기 -->
   	<select id="localMember" resultMap="MemberRecordJoinResultMap">
   		SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_JYM, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER
 		FROM MEMBER_TBL WHERE member_id in (select LOCAL_MEMBER FROM CURRENT_RECODE WHERE user_ID = #{memberId})
   	</select>
-  	<!-- 매너 친구 추천 목록 가져오기 -->
+  	<!-- 매너 회원 추천 목록 가져오기 -->
   	<select id="mannerMember" resultMap="MemberRecordJoinResultMap">
   		SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_JYM, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER
 		FROM MEMBER_TBL WHERE MEMBER_ID IN (SELECT MANNER_MEMBER FROM CURRENT_RECODE WHERE USER_ID = #{memberId})
   	</select>
-  	<!-- 내 주변 친구 추천 새로고침 -->
+  	<!-- 구력 높은 추천 목록 가져오기 -->
+  	<select id="careerMember" resultMap="MemberRecordJoinResultMap">
+  		SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_JYM, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER
+		FROM MEMBER_TBL WHERE MEMBER_ID IN (SELECT CAREER_MEMBER FROM CURRENT_RECODE WHERE USER_ID = #{memberId})
+  	</select>
+  	<!-- 3대 높은 추천 목록 가져오기 -->
+  	<select id="SBDMember" resultMap="MemberRecordJoinResultMap">
+  		SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_JYM, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER
+		FROM MEMBER_TBL WHERE MEMBER_ID IN (SELECT SBD_MEMBER FROM CURRENT_RECODE WHERE USER_ID = #{memberId})
+  	</select>
+  	<!-- 동성 추천 목록 가져오기 -->
+  	<select id="genderMember" resultMap="MemberRecordJoinResultMap">
+  		SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_JYM, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER
+		FROM MEMBER_TBL WHERE MEMBER_ID IN (SELECT GENDER_MEMBER FROM CURRENT_RECODE WHERE USER_ID = #{memberId})
+  	</select>
+  	<!-- 정보가 비슷한 회원 목록 가져오기 -->
+  	<select id="sameMember" resultMap="MemberRecordJoinResultMap">
+  		SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_JYM, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER
+		FROM MEMBER_TBL WHERE MEMBER_ID IN (SELECT SAME_MEMBER FROM CURRENT_RECODE WHERE USER_ID = #{memberId})
+  	</select>
+  	<!-- 내 주변 회원 추천 새로고침 -->
   	<select id="localRefresh" resultMap="MemberRecordJoinResultMap">
 		SELECT * FROM
 			(SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_JYM, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER
@@ -92,7 +112,7 @@
 			ORDER BY M_LAST_DATE DESC)
 		WHERE ROWNUM <![CDATA[<]]> 6
   	</select>
-  	<!-- 매너 친구 추천 새로고침 -->
+  	<!-- 매너 회원 추천 새로고침 -->
   	<select id="mannerRefresh" resultMap="MemberRecordJoinResultMap">
 		SELECT * FROM
 		    (SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_JYM, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER
@@ -105,25 +125,101 @@
 			ORDER BY M_LAST_DATE DESC)
 		WHERE ROWNUM <![CDATA[<]]> 6
   	</select>
-  	<!-- 추천 카운트 -1 -->
-  	<update id="minusCount">
-  		UPDATE MEMBER_TBL SET RECOMEND_COUNT = (SELECT RECOMEND_COUNT-1 FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId}) WHERE MEMBER_ID = #{memberId}
-  	</update>
-	<!-- 내 주변 친구 추천 이력 추가 -->
+  	<!-- 구력 회원 추천 새로고침 -->
+  	<select id="careerRefresh" resultMap="MemberRecordJoinResultMap">
+		SELECT * FROM
+		    (SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_JYM, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER
+		    FROM MEMBER_TBL
+		    WHERE MEMBER_ID IN
+				(SELECT MEMBER_ID FROM MEMBER_TBL WHERE MEMBER_JYM LIKE '%'||#{memberJym}||'%' AND NOT MEMBER_ID = #{memberId} AND ADMIN_STATUS = 'N'
+				AND MEMBER_CAREER LIKE '%10%'
+				MINUS
+				SELECT CAREER_MEMBER FROM RECOMEND_RECODE WHERE USER_ID = #{memberId})
+			ORDER BY M_LAST_DATE DESC)
+		WHERE ROWNUM <![CDATA[<]]> 6
+  	</select>
+  	<!-- 3대 회원 추천 새로고침 -->
+  	<select id="SBDRefresh" resultMap="MemberRecordJoinResultMap">
+		SELECT * FROM
+		    (SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_JYM, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER
+		    FROM MEMBER_TBL
+		    WHERE MEMBER_ID IN
+				(SELECT MEMBER_ID FROM MEMBER_TBL WHERE MEMBER_JYM LIKE '%'||#{memberJym}||'%' AND NOT MEMBER_ID = #{memberId} AND ADMIN_STATUS = 'N'
+				AND MEMBER_SBD LIKE '%500%' OR MEMBER_SBD LIKE '%600%'
+				MINUS
+				SELECT SBD_MEMBER FROM RECOMEND_RECODE WHERE USER_ID = #{memberId})
+			ORDER BY M_LAST_DATE DESC)
+		WHERE ROWNUM <![CDATA[<]]> 6
+  	</select>
+  	<!-- 동성 회원 추천 새로고침 -->
+  	<select id="genderRefresh" resultMap="MemberRecordJoinResultMap">
+		SELECT * FROM
+		    (SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_JYM, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER
+		    FROM MEMBER_TBL
+		    WHERE MEMBER_ID IN
+				(SELECT MEMBER_ID FROM MEMBER_TBL WHERE MEMBER_JYM LIKE '%'||#{memberJym}||'%' AND NOT MEMBER_ID = #{memberId} AND ADMIN_STATUS = 'N'
+				AND MEMBER_GENDER = #{memberGender}
+				MINUS
+				SELECT GENDER_MEMBER FROM RECOMEND_RECODE WHERE USER_ID = #{memberId})
+			ORDER BY M_LAST_DATE DESC)
+		WHERE ROWNUM <![CDATA[<]]> 6
+  	</select>
+  	<!-- 운동 정보가 비슷한 회원 추천 새로고침 -->
+  	<select id="sameRefresh" resultMap="MemberRecordJoinResultMap">
+		SELECT * FROM
+		    (SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_JYM, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER
+		    FROM MEMBER_TBL
+		    WHERE MEMBER_ID IN
+				(SELECT MEMBER_ID FROM MEMBER_TBL WHERE MEMBER_JYM LIKE '%'||#{memberJym}||'%' AND NOT MEMBER_ID = #{memberId} AND ADMIN_STATUS = 'N'
+				AND MEMBER_SBD = #{memberSBD} AND MEMBER_CAREER = #{memberCareer}
+				MINUS
+				SELECT SAME_MEMBER FROM RECOMEND_RECODE WHERE USER_ID = #{memberId})
+			ORDER BY M_LAST_DATE DESC)
+		WHERE ROWNUM <![CDATA[<]]> 6
+  	</select>
+	<!-- 내 주변 회원 추천 이력 추가 -->
 	<update id="inserLocalRecord" parameterType="hashmap">
 		<foreach collection="mList" item="member" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
 		INTO RECOMEND_RECODE
 		VALUES (NULL, #{member.memberId}, NULL, NULL, NULL, NULL, #{user})
 		</foreach>
 	</update>
-	<!-- 매너 친구 추천 이력 추가 -->
+	<!-- 매너 회원 추천 이력 추가 -->
 	<update id="inserMannerRecord" parameterType="hashmap">
 		<foreach collection="mList" item="member" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
 		INTO RECOMEND_RECODE
 		VALUES (NULL, NULL, #{member.memberId}, NULL, NULL, NULL, #{user})
 		</foreach>
 	</update>
-	<!-- 현재 내 주변 친구 업데이트(DELETE 후 INSERT)  -->
+	<!-- 구력 회원 추천 이력 추가 -->
+	<update id="inserCareerRecord" parameterType="hashmap">
+		<foreach collection="mList" item="member" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+		INTO RECOMEND_RECODE
+		VALUES (NULL, NULL, NULL, #{member.memberId}, NULL, NULL, #{user})
+		</foreach>
+	</update>
+	<!-- 3대 회원 추천 이력 추가 -->
+	<update id="insertSBDRecord" parameterType="hashmap">
+		<foreach collection="mList" item="member" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+		INTO RECOMEND_RECODE
+		VALUES (NULL, NULL, NULL,  NULL, #{member.memberId}, NULL, #{user})
+		</foreach>
+	</update>
+	<!-- 동성 회원 추천 이력 추가 -->
+	<update id="insertGenderRecord" parameterType="hashmap">
+		<foreach collection="mList" item="member" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+		INTO RECOMEND_RECODE
+		VALUES (NULL, NULL, NULL,  NULL, NULL,#{member.memberId}, #{user})
+		</foreach>
+	</update>
+	<!-- 동성 회원 추천 이력 추가 -->
+	<update id="insertSameRecord" parameterType="hashmap">
+		<foreach collection="mList" item="member" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+		INTO RECOMEND_RECODE
+		VALUES (#{member.memberId}, NULL, NULL, NULL,  NULL, NULL, #{user})
+		</foreach>
+	</update>
+	<!-- 현재 내 주변 회원 업데이트(DELETE 후 INSERT)  -->
 	<delete id="deleteLocalRecord">
 		DELETE FROM (SELECT LOCAL_MEMBER, USER_ID FROM CURRENT_RECODE WHERE LOCAL_MEMBER IS NOT NULL)
 		WHERE USER_ID = #{user} 
@@ -134,7 +230,7 @@
 		VALUES (NULL, #{member.memberId}, NULL, NULL, NULL, NULL, #{user})
 		</foreach>
 	</update>
-	<!-- 현재 매너 친구 업데이트(DELETE 후 INSERT)  -->
+	<!-- 현재 매너 회원 업데이트(DELETE 후 INSERT)  -->
 	<delete id="deleteMannerRecord">
 		DELETE FROM (SELECT MANNER_MEMBER, USER_ID FROM CURRENT_RECODE WHERE MANNER_MEMBER IS NOT NULL)
 		WHERE USER_ID = #{user} 
@@ -145,18 +241,86 @@
 		VALUES (NULL, NULL, #{member.memberId}, NULL, NULL, NULL, #{user})
 		</foreach>
 	</update>
-	<!-- 주변 친구 추천 이력 초기화  -->
-	<delete id="resetLocalRecord">
-		DELETE FROM (SELECT LOCAL_MEMBER, USER_ID FROM RECOMEND_RECODE WHERE LOCAL_MEMBER IS NOT NULL)
+	<!-- 현재 구력 회원 업데이트(DELETE 후 INSERT)  -->
+	<delete id="deleteCareerRecord">
+		DELETE FROM (SELECT CAREER_MEMBER, USER_ID FROM CURRENT_RECODE WHERE CAREER_MEMBER IS NOT NULL)
 		WHERE USER_ID = #{user} 
 	</delete>
-	<!-- 매너 친구 추천 이력 초기화  -->
+	<update id="updateCareerRecord">
+		<foreach collection="mList" item="member" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+		INTO CURRENT_RECODE
+		VALUES (NULL, NULL, NULL, #{member.memberId}, NULL, NULL, #{user})
+		</foreach>
+	</update>
+	<!-- 현재 3대 추천 회원 업데이트(DELETE 후 INSERT)  -->
+	<delete id="deleteSBDRecord">
+		DELETE FROM (SELECT USER_ID FROM CURRENT_RECODE WHERE SBD_MEMBER IS NOT NULL)
+		WHERE USER_ID = #{user} 
+	</delete>
+	<update id="updateSBDRecord">
+		<foreach collection="mList" item="member" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+		INTO CURRENT_RECODE
+		VALUES (NULL, NULL, NULL,  NULL, #{member.memberId}, NULL, #{user})
+		</foreach>
+	</update>
+	<!-- 현재 동성 회원 업데이트(DELETE 후 INSERT)  -->
+	<delete id="deleteGenderRecord">
+		DELETE FROM (SELECT USER_ID FROM CURRENT_RECODE WHERE GENDER_MEMBER IS NOT NULL)
+		WHERE USER_ID = #{user} 
+	</delete>
+	<update id="updateGenderRecord">
+		<foreach collection="mList" item="member" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+		INTO CURRENT_RECODE
+		VALUES (NULL, NULL, NULL, NULL, NULL, #{member.memberId}, #{user})
+		</foreach>
+	</update>
+	<!-- 현재 동성 회원 업데이트(DELETE 후 INSERT)  -->
+	<delete id="deleteSameRecord">
+		DELETE FROM (SELECT USER_ID FROM CURRENT_RECODE WHERE SAME_MEMBER IS NOT NULL)
+		WHERE USER_ID = #{user} 
+	</delete>
+	<update id="updateSameRecord">
+		<foreach collection="mList" item="member" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+		INTO CURRENT_RECODE
+		VALUES (#{member.memberId}, NULL, NULL, NULL, NULL, NULL, #{user})
+		</foreach>
+	</update>
+	<!-- 주변 회원 추천 이력 초기화  -->
+	<delete id="resetLocalRecord">
+		DELETE FROM (SELECT USER_ID FROM RECOMEND_RECODE WHERE LOCAL_MEMBER IS NOT NULL)
+		WHERE USER_ID = #{user} 
+	</delete>
+	<!-- 매너 회원 추천 이력 초기화  -->
 	<delete id="resetMannerRecord">
-		DELETE FROM (SELECT MANNER_MEMBER, USER_ID FROM RECOMEND_RECODE WHERE MANNER_MEMBER IS NOT NULL)
+		DELETE FROM (SELECT USER_ID FROM RECOMEND_RECODE WHERE MANNER_MEMBER IS NOT NULL)
+		WHERE USER_ID = #{user} 
+	</delete>
+	<!-- 구력 회원 추천 이력 초기화  -->
+	<delete id="resetCareerRecord">
+		DELETE FROM (SELECT CAREER_MEMBER, USER_ID FROM RECOMEND_RECODE WHERE CAREER_MEMBER IS NOT NULL)
+		WHERE USER_ID = #{user} 
+	</delete>
+	<!-- 3대 회원 추천 이력 초기화  -->
+	<delete id="resetSBDRecord">
+		DELETE FROM (SELECT USER_ID FROM RECOMEND_RECODE WHERE SBD_MEMBER IS NOT NULL)
+		WHERE USER_ID = #{user} 
+	</delete>
+	<!-- 동성 회원 추천 이력 초기화  -->
+	<delete id="resetGenderRecord">
+		DELETE FROM (SELECT USER_ID FROM RECOMEND_RECODE WHERE GENDER_MEMBER IS NOT NULL)
+		WHERE USER_ID = #{user} 
+	</delete>
+		<!-- 동성 회원 추천 이력 초기화  -->
+	<delete id="resetSameRecord">
+		DELETE FROM (SELECT USER_ID FROM RECOMEND_RECODE WHERE SAME_MEMBER IS NOT NULL)
 		WHERE USER_ID = #{user} 
 	</delete>
 <!-- 추천 완료 -->	
 	
+  	<!-- 추천 카운트 -1 -->
+  	<update id="minusCount">
+  		UPDATE MEMBER_TBL SET RECOMEND_COUNT = (SELECT RECOMEND_COUNT-1 FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId}) WHERE MEMBER_ID = #{memberId}
+  	</update>
 	<!-- 닉네임으로 아이디 찾기 -->
 	<select id="findIdByNick" resultType="String">
 		SELECT MEMBER_ID FROM MEMBER_TBL WHERE MEMBER_NICK = #{memberNick} AND MEMBER_STATUS = 'Y'

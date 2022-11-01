@@ -31,7 +31,7 @@
 	.profile-img{float:left; width: 33.3%; height: 300px;border:1px solid lightgray;border-radius: 10px;}
 	#manner{width: 100%; height: 100px; text-align: left; padding: 20px;}
 	#msg{width: 100%; height: 300px;}
-	#noteTitle{width: 566px; border: 1px solid lightgray; border-radius: 10px;}	
+	#noteTitle{width: 592px; border: 1px solid lightgray; border-radius: 10px;}	
 </style>
 
 </head>
@@ -66,6 +66,7 @@
 					</div>
 				</c:forEach>
 			</div>
+			<br>
 			<div id="profile">
 				<div id="info">
 					<div id="info-img">
@@ -74,7 +75,7 @@
 						</div>
 						<br>
 						<div class="nick">
-							<button class="btn btn-light nickname" style="width: 150px;">언제철들래</button>
+							<button class="btn btn-light nickname" style="width: 150px;"></button>
 						</div>
 					</div>
 					<div id="info-detail">
