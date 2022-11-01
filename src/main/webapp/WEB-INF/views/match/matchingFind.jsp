@@ -106,12 +106,12 @@
 			<div id="recommend">
 			<h6><b>맞춤 추천</b></h6>
 			<br>
-			<button class="btn btn-light find" onclick="findMember1();"><img class="findImg" src="/resources/image/matching/opacity.png"> 운동 실력이 비슷한 친구</button><br><br>
-			<button class="btn btn-light find" onclick="findMember2();"><img class="findImg" src="/resources/image/matching/place.png"> 내 주변 친구</button><br><br>
-			<button class="btn btn-light find" onclick="findMember3();"><img class="findImg" src="/resources/image/matching/heart.png"> 매너 점수가 높은 친구</button><br><br>
-			<button class="btn btn-light find" onclick="findMember4();"><img class="findImg" src="/resources/image/matching/master.png"> 짬에서나오는 바이브를 가진 친구</button><br><br>
-			<button class="btn btn-light find" onclick="findMember5();"><img class="findImg" src="/resources/image/matching/squat.png"> 쫌 치네? 3대 500 이상 친구</button><br><br>
-			<button class="btn btn-light find" onclick="findMember6();"><img class="findImg" src="/resources/image/matching/high-five.png"> 동성 친구</button><br><br>
+			<button class="btn btn-light find" onclick="findMember1();"><img class="findImg" src="/resources/image/matching/opacity.png"> 운동 실력이 비슷한 회원</button><br><br>
+			<button class="btn btn-light find" onclick="findMember2();"><img class="findImg" src="/resources/image/matching/place.png"> 내 주변 회원</button><br><br>
+			<button class="btn btn-light find" onclick="findMember3();"><img class="findImg" src="/resources/image/matching/heart.png"> 매너 점수가 높은 회원</button><br><br>
+			<button class="btn btn-light find" onclick="findMember4();"><img class="findImg" src="/resources/image/matching/master.png"> 짬에서나오는 바이브를 가진 회원</button><br><br>
+			<button class="btn btn-light find" onclick="findMember5();"><img class="findImg" src="/resources/image/matching/squat.png"> 쫌 치네? 3대 500 이상 회원</button><br><br>
+			<button class="btn btn-light find" onclick="findMember6();"><img class="findImg" src="/resources/image/matching/high-five.png"> 동성 회원</button><br><br>
 			</div>
 			<br><br>
 		</div>

@@ -22,8 +22,9 @@
   		<result property="adminStatus" 		column="ADMIN_STATUS"/>
   		<result property="memberManner"		column="MEMBER_MANNER"/>
   		<result property="memberType"		column="MEMBER_TYPE"/>
-  		<result property="memberIntroduce"		column="MEMBER_INTRODUCE"/>
-  		<result property="memberAddress"		column="MEMBER_ADDRESS"/>
+  		<result property="memberIntroduce"	column="MEMBER_INTRODUCE"/>
+  		<result property="memberAddress"	column="MEMBER_ADDRESS"/>
+  		<result property="recomendCount"	column="RECOMEND_COUNT"/>
   	</resultMap>
   	<resultMap type="MemberRecordJoin" id="MemberRecordJoinResultMap">
   		<id property="memberId" 			column="MEMBER_ID"/>
@@ -43,8 +44,10 @@
   		<result property="adminStatus" 		column="ADMIN_STATUS"/>
   		<result property="memberManner"		column="MEMBER_MANNER"/>
   		<result property="memberType"		column="MEMBER_TYPE"/>
-  		<result property="memberIntroduce"		column="MEMBER_INTRODUCE"/>
-  		<result property="memberAddress"		column="MEMBER_ADDRESS"/>
+  		<result property="memberIntroduce"	column="MEMBER_INTRODUCE"/>
+  		<result property="memberAddress"	column="MEMBER_ADDRESS"/>
+  		<result property="recomendCount"	column="RECOMEND_COUNT"/>
+  		
 
   		<result property="sameMember"		column="SAME_MEMBER"/>
   		<result property="localMember"		column="LOCAL_MEMBER"/>
@@ -66,40 +69,105 @@
   		<result property="recipientNick" 	column="RECIPIENT_NICK"/>
   		<result property="senderNick" 		column="SENDER_NICK"/>
   	</resultMap>
-<!--   	<select id="sameMember" resultMap="MemberResultMap"> -->
-  	
-<!--   	</select> -->
+<!-- 회원 추천 순서대로 쿼리문 작성함 -->
+  	<!-- 내 주변 친구 추천 목록 가져오기 -->
   	<select id="localMember" resultMap="MemberRecordJoinResultMap">
-  	
-<!-- 	SELECT * FROM -->
-<!-- 		(SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_JYM, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER -->
-<!-- 		FROM MEMBER_TBL -->
-<!-- 		WHERE MEMBER_ID IN -->
-<!-- 			(SELECT MEMBER_ID FROM MEMBER_TBL WHERE MEMBER_JYM LIKE '%'||#{memberJym}||'%' AND NOT MEMBER_ID = #{memberId} -->
-<!-- 			MINUS -->
-<!-- 			SELECT LOCAL_MEMBER FROM RECOMEND_RECODE WHERE USER_ID = #{memberId}) ORDER BY M_LAST_DATE DESC) -->
-<!-- 	WHERE ROWNUM <![CDATA[<]]> 6 -->
+  		SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_JYM, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER
+		FROM MEMBER_TBL WHERE member_id in (select LOCAL_MEMBER FROM CURRENT_RECODE WHERE user_ID = #{memberId})
   	</select>
-<!--   	<select id="SBDMember" resultMap="MemberResultMap"> -->
-  	
-<!--   	</select> -->
-<!--   	<select id="careerMember" resultMap="MemberResultMap"> -->
-  	
-<!--   	</select> -->
-<!--   	<select id="genderMember" resultMap="MemberResultMap"> -->
-  	
-<!--   	</select> -->
-	<select id="findIdByNick" resultType="String">
-		SELECT MEMBER_ID FROM MEMBER_TBL WHERE MEMBER_NICK = #{memberNick} AND MEMBER_STATUS = 'Y'
-	</select>
-	<insert id="insertNoteBox">
-		INSERT INTO NOTEBOX_TBL VALUES(SEQ_NOTEBOX_NO.NEXTVAL, #{recipientId},#{senderId},SYSTIMESTAMP,#{noteTitle},#{noteContents},DEFAULT,DEFAULT,#{recipientNick},#{senderNick})
-	</insert>
-	<!-- 내 주변 친구 추천 이력 -->
+  	<!-- 매너 친구 추천 목록 가져오기 -->
+  	<select id="mannerMember" resultMap="MemberRecordJoinResultMap">
+  		SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_JYM, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER
+		FROM MEMBER_TBL WHERE MEMBER_ID IN (SELECT MANNER_MEMBER FROM CURRENT_RECODE WHERE USER_ID = #{memberId})
+  	</select>
+  	<!-- 내 주변 친구 추천 새로고침 -->
+  	<select id="localRefresh" resultMap="MemberRecordJoinResultMap">
+		SELECT * FROM
+			(SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_JYM, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER
+			FROM MEMBER_TBL
+			WHERE MEMBER_ID IN
+				(SELECT MEMBER_ID FROM MEMBER_TBL WHERE MEMBER_JYM LIKE '%'||#{memberJym}||'%' AND NOT MEMBER_ID = #{memberId} AND ADMIN_STATUS = 'N'
+				MINUS
+				SELECT LOCAL_MEMBER FROM RECOMEND_RECODE WHERE USER_ID = #{memberId})
+			ORDER BY M_LAST_DATE DESC)
+		WHERE ROWNUM <![CDATA[<]]> 6
+  	</select>
+  	<!-- 매너 친구 추천 새로고침 -->
+  	<select id="mannerRefresh" resultMap="MemberRecordJoinResultMap">
+		SELECT * FROM
+		    (SELECT MEMBER_ID, MEMBER_CAREER, MEMBER_SBD, MEMBER_JYM, MEMBER_GENDER, MEMBER_NICK, M_PROFILE_RENAME, MEMBER_INTRODUCE, MEMBER_MANNER
+		    FROM MEMBER_TBL
+		    WHERE MEMBER_ID IN
+				(SELECT MEMBER_ID FROM MEMBER_TBL WHERE MEMBER_JYM LIKE '%'||#{memberJym}||'%' AND NOT MEMBER_ID = #{memberId} AND ADMIN_STATUS = 'N'
+				AND MEMBER_MANNER <![CDATA[>]]> (SELECT AVG(MEMBER_MANNER) FROM MEMBER_TBL)
+				MINUS
+				SELECT MANNER_MEMBER FROM RECOMEND_RECODE WHERE USER_ID = #{memberId})
+			ORDER BY M_LAST_DATE DESC)
+		WHERE ROWNUM <![CDATA[<]]> 6
+  	</select>
+  	<!-- 추천 카운트 -1 -->
+  	<update id="minusCount">
+  		UPDATE MEMBER_TBL SET RECOMEND_COUNT = (SELECT RECOMEND_COUNT-1 FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId}) WHERE MEMBER_ID = #{memberId}
+  	</update>
+	<!-- 내 주변 친구 추천 이력 추가 -->
 	<update id="inserLocalRecord" parameterType="hashmap">
 		<foreach collection="mList" item="member" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
 		INTO RECOMEND_RECODE
 		VALUES (NULL, #{member.memberId}, NULL, NULL, NULL, NULL, #{user})
 		</foreach>
 	</update>
+	<!-- 매너 친구 추천 이력 추가 -->
+	<update id="inserMannerRecord" parameterType="hashmap">
+		<foreach collection="mList" item="member" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+		INTO RECOMEND_RECODE
+		VALUES (NULL, NULL, #{member.memberId}, NULL, NULL, NULL, #{user})
+		</foreach>
+	</update>
+	<!-- 현재 내 주변 친구 업데이트(DELETE 후 INSERT)  -->
+	<delete id="deleteLocalRecord">
+		DELETE FROM (SELECT LOCAL_MEMBER, USER_ID FROM CURRENT_RECODE WHERE LOCAL_MEMBER IS NOT NULL)
+		WHERE USER_ID = #{user} 
+	</delete>
+	<update id="updateLocalRecord">
+		<foreach collection="mList" item="member" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+		INTO CURRENT_RECODE
+		VALUES (NULL, #{member.memberId}, NULL, NULL, NULL, NULL, #{user})
+		</foreach>
+	</update>
+	<!-- 현재 매너 친구 업데이트(DELETE 후 INSERT)  -->
+	<delete id="deleteMannerRecord">
+		DELETE FROM (SELECT MANNER_MEMBER, USER_ID FROM CURRENT_RECODE WHERE MANNER_MEMBER IS NOT NULL)
+		WHERE USER_ID = #{user} 
+	</delete>
+	<update id="updateMannerRecord">
+		<foreach collection="mList" item="member" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+		INTO CURRENT_RECODE
+		VALUES (NULL, NULL, #{member.memberId}, NULL, NULL, NULL, #{user})
+		</foreach>
+	</update>
+	<!-- 주변 친구 추천 이력 초기화  -->
+	<delete id="resetLocalRecord">
+		DELETE FROM (SELECT LOCAL_MEMBER, USER_ID FROM RECOMEND_RECODE WHERE LOCAL_MEMBER IS NOT NULL)
+		WHERE USER_ID = #{user} 
+	</delete>
+	<!-- 매너 친구 추천 이력 초기화  -->
+	<delete id="resetMannerRecord">
+		DELETE FROM (SELECT MANNER_MEMBER, USER_ID FROM RECOMEND_RECODE WHERE MANNER_MEMBER IS NOT NULL)
+		WHERE USER_ID = #{user} 
+	</delete>
+<!-- 추천 완료 -->	
+	
+	<!-- 닉네임으로 아이디 찾기 -->
+	<select id="findIdByNick" resultType="String">
+		SELECT MEMBER_ID FROM MEMBER_TBL WHERE MEMBER_NICK = #{memberNick} AND MEMBER_STATUS = 'Y'
+	</select>
+	<!-- 추천 새로고침 횟수값 가져오기 -->
+	<select id="getCountNum" resultType="int">
+		SELECT RECOMEND_COUNT FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId}
+	</select>
+	<!-- 쪽지 보내기 -->
+	<insert id="insertNoteBox">
+		INSERT INTO NOTEBOX_TBL VALUES(SEQ_NOTEBOX_NO.NEXTVAL, #{recipientId},#{senderId},SYSTIMESTAMP,#{noteTitle},#{noteContents},DEFAULT,DEFAULT,#{recipientNick},#{senderNick})
+	</insert>
+	
 </mapper>

@@ -47,6 +47,14 @@ public class MyInfoController {
 		return mv;
 	}
 	
+	/**
+	 * 패스워드 변경
+	 * @param session
+	 * @param memberId
+	 * @param pwd
+	 * @param newPwd
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/member/myinfoPwd.strap", method =RequestMethod.POST)
 	public String modifyPwd(
@@ -69,6 +77,14 @@ public class MyInfoController {
 		return "error";
 	}
 	
+	/**
+	 * 닉네임 변경
+	 * @param session
+	 * @param request
+	 * @param memberId
+	 * @param memberNick
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/member/myinfoNick.strap")
 	public String modifyNick(
@@ -93,6 +109,14 @@ public class MyInfoController {
 		}
 	}
 	
+	/**
+	 * 이메일 변경
+	 * @param session
+	 * @param request
+	 * @param memberId
+	 * @param memberEmail
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/member/myinfoEmail.strap")
 	public String modifyEmail(
@@ -118,6 +142,14 @@ public class MyInfoController {
 			return "no";
 		}
 	}
+	/**
+	 * 구력 변경
+	 * @param session
+	 * @param request
+	 * @param memberId
+	 * @param memberCareer
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/member/myinfoCareer.strap")
 	public String modifyCareer(
@@ -142,6 +174,14 @@ public class MyInfoController {
 			return "no";
 		}
 	}
+	/**
+	 * 3대 기록 변경
+	 * @param session
+	 * @param request
+	 * @param memberId
+	 * @param memberSBD
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/member/myinfoSBD.strap")
 	public String modifySBD(
@@ -165,6 +205,14 @@ public class MyInfoController {
 			return "no";
 		}
 	}
+	/**
+	 * 자기소개 변경
+	 * @param session
+	 * @param request
+	 * @param memberId
+	 * @param memberIntroduce
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/member/myinfoIntroduce.strap")
 	public String modifyIntroduce(
@@ -188,6 +236,14 @@ public class MyInfoController {
 			return "no";
 		}
 	}
+	/**
+	 * 마이 짐 변경
+	 * @param session
+	 * @param request
+	 * @param memberId
+	 * @param memberJym
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/member/myinfoJym.strap")
 	public String modifyJym(

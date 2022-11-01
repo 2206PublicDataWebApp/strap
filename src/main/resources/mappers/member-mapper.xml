@@ -22,8 +22,10 @@
   		<result property="adminStatus" 		column="ADMIN_STATUS"/>
   		<result property="memberManner"		column="MEMBER_MANNER"/>
   		<result property="memberType"		column="MEMBER_TYPE"/>
-  		<result property="memberIntroduce"		column="MEMBER_INTRODUCE"/>
-  		<result property="memberAddress"		column="MEMBER_ADDRESS"/>
+  		<result property="memberIntroduce"	column="MEMBER_INTRODUCE"/>
+  		<result property="memberAddress"	column="MEMBER_ADDRESS"/>
+  		<result property="recomendCount"	column="RECOMEND_COUNT"/>
+  		
   	</resultMap>
   	<resultMap type="Member" id="IdAndCreateDate">
   		<id property="memberId" 			column="MEMBER_ID"/>
@@ -69,13 +71,13 @@
   	<insert id="inserMember">
   		INSERT INTO MEMBER_TBL
   		VALUES(#{memberId},#{memberPwd},#{memberName},#{memberEmail},#{memberGender},#{memberNick},#{memberJym},#{memberCareer},
-  				#{memberSBD},NULL,NULL,#{mProfilePath},DEFAULT,DEFAULT,DEFAULT,DEFAULT,'general',null,null,null)
+  				#{memberSBD},NULL,NULL,#{mProfilePath},DEFAULT,DEFAULT,DEFAULT,DEFAULT,'general',null,null,null,DEFAULT)
   	</insert>
   	<!-- 소셜 회원가입 -->
   	<insert id="insertSocialMember">
   		INSERT INTO MEMBER_TBL
   		VALUES(#{memberId},null,#{memberName},#{memberEmail},#{memberGender},#{memberNick},NULL,#{memberCareer},
-  				#{memberSBD},NULL,NULL,NULL,DEFAULT,DEFAULT,DEFAULT,DEFAULT,'kakao',null,null,null)
+  				#{memberSBD},NULL,NULL,NULL,DEFAULT,DEFAULT,DEFAULT,DEFAULT,'kakao',null,null,null,DEFAULT)
   	</insert>
   	<!-- 비밀번호 찾기 시 임시패스워드로 변경, 내 정보에서 비밀번호 변경하기 -->
   	<update id="changePwd">

@@ -42,4 +42,73 @@ public class MatchStoreLogic implements MatchStore{
 		return result;
 	}
 
+	@Override
+	public List<Member> localRefresh(SqlSession session, Member mOne) {
+		List<Member> mList= session.selectList("MatchMapper.localRefresh", mOne);
+		return mList;
+	}
+
+	@Override
+	public int updateLocalRecord(SqlSession session, Map<String, Object> map) {
+		int result1 = session.delete("MatchMapper.deleteLocalRecord", map);
+		int result2 = session.update("MatchMapper.updateLocalRecord", map);
+		int result = 0;
+		if(result1 != 0 && result2 != 0 ) {
+			result = 1;
+		}
+		return result;
+	}
+
+	@Override
+	public void minusCount(SqlSession session, Member mOne) {
+		session.update("MatchMapper.minusCount",mOne);
+	}
+
+	@Override
+	public void resetLocalRecord(SqlSession session, String memberId) {
+		session.delete("MatchMapper.resetLocalRecord",memberId);
+		
+	}
+
+	@Override
+	public int getCountNum(SqlSession session, String memberId) {
+		int num = session.selectOne("MatchMapper.getCountNum",memberId);
+		return num;
+	}
+
+	@Override
+	public List<Member> mannerMember(SqlSession session, Member mOne) {
+		List<Member> mList= session.selectList("MatchMapper.mannerMember", mOne);
+		return mList;
+	}
+
+	@Override
+	public List<Member> mannerRefresh(SqlSession session, Member mOne) {
+		List<Member> mList= session.selectList("MatchMapper.mannerRefresh", mOne);
+		return mList;
+	}
+
+	@Override
+	public int updateMannerRecord(SqlSession session, Map<String, Object> map) {
+		int result1 = session.delete("MatchMapper.deleteMannerRecord", map);
+		int result2 = session.update("MatchMapper.updateMannerRecord", map);
+		int result = 0;
+		if(result1 != 0 && result2 != 0 ) {
+			result = 1;
+		}
+		return result;
+	}
+
+	@Override
+	public int inserMannerRecord(SqlSession session, Map<String, Object> map) {
+		int result = session.update("MatchMapper.inserMannerRecord", map);
+		return result;
+	}
+
+	@Override
+	public void resetMannerRecord(SqlSession session, String memberId) {
+		session.delete("MatchMapper.resetMannerRecord",memberId);
+		
+	}
+
 }

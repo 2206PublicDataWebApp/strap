@@ -24,8 +24,18 @@ public class Member {
 	private String memberIntroduce;	//18.회원 소개
 	private String memberAddress;	//19.회원 주소
 	private Date memberLastDate;	//20.최근 접속일
+	private int recomendCount;	//20.새로고침 남은 횟수
 
 	
+	
+
+	public int getRecomendCount() {
+		return recomendCount;
+	}
+
+	public void setRecomendCount(int recomendCount) {
+		this.recomendCount = recomendCount;
+	}
 
 	public Date getMemberLastDate() {
 		return memberLastDate;
@@ -179,8 +189,10 @@ public class Member {
 				+ mProfilePath + ", mRegisterDate=" + mRegisterDate + ", memberStatus=" + memberStatus
 				+ ", adminStatus=" + adminStatus + ", memberManner=" + memberManner + ", memberType=" + memberType
 				+ ", memberIntroduce=" + memberIntroduce + ", memberAddress=" + memberAddress + ", memberLastDate="
-				+ memberLastDate + "]";
+				+ memberLastDate + ", recomendCount=" + recomendCount + "]";
 	}
+
+	
 
 	
 
