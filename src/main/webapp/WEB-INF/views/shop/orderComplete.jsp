@@ -16,8 +16,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
 </head>
 <style>
-	th{
-		text-align:right;
+	#orderInfo th,#paidInfo th{
+		width:140px;
+		padding:5px;
 	}
 </style>
 <body>
@@ -71,7 +72,7 @@
 				</c:forEach>	
 			</div>
 			<div id="order-info" class="row">
-				<div id="order-info" class="col-6" style="height:350px;margin:70px auto;padding:20px 40px; border: 1px solid #c0c0c0;text-align:left;">
+				<div id="order-info" class="col-7" style="height:450px;margin:70px auto;padding:20px 40px; border: 1px solid #c0c0c0;text-align:left;">
 					<div id="orderInfo">
 						<h3>주문 정보</h3><hr>
 						<table>
@@ -110,8 +111,8 @@
 						</table>
 					</div>
 				</div>
-				<div id="paid-info" class="col-6">
-					<div class="order-side" style="height:350px;margin:70px auto;padding:20px 40px; border: 1px solid #c0c0c0;text-align:left;">
+				<div id="paid-info" class="col-5">
+					<div id="paidInfo" class="order-side" style="height:450px;margin:70px auto;padding:20px 40px; border: 1px solid #c0c0c0;text-align:left;">
 						 <h3>결제 금액</h3><hr>
 						 <table>
 							<tr>
