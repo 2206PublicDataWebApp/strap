@@ -29,6 +29,22 @@ input:disabled {
 	font-weight:bold;
 	color:gray;
 }
+
+ .pagination a{
+ 	color:#c0c0c0;
+ 	border-style:none;
+ }
+ .reviewContents{
+ 	overflow:hidden; 
+    white-space:nowrap; 
+ 	text-overflow:ellipsis; 
+ 	margin:0 auto; 
+ }
+ 
+  #reviewList th,#qnaList td{
+ 	padding:3px;
+ }
+ 
 </style>
 
 </head>
@@ -48,7 +64,7 @@ input:disabled {
 		<div class="contents-side col">
 			<div id="contents-wrap">
 				<div id="title">
-					<h2>나의 리뷰 (${paging.totalCount })</h2><hr>
+					<h3>상품후기 (${paging.totalCount })</h3><hr>
 				</div>
 				<div id="dateFilter" style="text-align:center;">
 					<div id="selectDate">
@@ -68,21 +84,47 @@ input:disabled {
 							<button id="dBtn" style="font-weight:bold;color:darkorange;background-color:white;border:1px solid darkorange; border-radius:4px;"  disabled >검색</button>
 						</form>
 					</div>
-				<div id="list">
-					<table>
-						<tr>
-							<th>상품평</th>
-							<th>평점</th>
-							<th>삭제</th>
-							<th>날짜</th>
+				<div id="reviewList">
+					<table style="text-align:center; font-size:14px;">
+						<tr style="height:30px; border-bottom:1px solid #c0c0c0;">
+							<th class="col-3">상품정보</th>
+							<th class="col-1">평점</th>
+							<th class="col-3">상품평</th>
+							<th class="col-1">상세내용</th>
+							<th class="col-1">삭제</th>
+							<th class="col-1">날짜</th>
 						</tr>
 						<c:forEach items="${rList}" var="review">
+							<tr style="height:10px;"></tr>
 							<tr>
-								<td onclick="location.href='/product/detailView.strap?productNo=${review.productNo}';">${review.reviewContents }</td>
-								<td>${review.reviewGrade }</td>
-								<td><button type="button">삭제하기</button></td>
+								<td class="toProductDetail" onclick="location.href='/product/detailView.strap?productNo=${review.product.productNo}';" >
+										<img src="${review.product.mainImgRoot }" width="60px" height="60px">
+										<span class="productBrand">[${review.product.productBrand }]</span>
+										<span class="productName">${review.product.productName }</span>
+								</td>
+								<td><span style="color:darkorange">★</span>${review.reviewGrade }</td>
+								<td  onclick="location.href='/product/detailView.strap?productNo=${review.productNo}';">
+									<div class="reviewContents" style="width:250px;" >
+										${review.reviewContents }
+									</div>
+								</td>
+								<td class="reviewFoldingBtn" onclick="reviewFolding(this);">펼치기▽</td>
+								<td onclick="removeReview(${review.reviewNo});"><i class="fa-regular fa-trash-can"></i>삭제</td>
 								<td>${review.reviewTime }</td>
 							</tr>
+							<tr class="reviewFolding" style="display:none; ">
+								<td colspan="6" style="padding:12px 110px; background-color:rgb(250,250,250);border-radius:10px;" >
+									<div style="float:left;width:45%; margin:0 auto;padding:12px;">
+										<div><첨부이미지></div>
+										<img src="${review.reviewImgRoot }" width="350px" height="380px;" style="border:1px solid #c0c0c0; border-radius:7px;" onerror="this.src='/resources/image/logo.png'">
+									</div>
+									<div style="float:right;width:45%; margin:0 auto; padding:12px;width:350px; height:380px;">
+										<div><내용></div>
+										${review.reviewContents }
+									</div>
+								</td>
+							</tr>
+							<tr style="height:10px; border-bottom:1px solid #c0c0c0;"></tr>
 						</c:forEach>
 					</table>
 				</div>
@@ -96,7 +138,7 @@ input:disabled {
 				     </c:if>
 				    </li>
 				    <c:forEach begin="${paging.startNavi }" end="${paging.endNavi }" var="n">
-				    <li class="page-item"><a class="page-link" <c:if test="${paging.page eq n }">style="font-weight:bold;"</c:if>  href="/review/list.strap?page=${n }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>">${n }</a></li>
+				    <li class="page-item"><a class="page-link" <c:if test="${paging.page eq n }">style="font-weight:bold;color:darkorange;"</c:if>  href="/review/list.strap?page=${n }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>">${n }</a></li>
 				    </c:forEach>
 				    <c:if test="${paging.endNavi < paging.endPage }">
 				    <li class="page-item">
@@ -148,6 +190,40 @@ function abled(){
 	document.querySelectorAll("#order-wrap button")[4].style.color="darkorange";
 	document.querySelectorAll("#order-wrap button")[4].style.border="2px solid darkorange";
 	document.querySelector("#inputDate").style.display="block";
+}
+
+//리뷰폴딩
+function reviewFolding(thisBtn){
+	var reviewFoldingArea =thisBtn.parentElement.nextElementSibling;
+	if(reviewFoldingArea.style.display=="none"){
+		reviewFoldingArea.style.display = "table-row";
+		thisBtn.innerText = "접기▽";
+	}else{
+		reviewFoldingArea.style.display = "none";
+		thisBtn.innerText = "펼치기▽";
+	}
+}
+
+//리뷰삭제 ajax
+function removeReview(reviewNo){
+	if(confirm("리뷰를 정말 삭제하시겠습니까?")){
+		$.ajax({
+			url:"/review/remove.strap",
+			data:{
+				"reviewNo":reviewNo	
+			},
+			type:"get",
+			success:function(result){
+				if(result=="success"){
+					alert("리뷰가 삭제되었습니다.");
+					location.reload();
+				}else{
+					
+				}
+			},
+			error:function(){}
+		});
+	}
 }
 
 </script>

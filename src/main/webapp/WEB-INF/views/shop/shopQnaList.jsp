@@ -29,6 +29,28 @@ input:disabled {
 	font-weight:bold;
 	color:gray;
 }
+
+ .pagination a{
+ 	color:#c0c0c0;
+ 	border-style:none;
+ }
+ .qnaContents{
+ 	overflow:hidden;
+   	white-space:nowrap;
+	text-overflow:ellipsis;
+	margin:0 auto;
+ }
+ #qnaList th,#qnaList td{
+ 	padding:3px;
+ }
+ .qnaFoldingBtn:hover{
+ 	cursor:pointer;
+ }
+ 
+ .toProductDetail:hover{
+ 	cursor:pointer;
+ }
+ 
 </style>
 
 </head>
@@ -48,7 +70,7 @@ input:disabled {
 		<div class="contents-side col" >
 			<div id="contents-wrap">
 				<div id="title">
-					<h2>나의 문의</h2><hr>
+					<h3>나의 문의 (${paging.totalCount })</h3><hr>
 				</div>
 				<div id="dateFilter" style="text-align:center;">
 					<div id="selectDate">
@@ -68,21 +90,51 @@ input:disabled {
 							<button id="dBtn" style="font-weight:bold;color:darkorange;background-color:white;border:1px solid darkorange; border-radius:4px;"  disabled >검색</button>
 						</form>
 					</div>
-				<div id="list">
-					<table>
-						<tr>
-							<th>답변여부</th>
-							<th>문의내용</th>
-							<th>답변보기</th>
-							<th>날짜</th>
+				</div>
+				<div id="qnaList">
+					<table style="text-align:center; font-size:14px;">
+						<tr style="height:30px; border-bottom:1px solid #c0c0c0;">
+							<th class="col-1">문의번호</th>
+							<th class="col-3" >상품정보</th>
+							<th class="col-1">답변여부</th>
+							<th class="col-1">문의유형</th>
+							<th class="col-1">상세내용 </th>
+							<th class="col-1">날짜</th>
 						</tr>
 							<c:forEach items="${sqList}" var="sQna">
+								<tr style="height:10px;"></tr>
 								<tr>
-									<td>${sQna.answerStatus }</td>
-									<td>${sQna.qnaContents }</td>
-									<td>답변보기</td>
+									<td>${sQna.qnaNo }</td>
+									<td class="toProductDetail" onclick="location.href='/product/detailView.strap?productNo=${sQna.product.productNo}';" >
+										<img src="${sQna.product.mainImgRoot }" width="60px" height="60px">
+										<span class="productBrand">[${sQna.product.productBrand }]</span>
+										<span class="productName">${sQna.product.productName }</span>
+									</td>
+									<td>
+										<c:if test="${sQna.answerStatus  eq 'Y'}"><span style="color:green;">답변완료</span></c:if>
+										<c:if test="${sQna.answerStatus  ne 'Y'}"><span style="color:gray;">답변대기</span></c:if>
+									</td>
+									<td class="qnaContents">
+										<c:if test="${sQna.qnaType  eq 'QC2QT1'}"><span style="color:gray;">[주문/결제]</span></c:if>
+										<c:if test="${sQna.qnaType  eq 'QC2QT2'}"><span style="color:gray;">[배송]</span></c:if>
+										<c:if test="${sQna.qnaType  eq 'QC2QT3'}"><span style="color:gray;">[취소/반품/교환]</span></c:if>
+										<c:if test="${sQna.qnaType  eq 'QC2QT4'}"><span style="color:gray;">[기타]</span></c:if>
+									</td>
+									<td class="qnaFoldingBtn" onclick="qnaFolding(this);">펼치기▽</td>
 									<td>${sQna.qEnrollDate}</td>
 								</tr>
+								<tr class="qnaDetailArea" style="display:none">
+									<td colspan="7" style="padding:10px 70px;background-color:rgb(254,245,240);text-align:left;">
+									 ${sQna.qnaContents }
+									</td>
+								</tr>
+								<tr class="qnaDetailArea" style="margin-bottom:50px;display:none;">
+									<td colspan="7" style="padding:10px 70px;background-color:rgb(250,250,250);text-align:left;">
+										<c:if test="${sQna.answerContents eq '' or sQna.answerContents eq null}"><span>ㄴ답변 대기중입니다.</span></c:if>
+										<c:if test="${sQna.answerContents ne '' and sQna.answerContents ne null}"><span>ㄴ${sQna.answerContents}</span></c:if>
+									</td>
+								</tr>
+								<tr style="height:10px; border-bottom:1px solid #c0c0c0;"></tr>
 							</c:forEach>
 					</table>
 				</div>
@@ -96,7 +148,7 @@ input:disabled {
 				     </c:if>
 				    </li>
 				    <c:forEach begin="${paging.startNavi }" end="${paging.endNavi }" var="n">
-				    <li class="page-item"><a class="page-link" <c:if test="${paging.page eq n }">style="font-weight:bold;"</c:if>  href="/shopQna/list.strap?page=${n }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>">${n }</a></li>
+				    <li class="page-item"><a class="page-link" <c:if test="${paging.page eq n }">style="font-weight:bold;color:darkorange;"</c:if>  href="/shopQna/list.strap?page=${n }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>">${n }</a></li>
 				    </c:forEach>
 				    <c:if test="${paging.endNavi < paging.endPage }">
 				    <li class="page-item">
@@ -136,6 +188,7 @@ function dateFilter(day){
 	
 	searchForm.submit();
 }
+//날짜 직접입력
 function abled(){
 	startDate.disabled = false;	
 	endDate.disabled = false;	
@@ -149,6 +202,20 @@ function abled(){
 	document.querySelectorAll("#order-wrap button")[4].style.color="darkorange";
 	document.querySelectorAll("#order-wrap button")[4].style.border="2px solid darkorange";
 	document.querySelector("#inputDate").style.display="block";
+}
+//답변 펼치기
+function qnaFolding(thisBtn){
+	var thisQuestionArea =thisBtn.parentElement.nextSibling.nextElementSibling;
+	var thisAnswerArea = thisBtn.parentElement.nextSibling.nextElementSibling.nextElementSibling;
+	if(thisQuestionArea.style.display =="none"){
+		thisQuestionArea.style.display = "table-row";
+		thisAnswerArea.style.display = "table-row";
+		thisBtn.innerHTML = "접기△";
+	}else{
+		thisQuestionArea.style.display = "none";
+		thisAnswerArea.style.display = "none";
+		thisBtn.innerHTML = "펼치기▽";
+	}
 }
 
 </script>

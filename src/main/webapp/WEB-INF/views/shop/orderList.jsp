@@ -31,6 +31,11 @@ input:disabled {
 	color:gray;
 }
 
+ .pagination a{
+ 	color:#c0c0c0;
+ 	border-style:none;
+ }
+
 </style>
 
 </head>
@@ -75,11 +80,14 @@ input:disabled {
 					<c:forEach items="${oList }" var="order" varStatus="n" >
 						<div style="margin: 0px auto;padding-bottom:5px;">
 							<span class="orderDate" style="font-size:20px;font-weight:bold;">${order.orderDate }</span>
-							<span class="orderNo" >주문번호: <a href="#" style="text-decoration:none;" >${order.orderNo } ></a></span>
+							<span class="orderNo" >주문번호: <a href="/order/completeView.strap?merchant_uid=${order.orderNo }" style="text-decoration:none;" >${order.orderNo } ></a></span>
 						</div>
 						<div class="orderBorder" style="border:1px solid gray;padding:12px;margin:5px 0px 30px;">
-							<div style="margin: 0px auto;border-bottom:1px solid #c0c0c0; padding:4px;background-color:rgb(250,250,250)">
-								<span class="orderStatus">주문상태: ${order.orderStatus }</span>
+							<div style="margin: 0px auto;border-bottom:1px solid #c0c0c0; padding:4px;background-color:rgb(250,250,250);font-size:14px;font-weight:bold;">
+								<span class="orderStatus"></span>
+								<c:if test="${order.orderStatus eq 'paid'}">
+									<button style="font-weight:bold;color:gray;background-color:white;border:1px solid gray; border-radius:4px;float:right;" disabled>결제취소</button>
+								</c:if>
 							</div>
 							<div class="oneOrderWrap" style="border:1px solid solid #c0c0c0;">
 								<c:forEach items="${order.buyProducts }" var="product" varStatus="n" >
@@ -135,7 +143,7 @@ input:disabled {
 				     </c:if>
 				    </li>
 				    <c:forEach begin="${paging.startNavi }" end="${paging.endNavi }" var="n">
-				    <li class="page-item"><a class="page-link" <c:if test="${paging.page eq n }">style="font-weight:bold;"</c:if>  href="/order/listView.strap?page=${n }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>">${n }</a></li>
+				    <li class="page-item"><a class="page-link" <c:if test="${paging.page eq n }">style="font-weight:bold;color:darkorange"</c:if>  href="/order/listView.strap?page=${n }&dayBefore=${search.dayBefore}<c:if test="${search.startDate ne null }">&startDate=${search.startDate}&endDate=${search.endDate}</c:if>">${n }</a></li>
 				    </c:forEach>
 				    <c:if test="${paging.endNavi < paging.endPage }">
 				    <li class="page-item">
@@ -161,9 +169,6 @@ input:disabled {
 var startDate = document.querySelector("#startDate");
 var endDate = document.querySelector("#endDate");
 var dBtn = document.querySelector("#dBtn");
-
-
-
 function dateFilter(day){
 	var searchForm = document.querySelector("#search-form");
 	var dayBefore = document.querySelector("#dayBefore");
@@ -176,6 +181,7 @@ function dateFilter(day){
 	
 	searchForm.submit();
 }
+//날짜 직접입력
 function abled(){
 	startDate.disabled = false;	
 	endDate.disabled = false;	
@@ -190,6 +196,27 @@ function abled(){
 	document.querySelectorAll("#order-wrap button")[4].style.border="2px solid darkorange";
 	document.querySelector("#inputDate").style.display="block";
 }
+
+//주문상태 txt
+orderStatusTxt();
+function orderStatusTxt(){
+	var statusTxt = "";
+	<c:forEach items="${oList }" var="order" varStatus="n" >
+		switch('${order.orderStatus}'){
+		case "paid":
+			statusTxt = "<span style='color:green;'>결제완료</span>";
+			break;
+		case "ready":
+			statusTxt = "<span style='color:darkorange;'>입금대기</span>";
+			break;
+		case "cancelled":
+			statusTxt = "<span style='color:red;'>결제취소</span>";
+			break;
+		}
+		document.querySelectorAll(".orderStatus")['${n.count-1}'].innerHTML = statusTxt;
+	</c:forEach>
+}
+
 
 </script>
 </body>

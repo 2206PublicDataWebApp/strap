@@ -22,6 +22,8 @@ import com.google.gson.Gson;
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.shop.product.domain.Product;
+import com.kh.strap.shop.product.service.ProductService;
 import com.kh.strap.shop.review.domain.Review;
 import com.kh.strap.shop.review.service.ReviewService;
 
@@ -39,6 +41,8 @@ public class ReviewController {
 	
 	@Autowired
 	ReviewService rService;
+	@Autowired
+	ProductService pService;
 	
 	//상품후기리스트 이동
 	@RequestMapping(value="", method=RequestMethod.GET)
@@ -90,7 +94,10 @@ public class ReviewController {
 		search.setMemberId(loginUser.getMemberId());
 		Paging paging = new Paging(rService.countMemberReview(search), page, 10, 5);
 		List<Review> rList = rService.printMemberReview(paging, search);
-		
+		//review에 product를 넣어야 한다.
+		rList.stream().forEach(review->{
+			review.setProduct(pService.printOneProduct(new Product(review.getProductNo())));
+		});
 		mv.addObject("rList",rList).
 		addObject("search",search).
 		addObject("paging",paging).
@@ -141,8 +148,14 @@ public class ReviewController {
 	}
 	
 	//상품후기 삭제
+	@ResponseBody
 	@RequestMapping(value="/review/remove.strap", method=RequestMethod.GET)
-	public ModelAndView removeReview(ModelAndView mv) {
-		return mv;
+	public String removeReview(
+			@RequestParam("reviewNo")Integer reviewNo) {
+		if(rService.removeMemberReview(new Review(reviewNo)) >0) {
+			return "success";
+		}else {
+			return "fail";
+		}
 	}
 }

@@ -28,6 +28,9 @@
  	color:#c0c0c0;
  	border-style:none;
  }
+ .toProductDetail:hover{
+ 	cursor:pointer;
+ }
  
 </style>
 </head>
@@ -68,10 +71,10 @@
 					<div class="product-wrap row" style="text-align: center;align-items: center;padding:9px; border-bottom: 1px solid #c0c0c0;">
 						<div class="oneProduct col-1 number" style="font-weight:bold; font-size:20px;">${n.count + paging.offset }</div>
 						<div class="oneProduct col-2 thumb" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
-							<img class="thumb-img" src="${product.mainImgRoot }" onerror="this.src='';" width="100px" height="92px">
+							<img class="thumb-img toProductDetail" src="${product.mainImgRoot }" onerror="this.src='';" width="100px" height="92px">
 						</div>
 						<div class="oneProduct col info" style="width:70%;">
-							<div class="product-title" style="font-size:14px; font-weight:bold;" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
+							<div class="product-title toProductDetail" style="font-size:14px; font-weight:bold;" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
 								<span class="p-brand">[${product.productBrand }]</span>
 								<span class="p-name"> ${product.productName }</span>
 							</div>

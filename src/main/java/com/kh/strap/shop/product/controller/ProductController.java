@@ -362,7 +362,7 @@ public class ProductController {
 			Search search,
 			@RequestParam(value= "page", required=false)Integer currentPage) {
 		int page = (currentPage != null) ? currentPage : 1;
-		Paging paging = new Paging(pService.countAllProduct(), page, 10, 5);
+		Paging paging = new Paging(pService.countAllProduct(), page, 30, 5);
 		List<Product> pList = pService.printAdminAllProduct(paging, search);
 		mv.addObject("pList",pList).
 		addObject("paging",paging).
@@ -377,7 +377,7 @@ public class ProductController {
 			@ModelAttribute Search search,
 			@RequestParam(value= "page", required=false)Integer currentPage) {
 		int page = (currentPage != null) ? currentPage : 1;
-		Paging paging = new Paging(pService.countAdminProductSearch(search), page, 10, 5);
+		Paging paging = new Paging(pService.countAdminProductSearch(search), page, 30, 5);
 		List<Product> pList = pService.printAdminProductSearch(paging, search);
 		mv.addObject("pList",pList).
 		addObject("paging",paging).

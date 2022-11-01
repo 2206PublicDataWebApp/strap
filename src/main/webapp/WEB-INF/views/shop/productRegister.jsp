@@ -25,14 +25,18 @@
 	<!-- 컨텐츠 -->
 	<div id="contents" class="row">
 		<!-- 사이드바 -->
-		<div class="stickySidebar" >
-			<jsp:include page="/WEB-INF/views/common/sideBarAdmin.jsp"></jsp:include>
+		<div class="sidebar col-3" >
+				<jsp:include page="/WEB-INF/views/common/sideBarAdmin.jsp"></jsp:include>
 		</div>
 		<div class="contents-side col">
-			<div id="inner-header">
-				<h1>상품등록</h1><hr>
+			<div id="contents-wrap">
+				<div id="title">
+					<h3>상품등록</h3><hr>
+				</div>
 			</div>
-			<div id="inner-contents">
+			
+			
+			<div id="productRegisterArea">
 				<form id="info-form" action="/admin/product/register.strap" method="post" enctype="multipart/form-data" >
 					<h2>상품 정보 입력</h2><hr>
 					<input type="text" name="productBrand" placeholder="브랜드명 입력"><br>
@@ -63,6 +67,70 @@
 				</form>
 			</div>
 		</div>
+		
+		
+		
+		
+				<div id="pInfo-wrap" class="row detail ">
+					<div id="pImg" class="col" style="text-align:center;padding:15px;">
+						<div id="zoomImg">
+							<img id="zoom" src="${product.mainImgRoot }" width="400px" height="360px" onerror="">
+						</div>
+						<div id="onImg" style="margin:5px auto;">
+							<img src="${product.mainImgRoot }" width="15%" height="70px" onerror="" onmouseover="document.querySelector('#zoom').src=this.src">
+							<c:forEach items="${subList }" var="subImg">
+								<img src="${subImg.subRoot }" width="15%" height="70px" onerror="" onmouseover="document.querySelector('#zoom').src=this.src">
+							</c:forEach>
+						</div>
+					</div>
+					<div id="pInfo" class="col" style="text-align:center; item-align:center; padding:15px;">
+						<div id="pTitle" style="height:50px;">
+							<span id="pName" style="font-weight:bold; font-size:25px;">[${product.productBrand }] ${product.productName }</span>
+						</div>
+						<div id="pPrice" style="text-align:center; font-size:26px;font-weight:bold;">
+							<div id="price">
+								<span id="price" style="font-size:30px;">
+									<fmt:formatNumber value="${product.productPrice }" pattern="#,###"/>
+								</span>
+								<span id='wonSymbol'>원</span> 
+							</div>
+						</div>
+						<hr>
+					</div>
+				</div>
+				<hr>
+<!-- 상품상세설명 -->
+				<div id="pDetail" class="detail">
+					<div id="productDesc-wrap">
+						<div id="desc" style="width:70%; margin:0 auto;">
+							<h3>상품상세설명</h3>
+							${product.productDesc }
+						</div>
+					</div>
+					<div id="infoImg-wrap" style="width:100%;margin:0 auto;height:600px;overflow:hidden;">
+						<c:forEach items="${infoList }" var="info">
+							<div class="oneInfo">
+								<img src="${info.imgRoot }" width="100%">
+								<img src="${info.imgRoot }" width="100%">
+								<img src="${info.imgRoot }" width="100%">
+								<img src="${info.imgRoot }" width="100%">
+								<img src="${info.imgRoot }" width="100%">
+								<img src="${info.imgRoot }" width="100%">
+								<img src="${info.imgRoot }" width="100%">
+								<img src="${info.imgRoot }" width="100%">
+								<img src="${info.imgRoot }" width="100%">
+								<img src="${info.imgRoot }" width="100%">
+							</div>
+						</c:forEach>
+					</div>
+				</div>
+		
+		
+		
+		
+		
+		
+		
 	</div>
 	<!-- 푸터 -->
 	<div id="footer" class="row">
