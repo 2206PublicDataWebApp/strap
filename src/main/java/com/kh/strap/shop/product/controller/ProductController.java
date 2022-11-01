@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -498,6 +499,37 @@ public class ProductController {
 		setViewName("/shop/productModify");
 		return mv;
 	}
+	
+	//이미지 임시저장 ajax
+	@ResponseBody
+	@RequestMapping(value="/admin/product/temp.strap",produces="application/json;charset=utf-8", method=RequestMethod.POST)
+	public String saveTempImg(
+			@RequestParam("tempImg")MultipartFile tempImg,
+			@RequestParam("tempFolderName")String tempFolderName,
+			@RequestParam("tempName")String tempName,
+			HttpSession session) {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			//1.클라이언트단에서 전달받은 이름으로 임시파일 저장용 폴더 생성한다.
+			//2.파일 저장 로직 시 해당 폴더는 삭제 예정.
+			String savePath = session.getServletContext().getRealPath("resources") + "\\image\\shop\\temp\\"+tempFolderName;
+			File targetFile = new File(savePath);
+			if (!targetFile.exists()) {
+				targetFile.mkdir();
+			}
+			//2.DB저장 없이 임시 폴더에 저장한다.
+			tempImg.transferTo(new File(savePath+"\\"+tempName));
+			String tempImgPath = "/resources/image/shop/temp/"+tempFolderName+"/"+tempName;
+			jsonObject.put("tempImgPath", tempImgPath);
+			return jsonObject.toString();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "fail";
+	}
+	
 	
 	//상품 삭제ajax
 	@ResponseBody
