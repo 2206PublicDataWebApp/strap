@@ -23,4 +23,14 @@
 		INSERT INTO QNA_TBL
 		VALUES(SEQ_QNA_NO.NEXTVAL,#{productNo},#{qnaCode},#{qnaType},#{qnaTitle},#{qnaContents},DEFAULT,DEFAULT,DEFAULT,#{answerContents},#{secretStatus},#{memberId},#{memberNick})
 	</insert>
+	<select id="selectAllQna" resultMap="qnaResultMap">
+		SELECT * FROM QNA_TBL WHERE QNA_CODE = 'QC1' AND MEMBER_ID = #{memberId}
+	</select>
+	<update id="updateQna">
+		UPDATE QNA_TBL SET QNA_TYPE = #{qnaType}, QNA_TITLE = #{qnaTitle}, QNA_CONTENTS = #{qnaContents}, qEnrollDate = DEFAULT WHERE QNA_NO = #{qnaNo } AND MEMBER_ID = #{memberId }
+	</update>
+	<select id="selectOneQna" resultMap="qnaResultMap">
+		SELECT * FROM QNA_TBL WHERE QNA_NO = #{qnaNo } AND MEMBER_ID = #{memberId}
+	</select>
+	
 </mapper>

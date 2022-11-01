@@ -31,9 +31,16 @@ public class QnaController {
 	 * 
 	 * @return
 	 */
-	// 문의 리스트 이동
+	// 문의 리스트 조회
 	@RequestMapping(value="/mypage/qnaView.strap", method=RequestMethod.GET)
-	public String showMyQna() {
+	public String showMyQna(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String memberId = member.getMemberId();
+		if(member != null) {
+			List<Qna> qList = qService.printAllQna(memberId);
+			request.setAttribute("qList", qList);
+		}
 		return "mypage/qnaList";
 	}
 	
@@ -53,15 +60,17 @@ public class QnaController {
 		return mv;
 	}
 	
+	/**
+	 * 
+	 * @param mv
+	 * @param qna
+	 * @param request
+	 * @return
+	 */
 	// 문의글 등록
 	@RequestMapping(value="/qna/registerQna.strap", method=RequestMethod.POST)
 	public ModelAndView registQna(ModelAndView mv, @ModelAttribute Qna qna
 			, HttpServletRequest request) {
-		System.out.println(qna);
-//		HttpSession session = request.getSession();
-//		Admin admin = (Admin)session.getAttribute("loginUser");
-//		String adminName = admin.getAdminName();
-//		notice.setNoticeWriter(adminName);
 		try {
 			int result = qService.registerQna(qna);
 			request.setAttribute("msg","문의가 등록되었습니다.");
@@ -74,6 +83,44 @@ public class QnaController {
 		}
 		return mv;
 	}
+	
+	/**
+	 * 
+	 * @param mv
+	 * @param request
+	 * @param qna
+	 * @return
+	 */
+	// 수정 페이지 이동
+	@RequestMapping(value="/qna/modifyQnaView.strap", method=RequestMethod.GET)
+	public ModelAndView showMyQna(ModelAndView mv, HttpServletRequest request
+			,@ModelAttribute Qna qna) {
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		String memberId = member.getMemberId();
+		qna.setMemberId(memberId);
+		if(member != null) {
+			qna = qService.printOneById(qna);
+			mv.addObject("member", member);
+			mv.addObject("qna", qna);
+			mv.setViewName("mypage/modifyQna");
+		}
+		return mv;
+	}
+	
+	
+	// 문의글 수정
+		@RequestMapping(value="/qna/modifyQna.strap", method=RequestMethod.POST)
+		public ModelAndView modifyQna(ModelAndView mv, HttpServletRequest request
+				,@ModelAttribute Qna qna) {
+			HttpSession session = request.getSession();
+			Member member = (Member)session.getAttribute("loginUser");
+			String memberId = member.getMemberId();
+			System.out.println(qna);
+			int result = qService.modifyQna(qna);
+			mv.setViewName("/mypage/qnaView.strap");
+			return mv;
+		}
 	
 	
 }

@@ -38,6 +38,13 @@ public class Qna {
 		this.memberId = memberId;
 		this.memberNick = memberNick;
 	}
+	
+	public Qna(int qnaNo, String memberId) {
+		super();
+		this.qnaNo = qnaNo;
+		this.memberId = memberId;
+	}
+
 	public int getQnaNo() {
 		return qnaNo;
 	}
