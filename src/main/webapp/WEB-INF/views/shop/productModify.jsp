@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>
 
 <html>
 <head>
@@ -12,7 +13,51 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
-
+<style>
+	input[type="text"]{
+		padding:7px;
+		width:90%;
+		margin-bottom:7px;
+	}
+	#previewArea{
+		overflow-y:scroll;
+	}
+		#previewArea::-webkit-scrollbar{
+			display:none;
+		}
+	#productRegisterArea{
+		overflow-y:scroll;
+	}
+		#productRegisterArea::-webkit-scrollbar{
+			display:none;
+		}
+	input[type="file"]{
+		margin-bottom:7px;
+	}
+	#previewArea img{
+		border:1px solid gray;
+	}
+	#infoImg-wrap img{
+		border-style:none;
+	}
+	.imgLabel{
+		font-size:12px;
+		font-weight:bold;
+	}	
+	h6{
+		font-weight:bold;
+	}
+	label{
+		color:gray;
+	}
+	img[name="imgFile"]{
+	}
+	img[name="infoFile"]{
+		height:450px;
+		border:1px solid gray;
+	}
+	
+</style>
 </head>
 <body>
 <div class="wrap container">
@@ -22,54 +67,155 @@
 			<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		</div>
 	</div>
-
 	<!-- 컨텐츠 -->
-	<div id="contents" class="row">
+	<div id="contents" class="row" style="width:70%;margin:0 auto;">
+		<!-- 사이드바 -->
 		<div class="sidebar col-3" >
-			<jsp:include page="/WEB-INF/views/common/sideBarAdmin.jsp"></jsp:include>
+				<jsp:include page="/WEB-INF/views/common/sideBarAdmin.jsp"></jsp:include>
 		</div>
 		<div class="contents-side col">
-			<div id="inner-header">
-				<h1>상품등록</h1><hr>
+			<div id="contents-wrap">
+				<div id="title">
+					<br>
+					<h3>상품수정</h3><hr>
+				</div>
 			</div>
-			<div id="inner-contents">
-				<form id="info-form" action="/admin/product/register.strap" method="post" enctype="multipart/form-data" >
-					<h2>상품 정보 입력</h2><hr>
-					<input type="text" name="productBrand" 	value="${product.productBrand }"><br>
-					<input type="text" name="productName" 	value="${product.productName }"><br>
-					<input type="text" name="productPrice" 	value="${product.productPrice }"><br>
-					<textarea 		   name="productDesc" >${product.productDesc }</textarea>
-					<h2>이미지 등록</h2><hr>
-					<h3>메인(썸네일)이미지</h3>
-					<img src="${ product.mainImgRoot}" width="200px" height="200px">
-					<input type="file" name="mainImg" required><br>
-					<h3>서브이미지 추가</h3>
-					<button onclick="addImgForm();">서브 이미지 추가</button>
-					<button onclick="removeImgForm();">서브 이미지 삭제</button>
-					<div id="subImg-wrap">
-						<c:forEach items="${subList }" var="subImg">
-							<img src="${ subImg.subRoot}" width="100px" height="100px">
-						</c:forEach>
+			
+			<div class="row">
+			
+			<div id="productRegisterArea" class="col-4" style="height:1000px;border-right:1px solid #c0c0c0;">
+				<form id="info-form" action="#" method="post" enctype="multipart/form-data" >
+					<h6 >상품 정보 수정</h6>
+					<div style="border:1px solid gray; border-radius:10px; padding:12px;">
+						<span style="color:red;font-size:12px;">*필수등록</span>
+						<input type="text" onkeyup="previewTxt(this,'previewBrand');" 	value="${product.productBrand }"	name="productBrand" placeholder="브랜드명 입력"><br>
+						<span style="color:red;font-size:12px;">*필수등록</span>
+						<input type="text" onkeyup="previewTxt(this,'previewName')" 	value="${product.productName }" 	name="productName" 	placeholder="상품명 입력"><br>
+						<span style="color:red;font-size:12px;">*필수등록</span>
+						<input type="text" onkeyup="previewTxt(this,'previewPrice')" 	value="${product.productPrice }" 	name="productPrice" placeholder="상품가격 입력"><br>
+						<textarea 		   onkeyup="previewTxt(this,'previewDesc')" 	name="productDesc" 	placeholder="상품정보 입력" style="width:90%;height:100px;margin-bottom:20px;">${product.productDesc }</textarea>
 					</div>
 					<br>
-					<h3>상품설명이미지추가</h3>
-					<button onclick="addInfoImgForm();">상품설명 이미지 추가</button>
-					<button onclick="removeInfoImgForm();">상품설명 이미지 삭제</button>
-					<div id="infoImg-wrap">
-						<input type="file" name="infoFile" required>
-						<c:forEach items="${infoList }" var="infoImg">
-							<img src="${ infoImg.imgRoot}" width="600px" height="800px">
-						</c:forEach>
-						
+				
+					<h6>이미지 수정</h6>
+					<div id="modifyImgs" style="border:1px solid gray; border-radius:10px; padding:12px;">	
+						<h6>메인(썸네일)이미지</h6>
+						<div>
+							<label class="imgLabel">메인이미지</label><span style="color:red;font-size:12px;">*필수등록</span>
+							<input type="file" name="mainImg"  onchange="tempImgSave(this,'mainImg');" ><br>
+						</div>
+						<hr>
+						<h6>서브이미지 추가</h6>
+						<div id="subImg-wrap">
+							<label class="imgLabel">서브이미지1</label>
+							<input type="file" name="imgFile" onchange="tempImgSave(this,'sub1');"><br>
+							<label class="imgLabel">서브이미지2</label>
+							<input type="file" name="imgFile" onchange="tempImgSave(this,'sub2');"><br>
+							<label class="imgLabel">서브이미지3</label>
+							<input type="file" name="imgFile" onchange="tempImgSave(this,'sub3');"><br>
+							<label class="imgLabel">서브이미지4</label>
+							<input type="file" name="imgFile" onchange="tempImgSave(this,'sub4');"><br>
+							<label class="imgLabel">서브이미지5</label>
+							<input type="file" name="imgFile" onchange="tempImgSave(this,'sub5');"><br>
+						</div>
+						<hr>
+						<h6>상품설명이미지추가</h6>
+						<div id="infoImg-wrap">
+							<label class="imgLabel">상품설명이미지1</label><span style="color:red;font-size:12px;">*필수등록</span>
+							<input type="file" name="infoFile" onchange="tempImgSave(this,'info1');" ><br>
+							<label class="imgLabel">상품설명이미지2</label>
+							<input type="file" name="infoFile" onchange="tempImgSave(this,'info2');"><br>
+							<label class="imgLabel">상품설명이미지3</label>
+							<input type="file" name="infoFile" onchange="tempImgSave(this,'info3');"><br>
+							<label class="imgLabel">상품설명이미지4</label>
+							<input type="file" name="infoFile" onchange="tempImgSave(this,'info4');"><br>
+							<label class="imgLabel">상품설명이미지5</label>
+							<input type="file" name="infoFile" onchange="tempImgSave(this,'info5');"><br>
+							<label class="imgLabel">상품설명이미지6</label>
+							<input type="file" name="infoFile" onchange="tempImgSave(this,'info6');"><br>
+							<label class="imgLabel">상품설명이미지7</label>
+							<input type="file" name="infoFile" onchange="tempImgSave(this,'info7');"><br>
+							<label class="imgLabel">상품설명이미지8</label>
+							<input type="file" name="infoFile" onchange="tempImgSave(this,'info8');"><br>
+							<label class="imgLabel">상품설명이미지9</label>
+							<input type="file" name="infoFile" onchange="tempImgSave(this,'info9');"><br>
+							<label class="imgLabel">상품설명이미지10</label>
+							<input type="file" name="infoFile" onchange="tempImgSave(this,'info10');"><br>
+						</div>
 					</div>
 					<br>
-					<button onclick="preview();">미리보기</button>
 					<div id="preview"></div>
-					<br>
-					<input type="submit" value="상품등록">
-					<input type="reset" value="초기화">							
+					<hr>
+					<div style="text-align:center;">
+						<input type="submit" value="상품수정" style="weight:120px;height:40px;font-weight:bold;color:white;background-color:darkorange;border:1px solid darkorange;border-radius:4px;">
+						<input type="reset" value="초기화" style="weight:120px;height:40px; font-weight:bold;color:darkorange;background-color:white;border:1px solid darkorange;border-radius:4px;" onclick="location.reload();">							
+					</div>
 				</form>
 			</div>
+		
+		
+		
+				<div id="previewArea" class="col-8" style="height:1000px;overflow-y:scroll;color:gray;background-color:rgb(250,250,250)">
+				<h6 >미리보기</h6>
+				<div style="border:1px solid gray; border-radius:10px; padding:12px;">
+					<div id="pInfo-wrap" class="row detail ">
+						<div id="pImg" class="col" style="text-align:center;padding:10px;">
+							<div id="zoomImg">
+								<img id="zoom" src="${product.mainImgRoot }" width="330px" height="240px" onerror="">
+							</div>
+							<div id="onImg" style="margin:5px auto;">
+									<img name="mainImg" id="mainImg" src="${product.mainImgRoot }" width="15%" height="50px" onerror="this.src='/resources/image/logo.png';" onmouseover="document.querySelector('#zoom').src=this.src">
+									<img name="imgFile" id="sub1"	 width="15%" height="50px" onerror="this.src='/resources/image/logo.png';" onmouseover="document.querySelector('#zoom').src=this.src">
+									<img name="imgFile" id="sub2"	 width="15%" height="50px" onerror="this.src='/resources/image/logo.png';" onmouseover="document.querySelector('#zoom').src=this.src">
+									<img name="imgFile" id="sub3"	 width="15%" height="50px" onerror="this.src='/resources/image/logo.png';" onmouseover="document.querySelector('#zoom').src=this.src">
+									<img name="imgFile" id="sub4"	 width="15%" height="50px" onerror="this.src='/resources/image/logo.png';" onmouseover="document.querySelector('#zoom').src=this.src">
+									<img name="imgFile" id="sub5"	 width="15%" height="50px" onerror="this.src='/resources/image/logo.png';" onmouseover="document.querySelector('#zoom').src=this.src">
+							</div>
+						</div>
+						<div id="pInfo" class="col" style="text-align:center; item-align:center; padding:10px;">
+							<div id="pTitle" style="height:auto;">
+								<span id="pName" style="font-weight:bold; font-size:21px;">[<span id="previewBrand"><span style="color:darkorange;">${product.productBrand }</span></span>] <span id="previewName"><span style="color:darkorange;">${product.productName }</span></span></span>
+							</div>
+							<div id="pPrice" style="text-align:center; font-size:18px;font-weight:bold;">
+								<div id="price">
+									<span id="previewPrice" style="font-size:21px;">
+										<span style="color:darkorange;"><fmt:formatNumber value="${product.productPrice }" pattern="#,###"/></span>
+									</span>
+									<span id='wonSymbol'>원</span> 
+								</div>
+							</div>
+							<hr>
+						</div>
+					</div>
+					<hr>
+					<div id="pDetail" class="detail">
+						<div id="productDesc-wrap">
+							<div id="desc" style="width:70%; margin:0 auto;">
+								<h6>상품상세설명</h6>
+								<span id="previewDesc">
+									<span style="color:darkorange;">${product.productDesc }</span>
+								</span>
+							</div>
+						</div>
+						<div id="infoImg-wrap" style="width:65%;margin:0 auto;height:auto;padding:20px;">
+								<div id="infoImg" class="previewInfoImgWrap">
+									<img name="infoFile" id="info1" src="/resources/image/logo.png" width="100%" height="450px" style="border:1px solid gray;" required>
+									<img name="infoFile" id="info2" width="100%">
+									<img name="infoFile" id="info3" width="100%">
+									<img name="infoFile" id="info4" width="100%">
+									<img name="infoFile" id="info5" width="100%">
+									<img name="infoFile" id="info6" width="100%">
+									<img name="infoFile" id="info7" width="100%">
+									<img name="infoFile" id="info8" width="100%">
+									<img name="infoFile" id="info9" width="100%">
+									<img name="infoFile" id="info10"width="100%">
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
 		</div>
 	</div>
 	<!-- 푸터 -->
@@ -120,17 +266,91 @@
 	 }
  }
  
-
- function preview(){
-	 
-	 $.ajax({
-		 url:"",
-		 data:{},
-		 type:"",
-		 success:function(){},
-		 error:function(){}
-	 });
-	 
+ /////텍스트 미리보기
+ function previewTxt(thisInput,previewId){
+	 if(previewId == "previewPrice"){
+		 document.querySelector("#"+previewId+"").innerHTML = "<span style='color:darkorange;'>"+Number(thisInput.value).toLocaleString() +"</span>";
+	 }else{
+		 document.querySelector("#"+previewId+"").innerHTML = "<span style='color:darkorange;'>"+thisInput.value +"</span>";
+	 }
+	 if(thisInput.value == ""){
+		 switch(previewId){
+		 case "previewBrand":
+			 document.querySelector("#"+previewId+"").innerHTML = "브랜드명";
+			 break;
+		 case "previewName":
+			 document.querySelector("#"+previewId+"").innerHTML = "제품명";
+			 break;
+		 case "previewPrice":
+			 document.querySelector("#"+previewId+"").innerHTML = "0";
+			 break;
+		 case "previewDesc":
+			 document.querySelector("#"+previewId+"").innerHTML = "상품 상세설명입니다.";
+			 break;
+		 }
+	 }
+ }
+ 
+// 파일 선택 시 임시 폴더에 저장시키는 ajax
+// 1.해당 input file을 임시 폼태그에 넣고 서버에 임시폴더를 만들어 임시저장한다.
+// 2.json형태로 반환하고 이를 이용하여 이미지 미리보기를 만든다.
+var tempFolderName =  "temp_"+Math.floor(Math.random()*1000)+""+new Date().getSeconds();
+function tempImgSave(thisInput,previewId){
+	//formData를 이용하여 파일 전송
+	var formData = new FormData();
+	var tempName = "img_"+Math.floor(Math.random()*1000)+""+new Date().getSeconds();
+	formData.append("tempImg",thisInput.files[0]);
+	formData.append("tempFolderName",tempFolderName);
+	formData.append("tempName",tempName);
+	$.ajax({
+		url:"/admin/product/temp.strap",
+		data: formData,
+		type:"post",
+		processData: false,
+		contentType: false,
+		success:function(result){
+			console.log(result);
+			
+			document.querySelector("#"+previewId+"").src = result.tempImgPath;
+			if(previewId.substring(0,4)=="info"){
+				document.querySelector("#"+previewId+"").style.height="450px";
+			}
+			if(previewId.substring(0,3)=="sub"){
+				document.querySelector("#"+previewId+"").style.display="inline-block";
+			}
+			if(previewId == "mainImg"){
+				document.querySelector("#zoom").src = result.tempImgPath;
+			}
+		},
+		error:function(){}
+	});
+}
+/////el값으로 이미지 셋팅.
+getImgs();
+function getImgs(){
+	<c:forEach items="${infoList}" var="info" varStatus="n">
+		document.querySelector("#infoImg").childNodes[${n.count*2-1}].src = '${info.imgRoot}';
+		document.querySelector("#infoImg").childNodes[${n.count*2-1}].style.height="450px";
+	</c:forEach>
+	<c:forEach items="${subList}" var="sub" varStatus="n">
+		document.querySelector("#onImg").childNodes[${n.count*2+1}].src = '${sub.subRoot}';
+		document.querySelector("#onImg").childNodes[${n.count*2+1}].style.display="inline-block";
+	</c:forEach>
+}
+ 
+ //이미지 수정 잠금
+  modifyImgLock();
+ function modifyImgLock(){
+	 var imgCount = document.querySelectorAll("input[type='file']").length;
+	 for(var i=1; i<imgCount; i++){
+		 document.querySelectorAll("input[type='file']")[i].disabled = true;
+	 }
+ }
+ function modifyImgUnLock(){
+	 var imgCount = document.querySelectorAll("input[type='file']").length;
+	 for(var i=1; i<imgCount; i++){
+		 document.querySelectorAll("input[type='file']")[i].disabled = false;
+	 }
  }
  
  

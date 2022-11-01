@@ -422,7 +422,6 @@ public class ProductController {
 			@RequestParam(value="imgFile",required=false)List<MultipartFile> imgList,
 			HttpSession session
 			) {
-		
 		String thisTime = new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis());
 		String savePath = session.getServletContext().getRealPath("resources") + "\\image\\product";
 		File targetFile = new File(savePath);
@@ -445,14 +444,16 @@ public class ProductController {
 				if(infoList.size() > 0) {
 					int index = 1;
 					for(MultipartFile imgFile : infoList) {
-						String imgName = imgFile.getOriginalFilename();
-						String imgReName = thisTime+"_info("+index+")"+"."+imgName.substring(imgName.lastIndexOf(".")+1);
-						String imgRoot = "/resources/image/product/" + imgReName;
-						imgFile.transferTo(new File(savePath + "\\" + imgReName));
-						int regiSubResult = pService.registerInfoImg(new ProductImg(imgName, imgReName, imgRoot));
-						index++;
-						if(regiSubResult > 0 ) {
-						}else {
+						if(!imgFile.isEmpty()) {
+							String imgName = imgFile.getOriginalFilename();
+							String imgReName = thisTime+"_info("+index+")"+"."+imgName.substring(imgName.lastIndexOf(".")+1);
+							String imgRoot = "/resources/image/product/" + imgReName;
+							imgFile.transferTo(new File(savePath + "\\" + imgReName));
+							int regiSubResult = pService.registerInfoImg(new ProductImg(imgName, imgReName, imgRoot));
+							index++;
+							if(regiSubResult > 0 ) {
+							}else {
+							}
 						}
 					}
 				}
@@ -460,14 +461,16 @@ public class ProductController {
 				if(imgList.size() > 0) {
 					int index = 1;
 					for(MultipartFile imgFile : imgList) {
-						String imgName = imgFile.getOriginalFilename();
-						String imgReName = thisTime+"_sub("+index+")"+"."+imgName.substring(imgName.lastIndexOf(".")+1);
-						String imgRoot = "/resources/image/product/" + imgReName;
-						imgFile.transferTo(new File(savePath + "\\" + imgReName));
-						int regiSubResult = pService.registerSubImg(new ProductImg(imgName, imgReName, imgRoot));
-						index++;
-						if(regiSubResult > 0 ) {
-						}else {
+						if(!imgFile.isEmpty()) {
+							String imgName = imgFile.getOriginalFilename();
+							String imgReName = thisTime+"_sub("+index+")"+"."+imgName.substring(imgName.lastIndexOf(".")+1);
+							String imgRoot = "/resources/image/product/" + imgReName;
+							imgFile.transferTo(new File(savePath + "\\" + imgReName));
+							int regiSubResult = pService.registerSubImg(new ProductImg(imgName, imgReName, imgRoot));
+							index++;
+							if(regiSubResult > 0 ) {
+							}else {
+							}
 						}
 					}
 				}
@@ -499,6 +502,26 @@ public class ProductController {
 		setViewName("/shop/productModify");
 		return mv;
 	}
+	
+	//상품수정:product( 텍스트 및 메인이미지) -> ajax?
+	@RequestMapping(value="",method=RequestMethod.POST)
+	public ModelAndView  modifyProduct(ModelAndView mv,
+			@ModelAttribute Product product,
+			@RequestParam(value="mainImg",required=false)MultipartFile mainImg,
+			@RequestParam(value="infoFile",required=false)List<MultipartFile> infoList,
+			@RequestParam(value="imgFile",required=false)List<MultipartFile> imgList,
+			HttpSession session) {
+		return mv;
+	}
+	
+	//상품수정:sub및 info이미지
+//	@RequestMapping(value="",method=RequestMethod.POST)
+//	public ModelAndView modifyProductImgs(ModelAndView mv) {
+//		
+//		return mv;
+//	}
+//	
+	
 	
 	//이미지 임시저장 ajax
 	@ResponseBody

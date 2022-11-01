@@ -49,6 +49,9 @@
 	label{
 		color:gray;
 	}
+	img[name="imgFile"]{
+		display:none;
+	}
 </style>
 </head>
 <body>
@@ -150,56 +153,59 @@
 		
 		
 			<div id="previewArea" class="col-8" style="height:1000px;overflow-y:scroll;color:gray;background-color:rgb(250,250,250)">
-				<div id="pInfo-wrap" class="row detail ">
-					<div id="pImg" class="col" style="text-align:center;padding:10px;">
-						<div id="zoomImg">
-							<img id="zoom" src="/resources/image/logo.png" width="330px" height="240px" onerror="">
-						</div>
-						<div id="onImg" style="margin:5px auto;">
-								<img id="mainImg"src="" width="15%" height="50px" onerror="this.src='/resources/image/logo.png';" onmouseover="document.querySelector('#zoom').src=this.src">
-								<img id="sub1"	 src="" width="15%" height="50px" onerror="this.src='/resources/image/logo.png';" onmouseover="document.querySelector('#zoom').src=this.src">
-								<img id="sub2"	 src="" width="15%" height="50px" onerror="this.src='/resources/image/logo.png';" onmouseover="document.querySelector('#zoom').src=this.src">
-								<img id="sub3"	 src="" width="15%" height="50px" onerror="this.src='/resources/image/logo.png';" onmouseover="document.querySelector('#zoom').src=this.src">
-								<img id="sub4"	 src="" width="15%" height="50px" onerror="this.src='/resources/image/logo.png';" onmouseover="document.querySelector('#zoom').src=this.src">
-								<img id="sub5"	 src="" width="15%" height="50px" onerror="this.src='/resources/image/logo.png';" onmouseover="document.querySelector('#zoom').src=this.src">
-						</div>
-					</div>
-					<div id="pInfo" class="col" style="text-align:center; item-align:center; padding:10px;">
-						<div id="pTitle" style="height:auto;">
-							<span id="pName" style="font-weight:bold; font-size:21px;">[<span id="previewBrand">브랜드명</span>] <span id="previewName">제품명</span></span>
-						</div>
-						<div id="pPrice" style="text-align:center; font-size:18px;font-weight:bold;">
-							<div id="price">
-								<span id="previewPrice" style="font-size:21px;">0</span>
-								<span id='wonSymbol'>원</span> 
+			<h6 >미리보기</h6>
+				<div style="border:1px solid gray; border-radius:10px; padding:12px;">
+					<div id="pInfo-wrap" class="row detail ">
+						<div id="pImg" class="col" style="text-align:center;padding:10px;">
+							<div id="zoomImg">
+								<img id="zoom" src="/resources/image/logo.png" width="330px" height="240px" onerror="">
+							</div>
+							<div id="onImg" style="margin:5px auto;">
+									<img name="mainImg" id="mainImg" width="15%" height="50px" onerror="this.src='/resources/image/logo.png';" onmouseover="document.querySelector('#zoom').src=this.src">
+									<img name="imgFile" id="sub1"	 width="15%" height="50px" onerror="this.src='/resources/image/logo.png';" onmouseover="document.querySelector('#zoom').src=this.src">
+									<img name="imgFile" id="sub2"	 width="15%" height="50px" onerror="this.src='/resources/image/logo.png';" onmouseover="document.querySelector('#zoom').src=this.src">
+									<img name="imgFile" id="sub3"	 width="15%" height="50px" onerror="this.src='/resources/image/logo.png';" onmouseover="document.querySelector('#zoom').src=this.src">
+									<img name="imgFile" id="sub4"	 width="15%" height="50px" onerror="this.src='/resources/image/logo.png';" onmouseover="document.querySelector('#zoom').src=this.src">
+									<img name="imgFile" id="sub5"	 width="15%" height="50px" onerror="this.src='/resources/image/logo.png';" onmouseover="document.querySelector('#zoom').src=this.src">
 							</div>
 						</div>
-						<hr>
-					</div>
-				</div>
-				<hr>
-				<div id="pDetail" class="detail">
-					<div id="productDesc-wrap">
-						<div id="desc" style="width:70%; margin:0 auto;">
-							<h6>상품상세설명</h6>
-							<span id="previewDesc">
-								상품 상세설명입니다.
-							</span>
+						<div id="pInfo" class="col" style="text-align:center; item-align:center; padding:10px;">
+							<div id="pTitle" style="height:auto;">
+								<span id="pName" style="font-weight:bold; font-size:21px;">[<span id="previewBrand">브랜드명</span>] <span id="previewName">제품명</span></span>
+							</div>
+							<div id="pPrice" style="text-align:center; font-size:18px;font-weight:bold;">
+								<div id="price">
+									<span id="previewPrice" style="font-size:21px;">0</span>
+									<span id='wonSymbol'>원</span> 
+								</div>
+							</div>
+							<hr>
 						</div>
 					</div>
-					<div id="infoImg-wrap" style="width:65%;margin:0 auto;height:auto;padding:20px;">
-							<div class="previewInfoImgWrap">
-								<img id="info1" src="/resources/image/logo.png" width="100%" height="450px" style="border:1px solid gray;">
-								<img id="info2" width="100%">
-								<img id="info3" width="100%">
-								<img id="info4" width="100%">
-								<img id="info5" width="100%">
-								<img id="info6" width="100%">
-								<img id="info7" width="100%">
-								<img id="info8" width="100%">
-								<img id="info9" width="100%">
-								<img id="info10"width="100%">
+					<hr>
+					<div id="pDetail" class="detail">
+						<div id="productDesc-wrap">
+							<div id="desc" style="width:70%; margin:0 auto;">
+								<h6>상품상세설명</h6>
+								<span id="previewDesc">
+									상품 상세설명입니다.
+								</span>
 							</div>
+						</div>
+						<div id="infoImg-wrap" style="width:65%;margin:0 auto;height:auto;padding:20px;">
+								<div class="previewInfoImgWrap">
+									<img name="infoFile" id="info1" src="/resources/image/logo.png" width="100%" height="450px" style="border:1px solid gray;">
+									<img name="infoFile" id="info2" width="100%">
+									<img name="infoFile" id="info3" width="100%">
+									<img name="infoFile" id="info4" width="100%">
+									<img name="infoFile" id="info5" width="100%">
+									<img name="infoFile" id="info6" width="100%">
+									<img name="infoFile" id="info7" width="100%">
+									<img name="infoFile" id="info8" width="100%">
+									<img name="infoFile" id="info9" width="100%">
+									<img name="infoFile" id="info10"width="100%">
+								</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -285,7 +291,6 @@
 // 파일 선택 시 임시 폴더에 저장시키는 ajax
 // 1.해당 input file을 임시 폼태그에 넣고 서버에 임시폴더를 만들어 임시저장한다.
 // 2.json형태로 반환하고 이를 이용하여 이미지 미리보기를 만든다.
-
 var tempFolderName =  "temp_"+Math.floor(Math.random()*1000)+""+new Date().getSeconds();
 function tempImgSave(thisInput,previewId){
 	//formData를 이용하여 파일 전송
@@ -306,6 +311,9 @@ function tempImgSave(thisInput,previewId){
 			document.querySelector("#"+previewId+"").src = result.tempImgPath;
 			if(previewId.substring(0,4)=="info"){
 				document.querySelector("#"+previewId+"").style.height="450px";
+			}
+			if(previewId.substring(0,3)=="sub"){
+				document.querySelector("#"+previewId+"").style.display="inline-block";
 			}
 			if(previewId == "mainImg"){
 				document.querySelector("#zoom").src = result.tempImgPath;
