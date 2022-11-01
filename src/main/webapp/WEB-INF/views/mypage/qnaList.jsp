@@ -39,6 +39,13 @@ span.id, span.pwd, span.pwdCheck, span.nick {
 	top: 12px;
 	right: 10px;
 }
+
+th{
+	text-align: center;
+}
+td{
+	text-align: center;
+}
 </style>
 </head>
 <body>
@@ -63,30 +70,26 @@ span.id, span.pwd, span.pwdCheck, span.nick {
 							<table class="table table-hover">
 								<thead>
 									<tr>
-										<th scope="col">#</th>
-										<th scope="col">First</th>
-										<th scope="col">Last</th>
-										<th scope="col">Handle</th>
+										<th scope="col" style="width:200px;">문의 유형</th>
+										<th scope="col" style="width:400px;" >제목</th>
+										<th scope="col" style="width:200px;">작성일</th>
+										<th scope="col" style="width:200px;">처리상태</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<th scope="row">1</th>
-										<td>Mark</td>
-										<td>Otto</td>
-										<td>@mdo</td>
-									</tr>
-									<tr>
-										<th scope="row">2</th>
-										<td>Jacob</td>
-										<td>Thornton</td>
-										<td>@fat</td>
-									</tr>
-									<tr>
-										<th scope="row">3</th>
-										<td colspan="2">Larry the Bird</td>
-										<td>@twitter</td>
-									</tr>
+<%-- 								<c:forEach items="" var="" varStatus=""> --%>
+<%-- 									<c:if test="${not empty }"> --%>
+										<tr>
+											<th scope="row">유형</th>
+											<td>제목</td>
+											<td>작성일</td>
+											<td>처리상태</td>
+										</tr>
+<%-- 									</c:if> --%>
+<%-- 									<c:if test="${empty }"> --%>
+										<h6> 등록된 문의가 없습니다.</h3>
+<%-- 									</c:if> --%>
+<%-- 								</c:forEach> --%>
 								</tbody>
 							</table>
 						</div>

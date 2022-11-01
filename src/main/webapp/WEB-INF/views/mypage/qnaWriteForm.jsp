@@ -57,9 +57,9 @@ span.id, span.pwd, span.pwdCheck, span.nick {
 				<div id="essential info">
 					<span> 문의 작성 </span>
 					<hr>
-					<form action="" method="post">
+					<form action="/qna/registerQna.strap" method="post">
 						<div class="row">
-							<div class="col-2 text-left">
+							<div class="col-2">
 								문의 유형
 							</div>
 							<div class="col">

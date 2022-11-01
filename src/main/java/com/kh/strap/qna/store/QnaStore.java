@@ -1,5 +1,9 @@
 package com.kh.strap.qna.store;
 
-public interface QnaStore {
+import org.apache.ibatis.session.SqlSession;
 
+import com.kh.strap.qna.domain.Qna;
+
+public interface QnaStore {
+	public int insertQna(SqlSession session, Qna qna);
 }

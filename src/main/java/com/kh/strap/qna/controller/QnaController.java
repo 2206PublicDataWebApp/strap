@@ -54,42 +54,26 @@ public class QnaController {
 	}
 	
 	// 문의글 등록
-//	@RequestMapping(value="/qna/registerQna.strap", method=RequestMethod.POST)
-//	public ModelAndView registQna(ModelAndView mv
-//			, @ModelAttribute Qna qna
-//			, HttpServletRequest request) {
+	@RequestMapping(value="/qna/registerQna.strap", method=RequestMethod.POST)
+	public ModelAndView registQna(ModelAndView mv, @ModelAttribute Qna qna
+			, HttpServletRequest request) {
+		System.out.println(qna);
 //		HttpSession session = request.getSession();
 //		Admin admin = (Admin)session.getAttribute("loginUser");
 //		String adminName = admin.getAdminName();
 //		notice.setNoticeWriter(adminName);
-//		try {
-//			String noticeFilename = uploadFile.getOriginalFilename();
-//			if(!noticeFilename.equals("")) {
-//				String root = request.getSession().getServletContext().getRealPath("resources");
-//				String savePath = root + "\\nuploadFiles";
-//				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-//				String noticeFileRename = sdf.format(new Date(System.currentTimeMillis()))+"."+noticeFilename.substring(noticeFilename.lastIndexOf(".")+1);
-//				File file = new File(savePath);
-//				if(!file.exists()) { 
-//					file.mkdir();
-//				}
-//				uploadFile.transferTo(new File(savePath+"\\"+noticeFileRename));
-//				String noticeFilepath = savePath+"\\"+noticeFileRename;
-//				notice.setNoticeFilename(noticeFilename);
-//				notice.setNoticeFileRename(noticeFileRename);
-//				notice.setNoticeFilepath(noticeFilepath); 
-//			}
-//			int result = nService.registerNotice(notice);
-//			request.setAttribute("msg","(관리자) 공지사항이 등록되었습니다.");
-//			request.setAttribute("url","/admin/noticeListView.strap");
-//			mv.setViewName("/common/alert");
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			mv.addObject("msg", e.getMessage());
-//			mv.setViewName("common/errorPage");
-//		}
-//		return mv;
-//	}
+		try {
+			int result = qService.registerQna(qna);
+			request.setAttribute("msg","문의가 등록되었습니다.");
+			request.setAttribute("url","/mypage/qnaView.strap");
+			mv.setViewName("/common/alert");
+		} catch (Exception e) {
+			e.printStackTrace();
+			mv.addObject("msg", e.getMessage());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+	}
 	
 	
 }

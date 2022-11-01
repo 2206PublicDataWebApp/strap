@@ -70,7 +70,7 @@ public class ScheduleController {
 			JSONObject jsonObj = new JSONObject();
 			jsonObj.put("matchNo",scList.get(i).getMatchNo());
 			if(scList.get(i).getMatchMemberId() == null) {
-				jsonObj.put("start",scList.get(i).getMatchDate());
+				jsonObj.put("start",scList.get(i).getMeetDate());
 				jsonObj.put("title",scList.get(i).getMatchDetail());
 				jsonObj.put("color",scList.get(i).getColor());
 			} else {
@@ -115,7 +115,7 @@ public class ScheduleController {
 		String memberName = member.getMemberName();
 		schedule.setMemberId(memberId);
 		schedule.setMemberNick(memberName);
-		schedule.setMatchDate(matchDate + " " + addTime);
+		schedule.setMeetDate(matchDate + " " + addTime);
 		int result = scService.registDaySchedule(schedule);
 		
 		mv.setViewName("redirect:/mypage/scheduleView.strap");

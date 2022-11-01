@@ -3,5 +3,24 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="QnAMapper">
+<mapper namespace="QnaMapper">
+	<resultMap type="Qna" id="qnaResultMap">
+		<id		column="QNA_NO" 				property="qnaNo"/>
+		<result column="PRODUCT_NO" 			property="productNo"/>
+		<result column="QNA_CODE" 				property="qnaCode"/>
+		<result column="QNA_TYPE" 				property="qnaType"/>
+		<result column="QNA_TITLE" 				property="qnaTitle"/>
+		<result column="QNA_CONTENTS" 			property="qnaContents"/>
+		<result column="Q_ENROLL_DATE" 			property="qEnrollDate"/>
+		<result column="A_ENROLL_DATE" 			property="aEnrollDate"/>
+		<result column="ANSWER_STATUS" 			property="answerStatus"/>
+		<result column="ANSWER_CONTENTS" 		property="answerContents"/>
+		<result column="SECRET_STATUS" 			property="secretStatus"/>
+		<result column="MEMBER_ID" 				property="memberId"/>
+		<result column="MEMBER_NICK"			property="memberNick"/>
+	</resultMap>
+	<insert id="insertQna">
+		INSERT INTO QNA_TBL
+		VALUES(SEQ_QNA_NO.NEXTVAL,#{productNo},#{qnaCode},#{qnaType},#{qnaTitle},#{qnaContents},DEFAULT,DEFAULT,DEFAULT,#{answerContents},#{secretStatus},#{memberId},#{memberNick})
+	</insert>
 </mapper>
