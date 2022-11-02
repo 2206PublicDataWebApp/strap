@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -45,6 +47,18 @@ public class MyInfoController {
 		mv.addObject(member);
 		mv.setViewName("/mypage/myinfo");
 		return mv;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/member/QnA.strap", method = RequestMethod.POST)
+	public String QnA(
+			String question
+			,String answer) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("question", question);
+		map.put("answer", answer);
+		int result = mService.inserAnswer(map);
+		return "";
 	}
 	
 	/**

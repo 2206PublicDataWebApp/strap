@@ -13,6 +13,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
+<style>
+	.carousel-item.active input{width: 250px; text-align: center;} 
+	.carousel-item.active input:hover{background-color: gold; cursor: pointer;} 
+	.QnA-title{display: inline-block; width: 250px;}
+	.QnA-img{width: 200px; margin: auto;}
+	.submit{width: 70px;}
+</style>
 
 </head>
 <body>
@@ -29,11 +36,53 @@
 			<jsp:include page="/WEB-INF/views/common/sideBarMyPage.jsp"></jsp:include>
 		</div>
 		<div class="contents-side col">
-			<div id="essential info">
-				<span> 마이페이지 </span>
-				<hr>
-				<h3>매너온도 추가</h3>
-				<h3>대시보드 추가(시간있 으면)</h3>
+			<div id="carouselExampleControlsNoTouching" class="carousel carousel-dark" data-bs-touch="false" style="width: 500px; height: 250px;">
+			  <div class="carousel-inner" style="padding-left: 125px;">
+			    <div class="carousel-item active" >
+					<b>Q&A</b>
+					<span class="QnA-title">자극 VS 중량!?</span>
+					<input type="text" class="form-control Q" id="stimulation" value="자극" onclick="QnA(this);" readonly>
+					<input type="text" class="form-control Q" id="weight" value="중량" onclick="QnA(this);" readonly>
+					<div class="QnA-img">
+				    	<img src="/resources/image/matching/problem.png" width="100px;" height="100px;">
+						<br><button class="btn btn-dark submit">제출</button>
+			    	</div>
+			    </div>
+			    <div class="carousel-item">
+			    	<b>Q&A</b>
+					<span class="QnA-title">가장 좋아하는 운동 부위</span>
+					<input type="text" class="form-control Q" id="leg" value="하체" onclick="QnA(this);" readonly>
+					<input type="text" class="form-control Q" id="shoulder" value="어깨" onclick="QnA(this);" readonly>
+					<input type="text" class="form-control Q" id="chest" value="가슴" onclick="QnA(this);" readonly>
+					<input type="text" class="form-control Q" id="back" value="등" onclick="QnA(this);" readonly>
+					<input type="text" class="form-control Q" id="arm" value="팔" onclick="QnA(this);" readonly>
+			    	<div class="QnA-img">
+				    	<img src="/resources/image/matching/problem.png" width="100px;" height="100px;">
+			    		<br><button class="btn btn-dark submit">제출</button>
+			    	</div>
+			    </div>
+			    <div class="carousel-item">
+			    	<b>Q&A</b>
+					<span class="QnA-title">현재 진행중인 분할</span>
+					<input type="text" class="form-control Q" id="1" value="무분할" onclick="QnA(this);" readonly>
+					<input type="text" class="form-control Q" id="2" value="2분할" onclick="QnA(this);" readonly>
+					<input type="text" class="form-control Q" id="3" value="3분할" onclick="QnA(this);" readonly>
+					<input type="text" class="form-control Q" id="4" value="4분할" onclick="QnA(this);" readonly>
+					<input type="text" class="form-control Q" id="5" value="5분할" onclick="QnA(this);" readonly>
+					<div class="QnA-img">
+				    	<img src="/resources/image/matching/problem.png" width="100px;" height="100px;">
+						<br><button class="btn btn-dark submit">제출</button>
+			    	</div>
+			    </div>
+			  </div>
+			  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
+			    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			    <span class="visually-hidden">Previous</span>
+			  </button>
+			  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="next">
+			    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+			    <span class="visually-hidden">Next</span>
+			  </button>
 			</div>
 		</div>
 	</div>
@@ -42,6 +91,24 @@
 			<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 		</div>
 	</div>
+<script>
+	function QnA(obj){
+		var question = $(obj).parent().children(0).eq(1).text();
+		console.log(question);
+		var answer = $(obj).val();
+		$(".Q").css("background-color","white");
+		$(obj).css("background-color","gold");
+		$.ajax({
+			url:"/member/QnA.strap",
+			type:"post",
+			data:{"question":question, "answer":answer},
+			success:function(result){
+				alert(result);
+			}
+		})
+	}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 </div>
 </body>
 </html>

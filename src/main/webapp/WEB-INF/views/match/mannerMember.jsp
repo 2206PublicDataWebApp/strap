@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -13,27 +12,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
-<style>
-	.contents-side{text-align: center;}
-	#memberList{table-layout: fixed; width: 700px; height:250px; margin: 0 auto; padding-left: 30px;}
-	.member{float:left; width: 100px; height: 200px; margin: 15px;}
-	.img{width: 100px; height: 100px; overflow: hidden; border-radius: 70px;}
-	.nick{width: 100px; height: 50px;}
-	.nick button{width: 110px; height: 30px; font-size: 12px;}
-	#profile{display:none; margin:0 auto; width: 700px; height: 1000px; border:1px solid lightgray;border-radius: 10px;}
-	#info{width: 100%; height: 300px;}
-	#info table{text-align: left;}
-	#infoTable input, #infoTable textarea{border: 0} 
-	#infoTable th{width: 150px; text-align: center;} 
-	#info-img{float:left; width: 33%; height: 300px;padding:30px;}
-	#info-detail{float:left; width: 67%; height: 300px;}
-	#imgs{width: 100%; height: 300px;}
-	.profile-img{float:left; width: 33.3%; height: 300px;border:1px solid lightgray;border-radius: 10px;}
-	#manner{width: 100%; height: 100px; text-align: left; padding: 20px;}
-	#msg{width: 100%; height: 300px;}
-	#noteTitle{width: 592px; border: 1px solid lightgray; border-radius: 10px;}	
-</style>
-
+<link rel="stylesheet" type="text/css" href="/resources/css/matchingPage.css">
 </head>
 <body>
 <div class="wrap container">
@@ -67,19 +46,23 @@
 				</c:forEach>
 			</div>
 			<br>
+			<button onclick="mannerRefresh();" class="btn btn-dark">새로 추천 받기</button>
+			<br><br><br>
 			<div id="profile">
 				<div id="info">
 					<div id="info-img">
-						<div class="img" style="width: 150px; height:150px; ">
+						<div class="imgDiv">
 						<img id="profileImg" width="100%" height="100%" src="/resources/profileUploadFiles/default.png">
-						</div>
-						<br>
-						<div class="nick">
-							<button class="btn btn-light nickname" style="width: 150px;"></button>
 						</div>
 					</div>
 					<div id="info-detail">
-						<table id="infoTable" class="table">
+						<table id="infoTable" class="table table-borderless">
+							<tr>
+								<th>닉네임</th>
+								<td>
+									<input type="text" id="memberNick">
+								</td>
+							</tr>
 							<tr>
 								<th>운동경력</th>
 								<td>
@@ -106,32 +89,56 @@
 								</td>
 							</tr>
 							<tr>
+								<th>매너점수</th>
+								<td>
+									<input type="text" id="memberManner" name="membmerManner" readonly>
+								</td>
+							</tr>
+							<tr>
 								<th>자기소개</th>
-								<td><textarea id="memberIntroduce" style="width: 280px; height: 60px;" readonly></textarea></td>
+								<td><textarea id="memberIntroduce" readonly></textarea></td>
 							</tr>
 						</table>
 					</div>
 				</div>
-				<div id="imgs">
-					<div class="profile-img"></div>
-					<div class="profile-img"></div>
-					<div class="profile-img"></div>
+				<br><br>
+				<span><b>운동 Q&A</b></span>
+				<div class="QnA" style="width: 300px; margin: auto;">
+					Q. 현재 몇분할로 운동 중이신가요?<br><br>
+					<input type="text" id="answer" class="form-control" style="background-color: florawhite;"> 
 				</div>
-				<div id="manner">
-					<span style="display: inline-block; width: 150px; padding-left: 30px;">3대 매너점수</span>
-					<span id="memberManner" class="alert alert-dark" style="display:inline-block; width: 465px; text-align: center;"></span>
-				</div>
-				<div id="msg">
-					<br>
-					<input type="text" id="noteTitle" name="noteTitle" placeholder="쪽지 제목">
-					<textarea id="noteContents" name="noteContents" rows="7" cols="73" placeholder="쪽지 내용" style="border:1px solid lightgray; border-radius: 10px; resize: none"></textarea> <br><br>
-					<button class="btn btn-dark" onclick="sendNote()">쪽지 보내기</button>
-				</div>
+				<br><br>
+				<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">쪽지 보내기</button>
 			</div>
-			<br>
-			<button onclick="mannerRefresh();" class="btn btn-dark">새로 추천 받기</button>
+			<br><br><br>
 		</div>
 	</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">쪽지보내기</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-title">
+        	<label for="title">제목</label>
+        	<input type="text" class="form-control" id="title">
+        </div>
+        <div class="modal-contents">
+        	<label for="note-contents">내용</label>
+        	<textarea class="form-control" id="note-contents"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-dark" onclick="sendNote();">보내기</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- 푸터	 -->
 	<div id="footer" class="row">
 		<div class="col">
@@ -139,6 +146,8 @@
 		</div>
 	</div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 <script>
 	function mannerRefresh(){
 		var count ;
@@ -159,11 +168,11 @@
 		})
 		
 	}
-	
+	 
 	function sendNote(){
-		var recipientNick = $(".nickname").text();
-		var noteTitle = $("#noteTitle").val();
-		var noteContents = $("#noteContents").val();
+		var recipientNick = $("#memberNick").val();
+		var noteTitle = $("#title").val();
+		var noteContents = $("#note-contents").val();
 		if(!noteTitle.length == 0 && !noteContents.length==0){
 			if(confirm("쪽지를 보내시겠습니까?")){
 				$.ajax({
@@ -183,7 +192,9 @@
 					}
 				})
 			}
-		} 
+		}else{
+			alert("쪽지의 제목과 내용을 입력해주세요");
+		}
 	}
 	function profileDetail(mProfileRename,memberNick, memberCareer,memberSBD,memberJym,memberGender,memberIntroduce,memberManner){
 		$("#profile").show();
@@ -197,7 +208,7 @@
 		$("#profileImg").attr("src","/resources/profileUploadFiles/default.png");
 		}
 		//nickname
-		$(".nickname").text(memberNick);
+		$("#memberNick").val(memberNick);
 		//Career
 		if(memberCareer =='1'){
 			$("#memberCareer").val("1년 이하");
@@ -240,7 +251,7 @@
 		$("#memberGender").val('여성');
 		}
 		//manner
-		$("#memberManner").text(memberManner+'점');
+		$("#memberManner").val(memberManner+'점');
 		//Introduce
 		$("#memberIntroduce").val(memberIntroduce);
 	}

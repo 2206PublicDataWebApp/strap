@@ -1,6 +1,7 @@
 package com.kh.strap.member.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kh.strap.member.domain.Member;
 
@@ -46,6 +47,8 @@ public interface MemberService {
 	int changeIntroduce(Member member);
 
 	void updateLastDate(String memberId);
+
+	int inserAnswer(Map<String, String> map);
 
 
 }

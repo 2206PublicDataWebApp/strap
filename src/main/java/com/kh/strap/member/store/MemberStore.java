@@ -1,6 +1,7 @@
 package com.kh.strap.member.store;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -48,5 +49,7 @@ public interface MemberStore {
 	int changeIntroduce(SqlSession session, Member member);
 
 	void updateLastDate(SqlSession session, String memberId);
+
+	int inserAnswer(SqlSession session, Map<String, String> map);
 
 }

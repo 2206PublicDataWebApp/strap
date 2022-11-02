@@ -1,6 +1,7 @@
 package com.kh.strap.member.service.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,6 +138,12 @@ public class MemberServiceImpl implements MemberService {
 	public void updateLastDate(String memberId) {
 		mStore.updateLastDate(session, memberId);
 		
+	}
+
+	@Override
+	public int inserAnswer(Map<String, String> map) {
+		int result = mStore.inserAnswer(session, map);
+		return result;
 	}
 
 	

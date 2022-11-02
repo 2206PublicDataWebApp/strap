@@ -13,27 +13,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
-<style>
-	.contents-side{text-align: center;}
-	#memberList{table-layout: fixed; width: 700px; height:250px; margin: 0 auto; padding-left: 30px;}
-	.member{float:left; width: 100px; height: 200px; margin: 15px;}
-	.img{width: 100px; height: 100px; overflow: hidden; border-radius: 70px;}
-	.nick{width: 100px; height: 50px;}
-	.nick button{width: 110px; height: 30px; font-size: 12px;}
-	#profile{display:none; margin:0 auto; width: 700px; height: 1000px; border:1px solid lightgray;border-radius: 10px;}
-	#info{width: 100%; height: 300px;}
-	#info table{text-align: left;}
-	#infoTable input, #infoTable textarea{border: 0} 
-	#infoTable th{width: 150px; text-align: center;} 
-	#info-img{float:left; width: 33%; height: 300px;padding:30px;}
-	#info-detail{float:left; width: 67%; height: 300px;}
-	#imgs{width: 100%; height: 300px;}
-	.profile-img{float:left; width: 33.3%; height: 300px;border:1px solid lightgray;border-radius: 10px;}
-	#manner{width: 100%; height: 100px; text-align: left; padding: 20px;}
-	#msg{width: 100%; height: 300px;}
-	#noteTitle{width: 566px; border: 1px solid lightgray; border-radius: 10px;}	
-</style>
-
+<link rel="stylesheet" type="text/css" href="/resources/css/matchingPage.css">
 </head>
 <body>
 <div class="wrap container">
@@ -65,20 +45,24 @@
 						</div>
 					</div>
 				</c:forEach>
-			</div>
+			</div><br>
+			<button onclick="SBDRefresh();" class="btn btn-dark">새로 추천 받기</button>
+			<br><br><br>
 			<div id="profile">
 				<div id="info">
 					<div id="info-img">
-						<div class="img" style="width: 150px; height:150px; ">
+						<div class="imgDiv">
 						<img id="profileImg" width="100%" height="100%" src="/resources/profileUploadFiles/default.png">
-						</div>
-						<br>
-						<div class="nick">
-							<button class="btn btn-light nickname" style="width: 150px;"></button>
 						</div>
 					</div>
 					<div id="info-detail">
-						<table id="infoTable" class="table">
+						<table id="infoTable" class="table table-borderless">
+							<tr>
+								<th>닉네임</th>
+								<td>
+									<input type="text" id="memberNick">
+								</td>
+							</tr>
 							<tr>
 								<th>운동경력</th>
 								<td>
@@ -105,30 +89,22 @@
 								</td>
 							</tr>
 							<tr>
+								<th>매너점수</th>
+								<td>
+									<input type="text" id="memberManner" name="membmerManner" readonly>
+								</td>
+							</tr>
+							<tr>
 								<th>자기소개</th>
-								<td><textarea id="memberIntroduce" style="width: 280px; height: 60px;" readonly></textarea></td>
+								<td><textarea id="memberIntroduce" readonly></textarea></td>
 							</tr>
 						</table>
 					</div>
 				</div>
-				<div id="imgs">
-					<div class="profile-img"></div>
-					<div class="profile-img"></div>
-					<div class="profile-img"></div>
-				</div>
-				<div id="manner">
-					<span style="display: inline-block; width: 150px; padding-left: 30px;">3대 매너점수</span>
-					<span id="memberManner" class="alert alert-dark" style="display:inline-block; width: 465px; text-align: center;"></span>
-				</div>
-				<div id="msg">
-					<br>
-					<input type="text" id="noteTitle" name="noteTitle" placeholder="쪽지 제목">
-					<textarea id="noteContents" name="noteContents" rows="7" cols="73" placeholder="쪽지 내용" style="border:1px solid lightgray; border-radius: 10px; resize: none"></textarea> <br><br>
-					<button class="btn btn-dark" onclick="sendNote()">쪽지 보내기</button>
-				</div>
+				<br><br>
+				<button class="btn btn-dark" onclick="sendNote()">쪽지 보내기</button>
 			</div>
-			<br>
-			<button onclick="SBDRefresh();" class="btn btn-dark">새로 추천 받기</button>
+			<br><br><br>
 		</div>
 	</div>
 <!-- 푸터	 -->
