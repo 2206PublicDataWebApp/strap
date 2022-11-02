@@ -15,14 +15,16 @@
 		<result property="noteStatus" column="NOTE_STATUS"/>
 		<result property="recipientNick" column="RECIPIENT_NICK"/>
 		<result property="senderNick" column="SENDER_NICK"/>
+		<result property="noteCheck" column="NOTE_CHECK"/>
 	</resultMap>
 	<resultMap type="Member" id="memberResultMap">
 		<result property="memberId" column="MEMBER_ID"/>
 		<result property="memberName" column="MEMBER_NAME"/>
 	</resultMap>
 	<select id="selectAllNoteBox" resultMap="noteBoxResultMap">
-		SELECT NOTE_NO, RECIPIENT_ID, SENDER_ID, SENDER_TIME, NOTE_TITLE, NOTE_CONTENTS, NOTE_ACCEPT, NOTE_STATUS, RECIPIENT_NICK, SENDER_NICK FROM NOTEBOX_TBL N
-		LEFT OUTER JOIN REPORT_TBL R ON N.NOTE_NO = R.CONTENTS_NO WHERE (REPORT_PROCESS IS NULL AND RECIPIENT_ID = #{memberId}) OR NOTE_ACCEPT = 'Y' ORDER BY NOTE_NO DESC
+		SELECT * FROM NOTEBOX_TBL WHERE RECIPIENT_ID = #{memberId}
+<!-- 		SELECT NOTE_NO, RECIPIENT_ID, SENDER_ID, SENDER_TIME, NOTE_TITLE, NOTE_CONTENTS, NOTE_ACCEPT, NOTE_STATUS, RECIPIENT_NICK, SENDER_NICK FROM NOTEBOX_TBL N -->
+<!-- 		LEFT OUTER JOIN REPORT_TBL R ON N.NOTE_NO = R.CONTENTS_NO WHERE (REPORT_PROCESS IS NULL AND RECIPIENT_ID = #{memberId} AND (SELECT COUNT(*) FROM REPORT_TBL WHERE CONTENTS_NO = 5) > 0) OR NOTE_ACCEPT = 'Y' ORDER BY NOTE_NO DESC -->
   	</select>
 	<select id="selectTotalCount" resultType="_int">
   		SELECT COUNT(*) FROM NOTEBOX_TBL
@@ -49,5 +51,13 @@
   	</select>
 	<update id="updateNoteBox">
 		UPDATE NOTEBOX_TBL SET NOTE_ACCEPT = 'Y' WHERE NOTE_NO = #{noteNo}
+	</update>
+	<select id="selectCountNotBox" resultType="_int">
+		SELECT COUNT(*) FROM NOTEBOX_TBL
+		WHERE NOTE_CHECK = 'N' AND RECIPIENT_ID = #{memberId}
+	</select>
+	<update id="updateCheckNote">
+		UPDATE NOTEBOX_TBL SET NOTE_CHECK = 'Y'
+		WHERE NOTE_NO = #{noteNo} AND RECIPIENT_ID = #{recipientId}
 	</update>
 </mapper>

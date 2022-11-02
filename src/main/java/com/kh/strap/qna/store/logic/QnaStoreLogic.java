@@ -36,4 +36,10 @@ public class QnaStoreLogic implements QnaStore{
 		return qna;
 	}
 
+	@Override
+	public int deleteQna(SqlSession session, Integer qnaNo) {
+		int result = session.delete("QnaMapper.deleteQna", qnaNo);
+		return result;
+	}
+
 }

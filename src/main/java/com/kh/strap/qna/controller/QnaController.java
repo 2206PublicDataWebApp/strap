@@ -69,7 +69,7 @@ public class QnaController {
 	 */
 	// 문의글 등록
 	@RequestMapping(value="/qna/registerQna.strap", method=RequestMethod.POST)
-	public ModelAndView registQna(ModelAndView mv, @ModelAttribute Qna qna
+	public ModelAndView registQna(ModelAndView mv, @ModelAttribute Qna qna,  @ModelAttribute Member member
 			, HttpServletRequest request) {
 		try {
 			int result = qService.registerQna(qna);
@@ -110,17 +110,25 @@ public class QnaController {
 	
 	
 	// 문의글 수정
-		@RequestMapping(value="/qna/modifyQna.strap", method=RequestMethod.POST)
-		public ModelAndView modifyQna(ModelAndView mv, HttpServletRequest request
-				,@ModelAttribute Qna qna) {
-			HttpSession session = request.getSession();
-			Member member = (Member)session.getAttribute("loginUser");
-			String memberId = member.getMemberId();
-			System.out.println(qna);
-			int result = qService.modifyQna(qna);
-			mv.setViewName("/mypage/qnaView.strap");
-			return mv;
-		}
+	@RequestMapping(value="/qna/modifyQna.strap", method=RequestMethod.POST)
+	public ModelAndView modifyQna(ModelAndView mv, HttpServletRequest request
+			,@ModelAttribute Qna qna) {
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+//		String memberId = member.getMemberId();
+		System.out.println(qna);
+		int result = qService.modifyQna(qna);
+		mv.setViewName("redirect:/mypage/qnaView.strap");
+		return mv;
+	}
 	
+	// 문의글 삭제
+	@RequestMapping(value="/qna/removeQna.strap", method=RequestMethod.GET)
+	public ModelAndView removeQna(ModelAndView mv, HttpServletRequest request
+			,@RequestParam("qnaNo") Integer qnaNo) {
+		int result = qService.removeQna(qnaNo);
+		mv.setViewName("redirect:/mypage/qnaView.strap");
+		return mv;
+	}	
 	
 }

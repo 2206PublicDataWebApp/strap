@@ -50,10 +50,12 @@
 				<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 			</div>
 		</div>
-	
+		
 		<div class="contents row">
 			<div class="sidebar col-3">
-				<jsp:include page="/WEB-INF/views/common/sideBarMyPage.jsp"></jsp:include>
+				<jsp:include page="/WEB-INF/views/common/sideBarMyPage.jsp">
+				<jsp:param name="nListSize" value="${nListSize }"/>
+				</jsp:include>
 			</div>
 			<div class="contents-side col">
 				<div id="essential info">

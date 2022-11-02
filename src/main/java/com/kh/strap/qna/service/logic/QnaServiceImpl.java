@@ -41,6 +41,12 @@ public class QnaServiceImpl implements QnaService {
 		qna = qStore.selectOneById(session, qna);
 		return qna;
 	}
+
+	@Override
+	public int removeQna(Integer qnaNo) {
+		int result = qStore.deleteQna(session, qnaNo);
+		return result;
+	}
 	
 	
 }

@@ -57,15 +57,15 @@ span.id, span.pwd, span.pwdCheck, span.nick {
 				<div id="essential info">
 					<span> 문의 작성 </span>
 					<hr>
-					<form action="/qna/registerQna.strap" method="post">
+					<form id="qnaForm"action="/qna/registerQna.strap" method="post">
 						<div class="row">
 							<div class="col-2">
 								문의 유형
 							</div>
 							<div class="col">
 								<input type="hidden" value="QC1" name="qnaCode"/>
-								<select class="form-select" aria-label="Default select" name="qnaType">
-									<option selected>문의 유형을 선택해주세요</option>
+								<select class="form-select" id="selectQna" aria-label="Default select" name="qnaType">
+									<option value="" selected>문의 유형을 선택해주세요</option>
 									<option value="QC1QT1">로그인</option>
 									<option value="QC1QT2">정보수정</option>
 									<option value="QC1QT3">탈퇴</option>
@@ -90,7 +90,7 @@ span.id, span.pwd, span.pwdCheck, span.nick {
 								이메일
 							</div>
 							<div class="col">
-								<input type="text" class="form-control" value="${member.memberEmail }"/>
+								<input type="text" class="form-control" id="qnaEmail" value="${member.memberEmail }"/>
 							</div>
 						</div>
 						<hr>
@@ -99,7 +99,7 @@ span.id, span.pwd, span.pwdCheck, span.nick {
 								제목
 							</div>
 							<div class="col">
-								<input class="form-control" name="qnaTitle"/>
+								<input class="form-control" id="qnaTitle" name="qnaTitle"/>
 							</div>
 						</div>
 						<br>
@@ -108,7 +108,7 @@ span.id, span.pwd, span.pwdCheck, span.nick {
 								문의
 							</div>
 							<div class="col">
-								<textarea class="form-control" style="height:350px;" name="qnaContents"></textarea>
+								<textarea class="form-control" id="qnaTextarea" style="height:350px;" name="qnaContents"></textarea>
 							</div>
 						</div>
 						<hr>
@@ -132,5 +132,25 @@ span.id, span.pwd, span.pwdCheck, span.nick {
 			</div>
 		</div>
 	</div>
+<script>
+	$(function() {
+		var exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+		$("#qnaForm").submit(function() {
+			if ($("#selectQna").val() == "") {
+				alert('문의 유형을 선택해주세요.')
+				return false
+			} else if(exptext.test($("#qnaEmail").val()) == false) {
+				alert('이메일형식이 올바르지 않습니다.\n다시 작성해주세요.\nex)example@naver.com')
+				return false
+			} else if($("#qnaTitle").val() == "") {
+				alert('제목을 작성해주세요.')
+				return false 
+			} else if($("#qnaTextarea").val() == "") {
+				alert('내용을 작성해주세요.')
+				return false
+			}
+		});
+	});
+</script>
 </body>
 </html>

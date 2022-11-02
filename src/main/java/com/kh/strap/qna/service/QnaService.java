@@ -9,4 +9,5 @@ public interface QnaService {
 	public List<Qna> printAllQna(String memberId);
 	public int modifyQna(Qna qna);
 	public Qna printOneById(Qna qna);
+	public int removeQna(Integer qnaNo);
 }

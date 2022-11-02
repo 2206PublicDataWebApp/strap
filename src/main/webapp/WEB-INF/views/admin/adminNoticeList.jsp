@@ -17,13 +17,11 @@
 			<hr>
 		</div>
 		<div class="table-responsive">
-		<table align="center" border="1" width="" class="table table-striped table-hover">
+		<table align="center" border="1" width="" class="table table-hover">
 			<tr>
-<%-- 				<c:if test="${loginAdmin.adminName eq '관리자'}"> <!-- 관리자만 공지사항 등록 가능 --> --%>
 				<td colspan="5" align="left">
 					<button type="button" onclick="location.href='/admin/writeView.strap';" class="btn btn-primary">공지사항 등록</button>
 				</td>
-<%-- 				</c:if> --%>
 			</tr>
 			<tr align="center">
 				<th width="80">번호</th>

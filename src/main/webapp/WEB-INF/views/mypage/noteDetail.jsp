@@ -88,7 +88,7 @@
 		<c:if test="${noteBox.noteAccept eq 'N' }"> 
 			<div class="row text-center">
 				<div class="col">
-					<button class="btn btn-primary" id="accept">수락</button>
+					<button class="btn btn-dark" id="accept">수락</button>
 				</div>
 			</div>
 			<div class="row text-center" id="chat-window" style="display:none;">
@@ -104,13 +104,13 @@
 					<div class="row">
 						<div class="col">
 							<input type="text" id="chat-contents" required>
-							<button class="btn btn-primary" id="chat-btn">입력</button>
+							<button class="btn btn-dark" id="chat-btn">입력</button>
 						</div>
 					</div>
 					<br>
 					<div class="row">
 						<div class="col" align="center">
-							<button class="btn btn-primary">일정잡기</button>
+							<button class="btn btn-dark">일정잡기</button>
 						</div>
 					</div>
 				</div>
@@ -196,8 +196,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">쪽지 신고</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-body p-5 pt-0">
@@ -238,12 +237,6 @@
 		</div>
 	</div>
 	<script>
-	var now_utc = Date.now() // 지금 날짜를 밀리초로
-	//getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환
-	var timeOff = new Date().getTimezoneOffset()*60000; // 분단위를 밀리초로 변환
-	//new Date(now_utc-timeOff).toISOString()은 '2022-05-11T18:09:38.134Z'를 반환
-	var today = new Date(now_utc-timeOff).toISOString().split("T")[0]; //2022-05-11
-	document.getElementById("meet-date").setAttribute("min", today);
 	
 	$('.timepicker').timepicker({
 	    timeFormat: 'HH:mm',
@@ -301,6 +294,8 @@
 					if(window.confirm("정말로 신고하시겠습니까?")){
 						opener.location.replace("/mypage/noteBoxListView.strap");
 						window.close();
+					} else {
+						$('#reportNote').modal('hide');
 					}
 				}
 			});
@@ -316,10 +311,13 @@
 				url : "/notebox/noteChatListView.strap",
 				data : {
 					"noteNo":'${noteBox.noteNo }', 
-					"senderNick":'${noteBox.senderNick }'},
+					"senderNick":'${noteBox.senderNick }',
+					"recipientId":'${noteBox.recipientId }',
+					"recipientNick":'${noteBox.recipientNick }'},
 				datatype : "html",
 				type : "get",
 				success:function(data){
+					console.log(data)
 					$("#chat-column").html(data);
 					alert("수락 완료!");
 				},error:function(){
@@ -355,6 +353,13 @@
 				}
 			});
 		});
+		
+		var now_utc = Date.now() // 지금 날짜를 밀리초로
+		//getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환
+		var timeOff = new Date().getTimezoneOffset()*60000; // 분단위를 밀리초로 변환
+		//new Date(now_utc-timeOff).toISOString()은 '2022-05-11T18:09:38.134Z'를 반환
+		var today = new Date(now_utc-timeOff).toISOString().split("T")[0]; //2022-05-11
+		document.getElementById("meet-date").setAttribute("min", today);
 	});
 	
 	// 일정 잡기

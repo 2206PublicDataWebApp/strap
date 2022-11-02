@@ -15,7 +15,8 @@
 								<p align="right">${noteChat.chatContents } - ${noteChat.senderDate }</p> <br>
 							</c:if>
 							<c:if test="${noteChat.senderId ne memberId }">
-								<p align="left">${noteChat.chatContents } - ${noteChat.senderDate }</p> <br>
+								<div align="left"><b>${senderNick }</b></div>
+								<p align="left"><b>${noteChat.chatContents } - ${noteChat.senderDate }</b></p> <br>
 							</c:if>
 						</c:forEach>
 				</div>

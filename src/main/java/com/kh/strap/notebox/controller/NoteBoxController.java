@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.strap.member.domain.Member;
@@ -51,6 +52,7 @@ public class NoteBoxController {
 			endNavi = maxPage;
 		}
 		List<NoteBox> nList = nService.printNoteBoxList(memberId, currentPage, noticeLimit);
+		int nSize = nList.size();
 		if(!nList.isEmpty()) {
 			mv.addObject("urlVal", "noteBoxListView");
 			mv.addObject("maxPage", maxPage);
@@ -59,7 +61,9 @@ public class NoteBoxController {
 			mv.addObject("startNavi", startNavi);
 			mv.addObject("endNavi", endNavi);
 			mv.addObject("nList", nList);
+			mv.addObject("nListSize", nSize);
 		}
+		System.out.println(nSize);
 		mv.setViewName("mypage/noteBox");
 		return mv;
 	}
@@ -77,11 +81,31 @@ public class NoteBoxController {
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String memberId = member.getMemberId();
+		System.out.println(noteBox);
+		int result = nService.checkNote(noteBox);
 		NoteBox nOne = nService.printOneByNo(noteBox);
 		mv.addObject("memberId", memberId);
 		mv.addObject("noteBox", nOne);
 		mv.setViewName("mypage/noteDetail");
 		return mv;
 	}
+	
+	// 쪽지 뱃지
+	@ResponseBody
+	@RequestMapping(value="/mypage/mark.strap",method=RequestMethod.POST)
+	public String markNoteBox(HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		if(loginUser != null) {
+			int countNoteBox = nService.getCountNoteBox(loginUser.getMemberId());
+			if(countNoteBox > 0) {
+				return countNoteBox+"";
+			}else {
+				return "";
+			}
+		}else {
+			return "";
+		}
+	}
+	
 	
 }

@@ -11,4 +11,5 @@ public interface QnaStore {
 	public List<Qna> selectAllQna(SqlSession session, String memberId);
 	public int updateQna(SqlSession session, Qna qna);
 	public Qna selectOneById(SqlSession session, Qna qna);
+	public int deleteQna(SqlSession session, Integer qnaNo);
 }

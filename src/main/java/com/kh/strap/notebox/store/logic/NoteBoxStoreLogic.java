@@ -36,4 +36,17 @@ public class NoteBoxStoreLogic implements NoteBoxStore{
 		return nOne;
 	}
 
+	@Override
+	public int selectCountNoteBox(SqlSession session, String memberId) {
+		int result = session.selectOne("NoteBoxMapper.selectCountNotBox", memberId);
+		return result;
+	}
+
+	@Override
+	public int updateCheckNote(SqlSession session, NoteBox noteBox) {
+		int result = session.update("NoteBoxMapper.updateCheckNote", noteBox);
+		return result;
+	}
+
+
 }

@@ -13,6 +13,7 @@ public class NoteBox {
 	private String noteStatus;
 	private String recipientNick;
 	private String senderNick;
+	private String noteCheck;
 	
 	
 	public NoteBox() {}
@@ -123,12 +124,20 @@ public class NoteBox {
 		this.senderNick = senderNick;
 	}
 
+	public String getNoteCheck() {
+		return noteCheck;
+	}
+
+	public void setNoteCheck(String noteCheck) {
+		this.noteCheck = noteCheck;
+	}
 
 	@Override
 	public String toString() {
 		return "NoteBox [noteNo=" + noteNo + ", recipientId=" + recipientId + ", senderId=" + senderId + ", senderTime="
 				+ senderTime + ", noteTitle=" + noteTitle + ", noteContents=" + noteContents + ", noteAccept="
-				+ noteAccept + ", noteStatus=" + noteStatus
-				+ ", recipientNick=" + recipientNick + ", senderNick=" + senderNick + "]";
+				+ noteAccept + ", noteStatus=" + noteStatus + ", recipientNick=" + recipientNick + ", senderNick="
+				+ senderNick + ", noteCheck=" + noteCheck + "]";
 	}
+	
 }

@@ -19,9 +19,9 @@
 		<result property="memberNick" column="MEMBER_NICK"/>
 		<result property="reportMemberNick" column="REPORT_MEMBER_NICK"/>
 	</resultMap>
+	
 	<insert id="insertReport">
 		INSERT INTO REPORT_TBL
-		VALUES(SEQ_REPORT_NO.NEXTVAL,#{contentsNo}, #{contentsCode}, #{reportType}, #{reportMember}, #{reportContents}, DEFAULT, DEFAULT, NULL, NULL, NULL, #{memberNick}, #{reportMemberNick})
+		VALUES(SEQ_REPORT_NO.NEXTVAL,#{contentsNo}, #{contentsCode}, #{reportType}, #{reportMember}, #{reportContents}, DEFAULT, DEFAULT, NULL, NULL, #{memberId}, #{memberNick}, #{reportMemberNick})
 	</insert>
-	
 </mapper>
