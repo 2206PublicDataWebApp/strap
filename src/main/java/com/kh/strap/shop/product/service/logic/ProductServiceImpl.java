@@ -139,9 +139,17 @@ public class ProductServiceImpl implements ProductService {
 	public int countMemberCancelOrder(Search search) {
 		return pStore.selectCountMemberCancelOrder(session, search);
 	}
-
 	
-	
+//관리자:주문관리
+	@Override
+	public List<Order> printManageOrder(Paging paging, Search search) {
+		return pStore.selectManageOrder(session, paging, search);
+	}
+//관리자:주문관리 카운트
+	@Override
+	public int countManageOrder(Search search) {
+		return pStore.selectCountManageOrder(session, search);
+	}
 //주문 수정
 	@Override
 	public int modifyPayCompleteOrder(String merchant_uid) {
@@ -199,4 +207,6 @@ public class ProductServiceImpl implements ProductService {
 	public int modifyMemberAddr(Member member) {
 		return pStore.updateMemberAddr(session, member);
 	}
+
+
 }

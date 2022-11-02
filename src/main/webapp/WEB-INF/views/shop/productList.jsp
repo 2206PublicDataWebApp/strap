@@ -48,7 +48,7 @@
 			<div id="inner-header">
 				<div id="search-wrap" style="text-align: center;">
 					<h2>스트랩 추천보충제!</h2>
-					<form id="search-form" action="/product/search.strap" method="get">
+					<form id="search-form" action="/product/listView.strap" method="get">
 						<div id="search_border" style="border:2px solid darkorange; border-radius:4px; display:inline-block;">
 							<input id="searchVal" name="searchVal" type="text" value="${search.searchVal }" placeholder=" 보충제를 검색하세요." style="border-style:none; padding:4px; width:400px;">
 							<input id="searchColumn"  name="searchColumn" type="hidden">
@@ -100,17 +100,17 @@
 				  <ul class="pagination">
 				    <li class="page-item">
 				    <c:if test="${paging.startNavi > paging.startPage }">
-				      <a class="page-link" href="/product/${url}.strap?page=${paging.startNavi-1 }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}" aria-label="<">
+				      <a class="page-link" href="/product/listView.strap?page=${paging.startNavi-1 }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}" aria-label="<">
 				        <span aria-hidden="true">&laquo;</span>
 				      </a>
 				     </c:if>
 				    </li>
 				    <c:forEach begin="${paging.startNavi }" end="${paging.endNavi }" var="n">
-				    <li class="page-item"><a class="page-link" <c:if test="${paging.page eq n }">style="font-weight:bold;color:darkorange"</c:if>  href="/product/${url }.strap?page=${n }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}">${n }</a></li>
+				    <li class="page-item"><a class="page-link" <c:if test="${paging.page eq n }">style="font-weight:bold;color:darkorange"</c:if>  href="/product/listView.strap?page=${n }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}">${n }</a></li>
 				    </c:forEach>
 				    <c:if test="${paging.endNavi < paging.endPage }">
 				    <li class="page-item">
-				      <a class="page-link" href="/product/${url }.strap?page=${paging.endNavi+1 }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}" aria-label=">">
+				      <a class="page-link" href="/product/listView.strap?page=${paging.endNavi+1 }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}" aria-label=">">
 				        <span aria-hidden="true">&raquo;</span>
 				      </a>
 				    </li>

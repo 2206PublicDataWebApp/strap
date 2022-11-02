@@ -65,46 +65,70 @@
 	<select id="selectAllProduct" resultMap="ProductResultMap">
 		SELECT * FROM PRODUCT_TBL
 		WHERE PRODUCT_DELETE = 'N'
-		ORDER BY GRADE_AVER DESC
+		<if test='searchVal != "" and searchVal != null'>
+			AND (PRODUCT_NAME LIKE '%'||#{searchVal}||'%') OR (PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
+		</if>
+		<choose>
+			<when test='searchColumn !="" and searchColumn != null'>
+				ORDER BY ${searchColumn} ${orderCondition}
+			</when>
+			<otherwise>
+				ORDER BY GRADE_AVER DESC
+			</otherwise>
+		</choose>
 	</select>
 	
-	<select id="selectAllProductSearch" resultMap="ProductResultMap">
-		SELECT * FROM PRODUCT_TBL
-		WHERE PRODUCT_DELETE = 'N' 
-		AND (PRODUCT_NAME LIKE '%'||#{searchVal}||'%')OR
-		(PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
-		<if test='searchColumn != ""'>
-			ORDER BY ${searchColumn} ${orderCondition}
-		</if>
-		<if test='searchColumn == ""'>
-			ORDER BY GRADE_AVER DESC
-		</if>
-	</select>
+<!-- 	<select id="selectAllProductSearch" resultMap="ProductResultMap"> -->
+<!-- 		SELECT * FROM PRODUCT_TBL -->
+<!-- 		WHERE PRODUCT_DELETE = 'N'  -->
+<!-- 		AND (PRODUCT_NAME LIKE '%'||#{searchVal}||'%')OR -->
+<!-- 		(PRODUCT_BRAND LIKE '%'||#{searchVal}||'%') -->
+<!-- 		<if test='searchColumn != ""'> -->
+<!-- 			ORDER BY ${searchColumn} ${orderCondition} -->
+<!-- 		</if> -->
+<!-- 		<if test='searchColumn == ""'> -->
+<!-- 			ORDER BY GRADE_AVER DESC -->
+<!-- 		</if> -->
+<!-- 	</select> -->
 	
+<!-- 관리자:상품관리 출력  -->
 	<select id="selectAdminAllProduct" resultMap="ProductResultMap">
-		SELECT * FROM PRODUCT_TBL
+		SELECT * 
+		FROM PRODUCT_TBL
 		WHERE PRODUCT_DELETE = 'N'
-		ORDER BY PRODUCT_REGI_DATE DESC
+		<if test='searchVal != "" and searchVal != null'>
+			AND (PRODUCT_NAME LIKE '%'||#{searchVal}||'%') OR (PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
+		</if>
+		<choose>
+			<when test='searchColumn !="" and searchColumn != null'>
+				ORDER BY ${searchColumn} ${orderCondition}
+			</when>
+			<otherwise>
+				ORDER BY PRODUCT_REGI_DATE DESC
+			</otherwise>
+		</choose>
 	</select>
 	
-	<select id="selectAdminProductSearch" resultMap="ProductResultMap">
-		SELECT * FROM PRODUCT_TBL
-		WHERE (PRODUCT_NAME LIKE '%'||#{searchVal}||'%')OR
-		(PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
-		AND PRODUCT_DELETE = 'N'
-		ORDER BY PRODUCT_REGI_DATE DESC
-	</select>
+<!-- 	<select id="selectAdminProductSearch" resultMap="ProductResultMap"> -->
+<!-- 		SELECT * FROM PRODUCT_TBL -->
+<!-- 		WHERE (PRODUCT_NAME LIKE '%'||#{searchVal}||'%')OR -->
+<!-- 		(PRODUCT_BRAND LIKE '%'||#{searchVal}||'%') -->
+<!-- 		AND PRODUCT_DELETE = 'N' -->
+<!-- 		ORDER BY PRODUCT_REGI_DATE DESC -->
+<!-- 	</select> -->
 
 <!-- 상품개수 카운트	 -->
 	<select id="selectCountAllProduct" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT_TBL
 		WHERE PRODUCT_DELETE = 'N'
+		<if test='searchVal != "" and searchVal != null'>
+			AND (PRODUCT_NAME LIKE '%'||#{searchVal}||'%') OR (PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
+		</if>
 	</select>
 	
 	<select id="selectCountSearchProduct" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT_TBL
-		WHERE (PRODUCT_NAME LIKE '%'||#{searchVal}||'%')OR
-		(PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
+		WHERE (PRODUCT_NAME LIKE '%'||#{searchVal}||'%') OR (PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
 		AND PRODUCT_DELETE = 'N'
 	</select>
 	

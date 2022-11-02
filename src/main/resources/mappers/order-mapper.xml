@@ -133,6 +133,35 @@
 			AND ORDER_CANCEL = 'Y'
 		</where>
 	</select>
+	
+<!-- 관리자:주문관리 페이지 -->
+<!-- 검색 : 회원아이디, 주문번호, -->
+<!-- 정렬:  주문일, 주문상태, 각종 여부 -->
+<!-- 필터: 주문상태, 결제여부,취소여부,배송시작여부,배송완료여부 -->
+	<select id="selectOrderManage" resultMap="OrderResultMap">
+		SELECT *
+		FROM ORDER_TBL
+		<if test='searchVal != "" and searchVal != null'>
+			WHERE (MEMBER_ID LIKE '%'||#{searchVal}||'%') OR (ORDER_NO LIKE '%'||#{searchVal}||'%')
+		</if>
+		<choose>
+			<when test='searchColumn !="" and searchColumn != null'>
+				ORDER BY ${searchColumn} ${orderCondition}
+			</when>
+			<otherwise>
+				ORDER BY ORDER_DATE DESC
+			</otherwise>
+		</choose>
+	</select>
+<!-- 관리자:주문관리 카운트	 -->
+	<select id="selectCountOrderManage" resultType="_int">
+		SELECT COUNT(*)
+		FROM ORDER_TBL
+		<if test='searchVal != "" and searchVal != null'>
+			WHERE (MEMBER_ID LIKE '%'||#{searchVal}||'%') OR (ORDER_NO LIKE '%'||#{searchVal}||'%')
+		</if>
+	</select>
+	
   	
   	<update id="updatePayComplete">
   		UPDATE ORDER_TBL

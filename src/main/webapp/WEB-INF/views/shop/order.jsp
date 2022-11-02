@@ -246,7 +246,7 @@
 					</div>
 			</div>
 <!-- 스띠키 사이드			 -->
-			<div class="col-4" style="height:570px;position:sticky;top:0;font-size:14px;vertical-align:middle;">
+			<div class="col-4" style="height:600px;position:sticky;top:0;font-size:14px;vertical-align:middle;">
 				<div class="order-side" style="height:80%;width:95%;margin:0px auto;padding:12px; border: 1px solid #c0c0c0;width:80%;text-align:left;">
 					 <span style="font-size:16px;font-weight:bold;margin:auto;">주문 결제 금액</span>
 					 <hr>
@@ -273,7 +273,7 @@
 					 	</span>
 					 </div>
 					 <hr>
-					 <div id="finalCost-wrap" class="stickyInfo">
+					 <div id="finalCost-wrap" class="stickyInfo" style="height:50px;">
 					 	<span>최종 결제금액</span>
 					 	<span class="stickyPriceTxt" style="float:right;">
 					 		<span id=finalCost style="color:darkorange;font-weight:bold;font-size:26px;"></span>

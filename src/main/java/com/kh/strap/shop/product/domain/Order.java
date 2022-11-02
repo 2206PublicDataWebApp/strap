@@ -24,7 +24,7 @@ public class Order {
 	private String paymentMethod;			//결제수단
 	private String cardKind;				//카드종류
 	private String payComplete;				//결제완료여부
-	private String orderCancel;				//주문취소여부
+	private String orderCancel;				//결제취소여부
 	private String deliveryStart;			//배송시작여부
 	private String deliveryComplete;		//배송완료여부
 	private String deliveryNo;				//운송장번호

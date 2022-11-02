@@ -146,6 +146,17 @@ public class ProductStoreLogic implements ProductStore {
 	public int selectCountMemberCancelOrder(SqlSession session,Search search) {
 		return session.selectOne("OrderMapper.selectCountMemberCancelOrder", search);
 	}
+//관리자:주문관리
+	@Override
+	public List<Order> selectManageOrder(SqlSession session, Paging paging, Search search) {
+		return session.selectList("OrderMapper.selectOrderManage",search,new RowBounds(paging.getOffset(), paging.getPageLimit()));
+	}
+	@Override
+	public int selectCountManageOrder(SqlSession session, Search search) {
+		return session.selectOne("OrderMapper.selectCountOrderManage",search);
+	}
+	
+	
 //주문 수정
 	@Override
 	public int updatePayCompleteOrder(SqlSession session, String merchant_uid) {
@@ -210,6 +221,12 @@ public class ProductStoreLogic implements ProductStore {
 	public int updateMemberAddr(SqlSession session, Member member) {
 		return session.update("MemberMapper.updateMemberAddr", member);
 	}
+
+
+
+
+
+
 
 
 

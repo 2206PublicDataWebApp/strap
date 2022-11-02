@@ -76,6 +76,11 @@ public interface ProductStore {
 		//회원 주문 취소 리스트 출력
 		public List<Order> selectMemberCancelOrder(SqlSession session,Paging paging,Search search);
 		public int selectCountMemberCancelOrder(SqlSession session, Search search);
+
+//관리자:주문관리 조회
+		public List<Order> selectManageOrder(SqlSession session,Paging paging,Search search);
+//관리자:주문관리 카운트
+		public int selectCountManageOrder(SqlSession session,Search search);	
 		
 //주문 수정
 		//주문 완료

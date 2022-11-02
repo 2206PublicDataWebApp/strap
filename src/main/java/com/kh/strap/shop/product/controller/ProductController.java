@@ -77,10 +77,11 @@ public class ProductController {
 	//보충제 리스트 출력
 	@RequestMapping(value="/product/listView.strap", method=RequestMethod.GET)
 	public ModelAndView viewProductList(ModelAndView mv,
-			Search search,
+			@ModelAttribute Search search,
 			@RequestParam(value="page",required=false)Integer currentPage
 			) {
 		int page = (currentPage != null)? currentPage : 1;
+		System.out.println(search.toString());
 		Paging paging = new Paging(pService.countAllProduct(), page, 10, 5);
 		List<Product>pList = pService.printAllProduct(paging, search);
 		mv.addObject("pList",pList).
@@ -92,21 +93,21 @@ public class ProductController {
 	}
 	
 	//상품목록 페이지 보충제 검색 리스트 출력
-	@RequestMapping(value="/product/search.strap", method=RequestMethod.GET)
-	public ModelAndView searchProductList(ModelAndView mv,
-			@ModelAttribute Search search,
-			@RequestParam(value="page",required=false)Integer currentPage) {
-		int page = (currentPage != null)? currentPage : 1;
-		
-		Paging paging = new Paging(pService.countSearchProduct(search),page,10,5);
-		List<Product>pList = pService.printAllProductSearch(paging, search);
-		mv.addObject("pList",pList).
-		addObject("paging",paging).
-		addObject("search",search).
-		addObject("url","search").
-		setViewName("/shop/productList");
-		return mv;
-	}
+//	@RequestMapping(value="/product/search.strap", method=RequestMethod.GET)
+//	public ModelAndView searchProductList(ModelAndView mv,
+//			@ModelAttribute Search search,
+//			@RequestParam(value="page",required=false)Integer currentPage) {
+//		int page = (currentPage != null)? currentPage : 1;
+//		
+//		Paging paging = new Paging(pService.countSearchProduct(search),page,10,5);
+//		List<Product>pList = pService.printAllProductSearch(paging, search);
+//		mv.addObject("pList",pList).
+//		addObject("paging",paging).
+//		addObject("search",search).
+//		addObject("url","search").
+//		setViewName("/shop/productList");
+//		return mv;
+//	}
 	
 	//상품 상세 페이지
 	@RequestMapping(value="/product/detailView.strap", method=RequestMethod.GET)
@@ -255,7 +256,7 @@ public class ProductController {
 		}
 	}
 	
-	//마이쇼핑 주문내역 리스트 출력(필터: 날짜)
+	//마이쇼핑: 주문내역 리스트 출력(필터: 날짜)
 	@RequestMapping(value="/order/listView.strap",method=RequestMethod.GET)
 	public ModelAndView viewMemberReviewList(ModelAndView mv,
 			@ModelAttribute Search search,
@@ -357,38 +358,40 @@ public class ProductController {
 		}
 	}
 	
-	//상품관리페이지 상품 목록
+	//관리자:상품관리페이지 이동
 	@RequestMapping(value="/admin/productView.strap", method=RequestMethod.GET)
 	public ModelAndView viewManageProduct(ModelAndView mv,
-			Search search,
+			@ModelAttribute Search search,
 			@RequestParam(value= "page", required=false)Integer currentPage) {
 		int page = (currentPage != null) ? currentPage : 1;
 		Paging paging = new Paging(pService.countAllProduct(), page, 30, 5);
 		List<Product> pList = pService.printAdminAllProduct(paging, search);
-		mv.addObject("pList",pList).
-		addObject("paging",paging).
-		addObject("url","productView").
-		setViewName("/shop/productManage");
+		if(!pList.isEmpty()) {
+			mv.addObject("pList",pList).
+			addObject("search",search).
+			addObject("paging",paging).
+			setViewName("/shop/productManage");
+		}
 		return mv;
 	}
 	
-	//상품관리페이지 상품 검색결과 목록
-	@RequestMapping(value="/admin/productSearchView.strap", method=RequestMethod.GET)
-	public ModelAndView viewSearchManageProduct(ModelAndView mv,
-			@ModelAttribute Search search,
-			@RequestParam(value= "page", required=false)Integer currentPage) {
-		int page = (currentPage != null) ? currentPage : 1;
-		Paging paging = new Paging(pService.countAdminProductSearch(search), page, 30, 5);
-		List<Product> pList = pService.printAdminProductSearch(paging, search);
-		mv.addObject("pList",pList).
-		addObject("paging",paging).
-		addObject("search",search).
-		addObject("url","productSearchView").
-		setViewName("/shop/productManage");
-		return mv;
-	}
+	//관리자:상품관리페이지 이동(검색)
+//	@RequestMapping(value="/admin/productSearchView.strap", method=RequestMethod.GET)
+//	public ModelAndView viewSearchManageProduct(ModelAndView mv,
+//			@ModelAttribute Search search,
+//			@RequestParam(value= "page", required=false)Integer currentPage) {
+//		int page = (currentPage != null) ? currentPage : 1;
+//		Paging paging = new Paging(pService.countAdminProductSearch(search), page, 30, 5);
+//		List<Product> pList = pService.printAdminProductSearch(paging, search);
+//		mv.addObject("pList",pList).
+//		addObject("paging",paging).
+//		addObject("search",search).
+//		addObject("url","productSearchView").
+//		setViewName("/shop/productManage");
+//		return mv;
+//	}
 	
-	//상품등록페이지 이동
+	//관리자:상품등록페이지 이동
 	/**
 	 * 상품등록페이지 이동 메소드
 	 * @param mv
@@ -400,7 +403,7 @@ public class ProductController {
 		return mv;
 	}
 	
-	//상품등록
+	//관리자:상품등록
 	/**
 	 * 상품 등록 메소드
 	 * @param mv
@@ -486,7 +489,7 @@ public class ProductController {
 		return mv;
 	}
 	
-	//상품수정페이지 이동
+	//관리자:상품수정페이지 이동
 	@RequestMapping(value="/admin/product/modifyView.strap", method=RequestMethod.GET)
 	public ModelAndView viewModifyProduct(ModelAndView mv,
 			@ModelAttribute Product productParam) {
@@ -503,7 +506,7 @@ public class ProductController {
 		return mv;
 	}
 	
-	//상품수정:product( 텍스트 및 메인이미지) -> ajax?
+	//관리자:상품수정:product( 텍스트 및 메인이미지) -> ajax?
 	@RequestMapping(value="",method=RequestMethod.POST)
 	public ModelAndView  modifyProduct(ModelAndView mv,
 			@ModelAttribute Product product,
@@ -523,7 +526,7 @@ public class ProductController {
 //	
 	
 	
-	//이미지 임시저장 ajax
+	//관리자:이미지 임시저장 ajax
 	@ResponseBody
 	@RequestMapping(value="/admin/product/temp.strap",produces="application/json;charset=utf-8", method=RequestMethod.POST)
 	public String saveTempImg(
@@ -554,7 +557,7 @@ public class ProductController {
 	}
 	
 	
-	//상품 삭제ajax
+	//관리자:상품 삭제ajax
 	@ResponseBody
 	@RequestMapping(value="/admin/product/remove.strap",produces="text/plain;charset=utf-8", method=RequestMethod.GET)
 	public String removeProduct(
@@ -566,5 +569,27 @@ public class ProductController {
 		}else {
 			return "fail";
 		}
+	}
+	
+	//관리자:주문관리 페이지 이동
+	@RequestMapping(value="/admin/orderView.strap",method=RequestMethod.GET)
+	public ModelAndView viewManageOrder(ModelAndView mv,
+			@RequestParam(value="page",required=false)Integer currentPage,
+			@ModelAttribute Search search) {
+		int page = (currentPage != null)? currentPage : 1;
+		System.out.println(search.toString());
+		
+		Paging paging = new Paging(pService.countManageOrder(search), page, 30, 5);
+		List<Order> oList = pService.printManageOrder(paging, search);
+		if(!oList.isEmpty()) {
+			mv.addObject("paging",paging).
+			addObject("search",search).
+			addObject("oList",oList).
+			setViewName("/shop/orderManage");
+		}else {
+			
+		}
+		
+		return mv;
 	}
 }

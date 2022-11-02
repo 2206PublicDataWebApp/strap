@@ -68,6 +68,7 @@ public interface ProductService {
 	//주문 상품 List 등록
 	public int registerOrderProducts(OrderProduct orderProduct);
 	
+	
 //결제: 결제금액과 주문 금액 체크
 	public int getTobePaidFinalCost(String merchant_uid);
 
@@ -80,6 +81,11 @@ public interface ProductService {
 	//회원 주문취소 리스트 출력
 	public List<Order> printMemberCancelOrder(Paging paging,Search search);
 	public int countMemberCancelOrder(Search search);
+	
+//관리자:주문관리 조회
+	public List<Order> printManageOrder(Paging paging,Search search);
+//관리자:주문관리 카운트
+	public int countManageOrder(Search search);
 	
 //주문 수정
 	//결제 완료 시 PAY_COMPLETE 'Y' UPDATE
