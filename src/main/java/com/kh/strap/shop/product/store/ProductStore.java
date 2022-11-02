@@ -29,7 +29,7 @@ public interface ProductStore {
 		//상품 검색 리스트 출력(검색어와 정렬 사용)
 		public List<Product> selectAllProductSearch(SqlSession session,Paging paging, Search search);
 		//전체상품 개수 카운트
-		public int selectCountAllProduct(SqlSession session);
+		public int selectCountAllProduct(SqlSession session,Search search);
 		//검색상품 개수 카운트(쇼핑몰)
 		public int selectCountSearchProduct(SqlSession session, Search search);
 		
@@ -54,8 +54,10 @@ public interface ProductStore {
 		
 //관리자 상품수정
 		//상품 수정
-		public int updateProduct(SqlSession session,Product product);
-		
+		public int updateProductInfo(SqlSession session,Product product);
+		public int updateProductMainImg(SqlSession session,Product product);
+		public int deleteSubImgOnProduct(SqlSession session,int productNo);
+		public int deleteInfoImgOnProduct(SqlSession session,int productNo);
 
 //관리자 상품 삭제
 		public int deleteProduct(SqlSession session,Product product);

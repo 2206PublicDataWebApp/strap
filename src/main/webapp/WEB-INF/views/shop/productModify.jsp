@@ -84,7 +84,6 @@
 			<div class="row">
 			
 			<div id="productRegisterArea" class="col-4" style="height:1000px;border-right:1px solid #c0c0c0;">
-				<form id="info-form" action="#" method="post" enctype="multipart/form-data" >
 					<h6 >상품 정보 수정</h6>
 					<div style="border:1px solid gray; border-radius:10px; padding:12px;">
 						<span style="color:red;font-size:12px;">*필수등록</span>
@@ -93,65 +92,83 @@
 						<input type="text" onkeyup="previewTxt(this,'previewName')" 	value="${product.productName }" 	name="productName" 	placeholder="상품명 입력"><br>
 						<span style="color:red;font-size:12px;">*필수등록</span>
 						<input type="text" onkeyup="previewTxt(this,'previewPrice')" 	value="${product.productPrice }" 	name="productPrice" placeholder="상품가격 입력"><br>
-						<textarea 		   onkeyup="previewTxt(this,'previewDesc')" 	name="productDesc" 	placeholder="상품정보 입력" style="width:90%;height:100px;margin-bottom:20px;">${product.productDesc }</textarea>
+						<textarea 		   onkeyup="previewTxt(this,'previewDesc')" 	name="productDesc" 	placeholder="상품정보 입력" style="width:90%;height:100px;margin-bottom:20px;" value="">${product.productDesc }</textarea>
+						<div style="text-align:center;">
+							<button  onclick="if(confirm('상품정보를 수정하시겠습니까?')){modifyProductInfo(${product.productNo});};" style="weight:120px;height:40px;font-weight:bold;color:white;background-color:darkorange;border:1px solid darkorange;border-radius:4px;">상품정보 수정</button>
+						</div>
 					</div>
 					<br>
 				
 					<h6>이미지 수정</h6>
+					<span style="font-size:12px;font-weight:bold">※수정 후 저장 시 기존 이미지가 초기화된 후 새로운 이미지가 등록됩니다.</span>
 					<div id="modifyImgs" style="border:1px solid gray; border-radius:10px; padding:12px;">	
 						<h6>메인(썸네일)이미지</h6>
 						<div>
 							<label class="imgLabel">메인이미지</label><span style="color:red;font-size:12px;">*필수등록</span>
 							<input type="file" name="mainImg"  onchange="tempImgSave(this,'mainImg');" ><br>
+							<div style="text-align:center;">
+								<button id="mainLockBtn" type="button" onclick="modifyMainImgLock();" style="weight:120px;height:40px;font-weight:bold;color:darkorange;background-color:white;border:1px solid darkorange;border-radius:4px;">메인이미지 수정</button>
+								<button id="mainModiBtn" type="button" onclick="if(confirm('메인이미지를 수정하시겠습니까?')){modifyMainImg(${product.productNo});};" style="weight:120px;height:40px;font-weight:bold;color:white;background-color:darkorange;border:1px solid darkorange;border-radius:4px;">저장</button>
+							</div>
 						</div>
 						<hr>
 						<h6>서브이미지 추가</h6>
 						<div id="subImg-wrap">
-							<label class="imgLabel">서브이미지1</label>
-							<input type="file" name="imgFile" onchange="tempImgSave(this,'sub1');"><br>
-							<label class="imgLabel">서브이미지2</label>
-							<input type="file" name="imgFile" onchange="tempImgSave(this,'sub2');"><br>
-							<label class="imgLabel">서브이미지3</label>
-							<input type="file" name="imgFile" onchange="tempImgSave(this,'sub3');"><br>
-							<label class="imgLabel">서브이미지4</label>
-							<input type="file" name="imgFile" onchange="tempImgSave(this,'sub4');"><br>
-							<label class="imgLabel">서브이미지5</label>
-							<input type="file" name="imgFile" onchange="tempImgSave(this,'sub5');"><br>
+								<form id="subForm" action="#" method="post" enctype="multipart/form-data" >
+									<label class="imgLabel">서브이미지1</label>
+									<input type="file" name="imgFile" onchange="tempImgSave(this,'sub1');"><br>
+									<label class="imgLabel">서브이미지2</label>
+									<input type="file" name="imgFile" onchange="tempImgSave(this,'sub2');"><br>
+									<label class="imgLabel">서브이미지3</label>
+									<input type="file" name="imgFile" onchange="tempImgSave(this,'sub3');"><br>
+									<label class="imgLabel">서브이미지4</label>
+									<input type="file" name="imgFile" onchange="tempImgSave(this,'sub4');"><br>
+									<label class="imgLabel">서브이미지5</label>
+									<input type="file" name="imgFile" onchange="tempImgSave(this,'sub5');"><br>
+								</form>
+								<div style="text-align:center;">
+									<button id="subLockBtn" type="button" onclick="modifySubImgLock();" style="weight:120px;height:40px;font-weight:bold;color:darkorange;background-color:white;border:1px solid darkorange;border-radius:4px;">서브이미지 수정</button>
+									<button id="subModiBtn" type="button" onclick="if(confirm('서브이미지를 수정하시겠습니까?')){modifySubImg(${product.productNo});};" style="weight:120px;height:40px;font-weight:bold;color:white;background-color:darkorange;border:1px solid darkorange;border-radius:4px;">저장</button>
+								</div>
 						</div>
 						<hr>
 						<h6>상품설명이미지추가</h6>
 						<div id="infoImg-wrap">
-							<label class="imgLabel">상품설명이미지1</label><span style="color:red;font-size:12px;">*필수등록</span>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info1');" ><br>
-							<label class="imgLabel">상품설명이미지2</label>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info2');"><br>
-							<label class="imgLabel">상품설명이미지3</label>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info3');"><br>
-							<label class="imgLabel">상품설명이미지4</label>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info4');"><br>
-							<label class="imgLabel">상품설명이미지5</label>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info5');"><br>
-							<label class="imgLabel">상품설명이미지6</label>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info6');"><br>
-							<label class="imgLabel">상품설명이미지7</label>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info7');"><br>
-							<label class="imgLabel">상품설명이미지8</label>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info8');"><br>
-							<label class="imgLabel">상품설명이미지9</label>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info9');"><br>
-							<label class="imgLabel">상품설명이미지10</label>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info10');"><br>
+							<form id="infoForm" action="#" method="post" enctype="multipart/form-data" >
+								<label class="imgLabel">상품설명이미지1</label><span style="color:red;font-size:12px;">*필수등록</span>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info1');" ><br>
+								<label class="imgLabel">상품설명이미지2</label>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info2');"><br>
+								<label class="imgLabel">상품설명이미지3</label>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info3');"><br>
+								<label class="imgLabel">상품설명이미지4</label>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info4');"><br>
+								<label class="imgLabel">상품설명이미지5</label>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info5');"><br>
+								<label class="imgLabel">상품설명이미지6</label>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info6');"><br>
+								<label class="imgLabel">상품설명이미지7</label>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info7');"><br>
+								<label class="imgLabel">상품설명이미지8</label>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info8');"><br>
+								<label class="imgLabel">상품설명이미지9</label>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info9');"><br>
+								<label class="imgLabel">상품설명이미지10</label>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info10');"><br>
+							</form>
+							<div style="text-align:center;">
+								<button id="infoLockBtn" type="button" onclick="modifyInfoImgLock();" style="weight:120px;height:40px;font-weight:bold;color:darkorange;background-color:white;border:1px solid darkorange;border-radius:4px;">상품설명이미지 수정</button>
+								<button id="infoModiBtn" type="button" onclick="if(confirm('상품설명 이미지를 수정하시겠습니까?')){modifyInfoImg(${product.productNo});};" style="weight:120px;height:40px;font-weight:bold;color:white;background-color:darkorange;border:1px solid darkorange;border-radius:4px;">저장</button>
+							</div>
 						</div>
-					</div>
+<!-- 						<div style="text-align:center;"> -->
+<!-- 							<input type="submit" value="이미지수정" style="weight:120px;height:40px;font-weight:bold;color:white;background-color:darkorange;border:1px solid darkorange;border-radius:4px;"> -->
+<!-- 							<input type="reset" value="초기화" style="weight:120px;height:40px; font-weight:bold;color:darkorange;background-color:white;border:1px solid darkorange;border-radius:4px;" onclick="location.reload();">							 -->
+<!-- 						</div> -->
+						</div>
 					<br>
 					<div id="preview"></div>
-					<hr>
-					<div style="text-align:center;">
-						<input type="submit" value="상품수정" style="weight:120px;height:40px;font-weight:bold;color:white;background-color:darkorange;border:1px solid darkorange;border-radius:4px;">
-						<input type="reset" value="초기화" style="weight:120px;height:40px; font-weight:bold;color:darkorange;background-color:white;border:1px solid darkorange;border-radius:4px;" onclick="location.reload();">							
 					</div>
-				</form>
-			</div>
 		
 		
 		
@@ -226,6 +243,8 @@
 	</div>
 </div>
 <script>
+
+
  var index = 1;
  function addImgForm(){
 	 if(index < 6){
@@ -339,20 +358,182 @@ function getImgs(){
 }
  
  //이미지 수정 잠금
-  modifyImgLock();
- function modifyImgLock(){
-	 var imgCount = document.querySelectorAll("input[type='file']").length;
-	 for(var i=1; i<imgCount; i++){
-		 document.querySelectorAll("input[type='file']")[i].disabled = true;
+  modifyMainImgLock();
+  modifySubImgLock();
+  modifyInfoImgLock();
+ //메인이미지 잠금
+//  var mainImg;
+//  var subImgs = new Array();
+//  for(var i=0; i<subImgs.length; i++){
+// 	 subImgs[i] = document.querySelectorAll("img[name='imgFile']")[i].src;
+//  }
+//  var infoImgs = new Array();
+ function modifyMainImgLock(){
+	 var mainCheck = document.querySelector("#mainModiBtn").disabled;
+	 if(mainCheck){
+		 document.querySelectorAll("input[type='file']")[0].disabled = false;
+		 document.querySelector("#mainModiBtn").disabled = false;
+	 }else{
+		 document.querySelectorAll("input[type='file']")[0].disabled = true;
+		 document.querySelector("#mainModiBtn").disabled = true;
 	 }
  }
- function modifyImgUnLock(){
+ //서브이미지 잠금
+ function modifySubImgLock(){
 	 var imgCount = document.querySelectorAll("input[type='file']").length;
-	 for(var i=1; i<imgCount; i++){
-		 document.querySelectorAll("input[type='file']")[i].disabled = false;
+	 var subCheck = document.querySelector("#subModiBtn").disabled;
+	 if(subCheck){
+		 for(var i=1; i<6; i++){
+			 document.querySelectorAll("input[type='file']")[i].disabled = false;
+			 document.querySelector("#subModiBtn").disabled = false;
+		 }
+	 }else{
+		 for(var i=1; i<6; i++){
+				 document.querySelectorAll("input[type='file']")[i].disabled = true;
+				 document.querySelector("#subModiBtn").disabled = true;
+		 }
+	 }
+ }
+ //인포이미지 잠금
+ function modifyInfoImgLock(){
+	 var imgCount = document.querySelectorAll("input[type='file']").length;
+	 var infoCheck = document.querySelector("#infoModiBtn").disabled;
+	 if(infoCheck){
+		 for(var i=6; i<imgCount; i++){
+			 document.querySelectorAll("input[type='file']")[i].disabled = false;
+			 document.querySelector("#infoModiBtn").disabled = false;
+		 }
+	 }else{
+		 for(var i=6; i<imgCount; i++){
+				 document.querySelectorAll("input[type='file']")[i].disabled = true;
+				 document.querySelector("#infoModiBtn").disabled = true;
+		 }
 	 }
  }
  
+ //////상품정보 수정 ajax
+function modifyProductInfo(productNo){
+	 var productBrand = document.querySelector("input[name='productBrand']").value;
+	 var productName = document.querySelector("input[name='productName']").value;
+	 var productPrice = document.querySelector("input[name='productPrice']").value;
+	 var productDesc = document.querySelector("textarea[name='productDesc']").value;
+	 
+	 var flag = true;
+	 if(productBrand == "" || productBrand ==null){
+		 alert("상품 브랜드를 입력하세요.");
+		 flag = false;
+	 }
+	 if(productName == "" || productName ==null){
+		alert("상품 이름을 입력하세요.");
+		flag = false; 
+	 }
+	 if(productPrice == "" || productPrice ==null){
+		alert("상품 가격을 입력하세요.");
+	 	flag = false;
+	 }
+	 if(flag){
+		 $.ajax({
+			 url:"/admin/product/modify/info.strap",
+			 data:{
+				 "productNo":productNo,
+				 "productBrand":productBrand,
+				 "productName":productName,
+				 "productPrice":productPrice,
+				 "productDesc":productDesc
+			 },
+			 type:"post",
+			 success:function(result){
+				 if(result == "success"){
+					 alert("상품 정보가 수정되었습니다.");
+					 location.reload();
+				 }else{
+					 
+				 }
+			 },
+			 error:function(){}
+		 });
+	 }
+ }
+ 
+ //메인이미지 수정 ajax
+ function modifyMainImg(productNo){
+	 var formData = new FormData();
+	 var mainImg = document.querySelector("input[name='mainImg']");
+	 formData.append("mainImg",mainImg.files[0]);
+	 formData.append("productNo",productNo);
+	 console.log(mainImg.files[0]);
+	 $.ajax({
+		 url:"/admin/product/modify/mainImg.strap",
+		 data:formData,
+		 type:"post",
+		 processData: false,
+		contentType: false,
+		 success:function(result){
+			 if(result=="success"){
+				 alert("수정되었습니다.");
+				 location.reload();
+			 }else{
+				 
+			 }
+		 },
+		 error:function(){}
+	 });
+ }
+ 
+ //서브이미지 수정 ajax
+  function modifySubImg(productNo){
+	 var formData = new FormData();
+	 var subForm = document.querySelector("#subForm");
+	 var subInputs = document.querySelectorAll("input[name='imgFile']");
+	 
+	 for(var i=0; i<subInputs.length;i++){
+		 formData.append("imgFile",subInputs[i].files[0])
+	 }
+	 formData.append("productNo",productNo);
+	 
+	 $.ajax({
+		 url:"/admin/product/modify/subImg.strap",
+		 data:formData,
+		 type:"post",
+		 processData: false,
+		 contentType: false,
+		 success:function(result){
+			 if(result=="success"){
+				 alert("수정되었습니다.");
+				 location.reload();
+			 }else{
+				 alert("실패!");
+			 }
+		 },
+		 error:function(){}
+	 });
+ }
+ //상품설명이미지 수정 ajax
+  function modifyInfoImg(productNo){
+	  	var formData = new FormData();
+		 var infoForm = document.querySelector("#infoForm");
+		 var infoInputs = document.querySelectorAll("input[name='infoFile']");
+		 for(var i=0; i<infoInputs.length;i++){
+			 formData.append("infoFile",infoInputs[i].files[0])
+		 }
+		 formData.append("productNo",productNo);
+	 $.ajax({
+		 url:"/admin/product/modify/infoImg.strap",
+		 data:formData,
+		 type:"post",
+		 processData: false,
+		 contentType: false,
+		 success:function(result){
+			 if(result=="success"){
+				 alert("수정되었습니다.")
+				 location.reload();
+			 }else{
+				 alert("수정실패!");
+			 }
+		 },
+		 error:function(){}
+	 });
+ }
  
 </script>
 </body>

@@ -47,8 +47,8 @@ public class ProductServiceImpl implements ProductService {
 		return pStore.selectAllProductSearch(session, paging, search);
 	}
 	@Override
-	public int countAllProduct() {
-		return pStore.selectCountAllProduct(session);
+	public int countAllProduct(Search search) {
+		return pStore.selectCountAllProduct(session,search);
 	}
 	@Override
 	public int countSearchProduct(Search search) {
@@ -94,9 +94,19 @@ public class ProductServiceImpl implements ProductService {
 	}
 //관리자 상품 수정
 	@Override
-	public int modifyProduct(Product product) {
-		return pStore.updateProduct(session, product);
+	public int modifyProductInfo(Product product) {
+		return pStore.updateProductInfo(session, product);
 	}
+//수정을 위한 서브이미지 및 인포이미지 삭제	
+	@Override
+	public int removeSubImgOnProduct(int productNo) {
+		return pStore.deleteSubImgOnProduct(session, productNo);
+	}
+	@Override
+	public int removeInfoImgOnProduct(int productNo) {
+		return pStore.deleteInfoImgOnProduct(session, productNo);
+	}
+	
 //관리자 상품 삭제
 	@Override
 	public int removeProduct(Product product) {
@@ -207,6 +217,10 @@ public class ProductServiceImpl implements ProductService {
 	public int modifyMemberAddr(Member member) {
 		return pStore.updateMemberAddr(session, member);
 	}
+	@Override
+	public int modifyProductMainImg(Product product) {
+		return pStore.updateProductMainImg(session, product);
+	}
 
-
+	
 }

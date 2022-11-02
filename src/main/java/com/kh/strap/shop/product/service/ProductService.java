@@ -20,19 +20,13 @@ public interface ProductService {
 	public int registerSubImg(ProductImg pi);
 	public int registerInfoImg(ProductImg pi);
 	
-//상품 수정
-	//상품정보(product) 수정 update
-//	public int modifyProduct(Product product);
-	//상품 서브 및 인포 이미지 삭제
-	//상품이미지 등록
-	
 //쇼핑몰 상품목록 조회
 	//상품 리스트 출력(디폴트:평점순)
 	public List<Product> printAllProduct(Paging paging,Search search);
 	//상품 검색 리스트 출력(검색어와 정렬 사용)
 	public List<Product> printAllProductSearch(Paging paging, Search search);
 	//전체상품 개수 카운트
-	public int countAllProduct();
+	public int countAllProduct(Search search);
 	//검색상품 개수 카운트
 	public int countSearchProduct(Search search);
 	
@@ -56,8 +50,12 @@ public interface ProductService {
 	public List<ProductImg> printSubImgByNo(Product product);
 	
 //관리자 상품 수정
-	//상품 수정
-	public int modifyProduct(Product product);
+	//상품 정보 수정
+	public int modifyProductInfo(Product product);
+	//메인이미지 업데이트
+	public int modifyProductMainImg(Product product);
+	public int removeSubImgOnProduct(int productNo);
+	public int removeInfoImgOnProduct(int productNo);
 	
 //관리자 상품 삭제
 	public int removeProduct(Product product);

@@ -28,12 +28,19 @@ public class ProductStoreLogic implements ProductStore {
 
 	@Override
 	public int insertSubImg(SqlSession session, ProductImg pi) {
-		return session.insert("ProductMapper.insertSubImg", pi);
+		if(pi.getProductNo() !=0) {
+			return session.insert("ProductMapper.insertSubImgToModify", pi);
+		}else {
+			return session.insert("ProductMapper.insertSubImg", pi);
+		}
 	}
-	
 	@Override
 	public int insertInfoImg(SqlSession session, ProductImg pi) {
-		return session.insert("ProductMapper.insertInfoImg",pi);
+		if(pi.getProductNo() !=0){
+			return session.insert("ProductMapper.insertInfoImgToModify",pi);
+		}else {
+			return session.insert("ProductMapper.insertInfoImg",pi);
+		}
 	}
 //쇼핑몰 상품목록 조회		
 	@Override
@@ -42,12 +49,12 @@ public class ProductStoreLogic implements ProductStore {
 	}
 	@Override
 	public List<Product> selectAllProductSearch(SqlSession session, Paging paging, Search search) {
-		return session.selectList("ProductMapper.selectAllProductSearch",search,new RowBounds(paging.getOffset(),paging.getPageLimit()));
+		return session.selectList("ProductMapper.selectAllProduct",search,new RowBounds(paging.getOffset(),paging.getPageLimit()));
 	}
 
 	@Override
-	public int selectCountAllProduct(SqlSession session) {
-		return session.selectOne("ProductMapper.selectCountAllProduct");
+	public int selectCountAllProduct(SqlSession session,Search search) {
+		return session.selectOne("ProductMapper.selectCountAllProduct",search);
 	}
 
 	@Override
@@ -65,7 +72,7 @@ public class ProductStoreLogic implements ProductStore {
 	}
 	@Override
 	public int selectCountAdminProductSearch(SqlSession session, Search search) {
-		return session.selectOne("ProductMapper.selectCountAdminProductSearch", search);
+		return session.selectOne("ProductMapper.selectCountAllProduct", search);
 	}
 	
 //주문별 상품목록 조회	
@@ -96,10 +103,9 @@ public class ProductStoreLogic implements ProductStore {
 
 //관리자 상품수정
 	@Override
-	public int updateProduct(SqlSession session, Product product) {
-		return session.update("ProductMapper.updateProduct", product);
+	public int updateProductInfo(SqlSession session,Product product) {
+		return session.update("ProductMapper.updateProductInfo", product);
 	}
-
 	
 //관리자 상품 삭제
 	@Override
@@ -222,16 +228,18 @@ public class ProductStoreLogic implements ProductStore {
 		return session.update("MemberMapper.updateMemberAddr", member);
 	}
 
+	@Override
+	public int updateProductMainImg(SqlSession session, Product product) {
+		return session.update("ProductMapper.updateProductMainImg",product);
+	}
 
+	@Override
+	public int deleteSubImgOnProduct(SqlSession session, int productNo) {
+		return session.delete("ProductMapper.deleteSubImgOnProduct",productNo);
+	}
 
-
-
-
-
-
-
-
-
-
-
+	@Override
+	public int deleteInfoImgOnProduct(SqlSession session, int productNo) {
+		return session.delete("ProductMapper.deleteInfoImgOnProduct",productNo);
+	}
 }

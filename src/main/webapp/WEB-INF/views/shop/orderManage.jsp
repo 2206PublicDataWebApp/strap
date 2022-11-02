@@ -53,7 +53,7 @@
 						<tr style="height:30px; border-bottom:1px solid #c0c0c0;">
 								<th class="col-1">주문번호</th>
 								<th class="col-1" >결제번호</th>
-								<th class="col-2">회원아이디</th>
+								<th class="col-1">회원아이디</th>
 								<c:choose>
 									<c:when test="${search.searchColumn eq 'final_cost' and search.orderCondition eq 'desc' }">
 										<th class="col-1" onclick="orderSubmit('final_cost','asc');">주문금액<span>▽</span></th>
