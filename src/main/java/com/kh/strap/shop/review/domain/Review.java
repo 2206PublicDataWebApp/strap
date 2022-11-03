@@ -20,6 +20,12 @@ public class Review {
 	
 	
 	public Review() {}
+	
+
+	public Review(int reviewNo) {
+		super();
+		this.reviewNo = reviewNo;
+	}
 
 
 	public Review(Product product, int reviewNo, String memberId, String memberNick, String reviewContents,

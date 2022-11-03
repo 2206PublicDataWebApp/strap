@@ -17,6 +17,16 @@ public class ProductImg {
 		this.imgRoot = imgRoot;
 	}
 
+	
+	
+	public ProductImg(int productNo, String imgName, String imgReName, String imgRoot) {
+		super();
+		this.productNo = productNo;
+		this.imgName = imgName;
+		this.imgReName = imgReName;
+		this.imgRoot = imgRoot;
+	}
+
 	public int getImgNo() {
 		return imgNo;
 	}

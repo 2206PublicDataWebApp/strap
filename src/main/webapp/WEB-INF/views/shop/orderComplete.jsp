@@ -33,12 +33,12 @@
 	<div id="contents" class="row" style="width:60%; margin:50px auto;">
 		<div class="contents col">
 			<div id="complete-header">
-				<h1><i class="fa-regular fa-calendar-check"></i> 주문이 완료되었습니다.</h1><hr>
+				<h3><i class="fa-regular fa-calendar-check"></i> 주문이 완료되었습니다.</h4><hr>
 			</div>
 			<div id="order-products-wrap">
-				<div><h3>구매상품 정보</h3></div>
+				<div><h4>구매상품 정보</h4></div>
 				<c:forEach items="${completeOrder.buyProducts }" var="product" varStatus="n" >
-					<div class="oneCart row" style="margin: 10px auto;">
+					<div class="oneCart row" style="margin: 10px auto; padding:12px 20px; border-bottom:1px solid #c0c0c0;">
 						<div class="pImg col-3" style="text-align:center;">
 							<img src="${product.mainImgRoot }" style="width:80px;height:70px;">
 						</div>
@@ -72,9 +72,9 @@
 				</c:forEach>	
 			</div>
 			<div id="order-info" class="row">
-				<div id="order-info" class="col-7" style="height:450px;margin:70px auto;padding:20px 40px; border: 1px solid #c0c0c0;text-align:left;">
+				<div id="order-info" class="col-7" style="height:450px;margin:70px auto 30px;padding:20px 40px; border: 1px solid #c0c0c0;text-align:left;">
 					<div id="orderInfo">
-						<h3>주문 정보</h3><hr>
+						<h4>주문 정보</h4><hr>
 						<table>
 							<tr>
 								<th>주문번호 : </th>
@@ -101,6 +101,10 @@
 								<td>${completeOrder.deliveryRequest }</td>
 							</tr>
 							<tr>
+								<th>결제수단 : </th>
+								<td id="paymentMethodTxt"></td>
+							</tr>
+							<tr>
 								<th>입금계좌 : </th>
 								<td>${completeOrder.vBankName } / ${completeOrder.vBankNum } </td>
 							</tr>
@@ -112,8 +116,8 @@
 					</div>
 				</div>
 				<div id="paid-info" class="col-5">
-					<div id="paidInfo" class="order-side" style="height:450px;margin:70px auto;padding:20px 40px; border: 1px solid #c0c0c0;text-align:left;">
-						 <h3>결제 금액</h3><hr>
+					<div id="paidInfo" class="order-side" style="height:450px;margin:70px auto 30px;padding:20px 40px; border: 1px solid #c0c0c0;text-align:left;">
+						 <h4>결제 금액</h4><hr>
 						 <table>
 							<tr>
 								<th>상품금액 : </th>
@@ -150,6 +154,10 @@
 						</table>
 				</div>
 			</div>
+			<div id="orderComBtn" style="text-align:center; margin:10px 0;">
+				<button style="font-size:26px;font-weight:bold;color:gray;background-color:white;border: 2px solid gray;border-radius:4px;height:70px;width:200px;" onclick="location.href='/product/listView.strap';">배송조회</button>
+				<button style="font-size:26px;font-weight:bold;color:white;background-color:gray;border: 2px solid gray;border-radius:4px;height:70px;width:200px;" onclick="location.href='/order/listView.strap';">결제취소</button>
+			</div>
 			<div id="orderComBtn" style="text-align:center;">
 				<button style="font-size:26px;font-weight:bold;color:darkorange;background-color:white;border: 2px solid darkorange;border-radius:4px;height:70px;width:200px;" onclick="location.href='/product/listView.strap';">쇼핑계속</button>
 				<button style="font-size:26px;font-weight:bold;color:white;background-color:darkorange;border: 2px solid darkorange;border-radius:4px;height:70px;width:200px;" onclick="location.href='/order/listView.strap';">주문내역</button>
@@ -164,4 +172,30 @@
 	</div>
 </div>
 </body>
+<script>
+//결제수단 문자 변환
+paymentTxt();
+function paymentTxt(){
+	var paymentTxt="";
+	switch('${completeOrder.paymentMethod}'){
+	case "card":
+		paymentTxt = "신용카드";
+		break;
+	case "trans":
+		paymentTxt = "계좌이체";
+		break;
+	case "vbank":
+		paymentTxt = "무통장입금";
+		break;
+	case "kakaopay":
+		paymentTxt = "카카오페이";
+		break;
+	case "naverpay":
+		paymentTxt = "네이버페이";
+		break;
+	}
+	document.querySelector("#paymentMethodTxt").innerHTML = paymentTxt;
+}
+
+</script>
 </html>

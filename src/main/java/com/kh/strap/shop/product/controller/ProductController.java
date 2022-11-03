@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -73,36 +74,20 @@ public class ProductController {
 	@Autowired
 	CartService cService;
 	
-	//보충제 리스트 출력
+	//쇼핑몰:보충제 리스트 출력
 	@RequestMapping(value="/product/listView.strap", method=RequestMethod.GET)
 	public ModelAndView viewProductList(ModelAndView mv,
-			Search search,
+			@ModelAttribute Search search,
 			@RequestParam(value="page",required=false)Integer currentPage
 			) {
 		int page = (currentPage != null)? currentPage : 1;
-		Paging paging = new Paging(pService.countAllProduct(), page, 10, 5);
+		System.out.println(search.toString());
+		Paging paging = new Paging(pService.countAllProduct(search), page, 10, 5);
 		List<Product>pList = pService.printAllProduct(paging, search);
 		mv.addObject("pList",pList).
 		addObject("paging",paging).
 		addObject("search",search).
 		addObject("url","listView").
-		setViewName("/shop/productList");
-		return mv;
-	}
-	
-	//상품목록 페이지 보충제 검색 리스트 출력
-	@RequestMapping(value="/product/search.strap", method=RequestMethod.GET)
-	public ModelAndView searchProductList(ModelAndView mv,
-			@ModelAttribute Search search,
-			@RequestParam(value="page",required=false)Integer currentPage) {
-		int page = (currentPage != null)? currentPage : 1;
-		
-		Paging paging = new Paging(pService.countSearchProduct(search),page,10,5);
-		List<Product>pList = pService.printAllProductSearch(paging, search);
-		mv.addObject("pList",pList).
-		addObject("paging",paging).
-		addObject("search",search).
-		addObject("url","search").
 		setViewName("/shop/productList");
 		return mv;
 	}
@@ -254,7 +239,7 @@ public class ProductController {
 		}
 	}
 	
-	//마이쇼핑 주문내역 리스트 출력(필터: 날짜)
+	//마이쇼핑: 주문내역 리스트 출력(필터: 날짜)
 	@RequestMapping(value="/order/listView.strap",method=RequestMethod.GET)
 	public ModelAndView viewMemberReviewList(ModelAndView mv,
 			@ModelAttribute Search search,
@@ -356,38 +341,40 @@ public class ProductController {
 		}
 	}
 	
-	//상품관리페이지 상품 목록
+	//관리자:상품관리페이지 이동
 	@RequestMapping(value="/admin/productView.strap", method=RequestMethod.GET)
 	public ModelAndView viewManageProduct(ModelAndView mv,
-			Search search,
-			@RequestParam(value= "page", required=false)Integer currentPage) {
-		int page = (currentPage != null) ? currentPage : 1;
-		Paging paging = new Paging(pService.countAllProduct(), page, 10, 5);
-		List<Product> pList = pService.printAdminAllProduct(paging, search);
-		mv.addObject("pList",pList).
-		addObject("paging",paging).
-		addObject("url","productView").
-		setViewName("/shop/productManage");
-		return mv;
-	}
-	
-	//상품관리페이지 상품 검색결과 목록
-	@RequestMapping(value="/admin/productSearchView.strap", method=RequestMethod.GET)
-	public ModelAndView viewSearchManageProduct(ModelAndView mv,
 			@ModelAttribute Search search,
 			@RequestParam(value= "page", required=false)Integer currentPage) {
 		int page = (currentPage != null) ? currentPage : 1;
-		Paging paging = new Paging(pService.countAdminProductSearch(search), page, 10, 5);
-		List<Product> pList = pService.printAdminProductSearch(paging, search);
-		mv.addObject("pList",pList).
-		addObject("paging",paging).
-		addObject("search",search).
-		addObject("url","productSearchView").
-		setViewName("/shop/productManage");
+		Paging paging = new Paging(pService.countAllProduct(search), page, 30, 5);
+		List<Product> pList = pService.printAdminAllProduct(paging, search);
+		if(!pList.isEmpty()) {
+			mv.addObject("pList",pList).
+			addObject("search",search).
+			addObject("paging",paging).
+			setViewName("/shop/productManage");
+		}
 		return mv;
 	}
 	
-	//상품등록페이지 이동
+	//관리자:상품관리페이지 이동(검색)
+//	@RequestMapping(value="/admin/productSearchView.strap", method=RequestMethod.GET)
+//	public ModelAndView viewSearchManageProduct(ModelAndView mv,
+//			@ModelAttribute Search search,
+//			@RequestParam(value= "page", required=false)Integer currentPage) {
+//		int page = (currentPage != null) ? currentPage : 1;
+//		Paging paging = new Paging(pService.countAdminProductSearch(search), page, 30, 5);
+//		List<Product> pList = pService.printAdminProductSearch(paging, search);
+//		mv.addObject("pList",pList).
+//		addObject("paging",paging).
+//		addObject("search",search).
+//		addObject("url","productSearchView").
+//		setViewName("/shop/productManage");
+//		return mv;
+//	}
+	
+	//관리자:상품등록페이지 이동
 	/**
 	 * 상품등록페이지 이동 메소드
 	 * @param mv
@@ -399,7 +386,7 @@ public class ProductController {
 		return mv;
 	}
 	
-	//상품등록
+	//관리자:상품등록
 	/**
 	 * 상품 등록 메소드
 	 * @param mv
@@ -421,7 +408,6 @@ public class ProductController {
 			@RequestParam(value="imgFile",required=false)List<MultipartFile> imgList,
 			HttpSession session
 			) {
-		
 		String thisTime = new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis());
 		String savePath = session.getServletContext().getRealPath("resources") + "\\image\\product";
 		File targetFile = new File(savePath);
@@ -444,14 +430,16 @@ public class ProductController {
 				if(infoList.size() > 0) {
 					int index = 1;
 					for(MultipartFile imgFile : infoList) {
-						String imgName = imgFile.getOriginalFilename();
-						String imgReName = thisTime+"_info("+index+")"+"."+imgName.substring(imgName.lastIndexOf(".")+1);
-						String imgRoot = "/resources/image/product/" + imgReName;
-						imgFile.transferTo(new File(savePath + "\\" + imgReName));
-						int regiSubResult = pService.registerInfoImg(new ProductImg(imgName, imgReName, imgRoot));
-						index++;
-						if(regiSubResult > 0 ) {
-						}else {
+						if(!imgFile.isEmpty()) {
+							String imgName = imgFile.getOriginalFilename();
+							String imgReName = thisTime+"_info("+index+")"+"."+imgName.substring(imgName.lastIndexOf(".")+1);
+							String imgRoot = "/resources/image/product/" + imgReName;
+							imgFile.transferTo(new File(savePath + "\\" + imgReName));
+							int regiSubResult = pService.registerInfoImg(new ProductImg(imgName, imgReName, imgRoot));
+							index++;
+							if(regiSubResult > 0 ) {
+							}else {
+							}
 						}
 					}
 				}
@@ -459,14 +447,16 @@ public class ProductController {
 				if(imgList.size() > 0) {
 					int index = 1;
 					for(MultipartFile imgFile : imgList) {
-						String imgName = imgFile.getOriginalFilename();
-						String imgReName = thisTime+"_sub("+index+")"+"."+imgName.substring(imgName.lastIndexOf(".")+1);
-						String imgRoot = "/resources/image/product/" + imgReName;
-						imgFile.transferTo(new File(savePath + "\\" + imgReName));
-						int regiSubResult = pService.registerSubImg(new ProductImg(imgName, imgReName, imgRoot));
-						index++;
-						if(regiSubResult > 0 ) {
-						}else {
+						if(!imgFile.isEmpty()) {
+							String imgName = imgFile.getOriginalFilename();
+							String imgReName = thisTime+"_sub("+index+")"+"."+imgName.substring(imgName.lastIndexOf(".")+1);
+							String imgRoot = "/resources/image/product/" + imgReName;
+							imgFile.transferTo(new File(savePath + "\\" + imgReName));
+							int regiSubResult = pService.registerSubImg(new ProductImg(imgName, imgReName, imgRoot));
+							index++;
+							if(regiSubResult > 0 ) {
+							}else {
+							}
 						}
 					}
 				}
@@ -482,7 +472,7 @@ public class ProductController {
 		return mv;
 	}
 	
-	//상품수정페이지 이동
+	//관리자:상품수정페이지 이동
 	@RequestMapping(value="/admin/product/modifyView.strap", method=RequestMethod.GET)
 	public ModelAndView viewModifyProduct(ModelAndView mv,
 			@ModelAttribute Product productParam) {
@@ -491,7 +481,6 @@ public class ProductController {
 		List<ProductImg> infoList = pService.printInfoImgByNo(product);
 		List<ProductImg> subList = pService.printSubImgByNo(product);
 		
-		
 		mv.addObject("product",product).
 		addObject("infoList",infoList).
 		addObject("subList",subList).
@@ -499,7 +488,168 @@ public class ProductController {
 		return mv;
 	}
 	
-	//상품 삭제ajax
+	//관리자:상품수정: 상품정보
+	@ResponseBody
+	@RequestMapping(value="/admin/product/modify/info.strap",method=RequestMethod.POST)
+	public String  modifyProductInfo(
+			@ModelAttribute Product product,
+			@RequestParam(value="mainImg",required=false)MultipartFile mainImg,
+			@RequestParam(value="infoFile",required=false)List<MultipartFile> infoList,
+			@RequestParam(value="imgFile",required=false)List<MultipartFile> imgList,
+			HttpSession session) {
+		
+		if(pService.modifyProductInfo(product) > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	//관리자:상품수정: 메인이미지
+	@ResponseBody
+	@RequestMapping(value="/admin/product/modify/mainImg.strap",method=RequestMethod.POST)
+	public String  modifyProductMainImg(
+			@ModelAttribute Product product,
+			@RequestParam(value="mainImg",required=false)MultipartFile mainImg,
+			HttpSession session) {
+		String thisTime = new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis());
+		String savePath = session.getServletContext().getRealPath("resources") + "\\image\\product";
+		File targetFile = new File(savePath);
+		if (!targetFile.exists()) {
+			targetFile.mkdir();
+		}
+		
+		try {
+			String mainImgName = mainImg.getOriginalFilename();
+			String mainImgReName = thisTime+"_main"+mainImgName.substring(mainImgName.lastIndexOf("."));
+			product.setMainImgName(mainImgName);
+			product.setMainImgReName(mainImgReName);
+			mainImg.transferTo(new File(savePath + "\\" + mainImgReName));
+			product.setMainImgRoot("/resources/image/product/" + mainImgReName);
+			if(pService.modifyProductMainImg(product) > 0) {
+				return "success";
+			}else {
+				return "fail";
+			}
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "fail";
+	}
+	//관리자:상품수정: 서브이미지
+	@ResponseBody
+	@RequestMapping(value="/admin/product/modify/subImg.strap",method=RequestMethod.POST)
+	public String  modifyProductSubImg(
+			@RequestParam("productNo")int productNo,
+			@RequestParam(value="imgFile",required=false)List<MultipartFile> imgList,
+			HttpSession session) {
+		String thisTime = new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis());
+		String savePath = session.getServletContext().getRealPath("resources") + "\\image\\product";
+		File targetFile = new File(savePath);
+		if (!targetFile.exists()) {
+			targetFile.mkdir();
+		}
+			if(imgList.size() > 0) {
+				pService.removeSubImgOnProduct(productNo);
+				int index = 1;
+				for(MultipartFile imgFile : imgList) {
+					if(!imgFile.isEmpty()) {
+						String imgName = imgFile.getOriginalFilename();
+						String imgReName = thisTime+"_info("+index+")"+"."+imgName.substring(imgName.lastIndexOf(".")+1);
+						String imgRoot = "/resources/image/product/" + imgReName;
+						try {
+							imgFile.transferTo(new File(savePath + "\\" + imgReName));
+						} catch (IllegalStateException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						int modiSubResult = pService.registerSubImg(new ProductImg(productNo, imgName, imgReName, imgRoot));
+						index++;
+						if(modiSubResult > 0 ) {
+						}else {
+							return "fail";
+						}
+					}
+				}
+			}
+		
+		return "success";
+	}
+	//관리자:상품수정: 상품정보이미지
+	@ResponseBody
+	@RequestMapping(value="/admin/product/modify/infoImg.strap",method=RequestMethod.POST)
+	public String  modifyProductInfoImg(
+			@RequestParam("productNo")int productNo,
+			@RequestParam(value="infoFile",required=false)List<MultipartFile> infoList,
+			HttpSession session) {
+		String thisTime = new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis());
+		String savePath = session.getServletContext().getRealPath("resources") + "\\image\\product";
+		File targetFile = new File(savePath);
+		if (!targetFile.exists()) {
+			targetFile.mkdir();
+		}
+			if(infoList.size() > 0) {
+				pService.removeInfoImgOnProduct(productNo);
+				int index = 1;
+				for(MultipartFile imgFile : infoList) {
+					if(!imgFile.isEmpty()) {
+						String imgName = imgFile.getOriginalFilename();
+						String imgReName = thisTime+"_info("+index+")"+"."+imgName.substring(imgName.lastIndexOf(".")+1);
+						String imgRoot = "/resources/image/product/" + imgReName;
+						try {
+							imgFile.transferTo(new File(savePath + "\\" + imgReName));
+						} catch (IllegalStateException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						int modiInfoResult = pService.registerInfoImg(new ProductImg(productNo, imgName, imgReName, imgRoot));
+						index++;
+						if(modiInfoResult > 0 ) {
+						}else {
+							return "fail";
+						}
+					}
+				}
+			}
+		return "success";
+	}
+	
+	
+	//관리자:미리보기용 이미지 임시저장 ajax
+	@ResponseBody
+	@RequestMapping(value="/admin/product/temp.strap",produces="application/json;charset=utf-8", method=RequestMethod.POST)
+	public String saveTempImg(
+			@RequestParam("tempImg")MultipartFile tempImg,
+			@RequestParam("tempFolderName")String tempFolderName,
+			@RequestParam("tempName")String tempName,
+			HttpSession session) {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			//1.클라이언트단에서 전달받은 이름으로 임시파일 저장용 폴더 생성한다.
+			//2.파일 저장 로직 시 해당 폴더는 삭제 예정.
+			String savePath = session.getServletContext().getRealPath("resources") + "\\image\\shop\\temp\\"+tempFolderName;
+			File targetFile = new File(savePath);
+			if (!targetFile.exists()) {
+				targetFile.mkdir();
+			}
+			//2.DB저장 없이 임시 폴더에 저장한다.
+			tempImg.transferTo(new File(savePath+"\\"+tempName));
+			String tempImgPath = "/resources/image/shop/temp/"+tempFolderName+"/"+tempName;
+			jsonObject.put("tempImgPath", tempImgPath);
+			return jsonObject.toString();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "fail";
+	}
+	
+	
+	//관리자:상품 삭제ajax
 	@ResponseBody
 	@RequestMapping(value="/admin/product/remove.strap",produces="text/plain;charset=utf-8", method=RequestMethod.GET)
 	public String removeProduct(
@@ -511,5 +661,26 @@ public class ProductController {
 		}else {
 			return "fail";
 		}
+	}
+	
+	//관리자:주문관리 페이지 이동
+	@RequestMapping(value="/admin/orderView.strap",method=RequestMethod.GET)
+	public ModelAndView viewManageOrder(ModelAndView mv,
+			@RequestParam(value="page",required=false)Integer currentPage,
+			@ModelAttribute Search search) {
+		int page = (currentPage != null)? currentPage : 1;
+		System.out.println(search.toString());
+		
+		Paging paging = new Paging(pService.countManageOrder(search), page, 30, 5);
+		List<Order> oList = pService.printManageOrder(paging, search);
+		if(!oList.isEmpty()) {
+			mv.addObject("paging",paging).
+			addObject("search",search).
+			addObject("oList",oList).
+			setViewName("/shop/orderManage");
+		}else {
+			
+		}
+		return mv;
 	}
 }

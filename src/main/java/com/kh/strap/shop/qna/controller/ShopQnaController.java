@@ -18,9 +18,10 @@ import com.google.gson.Gson;
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.shop.product.domain.Product;
+import com.kh.strap.shop.product.service.ProductService;
 import com.kh.strap.shop.qna.domain.ShopQna;
 import com.kh.strap.shop.qna.service.ShopQnaService;
-import com.kh.strap.shop.review.domain.Review;
 
 @Controller("ShopQnaController")
 public class ShopQnaController {
@@ -36,6 +37,8 @@ public class ShopQnaController {
 	
 	@Autowired
 	ShopQnaService qService;
+	@Autowired
+	ProductService pService;
 	
 	//마이쇼핑 회원 문의 리스트 출력(필터: 날짜)
 	@RequestMapping(value="/shopQna/list.strap",method=RequestMethod.GET)
@@ -50,8 +53,10 @@ public class ShopQnaController {
 		search.setMemberId(loginUser.getMemberId());
 		Paging paging = new Paging(qService.countMemberShopQna(search), page, 10, 5);
 		List<ShopQna> sqList = qService.printShopQnaByMemberId(paging, search);
-		
-		
+		//문의에 상품을 담아야 한다.
+		sqList.stream().forEach(sQna->{
+			sQna.setProduct(pService.printOneProduct(new Product(sQna.getProductNo())));
+		});
 		mv.addObject("sqList",sqList).
 		addObject("search",search).
 		addObject("paging",paging).

@@ -217,7 +217,7 @@
 					</div>
 					<div id="pReviewWrite" class="row">
 						<div class="col">
-							<h3>상품후기</h3>
+							<h3>상품후기<span id="numberOfReview"></h3>
 						</div>
 						<div class="col" style="text-align:right;">
 							<button id="reviewArcodian" style="font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:40px;"  onclick="loginCheck('${loginUser.memberId}',function(){reviewArcodian();});">후기작성</button>
@@ -523,7 +523,7 @@ function printReview(page,searchColumn,orderCondition){
 				document.querySelector("#order-high-price").style.fontWeight="bolder";
 				document.querySelector("#order-high-price").style.textDecoration="underline";
 			}
-// 			document.querySelector("#numberOfReview").innerHTML = "("+paging.totalCount+")"
+			document.querySelector("#numberOfReview").innerHTML = "("+paging.totalCount+")"
 			if(rList.length < 1){
 				$reviewListDiv.innerHTML = "<h2>상품 리뷰가 없습니다.</h2>"
 			}else{
@@ -706,7 +706,7 @@ function printShopQna(page){
 											'<td class="answerYn col-2" style="font-weight:bold; color:'+answerColor+';">'+ qnaAnswer +'</td>'+
 											'<td class="answerTitle col-4" '+onclickTxt+'>'+
 												'<span class="answerType"> ['+ qnaTypetxt +']</span>'+
-												'<span >문의글 입니다.</span>'+
+												'<span >문의글입니다.</span>'+
 												'<span class="secretIcon">'+secretIcon+'</span>'+
 											'</td>'+
 											'<td class="col-2">'+qList[i].memberNick+'</td>'+

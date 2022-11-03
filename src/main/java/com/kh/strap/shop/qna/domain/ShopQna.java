@@ -2,11 +2,14 @@ package com.kh.strap.shop.qna.domain;
 
 import java.sql.Date;
 
-public class ShopQna {
+import com.kh.strap.shop.product.domain.Product;
 
+public class ShopQna {
+	
+	private Product product; 		//문의달린상품
 	private int qnaNo;				//문의번호 시퀀스
 	private int productNo;			//상품번호 
-	private String qnaCode;			//문의코드 
+	private String qnaCode;			//문의코드 QC2QT1(주문/결제)QC2QT2(배송)QC2QT3(취소/반품/교환)QC2QT4(기타)
 	private String qnaType;			//문의타입
 	private String qnaTitle;		//문의제목
 	private String qnaContents;		//문의내용
@@ -19,10 +22,11 @@ public class ShopQna {
 	private String memberNick;     //회원 닉네임
 	public ShopQna() {
 	}
-	public ShopQna(int qnaNo, int productNo, String qnaCode, String qnaType, String qnaTitle, String qnaContents,
-			Date qEnrollDate, Date aEnrollDate, String answerStatus, String answerContents, String secretStatus,
-			String memberId, String memberNick) {
+	public ShopQna(Product product, int qnaNo, int productNo, String qnaCode, String qnaType, String qnaTitle,
+			String qnaContents, Date qEnrollDate, Date aEnrollDate, String answerStatus, String answerContents,
+			String secretStatus, String memberId, String memberNick) {
 		super();
+		this.product = product;
 		this.qnaNo = qnaNo;
 		this.productNo = productNo;
 		this.qnaCode = qnaCode;
@@ -36,6 +40,12 @@ public class ShopQna {
 		this.secretStatus = secretStatus;
 		this.memberId = memberId;
 		this.memberNick = memberNick;
+	}
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 	public int getQnaNo() {
 		return qnaNo;
@@ -117,10 +127,13 @@ public class ShopQna {
 	}
 	@Override
 	public String toString() {
-		return "ShopQna [qnaNo=" + qnaNo + ", productNo=" + productNo + ", qnaCode=" + qnaCode + ", qnaType=" + qnaType
-				+ ", qnaTitle=" + qnaTitle + ", qnaContents=" + qnaContents + ", qEnrollDate=" + qEnrollDate
-				+ ", aEnrollDate=" + aEnrollDate + ", answerStatus=" + answerStatus + ", answerContents="
+		return "ShopQna [product=" + product + ", qnaNo=" + qnaNo + ", productNo=" + productNo + ", qnaCode=" + qnaCode
+				+ ", qnaType=" + qnaType + ", qnaTitle=" + qnaTitle + ", qnaContents=" + qnaContents + ", qEnrollDate="
+				+ qEnrollDate + ", aEnrollDate=" + aEnrollDate + ", answerStatus=" + answerStatus + ", answerContents="
 				+ answerContents + ", secretStatus=" + secretStatus + ", memberId=" + memberId + ", memberNick="
 				+ memberNick + "]";
 	}
+	
+	
+	
 }

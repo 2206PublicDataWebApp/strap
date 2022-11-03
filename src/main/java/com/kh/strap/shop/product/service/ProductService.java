@@ -26,7 +26,7 @@ public interface ProductService {
 	//상품 검색 리스트 출력(검색어와 정렬 사용)
 	public List<Product> printAllProductSearch(Paging paging, Search search);
 	//전체상품 개수 카운트
-	public int countAllProduct();
+	public int countAllProduct(Search search);
 	//검색상품 개수 카운트
 	public int countSearchProduct(Search search);
 	
@@ -50,8 +50,12 @@ public interface ProductService {
 	public List<ProductImg> printSubImgByNo(Product product);
 	
 //관리자 상품 수정
-	//상품 수정
-	public int modifyProduct(Product product);
+	//상품 정보 수정
+	public int modifyProductInfo(Product product);
+	//메인이미지 업데이트
+	public int modifyProductMainImg(Product product);
+	public int removeSubImgOnProduct(int productNo);
+	public int removeInfoImgOnProduct(int productNo);
 	
 //관리자 상품 삭제
 	public int removeProduct(Product product);
@@ -61,6 +65,7 @@ public interface ProductService {
 	public int registerOrder(Order order);
 	//주문 상품 List 등록
 	public int registerOrderProducts(OrderProduct orderProduct);
+	
 	
 //결제: 결제금액과 주문 금액 체크
 	public int getTobePaidFinalCost(String merchant_uid);
@@ -74,6 +79,11 @@ public interface ProductService {
 	//회원 주문취소 리스트 출력
 	public List<Order> printMemberCancelOrder(Paging paging,Search search);
 	public int countMemberCancelOrder(Search search);
+	
+//관리자:주문관리 조회
+	public List<Order> printManageOrder(Paging paging,Search search);
+//관리자:주문관리 카운트
+	public int countManageOrder(Search search);
 	
 //주문 수정
 	//결제 완료 시 PAY_COMPLETE 'Y' UPDATE

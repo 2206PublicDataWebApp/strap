@@ -17,6 +17,10 @@
  .oneProduct{
  	display:inline-block;
  }
+  .pagination a{
+ 	color:#c0c0c0;
+ 	border-style:none;
+ }
 </style>
 </head>
 <body>
@@ -35,10 +39,9 @@
 		<div class="contents-side col">
 			<div id="contents-wrap">
 				<div id="title">
-					<h2>찜한 상품(${paging.totalCount })</h2><hr>
+					<h3>찜한 상품 (${paging.totalCount })</h3><hr>
 				</div>
 			</div>
-			<div id="inner-contents">
 				<c:forEach items="${pList }" var="product" varStatus="n">
 					<div class="product-wrap row" style="text-align: center;align-items: center;padding:9px; border-bottom: 1px solid #c0c0c0;">
 						<div class="oneProduct col-1 number" style="font-weight:bold; font-size:20px;">${n.count + paging.offset }</div>
@@ -78,7 +81,7 @@
 				     </c:if>
 				    </li>
 				    <c:forEach begin="${paging.startNavi }" end="${paging.endNavi }" var="n">
-				    <li class="page-item"><a class="page-link" <c:if test="${paging.page eq n }">style="font-weight:bold;"</c:if>  href="/product/${url }.strap?page=${n }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}">${n }</a></li>
+				    <li class="page-item"><a class="page-link" <c:if test="${paging.page eq n }">style="font-weight:bold;color:darkorange;"</c:if>  href="/product/${url }.strap?page=${n }&searchVal=${search.searchVal}&searchColumn=${search.searchColumn}&orderCondition=${search.orderCondition}">${n }</a></li>
 				    </c:forEach>
 				    <c:if test="${paging.endNavi < paging.endPage }">
 				    <li class="page-item">
@@ -89,7 +92,6 @@
 				    </c:if>
 				  </ul>
 				</nav>
-			</div>
 		</div>
 	</div>
 	<!-- 푸터 -->
