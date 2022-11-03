@@ -39,14 +39,10 @@
 			<div id="carouselExampleControlsNoTouching" class="carousel carousel-dark" data-bs-touch="false" style="width: 500px; height: 250px;">
 			  <div class="carousel-inner" style="padding-left: 125px;">
 			    <div class="carousel-item active" >
-					<b>Q&A</b>
-					<span class="QnA-title">자극 VS 중량!?</span>
-					<input type="text" class="form-control Q" id="stimulation" value="자극" onclick="QnA(this);" readonly>
-					<input type="text" class="form-control Q" id="weight" value="중량" onclick="QnA(this);" readonly>
 					<div class="QnA-img">
 				    	<img src="/resources/image/matching/problem.png" width="100px;" height="100px;">
-						<br><button class="btn btn-dark submit">제출</button>
 			    	</div>
+					<input type="text" class="form-control" value="간단 Q&A, 당신의 취향은?" readonly>
 			    </div>
 			    <div class="carousel-item">
 			    	<b>Q&A</b>
@@ -57,8 +53,7 @@
 					<input type="text" class="form-control Q" id="back" value="등" onclick="QnA(this);" readonly>
 					<input type="text" class="form-control Q" id="arm" value="팔" onclick="QnA(this);" readonly>
 			    	<div class="QnA-img">
-				    	<img src="/resources/image/matching/problem.png" width="100px;" height="100px;">
-			    		<br><button class="btn btn-dark submit">제출</button>
+			    		<br><button class="btn btn-dark submit" onclick="submit();">제출</button>
 			    	</div>
 			    </div>
 			    <div class="carousel-item">
@@ -70,8 +65,7 @@
 					<input type="text" class="form-control Q" id="4" value="4분할" onclick="QnA(this);" readonly>
 					<input type="text" class="form-control Q" id="5" value="5분할" onclick="QnA(this);" readonly>
 					<div class="QnA-img">
-				    	<img src="/resources/image/matching/problem.png" width="100px;" height="100px;">
-						<br><button class="btn btn-dark submit">제출</button>
+						<br><button class="btn btn-dark submit" onclick="submit();">제출</button>
 			    	</div>
 			    </div>
 			  </div>
@@ -92,20 +86,30 @@
 		</div>
 	</div>
 <script>
+	var question;
+	var answer;
 	function QnA(obj){
-		var question = $(obj).parent().children(0).eq(1).text();
-		console.log(question);
-		var answer = $(obj).val();
+		question = $(obj).parent().children(0).eq(1).text();
+		answer = $(obj).val();
 		$(".Q").css("background-color","white");
 		$(obj).css("background-color","gold");
-		$.ajax({
-			url:"/member/QnA.strap",
-			type:"post",
-			data:{"question":question, "answer":answer},
-			success:function(result){
-				alert(result);
+	}
+	
+	function submit(){
+		if(answer == null ){
+			alert("답변을 선택해주세요!");
+		} else {
+			if(confirm("답변을 제출하시겠습니까?")){
+				$.ajax({
+					url:"/member/myinfoQnA.strap",
+					type:"post",
+					data:{"question":question, "answer":answer},
+					success:function(result){
+						alert(result);
+					}
+				})
 			}
-		})
+		}
 	}
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>

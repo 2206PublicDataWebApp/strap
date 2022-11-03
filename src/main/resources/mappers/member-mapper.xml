@@ -25,11 +25,19 @@
   		<result property="memberIntroduce"	column="MEMBER_INTRODUCE"/>
   		<result property="memberAddress"	column="MEMBER_ADDRESS"/>
   		<result property="recomendCount"	column="RECOMEND_COUNT"/>
-  		
   	</resultMap>
   	<resultMap type="Member" id="IdAndCreateDate">
   		<id property="memberId" 			column="MEMBER_ID"/>
-  		<result property="mRegisterDate" 		column="M_REGISTER_DATE"/>
+  		<result property="mRegisterDate"	column="M_REGISTER_DATE"/>
+  	</resultMap>
+  	<resultMap type="SimpleQnA" id="SimpleQnAresultMap">
+  		<id property="qnaNo" 				column="QNA_NO"/>
+  		<result property="qnaTitle" 		column="QNA_TITLE"/>
+  		<result property="ex1" 				column="EX_1"/>
+  		<result property="ex2" 				column="EX_2"/>
+  		<result property="ex3" 				column="EX_3"/>
+  		<result property="ex4" 				column="EX_4"/>
+  		<result property="ex5" 				column="EX_5"/>
   	</resultMap>
   	<!-- 아이디 중복 체크 -->
   	<select id="memberIdCheck" resultType="_int">
@@ -67,6 +75,11 @@
   	<select id="memberPwdById" resultType="string">
   		SELECT MEMBER_PWD FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId} AND MEMBER_STATUS = 'Y'
   	</select> 	
+  	<!-- 간단 QnA 가져오기 -->
+  	<select id="simpleQnA" resultMap="SimpleQnAresultMap">
+  		SELECT * FROM SIMPLE_QNA_TBL WHERE QNA_NO NOT IN 
+		(SELECT QNA_NO FROM SIMPLE_ANSWER_TBL WHERE MEMBER_ID = #{memberId})
+  	</select>
   	<!-- 일반 회원가입 -->
   	<insert id="inserMember">
   		INSERT INTO MEMBER_TBL
@@ -78,6 +91,9 @@
   		INSERT INTO MEMBER_TBL
   		VALUES(#{memberId},null,#{memberName},#{memberEmail},#{memberGender},#{memberNick},NULL,#{memberCareer},
   				#{memberSBD},NULL,NULL,NULL,DEFAULT,DEFAULT,DEFAULT,DEFAULT,'kakao',null,null,null,DEFAULT)
+  	</insert>
+  	<!-- 간단 Q&A 답변  -->
+  	<insert id="inserAnswer">
   	</insert>
   	<!-- 비밀번호 찾기 시 임시패스워드로 변경, 내 정보에서 비밀번호 변경하기 -->
   	<update id="changePwd">

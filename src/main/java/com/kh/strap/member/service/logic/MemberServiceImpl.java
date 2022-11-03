@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.domain.SimpleQnA;
 import com.kh.strap.member.service.MemberService;
 import com.kh.strap.member.store.MemberStore;
 
@@ -141,10 +142,17 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public List<SimpleQnA> simpleQnA(String memberId) {
+		List<SimpleQnA> sList  = mStore.simpleQnA(session, memberId);
+		return sList;
+	}
+	
+	@Override
 	public int inserAnswer(Map<String, String> map) {
 		int result = mStore.inserAnswer(session, map);
 		return result;
 	}
+
 
 	
 	
