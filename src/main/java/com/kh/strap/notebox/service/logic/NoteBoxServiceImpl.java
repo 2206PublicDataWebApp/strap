@@ -43,6 +43,12 @@ public class NoteBoxServiceImpl implements NoteBoxService {
 	}
 
 	@Override
+	public List<NoteBox> printAllByValue(String searchCondition, String searchValue, int currentPage, int noticeLimit) {
+		List<NoteBox> nlist = nStore.selectAllByValue(session,searchCondition, searchValue, currentPage, noticeLimit);
+		return nlist;
+	}
+
+	@Override
 	public int checkNote(NoteBox noteBox) {
 		int result = nStore.updateCheckNote(session, noteBox);
 		return result;

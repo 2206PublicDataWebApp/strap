@@ -56,6 +56,26 @@
 		SELECT COUNT(*) FROM NOTEBOX_TBL
 		WHERE NOTE_CHECK = 'N' AND RECIPIENT_ID = #{memberId}
 	</select>
+	<select id="selectAllByValue" resultMap="noteBoxResultMap">
+  		SELECT * FROM NOTEBOX_TBL
+  		<where>
+  			<if test="searchCondition.toString() == 'title'">
+  				NOTE_TITLE LIKE '%'||#{searchValue}||'%'
+  			</if>
+  			<if test="searchCondition.toString() == 'contents'">
+  				NOTE_CONTENTS LIKE '%'||#{searchValue}||'%'
+  			</if>
+  			<if test="searchCondition.toString() == 'nickName'">
+  				SENDER_NICK LIKE '%'||#{searchValue}||'%'
+  			</if>
+  			<if test="searchCondition.toString() == 'all'">
+	  			NOTE_TITLE LIKE '%'||#{searchValue}||'%'
+	  			OR NOTE_CONTENTS LIKE '%'||#{searchValue}||'%'
+	  			OR SENDER_NICK LIKE '%'||#{searchValue}||'%'
+  			</if>
+  		 	AND NOTE_STATUS = 'Y'
+  		</where>
+  	</select>
 	<update id="updateCheckNote">
 		UPDATE NOTEBOX_TBL SET NOTE_CHECK = 'Y'
 		WHERE NOTE_NO = #{noteNo} AND RECIPIENT_ID = #{recipientId}

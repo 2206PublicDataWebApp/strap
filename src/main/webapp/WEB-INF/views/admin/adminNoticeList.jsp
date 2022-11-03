@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Admin Strap Notice</title>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/adminHeader.jsp"></jsp:include>
@@ -20,7 +20,7 @@
 		<table align="center" border="1" width="" class="table table-hover">
 			<tr>
 				<td colspan="5" align="left">
-					<button type="button" onclick="location.href='/admin/writeView.strap';" class="btn btn-primary">공지사항 등록</button>
+					<button type="button" onclick="location.href='/admin/writeView.strap';" class="btn btn-dark">공지사항 등록</button>
 				</td>
 			</tr>
 			<tr align="center">
@@ -52,18 +52,18 @@
 			<tr align="center" height="20">
 				<td colspan="5">
 					<c:if test="${currentPage != 1 }">
-						<a href="/admin/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-primary">이전</a>
+						<a href="/admin/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-dark">이전</a>
 					</c:if>
 					<c:forEach var="p" begin="${startNavi }" end="${endNavi }">
 						<c:if test="${currentPage eq p }">
-							<b class="btn btn-primary">${p }</b>
+							<b class="btn btn-dark">${p }</b>
 						</c:if>
 						<c:if test="${currentPage ne p }">
 							<a href="/admin/${urlVal }.strap?page=${p }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-light">${p }</a>
 						</c:if>
 					</c:forEach>
 					<c:if test="${maxPage > currentPage }">
-						<a href="/admin/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-primary">다음</a>
+						<a href="/admin/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-dark">다음</a>
 					</c:if>
 				</td>
 			</tr>
@@ -72,7 +72,7 @@
 					<form action="/admin/noticeSearch.strap" method="get">
 						<div align="center">
 							<div style="display:inline-block;">
-								<select name="searchCondition" class="btn btn-primary">
+								<select name="searchCondition" class="btn btn-dark">
 									<option value="all" <c:if test="${searchCondition eq 'all' }">selected</c:if>>전체</option>
 									<option value="title" <c:if test="${searchCondition eq 'title' }">selected</c:if>>제목</option>
 									<option value="contents" <c:if test="${searchCondition eq 'contents' }">selected</c:if>>내용</option>
@@ -82,7 +82,7 @@
 								<input style="width:300px; height:33px;" type="text" name="searchValue" value="${searchValue}">
 							</div>	
 							<div style="display:inline-block;">
-								<input type="submit" value="검색" class="btn btn-primary">
+								<input type="submit" value="검색" class="btn btn-dark">
 							</div>
 						</div>
 					</form>

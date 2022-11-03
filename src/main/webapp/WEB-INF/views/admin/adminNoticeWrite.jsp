@@ -13,8 +13,20 @@ input{
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/adminHeader.jsp"></jsp:include>
-	<p align="center" style="font-size:34px; font-family:malgun gothic;">[ 공지사항 작성 ]<p>
 	<div class="container">
+		<div class="row">
+			<div class="col-2">
+			</div>
+			<div class="col" >
+				<div id="essential info">
+					<br>
+					<p style="text-align: left; font-size: 20px;">공지사항 작성</p>
+					<hr>
+				</div>
+			</div>
+			<div class="col-2">
+			</div>
+		</div>
 		<form action="/admin/registerNotice.strap" method="post" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-2">

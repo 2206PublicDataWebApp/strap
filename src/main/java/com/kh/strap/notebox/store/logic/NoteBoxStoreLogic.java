@@ -43,6 +43,18 @@ public class NoteBoxStoreLogic implements NoteBoxStore{
 	}
 
 	@Override
+	public List<NoteBox> selectAllByValue(SqlSession session, String searchCondition, String searchValue,
+			int currentPage, int noticeLimit) {
+		int offset = (currentPage-1) * noticeLimit;
+		RowBounds rowBounds = new RowBounds(offset, noticeLimit);
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("searchCondition", searchCondition);
+		paramMap.put("searchValue", searchValue);
+		List<NoteBox> nList = session.selectList("NoteBoxMapper.selectAllByValue", paramMap, rowBounds);
+		return nList;
+	}
+
+	@Override
 	public int updateCheckNote(SqlSession session, NoteBox noteBox) {
 		int result = session.update("NoteBoxMapper.updateCheckNote", noteBox);
 		return result;

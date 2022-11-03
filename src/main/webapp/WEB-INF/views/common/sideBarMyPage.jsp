@@ -53,6 +53,8 @@ function markCart(){
 				if(Number(count)>0){
 					document.querySelector("#noteBox-check").style.display="inline-block";
 					document.querySelector("#noteBox-check").innerText=count;
+				} else {
+					document.querySelector("#noteBox-check").style.display="none";
 				}
 			},
 			error:function(){}
