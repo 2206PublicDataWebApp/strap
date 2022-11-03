@@ -152,9 +152,9 @@
 		
 		
 		
-			<div id="previewArea" class="col-8" style="height:1000px;overflow-y:scroll;color:gray;background-color:rgb(250,250,250)">
+			<div id="previewArea" class="col-8" style="height:1000px;overflow-y:scroll;color:gray;">
 			<h6 >미리보기</h6>
-				<div style="border:1px solid gray; border-radius:10px; padding:12px;">
+				<div style="border:1px solid gray; border-radius:10px; padding:12px;background-color:rgb(250,250,250);">
 					<div id="pInfo-wrap" class="row detail ">
 						<div id="pImg" class="col" style="text-align:center;padding:10px;">
 							<div id="zoomImg">

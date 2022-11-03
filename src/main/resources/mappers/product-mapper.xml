@@ -76,9 +76,9 @@
 	<select id="selectAllProduct" resultMap="ProductResultMap">
 		SELECT * 
 		FROM PRODUCT_TBL
-		WHERE PRODUCT_DELETE = 'N'
+		WHERE (PRODUCT_DELETE = 'N')
 		<if test='searchVal != "" and searchVal != null'>
-			AND (PRODUCT_NAME LIKE '%'||#{searchVal}||'%') OR (PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
+			AND ((PRODUCT_NAME LIKE '%'||#{searchVal}||'%') OR (PRODUCT_BRAND LIKE '%'||#{searchVal}||'%'))
 		</if>
 		<choose>
 			<when test='searchColumn !="" and searchColumn != null'>
@@ -93,9 +93,9 @@
 	<select id="selectAdminAllProduct" resultMap="ProductResultMap">
 		SELECT * 
 		FROM PRODUCT_TBL
-		WHERE PRODUCT_DELETE = 'N'
+		WHERE (PRODUCT_DELETE = 'N')
 		<if test='searchVal != "" and searchVal != null'>
-			AND (PRODUCT_NAME LIKE '%'||#{searchVal}||'%') OR (PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
+			AND ((PRODUCT_NAME LIKE '%'||#{searchVal}||'%') OR (PRODUCT_BRAND LIKE '%'||#{searchVal}||'%'))
 		</if>
 		<choose>
 			<when test='searchColumn !="" and searchColumn != null'>
@@ -109,9 +109,9 @@
 	<select id="selectCountAllProduct" resultType="_int">
 		SELECT COUNT(*) 
 		FROM PRODUCT_TBL
-		WHERE PRODUCT_DELETE = 'N'
+		WHERE (PRODUCT_DELETE = 'N')
 		<if test='searchVal != "" and searchVal != null'>
-			AND (PRODUCT_NAME LIKE '%'||#{searchVal}||'%') OR (PRODUCT_BRAND LIKE '%'||#{searchVal}||'%')
+			AND ((PRODUCT_NAME LIKE '%'||#{searchVal}||'%') OR (PRODUCT_BRAND LIKE '%'||#{searchVal}||'%'))
 		</if>
 	</select>
 	
@@ -127,8 +127,7 @@
 <!-- 상품상세조회	 -->
 	<select id="selectOneProduct" resultMap="ProductResultMap">
 		SELECT * FROM PRODUCT_TBL
-		WHERE PRODUCT_NO = #{productNo}
-		AND PRODUCT_DELETE = 'N'
+		WHERE (PRODUCT_NO = #{productNo}) AND (PRODUCT_DELETE = 'N')
 	</select>
 
 <!-- 상품 이미지 출력	 -->

@@ -100,7 +100,7 @@
 					<br>
 				
 					<h6>이미지 수정</h6>
-					<span style="font-size:12px;font-weight:bold">※수정 후 저장 시 기존 이미지가 초기화된 후 새로운 이미지가 등록됩니다.</span>
+					<span style="font-size:12px;font-weight:bold;color:red;";>※수정 후 저장 시 기존 이미지가 초기화된 후 새로운 이미지가 등록됩니다.</span>
 					<div id="modifyImgs" style="border:1px solid gray; border-radius:10px; padding:12px;">	
 						<h6>메인(썸네일)이미지</h6>
 						<div>
@@ -172,9 +172,9 @@
 		
 		
 		
-				<div id="previewArea" class="col-8" style="height:1000px;overflow-y:scroll;color:gray;background-color:rgb(250,250,250)">
+				<div id="previewArea" class="col-8" style="height:1000px;overflow-y:scroll;color:gray;">
 				<h6 >미리보기</h6>
-				<div style="border:1px solid gray; border-radius:10px; padding:12px;">
+				<div style="border:1px solid gray; border-radius:10px; padding:12px;background-color:rgb(250,250,250);">
 					<div id="pInfo-wrap" class="row detail ">
 						<div id="pImg" class="col" style="text-align:center;padding:10px;">
 							<div id="zoomImg">
@@ -344,8 +344,12 @@ function tempImgSave(thisInput,previewId){
 		error:function(){}
 	});
 }
-/////el값으로 이미지 셋팅.
+/////el값으로 이미지 셋팅. 이 때 각 이미지의 src를 스크립트단의 변수에 저장한다.
 getImgs();
+//이미지 수정 시 미리보기의 이미지를 껐다 켜기.
+var previewMain="";
+var previewSubs = [];
+var previewInfos = [];
 function getImgs(){
 	<c:forEach items="${infoList}" var="info" varStatus="n">
 		document.querySelector("#infoImg").childNodes[${n.count*2-1}].src = '${info.imgRoot}';
@@ -362,12 +366,6 @@ function getImgs(){
   modifySubImgLock();
   modifyInfoImgLock();
  //메인이미지 잠금
-//  var mainImg;
-//  var subImgs = new Array();
-//  for(var i=0; i<subImgs.length; i++){
-// 	 subImgs[i] = document.querySelectorAll("img[name='imgFile']")[i].src;
-//  }
-//  var infoImgs = new Array();
  function modifyMainImgLock(){
 	 var mainCheck = document.querySelector("#mainModiBtn").disabled;
 	 if(mainCheck){
@@ -376,6 +374,7 @@ function getImgs(){
 	 }else{
 		 document.querySelectorAll("input[type='file']")[0].disabled = true;
 		 document.querySelector("#mainModiBtn").disabled = true;
+		 
 	 }
  }
  //서브이미지 잠금
@@ -534,6 +533,9 @@ function modifyProductInfo(productNo){
 		 error:function(){}
 	 });
  }
+ 
+ 
+ 
  
 </script>
 </body>

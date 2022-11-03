@@ -37,7 +37,6 @@
   		<result column="ORDER_QTY"	    property="orderQty"/>
   	</resultMap>
   	
-  	
   	<insert id="insertOrder">
   		INSERT INTO ORDER_TBL
   		VALUES(#{orderNo},#{deliveryFee},#{discountAmount},#{finalCost},#{memberId},#{address},#{contactPhone},#{deliveryRequest},#{agreeYn},#{paymentMethod},#{cardKind},DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{memberNick},-1,#{vBankDueDate},#{vBankHolder},#{vBankName},#{vBankNum},DEFAULT)
