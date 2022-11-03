@@ -15,6 +15,10 @@
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
 
 <style>
+.body-child{
+	width:600px;
+	height:850px;
+}
 	.contents-side.col{
 		padding-left: 15px;
 	}
@@ -43,21 +47,6 @@
 </style>
 </head>
 <body>
-	<div class="wrap container">
-		<!-- 헤더&메뉴바 -->
-		<div class="row">
-			<div class="col">
-				<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-			</div>
-		</div>
-		
-		<div class="contents row">
-			<div class="sidebar col-3">
-				<jsp:include page="/WEB-INF/views/common/sideBarMyPage.jsp">
-				<jsp:param name="nListSize" value="${nListSize }"/>
-				</jsp:include>
-			</div>
-			<div class="contents-side col">
 				<div id="essential info">
 					<span> 쪽지함 </span>
 					<hr>
@@ -127,15 +116,6 @@
 					</c:if>
 					</table>
 				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col">
-				<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-			</div>
-		</div>
-	</div>
-	
 	<script>
 		var noteWindow;
 		function notePopup(nNo, rId, sId){

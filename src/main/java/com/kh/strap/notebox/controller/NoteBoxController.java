@@ -5,8 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.strap.admin.domain.Notice;
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.notebox.domain.NoteBox;
 import com.kh.strap.notebox.service.NoteBoxService;
@@ -38,7 +39,7 @@ public class NoteBoxController {
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String memberId = member.getMemberId();
-		
+	
 		int currentPage = (page != null) ? page : 1;
 		int totalCount = nService.getTotalCount("","");
 		int noticeLimit = 10;
@@ -53,7 +54,6 @@ public class NoteBoxController {
 			endNavi = maxPage;
 		}
 		List<NoteBox> nList = nService.printNoteBoxList(memberId, currentPage, noticeLimit);
-		int nSize = nList.size();
 		if(!nList.isEmpty()) {
 			mv.addObject("urlVal", "noteBoxListView");
 			mv.addObject("maxPage", maxPage);
@@ -62,12 +62,56 @@ public class NoteBoxController {
 			mv.addObject("startNavi", startNavi);
 			mv.addObject("endNavi", endNavi);
 			mv.addObject("nList", nList);
-			mv.addObject("nListSize", nSize);
 		}
-		System.out.println(nSize);
 		mv.setViewName("mypage/noteBox");
+		
 		return mv;
 	}
+	
+//	@ResponseBody
+//	@RequestMapping(value="/mypage/noteBoxListView.strap", produces="application/json;charset=utf-8", method=RequestMethod.GET)
+//	public String showNoteBoxList(HttpServletRequest request
+//			,@RequestParam(value="page", required=false) Integer page
+//			,Model model) {
+//		HttpSession session = request.getSession();
+//		Member member = (Member)session.getAttribute("loginUser");
+//		String memberId = member.getMemberId();
+//		System.out.println(memberId);
+//		if(memberId != null) {
+//			int currentPage = (page != null) ? page : 1;
+//			int totalCount = nService.getTotalCount("","");
+//			int noteBoxLimit = 10;
+//			int naviLimit = 5;
+//			int maxPage;
+//			int startNavi;
+//			int endNavi;
+//			maxPage = (int)((double)totalCount/noteBoxLimit + 0.9);
+//			startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
+//			endNavi = startNavi + naviLimit - 1;
+//			if(maxPage < endNavi) {
+//				endNavi = maxPage;
+//			}
+//			List<NoteBox> nList = nService.printNoteBoxList(memberId, currentPage, noteBoxLimit);
+//			if(!nList.isEmpty()) {
+//				JSONObject jsonObj = new JSONObject();
+//				jsonObj.put("urlVal", "noteBoxListView");
+//				jsonObj.put("maxPage", maxPage);
+//				jsonObj.put("currentPage", currentPage);
+//				jsonObj.put("noteBoxLimit", noteBoxLimit);
+//				jsonObj.put("startNavi", startNavi);
+//				jsonObj.put("endNavi", endNavi);
+//				model.addAttribute("nList", nList);
+//				return jsonObj.toJSONString();
+//			} else {
+//				return "no";
+//			}
+//		} else {
+//			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
+//			request.setAttribute("url", "/member/loginView.strap");
+//			return("common/alert");
+//		}
+//		
+//	}
 	
 	/**
 	 * 
