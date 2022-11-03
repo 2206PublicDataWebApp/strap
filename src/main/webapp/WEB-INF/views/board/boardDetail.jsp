@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,16 +11,16 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 <script src="https://kit.fontawesome.com/422d96f707.js" crossorigin="anonymous"></script>
+<!-- 모달 부트스트랩 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
 <!-- css -->
-<!-- <link rel="stylesheet" type="text/css" href="/resources/css/border.css"> -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
+<link rel="stylesheet" type="text/css" href="/resources/css/modal.css">
 </head>
 <body>
-<script>
-</script>
 <div class="wrap container">
 		<!-- 헤더&메뉴바 -->
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
@@ -30,7 +31,6 @@
 			transform: translate(10px, 60px);">
 		<!-- 작성자/조회수 -->
 		<div class="position-relative" style="margin-bottom: 25px;">	
-		${bReReply.replyNo }
 				${board.memberNick }
 			<div class="position-absolute top-0 end-0">
 				조회수 ${board.boardCount }		
@@ -44,7 +44,7 @@
 					${board.boardTitle }
 			</div>
 			<div class="position-absolute top-0 end-0">
-				<button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#reportBoard" id="rBtn">신고</button>
+				<button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#reportNote" id="rBtn">신고</button>
 			</div>
 		</div>
 		<!-- 내용 -->
@@ -105,21 +105,21 @@
 			<tbody>
 			</tbody>
 		</table>
-			<!-- 대댓글 등록
+			<!-- 대댓글 등록 
 			<table align="center" width="500" border="1">
 				<tr>
-					<td><textarea rows="3" cols="55" name="reReplyContents"
-							id="reReplyContents"></textarea></td>
+					<td><textarea rows="3" cols="55" name="reReplyContents" id="reReplyContents"></textarea></td>
 					<td>
-						<button id="rReSubmit">등록하기</button>
+						<button id="rReSubmit">등록</button>
 					</td>
 				</tr>
 			</table>
-			대댓글 목록
+			
+			대댓글 목록 
 			<table align="center" width="500" border="1" id="rRetb">
 				<thead>
 					<tr>
-						대댓글 갯수
+						<!-- 대댓글 갯수
 						<td colspan="4"><b id="rReCount"></b></td>
 					</tr>
 				</thead>
@@ -135,12 +135,61 @@
 	</div>
 </div>
 </div>
-		<!-- 푸터 -->
-		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+<!--Report Modal -->
+		<div class="modal fade" id="reportNote" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">게시글 신고</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="modal-body p-5 pt-0">
+							<form id="report-form2">
+								<input type="hidden" value="RC2" name="contentsCode">
+								<input type="hidden" value="${board.boardNo }" name="boardNo">
+								<input type="hidden" value="${board.boardNo }" name="contentsNo">
+								<input type="hidden" value="${page }" name="page">
+								<input type="hidden" value=${member.memberNick }name="reportMember"> 
+								<input type="hidden" value=${board.memberNick } name="reportMemberNick"> 
+								<input type="hidden" value=${board.boardTitle } name="boardTitle">
+								<input type="hidden" value=${board.boardContents } name="boardContents">
+								<!-- 신고자 -->
+								<input type="hidden" value=${board.memberNick } name="memberNick">
+								<div class="form-floating mb-3">
+									<p>신고 종류</p>
+									<select class="form-select" aria-label="Default select example"	name="reportType" style="padding-top: 5px;">
+										<option value="RT1">영리목적/홍보성</option>
+										<option value="RT2">불법정보</option>
+										<option value="RT3">음란/선정성</option>
+										<option value="RT4">욕설/인신공격</option>
+										<option value="RT5">직거래</option>
+										<option value="RT6">표시광고위반</option>
+										<option value="RT7">판매방식 부적합</option>
+										<option value="RT8">게시물 정책위반</option>
+										<option value="RT9">기타</option>
+									</select>
+								</div>
+								<div class="mb-3">
+									<textarea class="form-control" placeholder="신고 내용을 입력해주세요"
+										id="notice-textarea" name="reportContents"
+										style="height: 150px" required></textarea>
+								</div>
+								<button type="button" class="report-submit2 w-100 mb-2 btn btn-lg btn-danger" onclick="reportSubmit();">신고</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<!-- 푸터 -->
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 <script>
 $(document).ready(function() {
 	getListReply();
-	//getReListReply();
+ 	getReListReply();
 });
 
 function like_btn() {
@@ -167,23 +216,28 @@ function getListReply() {
 			var $tableBody = $("#rtb tbody");
 			$tableBody.html(""); // 내용 초기화 후 append
 			$("#rCount").text("댓글 " + brList.length +""); // 댓글 카운트
-			console.log('brList::'+brList);
+			var rnoArr = {};
 			if(brList != null) {
 				for(var i in brList) {
+					rnoArr[i] = brList[i].replyNo;
 					var $tr = $("<tr>");
 					var $rDate = $("<div style='float: right;'><td width='150'>").text(brList[i].replyDate);
 					var $memberNick = $("<div style='height: 30px;'><td width='150'>").text(brList[i].memberNick);
 					var $rContent = $("<div style='height: 30px;'><td>").text(brList[i].replyContents);
+					var $rNo = $("<div id='rNo_'"+brList[i].replyNo+"'' style='height: 30px;display:none;' data-rno='"+brList[i].replyNo+"'><td>").text(brList[i].replyNo);
 					var $btnArea = $("<div style='height: 30px;'><td width='100'>")
 								   .append("<c:if test="${loginUser.memberNick eq board.memberNick }"><a href='javascript:void(0);' style='text-decoration-line: none; margin-right:15px;' onclick='modifyView(this,\""+brList[i].replyContents+"\","+brList[i].replyNo+")'>수정</a></c:if>")
-								   .append("<c:if test="${loginUser.memberNick eq board.memberNick }"><a href='javascript:void(0);' style='text-decoration-line: none;' onclick='removeReply("+brList[i].replyNo+")'>삭제</a></c:if>")
+								   .append("<c:if test="${loginUser.memberNick eq board.memberNick }"><a href='javascript:void(0);' style='text-decoration-line: none; margin-right:15px;' onclick='removeReply("+brList[i].replyNo+")'>삭제</a></c:if>")
+								   .append("<a href='javascript:void(0);' style='text-decoration-line: none;' onclick='getReListReply("+brList[i].replyNo+")'>등록</a>")
 					$tr.append($rDate);
 					$tr.append($memberNick);
 					$tr.append($rContent);
+					$tr.append($rNo);
 					$tr.append($btnArea);
 					$tableBody.append($tr);
 				}
 			}
+			//getReListReply(rnoArr);
 		},
 		error : function() {
 			alert("서버 요청 실패");
@@ -277,9 +331,10 @@ function modifyReply(obj, rNo) {
 	});
 }
 
-/* $("#rReSubmit").on("click", function() {
+// 대댓글 등록
+$("#rReSubmit").on("click", function() {
 	var boardNo = "${board.boardNo}";
-	var replyNo = "${bReReply.replyNo}";
+	var replyNo = $("#rNo").text();
 	var reReplyContents = $("#reReplyContents").val();
 	$.ajax({
 		url : "/board/addReReply.strap",
@@ -293,54 +348,76 @@ function modifyReply(obj, rNo) {
 			if(result == "success") {
 				alert("댓글 등록 성공");
 				$("#reReplyContents").val(""); // 작성 후 내용 초기화
-				getReListReply(); // 댓글 리스트 출력
+				getReListReply(rNo); // 댓글 리스트 출력
 			} else {
 				alert("댓글 등록 실패");
-			}
+			} 
 		},
-		error : function() {
-			alert("서버 요청 실패");
-		}
+		/* error:function(request,status,error){
+	        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+	    } */
 	});
-}); */
+}); 
 
 //대댓글 불러오기 - 댓글리스트 가져올때 해당 메소드 호출
-/*   function getReListReply() {
+function getReListReply(rnoArr) {
+	console.log('rnoArr::'+rnoArr);
 	var boardNo = "${board.boardNo}";
-	var replyNo = "${bReply.replyNo}";
+	//var replyNo = $("#rNo").data("rno");
+	var replyNo = $("#rNo").text();
 	$.ajax({
-		url : '/board/listReReply.strap' 
-		, data : {
+		url : '/board/listReReply.strap',
+		data : {
 			"boardNo" : boardNo,
-			"replyNo" : replyNo
-		} ,
+			"replyNo" : rnoArr
+		},
 		type : 'get',
-		sucess : function(r) {
+		sucess : function(bReList) {
+			console.log('bReList::'+bReList);
 			var $tableBody = $("#rRetb tbody");
 			$tableBody.html(""); // 내용 초기화 후 append
 			$("#rReCount").text("댓글 (" + bReList.length +")"); // 댓글 카운트
+			
 			if(bReList != null) {
-				for(var i in bReList) {
+				for(var j in bReList) {
+					rnoArr[i] = brList[i].replyNo;
 					var $tr = $("<tr>");
-					var $memberNick = $("<td width='100'>").text(bReList[i].memberNick);
-					var $reReplyContents = $("<td>").text(bReList[i].reReplyContents);
-					var $reReplyDate = $("<td width='100'>").text(bReList[i].reReplyDate);
-																													// \" 이스케이프 문자
-					var $btnReArea = $("<td width='80'>").append("<a href='javascript:void(0);' onclick='reModifyView(this,\""+bReList[i].reReplyContents+"\","+bReList[i].reReplyNo+")'>수정</a> ")
-													   .append("<a href='javascript:void(0);' onclick='reRemoveReply("+bReList[i].reReplyNo+")'>삭제</a>")
+					var $rNo = $("<div id='rNo_'"+brList[i].replyNo+"'' style='height: 30px;display:none;' data-rno='"+brList[i].replyNo+"'><td>").text(brList[i].replyNo);
+					var $memberNick = $("<td width='100'>").text(bReList[j].memberNick);
+					var $reReplyContents = $("<td>").text(bReList[j].reReplyContents);
+					var $reReplyDate = $("<td width='100'>").text(bReList[j].reReplyDate);
+																											
+					var $btnReArea = $("<td width='80'>").append("<a href='javascript:void(0);' onclick='reModifyView(this,\""+bReList[j].reReplyContents+"\","+bReList[j].reReplyNo+")'>수정</a> ")
+													     .append("<a href='javascript:void(0);' onclick='reRemoveReply("+bReList[j].reReplyNo+")'>삭제</a>")
+					console.log('memberNick::'+memberNick);								     
+					$tr.append($rNo);								   
 					$tr.append($memberNick);
 					$tr.append($reReplyContents);
 					$tr.append($reReplyDate);
 					$tr.append($btnReArea);
 					$tableBody.append($tr);
 				}
-			}			
-		}, error : function(e) {
-			console.log('error::'+e);
+			} 
+		}, error : function(error) {
+			console.log(error);
 		}
-		
-	})
-}  */
+	});
+}
+
+// 신고 
+function reportSubmit() {
+		var params2 = $("#report-form2").serialize();
+		$.ajax({
+			url : "/report/registerReport2.strap",
+			data : params2,
+			type : "post",
+			success: function(){
+				alert("신고 완료");
+				location.reload();
+			},
+			error: function(){}
+		});
+}
 </script>
 </body>
 </html>

@@ -56,6 +56,7 @@ public interface BoardStore {
 	public int insertReReply(SqlSession session, BoardReReply bReReply);
 	
 	public List<BoardReReply> selectAllReReply(SqlSession session, Map<String, Object> map);
+
 }
 
 

@@ -24,4 +24,8 @@
 		VALUES(SEQ_REPORT_NO.NEXTVAL,#{contentsNo}, #{contentsCode}, #{reportType}, #{reportMember}, #{reportContents}, DEFAULT, DEFAULT, NULL, NULL, NULL, #{memberNick}, #{reportMemberNick})
 	</insert>
 	
+	<insert id="insertReport2">
+		INSERT INTO REPORT_TBL
+		VALUES(SEQ_REPORT_NO.NEXTVAL,#{contentsNo}, #{contentsCode}, #{reportType}, #{reportMember}, #{reportContents}, DEFAULT, DEFAULT, NULL, NULL, NULL, #{memberNick}, #{reportMemberNick})
+	</insert>
 </mapper>

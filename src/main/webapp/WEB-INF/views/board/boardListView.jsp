@@ -26,17 +26,17 @@
 			<ul class="nav nav-pills" style="justify-content: center; padding: 40px; transform: translate(40px, 10px);">
 				<button type="button" style="height: 40px; margin-right: 20px; --bs-btn-hover-bg: white;" class="btn btn-outline-primary">
 					 <li style="margin-top: -7px;" class="nav-item">
-					 	<a class="nav-link" style="--bs-nav-link-color: black; --bs-nav-link-hover-color: blue;" href="#">전체</a>
+					 	<a class="nav-link" style="--bs-nav-link-color: black; --bs-nav-link-hover-color: blue;" href="/board/list.strap?category=${Board.boardCategory == '잡담'}">전체</a>
 					 </li>
 				</button>
 				<button type="button" style="height: 40px; margin-right: 20px; --bs-btn-hover-bg: white;" class="btn btn-outline-primary">
 	  				<li style="margin-top: -7px;" class="nav-item" style="border-left: none;">
-	    				<a class="nav-link" style="--bs-nav-link-color: black; --bs-nav-link-hover-color: blue;" href="#">잡담</a>
+	    				<a class="nav-link" style="--bs-nav-link-color: black; --bs-nav-link-hover-color: blue;" href="/board?sb_cate=2">잡담</a>
 	  				</li>
 	  			</button>
 	  			<button type="button" style="height: 40px; margin-right: 20px; --bs-btn-hover-bg: white;" class="btn btn-outline-primary">
 	  				<li style="margin-top: -7px;" class="nav-item" style="border-left: none;">
-	    				<a class="nav-link" style="--bs-nav-link-color: black; --bs-nav-link-hover-color: blue;" href="#">매칭후기</a>
+	    				<a class="nav-link" style="--bs-nav-link-color: black; --bs-nav-link-hover-color: blue;" href="/board?sb_cate=3">매칭후기</a>
 	  				</li>
 	  			</button>
   			</ul>
@@ -96,17 +96,17 @@
 						</c:if>
 						<!-- 게시글 리스트 -->
 						<c:if test="${!empty bList }">
-							<c:forEach items="${bList }" var="Board" varStatus="i">
-								<tr>
-									<th scope="row">${Board.boardNo }</th>
-									<td>${Board.boardCategory }</td>
-									<td><a href="/board/detail.strap?boardNo=${Board.boardNo }&page=${currentPage }"
-									style="text-decoration-line: none; color: black;">${Board.boardTitle }</a></td>
-									<td>${Board.memberNick }</td>
-									<td>${Board.boardDate }</td>
-									<td>${Board.boardCount }</td>
-									<td>${Board.boardLikeIt }</td>
-								</tr>
+							<c:forEach items="${bList }" var="Board" varStatus="i">	
+									<tr>
+										<th scope="row">${Board.boardNo }</th>
+										<td>${Board.boardCategory }</td>
+										<td><a href="/board/detail.strap?boardNo=${Board.boardNo }&page=${currentPage }"
+										style="text-decoration-line: none; color: black;">${Board.boardTitle }</a></td>
+										<td>${Board.memberNick }</td>
+										<td>${Board.boardDate }</td>
+										<td>${Board.boardCount }</td>
+										<td>${Board.boardLikeIt }</td>
+									</tr>
 							</c:forEach>
 							</c:if>
 							<!-- 게시글이 없을 때 -->
@@ -154,8 +154,7 @@
 			</div>
 		</div>
 	</div>
-	
-		<!-- 푸터 -->
-		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+<!-- 푸터 -->
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </body>
 </html>

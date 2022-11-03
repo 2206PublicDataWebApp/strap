@@ -144,6 +144,7 @@ public class BoardServiceImpl implements BoardService {
 		List<BoardReReply> bReList = bStore.selectAllReReply(session,map);
 		return bReList;
 	}
+
 }
 
 

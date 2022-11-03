@@ -165,6 +165,7 @@ public class BoardStoreLogic implements BoardStore{
 			List<BoardReReply> bReList = session.selectList("BoardMapper.selectAllReReply", map);
 			return bReList;
 		}
+
 }
 
 

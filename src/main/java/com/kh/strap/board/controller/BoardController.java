@@ -42,14 +42,13 @@ import com.kh.strap.board.domain.BoardReply;
 import com.kh.strap.board.service.logic.BoardServiceImpl;
 import com.kh.strap.member.domain.Member;
 
-
 @Controller
 public class BoardController {
 	
-	@ExceptionHandler({NullPointerException.class, NumberFormatException.class})
-	public String errorHandler() {
-		return "redirect:/home.strap";
-	}
+	/*
+	 * @ExceptionHandler({NullPointerException.class, NumberFormatException.class})
+	 * public String errorHandler() { return "redirect:/home.strap"; }
+	 */
 	
 	@Autowired
 	private BoardServiceImpl bService;
@@ -175,6 +174,8 @@ public class BoardController {
 		}
 		return mv;
 	}
+	
+	
 	
 	/**
 	 * 썸머노트 이미지 업로드
@@ -461,13 +462,12 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value="/board/addReReply.strap", method=RequestMethod.POST)
 	public String boardAddReReply(
-			@RequestParam("replyNo") int replyNo
-			, @ModelAttribute BoardReReply bReReply
+			//@RequestParam("replyNo") int replyNo
+			@ModelAttribute BoardReReply bReReply
 			, HttpSession session) {
 		Member member = (Member) session.getAttribute("loginUser");
 		String memberNick = member.getMemberNick();
 		int boardNo = bReReply.getBoardNo();
-		System.out.println(replyNo);
 		bReReply.setMemberNick(memberNick);
 		int result = bService.registerReReply(bReReply);
 		if(result > 0) {
@@ -485,12 +485,14 @@ public class BoardController {
 	public String boardReListReply(
 			@RequestParam("boardNo") int boardNo
 			, @RequestParam("replyNo") int replyNo) {
-		int bNo = (boardNo == 0) ? 1 : boardNo;
+		//int bNo = (boardNo == 0) ? 1 : boardNo;
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("boardNo", boardNo);
 		map.put("replyNo", replyNo);
 		List<BoardReReply> bReList = bService.printAllReReply(map);
-		System.out.println("bReList::"+bReList);
+		System.out.println("boardNo::"+boardNo);
+		System.out.println("replyNo::"+replyNo);
+		System.out.println("bReList:"+bReList);
 		if(!bReList.isEmpty()) {
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			return gson.toJson(bReList);

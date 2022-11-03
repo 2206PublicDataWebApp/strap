@@ -22,6 +22,12 @@ public class ReportServiceImpl implements ReportService {
 		return result;
 	}
 
+	@Override
+	public int registReport2(Report report) {
+		int result = rStore.insertReport2(session, report);
+		return result;
+	}
+
 	
 	
 }

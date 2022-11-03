@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,4 +37,19 @@ public class ReportController {
 		}
 		return mv;
 	}
+	
+	// 게시글 신고 등록
+	@ResponseBody
+	@RequestMapping(value="/report/registerReport2.strap", method=RequestMethod.POST)
+	public String registReport2(
+			@ModelAttribute Report report) {
+		int result = rService.registReport2(report);
+		System.out.println("컨트롤러확인");
+		System.out.println(report.toString());
+		if(result > 0) {
+			return "1";
+		}
+		return "0";
+	}
+	
 }

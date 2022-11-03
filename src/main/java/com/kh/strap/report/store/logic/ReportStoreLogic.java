@@ -15,4 +15,10 @@ public class ReportStoreLogic implements ReportStore{
 		return result;
 	}
 
+	@Override
+	public int insertReport2(SqlSession session, Report report) {
+		int result = session.insert("ReportMapper.insertReport2", report);
+		return result;
+	}
+
 }

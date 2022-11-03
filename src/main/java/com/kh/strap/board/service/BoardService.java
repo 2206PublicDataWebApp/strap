@@ -55,6 +55,7 @@ public interface BoardService {
 	
 	// 댓글 리스트
 	public List<BoardReReply> printAllReReply(Map<String, Object> map);
+
 }
 
 
