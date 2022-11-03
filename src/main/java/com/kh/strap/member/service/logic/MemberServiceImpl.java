@@ -148,9 +148,15 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public int inserAnswer(Map<String, String> map) {
+	public int inserAnswer(Map<String, Object> map) {
 		int result = mStore.inserAnswer(session, map);
 		return result;
+	}
+
+	@Override
+	public SimpleQnA qnaOne(String memberId) {
+		SimpleQnA qna = mStore.qnaOne(session, memberId);
+		return qna;
 	}
 
 

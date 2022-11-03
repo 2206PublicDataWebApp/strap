@@ -136,7 +136,7 @@ public class MemberStoreLogic implements MemberStore{
 	}
 
 	@Override
-	public int inserAnswer(SqlSession session, Map<String, String> map) {
+	public int inserAnswer(SqlSession session, Map<String, Object> map) {
 		int result = session.insert("MemberMapper.inserAnswer", map);
 		return result;
 	}
@@ -145,6 +145,12 @@ public class MemberStoreLogic implements MemberStore{
 	public List<SimpleQnA> simpleQnA(SqlSession session, String memberId) {
 		List<SimpleQnA> sList  = session.selectList("MemberMapper.simpleQnA", memberId);
 		return sList;
+	}
+
+	@Override
+	public SimpleQnA qnaOne(SqlSession session, String memberId) {
+		SimpleQnA qna = session.selectOne("MemberMapper.qnaOne", memberId);
+		return qna;
 	}
 
 }

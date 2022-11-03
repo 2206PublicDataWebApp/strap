@@ -49,9 +49,11 @@ public interface MemberService {
 
 	void updateLastDate(String memberId);
 
-	int inserAnswer(Map<String, String> map);
+	int inserAnswer(Map<String, Object> map);
 
 	List<SimpleQnA> simpleQnA(String memberId);
+
+	SimpleQnA qnaOne(String memberId);
 
 
 }
