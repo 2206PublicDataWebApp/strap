@@ -44,7 +44,7 @@
 	<div id="contents" class="row">
 		<div class="contents col">
 			<div id="inner-header">
-				<h2>장바구니(${cList.size() })</h2>
+				<span style="font-weight:bold;">장바구니(${cList.size() })</span>
 			</div>
 			<div class="col-8" style="margin:auto;padding:12px;border-bottom:1px solid #c0c0c0;">
 				전체체크 <input id="allCheckbox" type="checkbox" onchange="allCheck(this);">  ※30,000원 이상 무료 배송!

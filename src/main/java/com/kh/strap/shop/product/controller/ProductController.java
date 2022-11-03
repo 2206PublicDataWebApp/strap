@@ -509,8 +509,9 @@ public class ProductController {
 	@RequestMapping(value="/admin/product/modify/mainImg.strap",method=RequestMethod.POST)
 	public String  modifyProductMainImg(
 			@ModelAttribute Product product,
-			@RequestParam(value="mainImg",required=false)MultipartFile mainImg,
+			@RequestParam(value="mainImg",required=false)MultipartFile mainImgParam,
 			HttpSession session) {
+		MultipartFile mainImg = (mainImgParam != null)?mainImgParam: null;
 		String thisTime = new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis());
 		String savePath = session.getServletContext().getRealPath("resources") + "\\image\\product";
 		File targetFile = new File(savePath);
@@ -519,12 +520,14 @@ public class ProductController {
 		}
 		
 		try {
-			String mainImgName = mainImg.getOriginalFilename();
-			String mainImgReName = thisTime+"_main"+mainImgName.substring(mainImgName.lastIndexOf("."));
-			product.setMainImgName(mainImgName);
-			product.setMainImgReName(mainImgReName);
-			mainImg.transferTo(new File(savePath + "\\" + mainImgReName));
-			product.setMainImgRoot("/resources/image/product/" + mainImgReName);
+			if(mainImg!=null) {
+				String mainImgName = mainImg.getOriginalFilename();
+				String mainImgReName = thisTime+"_main"+mainImgName.substring(mainImgName.lastIndexOf("."));
+				product.setMainImgName(mainImgName);
+				product.setMainImgReName(mainImgReName);
+				mainImg.transferTo(new File(savePath + "\\" + mainImgReName));
+				product.setMainImgRoot("/resources/image/product/" + mainImgReName);
+			}
 			if(pService.modifyProductMainImg(product) > 0) {
 				return "success";
 			}else {

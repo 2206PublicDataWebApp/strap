@@ -14,6 +14,9 @@
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
 <style>
+body{
+	font-size:16px;
+}
 
 input:disabled {
   background: #ccc;
@@ -55,7 +58,7 @@ input:disabled {
 		<div class="contents-side col-7">
 			<div id="contents-wrap">
 				<div id="title">
-					<h3>주문내역 (${paging.totalCount })</h3><hr>
+					<span>주문내역 (${paging.totalCount })</span><hr>
 				</div>
 				<div id="dateFilter" style="text-align:center;">
 					<div id="selectDate">

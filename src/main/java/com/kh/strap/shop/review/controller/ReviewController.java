@@ -124,15 +124,16 @@ public class ReviewController {
 			saveFolder.mkdir();
 		}
 		try {
-			String reviewImgName = rImg.getOriginalFilename();
-			String extension = reviewImgName.substring(reviewImgName.lastIndexOf(".")+1);
-			String reviewImgRename = now + "_review"+ extension;
-			
-			review.setReviewImgName(reviewImgName);
-			review.setReviewImgRename(reviewImgRename);
-			review.setReviewImgRoot("/resources/image/review/"+reviewImgRename);
-			rImg.transferTo(new File(savePath+"\\"+reviewImgRename));
-			
+			if(multipartImg != null) {
+				String reviewImgName = rImg.getOriginalFilename();
+				String extension = reviewImgName.substring(reviewImgName.lastIndexOf(".")+1);
+				String reviewImgRename = now + "_review."+ extension;
+				
+				review.setReviewImgName(reviewImgName);
+				review.setReviewImgRename(reviewImgRename);
+				review.setReviewImgRoot("/resources/image/review/"+reviewImgRename);
+				rImg.transferTo(new File(savePath+"\\"+reviewImgRename));
+			}
 			if(rService.registerReview(review) > 0) {
 				return "success";
 			}else {

@@ -70,7 +70,7 @@ input:disabled {
 		<div class="contents-side col" >
 			<div id="contents-wrap">
 				<div id="title">
-					<h3>나의 문의 (${paging.totalCount })</h3><hr>
+					<span>상품문의 (${paging.totalCount })</span><hr>
 				</div>
 				<div id="dateFilter" style="text-align:center;">
 					<div id="selectDate">
