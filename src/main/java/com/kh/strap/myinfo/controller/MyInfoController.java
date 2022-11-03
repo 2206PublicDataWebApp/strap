@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.domain.SimpleQnA;
 import com.kh.strap.member.service.MemberService;
 import com.kh.strap.myinfo.service.logic.MyInfoServiceImpl;
 
@@ -42,9 +45,26 @@ public class MyInfoController {
 			mv.setViewName("/member/loginView");
 			return mv;
 		}
-		mv.addObject(member);
 		mv.setViewName("/mypage/myinfo");
 		return mv;
+	}
+	
+	/**
+	 * 마이페이지 간단 Q&A 제출
+	 * @param question 질문
+	 * @param answer 답변
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/member/myinfoQnA.strap", method = RequestMethod.POST)
+	public String QnA(
+			String question
+			,String answer) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("question", question);
+		map.put("answer", answer);
+		int result = mService.inserAnswer(map);
+		return "";
 	}
 	
 	/**

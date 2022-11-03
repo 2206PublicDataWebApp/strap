@@ -1,12 +1,14 @@
 package com.kh.strap.member.service.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.domain.SimpleQnA;
 import com.kh.strap.member.service.MemberService;
 import com.kh.strap.member.store.MemberStore;
 
@@ -138,6 +140,19 @@ public class MemberServiceImpl implements MemberService {
 		mStore.updateLastDate(session, memberId);
 		
 	}
+
+	@Override
+	public List<SimpleQnA> simpleQnA(String memberId) {
+		List<SimpleQnA> sList  = mStore.simpleQnA(session, memberId);
+		return sList;
+	}
+	
+	@Override
+	public int inserAnswer(Map<String, String> map) {
+		int result = mStore.inserAnswer(session, map);
+		return result;
+	}
+
 
 	
 	

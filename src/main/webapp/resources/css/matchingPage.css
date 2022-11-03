@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+.contents-side{text-align: center;}
+#memberList{table-layout: fixed; width: 700px; height:250px; margin: 0 auto; padding-left: 30px;}
+.member{float:left; width: 100px; height: 200px; margin: 15px;}
+.img{width: 100px; height: 100px; overflow: hidden; border-radius: 30px;}
+.nick{width: 100px; height: 50px;}
+.nick button{width: 110px; height: 30px; font-size: 12px;}
+#profile{display:none; margin:0 auto; width: 700px; height: 650px; border:1px solid lightgray;border-radius: 10px;}
+#info{width: 100%; height: 350px;}
+#info table{text-align: left;}
+#infoTable input, #infoTable textarea{border: 0} 
+#infoTable th{width: 85px; padding:0} 
+#infoTable td{padding:0} 
+#infoTable tr{height: 35px} 
+#info-img{float:left; width: 45%; height: 350px;padding:35px;}
+#info-detail{float:left; width: 50%; height: 350px; padding:30px 0 0;}
+#imgs{width: 100%; height: 300px;}
+.profile-img{float:left; width: 33.3%; height: 300px;border:1px solid lightgray;border-radius: 10px;}
+#manner{width: 100%; height: 100px; text-align: left; padding: 20px;}
+#msg{width: 100%; height: 300px;}
+#noteTitle{width: 566px; border: 1px solid lightgray; border-radius: 10px;}
+.imgDiv{width: 250px; height: 300px; overflow: hidden; border-radius: 70px; margin:auto;}
+.nickDiv{width: 200px; height: 40px; font-size15px; margin:auto;}
+#memberIntroduce{width: 250px; height: 110px;}	

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -27,7 +28,7 @@
 		<div class="contents-side col">
 		<br><br>
 			<div id="memberList">
-				<h6 align="center"><b>매너 점수가 높은 회원</b></h6>
+				<h6 align="center"><b>짬에서 바이브가 나오는 회원</b></h6>
 				<c:forEach items="${mList }" var="member">
 					<div class="member">
 						<div class="img">
@@ -46,9 +47,9 @@
 				</c:forEach>
 			</div>
 			<br>
-			<button onclick="mannerRefresh();" class="btn btn-dark">새로 추천 받기</button>
+			<button onclick="careerRefresh();" class="btn btn-dark">새로 추천 받기</button>
 			<br><br><br>
-			<div id="profile">
+				<div id="profile">
 				<div id="info">
 					<div id="info-img">
 						<div class="imgDiv">
@@ -102,43 +103,11 @@
 					</div>
 				</div>
 				<br><br>
-				<span><b>운동 Q&A</b></span>
-				<div class="QnA" style="width: 300px; margin: auto;">
-					Q. 현재 몇분할로 운동 중이신가요?<br><br>
-					<input type="text" id="answer" class="form-control" style="background-color: florawhite;"> 
-				</div>
-				<br><br>
-				<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">쪽지 보내기</button>
+				<button class="btn btn-dark" onclick="sendNote()">쪽지 보내기</button>
 			</div>
 			<br><br><br>
 		</div>
 	</div>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">쪽지보내기</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="modal-title">
-        	<label for="title">제목</label>
-        	<input type="text" class="form-control" id="title">
-        </div>
-        <div class="modal-contents">
-        	<label for="note-contents">내용</label>
-        	<textarea class="form-control" id="note-contents"></textarea>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-        <button type="button" class="btn btn-dark" onclick="sendNote();">보내기</button>
-      </div>
-    </div>
-  </div>
-</div>
 <!-- 푸터	 -->
 	<div id="footer" class="row">
 		<div class="col">
@@ -146,10 +115,8 @@
 		</div>
 	</div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 <script>
-	function mannerRefresh(){
+	function careerRefresh(){
 		var count ;
 		$.ajax({
 			url: "/match/countNumber.strap",
@@ -158,7 +125,7 @@
 				count = result
 				if(confirm("회원을 새로 추천받으시겠습니까? 하루:3회 (남은 횟수:"+count+"회)")){
 					if(count >  0){
-							location.href="/match/mannerRefresh.strap";
+							location.href="/match/careerRefresh.strap";
 					} else{
 							alert("일일 횟수 3회를 모두 사용하였습니다.")
 					}
@@ -168,11 +135,11 @@
 		})
 		
 	}
-	 
+	
 	function sendNote(){
-		var recipientNick = $("#memberNick").val();
-		var noteTitle = $("#title").val();
-		var noteContents = $("#note-contents").val();
+		var recipientNick = $(".nickname").text();
+		var noteTitle = $("#noteTitle").val();
+		var noteContents = $("#noteContents").val();
 		if(!noteTitle.length == 0 && !noteContents.length==0){
 			if(confirm("쪽지를 보내시겠습니까?")){
 				$.ajax({
@@ -192,9 +159,7 @@
 					}
 				})
 			}
-		}else{
-			alert("쪽지의 제목과 내용을 입력해주세요");
-		}
+		} 
 	}
 	function profileDetail(mProfileRename,memberNick, memberCareer,memberSBD,memberJym,memberGender,memberIntroduce,memberManner){
 		$("#profile").show();
@@ -208,7 +173,7 @@
 		$("#profileImg").attr("src","/resources/profileUploadFiles/default.png");
 		}
 		//nickname
-		$("#memberNick").val(memberNick);
+		$(".nickname").text(memberNick);
 		//Career
 		if(memberCareer =='1'){
 			$("#memberCareer").val("1년 이하");
@@ -251,7 +216,7 @@
 		$("#memberGender").val('여성');
 		}
 		//manner
-		$("#memberManner").val(memberManner+'점');
+		$("#memberManner").text(memberManner+'점');
 		//Introduce
 		$("#memberIntroduce").val(memberIntroduce);
 	}

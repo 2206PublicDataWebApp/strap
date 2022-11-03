@@ -45,7 +45,7 @@
 	span.guide{color:red;}
 	
 	.imgDiv{
-		width: 100px; height: 100px; border-radius: 50px; margin-left:50px; margin-bottom:25px;
+		width: 100px; height: 100px; border-radius: 30px; margin-left:50px; margin-bottom:25px;
 		overflow: hidden;
 	}
 		
@@ -269,7 +269,7 @@
 					<tr id="change-introduceTr" style="display: none;">
 						<th>자기 소개</th>
 						<td>
-						<textarea name="memberIntroduce" id="memberIntroduce" rows="10" cols="90"></textarea>
+						<textarea name="memberIntroduce" id="memberIntroduce" rows="10" cols="90">${loginUser.memberIntroduce }</textarea>
 						<br><br>
 						<button class="btn btn-light" onclick="modifyIntroduceCancel();">취소</button>
 						<button class="btn btn-light" id="modifyIntroduceFinishBtn" onclick="modifyIntroduceFinish();">변경</button>

@@ -1,11 +1,13 @@
 package com.kh.strap.member.store.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.domain.SimpleQnA;
 import com.kh.strap.member.store.MemberStore;
 
 
@@ -131,6 +133,18 @@ public class MemberStoreLogic implements MemberStore{
 	public void updateLastDate(SqlSession session, String memberId) {
 		session.update("MemberMapper.updateLastDate",memberId);
 		
+	}
+
+	@Override
+	public int inserAnswer(SqlSession session, Map<String, String> map) {
+		int result = session.insert("MemberMapper.inserAnswer", map);
+		return result;
+	}
+
+	@Override
+	public List<SimpleQnA> simpleQnA(SqlSession session, String memberId) {
+		List<SimpleQnA> sList  = session.selectList("MemberMapper.simpleQnA", memberId);
+		return sList;
 	}
 
 }

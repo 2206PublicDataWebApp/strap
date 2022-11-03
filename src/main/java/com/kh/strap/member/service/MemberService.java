@@ -1,8 +1,10 @@
 package com.kh.strap.member.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.domain.SimpleQnA;
 
 public interface MemberService {
 
@@ -46,6 +48,10 @@ public interface MemberService {
 	int changeIntroduce(Member member);
 
 	void updateLastDate(String memberId);
+
+	int inserAnswer(Map<String, String> map);
+
+	List<SimpleQnA> simpleQnA(String memberId);
 
 
 }

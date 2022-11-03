@@ -1,5 +1,7 @@
 package com.kh.strap.mypage.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.domain.SimpleQnA;
 import com.kh.strap.member.service.MemberService;
 import com.kh.strap.mypage.service.logic.MyPageServiceImpl;
 
@@ -31,9 +34,9 @@ public class MyPageController {
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		if(member != null) {
-			String memberId = member.getMemberId();
-			Member mOne = mService.memberById(memberId);
-			session.setAttribute("memberNick", mOne.getMemberNick());
+			//간단 QNA 가져오기
+			List<SimpleQnA> sList = mService.simpleQnA(member.getMemberId());
+			System.out.println(sList);
 		} else {
 			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
 			request.setAttribute("url", "/member/loginView.strap");
