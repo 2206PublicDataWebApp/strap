@@ -15,24 +15,24 @@
 	</div>
 	<div class="login-wrap">
 		<div id="text-menu">
-			<ul>
+			<ul style="margin:20px;">
 			<c:if test="${sessionScope.loginUser.memberNick eq null}">
-			<li style="cursor: pointer;" onclick="location.href='/member/loginView.strap';">로그인</li>
+				<li style="cursor: pointer;" onclick="location.href='/member/loginView.strap';">로그인</li>
 			</c:if>
 			<c:if test="${sessionScope.loginUser.memberNick ne null}">
-			<li class="session">
-				<b>${loginUser.memberNick }</b><br>
 				<c:if test="${sessionScope.access_token eq null}">
-					<a href="/member/logout.strap">로그아웃</a>
+					<li><a href="/member/logout.strap">로그아웃</a></li>
 				</c:if>
 				<c:if test="${sessionScope.access_token ne null}">
-					<a href="/member/kakaoLogout.strap?token=${sessionScope.access_token}">로그아웃</a>
+					<li><a href="/member/kakaoLogout.strap?token=${sessionScope.access_token}">로그아웃</a></li>
 				</c:if>
-			</li>
 			</c:if>
-	        <li style="cursor: pointer;" onclick="loginCheck('${loginUser.memberId}',function(){location.href='/order/listView.strap';});">마이쇼핑</li>
 	        <li style="cursor: pointer;" onclick="location.href='/mypage/mypageView.strap';">
 				<i class="fa-regular fa-user"></i>
+	        </li>
+	        <li style="cursor: pointer;" onclick="#none">
+				<i class="fa-regular fa-envelope"></i>
+				<div id="messageMarker" style="display:none;position:relative;left:-10px;bottom:15px;height:16px;width:16px;border-radius:25px;background-color:red;color:white;font-size:10px;text-align:center;"></div>
 	        </li>
 	        <li style="cursor: pointer;" onclick="loginCheck('${loginUser.memberId}',function(){location.href='/cart/cartView.strap';});">
 				<i class="fa-solid fa-cart-shopping"></i>
@@ -51,6 +51,7 @@
     	</ul>
 	</div>
 </nav>
+<hr>
 </body>
 <script>
 //로그인 체크

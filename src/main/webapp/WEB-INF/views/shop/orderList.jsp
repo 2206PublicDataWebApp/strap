@@ -50,7 +50,7 @@ input:disabled {
 <!-- 컨텐츠 -->
 	<div id="contents" class="contents row">
 		<div class="sidebar col-3" >
-			<jsp:include page="/WEB-INF/views/common/sideBarShop.jsp"></jsp:include>
+			<jsp:include page="/WEB-INF/views/common/sideBarMyPage.jsp"></jsp:include>
 		</div>
 		<div class="contents-side col-7">
 			<div id="contents-wrap">

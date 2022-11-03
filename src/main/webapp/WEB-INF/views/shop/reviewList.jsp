@@ -59,7 +59,7 @@ input:disabled {
 <!-- 컨텐츠 -->
 	<div id="contents" class="contents row">
 		<div class="sidebar col-3" >
-			<jsp:include page="/WEB-INF/views/common/sideBarShop.jsp"></jsp:include>
+			<jsp:include page="/WEB-INF/views/common/sideBarMyPage.jsp"></jsp:include>
 		</div>
 		<div class="contents-side col">
 			<div id="contents-wrap">
@@ -151,6 +151,7 @@ input:disabled {
 				</nav>
 			</div>
 		</div>
+	</div>
 	</div>
 <!-- 푸터 -->
 	<div id="footer" class="row">
