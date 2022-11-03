@@ -35,5 +35,23 @@ public class NoteBoxServiceImpl implements NoteBoxService {
 		NoteBox nOne = nStore.selectOneByNo(session, noteBox);
 		return nOne;
 	}
+
+	@Override
+	public int getCountNoteBox(String memberId) {
+		int result = nStore.selectCountNoteBox(session, memberId);
+		return result;
+	}
+
+	@Override
+	public List<NoteBox> printAllByValue(String searchCondition, String searchValue, int currentPage, int noticeLimit) {
+		List<NoteBox> nlist = nStore.selectAllByValue(session,searchCondition, searchValue, currentPage, noticeLimit);
+		return nlist;
+	}
+
+	@Override
+	public int checkNote(NoteBox noteBox) {
+		int result = nStore.updateCheckNote(session, noteBox);
+		return result;
+	}
 	
 }

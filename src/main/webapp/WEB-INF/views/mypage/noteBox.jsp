@@ -50,10 +50,12 @@
 				<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 			</div>
 		</div>
-	
+		
 		<div class="contents row">
 			<div class="sidebar col-3">
-				<jsp:include page="/WEB-INF/views/common/sideBarMyPage.jsp"></jsp:include>
+				<jsp:include page="/WEB-INF/views/common/sideBarMyPage.jsp">
+				<jsp:param name="nListSize" value="${nListSize }"/>
+				</jsp:include>
 			</div>
 			<div class="contents-side col">
 				<div id="essential info">
@@ -72,7 +74,7 @@
 						<c:forEach items="${nList }" var="notebox" varStatus="i">
 							<tr align="center">
 								<td>${i.count }</td>
-								<td><a href="#none" onclick="notePopup('${notebox.noteNo }', '${notebox.recipientId }', '${notebox.senderId }');">${notebox.noteTitle }</a></td>
+								<td><a href="#none" onclick="notePopup('${notebox.noteNo }', '${notebox.recipientId }', '${notebox.senderId }'); location.reload();">${notebox.noteTitle }</a><c:if test="${notebox.noteCheck eq 'N' }"><span class="badge text-bg-danger">New</span></c:if></td>
 								<td>${notebox.senderNick }</td>
 								<td><fmt:formatDate pattern="yyyy-MM-dd / hh:mm:ss" value="${notebox.senderTime }"/> </td>
 							</tr>
@@ -80,27 +82,27 @@
 						<tr align="center" height="20">
 							<td colspan="5">
 								<c:if test="${currentPage != 1 }">
-									<a href="/admin/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-primary">이전</a>
+									<a href="/admin/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-dark">이전</a>
 								</c:if>
 								<c:forEach var="p" begin="${startNavi }" end="${endNavi }">
 									<c:if test="${currentPage eq p }">
-										<b class="btn btn-primary">${p }</b>
+										<b class="btn btn-dark">${p }</b>
 									</c:if>
 									<c:if test="${currentPage ne p }">
 										<a href="/admin/${urlVal }.strap?page=${p }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-light">${p }</a>
 									</c:if>
 								</c:forEach>
 								<c:if test="${maxPage > currentPage }">
-									<a href="/admin/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-primary">다음</a>
+									<a href="/admin/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-dark">다음</a>
 								</c:if>
 							</td>
 						</tr>
 						<tr>
 							<td colspan="5" align="center">
-								<form action="/admin/noticeSearch.strap" method="get">
+								<form action="/admin/noteBoxSearch.strap" method="get">
 									<div align="center">
 										<div style="display:inline-block;">
-											<select name="searchCondition" class="btn btn-primary">
+											<select name="searchCondition" class="btn btn-dark">
 												<option value="all" <c:if test="${searchCondition eq 'all' }">selected</c:if>>전체</option>
 												<option value="title" <c:if test="${searchCondition eq 'title' }">selected</c:if>>제목</option>
 												<option value="contents" <c:if test="${searchCondition eq 'contents' }">selected</c:if>>내용</option>
@@ -111,7 +113,7 @@
 											<input style="width:300px; height:33px;" type="text" name="searchValue" value="${searchValue}">
 										</div>	
 										<div style="display:inline-block;">
-											<input type="submit" value="검색" class="btn btn-primary">
+											<input type="submit" value="검색" class="btn btn-dark">
 										</div>
 									</div>
 								</form>
@@ -135,10 +137,11 @@
 	</div>
 	
 	<script>
-		var reportWindow;
-		
+		var noteWindow;
 		function notePopup(nNo, rId, sId){
-			noteWindow = window.open("/mypage/noteDetailView.strap?noteNo=" + nNo +"&recipientId=" + rId + "&senderId=" + sId, '_blank', 'width=600, height=850,resizable=no'); return false
+			var popupX = (document.body.offsetWidth / 2) - (600 / 2);
+			var popupY = (window.screen.height / 2) - (850 / 2);			
+			noteWindow = window.open("/mypage/noteDetailView.strap?noteNo=" + nNo +"&recipientId=" + rId + "&senderId=" + sId, '_blank', 'width=600, height=850, resizable=no, left='+ popupX + ', top='+ popupY); return false
 		}
 	</script>
 	

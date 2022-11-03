@@ -10,4 +10,7 @@ public interface NoteBoxStore {
 	public int selectTotalCount(SqlSession session, String searchCondition, String searchValue);
 	public List<NoteBox> selectAllNoteBox(SqlSession session, String memberId, int currentPage, int noticeLimit);
 	public NoteBox selectOneByNo(SqlSession session, NoteBox noteBox);
+	public int selectCountNoteBox(SqlSession session, String memberId);
+	public List<NoteBox> selectAllByValue(SqlSession session, String searchCondition, String searchValue, int currentPage, int noticeLimit);
+	public int updateCheckNote(SqlSession session, NoteBox noteBox);
 }

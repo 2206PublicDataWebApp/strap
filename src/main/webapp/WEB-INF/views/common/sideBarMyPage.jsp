@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,9 +21,10 @@ a:hover{
 </head>
 <body>
 	<!-- 사이드바 사용시 -->
+	<c:set var = "nListSize" value ="${param.nListSize }"/>
 	<ul class="list-group">
 		<li class="sideBar-list list-group-item list-group-item-action"><a href="/mypage/mypageView.strap">마이페이지</a></li>
-		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/noteBoxListView.strap'">쪽지함</a></li>
+		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/noteBoxListView.strap'">쪽지함</a><span class="badge rounded-pill bg-dark" id="noteBox-check"><span class="visually-hidden">unread messages</span></span></li>
 		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/scheduleView.strap'">캘린더</a></li>
 		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/myinfoView.strap'">정보조회</a></li>
 		<li class="sideBar-list list-group-item list-group-item-action"><a href="javascript:void(0);" onClick="location.href='/cart/cartView.strap'">장바구니</a></li>
@@ -39,4 +41,27 @@ a:hover{
 		<li class="sideBar-list list-group-item list-group-item-action" onclick="location.href='/shopQna/list.strap';">상품문의</li>
 	</ul>
 </body>
+<script>
+markCart();
+function markCart(){
+	if('${loginUser.memberId}' != null){
+		$.ajax({
+			url:"/mypage/mark.strap",
+			data:{},
+			type:"post",
+			success:function(count){
+				if(Number(count)>0){
+					document.querySelector("#noteBox-check").style.display="inline-block";
+					document.querySelector("#noteBox-check").innerText=count;
+				} else {
+					document.querySelector("#noteBox-check").style.display="none";
+				}
+			},
+			error:function(){}
+		});
+	}
+}
+</script>
+
+
 </html>

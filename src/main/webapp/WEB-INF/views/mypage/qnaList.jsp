@@ -74,24 +74,39 @@ td{
 										<th scope="col" style="width:400px;" >제목</th>
 										<th scope="col" style="width:200px;">작성일</th>
 										<th scope="col" style="width:200px;">처리상태</th>
+										<th scope="col" style="width:0px;"></th>
 									</tr>
 								</thead>
 								<tbody>
-<%-- 								<c:forEach items="" var="" varStatus=""> --%>
-<%-- 									<c:if test="${not empty }"> --%>
-										<tr>
-											<th scope="row">유형</th>
-											<td>제목</td>
-											<td>작성일</td>
-											<td>처리상태</td>
-										</tr>
-<%-- 									</c:if> --%>
-<%-- 									<c:if test="${empty }"> --%>
-										<h6> 등록된 문의가 없습니다.</h3>
-<%-- 									</c:if> --%>
-<%-- 								</c:forEach> --%>
+									<c:forEach items="${qList }" var="qna" varStatus="i">
+										<c:if test="${not empty qList }">
+											<tr>
+												<th scope="row">${qna.qnaType }</th>
+												<td>${qna.qnaTitle }</td>
+												<td>${qna.qEnrollDate }</td>
+												<c:if test="${qna.answerStatus eq 'N' }">
+													<td colspan=2>
+														<button class="btn btn-dark" style="width:70px" onclick="location.href='/qna/modifyQnaView.strap?qnaNo=${qna.qnaNo}'">수정</button>
+														<button class="btn btn-dark" style="width:70px" onclick="window.confirm('문의를 삭제하시겠습니까?');location.href='/qna/removeQna.strap?qnaNo=${qna.qnaNo}'">삭제</button>
+													</td>
+												</c:if>
+												<c:if test="${qna.answerStatus eq 'Y' }">
+													<td><button class="btn btn-dark" disabled>답변 완료</button></td>
+												</c:if>
+											</tr>
+										</c:if>
+									</c:forEach>
 								</tbody>
 							</table>
+							<c:if test="${empty qList }">
+								<br>
+								<div class="row">
+									<div class="col text-center">
+										<h6>등록된 문의가 없습니다.</h6>
+									</div>
+								</div>
+								<br>
+							</c:if>
 						</div>
 					</div>
 					<div class="row">
@@ -108,5 +123,6 @@ td{
 		</div>
 	</div>
 </div>
+
 </body>
 </html>

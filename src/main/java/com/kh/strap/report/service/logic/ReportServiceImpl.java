@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.strap.report.domain.Report;
 import com.kh.strap.report.service.ReportService;
-import com.kh.strap.report.store.logic.ReportStoreLogic;
+import com.kh.strap.report.store.ReportStore;
 
 @Service("ReportServiceImpl")
 public class ReportServiceImpl implements ReportService {
@@ -14,7 +14,7 @@ public class ReportServiceImpl implements ReportService {
 	@Autowired
 	private SqlSession session;
 	@Autowired
-	private ReportStoreLogic rStore;
+	private ReportStore rStore;
 	
 	@Override
 	public int registReport(Report report) {
@@ -27,7 +27,4 @@ public class ReportServiceImpl implements ReportService {
 		int result = rStore.insertReport2(session, report);
 		return result;
 	}
-
-	
-	
 }
