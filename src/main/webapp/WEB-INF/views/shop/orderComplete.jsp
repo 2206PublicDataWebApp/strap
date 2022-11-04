@@ -154,10 +154,12 @@
 						</table>
 				</div>
 			</div>
-			<div id="orderComBtn" style="text-align:center; margin:10px 0;">
-				<button style="font-size:26px;font-weight:bold;color:gray;background-color:white;border: 2px solid gray;border-radius:4px;height:70px;width:200px;" onclick="location.href='/product/listView.strap';">배송조회</button>
-				<button style="font-size:26px;font-weight:bold;color:white;background-color:gray;border: 2px solid gray;border-radius:4px;height:70px;width:200px;" onclick="cancelPay();">결제취소</button>
-			</div>
+			<c:if test="${completeOrder.orderStatus eq 'paid'}">
+				<div id="orderComBtn" style="text-align:center; margin:10px 0;">
+					<button style="font-size:26px;font-weight:bold;color:gray;background-color:white;border: 2px solid gray;border-radius:4px;height:70px;width:200px;" onclick="location.href='/product/listView.strap';">배송조회</button>
+					<button style="font-size:26px;font-weight:bold;color:white;background-color:gray;border: 2px solid gray;border-radius:4px;height:70px;width:200px;" onclick="openCancelWindow();">결제취소</button>
+				</div>
+			</c:if>
 			<div id="orderComBtn" style="text-align:center;">
 				<button style="font-size:26px;font-weight:bold;color:darkorange;background-color:white;border: 2px solid darkorange;border-radius:4px;height:70px;width:200px;" onclick="location.href='/product/listView.strap';">쇼핑계속</button>
 				<button style="font-size:26px;font-weight:bold;color:white;background-color:darkorange;border: 2px solid darkorange;border-radius:4px;height:70px;width:200px;" onclick="location.href='/order/listView.strap';">주문내역</button>
@@ -197,16 +199,33 @@ function paymentTxt(){
 	document.querySelector("#paymentMethodTxt").innerHTML = paymentTxt;
 }
 
-//결제취소
+//새끼창 띄우기
+var new_window_width = 420;
+var new_window_height = 560;
+var positionX = ( window.screen.width / 2 ) - ( new_window_width / 2 );
+var positionY = ( window.screen.height / 2 ) - ( new_window_height / 2 );
+console.log(new_window_width);
+console.log(new_window_height);
+console.log(positionX);
+console.log(positionY);
+function openCancelWindow(){
+	 window.open(
+	          "/order/cancel/window.strap",
+	          "Child",
+	          "width=" + new_window_width + ", height=" + new_window_height + ", top=" + positionY + ", left=" + positionX
+	        );
+}
 
+//결제취소
 function cancelPay() {
-  var orderNo = document.querySelector("#thisOrderNo").innerText;
-  console.log(orderNo);
+  var orderNo = window.opener.document.querySelector("#thisOrderNo").innerText;
+  var reason = document.querySelector("#");
   
   $.ajax({
 	  url:"/imp/payment/cancel",
 	  data:{
-		  "merchant_uid":orderNo
+		  "merchant_uid":orderNo,
+		  "reaseon":reason
 	  },
 	  type:"post",
 	  success:function(result){

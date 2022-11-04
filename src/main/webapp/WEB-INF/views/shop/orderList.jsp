@@ -89,7 +89,7 @@ input:disabled {
 							<div style="margin: 0px auto;border-bottom:1px solid #c0c0c0; padding:4px;background-color:rgb(250,250,250);font-size:14px;font-weight:bold;">
 								<span class="orderStatus"></span>
 								<c:if test="${order.orderStatus eq 'paid'}">
-									<button style="font-weight:bold;color:gray;background-color:white;border:1px solid gray; border-radius:4px;float:right;" disabled>결제취소</button>
+									<button style="font-weight:bold;color:gray;background-color:white;border:1px solid gray; border-radius:4px;float:right;" onclick="openCancelWindow();">결제취소</button>
 								</c:if>
 							</div>
 							<div class="oneOrderWrap" style="border:1px solid solid #c0c0c0;">
@@ -220,6 +220,22 @@ function orderStatusTxt(){
 	</c:forEach>
 }
 
+//새끼창 띄우기
+var new_window_width = 420;
+var new_window_height = 560;
+var positionX = ( window.screen.width / 2 ) - ( new_window_width / 2 );
+var positionY = ( window.screen.height / 2 ) - ( new_window_height / 2 );
+console.log(new_window_width);
+console.log(new_window_height);
+console.log(positionX);
+console.log(positionY);
+function openCancelWindow(){
+	 window.open(
+	          "/order/cancel/window.strap",
+	          "Child",
+	          "width=" + new_window_width + ", height=" + new_window_height + ", top=" + positionY + ", left=" + positionX
+	        );
+}
 
 </script>
 </body>

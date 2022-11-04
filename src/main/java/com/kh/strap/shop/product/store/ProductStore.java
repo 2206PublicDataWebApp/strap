@@ -1,6 +1,7 @@
 package com.kh.strap.shop.product.store;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -8,6 +9,7 @@ import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.shop.product.domain.Order;
+import com.kh.strap.shop.product.domain.OrderCancel;
 import com.kh.strap.shop.product.domain.OrderProduct;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
@@ -40,6 +42,10 @@ public interface ProductStore {
 		public List<Product> selectAdminProductSearch(SqlSession session,Paging paging,Search search);
 		//검색상품 개수 카운트(관리자)
 		public int selectCountAdminProductSearch(SqlSession session,Search search);
+		
+//관리자: 상품 판매량 갱신
+		public List<Product> selectGetAllProductNo(SqlSession session);
+		public int updateSales(SqlSession session,int productNo);
 		
 //주문별 구매상품 목록 출력
 		public List<Product> selectProductsOnOrder(SqlSession session ,String orderNo);
@@ -86,7 +92,7 @@ public interface ProductStore {
 		
 //주문 수정
 		//주문 완료
-		public int updatePayCompleteOrder(SqlSession session,String merchant_uid);
+		public int updatePayCompleteOrder(SqlSession session,Map<String,String> paidMap);
 		//배송 시작
 		public int updateDeliveryStartOrder(SqlSession session, String merchant_uid);
 		//배송 완료
@@ -94,6 +100,10 @@ public interface ProductStore {
 		//주문 취소
 		public int updateCancelOrder(SqlSession session,String merchant_uid);
 		public int updateVBankInfo(SqlSession session,Order order);
+		
+//주문 취소
+		//주문 취소 정보 insert
+		public int insertCancelInfo(SqlSession session,OrderCancel oc);
 		
 //찜 추가
 		//찜 등록

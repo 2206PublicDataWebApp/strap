@@ -30,23 +30,39 @@
 		<result column="VBANK_NAME" 			property="vBankName"/>
 		<result column="VBANK_NUM" 				property="vBankNum"/>
 		<result column="ORDER_STATUS" 			property="orderStatus"/>
+		
   	</resultMap>
   	<resultMap type="OrderProduct" id="OrderProductResultMap">
   		<id 	column="ORDER_NO" 		property="orderNo"/>
   		<result column="PRODUCT_NO" 	property="productNo"/>
   		<result column="ORDER_QTY"	    property="orderQty"/>
   	</resultMap>
+  	<resultMap type="OrderCancel" id="OrderCancelResultMap">
+		<id	 	column="ORDER_NO" property="orderNo"/>
+		<result column="CANCELLED_AT" property="cancelledAt"/>
+		<result column="BUYER_NAME" property="buyer_name"/>
+		<result column="EMB_PG_PROVIDER" property="emb_pg_provider"/>
+		<result column="REASON" property="reason"/>
+		<result column="AMOUNT" property="amount"/>
+		<result column="STATUS" property="status"/>
+		<result column="BUYER_TEL" property="buyer_tel"/>
+  	</resultMap>
   	
   	<insert id="insertOrder">
   		INSERT INTO ORDER_TBL
-  		VALUES(#{orderNo},#{deliveryFee},#{discountAmount},#{finalCost},#{memberId},#{address},#{contactPhone},#{deliveryRequest},#{agreeYn},#{paymentMethod},#{cardKind},DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{memberNick},-1,#{vBankDueDate},#{vBankHolder},#{vBankName},#{vBankNum},DEFAULT)
+  		VALUES(#{orderNo},#{deliveryFee},#{discountAmount},#{finalCost},#{memberId},#{address},#{contactPhone},#{deliveryRequest},'Y',#{paymentMethod},#{cardKind},DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{memberNick},-1,#{vBankDueDate},#{vBankHolder},#{vBankName},#{vBankNum},DEFAULT)
   	</insert>
   	
   	<insert id="insertOrderProducts">
   		INSERT INTO ORDER_PRODUCT_TBL
   		VALUES(#{orderNo},#{productNo},#{orderQty})
   	</insert>
-  	
+
+	<insert id="insertCancelInfo">
+		INSERT INTO ORDER_CANCEL_TBL
+		VALUES(#{orderNo},DEFAULT,#{buyer_name},#{emb_pg_provider},#{reason},#{amount},#{status},#{buyer_tel})
+	</insert>
+
   	<update id="updateVBankInfo">
   		UPDATE ORDER_TBL 
   		SET VBANK_DUEDATE = #{vBankDueDate},VBANK_HOLDER= #{vBankHolder}, VBANK_NAME=#{vBankName},VBANK_NUM=#{vBankNum},ORDER_STATUS='ready'
@@ -70,7 +86,7 @@
 		FROM ORDER_TBL
 		<where>
 			MEMBER_ID = #{memberId}
-			AND ((ORDER_STATUS =  'paid') OR (ORDER_STATUS = 'ready'))
+			AND ((ORDER_STATUS =  'paid') OR (ORDER_STATUS = 'ready') OR (ORDER_STATUS = 'cancelled'))
 			<if test='dayBefore != 0 '>
 				AND ORDER_DATE <![CDATA[>=]]> SYSDATE - #{dayBefore}
 			</if>
@@ -160,29 +176,28 @@
 			WHERE (MEMBER_ID LIKE '%'||#{searchVal}||'%') OR (ORDER_NO LIKE '%'||#{searchVal}||'%')
 		</if>
 	</select>
-	
   	
   	<update id="updatePayComplete">
   		UPDATE ORDER_TBL
-  		SET PAY_COMPLETE = 'Y', ORDER_STATUS = 'paid'
-  		WHERE ORDER_NO = #{orderNo}
+  		SET PAY_COMPLETE = 'Y', ORDER_STATUS = 'paid', PAY_NO=#{imp_uid}
+  		WHERE ORDER_NO = #{merchant_uid}
   	</update>
   	
   	<update id="updateDeliveryStart">
   		UPDATE ORDER_TBL
-  		SET DELIVERY_START = #{deliveryStart}
+  		SET DELIVERY_START = 'Y'
   		WHERE ORDER_NO = #{orderNo}
   	</update>
   	
   	<update id="updateDeliveryComplete">
   		UPDATE ORDER_TBL
-  		SET DELIVERY_COMPLETE = #{deliveryComplete}
+  		SET DELIVERY_COMPLETE = 'Y'
   		WHERE ORDER_NO = #{orderNo}
   	</update>
   	
   	<update id="updateOrderCancel">
   		UPDATE ORDER_TBL
-  		SET ORDER_CANCEL = #{orderCancel}
+  		SET ORDER_CANCEL = 'Y',ORDER_STATUS ='cancelled'
   		WHERE ORDER_NO = #{orderNo}
   	</update>
   </mapper>

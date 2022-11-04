@@ -40,7 +40,7 @@
 		SELECT * 
 		FROM QNA_TBL
 		<where>
-			MEMBER_ID = #{memberId}
+			MEMBER_ID = #{memberId} AND QNA_CODE = 'QC2'
 			<if test='dayBefore != 0 '>
 				AND Q_ENROLL_DATE <![CDATA[>=]]> SYSDATE - #{dayBefore}
 			</if>

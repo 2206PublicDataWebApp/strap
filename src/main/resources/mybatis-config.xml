@@ -36,6 +36,8 @@
 		<typeAlias type="com.kh.strap.shop.product.domain.OrderProduct"	alias="OrderProduct"/>
 		<typeAlias type="com.kh.strap.shop.product.domain.ProductSubImg" alias="ProductSubImg"/>
 		<typeAlias type="com.kh.strap.shop.product.domain.ProductLike" 	alias="ProductLike"/>
+		<typeAlias type="com.kh.strap.shop.product.domain.OrderCancel" 	alias="OrderCancel"/>
+		
 	
 	</typeAliases>
 	<mappers>

@@ -1,6 +1,7 @@
 package com.kh.strap.shop.product.service.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.shop.product.domain.Order;
+import com.kh.strap.shop.product.domain.OrderCancel;
 import com.kh.strap.shop.product.domain.OrderProduct;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
@@ -73,6 +75,21 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> printProductsOnOrder(String orderNo) {
 		return pStore.selectProductsOnOrder(session, orderNo);
 	}
+//관리자: 판매량 갱신
+	@Override
+	public int renewSales() {
+		List<Product> pList = pStore.selectGetAllProductNo(session);
+		if(!pList.isEmpty()) {
+			pList.stream().forEach(p -> {
+				pStore.updateSales(session, p.getProductNo());
+			});
+			return 1;
+		}else {
+			return 0;
+		}
+	}
+	
+
 //주문별 주문상품목록 조회
 	@Override
 	public List<OrderProduct> printOrderProductsOnOrder(String orderNo) {
@@ -162,8 +179,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 //주문 수정
 	@Override
-	public int modifyPayCompleteOrder(String merchant_uid) {
-		return pStore.updatePayCompleteOrder(session, merchant_uid);
+	public int modifyPayCompleteOrder(Map<String,String> paidMap) {
+		return pStore.updatePayCompleteOrder(session, paidMap);
 	}
 	@Override
 	public int modifyDeliveryStartOrder(String merchant_uid) {
@@ -181,6 +198,14 @@ public class ProductServiceImpl implements ProductService {
 	public int modifyVBankInfo(Order order) {
 		return pStore.updateVBankInfo(session, order);
 	}
+	
+//주문 취소
+	//주문 취소 정보 insert
+	public int registerCancelInfo(OrderCancel oc) {
+		return pStore.insertCancelInfo(session, oc);
+	}
+	
+	
 	
 //찜
 	//찜목록출력
@@ -221,6 +246,7 @@ public class ProductServiceImpl implements ProductService {
 	public int modifyProductMainImg(Product product) {
 		return pStore.updateProductMainImg(session, product);
 	}
+
 
 	
 }

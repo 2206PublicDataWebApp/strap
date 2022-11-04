@@ -10,7 +10,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Date;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -20,19 +19,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.strap.shop.imp.service.ImpService;
+import com.kh.strap.shop.product.domain.OrderCancel;
+import com.kh.strap.shop.product.service.ProductService;
 
 @Controller
 public class ImpController {
 	@Autowired
 	ImpService iService;
+	@Autowired
+	ProductService pService;
 	
 	
 	//아임포트 환불
+	@ResponseBody
 	@RequestMapping(value="/imp/payment/cancel",method=RequestMethod.POST)
 	public String ImpPaymentCancel(
-			@RequestParam("merchant_uid")String merchant_uid) {
+			@RequestParam("merchant_uid")String merchant_uid,
+			@RequestParam(value="reason")String inputReason) {
 		OutputStreamWriter osw;
 		DataOutputStream dos;
 		BufferedWriter bw;
@@ -43,6 +49,7 @@ public class ImpController {
 		JSONParser jsonParser = new JSONParser();
 		JSONObject jsonObjectParam = new JSONObject();
 		JSONObject jsonObjectResult;
+		
 		String access_token = getImpToken();
 		//연결할 url
 		String hostUrl="https://api.iamport.kr/payments/cancel";
@@ -55,6 +62,7 @@ public class ImpController {
 			con.setRequestProperty("Authorization","Bearer "+access_token);
 			
 			jsonObjectParam.put("merchant_uid", merchant_uid);
+			jsonObjectParam.put("reason", inputReason);
 			
 			System.out.println(merchant_uid);
 			System.out.println(jsonObjectParam.toString());
@@ -88,17 +96,25 @@ public class ImpController {
 				 */
 				if(Integer.parseInt(jsonObjectResult.get("code").toString())!=0) {
 					//환불 실패
+					return "fail";
 				}else {
+					//환불 성공, 환불 정보 DB 저장 및 성공 메시지 화면단 반환
 					JSONObject responseJson = (JSONObject)jsonObjectResult.get("response");
-					Date cancelledAt = (Date)responseJson.get("cancelled_at");
+					String buyer_name = (String)responseJson.get("buyer_name");
+					String emb_pg_provider = (String)responseJson.get("emb_pg_provider");
+					String reason = (String)responseJson.get("reaseon");
+					Integer amount = Integer.parseInt(responseJson.get("amount").toString());
+					String status = (String)responseJson.get("status");
+					String buyer_tel = (String)responseJson.get("buyer_tel");
 					
+					OrderCancel oc = new OrderCancel(merchant_uid, buyer_name, emb_pg_provider, reason, amount, status, buyer_tel);
+					
+					if(pService.registerCancelInfo(oc) > 0) {
+						if(pService.modifyCancelOrder(merchant_uid)>0) {
+							return "success";
+						}
+					}
 				}
-				
-				
-				
-				
-			}else {
-				System.out.println(con.getResponseCode());
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -107,8 +123,7 @@ public class ImpController {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
-		return "";
+		return "fail";
 	}
 	
 	//아임포트 토큰발급

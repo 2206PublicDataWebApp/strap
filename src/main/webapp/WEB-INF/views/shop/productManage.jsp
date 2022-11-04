@@ -50,6 +50,7 @@
 				</div>
 				<div id="adminProductBtnWrap" style="background-color:rgb(250,250,250);padding:12px;text-align:center;">
 					<button style="width:150px;font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;" onclick="location.href='/admin/product/registerView.strap';">상품등록</button>
+					<button style="width:150px;font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;" onclick="renewSales();">상품판매량갱신</button>
 				</div>
 				<div id="productList">
 					<table style="text-align:center; font-size:14px; width:100%;">
@@ -226,6 +227,32 @@ function orderSubmit(column,order){
 	columnName.value = column;
 	orderCon.value = order;
 	searchForm.submit();
+}
+
+//판매량 집계
+function renewSales(){
+	$.ajax({
+		url:"/admin/product/sales.strap",
+		data:{},
+		type:"post",
+	  	beforeSend: function() {
+              //통신을 시작할때 처리되는 함수 
+              $('html').css("cursor","wait");   // 현재 html 문서위에 있는 마우스 커서를 로딩 중 커서로 변경
+      		},
+//         complete: function() {
+//               //통신이 완료된 후 처리되는 함수
+//               $('html').css("cursor","auto"); // 통신이 완료 된 후 다시 일반적인 커서 모양으로 변경
+//          },
+		success:function(result){
+			if(result == "success"){
+				alert("판매량 갱신이 완료되었습니다.");
+				location.reload();
+			}else{
+				
+			}
+		},
+		error:function(){}
+	});
 }
 
 
