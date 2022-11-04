@@ -1,13 +1,16 @@
 package com.kh.strap.shop.imp.controller;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Date;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -31,7 +34,9 @@ public class ImpController {
 	public String ImpPaymentCancel(
 			@RequestParam("merchant_uid")String merchant_uid) {
 		OutputStreamWriter osw;
+		DataOutputStream dos;
 		BufferedWriter bw;
+		BufferedOutputStream bos;
 		InputStreamReader isr;
 		BufferedReader br;
 		StringBuffer sb;
@@ -40,14 +45,14 @@ public class ImpController {
 		JSONObject jsonObjectResult;
 		String access_token = getImpToken();
 		//연결할 url
-		String hostUrl = "https://api.iamport.kr/payments/cancel";
+		String hostUrl="https://api.iamport.kr/payments/cancel";
 		try {
 			URL url = new URL(hostUrl);
 			HttpURLConnection con = (HttpURLConnection)url.openConnection();
 			con.setRequestMethod("POST");
 			con.setDoOutput(true);
 			con.setRequestProperty("Content-Type", "application/json");
-			con.setRequestProperty("Authorization ",access_token);
+			con.setRequestProperty("Authorization","Bearer "+access_token);
 			
 			jsonObjectParam.put("merchant_uid", merchant_uid);
 			
@@ -59,17 +64,38 @@ public class ImpController {
 			bw.write(jsonObjectParam.toString());
 			bw.flush();
 			
+			isr = new InputStreamReader(con.getInputStream());
+			br = new BufferedReader(isr);
 			if(con.getResponseCode() == 200) {
-				isr = new InputStreamReader(con.getInputStream());
-				br = new BufferedReader(isr);
 				String line = "";
 				sb = new StringBuffer();
 				while((line = br.readLine()) != null) {
 					sb.append(line);
 				}
 				jsonObjectResult = (JSONObject)jsonParser.parse(sb.toString());
-				
 				System.out.println(jsonObjectResult.toString());
+				//취소내역에 필요한 정보도 DB에 저장하여야 한다.
+				/*code // 0이 아니면 실패
+				 * 속의 json
+				 * response{}
+				 * cancelled_at
+				 * buyer_name
+				 * emb_pg_provider
+				 * reason
+				 * amount
+				 * status
+				 * buyer_tel
+				 */
+				if(Integer.parseInt(jsonObjectResult.get("code").toString())!=0) {
+					//환불 실패
+				}else {
+					JSONObject responseJson = (JSONObject)jsonObjectResult.get("response");
+					Date cancelledAt = (Date)responseJson.get("cancelled_at");
+					
+				}
+				
+				
+				
 				
 			}else {
 				System.out.println(con.getResponseCode());
@@ -81,6 +107,7 @@ public class ImpController {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		
 		return "";
 	}
 	
@@ -117,14 +144,14 @@ public class ImpController {
 			//4.문자입력스트림으로 응답받기
 			isr = new InputStreamReader(con.getInputStream());
 			br = new BufferedReader(isr);
-			String line = "";
-			String result = "";
 			if(con.getResponseCode() == 200) {
+				String line = "";
+				sb = new StringBuffer();
 				while((line = br.readLine()) != null) {
-					result += line;
+					sb.append(line);
 				}
 				//5.응답받은 문자열을 json객체로 만들고 필요한 값을 뽑기
-				jsonObjectResult = (JSONObject)jsonParser.parse(result);
+				jsonObjectResult = (JSONObject)jsonParser.parse(sb.toString());
 				JSONObject responseJson = (JSONObject)jsonObjectResult.get("response");
 				String access_token = responseJson.get("access_token").toString();
 				System.out.println("토큰발급성공 : " + access_token);
