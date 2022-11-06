@@ -7,7 +7,7 @@ public class NoteChat {
 	private String senderId;
 	private String senderNick;
 	private String chatContents;
-	private String senderDate;
+	private Date senderDate;
 	
 	
 	
@@ -35,10 +35,10 @@ public class NoteChat {
 	public void setChatContents(String chatContents) {
 		this.chatContents = chatContents;
 	}
-	public String getSenderDate() {
+	public Date getSenderDate() {
 		return senderDate;
 	}
-	public void setSenderDate(String senderDate) {
+	public void setSenderDate(Date senderDate) {
 		this.senderDate = senderDate;
 	}
 	

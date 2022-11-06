@@ -60,16 +60,16 @@ body {
 		</header>
 		<div class="navbar row">
 			<div class="nav-menu col">
-				<a class="admin-menu" href="#">문의 관리</a>
+				<a class="admin-menu" href="#">문의</a>
 			</div>
 			<div class="nav-menu col">
-				<a class="admin-menu" href="#">신고 관리</a>
+				<a class="admin-menu" href="#">신고</a>
 			</div>
 			<div class="nav-menu col">
-				<a class="admin-menu" href="#">상품 등록</a>
+				<a class="admin-menu" href="#">몰</a>
 			</div>
 			<div class="nav-menu col">
-				<a class="admin-menu" href="#">회원 검색</a>
+				<a class="admin-menu" href="#">회원</a>
 			</div>
 			<div class="nav-menu col">
 				<a class="admin-menu" href="/admin/noticeListView.strap">공지사항</a>

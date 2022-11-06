@@ -39,7 +39,7 @@ public class NoteBoxController {
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String memberId = member.getMemberId();
-	
+		System.out.println(memberId);
 		int currentPage = (page != null) ? page : 1;
 		int totalCount = nService.getTotalCount("","");
 		int noticeLimit = 10;
@@ -54,6 +54,7 @@ public class NoteBoxController {
 			endNavi = maxPage;
 		}
 		List<NoteBox> nList = nService.printNoteBoxList(memberId, currentPage, noticeLimit);
+		System.out.println("N리스트 : " + nList);
 		if(!nList.isEmpty()) {
 			mv.addObject("urlVal", "noteBoxListView");
 			mv.addObject("maxPage", maxPage);
@@ -68,50 +69,6 @@ public class NoteBoxController {
 		return mv;
 	}
 	
-//	@ResponseBody
-//	@RequestMapping(value="/mypage/noteBoxListView.strap", produces="application/json;charset=utf-8", method=RequestMethod.GET)
-//	public String showNoteBoxList(HttpServletRequest request
-//			,@RequestParam(value="page", required=false) Integer page
-//			,Model model) {
-//		HttpSession session = request.getSession();
-//		Member member = (Member)session.getAttribute("loginUser");
-//		String memberId = member.getMemberId();
-//		System.out.println(memberId);
-//		if(memberId != null) {
-//			int currentPage = (page != null) ? page : 1;
-//			int totalCount = nService.getTotalCount("","");
-//			int noteBoxLimit = 10;
-//			int naviLimit = 5;
-//			int maxPage;
-//			int startNavi;
-//			int endNavi;
-//			maxPage = (int)((double)totalCount/noteBoxLimit + 0.9);
-//			startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
-//			endNavi = startNavi + naviLimit - 1;
-//			if(maxPage < endNavi) {
-//				endNavi = maxPage;
-//			}
-//			List<NoteBox> nList = nService.printNoteBoxList(memberId, currentPage, noteBoxLimit);
-//			if(!nList.isEmpty()) {
-//				JSONObject jsonObj = new JSONObject();
-//				jsonObj.put("urlVal", "noteBoxListView");
-//				jsonObj.put("maxPage", maxPage);
-//				jsonObj.put("currentPage", currentPage);
-//				jsonObj.put("noteBoxLimit", noteBoxLimit);
-//				jsonObj.put("startNavi", startNavi);
-//				jsonObj.put("endNavi", endNavi);
-//				model.addAttribute("nList", nList);
-//				return jsonObj.toJSONString();
-//			} else {
-//				return "no";
-//			}
-//		} else {
-//			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
-//			request.setAttribute("url", "/member/loginView.strap");
-//			return("common/alert");
-//		}
-//		
-//	}
 	
 	/**
 	 * 
@@ -126,7 +83,6 @@ public class NoteBoxController {
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String memberId = member.getMemberId();
-		System.out.println(noteBox);
 		int result = nService.checkNote(noteBox);
 		NoteBox nOne = nService.printOneByNo(noteBox);
 		mv.addObject("memberId", memberId);

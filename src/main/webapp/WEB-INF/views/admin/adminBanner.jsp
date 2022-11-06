@@ -37,7 +37,7 @@
 			<c:forEach items="${bnList }" var="banner" varStatus="i">
 				<div class="row" id="banner-panel">
 					<div class="col-1" style="width: 10px; padding: 10px">
-						<input class="chkBox" type="checkbox" id="check-banner${i.index }" name="bannerCheckBox" value="${banner.bannerNo }">
+						<input class="form-check-input chkBox" type="checkbox" id="check-banner${i.index }" name="bannerCheckBox" value="${banner.bannerNo }">
 					</div>
 					<div class="col">
 						<div class="container">

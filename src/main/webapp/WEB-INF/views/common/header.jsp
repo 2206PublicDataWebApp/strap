@@ -33,13 +33,13 @@
 	        <c:if test="${sessionScope.loginUser.memberNick eq null}">
 		        <li style="cursor: pointer;" onclick="loginCheck('${loginUser.memberId}', function(){location.href='/home.strap';});">
 					<i class="fa-regular fa-envelope"></i>
-					<div id="messageMarker" style="display:none;position:relative;left:-10px;bottom:15px;height:16px;width:16px;border-radius:25px;background-color:red;color:white;font-size:10px;text-align:center;"></div>
+					<div id="noteMarker" style="display:none;position:relative;left:-10px;bottom:15px;height:16px;width:16px;border-radius:25px;background-color:red;color:white;font-size:10px;text-align:center;"></div>
 		        </li>
 	        </c:if>
 	        <c:if test="${sessionScope.loginUser.memberNick ne null}">
 		        <li style="cursor: pointer;" onclick="noteBoxPopup();">
 					<i class="fa-regular fa-envelope"></i>
-					<div id="messageMarker" style="display:none;position:relative;left:-10px;bottom:15px;height:16px;width:16px;border-radius:25px;background-color:red;color:white;font-size:10px;text-align:center;"></div>
+					<div id="noteMarker" style="display:none;position:relative;left:-10px;bottom:15px;height:16px;width:16px;border-radius:25px;background-color:red;color:white;font-size:10px;text-align:center;"></div>
 		        </li>
 	        </c:if>
 	        <li style="cursor: pointer;" onclick="loginCheck('${loginUser.memberId}',function(){location.href='/cart/cartView.strap';});">
@@ -92,40 +92,41 @@ function markCart(){
 	}
 }
 
+//쪽지 배지
+markNote();
+function markNote(){
+	if('${loginUser.memberId}' != null){
+		$.ajax({
+			url:"/mypage/mark.strap",
+			data:{},
+			type:"post",
+			success:function(count){
+				if(Number(count)>0){
+					document.querySelector("#noteMarker").style.display="inline-block";
+					document.querySelector("#noteMarker").innerText=count;
+				}
+			},
+			error:function(){}
+		});
+	}
+}
+
+// 쪽지함 팝업창
 var noteBoxWindow;
 function noteBoxPopup(){
-	var popupX = (document.body.offsetWidth / 2) - (600 / 2);
+	var popupX = (document.body.offsetWidth / 2) - (660 / 2);
 	var popupY = (window.screen.height / 2) - (850 / 2);
     if(noteBoxWindow == null){
-		noteBoxWindow = window.open("/mypage/noteBoxListView.strap", '_blank', 'width=600, height=850, resizable=no, left='+ popupX + ', top='+ popupY); return false
+		noteBoxWindow = window.open("/mypage/noteBoxListView.strap", '_blank', 'width=660, height=850, resizable=no, left='+ popupX + ', top='+ popupY); return false
     }else{
         if (noteBoxWindow.closed == false) {
         	noteBoxWindow.focus();
         }else{
-			noteBoxWindow = window.open("/mypage/noteBoxListView.strap", '_blank', 'width=600, height=850, resizable=no, left='+ popupX + ', top='+ popupY); return false
+			noteBoxWindow = window.open("/mypage/noteBoxListView.strap", '_blank', 'width=660, height=850, resizable=no, left='+ popupX + ', top='+ popupY); return false
         }
     }
 }
 
-// $(document).ready(function() {
-// 	function noteBoxOffCanvas(memberId){
-// 		console.log(memberId)
-// 		$.ajax({
-// 			type : "get",
-// 			url : "/mypage/noteBoxListView.strap",
-// 			success:function(data){
-// 				console.log(data)
-// 				$("#noteBoxListArea").html(data)
-// 			}
-// 		});
-// 		$('#offcanvasRight').offcanvas('show');
-// 	}
-// });
-
-// var myOffcanvas = document.getElementById('offcanvasRight')
-// myOffcanvas.addEventListener('show.bs.offcanvas', function () {
-// 	alert("성공")
-// })
 
 </script>
 </html>

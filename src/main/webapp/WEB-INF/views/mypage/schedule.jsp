@@ -181,7 +181,7 @@ span.id, span.pwd, span.pwdCheck, span.nick {
 			</div>
 			<div class="contents-side col">
 				<div id="essential info">
-					<span> 매칭 캘린더 </span>
+					<span> 캘린더 </span>
 					<hr>
 					<div id='calendar'></div>
 				</div>
