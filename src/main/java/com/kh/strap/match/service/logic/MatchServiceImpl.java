@@ -15,6 +15,7 @@ import com.kh.strap.match.service.MatchService;
 import com.kh.strap.match.store.MatchStore;
 import com.kh.strap.match.store.logic.MatchStoreLogic;
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.domain.SimpleQnA;
 import com.kh.strap.notebox.domain.NoteBox;
 
 @Service
@@ -190,6 +191,11 @@ public class MatchServiceImpl implements MatchService {
 	@Override
 	public void resetSameRecord(String memberId) {
 		mStore.resetSameRecord(session, memberId);
+	}
+	@Override
+	public List<SimpleQnA> selectMemberQnA(String memberId) {
+		List<SimpleQnA> qList = mStore.selectMemberQnA(session, memberId);
+		return qList;
 	}
 	
 	

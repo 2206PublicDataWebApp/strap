@@ -48,25 +48,7 @@ public class MyInfoController {
 		mv.setViewName("/mypage/myinfo");
 		return mv;
 	}
-	
-	/**
-	 * 마이페이지 간단 Q&A 제출
-	 * @param question 질문
-	 * @param answer 답변
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value="/member/myinfoQnA.strap", method = RequestMethod.POST)
-	public String QnA(
-			String question
-			,String answer) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("question", question);
-		map.put("answer", answer);
-		int result = mService.inserAnswer(map);
-		return "";
-	}
-	
+		
 	/**
 	 * 패스워드 변경
 	 * @param session
@@ -358,6 +340,11 @@ public class MyInfoController {
 		}else {
 			return "no";
 		}
+	}
+	
+	@RequestMapping(value="/member/withdrawal.strap",method = RequestMethod.POST)
+	public void withdrawal(String memberId) {
+		int result = mService.withdrawal(memberId);
 	}
 	
 	

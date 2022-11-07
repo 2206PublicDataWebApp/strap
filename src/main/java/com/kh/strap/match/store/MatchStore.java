@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.domain.SimpleQnA;
 import com.kh.strap.notebox.domain.NoteBox;
 
 public interface MatchStore {
@@ -77,5 +78,7 @@ public interface MatchStore {
 	void insertSameRecord(SqlSession session, Map<String, Object> map);
 
 	void resetSameRecord(SqlSession session, String memberId);
+
+	List<SimpleQnA> selectMemberQnA(SqlSession session, String memberId);
 
 }

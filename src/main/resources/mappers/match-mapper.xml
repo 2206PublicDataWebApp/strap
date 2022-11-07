@@ -57,6 +57,12 @@
   		<result property="genderMember"		column="GENDER_MEMBER"/>
   		<result property="userId"			column="USER_ID"/>
   	</resultMap>
+  	<resultMap type="SimpleAnswer" id="SimpleAnswerResultMap">
+  		<result property="memberId" 		column="MEMBER_ID"/>
+  		<result property="qnaNo" 			column="QNA_NO"/>
+  		<result property="qnaAnswer" 		column="QNA_ANSWER"/>
+  		<result property="qnaTitle" 		column="QNA_TITLE"/>
+  	</resultMap>
   	<resultMap type="NoteBox" id="NoteBoxResultMap">
   		<id property="noteNo" 			column="NOTE_NO"/>
   		<result property="recipientId" 		column="RECIPIENT_ID"/>
@@ -316,7 +322,11 @@
 		WHERE USER_ID = #{user} 
 	</delete>
 <!-- 추천 완료 -->	
-	
+
+	<select id="selectMemberQnA" resultMap="SimpleAnswerResultMap">
+		SELECT QNA_TITLE, B.QNA_ANSWER FROM SIMPLE_QNA_TBL A JOIN SIMPLE_ANSWER_TBL B
+		ON A.QNA_NO = B.QNA_NO WHERE B.MEMBER_ID = #{memberId}
+	</select>
   	<!-- 추천 카운트 -1 -->
   	<update id="minusCount">
   		UPDATE MEMBER_TBL SET RECOMEND_COUNT = (SELECT RECOMEND_COUNT-1 FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId}) WHERE MEMBER_ID = #{memberId}

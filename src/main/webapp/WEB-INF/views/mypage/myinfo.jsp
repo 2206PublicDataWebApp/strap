@@ -299,6 +299,18 @@
 					</tr>
 				</table>
 			</div>
+			<br><br><br>
+			<div id="Withdrawal">
+				<span>탈퇴 </span>
+				<hr>
+				<table class="table" style="table-layout:fixed;">
+					<tr>
+						<th width="250px;">회원 탈퇴</th>
+						<td width="750px;"></td>
+						<td width="200px;"><button class="btn btn-light" onclick="withdrawal();">회원탈퇴</button></td>
+					</tr>
+				</table>
+			</div>
 		</div>
 	</div>
 	<div class="row">
@@ -308,7 +320,25 @@
 	</div>
 </div>
 <script type="text/javascript">
-
+	function withdrawal(){
+		if(confirm("정말 회원탈퇴를 하시겠습니까?")){
+			var memberId = '${loginUser.memberId}';
+			console.log(memberId);
+			var form = document.createElement('form');
+			form.setAttribute('method','post');
+			form.setAttribute('action','/member/withdrawal.strap');
+			var input = document.createElement('input');
+			input.setAttribute('type','hidden');
+			input.setAttribute('name','memberId');
+			input.setAttribute('value',memberId);
+			form.appendChild(input);
+			document.body.appendChild(form);
+			form.submit();
+			console.log(form);
+			alert('회원 탈퇴되었습니다.');
+			location.href='/home.strap';
+		}
+	}
 	var formData = new FormData();
 	function modifyImgFinish(){
 		//선택된 사진이 있는지?
@@ -707,6 +737,7 @@
 		}
 	})
 	
+
 </script>
 </body>
 </html>

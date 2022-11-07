@@ -51,8 +51,12 @@ public interface MemberStore {
 
 	void updateLastDate(SqlSession session, String memberId);
 
-	int inserAnswer(SqlSession session, Map<String, String> map);
+	int inserAnswer(SqlSession session, Map<String, Object> map);
 
 	List<SimpleQnA> simpleQnA(SqlSession session, String memberId);
+
+	SimpleQnA qnaOne(SqlSession session, String memberId);
+
+	int withdrawal(SqlSession session, String memberId);
 
 }
