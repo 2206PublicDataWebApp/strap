@@ -78,7 +78,7 @@
 						<table>
 							<tr>
 								<th>주문번호 : </th>
-								<td>${completeOrder.orderNo }</td>
+								<td id="thisOrderNo">${completeOrder.orderNo }</td>
 							</tr>
 							<tr>
 								<th>주문자 : </th>
@@ -154,10 +154,12 @@
 						</table>
 				</div>
 			</div>
-			<div id="orderComBtn" style="text-align:center; margin:10px 0;">
-				<button style="font-size:26px;font-weight:bold;color:gray;background-color:white;border: 2px solid gray;border-radius:4px;height:70px;width:200px;" onclick="location.href='/product/listView.strap';">배송조회</button>
-				<button style="font-size:26px;font-weight:bold;color:white;background-color:gray;border: 2px solid gray;border-radius:4px;height:70px;width:200px;" onclick="location.href='/order/listView.strap';">결제취소</button>
-			</div>
+			<c:if test="${completeOrder.orderStatus eq 'paid'}">
+				<div id="orderComBtn" style="text-align:center; margin:10px 0;">
+					<button style="font-size:26px;font-weight:bold;color:gray;background-color:white;border: 2px solid gray;border-radius:4px;height:70px;width:200px;" onclick="location.href='/product/listView.strap';">배송조회</button>
+					<button style="font-size:26px;font-weight:bold;color:white;background-color:gray;border: 2px solid gray;border-radius:4px;height:70px;width:200px;" onclick="openCancelWindow();">결제취소</button>
+				</div>
+			</c:if>
 			<div id="orderComBtn" style="text-align:center;">
 				<button style="font-size:26px;font-weight:bold;color:darkorange;background-color:white;border: 2px solid darkorange;border-radius:4px;height:70px;width:200px;" onclick="location.href='/product/listView.strap';">쇼핑계속</button>
 				<button style="font-size:26px;font-weight:bold;color:white;background-color:darkorange;border: 2px solid darkorange;border-radius:4px;height:70px;width:200px;" onclick="location.href='/order/listView.strap';">주문내역</button>
@@ -195,6 +197,59 @@ function paymentTxt(){
 		break;
 	}
 	document.querySelector("#paymentMethodTxt").innerHTML = paymentTxt;
+}
+
+//새끼창 띄우기
+var new_window_width = 420;
+var new_window_height = 560;
+var positionX = ( window.screen.width / 2 ) - ( new_window_width / 2 );
+var positionY = ( window.screen.height / 2 ) - ( new_window_height / 2 );
+console.log(new_window_width);
+console.log(new_window_height);
+console.log(positionX);
+console.log(positionY);
+function openCancelWindow(){
+	 window.open(
+	          "/order/cancel/window.strap",
+	          "Child",
+	          "width=" + new_window_width + ", height=" + new_window_height + ", top=" + positionY + ", left=" + positionX
+	        );
+}
+
+//결제취소
+function cancelPay() {
+  var orderNo = window.opener.document.querySelector("#thisOrderNo").innerText;
+  var reason = document.querySelector("#");
+  
+  $.ajax({
+	  url:"/imp/payment/cancel",
+	  data:{
+		  "merchant_uid":orderNo,
+		  "reaseon":reason
+	  },
+	  type:"post",
+	  success:function(result){
+		  console.log("결과:"+result);
+		  
+	  },
+	  error:function(){}
+  });
+  
+	
+//   jQuery.ajax({
+//     "url": "#", // 예: http://www.myservice.com/payments/cancel
+//     "type": "POST",
+//     "contentType": "application/json",
+//     "data": JSON.stringify({
+//       "merchant_uid": "{결제건의 주문번호}", // 예: ORD20180131-0000011
+//       "cancel_request_amount": 2000, // 환불금액
+//       "reason": "테스트 결제 환불" // 환불사유
+//       "refund_holder": "홍길동", // [가상계좌 환불시 필수입력] 환불 수령계좌 예금주
+//       "refund_bank": "88" // [가상계좌 환불시 필수입력] 환불 수령계좌 은행코드(예: KG이니시스의 경우 신한은행은 88번)
+//       "refund_account": "56211105948400" // [가상계좌 환불시 필수입력] 환불 수령계좌 번호
+//     }),
+//     "dataType": "json"
+//   });
 }
 
 </script>

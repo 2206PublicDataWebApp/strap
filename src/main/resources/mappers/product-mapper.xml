@@ -115,6 +115,21 @@
 		</if>
 	</select>
 	
+<!-- 판매량 갱신을 위한 PRODUCT_NO 리스트 출력-->
+	<select id="selectGetAllProductNo" resultMap="ProductResultMap">
+		SELECT PRODUCT_NO
+		FROM PRODUCT_TBL
+	</select>
+<!-- 	판매량갱신 -->
+	<update id="updateSales">
+		UPDATE PRODUCT_TBL
+		SET PRODUCT_SALES = (SELECT NVL(SUM(ORDER_QTY),0)
+					        FROM ORDER_TBL O JOIN ORDER_PRODUCT_TBL OP
+					        ON O.ORDER_NO = OP.ORDER_NO
+					        WHERE PRODUCT_NO = #{productNo})
+		WHERE PRODUCT_NO = #{productNo} AND PRODUCT_DELETE = 'N'
+	</update>
+	
 <!-- 주문별 상품목록 출력 qty를 위해 조인한다. -->
 	<select id="selectProductsOnOrder" resultMap="ProductResultMap">
 		SELECT P.* ,OP.ORDER_QTY

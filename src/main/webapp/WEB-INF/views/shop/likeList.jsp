@@ -39,7 +39,7 @@
 		<div class="contents-side col">
 			<div id="contents-wrap">
 				<div id="title">
-					<h3>찜한 상품 (${paging.totalCount })</h3><hr>
+					<span>찜한상품 (${paging.totalCount })</span><hr>
 				</div>
 			</div>
 				<c:forEach items="${pList }" var="product" varStatus="n">

@@ -12,7 +12,7 @@ public class Order {
 	private List<OrderProduct> orderProducts; //주문 상품리스트
 	private Member member;					//주문에 멤버가 있음
 	private String orderNo;					//주문번호
-	private int payNo;						//결제번호
+	private String payNo;						//결제번호
 	private int deliveryFee;				//배송료
 	private int discountAmount;			//할인액
 	private int finalCost;					//최종결제금액
@@ -40,12 +40,12 @@ public class Order {
 	public Order() {}
 
 
-	public Order(List<Product> buyProducts, List<OrderProduct> orderProducts, Member member, String orderNo, int payNo,
-			int deliveryFee, int discountAmount, int finalCost, String memberId, String address, String contactPhone,
-			String deliveryRequest, String agreeYn, String paymentMethod, String cardKind, String payComplete,
-			String orderCancel, String deliveryStart, String deliveryComplete, String deliveryNo, Date orderDate,
-			String memberNick, Timestamp vBankDueDate, String vBankHolder, String vBankName, String vBankNum,
-			String orderStatus) {
+	public Order(List<Product> buyProducts, List<OrderProduct> orderProducts, Member member, String orderNo,
+			String payNo, int deliveryFee, int discountAmount, int finalCost, String memberId, String address,
+			String contactPhone, String deliveryRequest, String agreeYn, String paymentMethod, String cardKind,
+			String payComplete, String orderCancel, String deliveryStart, String deliveryComplete, String deliveryNo,
+			Date orderDate, String memberNick, Timestamp vBankDueDate, String vBankHolder, String vBankName,
+			String vBankNum, String orderStatus) {
 		super();
 		this.buyProducts = buyProducts;
 		this.orderProducts = orderProducts;
@@ -117,12 +117,12 @@ public class Order {
 	}
 
 
-	public int getPayNo() {
+	public String getPayNo() {
 		return payNo;
 	}
 
 
-	public void setPayNo(int payNo) {
+	public void setPayNo(String payNo) {
 		this.payNo = payNo;
 	}
 
@@ -359,6 +359,4 @@ public class Order {
 				+ memberNick + ", vBankDueDate=" + vBankDueDate + ", vBankHolder=" + vBankHolder + ", vBankName="
 				+ vBankName + ", vBankNum=" + vBankNum + ", orderStatus=" + orderStatus + "]";
 	}
-	
-	
 }

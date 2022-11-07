@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
@@ -81,7 +84,6 @@ public class ProductController {
 			@RequestParam(value="page",required=false)Integer currentPage
 			) {
 		int page = (currentPage != null)? currentPage : 1;
-		System.out.println(search.toString());
 		Paging paging = new Paging(pService.countAllProduct(search), page, 10, 5);
 		List<Product>pList = pService.printAllProduct(paging, search);
 		mv.addObject("pList",pList).
@@ -155,11 +157,15 @@ public class ProductController {
 		
 		//1.결제된 금액과 주문했던 금액을 비교한다.
 		if(paid_amount == pService.getTobePaidFinalCost(merchant_uid)) {
-				System.out.println("검증성공");
+				//결제 검증 성공 시 결제 정보를 update한다.
+				
 				if(status.equals("paid")) {
 					//2-1. 결제상태가 'paid'라면 결제 성공처리
-					//ORDER_STATUS = paid , PAY_COMPLETE = Y
-					pService.modifyPayCompleteOrder(merchant_uid);
+					//ORDER_STATUS = paid , PAY_COMPLETE = Y , 결제 번호도 넣어야 하는데..
+					Map<String,String> paidMap = new HashMap<>();
+					paidMap.put("merchant_uid", merchant_uid);
+					paidMap.put("imp_uid",imp_uid);
+					pService.modifyPayCompleteOrder(paidMap);
 					return "success";
 					
 				}else if(status.equals("ready")) {
@@ -174,7 +180,9 @@ public class ProductController {
 				}
 			}else {
 			//결제금액과 결제되어야 할 금액이 다른경우. 결제금액 불일치, 위변조 결제
-				System.out.println("검증 실패");
+				//화면단에서 결제 취소 처리한다.
+				
+				
 				return "forgery";
 		}
 	}
@@ -192,6 +200,7 @@ public class ProductController {
 			order.setOrderNo(orderNo);
 			if(pService.registerOrder(order)>0) {
 				//2.json배열을 자바의 List로 변경하고 이를 이용하여 DB에 INSERT한다.
+				//여기서 판매량을 집계하고 싶으나 결제 완료와는 동떨어져있다.
 				List<OrderProduct> opList =objectMapper.readValue(jsonArr, objectMapper.getTypeFactory().constructCollectionType(List.class, OrderProduct.class));
 				opList.stream().forEach(orderProduct ->{
 					pService.registerOrderProducts(orderProduct);
@@ -246,15 +255,12 @@ public class ProductController {
 			@RequestParam(value="page",required=false) Integer currentPage,
 			HttpSession session) {
 		int page = (currentPage != null)? currentPage: 1;
-		System.out.println(search.toString());
-		
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		search.setMemberId(loginUser.getMemberId());
 		Paging paging = new Paging(pService.countMemberOder(search), page, 5, 5);
 		List<Order> oList = pService.printMemberOrder(paging, search);
 		
-		System.out.println(paging.toString());
 		////주문에 상품리스트를 담아야한다..!
 		oList.stream().forEach(order->{
 					order.setBuyProducts(pService.printProductsOnOrder(order.getOrderNo()));
@@ -287,7 +293,6 @@ public class ProductController {
 			@RequestParam(value="page",required=false) Integer currentPage,
 			HttpSession session) {
 		int page = (currentPage != null)? currentPage: 1;
-		System.out.println(search.toString());
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		search.setMemberId(loginUser.getMemberId());
@@ -357,22 +362,6 @@ public class ProductController {
 		}
 		return mv;
 	}
-	
-	//관리자:상품관리페이지 이동(검색)
-//	@RequestMapping(value="/admin/productSearchView.strap", method=RequestMethod.GET)
-//	public ModelAndView viewSearchManageProduct(ModelAndView mv,
-//			@ModelAttribute Search search,
-//			@RequestParam(value= "page", required=false)Integer currentPage) {
-//		int page = (currentPage != null) ? currentPage : 1;
-//		Paging paging = new Paging(pService.countAdminProductSearch(search), page, 30, 5);
-//		List<Product> pList = pService.printAdminProductSearch(paging, search);
-//		mv.addObject("pList",pList).
-//		addObject("paging",paging).
-//		addObject("search",search).
-//		addObject("url","productSearchView").
-//		setViewName("/shop/productManage");
-//		return mv;
-//	}
 	
 	//관리자:상품등록페이지 이동
 	/**
@@ -509,8 +498,9 @@ public class ProductController {
 	@RequestMapping(value="/admin/product/modify/mainImg.strap",method=RequestMethod.POST)
 	public String  modifyProductMainImg(
 			@ModelAttribute Product product,
-			@RequestParam(value="mainImg",required=false)MultipartFile mainImg,
+			@RequestParam(value="mainImg",required=false)MultipartFile mainImgParam,
 			HttpSession session) {
+		MultipartFile mainImg = (mainImgParam != null)?mainImgParam: null;
 		String thisTime = new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis());
 		String savePath = session.getServletContext().getRealPath("resources") + "\\image\\product";
 		File targetFile = new File(savePath);
@@ -519,12 +509,14 @@ public class ProductController {
 		}
 		
 		try {
-			String mainImgName = mainImg.getOriginalFilename();
-			String mainImgReName = thisTime+"_main"+mainImgName.substring(mainImgName.lastIndexOf("."));
-			product.setMainImgName(mainImgName);
-			product.setMainImgReName(mainImgReName);
-			mainImg.transferTo(new File(savePath + "\\" + mainImgReName));
-			product.setMainImgRoot("/resources/image/product/" + mainImgReName);
+			if(mainImg!=null) {
+				String mainImgName = mainImg.getOriginalFilename();
+				String mainImgReName = thisTime+"_main"+mainImgName.substring(mainImgName.lastIndexOf("."));
+				product.setMainImgName(mainImgName);
+				product.setMainImgReName(mainImgReName);
+				mainImg.transferTo(new File(savePath + "\\" + mainImgReName));
+				product.setMainImgRoot("/resources/image/product/" + mainImgReName);
+			}
 			if(pService.modifyProductMainImg(product) > 0) {
 				return "success";
 			}else {
@@ -663,13 +655,24 @@ public class ProductController {
 		}
 	}
 	
+	//관리자:상품 판매량 집계, 
+	@ResponseBody
+	@RequestMapping(value="/admin/product/sales.strap",method=RequestMethod.POST)
+	public String countSalesAllProducts() {
+		
+		if(pService.renewSales()>0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	
 	//관리자:주문관리 페이지 이동
 	@RequestMapping(value="/admin/orderView.strap",method=RequestMethod.GET)
 	public ModelAndView viewManageOrder(ModelAndView mv,
 			@RequestParam(value="page",required=false)Integer currentPage,
 			@ModelAttribute Search search) {
 		int page = (currentPage != null)? currentPage : 1;
-		System.out.println(search.toString());
 		
 		Paging paging = new Paging(pService.countManageOrder(search), page, 30, 5);
 		List<Order> oList = pService.printManageOrder(paging, search);
@@ -683,4 +686,13 @@ public class ProductController {
 		}
 		return mv;
 	}
+	
+	//결제취소: 새끼창 이동
+	@RequestMapping(value="/order/cancel/window.strap",method=RequestMethod.GET)
+	public ModelAndView viewCancelWindow(ModelAndView mv) {
+		mv.setViewName("/shop/orderCancel");
+		return mv;
+	}
+	
+	
 }

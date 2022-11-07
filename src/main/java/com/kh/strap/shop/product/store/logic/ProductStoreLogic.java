@@ -1,6 +1,7 @@
 package com.kh.strap.shop.product.store.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -10,6 +11,7 @@ import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.shop.product.domain.Order;
+import com.kh.strap.shop.product.domain.OrderCancel;
 import com.kh.strap.shop.product.domain.OrderProduct;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
@@ -74,6 +76,16 @@ public class ProductStoreLogic implements ProductStore {
 	public int selectCountAdminProductSearch(SqlSession session, Search search) {
 		return session.selectOne("ProductMapper.selectCountAllProduct", search);
 	}
+//관리자: 판매량 갱신	
+	@Override
+	public List<Product> selectGetAllProductNo(SqlSession session) {
+		return session.selectList("ProductMapper.selectGetAllProductNo");
+	}
+	
+	@Override
+	public int updateSales(SqlSession session, int productNo) {
+		return session.update("ProductMapper.updateSales",productNo);
+	}
 	
 //주문별 상품목록 조회	
 	@Override
@@ -84,6 +96,8 @@ public class ProductStoreLogic implements ProductStore {
 	public List<OrderProduct> selectOrderProductsOnOrder(SqlSession session, String orderNo) {
 		return session.selectList("OrderMapper.selectOrderProductsOnOrder",orderNo);
 	}
+	
+	
 	
 //상품 상세 조회
 	@Override
@@ -165,8 +179,8 @@ public class ProductStoreLogic implements ProductStore {
 	
 //주문 수정
 	@Override
-	public int updatePayCompleteOrder(SqlSession session, String merchant_uid) {
-		return session.update("OrderMapper.updatePayComplete", merchant_uid);
+	public int updatePayCompleteOrder(SqlSession session, Map<String,String> paidMap) {
+		return session.update("OrderMapper.updatePayComplete", paidMap);
 	}
 	
 	@Override
@@ -186,6 +200,13 @@ public class ProductStoreLogic implements ProductStore {
 	@Override
 	public int updateVBankInfo(SqlSession session, Order order) {
 		return session.update("OrderMapper.updateVBankInfo",order);
+	}
+	
+//주문 취소
+		//주문 취소 정보 insert	
+	@Override
+	public int insertCancelInfo(SqlSession session,OrderCancel oc) {
+		return session.insert("OrderMapper.insertCancelInfo", oc);
 	}
 	
 	
@@ -242,4 +263,10 @@ public class ProductStoreLogic implements ProductStore {
 	public int deleteInfoImgOnProduct(SqlSession session, int productNo) {
 		return session.delete("ProductMapper.deleteInfoImgOnProduct",productNo);
 	}
+
+
+
+
+
+
 }

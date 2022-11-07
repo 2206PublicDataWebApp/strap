@@ -1,11 +1,13 @@
 package com.kh.strap.shop.product.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.shop.product.domain.Order;
+import com.kh.strap.shop.product.domain.OrderCancel;
 import com.kh.strap.shop.product.domain.OrderProduct;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
@@ -37,8 +39,11 @@ public interface ProductService {
 	public List<Product> printAdminProductSearch(Paging paging,Search search);
 	//검색상품 개수 카운트
 	public int countAdminProductSearch(Search search);
+
+//관리자 상품 판매량 갱신
+	public int renewSales();
 	
-	//주문별 구매상품 목록 출력
+//주문별 구매상품 목록 출력
 	public List<Product> printProductsOnOrder(String orderNo);
 	public List<OrderProduct> printOrderProductsOnOrder(String orderNo);
 	
@@ -87,7 +92,7 @@ public interface ProductService {
 	
 //주문 수정
 	//결제 완료 시 PAY_COMPLETE 'Y' UPDATE
-	public int modifyPayCompleteOrder(String merchant_uid);
+	public int modifyPayCompleteOrder(Map<String,String> paidMap);
 	//배송 시작 시 DELIVERY_START 'Y' UPDATE
 	public int modifyDeliveryStartOrder(String merchant_uid);
 	//배송 완료 시 DELIVERY_COMPLETE 'Y' UPDATE
@@ -96,6 +101,10 @@ public interface ProductService {
 	public int modifyCancelOrder(String merchant_uid);
 	//가상계좌 등록
 	public int modifyVBankInfo(Order order);
+	
+//주문 취소
+	//주문 취소 정보 insert
+	public int registerCancelInfo(OrderCancel oc);
 	
 	
 //찜 추가
