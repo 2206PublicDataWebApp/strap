@@ -7,7 +7,8 @@ public class Coupon {
 	private int couponNo; 				//쿠폰번호
 	private String couponName;			//쿠폰이름
 	private String couponDesc;			//쿠폰설명
-	private int descountAmount;		//할인금액
+	private int discountAmount;		//할인금액
+	private int discountRatio;			//할인율
 	private int priceCondition;		//쿠폰조건:최저구매금액
 	private String brandCondition;		//쿠폰조건:브랜드
 	private String firstCondition;		//쿠폰조건:첫구매
@@ -16,21 +17,32 @@ public class Coupon {
     private String productCondition;	//쿠폰조건:상품명
     private String couponRunYn;			//쿠폰운영여부
     private String memberId;           //멤버아이디,파라미터편의,setter로 추가
+    private String couponImgRoot;		//쿠폰이미지 경로
+    private String couponImgName;		//쿠폰이미지 이름
+    private String couponImgRename;		//쿠폰이미지 
     
+	private Date getCouponDate;
+	private Date endCounponDate;
+	private String useYn;
+	
+
     
     
     public Coupon() {}
 
 
 
-	public Coupon(int couponNo, String couponName, String couponDesc, int descountAmount, int priceCondition,
-			String brandCondition, String firstCondition, int couponPeriod, Date couponRegiDate,
-			String productCondition, String couponRunYn, String memberId) {
+
+	public Coupon(int couponNo, String couponName, String couponDesc, int discountAmount, int discountRatio,
+			int priceCondition, String brandCondition, String firstCondition, int couponPeriod, Date couponRegiDate,
+			String productCondition, String couponRunYn, String memberId, String couponImgRoot, String couponImgName,
+			String couponImgRename, Date getCouponDate, Date endCounponDate, String useYn) {
 		super();
 		this.couponNo = couponNo;
 		this.couponName = couponName;
 		this.couponDesc = couponDesc;
-		this.descountAmount = descountAmount;
+		this.discountAmount = discountAmount;
+		this.discountRatio = discountRatio;
 		this.priceCondition = priceCondition;
 		this.brandCondition = brandCondition;
 		this.firstCondition = firstCondition;
@@ -39,7 +51,14 @@ public class Coupon {
 		this.productCondition = productCondition;
 		this.couponRunYn = couponRunYn;
 		this.memberId = memberId;
+		this.couponImgRoot = couponImgRoot;
+		this.couponImgName = couponImgName;
+		this.couponImgRename = couponImgRename;
+		this.getCouponDate = getCouponDate;
+		this.endCounponDate = endCounponDate;
+		this.useYn = useYn;
 	}
+
 
 
 
@@ -49,9 +68,11 @@ public class Coupon {
 
 
 
+
 	public void setCouponNo(int couponNo) {
 		this.couponNo = couponNo;
 	}
+
 
 
 
@@ -61,9 +82,11 @@ public class Coupon {
 
 
 
+
 	public void setCouponName(String couponName) {
 		this.couponName = couponName;
 	}
+
 
 
 
@@ -73,21 +96,39 @@ public class Coupon {
 
 
 
+
 	public void setCouponDesc(String couponDesc) {
 		this.couponDesc = couponDesc;
 	}
 
 
 
-	public int getDescountAmount() {
-		return descountAmount;
+
+	public int getDiscountAmount() {
+		return discountAmount;
 	}
 
 
 
-	public void setDescountAmount(int descountAmount) {
-		this.descountAmount = descountAmount;
+
+	public void setDiscountAmount(int discountAmount) {
+		this.discountAmount = discountAmount;
 	}
+
+
+
+
+	public int getDiscountRatio() {
+		return discountRatio;
+	}
+
+
+
+
+	public void setDiscountRatio(int discountRatio) {
+		this.discountRatio = discountRatio;
+	}
+
 
 
 
@@ -97,9 +138,11 @@ public class Coupon {
 
 
 
+
 	public void setPriceCondition(int priceCondition) {
 		this.priceCondition = priceCondition;
 	}
+
 
 
 
@@ -109,9 +152,11 @@ public class Coupon {
 
 
 
+
 	public void setBrandCondition(String brandCondition) {
 		this.brandCondition = brandCondition;
 	}
+
 
 
 
@@ -121,9 +166,11 @@ public class Coupon {
 
 
 
+
 	public void setFirstCondition(String firstCondition) {
 		this.firstCondition = firstCondition;
 	}
+
 
 
 
@@ -133,9 +180,11 @@ public class Coupon {
 
 
 
+
 	public void setCouponPeriod(int couponPeriod) {
 		this.couponPeriod = couponPeriod;
 	}
+
 
 
 
@@ -145,9 +194,11 @@ public class Coupon {
 
 
 
+
 	public void setCouponRegiDate(Date couponRegiDate) {
 		this.couponRegiDate = couponRegiDate;
 	}
+
 
 
 
@@ -157,9 +208,11 @@ public class Coupon {
 
 
 
+
 	public void setProductCondition(String productCondition) {
 		this.productCondition = productCondition;
 	}
+
 
 
 
@@ -169,9 +222,11 @@ public class Coupon {
 
 
 
+
 	public void setCouponRunYn(String couponRunYn) {
 		this.couponRunYn = couponRunYn;
 	}
+
 
 
 
@@ -181,25 +236,112 @@ public class Coupon {
 
 
 
+
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
 	}
 
 
 
+
+	public String getCouponImgRoot() {
+		return couponImgRoot;
+	}
+
+
+
+
+	public void setCouponImgRoot(String couponImgRoot) {
+		this.couponImgRoot = couponImgRoot;
+	}
+
+
+
+
+	public String getCouponImgName() {
+		return couponImgName;
+	}
+
+
+
+
+	public void setCouponImgName(String couponImgName) {
+		this.couponImgName = couponImgName;
+	}
+
+
+
+
+	public String getCouponImgRename() {
+		return couponImgRename;
+	}
+
+
+
+
+	public void setCouponImgRename(String couponImgRename) {
+		this.couponImgRename = couponImgRename;
+	}
+
+
+
+
+	public Date getGetCouponDate() {
+		return getCouponDate;
+	}
+
+
+
+
+	public void setGetCouponDate(Date getCouponDate) {
+		this.getCouponDate = getCouponDate;
+	}
+
+
+
+
+	public Date getEndCounponDate() {
+		return endCounponDate;
+	}
+
+
+
+
+	public void setEndCounponDate(Date endCounponDate) {
+		this.endCounponDate = endCounponDate;
+	}
+
+
+
+
+	public String getUseYn() {
+		return useYn;
+	}
+
+
+
+
+	public void setUseYn(String useYn) {
+		this.useYn = useYn;
+	}
+
+
+
+
 	@Override
 	public String toString() {
 		return "Coupon [couponNo=" + couponNo + ", couponName=" + couponName + ", couponDesc=" + couponDesc
-				+ ", descountAmount=" + descountAmount + ", priceCondition=" + priceCondition + ", brandCondition="
-				+ brandCondition + ", firstCondition=" + firstCondition + ", couponPeriod=" + couponPeriod
-				+ ", couponRegiDate=" + couponRegiDate + ", productCondition=" + productCondition + ", couponRunYn="
-				+ couponRunYn + ", memberId=" + memberId + "]";
+				+ ", discountAmount=" + discountAmount + ", discountRatio=" + discountRatio + ", priceCondition="
+				+ priceCondition + ", brandCondition=" + brandCondition + ", firstCondition=" + firstCondition
+				+ ", couponPeriod=" + couponPeriod + ", couponRegiDate=" + couponRegiDate + ", productCondition="
+				+ productCondition + ", couponRunYn=" + couponRunYn + ", memberId=" + memberId + ", couponImgRoot="
+				+ couponImgRoot + ", couponImgName=" + couponImgName + ", couponImgRename=" + couponImgRename
+				+ ", getCouponDate=" + getCouponDate + ", endCounponDate=" + endCounponDate + ", useYn=" + useYn + "]";
 	}
 
     
-
+	
     
-    
-    
+	
 }
 

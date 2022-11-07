@@ -9,7 +9,8 @@
 		<id		column="COUPON_NO" 					 property="couponNo"/>
 		<result column="COUPON_NAME" 				 property="couponName"/>
 		<result column="COUPON_DESC" 			 	 property="couponDesc"/>
-		<result column="DISCOUNT_AMOUNT" 			 property="descountAmount"/>
+		<result column="DISCOUNT_AMOUNT" 			 property="discountAmount"/>
+		<result column="DISCOUNT_RATIO" 			 property="discountRatio"/>
 		<result column="PRICE_CONDITION" 			 property="priceCondition"/>
 		<result column="BRAND_CONDITION" 			 property="brandCondition"/>
 		<result column="FIRST_CONDITION" 			 property="firstCondition"/>
@@ -17,18 +18,17 @@
 		<result column="COUPON_REGI_DATE" 			 property="couponRegiDate"/>
 		<result column="PRODUCT_CONDITION"			 property="productCondition"/>
 		<result column="COUPON_RUN_YN" 				 property="couponRunYn"/>
-	</resultMap>
-	<resultMap type="MemberCoupon" id="MemberCouponResultMap" >
-		<id 	column="COUPON_NO" 					 property="couponNo"/>
-		<result column="MEMBER_ID" 					 property="memberId"/>
 		<result column="GET_COUPON_DATE" 			 property="getCouponDate"/>
 		<result column="END_COUPON_DATE" 			 property="endCounponDate"/>
 		<result column="USE_YN" 					 property="useYn"/>
+		<result column="COUON_IMG_ROOT" 			 property="couponImgRoot"/>
+		<result column="COUPON_IMG_NAME" 			 property="couponImgName"/>
+		<result column="COUPON_IMG_RENAME" 		     property="couponImgRename"/>
+		
 	</resultMap>
-	
 	<insert id="insertCoupon">
 		INSERT INTO COUPON_TBL
-		VALUES(SEQ_COUON_NO.NEXTVAL,#{couponName},#{couponDesc},#{descountAmount},#{priceCondition},#{brandCondition},#{couponPeriod},DEFAULT,DEFAULT,#{productCondition},DEFAULT)
+		VALUES(SEQ_COUPON_NO.NEXTVAL,#{couponName},#{couponDesc},#{discountAmount},#{priceCondition},#{brandCondition},#{firstCondition},#{couponPeriod},DEFAULT,#{productCondition},DEFAULT,#{discountRatio},#{couponImgRoot},#{couponImgName},#{couponImgRename})
 	</insert>
 	
 	<select id="selectCoupon" resultMap="CouponResultMap">
@@ -40,6 +40,24 @@
 		FROM COUPON_TBL C JOIN MEMBER_COUPON_TBL MC
 		ON C.COUPON_NO = MC.COUPON_NO
 		WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<select id="selectCouponCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM COUPON_TBL
+	</select>
+	
+	<select id="selectMemberCouponCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM COUPON_TBL C JOIN MEMBER_COUPON_TBL MC
+		ON C.COUPON_NO = MC.COUPON_NO
+		WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<select id="selectCouponDetail" resultMap="CouponResultMap">
+		SELECT *
+		FROM COUPON_TBL
+		WEHRE COUPON_NO = #{couponNo}
 	</select>
 	
 	<update id="deleteCoupon">

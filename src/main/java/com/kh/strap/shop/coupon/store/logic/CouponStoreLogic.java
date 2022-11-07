@@ -2,9 +2,12 @@ package com.kh.strap.shop.coupon.store.logic;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.kh.strap.common.Paging;
+import com.kh.strap.common.Search;
 import com.kh.strap.shop.coupon.domain.Coupon;
 import com.kh.strap.shop.coupon.store.CouponStore;
 
@@ -17,14 +20,14 @@ public class CouponStoreLogic implements CouponStore{
 	}
 
 	@Override
-	public List<Coupon> selectCoupon(SqlSession session, Coupon coupon) {
-		return session.selectList("CouponMapper.selectCoupon", coupon);
+	public List<Coupon> selectCoupon(SqlSession session, Paging paging, Search search) {
+		return session.selectList("CouponMapper.selectCoupon", search,new RowBounds(paging.getOffset(), paging.getPageLimit()));
 	}
 
 	@Override
-	public List<Coupon> selectMemberCoupon(SqlSession session, Coupon coupon) {
+	public List<Coupon> selectMemberCoupon(SqlSession session, Coupon coupon,Paging paging) {
 		//coupon값 활용할지 결정.조건문으로 return을 달리?
-		return session.selectList("CouponMapper.selectMemberCoupon",coupon);
+		return session.selectList("CouponMapper.selectMemberCoupon",coupon,new RowBounds(paging.getOffset(), paging.getPageLimit()));
 	}
 
 	@Override
@@ -41,6 +44,22 @@ public class CouponStoreLogic implements CouponStore{
 	public int updateMemberCoupon(SqlSession session, Coupon coupon) {
 		return session.update("CouponMapper.updateMemberCoupon", coupon);
 	}
+
+	@Override
+	public int selectTotalCouponCount(SqlSession session, Search search) {
+		return session.selectOne("CouponMapper.selectCouponCount",search);
+	}
+
+	@Override
+	public int selectMemberCouponCount(SqlSession session, Coupon coupon) {
+		return session.selectOne("CouponMapper.selectMemberCouponCount",coupon);
+	}
+
+	@Override
+	public Coupon selectCouponDetail(SqlSession session, int couponNo) {
+		return session.selectOne("CouponMapper.selectCouponDetail",couponNo);
+	}
+
 
 
 }

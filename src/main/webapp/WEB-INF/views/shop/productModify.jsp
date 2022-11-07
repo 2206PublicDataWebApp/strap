@@ -64,7 +64,7 @@
 	<!-- 헤더&메뉴바 -->
 	<div id="header" class="row">
 		<div class="col">
-			<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<%-- 			<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include> --%>
 		</div>
 	</div>
 	<!-- 컨텐츠 -->
