@@ -21,7 +21,6 @@ ul{
 	<c:set var = "nListSize" value ="${param.nListSize }"/>
 	<ul class="list-group">
 		<li class="sideBar-list list-group-item list-group-item-action"><a href="/mypage/mypageView.strap">나의 활동</a></li>
-		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/noteBoxListView.strap'">쪽지함</a><span class="badge rounded-pill bg-dark" id="noteBox-check"><span class="visually-hidden">unread messages</span></span></li>
 		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/scheduleView.strap'">캘린더</a></li>
 		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/myinfoView.strap'">정보조회</a></li>
 		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/qnaView.strap'">일반문의</a></li>

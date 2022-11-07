@@ -5,8 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.strap.admin.domain.Notice;
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.notebox.domain.NoteBox;
 import com.kh.strap.notebox.service.NoteBoxService;
@@ -38,7 +39,7 @@ public class NoteBoxController {
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String memberId = member.getMemberId();
-		
+		System.out.println(memberId);
 		int currentPage = (page != null) ? page : 1;
 		int totalCount = nService.getTotalCount("","");
 		int noticeLimit = 10;
@@ -53,7 +54,7 @@ public class NoteBoxController {
 			endNavi = maxPage;
 		}
 		List<NoteBox> nList = nService.printNoteBoxList(memberId, currentPage, noticeLimit);
-		int nSize = nList.size();
+		System.out.println("N리스트 : " + nList);
 		if(!nList.isEmpty()) {
 			mv.addObject("urlVal", "noteBoxListView");
 			mv.addObject("maxPage", maxPage);
@@ -62,12 +63,12 @@ public class NoteBoxController {
 			mv.addObject("startNavi", startNavi);
 			mv.addObject("endNavi", endNavi);
 			mv.addObject("nList", nList);
-			mv.addObject("nListSize", nSize);
 		}
-		System.out.println(nSize);
 		mv.setViewName("mypage/noteBox");
+		
 		return mv;
 	}
+	
 	
 	/**
 	 * 
@@ -82,7 +83,6 @@ public class NoteBoxController {
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String memberId = member.getMemberId();
-		System.out.println(noteBox);
 		int result = nService.checkNote(noteBox);
 		NoteBox nOne = nService.printOneByNo(noteBox);
 		mv.addObject("memberId", memberId);
