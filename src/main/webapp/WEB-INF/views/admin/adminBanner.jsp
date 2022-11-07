@@ -175,7 +175,7 @@
 		    }
 		}
 		
-		// 배너 삭제 fNo, fName
+		// 배너 삭제
 		function deleteBanner(){
 			var checkedList = new Array();
 			$(".chkBox:checked").each(function(index, item){
