@@ -43,7 +43,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		FROM BOARD_TBL ORDER BY FIX DESC, BOARD_DATE DESC
   	</select>
   	
-  	<!-- 게시판 게시글 수 return -->
+  	<!-- 자유 게시글 SELECT -->
+  	<select id="selectFreeBoard" resultMap="boardResultMap">
+  		SELECT BOARD_NO,MEMBER_NICK,BOARD_TITLE,BOARD_CONTENTS,BOARD_CATEGORY,B_FILE_NAME,B_FILE_RENAME,B_FILE_PATH,BOARD_DATE,BOARD_COUNT,BOARD_LIKEIT
+		FROM BOARD_TBL WHERE BOARD_CATEGORY='자유글' ORDER BY FIX DESC, BOARD_DATE DESC
+  	</select>
+  	
+  	<!-- 후기 게시글 SELECT -->
+  	<select id="selectReviewBoard" resultMap="boardResultMap">
+  		SELECT BOARD_NO,MEMBER_NICK,BOARD_TITLE,BOARD_CONTENTS,BOARD_CATEGORY,B_FILE_NAME,B_FILE_RENAME,B_FILE_PATH,BOARD_DATE,BOARD_COUNT,BOARD_LIKEIT
+		FROM BOARD_TBL WHERE BOARD_CATEGORY='후기글' ORDER BY FIX DESC, BOARD_DATE DESC
+  	</select>
+  	
+  	<!-- 모든 게시글 수 return -->
   	<select id="selectTotalCount" resultType="_int">
   		SELECT COUNT(*) FROM BOARD_TBL
 		<where>
@@ -60,7 +72,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				MEMBER_NICK LIKE '%'||UPPER(#{searchValue})||'%'
 			</if>
 		</where>
-		ORDER BY BOARD_NO DESC
+		ORDER BY FIX DESC, BOARD_DATE DESC
+	</select>
+	
+	<!-- 자유 게시글 수 return -->
+  	<select id="selectFreeTotalCount" resultType="_int">
+  		SELECT COUNT(*) FROM BOARD_TBL WHERE BOARD_CATEGORY='자유글'
+		<where>
+			<if test="searchCondition.toString() == 'all'">
+				BOARD_TITLE LIKE '%'||UPPER(#{searchValue})||'%' OR BOARD_CONTENTS LIKE '%'||UPPER(#{searchValue})||'%' OR MEMBER_NICK LIKE '%'||UPPER(#{searchValue})||'%'	
+			</if>
+			<if test="searchCondition.toString() == 'title'">
+				BOARD_TITLE LIKE '%'||UPPER(#{searchValue})||'%'
+			</if>
+			<if test="searchCondition.toString() == 'contents'">
+				BOARD_CONTENTS LIKE '%'||UPPER(#{searchValue})||'%'
+			</if>
+			<if test="searchCondition.toString() == 'member'">
+				MEMBER_NICK LIKE '%'||UPPER(#{searchValue})||'%'
+			</if>
+		</where>
+		ORDER BY FIX DESC, BOARD_DATE DESC
+	</select>
+	
+	<!-- 후기 게시글 수 return -->
+  	<select id="selectReviewTotalCount" resultType="_int">
+  		SELECT COUNT(*) FROM BOARD_TBL WHERE BOARD_CATEGORY='후기글'
+		<where>
+			<if test="searchCondition.toString() == 'all'">
+				BOARD_TITLE LIKE '%'||UPPER(#{searchValue})||'%' OR BOARD_CONTENTS LIKE '%'||UPPER(#{searchValue})||'%' OR MEMBER_NICK LIKE '%'||UPPER(#{searchValue})||'%'	
+			</if>
+			<if test="searchCondition.toString() == 'title'">
+				BOARD_TITLE LIKE '%'||UPPER(#{searchValue})||'%'
+			</if>
+			<if test="searchCondition.toString() == 'contents'">
+				BOARD_CONTENTS LIKE '%'||UPPER(#{searchValue})||'%'
+			</if>
+			<if test="searchCondition.toString() == 'member'">
+				MEMBER_NICK LIKE '%'||UPPER(#{searchValue})||'%'
+			</if>
+		</where>
+		ORDER BY FIX DESC, BOARD_DATE DESC
 	</select>
 	
 	<!-- 검색 조건에 의한 게시글 SELECT -->
@@ -82,6 +134,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</select>
 	
+	<!-- 게시글 상세 조회 -->
 	<select id="selectOneByNo" resultMap="boardResultMap">
 		SELECT * FROM BOARD_TBL WHERE BOARD_NO = #{boardNo}
 	</select>
@@ -125,47 +178,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 게시글 추천 중복 방지 select -->
 	<select id="likeCheck" resultType="int">
 		SELECT COUNT(*) FROM BOARD_LIKE_TBL WHERE BOARD_NO = #{boardNo} AND MEMBER_NICK = #{memberNick}
-	</select>
-	
-	<!-- 댓글 관리 -->
-	<resultMap type="BoardReply" 			id="replyResultMap">
-		<id		property="replyNo" 			column="REPLY_NO" />
-		<result property="boardNo"   	 	column="BOARD_NO" />
-		<result property="replyContents"	column="REPLY_CONTENTS" />
-		<result property="memberNick" 		column="MEMBER_NICK" />
-		<result property="replyDate" 		column="REPLY_DATE" />
-		<result property="replyDepth" 		column="REPLY_DEPTH" />
-		<result property="replyGroup" 		column="REPLY_GROUP" />
-	</resultMap>
-	
-	<insert id="insertReply">
-		INSERT INTO BOARD_REPLY_TBL VALUES(SEQ_BOARD_REPLYNO.NEXTVAL, #{BoardNo}, #{replyContents}, #{memberNick}, DEFAULT, DEFAULT, DEFAULT)
-	</insert>
-	<update id="modifyReply">
-		UPDATE BOARD_REPLY_TBL SET REPLY_CONTENTS = #{replyContents}, REPLY_DATE = DEFAULT WHERE REPLY_NO = #{replyNo}
-	</update>
-	<delete id="deleteReply">
-		 DELETE FROM BOARD_REPLY_TBL WHERE REPLY_NO = #{replyNo }
-	</delete>
-	<select id="selectAllReply" resultMap="replyResultMap">
-		SELECT * FROM BOARD_REPLY_TBL WHERE BOARD_NO = #{boardNo} ORDER BY REPLY_DATE DESC
-	</select>
-
-	<!-- 대댓글 관리 -->
-		<resultMap type="BoardReReply"		    id="replyReResultMap">
-			<id		property="reReplyNo" 		column="RE_REPLY_NO" />
-			<result	property="replyNo" 			column="REPLY_NO" />
-			<result property="boardNo"   	 	column="BOARD_NO" />
-			<result property="reReplyContents"	column="RE_REPLY_CONTENTS" />
-			<result property="memberNick" 		column="MEMBER_NICK" />
-			<result property="reReplyDate" 		column="RE_REPLY_DATE" />
-		</resultMap>	
-	
-	<insert id="insertReReply">
-		INSERT INTO BOARD_RE_REPLY_TBL VALUES(SEQ_BOARD_RE_REPLYNO.NEXTVAL, #{replyNo}, #{BoardNo}, #{reReplyContents}, #{memberNick}, DEFAULT)
-	</insert>
-	<!-- 일단 요걸로 대댓글 리스트 가져오면되고 대댓글 테이블은 replyNo, boardNo 두개다 갖고있는상태로 만들면돼  -->
-	<select id="selectAllReReply" resultMap="replyReResultMap" parameterType = "hashmap">
-		SELECT * FROM BOARD_RE_REPLY_TBL WHERE BOARD_NO = #{boardNo} AND REPLY_NO = #{replyNo}
 	</select>
 </mapper>

@@ -40,22 +40,21 @@ public interface BoardStore {
 	public int updateOneByNo(SqlSessionTemplate session,Board board);
 	
 	public int deleteOneByNo(SqlSession session, int boardNo);
-
-	// 댓글 등록
-	public int insertReply(SqlSession session, BoardReply bReply);
 	
-	// 댓글 전체조회
-	public List<BoardReply> selectAllReply(SqlSession session, int boardNo);
+	public List<Board> selectFreeBoard(SqlSession session, int currentPage, int boardLimit);
 	
-	// 댓글 수정
-	public int modifyReply(SqlSession session, BoardReply bReply);
+	public List<Board> selectReviewBoard(SqlSession session, int currentPage, int boardLimit);
 	
-	// 댓글 삭제
-	public int deleteReply(SqlSession session, Integer replyNo);
+	public int selectFreeTotalCount(SqlSession session, String searchCondition, String searchValue);
 	
-	public int insertReReply(SqlSession session, BoardReReply bReReply);
+	public int selectReviewTotalCount(SqlSession session, String searchCondition, String searchValue);
 	
-	public List<BoardReReply> selectAllReReply(SqlSession session, Map<String, Object> map);
+	public int insertBoardReply(SqlSessionTemplate session, BoardReply bReply);
+	
+	public List<BoardReply> selectBoardReplyByNo(SqlSessionTemplate session,int boardNo);
+	
+	public int deleteBoardReply(SqlSessionTemplate session,BoardReply bReply);
+	public int updateBoardReply(SqlSessionTemplate session,BoardReply bReply);
 
 }
 

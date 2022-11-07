@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="BoardReplyMapper">
+	<resultMap type="BoardReply" 			id="BoardReplyMap">
+		<id 	column="R_REPLY_NO" 		property="rReplyNo"/>
+		<result column="BOARD_NO"			property="boardNo"/>
+		<result column="R_REF_REPLY_NO" 	property="rRefReplyNo"/>
+		<result column="R_REPLY_WRITER" 	property="rReplyWriter"/>
+		<result column="R_REPLY_CONTENTS" 	property="rReplyContents"/>
+		<result column="R_R_CREATE_DATE" 	property="rrCreateDate"/>
+		<result column="R_R_UPDATE_DATE" 	property="rrUpdateDate"/>
+		<result column="R_R_STATUS" 		property="rrStatus"/>
+		<result column="RE_REPLY_YN" 		property="reReplyYn"/>
+	</resultMap>
+	
+	<insert id="insertBoardReply">
+		<if test='rRefReplyNo == -1'>
+			INSERT INTO BOARD_REPLY_TBL
+			VALUES(SEQ_REPLYNO.NEXTVAL,#{boardNo},SEQ_REPLYNO.CURRVAL,#{rReplyWriter},#{rReplyContents},DEFAULT,DEFAULT,DEFAULT,#{reReplyYn})
+		</if>
+		<if test='rRefReplyNo != -1'>
+			INSERT INTO BOARD_REPLY_TBL
+			VALUES(SEQ_REPLYNO.NEXTVAL,#{boardNo},#{rRefReplyNo},#{rReplyWriter},#{rReplyContents},DEFAULT,DEFAULT,DEFAULT,#{reReplyYn})
+		</if>
+	</insert>
+	
+	<select id="selectBoardReply" resultMap="BoardReplyMap">
+		SELECT ROW_NUMBER() OVER(PARTITION BY R_REF_REPLY_NO ORDER BY R_R_CREATE_DATE) AS TEMP, BOARD_REPLY_TBL.*
+		FROM BOARD_REPLY_TBL
+		WHERE BOARD_NO=#{boardNo}
+	</select>
+	
+	<update id="updateBoardReply">
+		UPDATE BOARD_REPLY_TBL
+		SET R_REPLY_CONTENTS =#{rReplyContents}
+		WHERE R_REPLY_NO=#{rReplyNo} AND R_R_STATUS = 'Y'
+	</update>
+	
+	<update id="deleteBoardReply">
+		UPDATE BOARD_REPLY_TBL
+		SET R_REPLY_CONTENTS = '작성자에 의해 삭제된 댓글입니다.',R_R_STATUS='N'
+		WHERE R_REPLY_NO=#{rReplyNo} AND R_R_STATUS = 'Y'
+	</update>
+	
+
+</mapper>

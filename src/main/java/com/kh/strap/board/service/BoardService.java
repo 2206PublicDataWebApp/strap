@@ -14,6 +14,10 @@ public interface BoardService {
 	
 	public List<Board> printAllBoard(int currentPage, int boardLimit);
 	
+	public List<Board> printFreeBoard(int currentPage, int boardLimit);
+	
+	public List<Board> printReviewBoard(int currentPage, int boardLimit);
+	
 	public List<Board> printSearchBoard(String searchCondition, String searchValue, int currentPage, int boardLimit);
 
 	public Board printOneByNo(Integer boardNo);
@@ -38,26 +42,18 @@ public interface BoardService {
 	// 게시글 삭제
 	public int removeOneByNo(int boardNo);
 	
-	// 댓글 등록
-	public int registerReply(BoardReply bReply);
+	public int getFreeTotalCount(String searchCondition, String searchValue);
 	
-	// 댓글 리스트
-	public List<BoardReply> printAllReply(int boardNo);
+	public int getReviewTotalCount(String searchCondition, String searchValue);
 	
-	// 댓글 수정
-	public int modifyReply(BoardReply bReply);
+	// 댓글
+	public int registerBoardReply(BoardReply bReply);
 	
-	// 댓글 삭제
-	public int deleteReply(Integer replyNo);
-	
-	// 댓글 등록
-	public int registerReReply(BoardReReply bReReply);
-	
-	// 댓글 리스트
-	public List<BoardReReply> printAllReReply(Map<String, Object> map);
+	public List<BoardReply> printBoardReplyByNo(int boardNo);
 
+	public int removeBoardReply(BoardReply bReply);
+	public int modifyBoardReply(BoardReply bReply);
 }
-
 
 
 

@@ -106,43 +106,51 @@ public class BoardServiceImpl implements BoardService {
 		int result = bStore.deleteOneByNo(session, boardNo);
 		return result;
 	}
+
+	@Override
+	public List<Board> printFreeBoard(int currentPage, int boardLimit) {
+		List<Board> bList = bStore.selectFreeBoard(session, currentPage, boardLimit);
+		return bList;
+	}
+
+	@Override
+	public List<Board> printReviewBoard(int currentPage, int boardLimit) {
+		List<Board> bList = bStore.selectReviewBoard(session, currentPage, boardLimit);
+		return bList;
+	}
+
+	@Override
+	public int getFreeTotalCount(String searchCondition, String searchValue) {
+		int totalCount = bStore.selectFreeTotalCount(session, searchCondition, searchValue);
+		return totalCount;
+	}
+
+	@Override
+	public int getReviewTotalCount(String searchCondition, String searchValue) {
+		int totalCount = bStore.selectReviewTotalCount(session, searchCondition, searchValue);
+		return totalCount;
+	}
+
+	@Override
+	public int registerBoardReply(BoardReply bReply) {
+		int result = bStore.insertBoardReply(session, bReply);
+		return result;
+	}
 	
-	// 댓글 등록
 	@Override
-	public int registerReply(BoardReply bReply) {
-		int result = bStore.insertReply(session, bReply);
-		return result;
-	}
-
-	// 댓글 리스트
-	@Override
-	public List<BoardReply> printAllReply(int boardNo) {
-		List<BoardReply> brList = bStore.selectAllReply(session, boardNo);
-		return brList;
+	public List<BoardReply> printBoardReplyByNo(int boardNo) {
+		List<BoardReply> bReplyList = bStore.selectBoardReplyByNo(session, boardNo);
+		return bReplyList;
 	}
 
 	@Override
-	public int modifyReply(BoardReply bReply) {
-		int result = bStore.modifyReply(session, bReply);
-		return result;
+	public int removeBoardReply(BoardReply bReply) {
+		return bStore.deleteBoardReply(session, bReply);
 	}
 
 	@Override
-	public int deleteReply(Integer replyNo) {
-		int result = bStore.deleteReply(session, replyNo);
-		return result;
-	}
-
-	@Override
-	public int registerReReply(BoardReReply bReReply) {
-		int result = bStore.insertReReply(session, bReReply);
-		return result;
-	}
-
-	@Override
-	public List<BoardReReply> printAllReReply(Map<String, Object> map) {
-		List<BoardReReply> bReList = bStore.selectAllReReply(session,map);
-		return bReList;
+	public int modifyBoardReply(BoardReply bReply) {
+		return bStore.updateBoardReply(session, bReply);
 	}
 
 }

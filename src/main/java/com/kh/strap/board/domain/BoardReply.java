@@ -1,63 +1,112 @@
 package com.kh.strap.board.domain;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class BoardReply {
-	private int replyNo;	
-	private int BoardNo;   	 
-	private String replyContents;	
-	private String memberNick;		
-	private Date replyDate;  	
-	private int replyDepth; 		
-	private String replyGroup;
+	private int rReplyNo;
+	private int boardNo;
+	private int rRefReplyNo;
+	private String rReplyWriter;
+	private String rReplyContents;
+	private Timestamp rrCreateDate;
+	private Timestamp rrUpdateDate;
+	private String rrStatus;
+	private String reReplyYn;
 	
-	public int getReplyNo() {
-		return replyNo;
+	public BoardReply() {}
+
+	public BoardReply(int rReplyNo, int boardNo, int rRefReplyNo, String rReplyWriter, String rReplyContents,
+			Timestamp rrCreateDate, Timestamp rrUpdateDate, String rrStatus, String reReplyYn) {
+		super();
+		this.rReplyNo = rReplyNo;
+		this.boardNo = boardNo;
+		this.rRefReplyNo = rRefReplyNo;
+		this.rReplyWriter = rReplyWriter;
+		this.rReplyContents = rReplyContents;
+		this.rrCreateDate = rrCreateDate;
+		this.rrUpdateDate = rrUpdateDate;
+		this.rrStatus = rrStatus;
+		this.reReplyYn = reReplyYn;
 	}
-	public void setReplyNo(int replyNo) {
-		this.replyNo = replyNo;
+
+	public int getrReplyNo() {
+		return rReplyNo;
 	}
+
+	public void setrReplyNo(int rReplyNo) {
+		this.rReplyNo = rReplyNo;
+	}
+
 	public int getBoardNo() {
-		return BoardNo;
+		return boardNo;
 	}
+
 	public void setBoardNo(int boardNo) {
-		BoardNo = boardNo;
+		this.boardNo = boardNo;
 	}
-	public String getReplyContents() {
-		return replyContents;
+
+	public int getrRefReplyNo() {
+		return rRefReplyNo;
 	}
-	public void setReplyContents(String replyContents) {
-		this.replyContents = replyContents;
+
+	public void setrRefReplyNo(int rRefReplyNo) {
+		this.rRefReplyNo = rRefReplyNo;
 	}
-	public String getMemberNick() {
-		return memberNick;
+
+	public String getrReplyWriter() {
+		return rReplyWriter;
 	}
-	public void setMemberNick(String memberNick) {
-		this.memberNick = memberNick;
+
+	public void setrReplyWriter(String rReplyWriter) {
+		this.rReplyWriter = rReplyWriter;
 	}
-	public Date getReplyDate() {
-		return replyDate;
+
+	public String getrReplyContents() {
+		return rReplyContents;
 	}
-	public void setReplyDate(Date replyDate) {
-		this.replyDate = replyDate;
+
+	public void setrReplyContents(String rReplyContents) {
+		this.rReplyContents = rReplyContents;
 	}
-	public int getReplyDepth() {
-		return replyDepth;
+
+	public Timestamp getRrCreateDate() {
+		return rrCreateDate;
 	}
-	public void setReplyDepth(int replyDepth) {
-		this.replyDepth = replyDepth;
+
+	public void setRrCreateDate(Timestamp rrCreateDate) {
+		this.rrCreateDate = rrCreateDate;
 	}
-	public String getReplyGroup() {
-		return replyGroup;
+
+	public Timestamp getRrUpdateDate() {
+		return rrUpdateDate;
 	}
-	public void setReplyGroup(String replyGroup) {
-		this.replyGroup = replyGroup;
+
+	public void setRrUpdateDate(Timestamp rrUpdateDate) {
+		this.rrUpdateDate = rrUpdateDate;
 	}
-	
+
+	public String getRrStatus() {
+		return rrStatus;
+	}
+
+	public void setRrStatus(String rrStatus) {
+		this.rrStatus = rrStatus;
+	}
+
+	public String getReReplyYn() {
+		return reReplyYn;
+	}
+
+	public void setReReplyYn(String reReplyYn) {
+		this.reReplyYn = reReplyYn;
+	}
+
 	@Override
 	public String toString() {
-		return "BoardReply [replyNo=" + replyNo + ", BoardNo=" + BoardNo + ", replyContents=" + replyContents
-				+ ", memberNick=" + memberNick + ", replyDate=" + replyDate + ", replyDepth=" + replyDepth
-				+ ", replyGroup=" + replyGroup + "]";
+		return "ReviewReply [rReplyNo=" + rReplyNo + ", boardNo=" + boardNo + ", rRefReplyNo=" + rRefReplyNo
+				+ ", rReplyWriter=" + rReplyWriter + ", rReplyContents=" + rReplyContents + ", rrCreateDate="
+				+ rrCreateDate + ", rrUpdateDate=" + rrUpdateDate + ", rrStatus=" + rrStatus + ", reReplyYn="
+				+ reReplyYn + "]";
 	}
 }

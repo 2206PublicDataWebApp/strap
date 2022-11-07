@@ -27,8 +27,7 @@
 		<!-- 컨텐츠 -->
 		<div class="contents">
 			<div id="contents-wrap">
-			<div class="contents-noside" style="width: 1000px; margin: auto; height: 1000px;
-			transform: translate(10px, 60px);">
+			<div class="contents-noside" style="width: 1000px; margin: auto;">
 		<!-- 작성자/조회수 -->
 		<div class="position-relative" style="margin-bottom: 25px;">	
 				${board.memberNick }
@@ -54,9 +53,9 @@
 		<!-- 추천/비추천 로그인 체크-->
 		<div class="col-md-11 offset-md-5 py-4 text-center">
 		<c:choose>
-			<c:when test="${loginUser.memberNick ne board.memberNick }">
+			<c:when test="${empty sessionScope.loginUser.memberNick }">
 				<div style="float: left; transform: translate(45px, 0px);">
-					<button class="btn btn-primary" onclick="like_btn();"><i class="fa-solid fa-thumbs-up fa-lg"></i> 추천 </button>
+					<button class="btn btn-primary" onclick="like_btn_check();"><i class="fa-solid fa-thumbs-up fa-lg"></i> 추천 </button>
 				</div>
 			</c:when>
 		<c:otherwise>
@@ -65,7 +64,7 @@
 					<input type="hidden" name="memberNick" value="${sessionScope.loginUser.memberNick }"/>
 					<input type="hidden" name="boardNo" value="${board.boardNo }"/>
 					<input type="hidden" name="page" value="${page }"/>
-	            <button class="btn btn-primary" id="like_btn" type="submit"><i class="fa-solid fa-thumbs-up fa-lg"></i> 추천 <b>${board.boardLikeIt }</b></button>
+	            <button class="btn btn-primary" id="like_btn" onclick="like_btn(${board.boardLikeIt });" type="submit"><i class="fa-solid fa-thumbs-up fa-lg"></i> 추천 </button>
 	            </form>
             </div>
          </c:otherwise>
@@ -82,59 +81,100 @@
 				<button class="btn btn-outline-light" disabled="disabled">삭제</button>
 		</div>
 	
-		<!-- 댓글 갯수 -->
-		<tr>
-			<td colspan="4"><b id="rCount"></b></td>
-		</tr>
-		<!-- 댓글 등록 -->
-		<table>
-			<tr>
-				<td>
-					<textarea class="border border-secondary p-2 mb-2 border border-2 rounded-4" style="margin-top: 20px;"
-					 rows="1" cols="110" name="replyContents" id="replyContents"></textarea>
-				</td>
-				<td>
-					<button class="btn btn-outline-primary" id="rSubmit" style="padding: 10px 25px; transform: translate(33px, 2px);">등록</button>
-				</td>
-			</tr>
-		</table>
-		<!-- 댓글 목록 -->
-		<table align="center" width="950" id="rtb">
-			<thead>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
-			<!-- 대댓글 등록 
-			<table align="center" width="500" border="1">
-				<tr>
-					<td><textarea rows="3" cols="55" name="reReplyContents" id="reReplyContents"></textarea></td>
-					<td>
-						<button id="rReSubmit">등록</button>
+		 
+	<%-- 	댓글 입력창
+		<div class="reply-input">
+			<form onsubmit="inputCheck(this);" action="/board/reply/write.strap" method="post">
+				<input type="hidden" name="page" value="${page }">
+				<input class="reText" type="text" name="rReplyContents" value="" placeholder="댓글을 입력해보세요!">
+				<input type="hidden" name="boardNo" value="${board.boardNo }">
+				<input type="hidden" name="rReplyWriter" value="${loginUser.memberNick }">
+				<input type="hidden" name="reReplyYn" value="N">
+				<input type="hidden" name ="rRefReplyNo" value="-1">
+				<button class="reBtn">등록</button>
+			</form>
+		</div>
+ 댓글출력 
+	<div id="reply-wrap">
+		<table id="reply-table">
+			<c:forEach items="${bReplyList }" var="bReply" varStatus="n">
+				<tr class="one-reply-area">
+					<td   >
+						<div id="oneReply"  <c:if test="${bReply.reReplyYn eq 'Y' }"> class="reReply" </c:if>>
+							<div id="replyInfo-wrap">
+								<p id="reWriter" class="replyInfo">${bReply.rReplyWriter }</p>
+								<p id= "reDate" class="replyInfo">${bReply.rrCreateDate }</p>
+							</div>
+							<div id="replyContents">
+								${bReply.rReplyContents }
+							 댓글메뉴버튼
+	 						<c:if test="${bReply.rrStatus ne 'N' }">
+								<div id="replyMenuBtn-area">
+									<c:if test="${(loginUser.memberNick eq bReply.rReplyWriter) || (loginUser.memberNick eq board.memberNick) }">
+										<a href="#" onclick="replyMenu(this);" class="replyMenuBtn"> [+] </a>
+									</c:if>
+								</div>
+							</div>
+							
+								 댓글메뉴
+								  댓글 수정 창 
+								<div id="reply-menu">
+									<ul>
+										<c:if test="${loginUser.memberId eq rReply.rReplyWriter }">
+											<li onclick="replyModify(this);" ><a href="#">댓글 수정</a></li>
+											<div class="replyModify" style="display:none;">
+												<form onsubmit="inputCheck(this)" action="/board/reply/modify.strap" method="post">
+													<input type="hidden" name="page" value="${page }">
+													<input type="text" name="rReplyContents" value="${bReply.rReplyContents }" >
+													<input type="hidden" name="boardNo" value="${board.boardNo }"> 
+													<input type="hidden" name="rReplyNo" value="${bReply.rReplyNo }">
+													<button>수정</button>
+												</form>
+											</div>
+										        댓글삭제
+											<li><a href="#" onclick="replyRemove(this);">댓글 삭제</a></li>
+											<form action="/board/reply/remove.strap" method="post">
+												<input type="hidden" name="page" value="${page }"> 
+												<input type="hidden" name="boardNo" value="${board.boardNo }"> 
+												<input type="hidden" name="rReplyNo" value="${bReply.rReplyNo }">
+											</form>
+										</c:if>
+								</div>
+	 						</c:if>
+							
+							답글 버튼
+							<c:if test="${bReply.reReplyYn ne 'Y' and bReply.rrStatus ne 'N'}">
+								<div onclick="arcodian(this);">
+									<a href="#">답글 달기</a>
+								</div>
+							
+							답글 입력창 
+								<div class="reReply-input" style="display:none" >
+									<form onsubmit="inputCheck(this);" action="/board/reply/write.strap" method="post">
+										<input type="hidden" name="page" value="${page }">
+										<input type="text" name="rReplyContents" value="" placeholder="답글을 입력해보세요!">
+										<input type="hidden" name="boardNo" value="${board.boardNo }">
+										<input type="hidden" name="rReplyWriter" value="${loginUser.memberNick }">
+										<input type="hidden" name="reReplyYn" value="Y">
+										<input type="hidden" name ="rRefReplyNo" value="${bReply.rReplyNo }">
+										<button>등록</button>
+									</form>
+								</div>
+							</c:if>
+						</div>
 					</td>
 				</tr>
-			</table>
-			
-			대댓글 목록 
-			<table align="center" width="500" border="1" id="rRetb">
-				<thead>
-					<tr>
-						<!-- 대댓글 갯수
-						<td colspan="4"><b id="rReCount"></b></td>
-					</tr>
-				</thead>
-				<tbody>
-				
-				</tbody>
-			</table> -->
+			</c:forEach>
+		</table>
+	</div> --%>
 	
-		<div style="text-align: center; transform: translate(10px, 30px);">
+		<div style="text-align: center;">
 			<button onclick="location.href='/board/list.strap?page=${page}'" class="btn btn-outline-secondary">목록</button>
 		</div>
 	</div>
 	</div>
 </div>
-</div>
+</div> 
 <!--Report Modal -->
 		<div class="modal fade" id="reportNote" tabindex="-1"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -187,15 +227,16 @@
 <!-- 푸터 -->
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 <script>
-$(document).ready(function() {
-	getListReply();
- 	getReListReply();
-});
-
-function like_btn() {
+function like_btn_check() {
 	alert("로그인 후 이용해주세요");
 	location.href="/member/loginView.strap"
 }
+
+$(document).ready(function(){
+	var i=0;
+	var turn=new Array('green','red');
+	$('#like_btn').css("background",result);
+})
 
 // 게시글 삭제
 function boardRemove(value) {
@@ -205,204 +246,62 @@ function boardRemove(value) {
 	}
 }
 
-// 댓글 리스트
-function getListReply() {
-	var boardNo = "${board.boardNo}";
-	$.ajax({
-		url : "/board/listReply.strap",
-		data : {"boardNo" : boardNo},
-		type : "get",
-		success : function(brList) {
-			var $tableBody = $("#rtb tbody");
-			$tableBody.html(""); // 내용 초기화 후 append
-			$("#rCount").text("댓글 " + brList.length +""); // 댓글 카운트
-			var rnoArr = {};
-			if(brList != null) {
-				for(var i in brList) {
-					rnoArr[i] = brList[i].replyNo;
-					var $tr = $("<tr>");
-					var $rDate = $("<div style='float: right;'><td width='150'>").text(brList[i].replyDate);
-					var $memberNick = $("<div style='height: 30px;'><td width='150'>").text(brList[i].memberNick);
-					var $rContent = $("<div style='height: 30px;'><td>").text(brList[i].replyContents);
-					var $rNo = $("<div id='rNo_'"+brList[i].replyNo+"'' style='height: 30px;display:none;' data-rno='"+brList[i].replyNo+"'><td>").text(brList[i].replyNo);
-					var $btnArea = $("<div style='height: 30px;'><td width='100'>")
-								   .append("<c:if test="${loginUser.memberNick eq board.memberNick }"><a href='javascript:void(0);' style='text-decoration-line: none; margin-right:15px;' onclick='modifyView(this,\""+brList[i].replyContents+"\","+brList[i].replyNo+")'>수정</a></c:if>")
-								   .append("<c:if test="${loginUser.memberNick eq board.memberNick }"><a href='javascript:void(0);' style='text-decoration-line: none; margin-right:15px;' onclick='removeReply("+brList[i].replyNo+")'>삭제</a></c:if>")
-								   .append("<a href='javascript:void(0);' style='text-decoration-line: none;' onclick='getReListReply("+brList[i].replyNo+")'>등록</a>")
-					$tr.append($rDate);
-					$tr.append($memberNick);
-					$tr.append($rContent);
-					$tr.append($rNo);
-					$tr.append($btnArea);
-					$tableBody.append($tr);
-				}
-			}
-			//getReListReply(rnoArr);
-		},
-		error : function() {
-			alert("서버 요청 실패");
-		}
-	});
-}	
 
-// 댓글 삭제
-function removeReply(replyNo) {
-		if(confirm("정말 삭제?")) {
-		$.ajax({
-			url : "/board/deleteReply.strap",
-			data : { "replyNo" : replyNo },
-			type : "get",
-			success : function(data) {
-				if(data == "success"){
-					getListReply();
-				} else {
-					alert("댓글 삭제 실패");
-				}
-			},
-			error : function() {
-				alert("ajax 통신 오류");
-			}
-		});	
-	}
-}
-
-// 댓글 등록
-$("#rSubmit").on("click", function() {
-	var boardNo = "${board.boardNo}";
-	var replyContents = $("#replyContents").val();
-	$.ajax({
-		url : "/board/addReply.strap",
-		type : "post",
-		data : {
-			"boardNo"	: boardNo,
-			"replyContents" : replyContents
-		},
-		success : function(result) {
-			if(result == "success") {
-				$("#replyContents").val(""); // 작성 후 내용 초기화
-				getListReply(); // 댓글 리스트 출력
-			} else {
-				alert("로그인 후 이용해주세요");
-				location.href="/member/loginView.strap"
-			}
-		},
-		error : function() {
-			alert("서버 요청 실패");
-		}
-	});
-});
-
-// 댓글 수정 창
-function modifyView(obj, replyContents, replyNo) {
-	event.preventDefault();
-	var $tr = $("<tr>");
-	$tr.append("<td colspan='3'><input class='border border-secondary p-2 mb-2 border border-2 rounded-4' type='text' size='100' value='"+replyContents+"'></td>");
-	$tr.append("<td><button class='btn btn-outline-secondary' style='transform: translate(-5px, -5px);' onclick='modifyReply(this, "+replyNo+");'>수정</button></td>");
-	$tr.append("<td><button class='btn btn-outline-secondary' style='transform: translate(0px, -5px);' onclick='cancel()'>취소</button></td>");
-	$(obj).parent().parent().after($tr);
-}
-
-// 댓글 수정 취소
-function cancel() {
-	location.href="/board/detail.strap?boardNo=${board.boardNo}&page=${page}";
-}
-
-// 댓글 수정
-function modifyReply(obj, rNo) {
-	var inputTag = $(obj).parent().prev().children();
-	var replyContents = inputTag.val();
-	$.ajax({
-		url : "/board/modifyReply.strap",
-		data : {
-			"replyNo" : rNo,
-			"replyContents" : replyContents
-		},
-		type : "post",
-		success : function(result) {
-			if(result == "success") {
-				getListReply();
-			} else {
-				alert("댓글 수정 실패");
-			}
-		},
-		error : function() {
-			alert("서버 요청 실패");
-		}
-	});
-}
-
-// 대댓글 등록
-$("#rReSubmit").on("click", function() {
-	var boardNo = "${board.boardNo}";
-	var replyNo = $("#rNo").text();
-	var reReplyContents = $("#reReplyContents").val();
-	$.ajax({
-		url : "/board/addReReply.strap",
-		type : "post",
-		data : {
-			"boardNo"	: boardNo,
-			"replyNo"	: replyNo,
-			"reReplyContents" : reReplyContents
-		},
-		success : function(result) {
-			if(result == "success") {
-				alert("댓글 등록 성공");
-				$("#reReplyContents").val(""); // 작성 후 내용 초기화
-				getReListReply(rNo); // 댓글 리스트 출력
-			} else {
-				alert("댓글 등록 실패");
-			} 
-		},
-		/* error:function(request,status,error){
-	        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
-	    } */
-	});
-}); 
-
-//대댓글 불러오기 - 댓글리스트 가져올때 해당 메소드 호출
-function getReListReply(rnoArr) {
-	console.log('rnoArr::'+rnoArr);
-	var boardNo = "${board.boardNo}";
-	//var replyNo = $("#rNo").data("rno");
-	var replyNo = $("#rNo").text();
-	$.ajax({
-		url : '/board/listReReply.strap',
-		data : {
-			"boardNo" : boardNo,
-			"replyNo" : rnoArr
-		},
-		type : 'get',
-		sucess : function(bReList) {
-			console.log('bReList::'+bReList);
-			var $tableBody = $("#rRetb tbody");
-			$tableBody.html(""); // 내용 초기화 후 append
-			$("#rReCount").text("댓글 (" + bReList.length +")"); // 댓글 카운트
+// 답글
+		function arcodian(reReply){
+			event.preventDefault();
+			var reReplyInput = reReply.nextElementSibling;
+			var display = reReplyInput.style.display;
 			
-			if(bReList != null) {
-				for(var j in bReList) {
-					rnoArr[i] = brList[i].replyNo;
-					var $tr = $("<tr>");
-					var $rNo = $("<div id='rNo_'"+brList[i].replyNo+"'' style='height: 30px;display:none;' data-rno='"+brList[i].replyNo+"'><td>").text(brList[i].replyNo);
-					var $memberNick = $("<td width='100'>").text(bReList[j].memberNick);
-					var $reReplyContents = $("<td>").text(bReList[j].reReplyContents);
-					var $reReplyDate = $("<td width='100'>").text(bReList[j].reReplyDate);
-																											
-					var $btnReArea = $("<td width='80'>").append("<a href='javascript:void(0);' onclick='reModifyView(this,\""+bReList[j].reReplyContents+"\","+bReList[j].reReplyNo+")'>수정</a> ")
-													     .append("<a href='javascript:void(0);' onclick='reRemoveReply("+bReList[j].reReplyNo+")'>삭제</a>")
-					console.log('memberNick::'+memberNick);								     
-					$tr.append($rNo);								   
-					$tr.append($memberNick);
-					$tr.append($reReplyContents);
-					$tr.append($reReplyDate);
-					$tr.append($btnReArea);
-					$tableBody.append($tr);
-				}
-			} 
-		}, error : function(error) {
-			console.log(error);
+			if(display == "none"){
+				reReplyInput.style.display="block";
+			}else{
+				reReplyInput.style.display="none";
+			}
 		}
-	});
+		
+//댓글 메뉴		
+		function replyMenu(target){
+			event.preventDefault();
+			var replyMenu = target.parentNode.parentNode.nextElementSibling;
+			var display = replyMenu.style.display;
+			
+			if (display == "none"){
+				replyMenu.style.display ="block";
+			}else{
+				replyMenu.style.display ="none";
+			}
+		}
+		
+//댓글 수정 창
+		function replyModify(target){
+			event.preventDefault();
+			var replyModifyInput = target.nextElementSibling;
+			var display = replyModifyInput.style.display;
+			
+			if (display == "none"){
+				replyModifyInput.style.display ="block";
+			}else{
+				replyModifyInput.style.display ="none";
+			}
 }
+
+
+//댓글 삭제
+		function replyRemove(target){
+		
+		event.preventDefault();
+		var replyRemoveForm = target.parentNode.nextElementSibling;
+		console.log(replyRemoveForm);
+		
+		if(confirm("정말 삭제하시겠습니까?")){
+			replyRemoveForm.submit();
+		}else{
+			
+		}
+	}
+
+
 
 // 신고 
 function reportSubmit() {
