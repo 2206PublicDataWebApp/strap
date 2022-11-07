@@ -38,6 +38,9 @@
 		#chatTitle{height: 50px;}
 		#chatContents{height: 300px;}
 		#chatContents p{padding: 10px;}
+		.matchingDiv{text-align: center;}
+		.guide{width:250px; height:250px; margin-right: 100px;}
+		.go{width:250px; height:250px;}
 	</style>
 </head>
 <body>
@@ -51,234 +54,246 @@
 <!-- 컨텐츠 -->
 	<div id="contents" class="contents row">
 		<div class="contents-side col">
-			<br><br>
-			<h1>How to Matching</h1>
-			<br><br>
-			<div id="1">
-				<img width="50px" height="50px" alt="1" src="/resources/image/matching/one.png">
+			<div class="guideDiv">
+				<br><br>
+				<img class="guide" src="/resources/image/guide.png">
+				<img class="go" src="/resources/image/go.png">
+				<br><br>
+				<button class="btn btn-dark" style="margin-right: 150px;" onclick="gudieOnOff();">매칭 방법 알아보기</button>
+				<button class="btn btn-dark" style="width: 165px;" onclick="goMatching();">매칭하러 가기</button>
+				<br><br>
 			</div>
-			<br>
-			<h6><i>내 운동 정보를 불러오거나 입력하여 파트너 찾기를 누릅니다!</i></h6>
-			<br>
-			<table id="myInfo" class="table">
-				<tr>
-					<th>운동경력</th>
-					<td>1년~2년</td>
-				</tr>
-				<tr>
-					<th>3대 기록</th>
-					<td>300~350</td>
-				</tr>
-				<tr>
-					<th>마이짐</th>
-					<td>경기 부천시 원미동 94-5<br>바디업휘트니스</td>
-				</tr>
-				<tr>
-					<th>성별</th>
-					<td>남성</td>
-				</tr>
-				<tr>
-					<th>자기소개</th>
-					<td>안녕하세요 운동하는 30대 <br> 직장인입니다. 주말에 부천,광명에서 <br>같이 운동하실분 쪽지주세요!</td>
-				</tr>
-			</table>
-			<br>
-			<button class="btn btn-dark" onclick="example()">내 운동정보 불러오기</button>
-			<button class="btn btn-dark" onclick="example()">운동 파트너 찾기</button>
-			<br><br><br><br>
-			
-			<div id="2">
-				<img width="50px" height="50px" alt="2" src="/resources/image/matching/two.png">
-			</div>
-			<br>
-			<h6><i>내 운동 정보와 비슷한 회원이 추천됩니다</i></h6>
-			<br>
-			<div id="memberList">
-				<div class="member">
-					<div class="img">
-						<img width="100%" height="100%" src="/resources/image/matching/strap.png">
-					</div>
-					<br>
-					<div class="nick">
-						<button class="btn btn-light">언제철들래</button>
-					</div>
+			<div class="guideContents" style="display: none;">
+				<br><br>
+				<h1>How to Matching</h1>
+				<br><br>
+				<div id="1">
+					<img width="50px" height="50px" alt="1" src="/resources/image/matching/one.png">
 				</div>
-				<div class="member">
-					<div class="img">
-						<img width="100%" height="100%" src="/resources/image/matching/img2.jpg">
-					</div>
-					<br>
-					<div class="nick">
-						<button class="btn btn-light">삶은달걀</button>
-					</div>
+				<br>
+				<h6><i>내 운동 정보를 불러오거나 입력하여 파트너 찾기를 누릅니다!</i></h6>
+				<br>
+				<table id="myInfo" class="table">
+					<tr>
+						<th>운동경력</th>
+						<td>1년~2년</td>
+					</tr>
+					<tr>
+						<th>3대 기록</th>
+						<td>300~350</td>
+					</tr>
+					<tr>
+						<th>마이짐</th>
+						<td>경기 부천시 원미동 94-5<br>바디업휘트니스</td>
+					</tr>
+					<tr>
+						<th>성별</th>
+						<td>남성</td>
+					</tr>
+					<tr>
+						<th>자기소개</th>
+						<td>안녕하세요 운동하는 30대 <br> 직장인입니다. 주말에 부천,광명에서 <br>같이 운동하실분 쪽지주세요!</td>
+					</tr>
+				</table>
+				<br>
+				<button class="btn btn-dark" onclick="example()">내 운동정보 불러오기</button>
+				<button class="btn btn-dark" onclick="example()">운동 파트너 찾기</button>
+				<br><br><br><br>
+				
+				<div id="2">
+					<img width="50px" height="50px" alt="2" src="/resources/image/matching/two.png">
 				</div>
-				<div class="member">
-					<div class="img">
-						<img width="100%" height="140px" src="/resources/image/matching/img3.jpg">
-					</div>
-					<br>
-					<div class="nick">
-						<button class="btn btn-light">3대499</button>
-					</div>
-				</div>
-				<div class="member">
-					<div class="img">
-						<img width="100%" height="140px" src="/resources/image/matching/img4.png">
-					</div>
-					<br>
-					<div class="nick">
-						<button class="btn btn-light">운동합시다</button>
-					</div>
-				</div>
-				<div class="member">
-					<div class="img">
-						<img width="100%" height="140px" src="/resources/image/matching/img5.jpg">
-					</div>
-					<br>
-					<div class="nick">
-						<button class="btn btn-light">민준이니</button>
-					</div>
-				</div>
-			</div>
-			<br><br><br><br>
-			
-			<div id="3">
-				<img width="50px" height="50px" alt="3" src="/resources/image/matching/three.png">
-			</div>
-			<br>
-			<h6><i>프로필을 열람하고 같이 운동하고 싶은 회원에게 쪽지를 보내세요!</i></h6>
-			<br>
-			<div id="profile">
-				<div id="info">
-					<div id="info-img">
+				<br>
+				<h6><i>내 운동 정보와 비슷한 회원이 추천됩니다</i></h6>
+				<br>
+				<div id="memberList">
+					<div class="member">
 						<div class="img">
-						<img width="100%" height="100%" src="/resources/image/matching/strap.png">
+							<img width="100%" height="100%" src="/resources/image/matching/strap.png">
 						</div>
 						<br>
 						<div class="nick">
 							<button class="btn btn-light">언제철들래</button>
 						</div>
 					</div>
-					<div id="info-detail">
-						<table id="myInfo" class="table">
-							<tr>
-								<th>운동경력</th>
-								<td>1년~2년</td>
-							</tr>
-							<tr>
-								<th>3대 기록</th>
-								<td>300~350</td>
-							</tr>
-							<tr>
-								<th>마이짐</th>
-								<td>경기 부천시 원미동 48-4<br>B&R휘트니스</td>
-							</tr>
-							<tr>
-								<th>성별</th>
-								<td>남성</td>
-							</tr>
-							<tr>
-								<th>자기소개</th>
-								<td>안녕하세요 운동좋아하는 <br> 직장인입니다. 꾸준히 같이 운동하실분 <br>쪽지주세요! 지역은 경기,인천입니다 </td>
-							</tr>
-						</table>
+					<div class="member">
+						<div class="img">
+							<img width="100%" height="100%" src="/resources/image/matching/img2.jpg">
+						</div>
+						<br>
+						<div class="nick">
+							<button class="btn btn-light">삶은달걀</button>
+						</div>
+					</div>
+					<div class="member">
+						<div class="img">
+							<img width="100%" height="140px" src="/resources/image/matching/img3.jpg">
+						</div>
+						<br>
+						<div class="nick">
+							<button class="btn btn-light">3대499</button>
+						</div>
+					</div>
+					<div class="member">
+						<div class="img">
+							<img width="100%" height="140px" src="/resources/image/matching/img4.png">
+						</div>
+						<br>
+						<div class="nick">
+							<button class="btn btn-light">운동합시다</button>
+						</div>
+					</div>
+					<div class="member">
+						<div class="img">
+							<img width="100%" height="140px" src="/resources/image/matching/img5.jpg">
+						</div>
+						<br>
+						<div class="nick">
+							<button class="btn btn-light">민준이니</button>
+						</div>
 					</div>
 				</div>
-				<div id="imgs">
-					<div class="profile-img"></div>
-					<div class="profile-img"></div>
-					<div class="profile-img"></div>
-				</div>
-				<div id="manner">
-					<span style="display: inline-block; width: 150px; padding-left: 30px;">3대 매너점수</span>
-					<span class="alert alert-dark" style="display:inline-block; width: 465px; text-align: center;">510점</span>
-				</div>
-				<div id="msg">
-					<br>
-					<textarea rows="7" cols="73" placeholder="남기실 쪽지를 입력해주세요" style="border:1px solid lightgray; border-radius: 10px; resize: none"></textarea> <br><br>
-					<button class="btn btn-dark" onclick="example()">쪽지 보내기</button>
-				</div>
-			</div>
-			<br><br><br><br>
-			
-			<div id="4">
-				<img width="50px" height="50px" alt="4" src="/resources/image/matching/four.png">
-			</div>
-			<br>
-			<h6><i>마이페이지의 쪽지함에서 대화를 이어나갈 수 있습니다.</i></h6>
-			<br>
-			<div id="noteBox">
-				<table class="table" id="noteTable">
-					<tr>
-						<th>번호</th>
-						<th>제목</th>
-						<th>보낸사람</th>
-						<th>보낸날짜</th>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>안녕하세요!!</td>
-						<td>언제철들래</td>
-						<td>2022.10.26</td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>오늘 가능하세요?</td>
-						<td>삶은달걀</td>
-						<td>2022.10.26</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>운동 같이해요!</td>
-						<td>운동합시다</td>
-						<td>2022.10.24</td>
-					</tr>
-					<tr>
-						<td>4</td>
-						<td>하체운동 좋아하세요?</td>
-						<td>3대499</td>
-						<td>2022.10.23</td>
-					</tr>
-					<tr>
-						<td>5</td>
-						<td>네ㅎㅎ</td>
-						<td>민준이니</td>
-						<td>2022.10.22</td>
-					</tr>
-				</table>
+				<br><br><br><br>
 				
-			</div>
-			<br><br><br><br>
-			
-			<div id="5">
-				<img width="50px" height="50px" alt="5" src="/resources/image/matching/five.png">
-			</div>
-			<br>
-			<h6><i>1:1 쪽지함의 일정잡기 기능을 사용하면 운동일정 캘린더에 일정이 추가됩니다!</i></h6>
-			<br>
-			<div id="chat">
-				<div id="chatTitle">
-					<span>언제철들래 님과의 쪽지</span>
-					<hr>
+				<div id="3">
+					<img width="50px" height="50px" alt="3" src="/resources/image/matching/three.png">
 				</div>
-				<div id="chatContents">
-					<span>내용</span>
-					<p align="left">안녕하세요!! -2022.10.26 16:32</p>
-					<p align="right">네 안녕하세요~~ -2022.10.26 16:36</p>
-					<br><br><br>
-					<button class="btn btn-danger" onclick="example()">일정잡기</button>
+				<br>
+				<h6><i>프로필을 열람하고 같이 운동하고 싶은 회원에게 쪽지를 보내세요!</i></h6>
+				<br>
+				<div id="profile">
+					<div id="info">
+						<div id="info-img">
+							<div class="img">
+							<img width="100%" height="100%" src="/resources/image/matching/strap.png">
+							</div>
+							<br>
+							<div class="nick">
+								<button class="btn btn-light">언제철들래</button>
+							</div>
+						</div>
+						<div id="info-detail">
+							<table id="myInfo" class="table">
+								<tr>
+									<th>운동경력</th>
+									<td>1년~2년</td>
+								</tr>
+								<tr>
+									<th>3대 기록</th>
+									<td>300~350</td>
+								</tr>
+								<tr>
+									<th>마이짐</th>
+									<td>경기 부천시 원미동 48-4<br>B&R휘트니스</td>
+								</tr>
+								<tr>
+									<th>성별</th>
+									<td>남성</td>
+								</tr>
+								<tr>
+									<th>자기소개</th>
+									<td>안녕하세요 운동좋아하는 <br> 직장인입니다. 꾸준히 같이 운동하실분 <br>쪽지주세요! 지역은 경기,인천입니다 </td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div id="imgs">
+						<div class="profile-img"></div>
+						<div class="profile-img"></div>
+						<div class="profile-img"></div>
+					</div>
+					<div id="manner">
+						<span style="display: inline-block; width: 150px; padding-left: 30px;">3대 매너점수</span>
+						<span class="alert alert-dark" style="display:inline-block; width: 465px; text-align: center;">510점</span>
+					</div>
+					<div id="msg">
+						<br>
+						<textarea rows="7" cols="73" placeholder="남기실 쪽지를 입력해주세요" style="border:1px solid lightgray; border-radius: 10px; resize: none"></textarea> <br><br>
+						<button class="btn btn-dark" onclick="example()">쪽지 보내기</button>
+					</div>
 				</div>
-			</div>
-			<br><br><br>
-			<div id="6">
-				<img width="50px" height="50px" alt="5" src="/resources/image/matching/six.png">
+				<br><br><br><br>
+				
+				<div id="4">
+					<img width="50px" height="50px" alt="4" src="/resources/image/matching/four.png">
+				</div>
+				<br>
+				<h6><i>마이페이지의 쪽지함에서 대화를 이어나갈 수 있습니다.</i></h6>
+				<br>
+				<div id="noteBox">
+					<table class="table" id="noteTable">
+						<tr>
+							<th>번호</th>
+							<th>제목</th>
+							<th>보낸사람</th>
+							<th>보낸날짜</th>
+						</tr>
+						<tr>
+							<td>1</td>
+							<td>안녕하세요!!</td>
+							<td>언제철들래</td>
+							<td>2022.10.26</td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>오늘 가능하세요?</td>
+							<td>삶은달걀</td>
+							<td>2022.10.26</td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>운동 같이해요!</td>
+							<td>운동합시다</td>
+							<td>2022.10.24</td>
+						</tr>
+						<tr>
+							<td>4</td>
+							<td>하체운동 좋아하세요?</td>
+							<td>3대499</td>
+							<td>2022.10.23</td>
+						</tr>
+						<tr>
+							<td>5</td>
+							<td>네ㅎㅎ</td>
+							<td>민준이니</td>
+							<td>2022.10.22</td>
+						</tr>
+					</table>
+					
+				</div>
+				<br><br><br><br>
+				
+				<div id="5">
+					<img width="50px" height="50px" alt="5" src="/resources/image/matching/five.png">
+				</div>
+				<br>
+				<h6><i>1:1 쪽지함의 일정잡기 기능을 사용하면 운동일정 캘린더에 일정이 추가됩니다!</i></h6>
+				<br>
+				<div id="chat">
+					<div id="chatTitle">
+						<span>언제철들래 님과의 쪽지</span>
+						<hr>
+					</div>
+					<div id="chatContents">
+						<span>내용</span>
+						<p align="left">안녕하세요!! -2022.10.26 16:32</p>
+						<p align="right">네 안녕하세요~~ -2022.10.26 16:36</p>
+						<br><br><br>
+						<button class="btn btn-danger" onclick="example()">일정잡기</button>
+					</div>
+				</div>
+				<br><br><br>
+				<div id="6">
+					<img width="50px" height="50px" alt="5" src="/resources/image/matching/six.png">
+				</div>
+				<br>
+				<h6><i>모든 준비가 끝났습니다 파트너를 찾으러 출발!</i></h6>
+				<br>
+				<button class="btn btn-dark" style="width: 165px;" onclick="goMatching();">매칭하러 가기</button>
 			</div>
 			<br>
-			<h6><i>모든 준비가 끝났습니다 파트너를 찾으러 출발!</i></h6>
-			<br>
-			<button class="btn btn-dark" onclick="goMatching();">매칭하러 가기</button>
-			<br><br><br>	
 		</div>
+		<br><br>
 	</div>
 <!-- 푸터	 -->
 	<div id="footer" class="row">
@@ -288,6 +303,14 @@
 	</div>
 </div>
 <script type="text/javascript">
+	function gudieOnOff(){
+		if($(".guideContents").css("display") == "none"){
+			$(".guideContents").show();
+			
+		}else{
+			$(".guideContents").hide();
+		}
+	}
 	function example(){
 		alert("예시 페이지입니다.");
 	}
