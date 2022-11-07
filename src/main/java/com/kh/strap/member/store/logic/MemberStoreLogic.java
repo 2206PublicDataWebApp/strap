@@ -153,4 +153,10 @@ public class MemberStoreLogic implements MemberStore{
 		return qna;
 	}
 
+	@Override
+	public int withdrawal(SqlSession session, String memberId) {
+		int result = session.update("MemberMapper.withdrawal", memberId);
+		return result;
+	}
+
 }

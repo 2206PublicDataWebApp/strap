@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.domain.SimpleQnA;
 import com.kh.strap.notebox.domain.NoteBox;
 
 public interface MatchService {
@@ -78,5 +79,7 @@ public interface MatchService {
 	void insertSameRecord(Map<String, Object> map);
 
 	void resetSameRecord(String memberId);
+
+	List<SimpleQnA> selectMemberQnA(String memberId);
 
 }

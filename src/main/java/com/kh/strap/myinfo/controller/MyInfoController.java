@@ -342,5 +342,10 @@ public class MyInfoController {
 		}
 	}
 	
+	@RequestMapping(value="/member/withdrawal.strap",method = RequestMethod.POST)
+	public void withdrawal(String memberId) {
+		int result = mService.withdrawal(memberId);
+	}
+	
 	
 }

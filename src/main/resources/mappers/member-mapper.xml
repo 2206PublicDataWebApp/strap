@@ -141,4 +141,8 @@
 	<update id="updateMemberAddr">
 		UPDATE MEMBER_TBL SET MEMBER_ADDRESS = #{memberAddress} WHERE MEMBER_ID = #{memberId}
 	</update>
+	<!-- 회원탈퇴 -->
+	<update id="withdrawal">
+		UPDATE MEMBER_TBL SET MEMBER_STATUS = 'N' WHERE MEMBER_ID = #{memberId}
+	</update>
 </mapper>

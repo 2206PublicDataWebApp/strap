@@ -143,8 +143,13 @@
 		var jymTitle = memberJym[1];
 		var memberManner = '${loginUser.memberManner}';
 		var memberIntroduce = '${loginUser.memberIntroduce}';
-		//profileImt
-		$("#profileImg").attr("src","/resources/profileUploadFiles/"+mProfileRename);
+		//profileImg
+		if(mProfileRename != ''){
+			$("#profileImg").attr("src","/resources/profileUploadFiles/"+mProfileRename);
+		}else{
+			$("#profileImg").attr("src","/resources/profileUploadFiles/default.png");
+		}
+		
 		//Career
 		if(memberCareer =='1'){
 			$("#memberCareer").val("1").prop("selected", true);

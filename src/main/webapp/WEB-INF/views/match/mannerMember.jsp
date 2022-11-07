@@ -13,6 +13,11 @@
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
 <link rel="stylesheet" type="text/css" href="/resources/css/matchingPage.css">
+<style>
+	.QnA input{width: 250px; text-align: center;}
+	#carouselExampleControlsNoTouching{width: 100%;}
+	#carouselExampleControlsNoTouching input{margin-left: 50px;}
+</style>
 </head>
 <body>
 <div class="wrap container">
@@ -40,7 +45,7 @@
 						</div>
 						<br>
 						<div class="nick">						
-							<button onclick="profileDetail('${member.mProfileRename}','${member.memberNick}','${member.memberCareer}','${member.memberSBD}','${member.memberJym}','${member.memberGender}','${member.memberIntroduce}','${member.memberManner}');" class="btn btn-light">${member.memberNick }</button>
+							<button onclick="profileDetail('${member.memberId }','${member.mProfileRename}','${member.memberNick}','${member.memberCareer}','${member.memberSBD}','${member.memberJym}','${member.memberGender}','${member.memberIntroduce}','${member.memberManner}');" class="btn btn-light">${member.memberNick }</button>
 						</div>
 					</div>
 				</c:forEach>
@@ -102,10 +107,9 @@
 					</div>
 				</div>
 				<br><br>
-				<span><b>운동 Q&A</b></span>
-				<div class="QnA" style="width: 300px; margin: auto;">
-					Q. 현재 몇분할로 운동 중이신가요?<br><br>
-					<input type="text" id="answer" class="form-control" style="background-color: florawhite;"> 
+				<div class="memberQnA" style="width: 350px; margin: auto;">
+					<img width="50px" height="50px" src="/resources/image/question.png">
+					<br>
 				</div>
 				<br><br>
 				<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">쪽지 보내기</button>
@@ -147,7 +151,6 @@
 	</div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 <script>
 	function mannerRefresh(){
 		var count ;
@@ -196,7 +199,7 @@
 			alert("쪽지의 제목과 내용을 입력해주세요");
 		}
 	}
-	function profileDetail(mProfileRename,memberNick, memberCareer,memberSBD,memberJym,memberGender,memberIntroduce,memberManner){
+	function profileDetail(memberId, mProfileRename,memberNick, memberCareer,memberSBD,memberJym,memberGender,memberIntroduce,memberManner){
 		$("#profile").show();
 		var jym = memberJym.split(",");
 		var jymAddress = jym[0];
@@ -254,7 +257,49 @@
 		$("#memberManner").val(memberManner+'점');
 		//Introduce
 		$("#memberIntroduce").val(memberIntroduce);
+		//Q&A
+		$.ajax({
+			url:"/match/memberQnA.strap",
+			type:"get",
+			data:{
+				"memberId":memberId
+			},
+			success:function(result){
+				$("#carouselExampleControlsNoTouching").remove();
+				$(".noDiv").remove();
+				var html = "";
+				if(result.length != 0){
+					html += "<div id='carouselExampleControlsNoTouching' class='carousel carousel-dark slide' data-bs-touch='false'>";
+					html += "<div class='carousel-inner'>"
+					for(var i = 0 ; i<result.length; i++){
+						if(i==0){
+							html += "<div class='carousel-item active QnA'>";
+						}else{
+							html += "<div class='carousel-item QnA'>";
+						}
+						html += result[i].qnaTitle;
+						html += "<input type='text' class='form-control' value='"+result[i].qnaAnswer+"' readonly>";
+						html += "<br></div>";
+					}
+					html += "<button class='carousel-control-prev' type='button' data-bs-target='#carouselExampleControlsNoTouching' data-bs-slide='prev'>";
+				    html += "<span class='carousel-control-prev-icon' aria-hidden='true'></span>";
+				    html += "<span class='visually-hidden'>Previous</span>";
+				    html += "</button>";
+				    html += "<button class='carousel-control-next' type='button' data-bs-target='#carouselExampleControlsNoTouching' data-bs-slide='prev'>";
+				    html += "<span class='carousel-control-next-icon' aria-hidden='true'></span>";
+				    html += "<span class='visually-hidden'>Next</span>";
+				    html += "</button>";
+				}else{
+					html += "<div class='noDiv'>";
+					html += "<input class='form-control no' type='text' value='아직 답변한 Q&A가 없습니다!' style='width:250px; margin-left:50px;' readonly><br>";
+					html += "</div>";
+				} 
+				$(".memberQnA").append(html);
+			}
+		})
 	}
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+
 </body>
 </html>

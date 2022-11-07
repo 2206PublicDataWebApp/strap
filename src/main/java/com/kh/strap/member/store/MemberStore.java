@@ -57,4 +57,6 @@ public interface MemberStore {
 
 	SimpleQnA qnaOne(SqlSession session, String memberId);
 
+	int withdrawal(SqlSession session, String memberId);
+
 }

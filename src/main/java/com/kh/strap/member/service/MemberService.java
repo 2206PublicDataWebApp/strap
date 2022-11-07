@@ -55,5 +55,7 @@ public interface MemberService {
 
 	SimpleQnA qnaOne(String memberId);
 
+	int withdrawal(String memberId);
+
 
 }

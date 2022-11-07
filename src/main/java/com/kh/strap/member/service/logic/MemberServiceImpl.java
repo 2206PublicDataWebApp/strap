@@ -159,6 +159,12 @@ public class MemberServiceImpl implements MemberService {
 		return qna;
 	}
 
+	@Override
+	public int withdrawal(String memberId) {
+		int result = mStore.withdrawal(session, memberId);
+		return result;
+	}
+
 
 	
 	

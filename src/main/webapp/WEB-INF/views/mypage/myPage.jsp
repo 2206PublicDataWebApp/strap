@@ -14,8 +14,6 @@
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
 <style>
-	.carousel-item.active input{width: 250px; text-align: center;} 
-	.carousel-item.active input:hover{background-color: gold; cursor: pointer;} 
 	.QnA-title{display: inline-block; width: 250px;}
 	.QnA-img{width: 200px; margin: auto;}
 	.submit{width: 70px;}
@@ -23,6 +21,9 @@
 	.QnAStart{width: 250px; height: 150px; text-align: center;}
 	.QnAStart img{margin-left: 25px;}
 	.QnAStart input{width: 250px; text-align: center;}
+	.question{width: 250px; height: 150px; text-align: center;}
+	.question input{width: 250px; text-align: center;}
+	.form-control.Q:hover{background-color: gold; cursor: pointer;} 
 </style>
 
 </head>
@@ -46,7 +47,7 @@
 					<br>
 			    	<img src="/resources/image/matching/problem.png" width="100px;" height="100px;">
 					<br>
-					<button type="button" class="btn btn-dark" onclick="QnA();">시작하기</button>
+					<button type="button" class="btn btn-dark" onclick="start();">시작하기</button>
 	    		</div>
 			</div>
 		</div>
@@ -58,12 +59,36 @@
 	</div>
 </div>
 <script>
-	function QnA(){
+	function start(){
 		$.ajax({
 			url:"/mypage/qna.strap",
 			type:"get",
 			success:function(result){
-				console.log("성공:"+result);
+				var html = '';
+				if(result !=null){
+					html += "<div class='question'>";
+					html +=	"<b>Q&A</b>  "+result.qnaTitle+"<br>";
+					html +=	"<input type='text' class='form-control Q' value='"+result.ex1+"' onclick='QnA(this,"+result.qnaNo+")' readonly>";
+					html +=	"<input type='text' class='form-control Q' value='"+result.ex2+"' onclick='QnA(this,"+result.qnaNo+")' readonly>";
+					if(result.ex3 !=null){
+						html +=	"<input type='text' class='form-control Q' value='"+result.ex3+"' onclick='QnA(this,"+result.qnaNo+")' readonly>";
+					}
+					if(result.ex4 !=null){
+						html +=	"<input type='text' class='form-control Q' value='"+result.ex4+"' onclick='QnA(this,"+result.qnaNo+")' readonly>";
+					}
+					if(result.ex5 !=null){
+						html +=	"<input type='text' class='form-control Q' value='"+result.ex5+"' onclick='QnA(this,"+result.qnaNo+")' readonly>";
+					}
+					html +=	"<br><button class='btn btn-dark' onclick='submit();'>제출</button></div>";
+					$(".QnAStart").remove();
+					$(".simpleQnA").append(html);
+				}else{
+					html +=	"<div class='question'><input type='text' class='form-control' value='모든 질문에 답하셨군요!' readonly><br>";
+					html += "<img src='/resources/image/clapping.png' width='100px;' height='100px;'></div>";
+					$(".QnAStart").remove();
+					$(".simpleQnA").append(html);
+				}
+					
 			},
 			error:function(result){
 				console.log("실패:"+result);
@@ -73,33 +98,34 @@
 
 	var qnaNo;
 	var answer;
-	var divTag;
-// 	function QnA(obj,no){
-// 		qnaNo = no;
-// 		question = $(obj).parent().children(0).eq(1).text();
-// 		answer = $(obj).val();
-// 		divTag = $(obj).parent();
-// 		console.log(divTag);
-// 		$(".Q").css("background-color","white");
-// 		$(obj).css("background-color","gold");
-// 	}
+	function QnA(obj,no){
+		qnaNo = no;
+		answer = $(obj).val();
+		$(".Q").css("background-color","white");
+		$(obj).css("background-color","gold");
+	}
 	
 	function submit(){
 		if(answer == null ){
 			alert("답변을 선택해주세요!");
 		} else {
 			if(confirm("답변을 제출하시겠습니까?")){
-				$(divTag).remove();
-// 				$(".carousel-item "+qnaNo).remove();
-// 				location.href="/mypage/qnaAnswer.strap?qnaNo="+qnaNo+"&answer="+answer;
-// 				$.ajax({
-// 					url:"/mypage/qnaAnswer.strap",
-// 					type:"post",
-// 					data:{"qunNo":qunNo,"answer":answer},
-// 					sucess:function(result){
-// 						alert(result);
-// 					}
-// 				})
+				$.ajax({
+					url:"/mypage/qnaAnswer.strap",
+					type:"post",
+					data:{"qnaNo":qnaNo,"answer":answer},
+					success:function(result){
+						//초기화 작업
+						qnaNo = null;
+						answer = null;
+						$(".question").remove();
+						start();
+					},
+					error:function(result){
+						console.log(result)
+						console.log("실패");
+					}
+				})
 			}
 		}
 	}

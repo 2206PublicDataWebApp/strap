@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.google.gson.Gson;
 import com.kh.strap.match.service.MatchService;
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.domain.SimpleQnA;
 import com.kh.strap.notebox.domain.NoteBox;
 
 
@@ -201,6 +203,11 @@ public class MatchController {
 	public String findMember3(
 			HttpServletRequest request) {
 		Member member = (Member)request.getSession().getAttribute("loginUser");
+		if(member == null) {
+			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
+			request.setAttribute("url", "/member/loginView.strap");
+			return("common/alert");
+		}
 		Member mOne = new Member();
 		String local = member.getMemberJym().split(" ")[0];
 		mOne.setMemberId(member.getMemberId());
@@ -475,4 +482,19 @@ public class MatchController {
 			return "no";
 		}
 	}
+	
+	/**
+	 * 
+	 * @return Q&A 가져오기
+	 */
+	@ResponseBody
+	@RequestMapping(value="/match/memberQnA.strap", produces = "application/json;charset=utf-8")
+	public String memberQNA(
+			HttpServletRequest request,
+			String memberId) {
+		List<SimpleQnA> qList = mService.selectMemberQnA(memberId);
+		return new Gson().toJson(qList);
+	}
+	
+	
 }

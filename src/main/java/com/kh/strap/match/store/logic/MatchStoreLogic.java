@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.strap.match.store.MatchStore;
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.domain.SimpleQnA;
 import com.kh.strap.notebox.domain.NoteBox;
 
 @Repository
@@ -225,6 +226,12 @@ public class MatchStoreLogic implements MatchStore{
 	@Override
 	public void resetSameRecord(SqlSession session, String memberId) {
 		session.delete("MatchMapper.resetSameRecord",memberId);
+	}
+
+	@Override
+	public List<SimpleQnA> selectMemberQnA(SqlSession session, String memberId) {
+		List<SimpleQnA> qList = session.selectList("MatchMapper.selectMemberQnA",memberId);
+		return qList;
 	}
 
 }

@@ -64,12 +64,9 @@ public class MyPageController {
 		Member member = (Member)request.getSession().getAttribute("loginUser");
 		String memberId = member.getMemberId();
 		SimpleQnA qna = mService.qnaOne(memberId);
-		JSONObject json = new JSONObject();
 		Gson gson = new Gson();
-		System.out.println(json);
-		return json.toString();
+		return gson.toJson(qna);
 	}
-	
 	
 	/**
 	 * 유저의 간단 Q&A 답변 insert
@@ -90,6 +87,7 @@ public class MyPageController {
 		map.put("qnaNo", qnaNo);
 		map.put("qnaAnswer", answer);
 		int result = mService.inserAnswer(map);
-		return String.valueOf(qnaNo);
+		System.out.println("결과 : " + result);
+		return "ok";
 	}
 }
