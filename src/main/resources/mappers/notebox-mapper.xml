@@ -36,6 +36,7 @@
 			    , NB.RECIPIENT_NICK
 			    , NB.SENDER_TIME AS SENDER_DATE
 			    , NB.NOTE_CHECK
+			    , NB.NOTE_STATUS
 			    , NB.SENDER_ID 
 			    , NB.SENDER_NICK 
 			    , NC.CHAT_CONTENTS AS NOTE_CONTENTS
@@ -51,6 +52,7 @@
 			    , NB.RECIPIENT_NICK
 			    , NB.SENDER_TIME AS SENDER_DATE
 			    , NB.NOTE_CHECK
+			    , NB.NOTE_STATUS
 			    , NB.SENDER_ID 
 			    , NB.SENDER_NICK 
 			    , NC.CHAT_CONTENTS AS NOTE_CONTENTS
@@ -63,19 +65,52 @@
 <!-- 		SELECT NOTE_NO, RECIPIENT_ID, SENDER_ID, SENDER_TIME, NOTE_TITLE, NOTE_CONTENTS, NOTE_ACCEPT, NOTE_STATUS, RECIPIENT_NICK, SENDER_NICK FROM NOTEBOX_TBL N -->
 <!-- 		LEFT OUTER JOIN REPORT_TBL R ON N.NOTE_NO = R.CONTENTS_NO WHERE (REPORT_PROCESS IS NULL AND RECIPIENT_ID = #{memberId} AND (SELECT COUNT(*) FROM REPORT_TBL WHERE CONTENTS_NO = 5) > 0) OR NOTE_ACCEPT = 'Y' ORDER BY NOTE_NO DESC -->
   	</select>
+  	<!-- 전체 쪽지 수 -->
 	<select id="selectTotalCount" resultType="_int">
-  		SELECT COUNT(*) FROM NOTEBOX_TBL
+  		SELECT COUNT(*) FROM 
+			(SELECT * FROM
+			(SELECT NB.NOTE_NO
+			    , NB.RECIPIENT_ID
+			    , NB.RECIPIENT_NICK
+			    , NB.SENDER_TIME AS SENDER_DATE
+			    , NB.NOTE_CHECK
+			    , NB.NOTE_STATUS
+			    , NB.SENDER_ID 
+			    , NB.SENDER_NICK 
+			    , NC.CHAT_CONTENTS AS NOTE_CONTENTS
+			    , NC.SENDER_DATE AS SENDER_TIME
+			    , ROW_NUMBER()OVER(PARTITION BY NOTE_NO ORDER BY SENDER_DATE DESC) AS RN
+			    FROM NOTEBOX_TBL NB FULL JOIN NOTECHAT_TBL NC ON NB.NOTE_NO = NC.CHAT_NO
+			    WHERE NB.SENDER_ID = #{memberId} AND NOTE_ACCEPT = 'Y')
+			WHERE RN = 1
+			UNION
+			SELECT * FROM
+			(SELECT NB.NOTE_NO
+			    , NB.RECIPIENT_ID
+			    , NB.RECIPIENT_NICK
+			    , NB.SENDER_TIME AS SENDER_DATE
+			    , NB.NOTE_CHECK
+			    , NB.NOTE_STATUS
+			    , NB.SENDER_ID 
+			    , NB.SENDER_NICK 
+			    , NC.CHAT_CONTENTS AS NOTE_CONTENTS
+			    , NC.SENDER_DATE AS SENDER_TIME
+			    , ROW_NUMBER()OVER(PARTITION BY NOTE_NO ORDER BY SENDER_DATE DESC) AS RN
+			    FROM NOTEBOX_TBL NB FULL JOIN NOTECHAT_TBL NC ON NB.NOTE_NO = NC.CHAT_NO
+			    WHERE NB.RECIPIENT_ID = #{memberId})
+			WHERE RN = 1)
   		<where>
-			<if test="searchCondition.toString() == 'nickName'">
-				SENDER_NICK LIKE '%'||#{searchValue}||'%'
-			</if>
 			<if test="searchCondition.toString() == 'contents'">
-				NOTE_CONTENTS LIKE '%'||#{searchValue}||'%'
-			</if>
-			<if test="searchCondition.toString() == 'all'">
-				NOTE_CONTENTS LIKE '%'||#{searchValue}||'%'
-				OR SENDER_NICK LIKE '%'||#{searchValue}||'%'
-			</if>
+  				NOTE_CONTENTS LIKE '%'||#{searchValue}||'%'
+  			</if>
+  			<if test="searchCondition.toString() == 'nickName'">
+  				SENDER_NICK LIKE '%'||#{searchValue}||'%'
+  			</if>
+  			<if test="searchCondition.toString() == 'all'">
+	  			NOTE_CONTENTS LIKE '%'||#{searchValue}||'%'
+	  			OR SENDER_NICK LIKE '%'||#{searchValue}||'%'
+  			</if>
+			AND NOTE_STATUS = 'Y'
 		</where>
   	</select>
   	<select id="selectOneByNo" resultMap="noteBoxResultMap, memberResultMap">
@@ -85,12 +120,43 @@
 	<update id="updateNoteBox">
 		UPDATE NOTEBOX_TBL SET NOTE_ACCEPT = 'Y' WHERE NOTE_NO = #{noteNo}
 	</update>
-	<select id="selectCountNotBox" resultType="_int">
+	<select id="selectCountNoteBox" resultType="_int">
 		SELECT COUNT(*) FROM NOTEBOX_TBL
 		WHERE NOTE_CHECK = 'N' AND RECIPIENT_ID = #{memberId}
 	</select>
 	<select id="selectAllByValue" resultMap="noteBoxResultMap">
-  		SELECT * FROM NOTEBOX_TBL
+  		SELECT * FROM 
+			(SELECT * FROM
+			(SELECT NB.NOTE_NO
+			    , NB.RECIPIENT_ID
+			    , NB.RECIPIENT_NICK
+			    , NB.SENDER_TIME AS SENDER_DATE
+			    , NB.NOTE_CHECK
+			    , NB.NOTE_STATUS
+			    , NB.SENDER_ID 
+			    , NB.SENDER_NICK 
+			    , NC.CHAT_CONTENTS AS NOTE_CONTENTS
+			    , NC.SENDER_DATE AS SENDER_TIME
+			    , ROW_NUMBER()OVER(PARTITION BY NOTE_NO ORDER BY SENDER_DATE DESC) AS RN
+			    FROM NOTEBOX_TBL NB FULL JOIN NOTECHAT_TBL NC ON NB.NOTE_NO = NC.CHAT_NO
+			    WHERE NB.SENDER_ID = #{memberId} AND NOTE_ACCEPT = 'Y')
+			WHERE RN = 1
+			UNION
+			SELECT * FROM
+			(SELECT NB.NOTE_NO
+			    , NB.RECIPIENT_ID
+			    , NB.RECIPIENT_NICK
+			    , NB.SENDER_TIME AS SENDER_DATE
+			    , NB.NOTE_CHECK
+			    , NB.NOTE_STATUS
+			    , NB.SENDER_ID 
+			    , NB.SENDER_NICK 
+			    , NC.CHAT_CONTENTS AS NOTE_CONTENTS
+			    , NC.SENDER_DATE AS SENDER_TIME
+			    , ROW_NUMBER()OVER(PARTITION BY NOTE_NO ORDER BY SENDER_DATE DESC) AS RN
+			    FROM NOTEBOX_TBL NB FULL JOIN NOTECHAT_TBL NC ON NB.NOTE_NO = NC.CHAT_NO
+			    WHERE NB.RECIPIENT_ID = #{memberId})
+			WHERE RN = 1)
   		<where>
   			<if test="searchCondition.toString() == 'contents'">
   				NOTE_CONTENTS LIKE '%'||#{searchValue}||'%'
@@ -110,4 +176,9 @@
 		UPDATE NOTEBOX_TBL SET NOTE_CHECK = 'Y'
 		WHERE NOTE_NO = #{noteNo} AND RECIPIENT_ID = #{recipientId}
 	</update>
+	<!-- 쪽지 삭제 -->
+	<delete id="deleteNote">
+		DELETE FROM NOTEBOX_TBL
+		WHERE NOTE_NO = #{noteNo}
+	</delete>
 </mapper>

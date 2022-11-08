@@ -24,7 +24,7 @@ import com.kh.strap.notebox.service.NoteBoxService;
 @Controller
 public class NoteBoxController {
 	@Autowired
-	private NoteBoxService nService;
+	private NoteBoxService nbService;
 	
 	/**
 	 * 
@@ -39,9 +39,9 @@ public class NoteBoxController {
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String memberId = member.getMemberId();
-		System.out.println(memberId);
 		int currentPage = (page != null) ? page : 1;
-		int totalCount = nService.getTotalCount("","");
+		int totalCount = nbService.getTotalCount("","", memberId);
+		System.out.println("토탈 카운드 : " +totalCount);
 		int noticeLimit = 10;
 		int naviLimit = 5;
 		int maxPage;
@@ -53,8 +53,7 @@ public class NoteBoxController {
 		if(maxPage < endNavi) {
 			endNavi = maxPage;
 		}
-		List<NoteBox> nList = nService.printNoteBoxList(memberId, currentPage, noticeLimit);
-		System.out.println("N리스트 : " + nList);
+		List<NoteBox> nList = nbService.printNoteBoxList(memberId, currentPage, noticeLimit);
 		if(!nList.isEmpty()) {
 			mv.addObject("urlVal", "noteBoxListView");
 			mv.addObject("maxPage", maxPage);
@@ -83,8 +82,8 @@ public class NoteBoxController {
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String memberId = member.getMemberId();
-		int result = nService.checkNote(noteBox);
-		NoteBox nOne = nService.printOneByNo(noteBox);
+		int result = nbService.checkNote(noteBox);
+		NoteBox nOne = nbService.printOneByNo(noteBox);
 		mv.addObject("memberId", memberId);
 		mv.addObject("noteBox", nOne);
 		mv.setViewName("mypage/noteDetail");
@@ -93,14 +92,17 @@ public class NoteBoxController {
 	
 	
 	// 쪽지 조건별 검색
-	@RequestMapping(value="/admin/noteBoxSearch.strap", method=RequestMethod.GET)
-	public ModelAndView noteBoxSearchList(ModelAndView mv
+	@RequestMapping(value="/mypage/noteBoxSearch.strap", method=RequestMethod.GET)
+	public ModelAndView noteBoxSearchList(ModelAndView mv, HttpServletRequest request
 			, @RequestParam("searchCondition") String searchCondition
 			, @RequestParam("searchValue") String searchValue
 			, @RequestParam(value="page", required=false) Integer page) {
 		try {
+			HttpSession session = request.getSession();
+			Member member = (Member)session.getAttribute("loginUser");
+			String memberId = member.getMemberId();
 			int currentPage = (page != null) ? page : 1;
-			int totalCount = nService.getTotalCount(searchCondition, searchValue);
+			int totalCount = nbService.getTotalCount(searchCondition, searchValue, memberId);
 			int noticeLimit = 10;
 			int naviLimit = 5;
 			int maxPage;
@@ -112,13 +114,13 @@ public class NoteBoxController {
 			if(maxPage < endNavi) {
 				endNavi = maxPage;
 			}
-			List<NoteBox> nList = nService.printAllByValue(searchCondition, searchValue, currentPage, noticeLimit);
+			List<NoteBox> nList = nbService.printAllByValue(searchCondition, searchValue, memberId, currentPage, noticeLimit);
 			if(!nList.isEmpty()) {
 				mv.addObject("nList", nList);
 			}else {
 				mv.addObject("nList", null);
 			}
-				mv.addObject("urlVal", "search");
+				mv.addObject("urlVal", "noteBoxSearch");
 				mv.addObject("searchCondition", searchCondition);
 				mv.addObject("searchValue", searchValue);
 				mv.addObject("maxPage", maxPage);
@@ -132,13 +134,32 @@ public class NoteBoxController {
 		return mv;
 	}
 	
+	// 쪽지 삭제 ajax
+	@ResponseBody
+	@RequestMapping(value="/mypage/removeNote.strap",method=RequestMethod.POST)
+	public String removeNote(@RequestParam("nbList[]") List<String> nbList) {
+		System.out.println("N리스트 : " + nbList);
+		System.out.println(nbList.size());
+		for(int i = 0; i < nbList.size(); i++) {
+			int noteNo = Integer.parseInt(nbList.get(i));
+			System.out.println(noteNo);
+			int result = nbService.removeNote(noteNo);
+		}
+		return "ok";
+		
+	}
+	/**
+	 * 
+	 * @param session
+	 * @return
+	 */
 	// 쪽지 뱃지
 	@ResponseBody
 	@RequestMapping(value="/mypage/mark.strap",method=RequestMethod.POST)
 	public String markNoteBox(HttpSession session) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		if(loginUser != null) {
-			int countNoteBox = nService.getCountNoteBox(loginUser.getMemberId());
+			int countNoteBox = nbService.getCountNoteBox(loginUser.getMemberId());
 			if(countNoteBox > 0) {
 				return countNoteBox+"";
 			}else {

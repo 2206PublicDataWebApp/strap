@@ -14,10 +14,11 @@ import com.kh.strap.notebox.store.NoteBoxStore;
 public class NoteBoxStoreLogic implements NoteBoxStore{
 
 	@Override
-	public int selectTotalCount(SqlSession session, String searchCondition, String searchValue) {
+	public int selectTotalCount(SqlSession session, String searchCondition, String searchValue, String memberId) {
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("searchCondition", searchCondition);
 		paramMap.put("searchValue", searchValue);
+		paramMap.put("memberId", memberId);
 		int totalCount = session.selectOne("NoteBoxMapper.selectTotalCount", paramMap);
 		return totalCount;
 	}
@@ -38,18 +39,19 @@ public class NoteBoxStoreLogic implements NoteBoxStore{
 
 	@Override
 	public int selectCountNoteBox(SqlSession session, String memberId) {
-		int result = session.selectOne("NoteBoxMapper.selectCountNotBox", memberId);
+		int result = session.selectOne("NoteBoxMapper.selectCountNoteBox", memberId);
 		return result;
 	}
 
 	@Override
-	public List<NoteBox> selectAllByValue(SqlSession session, String searchCondition, String searchValue,
+	public List<NoteBox> selectAllByValue(SqlSession session, String searchCondition, String searchValue, String memberId,
 			int currentPage, int noticeLimit) {
 		int offset = (currentPage-1) * noticeLimit;
 		RowBounds rowBounds = new RowBounds(offset, noticeLimit);
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("searchCondition", searchCondition);
 		paramMap.put("searchValue", searchValue);
+		paramMap.put("memberId", memberId);
 		List<NoteBox> nList = session.selectList("NoteBoxMapper.selectAllByValue", paramMap, rowBounds);
 		return nList;
 	}
@@ -57,6 +59,12 @@ public class NoteBoxStoreLogic implements NoteBoxStore{
 	@Override
 	public int updateCheckNote(SqlSession session, NoteBox noteBox) {
 		int result = session.update("NoteBoxMapper.updateCheckNote", noteBox);
+		return result;
+	}
+
+	@Override
+	public int deleteNote(SqlSession session, int noteNo) {
+		int result = session.delete("NoteBoxMapper.deleteNote", noteNo);
 		return result;
 	}
 

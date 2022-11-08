@@ -6,10 +6,11 @@ import com.kh.strap.notebox.domain.NoteBox;
 
 
 public interface NoteBoxService {
-	public int getTotalCount(String searchCondition, String searchValue);
+	public int getTotalCount(String searchCondition, String searchValue, String memberId);
 	public List<NoteBox> printNoteBoxList(String memberId, int currentPage, int noticeLimit);
 	public NoteBox printOneByNo(NoteBox noteBox);
 	public int getCountNoteBox(String memberId);
-	public List<NoteBox> printAllByValue(String searchCondition, String searchValue, int currentPage, int noticeLimit);
+	public List<NoteBox> printAllByValue(String searchCondition, String searchValue, String memberId, int currentPage, int noticeLimit);
 	public int checkNote(NoteBox noteBox);
+	public int removeNote(int noteNo);
 }

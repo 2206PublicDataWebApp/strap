@@ -28,8 +28,8 @@
 								</div>
 							</c:if>
 							<c:if test="${noteChat.senderId ne memberId }">
-								<div align="left" style="padding:10px;"><b>${senderNick }</b></div>
-								<div align="left">
+								<div align="left" style="padding:5px;"><b>${senderNick }</b></div>
+								<div align="left" style="padding:10px;">
 									<span class="note-y-bg">${noteChat.chatContents } - <fmt:formatDate pattern="yyyy-MM-dd / hh:mm:ss" value="${noteChat.senderDate }"/></span> <br>
 								</div>
 							</c:if>

@@ -56,7 +56,7 @@
 					<span><h5> 쪽지함 </h5></span>
 				</div>
 				<div class="col text-end">
-					<button class="btn btn-dark" onclick="alert('삭제');">삭제</button>
+					<button class="btn btn-dark" onclick="removeNote();">삭제</button>
 				</div>
 			</div>
 			<hr>
@@ -64,8 +64,8 @@
 				<tr>
 				</tr>
 				<tr align="center">
-					<th><input class="form-check-input" type="checkbox"/></th>
-					<th width="50">번호</th>
+					<th><input class="form-check-input" type="checkbox" id="nb-chkbox-all"/></th>
+					<th width="50"><label class="form-check-label" for="nb-chkbox-all">번호</label></th>
 					<th width="200">내용</th>
 					<th width="150">보낸 사람</th>
 					<th width="150">보낸 날짜</th>
@@ -73,8 +73,8 @@
 			<c:if test="${!empty nList }">
 				<c:forEach items="${nList }" var="notebox" varStatus="i">
 					<tr align="center">
-						<td><input class="form-check-input" type="checkbox"/></th>
-						<td>${i.count }</td>
+						<td><input class="nb-chk form-check-input" id="nb-chk${i.count }" type="checkbox" value="${notebox.noteNo }"/></th>
+						<td><label class="form-check-label" for="nb-chk${i.count }">${i.count }</label></td>
 						<td><a id="noteContents" href="#none" onclick="noteDetail('${notebox.noteNo }', '${notebox.recipientId }', '${notebox.senderId }');"><c:if test="${not empty notebox.noteContents }">${notebox.noteContents }</c:if><c:if test="${empty notebox.noteContents }">매칭 메세지 도착!!</c:if></a><c:if test="${notebox.noteCheck eq 'N' }"><span class="badge text-bg-danger">New</span></c:if></td>
 						<td>${notebox.senderNick }</td>
 						<td><fmt:formatDate pattern="yyyy-MM-dd / hh:mm:ss" value="${notebox.senderTime }"/> </td>
@@ -83,24 +83,24 @@
 				<tr align="center" height="20">
 					<td colspan="5">
 						<c:if test="${currentPage != 1 }">
-							<a href="/admin/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-dark">이전</a>
+							<a href="/mypage/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-dark">이전</a>
 						</c:if>
 						<c:forEach var="p" begin="${startNavi }" end="${endNavi }">
 							<c:if test="${currentPage eq p }">
 								<b class="btn btn-dark">${p }</b>
 							</c:if>
 							<c:if test="${currentPage ne p }">
-								<a href="/admin/${urlVal }.strap?page=${p }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-light">${p }</a>
+								<a href="/mypage/${urlVal }.strap?page=${p }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-light">${p }</a>
 							</c:if>
 						</c:forEach>
 						<c:if test="${maxPage > currentPage }">
-							<a href="/admin/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-dark">다음</a>
+							<a href="/mypage/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-dark">다음</a>
 						</c:if>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="5" align="center">
-						<form action="/admin/noteBoxSearch.strap" method="get">
+						<form action="/mypage/noteBoxSearch.strap" method="get">
 							<div align="center">
 								<div style="display:inline-block;">
 									<select name="searchCondition" class="btn btn-dark">
@@ -122,17 +122,64 @@
 			</c:if>
 			<c:if test="${empty nList }">
 				<tr>
-					<td colspan="6" align="center"><b>받은 쪽지가 없습니다. 매칭을 이용해 보세요~</b></td>
+					<td colspan="6" align="center"><b>쪽지가 없습니다. 매칭을 이용해 보세요~</b></td>
 				</tr>
 			</c:if>
 			</table>
 		</div>
 	</div>
 	<script>
+		// 체크박스 선택
+		$(document).ready(function() {
+			$("#nb-chkbox-all").click(function() {
+				if($("#nb-chkbox-all").is(":checked")) $(".nb-chk").prop("checked", true);
+				else $(".nb-chk").prop("checked", false);
+			});
+	
+			$(".nb-chk").click(function() {
+				var total = $(".nb-chk").length;
+				var checked = $(".nb-chk:checked").length;
+	
+				if(total != checked) $("#nb-chkbox-all").prop("checked", false);
+				else $("#nb-chkbox-all").prop("checked", true); 
+			});
+		});
+	
+		// 쪽지 상세페이지 이동
 		function noteDetail(nNo, rId, sId){
 			var notePage = "/mypage/noteDetailView.strap?noteNo=" + nNo +"&recipientId=" + rId + "&senderId=" + sId;
 			location.href = notePage;
-// 				location.reload();
+				
+		}
+		
+		//쪽지 삭제
+		function removeNote(){
+			var checkedList = new Array();
+			$(".nb-chk:checked").each(function(index, item){
+				checkedList.push(this.value);
+			});
+			
+			if (checkedList == ''){
+				alert("삭제할 쪽지를 선택해주시기 바랍니다.");
+			} else {
+				if(confirm("다시 복원 할 수 없습니다.\n정말 삭제하시겠습니까?")){
+					$.ajax({
+						type : "post",
+						url : "/mypage/removeNote.strap",
+						data:{
+							"nbList":checkedList
+						},
+						success:function(){
+							location.reload();
+							console.log("삭제 성공!")
+						},error:function(request, status, error){
+							console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+						}
+					});
+						
+				}
+			}
+			
 		}
 	</script>
 	

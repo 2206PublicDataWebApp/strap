@@ -171,14 +171,14 @@
 					</c:if>
 					<c:if test="${noteBox.recipientId ne memberId }"> 
 						<div class="row" style="display:none;">
-							<div class="col-4" align="center">
+							<div class="col-auto" align="center">
 								날짜 : <input type="date" id="meet-date" required/>
 							</div>
-							<div class="col-4" align="center">
+							<div class="col-auto" align="center">
 								시간 : <input class="timepicker" id="meet-time" required/>
 							</div>
-							<div class="col-4" align="center">
-								메모 : <input type="text" id="meet-memo"  placeholder="ex)운동부위" required/>
+							<div class="col-auto" align="center">
+								메모 : <input type="text" id="meet-memo"  placeholder="ex)헬스장, 운동부위" required/>
 							</div>
 						</div>
 					</c:if>

@@ -137,7 +137,6 @@ public class BannerController {
 	public ModelAndView removeBanner(ModelAndView mv
 			,@RequestParam("bnNoList") String bnNoList
 			) {
-		System.out.println(bnNoList);
 		String[] bnNoListArr = bnNoList.split(",");
 		for(int i = 0; i < bnNoListArr.length; i++) {
 			int bannerNo = Integer.parseInt(bnNoListArr[i]);
