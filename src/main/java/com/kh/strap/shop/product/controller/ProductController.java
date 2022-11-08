@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.service.MemberService;
 import com.kh.strap.shop.cart.domain.Cart;
 import com.kh.strap.shop.cart.service.CartService;
 import com.kh.strap.shop.coupon.domain.Coupon;
@@ -79,6 +80,8 @@ public class ProductController {
 	CartService cService;
 	@Autowired
 	CouponService couponService;
+	@Autowired
+	MemberService mService;
 	
 	//쇼핑몰:보충제 리스트 출력
 	@RequestMapping(value="/product/listView.strap", method=RequestMethod.GET)
@@ -250,9 +253,14 @@ public class ProductController {
 	@ResponseBody
 	@RequestMapping(value="/member/modifyAddr.strap",method=RequestMethod.POST)
 	public String modifyMemberAddr(
-			@ModelAttribute Member member) {
-		//없으면 저장, 있으면 변경
+			@ModelAttribute Member member,
+			HttpSession session) {
 		if(pService.modifyMemberAddr(member) > 0) {
+			//세션 갱신.
+			Member loginUser = mService.memberById(member.getMemberId());
+			session.removeAttribute("loginUser");
+			session.setAttribute("loginUser", loginUser);
+			
 			return "success";
 		}else {
 			return "fail";

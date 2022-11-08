@@ -108,6 +108,8 @@ function wellcomeCoupon(loginMember){
 					alert("쿠폰 발급이 완료되었습니다.");
 				}else if(result =="needLogin"){
 					alert("로그인 후 쿠폰을 발급 받을 수 있습니다.");
+				}else if(result =="fail"){
+					alert("이미 쿠폰을 발급받으셨습니다.")
 				}
 			},
 			error:function(){}

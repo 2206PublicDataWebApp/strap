@@ -159,19 +159,19 @@ public class CouponController {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		if(loginUser == null) {
 			return "needLogin";
-		}
-		
-		//쿠폰객체에 쿠폰 유효기간을 추가해야 한다.
-		Coupon paramCoupon = couponService.printCouponDetail(coupon.getCouponNo());
-		if(paramCoupon != null) {
-			coupon.setCouponPeriod(paramCoupon.getCouponPeriod());
 		}else {
-			return"fail";
-		}
-		if(couponService.registerMemberCoupon(coupon)>0) {
-			return "success";
-		}else {
-			return "fail";
+			//쿠폰객체에 쿠폰 유효기간을 추가해야 한다.
+			Coupon paramCoupon = couponService.printCouponDetail(coupon.getCouponNo());
+			if(paramCoupon != null) {
+				coupon.setCouponPeriod(paramCoupon.getCouponPeriod());
+			}else {
+				return"fail";
+			}
+			if(couponService.registerMemberCoupon(coupon)>0) {
+				return "success";
+			}else {
+				return "fail";
+			}
 		}
 	}
 	

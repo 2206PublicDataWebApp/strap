@@ -67,7 +67,7 @@
 		SELECT COUNT(*)
 		FROM COUPON_TBL C JOIN MEMBER_COUPON_TBL MC
 		ON C.COUPON_NO = MC.COUPON_NO
-		WHERE MEMBER_ID = #{memberId} AND USE_YN = 'N'
+		WHERE MEMBER_ID = #{memberId} AND USE_YN = 'N' AND END_COUPON_DATE > SYSDATE
 	</select>
 	
 	<select id="selectCouponDetail" resultMap="CouponResultMap">
