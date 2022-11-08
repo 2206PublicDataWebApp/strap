@@ -30,8 +30,47 @@
 		
 	}
 	
+	input[type="text"]{
+		padding:7px;
+		width:90%;
+		margin-bottom:7px;
+	}
+	#previewArea{
+		overflow-y:scroll;
+	}
+		#previewArea::-webkit-scrollbar{
+			display:none;
+		}
+	#productRegisterArea{
+		overflow-y:scroll;
+	}
+		#productRegisterArea::-webkit-scrollbar{
+			display:none;
+		}
+	input[type="file"]{
+		margin-bottom:7px;
+	}
+	#previewArea img{
+		border:1px solid gray;
+	}
+	#infoImg-wrap img{
+		border-style:none;
+	}
+	.imgLabel{
+		font-size:12px;
+		font-weight:bold;
+	}	
+	h6{
+		font-weight:bold;
+	}
+	label{
+		color:gray;
+	}
+	img[name="imgFile"]{
+		display:none;
+	}
+	
 </style>
-
 <body>
 <div class="wrap container">
 <!-- 헤더&메뉴바 -->
@@ -43,23 +82,24 @@
 	<div id="contents" class="row">
 		<div class="sidebar col-3" >
 				<jsp:include page="/WEB-INF/views/common/sideBarAdmin.jsp"></jsp:include>
-		</div>
+		</div>`
 		<div class="contents-side col">
-			<div>쿠폰 등록</div>
+			<div id="title">
+					<h3>쿠폰등록</h3><hr>
+				</div>
 			<div> 
+			<div style="border:1px solid gray; border-radius:10px; padding:12px;width:60%;margin:auto;">
 				<form id="registerCouponForm" action="/admin/coupon.register.strap" method="post" enctype="multipart/form-data">
 					<div>
-						<span>쿠폰이름: </span> 
 						<input type="text" name="couponName" placeholder="쿠폰이름" required>
 					</div>
 					<div>
-						<span>쿠폰설명: </span>
-						<textarea name="couponDesc"  placeholder="쿠폰설명" required></textarea>
+						<textarea name="couponDesc"  placeholder="쿠폰설명" required style=width:90%;></textarea>
 					</div>
 					<div>
 						<span>할인방식: </span>
-						<label><input type="radio" name="method" onchange="choiceMethod(this);">정액할인</label>
-						<select name ="discountAmount" disabled>
+						<label><input type="radio" name="discountMethod" value="amount"onchange="choiceMethod(this);">정액할인</label>
+						<select name ="discountAmount"  value="0" disabled>
 							<option value="1000">1,000원</option>
 							<option value="2000">2,000원</option>
 							<option value="3000">3,000원</option>
@@ -68,8 +108,8 @@
 							<option value="15000">15,000원</option>
 							<option value="30000">30,000원</option>
 						</select>
-						<label><input type="radio" name="method" onchange="choiceMethod(this);">정률할인</label>
-						<select name = "discountRatio" disabled>
+						<label><input type="radio" name="discountMethod" value="ratio" onchange="choiceMethod(this);">정률할인</label>
+						<select name = "discountRatio" value="0" disabled>
 							<option value="5"> 5%</option>
 							<option value="10"> 10%</option>
 							<option value="15"> 15%</option>
@@ -84,7 +124,7 @@
 					<div>
 						<span>최저주문금액: </span>
 						<select name ="priceCondition">
-							<option value="10000">10,000원</option>
+							<option value="10000" selected>10,000원</option>
 							<option value="20000">20,000원</option>
 							<option value="30000">30,000원</option>
 							<option value="50000">50,000원</option>
@@ -94,15 +134,29 @@
 					</div>
 					<div>
 						<span>대상 브랜드명: </span>
-						<input type="text" name="brandCondition" placeholder="대상 브랜드명">
+						<input type="text" name="brandCondition" placeholder="대상 브랜드명" list="brandSelect"  value="None" required>
+						<datalist id="brandSelect" name="brandCondition">
+							<option value="None" selected>미선택</option>
+						<c:forEach items="${productBrands }" var="product">
+							<option value="${product.productBrand }">${product.productBrand }</option>
+						</c:forEach>
+						</datalist>
+						
+						
 					</div>
 					<div>
 						<span>대상 제품명: </span>
-						<input type="text" name="productCondition" placeholder="대상 제품명">
+						<input type="text" name="productCondition" placeholder="대상 제품명" list="nameSelect"  value="None" required>
+						<datalist id="nameSelect" name="nameSelect">
+							<option selected>미선택</option>
+						<c:forEach items="${productNames }" var="product">
+							<option value="${product.productName }">${product.productName }</option>
+						</c:forEach>
+						</datalist>
 					</div>
 					<div>
 						<span>쿠폰유효기간(일): </span>
-						<select name = "couponPeriod">
+						<select name = "couponPeriod" required>
 							<option value="1">1일</option>
 							<option value="3">3일</option>
 							<option value="7">7일</option>
@@ -113,13 +167,17 @@
 					</div>
 					<div>
 						<span>쿠폰이미지: </span>
-						<input type="file" name="couponImg">
+						<input type="file" name="couponImg" required onchange="tempImgSave(this,'mainImg');">
+						<div style="width:80%;height:120px;">
+							<img  id="previewCoupon" width="100%" height="100%">
+						</div>
 					</div>
 					<div>
-						<input type="submit" value="쿠폰 등록">
+						<input type="submit" value="쿠폰 등록" style="width:150px;font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;">
 					</div>
 				</form>
 			</div>
+		</div>
 		</div>
 	</div>
 <!-- 푸터 -->
@@ -142,6 +200,29 @@ function choiceMethod(thisRadio){
 	}else{
 	}
 }
+
+var tempFolderName =  "temp_"+Math.floor(Math.random()*1000)+""+new Date().getSeconds();
+function tempImgSave(thisInput,previewId){
+	//formData를 이용하여 파일 전송
+	var formData = new FormData();
+	var tempName = "img_"+Math.floor(Math.random()*1000)+""+new Date().getSeconds();
+	formData.append("tempImg",thisInput.files[0]);
+	formData.append("tempFolderName",tempFolderName);
+	formData.append("tempName",tempName);
+	$.ajax({
+		url:"/admin/coupon/temp.strap",
+		data: formData,
+		type:"post",
+		processData: false,
+		contentType: false,
+		success:function(result){
+			console.log(result);
+			document.querySelector("#previewCoupon").src = result.tempImgPath;
+		},
+		error:function(){}
+	});
+}
+
 </script>
 </body>
 </html>

@@ -7,19 +7,24 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
+import com.kh.strap.member.domain.Member;
 import com.kh.strap.shop.coupon.domain.Coupon;
 import com.kh.strap.shop.coupon.service.CouponService;
+import com.kh.strap.shop.product.domain.Product;
+import com.kh.strap.shop.product.service.ProductService;
 
 @Controller
 public class CouponController {
@@ -45,6 +50,8 @@ public class CouponController {
 	
 	@Autowired
 	CouponService couponService;
+	@Autowired
+	ProductService pService;
 	
 	//메인베너 쿠폰 리스트
 	@RequestMapping(value="/coupon/banner.strap", method=RequestMethod.GET)
@@ -54,7 +61,7 @@ public class CouponController {
 	}
 	
 	//쿠폰관리페이지 이동
-	@RequestMapping(value="/admin/coupon.strap", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/couponView.strap", method=RequestMethod.GET)
 	public ModelAndView viewManageCoupon(ModelAndView mv,
 			@ModelAttribute Search search,
 			@RequestParam(value="page",required=false) Integer currentPage) {
@@ -79,7 +86,14 @@ public class CouponController {
 	//쿠폰등록페이지 이동
 	@RequestMapping(value="/admin/coupon/registerView.strap", method=RequestMethod.GET)
 	public ModelAndView viewRegisterCoupon(ModelAndView mv) {
-		mv.setViewName("/shop/couponRegister");
+		
+		List<Product> productBrands = pService.getProductBrandList();
+		List<Product> productNames = pService.getProductNameList();
+				
+		
+		mv.addObject("productBrands",productBrands).
+		addObject("productNames",productNames).
+		setViewName("/shop/couponRegister");
 		return mv;
 	}
 	
@@ -101,16 +115,16 @@ public class CouponController {
 				}
 				String couponImgName = couponImg.getOriginalFilename();
 				String couponImgReName = thisTime+"_main"+couponImgName.substring(couponImgName.lastIndexOf("."));
-				coupon.setCouponName(couponImgName);
+				coupon.setCouponImgName(couponImgName);
 				coupon.setCouponImgRename(couponImgReName);
 				couponImg.transferTo(new File(savePath + "\\" + couponImgReName));
-				coupon.setCouponImgRoot("/resources/image/product/" + couponImgReName);
+				coupon.setCouponImgRoot("/resources/image/coupon/" + couponImgReName);
 			}
 			
 			if(couponService.registerCoupon(coupon) > 0) {
-				mv.setViewName("redirect:/admin/coupon.strap");
+				mv.setViewName("redirect:/admin/couponView.strap");
 			}else {
-				mv.setViewName("redirect:/admin/coupon.strap");
+				mv.setViewName("redirect:/admin/couponView.strap");
 			}
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
@@ -134,10 +148,62 @@ public class CouponController {
 		return mv;
 	}
 	
-	//회원쿠폰발급
-	@RequestMapping(value="/member/coupon/register.strap", method=RequestMethod.GET)
-	public ModelAndView registerMemberCoupon(ModelAndView mv) {
-		return mv;
+	//회원쿠폰발급ajax
+	@ResponseBody
+	@RequestMapping(value="/member/coupon/register.strap", method=RequestMethod.POST)
+	public String registerMemberCoupon(
+			@ModelAttribute Coupon coupon,
+			HttpSession session) {
+		System.out.println("!");
+		//로그인이 되어있지 않은 경우 처리
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		if(loginUser == null) {
+			return "needLogin";
+		}
+		
+		//쿠폰객체에 쿠폰 유효기간을 추가해야 한다.
+		Coupon paramCoupon = couponService.printCouponDetail(coupon.getCouponNo());
+		if(paramCoupon != null) {
+			coupon.setCouponPeriod(paramCoupon.getCouponPeriod());
+		}else {
+			return"fail";
+		}
+		if(couponService.registerMemberCoupon(coupon)>0) {
+			return "success";
+		}else {
+			return "fail";
+		}
 	}
+	
+	//관리자:미리보기용 이미지 임시저장 ajax
+		@ResponseBody
+		@RequestMapping(value="/admin/coupon/temp.strap",produces="application/json;charset=utf-8", method=RequestMethod.POST)
+		public String saveTempImg(
+				@RequestParam("tempImg")MultipartFile tempImg,
+				@RequestParam("tempFolderName")String tempFolderName,
+				@RequestParam("tempName")String tempName,
+				HttpSession session) {
+			JSONObject jsonObject = new JSONObject();
+			try {
+				//1.클라이언트단에서 전달받은 이름으로 임시파일 저장용 폴더 생성한다.
+				//2.파일 저장 로직 시 해당 폴더는 삭제 예정.
+				String savePath = session.getServletContext().getRealPath("resources") + "\\image\\shop\\temp\\"+tempFolderName;
+				File targetFile = new File(savePath);
+				if (!targetFile.exists()) {
+					targetFile.mkdir();
+				}
+				//2.DB저장 없이 임시 폴더에 저장한다.
+				tempImg.transferTo(new File(savePath+"\\"+tempName));
+				String tempImgPath = "/resources/image/shop/temp/"+tempFolderName+"/"+tempName;
+				jsonObject.put("tempImgPath", tempImgPath);
+				return jsonObject.toString();
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return "fail";
+		}
+		
 	
 }

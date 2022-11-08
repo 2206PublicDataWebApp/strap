@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
@@ -31,6 +30,8 @@ import com.kh.strap.common.Search;
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.shop.cart.domain.Cart;
 import com.kh.strap.shop.cart.service.CartService;
+import com.kh.strap.shop.coupon.domain.Coupon;
+import com.kh.strap.shop.coupon.service.CouponService;
 import com.kh.strap.shop.product.domain.Order;
 import com.kh.strap.shop.product.domain.OrderProduct;
 import com.kh.strap.shop.product.domain.Product;
@@ -76,6 +77,8 @@ public class ProductController {
 	ProductService pService;
 	@Autowired
 	CartService cService;
+	@Autowired
+	CouponService couponService;
 	
 	//쇼핑몰:보충제 리스트 출력
 	@RequestMapping(value="/product/listView.strap", method=RequestMethod.GET)
@@ -124,11 +127,15 @@ public class ProductController {
 		List<Cart> cList = new ArrayList<>();
 		Cart cart = new Cart(product,qty);
 		cList.add(cart);
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		List<Coupon>couponList = couponService.printMemberCoupon(new Coupon(loginUser.getMemberId()));
+		
 		mv.addObject("cList",cList).
+		addObject("couponList",couponList).
 		setViewName("/shop/order");
 		return mv;
 	}
-	
 	//장바구니 -> 주문페이지 이동
 	@RequestMapping(value="/cart/orderView.strap", method=RequestMethod.GET)
 	public ModelAndView viewOrderPageFromCart(ModelAndView mv,
@@ -140,7 +147,11 @@ public class ProductController {
 		cList.stream().forEach(cart->{
 			cart.setProduct((pService.printOneProduct(new Product(cart.getProductNo()))));
 		});
+		
+		List<Coupon>couponList = couponService.printMemberCoupon(new Coupon(loginUser.getMemberId()));
+		
 		mv.addObject("cList",cList).
+		addObject("couponList",couponList).
 		setViewName("/shop/order");
 		return mv;
 	}

@@ -175,8 +175,30 @@
 						</c:forEach>
 					</div>
 					<div id="couponInfo" class="distict" style="border-bottom:1px solid #c0c0c0;">
-						<div><span class="subTitleTxt">쿠폰</span></div>
-						<button type="button" style="font-size:13px;font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:30px;">쿠폰 선택</button>
+						<div><span class="subTitleTxt">쿠폰 <span style="font-size:12px;">*중복 사용 불가합니다.</span></span></div>
+						<button onclick="" type="button" style="font-size:13px;font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:30px;">쿠폰 선택</button>
+						<select id="couponSelect" onchange="couponSelected(this);" >
+								<option value="-1">쿠폰 선택</option>
+							<c:forEach items="${couponList }" var="coupon" varStatus="n">
+									<option value="${n.index }" >${coupon.couponName }</option>	
+							</c:forEach>
+						</select>
+						<div id="couponInfo">
+							<div>
+								<span>쿠폰 정보</span>
+							</div>
+							<div>
+								<span>최저주문액</span>
+								<span id="priceCondition"></span>
+							</div>
+							<div>
+								<span id="brandCondition">대상 브랜드</span>
+							</div>
+							<div>
+								<span id="productCondition">대상 상품</span>
+							</div>
+						</div>
+						
 						<input type="text" placeholder="쿠폰적용" readonly onchange="calculatorCost();">
 					</div>
 					<div id="payMethod" class="distict" style="border-bottom:1px solid #c0c0c0;">
@@ -304,11 +326,11 @@
 	</div>
 </div>
 <script>
-	var IMP = window.IMP; // 생략 가능
-	IMP.init("imp46682011"); // 예: imp00000000
-	//KG이니시스에서 pay_method를 변경하면 된다.
-	//card,trans,vbank,kakaopay,naverpay
-	// IMP.request_pay(param, callback) 결제창 호출
+var IMP = window.IMP; // 생략 가능
+IMP.init("imp46682011"); // 예: imp00000000
+//KG이니시스에서 pay_method를 변경하면 된다.
+//card,trans,vbank,kakaopay,naverpay
+// IMP.request_pay(param, callback) 결제창 호출
 function kginisis(){
 	  //class가 btn_payment인 태그를 선택했을 때 작동한다.
 		IMP.request_pay({
@@ -373,36 +395,36 @@ function kginisis(){
 }
 
 //주소API
-    function daumAddr() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+function daumAddr() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var roadAddr = data.roadAddress; // 도로명 주소 변수
-                var extraRoadAddr = ''; // 참고 항목 변수
+            // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var roadAddr = data.roadAddress; // 도로명 주소 변수
+            var extraRoadAddr = ''; // 참고 항목 변수
 
-                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                    extraRoadAddr += data.bname;
-                }
-                // 건물명이 있고, 공동주택일 경우 추가한다.
-                if(data.buildingName !== '' && data.apartment === 'Y'){
-                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                }
-                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                if(extraRoadAddr !== ''){
-                    extraRoadAddr = ' (' + extraRoadAddr + ')';
-                }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('postCode').value = data.zonecode;
-                document.getElementById("roadAddress").value = roadAddr;
+            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                extraRoadAddr += data.bname;
             }
-        }).open();
-    }
+            // 건물명이 있고, 공동주택일 경우 추가한다.
+            if(data.buildingName !== '' && data.apartment === 'Y'){
+               extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+            }
+            // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+            if(extraRoadAddr !== ''){
+                extraRoadAddr = ' (' + extraRoadAddr + ')';
+            }
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('postCode').value = data.zonecode;
+            document.getElementById("roadAddress").value = roadAddr;
+        }
+    }).open();
+}
 
 //주소창: 회원정보 가져오기 // ajax가 아닌 세션에서 가져옴.
 function getMemberInfo(check){
@@ -468,8 +490,10 @@ var payNo; // 아임포트에서 반환되는 결제번호
 //금액계산
 var productsPrice=0;
 var discountAmount=0;
+var couponUse = 'N';
 var deliveryFee=0;
 var finalCost=0;
+
 calculatorCost();
 //금액을 초기화할 함수, 할인값변경 시 초기화?
 function calculatorCost(){
@@ -480,6 +504,20 @@ function calculatorCost(){
 	
 	productsPrice = getProductsPrice();
 	discountAmount = 0;
+	if(productsPrice > priceCondition){
+		if(cMethod ="amount"){
+			discountAmount = cAmount;
+		}else if(cMethod =="ratio"){
+			discountAmount = Math.floor((productsPrice * cRatio)/100);
+		}
+	}
+	if(couponUse = 'N'){
+		console.log("설마?");
+		discountAmount = 0;
+	}
+	
+	console.log(discountAmount);
+	
 // 	deliveryFee = 3000;
 // 	if(productsPrice >= 30000){
 // 		deliveryFee = 0;
@@ -534,6 +572,26 @@ var orderNo = ""; // insertOrder()에서 초기화
 var productNo;
 var orderQty;
 
+//쿠폰선택
+var selectedIndex = selected.value;
+var cMethod;
+var cAmount;
+var cRatio;
+var priceCondition;
+function couponSelected(selected){
+	if(selected.value > -1){
+		couponUse = 'Y';
+		<c:forEach items="${couponList}" var="coupon" varStatus="n">
+			if(selected.value == '${n.index}'){
+				cMethod = '${coupon.discountMethod}';
+				cAmount = '${coupon.discountAmount}';
+				cRatio = '${coupon.discountRatio}';
+				priceCondition = '${coupon.priceCondition}';
+			}
+		</c:forEach>
+		calculatorCost();
+	}
+}
 
 function getProductsPrice(){
 	//총 상품가격 - 할인가격
@@ -633,7 +691,6 @@ function getAfterThreeDay(){
 	return year +""+ month +""+ day + "2359";
 }
 
-/////환불 함수
 
   
 </script>

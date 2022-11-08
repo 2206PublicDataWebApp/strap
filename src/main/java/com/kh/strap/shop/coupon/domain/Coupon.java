@@ -7,6 +7,7 @@ public class Coupon {
 	private int couponNo; 				//쿠폰번호
 	private String couponName;			//쿠폰이름
 	private String couponDesc;			//쿠폰설명
+	private String discountMethod;		//할인 방법 ratio/ amount
 	private int discountAmount;		//할인금액
 	private int discountRatio;			//할인율
 	private int priceCondition;		//쿠폰조건:최저구매금액
@@ -30,17 +31,20 @@ public class Coupon {
     
     public Coupon() {}
 
+	public Coupon(String memberId) {
+		super();
+		this.memberId = memberId;
+	}
 
-
-
-	public Coupon(int couponNo, String couponName, String couponDesc, int discountAmount, int discountRatio,
-			int priceCondition, String brandCondition, String firstCondition, int couponPeriod, Date couponRegiDate,
-			String productCondition, String couponRunYn, String memberId, String couponImgRoot, String couponImgName,
-			String couponImgRename, Date getCouponDate, Date endCounponDate, String useYn) {
+	public Coupon(int couponNo, String couponName, String couponDesc, String discountMethod, int discountAmount,
+			int discountRatio, int priceCondition, String brandCondition, String firstCondition, int couponPeriod,
+			Date couponRegiDate, String productCondition, String couponRunYn, String memberId, String couponImgRoot,
+			String couponImgName, String couponImgRename, Date getCouponDate, Date endCounponDate, String useYn) {
 		super();
 		this.couponNo = couponNo;
 		this.couponName = couponName;
 		this.couponDesc = couponDesc;
+		this.discountMethod = discountMethod;
 		this.discountAmount = discountAmount;
 		this.discountRatio = discountRatio;
 		this.priceCondition = priceCondition;
@@ -57,6 +61,21 @@ public class Coupon {
 		this.getCouponDate = getCouponDate;
 		this.endCounponDate = endCounponDate;
 		this.useYn = useYn;
+	}
+
+
+
+
+	@Override
+	public String toString() {
+		return "Coupon [couponNo=" + couponNo + ", couponName=" + couponName + ", couponDesc=" + couponDesc
+				+ ", discountMethod=" + discountMethod + ", discountAmount=" + discountAmount + ", discountRatio="
+				+ discountRatio + ", priceCondition=" + priceCondition + ", brandCondition=" + brandCondition
+				+ ", firstCondition=" + firstCondition + ", couponPeriod=" + couponPeriod + ", couponRegiDate="
+				+ couponRegiDate + ", productCondition=" + productCondition + ", couponRunYn=" + couponRunYn
+				+ ", memberId=" + memberId + ", couponImgRoot=" + couponImgRoot + ", couponImgName=" + couponImgName
+				+ ", couponImgRename=" + couponImgRename + ", getCouponDate=" + getCouponDate + ", endCounponDate="
+				+ endCounponDate + ", useYn=" + useYn + "]";
 	}
 
 
@@ -99,6 +118,20 @@ public class Coupon {
 
 	public void setCouponDesc(String couponDesc) {
 		this.couponDesc = couponDesc;
+	}
+
+
+
+
+	public String getDiscountMethod() {
+		return discountMethod;
+	}
+
+
+
+
+	public void setDiscountMethod(String discountMethod) {
+		this.discountMethod = discountMethod;
 	}
 
 
@@ -328,20 +361,5 @@ public class Coupon {
 
 
 
-	@Override
-	public String toString() {
-		return "Coupon [couponNo=" + couponNo + ", couponName=" + couponName + ", couponDesc=" + couponDesc
-				+ ", discountAmount=" + discountAmount + ", discountRatio=" + discountRatio + ", priceCondition="
-				+ priceCondition + ", brandCondition=" + brandCondition + ", firstCondition=" + firstCondition
-				+ ", couponPeriod=" + couponPeriod + ", couponRegiDate=" + couponRegiDate + ", productCondition="
-				+ productCondition + ", couponRunYn=" + couponRunYn + ", memberId=" + memberId + ", couponImgRoot="
-				+ couponImgRoot + ", couponImgName=" + couponImgName + ", couponImgRename=" + couponImgRename
-				+ ", getCouponDate=" + getCouponDate + ", endCounponDate=" + endCounponDate + ", useYn=" + useYn + "]";
-	}
-
-    
-	
-    
-	
 }
 

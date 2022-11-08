@@ -89,7 +89,7 @@ input:disabled {
 							<div style="margin: 0px auto;border-bottom:1px solid #c0c0c0; padding:4px;background-color:rgb(250,250,250);font-size:14px;font-weight:bold;">
 								<span class="orderStatus"></span>
 								<c:if test="${order.orderStatus eq 'paid'}">
-									<button style="font-weight:bold;color:gray;background-color:white;border:1px solid gray; border-radius:4px;float:right;" onclick="openCancelWindow();">결제취소</button>
+<!-- 									<button style="font-weight:bold;color:gray;background-color:white;border:1px solid gray; border-radius:4px;float:right;" onclick="openCancelWindow();">결제취소</button> -->
 								</c:if>
 							</div>
 							<div class="oneOrderWrap" style="border:1px solid solid #c0c0c0;">
