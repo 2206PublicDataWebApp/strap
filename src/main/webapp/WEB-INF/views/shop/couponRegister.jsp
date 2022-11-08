@@ -58,8 +58,8 @@
 					</div>
 					<div>
 						<span>할인방식: </span>
-						<input type="radio" name="method" onchecked="choiceMethod();">정액할인
-						<select name ="discountAmount">
+						<label><input type="radio" name="method" onchange="choiceMethod(this);">정액할인</label>
+						<select name ="discountAmount" disabled>
 							<option value="1000">1,000원</option>
 							<option value="2000">2,000원</option>
 							<option value="3000">3,000원</option>
@@ -68,8 +68,8 @@
 							<option value="15000">15,000원</option>
 							<option value="30000">30,000원</option>
 						</select>
-						<input type="radio" name="method">정률할인
-						<select name = "discountRatio">
+						<label><input type="radio" name="method" onchange="choiceMethod(this);">정률할인</label>
+						<select name = "discountRatio" disabled>
 							<option value="5"> 5%</option>
 							<option value="10"> 10%</option>
 							<option value="15"> 15%</option>
@@ -132,8 +132,15 @@
 <script>
 //할인방식 선택
 function choiceMethod(thisRadio){
+	console.log(thisRadio.checked);
+	console.log(thisRadio.parentElement.nextElementSibling.disabled);
 	
-	
+	if(thisRadio.checked){
+		document.querySelectorAll("select:not(disabled)")[0].disabled=true;
+		document.querySelectorAll("select:not(disabled)")[1].disabled=true;
+		thisRadio.parentElement.nextElementSibling.disabled = false;
+	}else{
+	}
 }
 </script>
 </body>
