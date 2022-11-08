@@ -21,12 +21,12 @@
 		font-size:12px;
 		top:12px;
 		right:10px;
-		
 	}
 	span.ok{color:green;}
 	span.error{color:red;}
 	span.guide{color:red;}
-	}
+	#memberCareer, #memberSBD{width: 190px; text-align: center;}
+	#Female{margin-left: 60px;}
 </style>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f500dcdba3f518947974ee0f54119e78&libraries=services"></script>
 
@@ -41,7 +41,7 @@
 			<input type="text" id="memberId" name="memberId" placeholder="영문,숫자 5~12자" required><br>
 			<span class="id ok">이 아이디는 사용 가능합니다.</span>
 			<span class="id error">이 아이디는 사용 할 수 없습니다.</span>
-			<span class="id guide">아이디는 5글자 이상입니다.</span><br>
+			<span class="id guide">아이디는 5~12글자입니다.</span><br>
 			
 			<label for="memberPwd">비밀번호</label><br>
 			<input type="password" id="memberPwd" name="memberPwd"placeholder="영문,숫자 조합 최소 6자" required><br>
@@ -62,7 +62,7 @@
 			<input type="text" id="memberNick" name="memberNick" placeholder="닉네임" required><br>
 			<span class="nick ok">이 닉네임은 사용 가능합니다.</span>
 			<span class="nick error">이 닉네임은 사용 할 수 없습니다.</span>
-			<span class="nick guide">닉네임은 2글자 이상입니다.</span><br>
+			<span class="nick guide">닉네임은 2~8글자입니다.</span><br>
 			
 			<label for="memberCareer">운동경력</label><br>
 			<select name="memberCareer" id="memberCareer">
@@ -87,12 +87,14 @@
 			</select><br><br>
 			
 			<label>성별</label><br>
-			<input type="radio" id="Male" name="memberGender" value="M" checked>Male
-			<input type="radio" id="Female" name="memberGender" value="F">Female<br><br>
+			<input type="radio" id="Male" name="memberGender" value="M" checked>
+			<label for="Male">Male</label>
+			<input type="radio" id="Female" name="memberGender" value="F">
+			<label for="Female">Female</label><br><br>
 		
 			<label>마이 짐</label><br>
-			<input type="text" id="jymAddress" name="jymAddress" style="width: 280px;">
-			<input type="text" id="jymTitle" name="jymTitle" style="width: 216px;">
+			<input type="text" id="jymAddress" name="jymAddress" style="width: 280px;" required readonly>
+			<input type="text" id="jymTitle" name="jymTitle" style="width: 216px;" required readonly>
 			<button type="button" class="btn btn-dark" onclick="showMap();">검색</button><br><br>
 			<button class="btn btn-dark" onclick="return loginCheck();">가입하기</button>
 			<br><br><br>
@@ -110,7 +112,7 @@
 			type:"get",
 			data:{"memberId" : memberId},
 			success:function(result){
-				if(memberId.length > 4){
+				if(memberId.length > 4 && memberId.length < 13){
 					if(result == "ok"){
 						$(".id.guide").hide();
 						$(".id.error").hide();
@@ -163,7 +165,7 @@
 			type:"get",
 			data:{"memberNick" : memberNick},
 			success:function(result){
-				if(memberNick.length > 1){
+				if(memberNick.length > 1 && memberNick.length < 9){
 					if(result == "ok"){
 						$(".nick.guide").hide();
 						$(".nick.error").hide();

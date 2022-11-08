@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -342,9 +343,20 @@ public class MyInfoController {
 		}
 	}
 	
+	/**
+	 * 회원탈퇴
+	 * @param memberId
+	 */
 	@RequestMapping(value="/member/withdrawal.strap",method = RequestMethod.POST)
-	public void withdrawal(String memberId) {
+	public String withdrawal(
+			String memberId
+			,HttpServletRequest request) {
+		//탈퇴 후 세션파괴
 		int result = mService.withdrawal(memberId);
+		request.getSession().invalidate();
+		System.out.println(result);
+		System.out.println(memberId);
+		return "redirect:/";
 	}
 	
 	

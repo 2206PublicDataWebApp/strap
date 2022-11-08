@@ -112,7 +112,7 @@
 							<input id="memberNick" type="text">
 							<span class="nick ok">이 닉네임은 사용 가능합니다.</span>
 							<span class="nick error">이 닉네임은 사용 할 수 없습니다.</span>
-							<span class="nick guide">닉네임은 2글자 이상입니다.</span>
+							<span class="nick guide">닉네임은 2~8글자입니다.</span>
 							<br><br>
 							<button class="btn btn-light" onclick="modifyNickCancel();">취소</button>
 							<button class="btn btn-light" id="modifyNickFinishBtn" onclick="modifyNickFinish();" disabled>변경</button>
@@ -323,7 +323,6 @@
 	function withdrawal(){
 		if(confirm("정말 회원탈퇴를 하시겠습니까?")){
 			var memberId = '${loginUser.memberId}';
-			console.log(memberId);
 			var form = document.createElement('form');
 			form.setAttribute('method','post');
 			form.setAttribute('action','/member/withdrawal.strap');
@@ -334,9 +333,8 @@
 			form.appendChild(input);
 			document.body.appendChild(form);
 			form.submit();
-			console.log(form);
+			console.log($("form"));
 			alert('회원 탈퇴되었습니다.');
-			location.href='/home.strap';
 		}
 	}
 	var formData = new FormData();
@@ -520,8 +518,8 @@
 	function modifyNickFinish(){
 		var memberId = $("#memberId").text();
 		var memberNick = $("#memberNick").val();
-		if(memberNick ==""){
-			alert("닉네임을 입력해주세요.")
+		if($(".nick.ok").css("display") == 'none'){
+			alert("닉네임을 확인해주세요.")
 		}else{
 			if(confirm('닉네임을 변경하시겠습니까?')){
 				$.ajax({
@@ -705,7 +703,7 @@
 			type:"get",
 			data:{"memberNick" : memberNick},
 			success:function(result){
-				if(memberNick.length > 1){
+				if(memberNick.length > 1 && memberNick.length < 9){
 					if(result == "ok"){
 						$(".nick.guide").hide();
 						$(".nick.error").hide();

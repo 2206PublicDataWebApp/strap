@@ -138,9 +138,13 @@ public class MatchController {
 		//사용자 마이짐의 시/군으로 회원 찾기
 		Member member = (Member)request.getSession().getAttribute("loginUser");
 		Member mOne = new Member();
-		String local = member.getMemberJym().split(" ")[1];
+		StringBuffer sb = new StringBuffer();
+		sb.append(member.getMemberJym().split(" ")[0]);
+		sb.append(" ");
+		sb.append(member.getMemberJym().split(" ")[1]);
+		System.out.println(sb);
 		mOne.setMemberId(member.getMemberId());
-		mOne.setMemberJym(local);
+		mOne.setMemberJym(sb.toString());
 		//기존 회원은 현재 내 주변 추천 회원 목록을 가져오기
 		List<Member> mList = mService.localMember(mOne);
 		if(!mList.isEmpty()) {
@@ -169,9 +173,13 @@ public class MatchController {
 			) {
 		Member member = (Member)request.getSession().getAttribute("loginUser");
 		Member mOne = new Member();
-		String local = member.getMemberJym().split(" ")[1];
+		StringBuffer sb = new StringBuffer();
+		sb.append(member.getMemberJym().split(" ")[0]);
+		sb.append(" ");
+		sb.append(member.getMemberJym().split(" ")[1]);
+		System.out.println(sb);
 		mOne.setMemberId(member.getMemberId());
-		mOne.setMemberJym(local);
+		mOne.setMemberJym(sb.toString());
 		Map<String, Object> map = new HashMap<String, Object>();
 		//중복되지 않는 새로운 멤버 5명을 가져온다
 		List<Member> mList = mService.localRefresh(mOne);
