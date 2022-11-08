@@ -4,26 +4,34 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="AdminMapper">
-	<resultMap type= "Admin" id="adminResultMap">
-		<id property="adminId" column="MEMBER_ID"/>
-		<result property="adminPwd" column="MEMBER_PWD"/>
-		<result property="adminName" column="MEMBER_NAME"/>
-		<result property="adminEmail" column="MEMBER_EMAIL"/>
-		<result property="adminGender" column="MEMBER_GENDER"/>
-		<result property="adminNick" column="MEMBER_NICK"/>
-		<result property="adminJym" column="MEMBER_JYM"/>
-		<result property="adminCareer" column="MEMBER_CAREER"/>
-		<result property="adminSbd" column="MEMBER_SBD"/>
-		<result property="aProfileName" column="M_PROFILE_NAME"/>
-		<result property="aProfileRename" column="M_PROFILE_RENAME"/>
-		<result property="aProfilepath" column="M_PROFILE_PATH"/>
-		<result property="aRegisterDate" column="M_REGISTER_DATE"/>
-		<result property="memberStatus" column="MEMBER_STATUS"/>
-		<result property="adminStatus" column="ADMIN_STATUS"/>
-	</resultMap>
-	
-	<select id="selectLoginAdmin" resultMap="adminResultMap">
-		SELECT * FROM MEMBER_TBL
-		WHERE MEMBER_ID = #{adminId} AND MEMBER_PWD = #{adminPwd} AND ADMIN_STATUS = 'Y'
+	<resultMap type="Member" id="adminResultMap">
+  		<id property="memberId" 			column="MEMBER_ID"/>
+  		<result property="memberPwd" 		column="MEMBER_PWD"/>
+  		<result property="memberName" 		column="MEMBER_NAME"/>
+  		<result property="memberEmail"		column="MEMBER_EMAIL"/>
+  		<result property="memberGender"		column="MEMBER_GENDER"/>
+  		<result property="memberNick" 		column="MEMBER_NICK"/>
+  		<result property="memberJym"		column="MEMBER_JYM"/>
+  		<result property="memberCareer" 	column="MEMBER_CAREER"/>
+  		<result property="memberSBD" 		column="MEMBER_SBD"/>
+  		<result property="mProfileName" 	column="M_PROFILE_NAME"/>
+  		<result property="mProfileRename" 	column="M_PROFILE_RENAME"/>
+  		<result property="mProfilePath" 	column="M_PROFILE_PATH"/>
+  		<result property="mRegisterDate" 	column="M_REGISTER_DATE"/>
+  		<result property="memberStatus" 	column="MEMBER_STATUS"/>
+  		<result property="adminStatus" 		column="ADMIN_STATUS"/>
+  		<result property="memberManner"		column="MEMBER_MANNER"/>
+  		<result property="memberType"		column="MEMBER_TYPE"/>
+  		<result property="memberIntroduce"	column="MEMBER_INTRODUCE"/>
+  		<result property="memberAddress"	column="MEMBER_ADDRESS"/>
+  		<result property="recomendCount"	column="RECOMEND_COUNT"/>
+  	</resultMap>
+  	
+	<select id="selectAdminPwdById" resultType="String">
+		SELECT MEMBER_PWD FROM MEMBER_TBL
+		WHERE MEMBER_ID = #{memberId} AND ADMIN_STATUS = 'Y' AND MEMBER_STATUS = 'N'
 	</select>
+	<select id="selectAdminById" resultMap="adminResultMap">
+  		SELECT * FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId} AND MEMBER_STATUS = 'N' AND ADMIN_STATUS = 'Y'
+  	</select>
 </mapper>

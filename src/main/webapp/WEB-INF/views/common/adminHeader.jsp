@@ -60,7 +60,7 @@ body {
 		</header>
 		<div class="navbar row">
 			<div class="nav-menu col">
-				<a class="admin-menu" href="#">문의</a>
+				<a class="admin-menu" href="/admin/adminQnaListView.strap">문의</a>
 			</div>
 			<div class="nav-menu col">
 				<a class="admin-menu" href="#">신고</a>

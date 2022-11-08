@@ -1,7 +1,8 @@
 package com.kh.strap.admin.service;
 
-import com.kh.strap.admin.domain.Admin;
+import com.kh.strap.member.domain.Member;
 
 public interface AdminService {
-	public Admin loginAdmin(Admin admin);
+	public String adminPwdById(String memberId);
+	public Member adminById(String memberId);
 }

@@ -3,18 +3,18 @@ package com.kh.strap.admin.domain;
 import java.util.Date;
 
 public class Notice {
-	private int noticeNo;
-	private String noticeTitle;
-	private String noticeContents;
-	private String noticeWriter;
-	private String noticeFilename;
-	private String noticeFileRename;
-	private String noticeFilepath;
-	private int noticeCount;
-	private Date nCreateDate;
-	private Date nUpdateDate;
-	private String nStatus;
-	private int fix;
+	private int noticeNo;				//1.공지사항 넘버
+	private String noticeTitle;			//2.공지사항 제목
+	private String noticeContents;		//3.공지사항 내용
+	private String noticeWriter;		//4.공지사항 작성자
+	private String noticeFilename;		//5.공지사항 파일 이름
+	private String noticeFileRename;	//6.공지사항 파일 리네임
+	private String noticeFilepath;		//7.공지사항 파일 경로
+	private int noticeCount;			//8.공지사항 조회수
+	private Date nCreateDate;			//9.공지사항 생성일
+	private Date nUpdateDate;			//10.공지사항 수정일
+	private String nStatus;				//11.공지사항 상태
+	private int fix;					//12.공지사항 고정
 	
 	public int getNoticeNo() {
 		return noticeNo;

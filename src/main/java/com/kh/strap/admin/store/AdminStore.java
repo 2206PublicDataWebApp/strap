@@ -2,8 +2,9 @@ package com.kh.strap.admin.store;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.kh.strap.admin.domain.Admin;
+import com.kh.strap.member.domain.Member;
 
 public interface AdminStore {
-	public Admin selectLoginAdmin(SqlSession session, Admin admin);
+	public String selectAdminPwdById(SqlSession session, String memberId);
+	public Member selectAdminById(SqlSession session, String memberId);
 }

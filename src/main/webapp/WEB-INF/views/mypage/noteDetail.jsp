@@ -379,19 +379,11 @@
 		var meetTime = $("#meet-time")
 		var meetMemo = $("#meet-memo").val()
 		var meetDateTime = meetDate.val()+ " " + meetTime.val();
-// 		alert("날짜 + 시간 : "+   );
-		
 		if(meetDate.val()==""){
 			alert("날짜를 선택하세요");
 		}else if(meetMemo==""){
 			alert("메모를 작성해주세요");
-		}
-		console.log('${noteBox.recipientId }');
-		console.log('${noteBox.recipientNick }');
-		console.log('${noteBox.senderId }');
-		console.log('${noteBox.senderNick }');
-		console.log(meetMemo);
-		console.log(meetDateTime);
+		}else if(meetDate.val()!="" && meetMemo!="")
 		$.ajax({
 			url : "/schedule/registerSchedule.strap",
 			data : {

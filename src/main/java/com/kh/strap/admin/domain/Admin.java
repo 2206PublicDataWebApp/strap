@@ -9,15 +9,16 @@ public class Admin {
 	private String adminEmail;		//4.관리자 이메일
 	private String adminGender;		//5.관리자 성별
 	private String adminNick;		//6.관리자 별명
-	private String adminJym;
-	private String adminCareer;
-	private int adminSbd;
-	private String aProfileName;
-	private String aProfileRename;
-	private String aProfilepath;
-	private Date aRegisterDate;
-	private String memberStatus;
-	private String adminStatus;
+	private String adminJym;		//7.관리자 체육관
+	private String adminCareer;		//8.관리자 경력
+	private int adminSbd;			//9.관리자 3대
+	private String aProfileName;	//10.관리자 프로필 기존 이름
+	private String aProfileRename;	//11.관리자 프로필 바뀐 이름
+	private String aProfilepath;	//12.관리자 프로필 경로
+	private Date aRegisterDate;		//13.관리자 가입일
+	private String memberStatus;	//14.회원 상태
+	private String adminStatus;		//15.관리자 상태
+	
 	public String getAdminId() {
 		return adminId;
 	}

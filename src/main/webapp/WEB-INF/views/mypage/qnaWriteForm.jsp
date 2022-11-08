@@ -115,7 +115,7 @@ span.id, span.pwd, span.pwdCheck, span.nick {
 						<div class="row">
 							<div class="col text-center">
 								<div>
-									<input class="btn btn-dark"  type="reset" value="취소">
+									<input class="btn btn-dark"  type="button"  onclick="cancelBtn();" value="취소">
 									<button class="btn btn-dark" type="submit">작성하기</button>
 								</div>
 							</div>
@@ -151,6 +151,12 @@ span.id, span.pwd, span.pwdCheck, span.nick {
 			}
 		});
 	});
+	
+	function cancelBtn(){
+		if(confirm("작성을 취소하시겠습니까?\n작성한 것 저장되지 않습니다.")){
+			window.history.back();
+		}
+	}
 </script>
 </body>
 </html>

@@ -4,9 +4,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.strap.admin.domain.Admin;
 import com.kh.strap.admin.service.AdminService;
 import com.kh.strap.admin.store.AdminStore;
+import com.kh.strap.member.domain.Member;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -17,9 +17,15 @@ public class AdminServiceImpl implements AdminService {
 	private AdminStore aStore;
 	
 	@Override
-	public Admin loginAdmin(Admin admin) {
-		Admin aOne = aStore.selectLoginAdmin(session, admin);
+	public String adminPwdById(String memberId) {
+		String aOne = aStore.selectAdminPwdById(session, memberId);
 		return aOne;
+	}
+
+	@Override
+	public Member adminById(String memberId) {
+		Member mOne = aStore.selectAdminById(session, memberId);
+		return mOne;
 	}
 	
 	

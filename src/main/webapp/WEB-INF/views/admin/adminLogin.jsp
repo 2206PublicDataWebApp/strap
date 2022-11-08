@@ -45,10 +45,10 @@
 			<tr>
 				<td class="loginBoard" align="center">
 					<h1>STRAP</h1> <!--                         <form action="/admin/login.strap" method="post"> -->
-					<input class="form-control" id="admin-id" type="text"
-					name="adminId" placeholder="ID" style="width: 240px;"
+					<input class="form-control" id="member-id" type="text"
+					name="memberId" placeholder="ID" style="width: 240px;"
 					required="required"> <input class="form-control"
-					id="admin-pwd" type="password" name="adminPwd"
+					id="member-pwd" type="password" name="memberPwd"
 					placeholder="Password" style="width: 240px;" required="required">
 					<!--                         </form> --> <br>
 					<div class="row">
@@ -78,8 +78,8 @@
 				url : "/admin/login.strap",
 				type : "post",
 				data : {
-					"adminId" : $("#admin-id").val(),
-					"adminPwd" : $("#admin-pwd").val()
+					"memberId" : $("#member-id").val(),
+					"memberPwd" : $("#member-pwd").val()
 				},
 				success : function(data) {
 					console.log(data)
