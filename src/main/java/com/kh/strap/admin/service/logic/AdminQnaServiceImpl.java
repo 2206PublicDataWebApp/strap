@@ -7,8 +7,8 @@ import com.kh.strap.admin.store.AdminQnaStore;
 
 
 public class AdminQnaServiceImpl {
-	@Autowired
-	private SqlSession session;
-	@Autowired
-	private AdminQnaStore aqStore;
+//	@Autowired
+//	private SqlSession session;
+//	@Autowired
+//	private AdminQnaStore aqStore;
 }

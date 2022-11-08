@@ -8,6 +8,6 @@ import com.kh.strap.admin.service.AdminQnaService;
 
 @Controller
 public class AdminQnaController {
-	@Autowired
-	private AdminQnaService aqService;
+//	@Autowired
+//	private AdminQnaService aqService;
 }
