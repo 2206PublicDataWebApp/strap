@@ -134,6 +134,12 @@ public class MemberServiceImpl implements MemberService {
 		int result = mStore.changeIntroduce(session, member);
 		return result;
 	}
+	
+	@Override
+	public int changeAddr(Member member) {
+		int result = mStore.changeAddr(session, member);
+		return result;
+	}
 
 	@Override
 	public void updateLastDate(String memberId) {
@@ -164,6 +170,13 @@ public class MemberServiceImpl implements MemberService {
 		int result = mStore.withdrawal(session, memberId);
 		return result;
 	}
+
+	@Override
+	public int mannerPercent(String memberId) {
+		int result = mStore.mannerPercent(session, memberId);
+		return result;
+	}
+
 
 
 	

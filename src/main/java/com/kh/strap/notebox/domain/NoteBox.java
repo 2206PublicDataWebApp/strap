@@ -7,7 +7,6 @@ public class NoteBox {
 	private String recipientId;
 	private String senderId;
 	private Date senderTime;
-	private String noteTitle;
 	private String noteContents;
 	private String noteAccept;
 	private String noteStatus;
@@ -18,12 +17,11 @@ public class NoteBox {
 	
 	public NoteBox() {}
 
-	public NoteBox(String recipientId, String senderId, String noteTitle, String noteContents, String recipientNick,
+	public NoteBox(String recipientId, String senderId, String noteContents, String recipientNick,
 			String senderNick) {
 		super();
 		this.recipientId = recipientId;
 		this.senderId = senderId;
-		this.noteTitle = noteTitle;
 		this.noteContents = noteContents;
 		this.recipientNick = recipientNick;
 		this.senderNick = senderNick;
@@ -68,15 +66,6 @@ public class NoteBox {
 		this.senderTime = senderTime;
 	}
 
-
-	public String getNoteTitle() {
-		return noteTitle;
-	}
-
-
-	public void setNoteTitle(String noteTitle) {
-		this.noteTitle = noteTitle;
-	}
 
 
 	public String getNoteContents() {
@@ -135,9 +124,11 @@ public class NoteBox {
 	@Override
 	public String toString() {
 		return "NoteBox [noteNo=" + noteNo + ", recipientId=" + recipientId + ", senderId=" + senderId + ", senderTime="
-				+ senderTime + ", noteTitle=" + noteTitle + ", noteContents=" + noteContents + ", noteAccept="
-				+ noteAccept + ", noteStatus=" + noteStatus + ", recipientNick=" + recipientNick + ", senderNick="
-				+ senderNick + ", noteCheck=" + noteCheck + "]";
+				+ senderTime + ", noteContents=" + noteContents + ", noteAccept=" + noteAccept + ", noteStatus="
+				+ noteStatus + ", recipientNick=" + recipientNick + ", senderNick=" + senderNick + ", noteCheck="
+				+ noteCheck + "]";
 	}
+
+	
 	
 }

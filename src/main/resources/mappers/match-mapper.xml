@@ -68,7 +68,6 @@
   		<result property="recipientId" 		column="RECIPIENT_ID"/>
   		<result property="senderId" 		column="SENDER_ID"/>
   		<result property="senderTime" 		column="SENDER_TIME"/>
-  		<result property="noteTitle" 		column="NOTE_TITLE"/>
   		<result property="noteContents" 	column="NOTE_CONTENTS"/>
   		<result property="noteAccept" 		column="NOTE_ACCEPT"/>
   		<result property="noteStatus" 		column="NOTE_STATUS"/>
@@ -322,7 +321,12 @@
 		WHERE USER_ID = #{user} 
 	</delete>
 <!-- 추천 완료 -->	
-
+	
+	<!-- 쪽지 보낸적있는지 확인 -->
+	<select id="noteSendCheck" resultType="int">
+		SELECT COUNT(*) FROM NOTEBOX_TBL WHERE RECIPIENT_ID = #{recipientId} AND SENDER_ID = #{senderId} 
+	</select>
+	<!-- Q&A 가져오기 -->
 	<select id="selectMemberQnA" resultMap="SimpleAnswerResultMap">
 		SELECT QNA_TITLE, B.QNA_ANSWER FROM SIMPLE_QNA_TBL A JOIN SIMPLE_ANSWER_TBL B
 		ON A.QNA_NO = B.QNA_NO WHERE B.MEMBER_ID = #{memberId}
@@ -341,7 +345,7 @@
 	</select>
 	<!-- 쪽지 보내기 -->
 	<insert id="insertNoteBox">
-		INSERT INTO NOTEBOX_TBL VALUES(SEQ_NOTEBOX_NO.NEXTVAL, #{recipientId},#{senderId},SYSTIMESTAMP,#{noteTitle},#{noteContents},DEFAULT,DEFAULT,#{recipientNick},#{senderNick})
+		INSERT INTO NOTEBOX_TBL VALUES(SEQ_NOTEBOX_NO.NEXTVAL, #{recipientId},#{senderId},SYSTIMESTAMP,#{noteContents},DEFAULT,DEFAULT,#{recipientNick},#{senderNick},DEFAULT)
 	</insert>
 	
 </mapper>

@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+.mypageContents{width: 1050px; height: 500px;}
+
+.contents-side{text-align: center;}
+#memberList{table-layout: fixed; width: 700px; height:250px; margin: 0 auto; padding-left: 30px;}
+.member{float:left; width: 100px; height: 200px; margin: 15px;}
+.img{width: 100px; height: 100px; overflow: hidden; border-radius: 30px;}
+.nick{width: 100px; height: 50px;}
+.nick button{width: 110px; height: 30px; font-size: 12px;}
+#profile{float:left; margin:0 30px 0 auto; width: 650px; height: 520px; border:1px solid lightgray;border-radius: 10px;}
+#info{width: 100%; height: 300px;}
+#info table{text-align: left;}
+#infoTable input, #infoTable textarea{border: 0} 
+#infoTable th{width: 85px; padding:0} 
+#infoTable td{padding:0} 
+#infoTable tr{height: 35px} 
+#info-img{float:left; width: 45%; height: 300px; padding:30px;}
+#info-detail{float:left; width: 50%; height: 100%; padding:30px 0 0;}
+#imgs{width: 100%; height: 300px;}
+.profile-img{float:left; width: 33.3%; height: 300px;border:1px solid lightgray;border-radius: 10px;}
+#manner{width: 100%; height: 100px; text-align: left; padding: 20px;}
+#msg{width: 100%; height: 300px;}
+#noteTitle{width: 566px; border: 1px solid lightgray; border-radius: 10px;}
+.imgDiv{width: 100%; height: 100%px; overflow: hidden; border-radius: 70px; margin:auto;}
+.nickDiv{width: 200px; height: 40px; font-size15px; margin:auto;}
+#memberIntroduce{width: 250px; height: 110px;}
+.mannerTrend{width: 500px; margin: auto;}
+.mannerPercent{background-color: lightgray; border-radius: 20px; height: 30px;}
+
+.QnA-title{display: inline-block; width: 250px;}
+.QnA-img{width: 200px; margin: auto;}
+.submit{width: 70px;}
+.simpleQnA{float:left; width: 350px; height: 520px; float: left;border:1px solid lightgray;border-radius: 10px;}
+.QnAStart{width: 250px; height: 300px; text-align: center;margin: 100px auto;}
+.QnAStart img{margin-left: 25px;}
+.QnAStart input{width: 250px; text-align: center;}
+.question{width: 250px; height: 300px; text-align: center; margin: 100px auto;}
+.question input{width: 250px; text-align: center;}
+.form-control.Q:hover{background-color: gold; cursor: pointer;} 
+.QnA input{width: 250px; text-align: center;}
+#carouselExampleControlsNoTouching{width: 100%;}
+#carouselExampleControlsNoTouching input{margin-left: 50px;}	

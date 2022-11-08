@@ -234,4 +234,10 @@ public class MatchStoreLogic implements MatchStore{
 		return qList;
 	}
 
+	@Override
+	public int noteSendCheck(SqlSession session, Map<String, Object> map) {
+		int result = session.selectOne("MatchMapper.noteSendCheck", map);
+		return result;
+	}
+
 }

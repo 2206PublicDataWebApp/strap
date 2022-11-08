@@ -57,5 +57,9 @@ public interface MemberService {
 
 	int withdrawal(String memberId);
 
+	int mannerPercent(String memberId);
+
+	int changeAddr(Member member);
+
 
 }

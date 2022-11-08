@@ -82,4 +82,6 @@ public interface MatchService {
 
 	List<SimpleQnA> selectMemberQnA(String memberId);
 
+	int noteSendCheck(Map<String, Object> map);
+
 }

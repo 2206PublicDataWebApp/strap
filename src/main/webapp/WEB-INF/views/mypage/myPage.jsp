@@ -13,19 +13,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
-<style>
-	.QnA-title{display: inline-block; width: 250px;}
-	.QnA-img{width: 200px; margin: auto;}
-	.submit{width: 70px;}
-	.simpleQnA{width: 500px; height: 500px;}
-	.QnAStart{width: 250px; height: 150px; text-align: center;}
-	.QnAStart img{margin-left: 25px;}
-	.QnAStart input{width: 250px; text-align: center;}
-	.question{width: 250px; height: 150px; text-align: center;}
-	.question input{width: 250px; text-align: center;}
-	.form-control.Q:hover{background-color: gold; cursor: pointer;} 
-</style>
-
+<link rel="stylesheet" type="text/css" href="/resources/css/myPageMain.css">
 </head>
 <body>
 <div class="wrap container">
@@ -41,18 +29,77 @@
 			<jsp:include page="/WEB-INF/views/common/sideBarMyPage.jsp"></jsp:include>
 		</div>
 		<div class="contents-side col">
-			<div class="simpleQnA">
-				<div class="QnAStart">
-					<input type="text" class="form-control" value="간단 Q&A, 당신의 취향은" readonly>
-					<br>
-			    	<img src="/resources/image/matching/problem.png" width="100px;" height="100px;">
-					<br>
-					<button type="button" class="btn btn-dark" onclick="start();">시작하기</button>
-	    		</div>
+			<div class="mypageContents">
+				<div id="profile">
+					<div id="info">
+						<div id="info-img">
+							<div class="imgDiv">
+								<c:if test="${loginUser.mProfileRename eq null }">
+									<img id="profileImg" width="100%" height="100%" src="/resources/profileUploadFiles/default.png">
+								</c:if>
+								<c:if test="${loginUser.mProfileRename ne null }">
+									<img id="profileImg" width="100%" height="100%" src="/resources/profileUploadFiles/${loginUser.mProfileRename }">
+								</c:if>
+							</div>
+						</div>
+						<div id="info-detail">
+							<table id="infoTable" class="table table-borderless">
+								<tr>
+									<th>닉네임</th>
+									<td>
+										<input type="text" id="memberNick" value="${loginUser.memberNick }" readonly>
+									</td>
+								</tr>
+								<tr>
+									<th>운동경력</th>
+									<td>
+										<input type="text" id="memberCareer" value="${loginUser.memberCareer }년" readonly>
+									</td>
+								</tr>
+								<tr>
+									<th>3대 기록</th>
+									<td>
+										<input type="text" id="memberSBD" value="${loginUser.memberSBD }" readonly>
+									</td>
+								</tr>
+								<tr>
+									<th>마이짐</th>
+									<td>
+										<input type="text" id="jymAddress" name="jymAddress" value="${jymAddress }" style="width: 250px;border:0;" readonly><br>
+										<input type="text" id="jymTitle" name="jymTitle" value="${jymTitle }" style="width: 250px; height:35px; border:0;" readonly>	
+									</td>
+								</tr>
+								<tr>
+									<th>자기소개</th>
+									<td><textarea id="memberIntroduce" readonly>${loginUser.memberIntroduce }</textarea></td>
+								</tr>
+							</table>
+							<br>
+						</div>
+					</div>
+					<div class="mannerTrend">
+						<br>
+						<div class="mannerPercent"><img width="30px" src="/resources/image/score.png"> 현재 ${loginUser.memberManner }점, ${loginUser.memberNick } 님은 매너점수는 상위 ${percent }%입니다!</div>
+						<br>
+						<input min="0" max="500" step="10" value="${loginUser.memberManner }" type="range" class="form-range" id="disabledRange" disabled>
+						<img width="30px;" height="30px;" src="/resources/image/up-arrow.png" style="margin-right: 300px;"><br>
+						<span style="margin-right: 300px;">시작</span>
+					</div>
+				</div>
+				<div class="simpleQnA">
+					<div class="QnAStart">
+						<input type="text" class="form-control" value="간단 Q&A, 당신의 취향은" readonly>
+						<br>
+				    	<img src="/resources/image/matching/problem.png" width="100px;" height="100px;">
+						<br>
+						<button type="button" class="btn btn-dark" onclick="start();">시작하기</button>
+		    		</div>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<br><br>
 <div class="row">
 	<div class="col">
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

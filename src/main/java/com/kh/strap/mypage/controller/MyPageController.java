@@ -39,10 +39,15 @@ public class MyPageController {
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		if(member != null) {
-			//간단 QNA 가져오기
-//			List<SimpleQnA> sList = mService.simpleQnA(member.getMemberId());
-//			request.setAttribute("sList", sList);
-//			System.out.println(sList);
+			//매너점수 퍼센트 구하기
+			int percent = mService.mannerPercent(member.getMemberId());
+			//마이짐 나누기
+			String myJym = member.getMemberJym();
+			String jymAddress = myJym.split(",")[0];
+			String jymTitle = myJym.split(",")[1];
+			request.setAttribute("percent", percent);
+			request.setAttribute("jymAddress", jymAddress);
+			request.setAttribute("jymTitle", jymTitle);
 		} else {
 			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
 			request.setAttribute("url", "/member/loginView.strap");
