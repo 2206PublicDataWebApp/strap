@@ -3,12 +3,12 @@ package com.kh.strap.admin.domain;
 import java.util.Date;
 
 public class Admin {
-	private String adminId;
-	private String adminPwd;
-	private String adminName;
-	private String adminEmail;
-	private String adminGender;
-	private String adminNick;
+	private String adminId;			//1.관리자 아이디
+	private String adminPwd;		//2.관리자 비밀번호
+	private String adminName;		//3.관리자 이름
+	private String adminEmail;		//4.관리자 이메일
+	private String adminGender;		//5.관리자 성별
+	private String adminNick;		//6.관리자 별명
 	private String adminJym;
 	private String adminCareer;
 	private int adminSbd;
