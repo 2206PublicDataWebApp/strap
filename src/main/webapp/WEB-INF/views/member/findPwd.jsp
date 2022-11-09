@@ -80,13 +80,13 @@
 					type:"post",
 					success:function(result){
 						if(result.send=="ok"){
+							window.alert("입력하신 이메일 주소로 인증번호를 발송했습니다.");
 							console.log("일치");
 							console.log(result);
 							$("#certificationNumber").show();
 							$("#findPwdBtn").removeAttr("disabled");
 							authNumber = result.num;
 							console.log(authNumber);
-							window.alert("입력하신 이메일 주소로 인증번호를 발송했습니다.");
 						} else {
 							console.log("불일치")
 							window.alert("아이디와 비밀번호를 확인해주세요");

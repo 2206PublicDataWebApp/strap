@@ -19,24 +19,18 @@
 			<br>
 			<div class="row">
 	<%-- 			<c:if test="${loginAdmin.adminName eq '관리자'}"> <!-- 관리자만 수정, 삭제 가능 --> --%>
-				<div class="col-2">
-				</div>
 				<div class="col">
 						게시물 변경 : 
-						<button onclick="location.href='/admin/modifyView.strap?noticeNo=${notice.noticeNo }&page=${page}';" class="btn btn-info">수정</button>
-						<button onclick="noticeRemove(${page});" class="btn btn-danger">삭제</button>
+						<button onclick="location.href='/admin/modifyView.strap?noticeNo=${notice.noticeNo }&page=${page}';" class="btn btn-dark">수정</button>
+						<button onclick="noticeRemove(${page});" class="btn btn-dark">삭제</button>
 				</div>
 	<%-- 			</c:if> --%>
 				<div class="col" align="right">
-						<button onclick="location.href='/admin/noticeListView.strap?page=${page}'" class="btn btn-primary">목록으로</button>
-				</div>
-				<div class="col-2">
+						<button onclick="location.href='/admin/noticeListView.strap?page=${page}'" class="btn btn-dark">목록으로</button>
 				</div>
 			</div>
 			<br>
 			<div class="row">
-				<div class="col-2">
-				</div>
 				<div class="col">
 					<div class="table-responsive">
 						<table align="center" width="500" border="1" class="table table-bordered">
@@ -72,8 +66,6 @@
 				
 						</table>
 					</div>
-				</div>
-				<div class="col-2">
 				</div>
 			</div>
 	</div>

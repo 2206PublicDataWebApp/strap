@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AdminQnaMapper">
+	<resultMap type="AdminQna" id="adminQnaResultMap">
+		<id		column="QNA_NO" 				property="qnaNo"/>
+		<result column="PRODUCT_NO" 			property="productNo"/>
+		<result column="QNA_CODE" 				property="qnaCode"/>
+		<result column="QNA_TYPE" 				property="qnaType"/>
+		<result column="QNA_TITLE" 				property="qnaTitle"/>
+		<result column="QNA_CONTENTS" 			property="qnaContents"/>
+		<result column="Q_ENROLL_DATE" 			property="qEnrollDate"/>
+		<result column="A_ENROLL_DATE" 			property="aEnrollDate"/>
+		<result column="ANSWER_STATUS" 			property="answerStatus"/>
+		<result column="ANSWER_CONTENTS" 		property="answerContents"/>
+		<result column="SECRET_STATUS" 			property="secretStatus"/>
+		<result column="MEMBER_ID" 				property="memberId"/>
+		<result column="MEMBER_NICK"			property="memberNick"/>
+		<result column="REPORT_TYPE" 			property="reportType"/>
+		<result column="REPORT_NAME"			property="reportName"/>
+		<result column="CONTENTS_CODE" 			property="contentsCode"/>
+		<result column="CONTENTS_NAME"			property="contentsName"/>
+	</resultMap>
+<!-- 	<insert id=""> -->
+<!-- 	</insert> -->
+	<select id="selectAllAdminQnaList" resultMap="adminQnaResultMap">
+		SELECT * FROM QNA_TBL Q
+		JOIN CONTENTS_CODE_TBL C ON Q.QNA_CODE = C.CONTENTS_CODE
+		JOIN REPORT_TYPE_TBL R ON Q.QNA_TYPE = R.REPORT_TYPE
+		ORDER BY Q.QNA_NO DESC
+	</select>
+	<select id="selectAllByValue" resultMap="adminQnaResultMap">
+  		SELECT * FROM (SELECT * FROM QNA_TBL Q
+		JOIN CONTENTS_CODE_TBL C ON Q.QNA_CODE = C.CONTENTS_CODE
+		JOIN REPORT_TYPE_TBL R ON Q.QNA_TYPE = R.REPORT_TYPE ORDER BY Q.QNA_NO DESC)
+  		<where>
+  			<if test="searchCondition.toString() == 'title'">
+  				QNA_TITLE LIKE '%'||#{searchValue}||'%'
+  			</if>
+  			<if test="searchCondition.toString() == 'contents'">
+  				QNA_CONTENTS LIKE '%'||#{searchValue}||'%'
+  			</if>
+  			<if test="searchCondition.toString() == 'all'">
+	  			QNA_TITLE LIKE '%'||#{searchValue}||'%'
+	  			OR QNA_CONTENTS LIKE '%'||#{searchValue}||'%'
+  			</if>
+  		</where>
+  	</select>
+	<select id="selectTotalCount" resultType="_int">
+  		SELECT COUNT(*) FROM (SELECT * FROM QNA_TBL Q
+		JOIN CONTENTS_CODE_TBL C ON Q.QNA_CODE = C.CONTENTS_CODE
+		JOIN REPORT_TYPE_TBL R ON Q.QNA_TYPE = R.REPORT_TYPE ORDER BY Q.QNA_NO DESC)
+  		<where>
+  		<if test="qnaCode == null">
+			<if test="searchCondition.toString() == 'title'">
+				QNA_TITLE LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test="searchCondition.toString() == 'contents'">
+				QNA_CONTENTS LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test="searchCondition.toString() == 'all'">
+				QNA_TITLE LIKE '%'||#{searchValue}||'%'
+				OR QNA_CONTENTS LIKE '%'||#{searchValue}||'%'
+			</if>
+  		</if>
+  		<if test="qnaCode != null">
+  			<if test="searchCondition.toString() == 'title'">
+				QNA_TITLE LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test="searchCondition.toString() == 'contents'">
+				QNA_CONTENTS LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test="searchCondition.toString() == 'all'">
+				QNA_TITLE LIKE '%'||#{searchValue}||'%'
+				OR QNA_CONTENTS LIKE '%'||#{searchValue}||'%'
+			</if>
+			AND QNA_CODE = #{qnaCode}
+  		</if>
+		</where>
+  	</select>
+	<select id="selectOneByNo" resultMap="adminQnaResultMap">
+		SELECT * FROM (SELECT * FROM QNA_TBL Q
+		JOIN CONTENTS_CODE_TBL C ON Q.QNA_CODE = C.CONTENTS_CODE
+		JOIN REPORT_TYPE_TBL R ON Q.QNA_TYPE = R.REPORT_TYPE ORDER BY Q.QNA_NO DESC) 
+		WHERE QNA_NO = #{qnaNo}
+	</select>
+	<select id="selectAllBySort" resultMap="adminQnaResultMap">
+		SELECT * FROM (SELECT * FROM QNA_TBL Q
+		JOIN CONTENTS_CODE_TBL C ON Q.QNA_CODE = C.CONTENTS_CODE
+		JOIN REPORT_TYPE_TBL R ON Q.QNA_TYPE = R.REPORT_TYPE
+		ORDER BY Q.QNA_NO DESC) WHERE QNA_CODE = #{qnaCode}
+	</select>
+<!-- 	<update id=""> -->
+<!-- 	</update> -->
+<!-- 	<delete id=""> -->
+<!-- 	</delete> -->
+	
+</mapper>

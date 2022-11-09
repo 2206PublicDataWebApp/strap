@@ -3,12 +3,12 @@ package com.kh.strap.admin.domain;
 import java.util.Date;
 
 public class Banner {
-	private int bannerNo;
-	private String bannerTitle;
-	private Date enrollDate;
-	private String bannerFilename;
-	private String bannerFileRename;
-	private String bannerFilepath;
+	private int bannerNo;				//1.배너 넘버
+	private String bannerTitle;			//2.배너 이름
+	private Date enrollDate;			//3.배너 등록 날짜
+	private String bannerFilename;		//4.배너 파일 이름
+	private String bannerFileRename;	//5.배너 리네임
+	private String bannerFilepath;		//6.배너 경로
 	
 	
 	public int getBannerNo() {

@@ -133,7 +133,7 @@ public class NoticeController {
 	 * @param session
 	 * @return
 	 */
-	// 관리자 공지사항 조회수 중복 방지
+	// 관리자 공지사항 상세페이지 조회 & 조회수 중복 방지
 	@RequestMapping(value="/admin/noticeDetailView.strap", method=RequestMethod.GET)
 	public ModelAndView noticeDetailView(ModelAndView mv
 			, @RequestParam("noticeNo") Integer noticeNo
@@ -266,6 +266,14 @@ public class NoticeController {
 		return mv;
 	}
 	
+	/**
+	 * 
+	 * @param mv
+	 * @param searchCondition
+	 * @param searchValue
+	 * @param page
+	 * @return
+	 */
 	// 관리자 공지사항 조건별 검색
 	@RequestMapping(value="/admin/noticeSearch.strap", method=RequestMethod.GET)
 	public ModelAndView noticeSearchList(ModelAndView mv

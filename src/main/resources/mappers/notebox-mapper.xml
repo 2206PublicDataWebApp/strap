@@ -9,7 +9,6 @@
 		<result property="recipientId" column="RECIPIENT_ID"/>
 		<result property="senderId" column="SENDER_ID"/>
 		<result property="senderTime" column="SENDER_TIME"/>
-		<result property="noteTitle" column="NOTE_TITLE"/>
 		<result property="noteContents" column="NOTE_CONTENTS"/>
 		<result property="noteAccept" column="NOTE_ACCEPT"/>
 		<result property="noteStatus" column="NOTE_STATUS"/>
@@ -61,9 +60,6 @@
 			    FROM NOTEBOX_TBL NB FULL JOIN NOTECHAT_TBL NC ON NB.NOTE_NO = NC.CHAT_NO
 				WHERE NB.RECIPIENT_ID = #{memberId})
 			WHERE RN = 1
-<!-- 		SELECT * FROM NOTEBOX_TBL WHERE RECIPIENT_ID = #{memberId} -->
-<!-- 		SELECT NOTE_NO, RECIPIENT_ID, SENDER_ID, SENDER_TIME, NOTE_TITLE, NOTE_CONTENTS, NOTE_ACCEPT, NOTE_STATUS, RECIPIENT_NICK, SENDER_NICK FROM NOTEBOX_TBL N -->
-<!-- 		LEFT OUTER JOIN REPORT_TBL R ON N.NOTE_NO = R.CONTENTS_NO WHERE (REPORT_PROCESS IS NULL AND RECIPIENT_ID = #{memberId} AND (SELECT COUNT(*) FROM REPORT_TBL WHERE CONTENTS_NO = 5) > 0) OR NOTE_ACCEPT = 'Y' ORDER BY NOTE_NO DESC -->
   	</select>
   	<!-- 전체 쪽지 수 -->
 	<select id="selectTotalCount" resultType="_int">
@@ -114,7 +110,7 @@
 		</where>
   	</select>
   	<select id="selectOneByNo" resultMap="noteBoxResultMap, memberResultMap">
-  		SELECT NOTE_NO, RECIPIENT_ID, SENDER_ID, SENDER_TIME, NOTE_TITLE, NOTE_CONTENTS, NOTE_ACCEPT, NOTE_STATUS, (SELECT MEMBER_NAME FROM MEMBER_TBL WHERE MEMBER_ID = #{recipientId}) AS RECIPIENT_NICK, (SELECT MEMBER_NAME FROM MEMBER_TBL WHERE MEMBER_ID = #{senderId}) AS SENDER_NICK FROM NOTEBOX_TBL 
+  		SELECT NOTE_NO, RECIPIENT_ID, SENDER_ID, SENDER_TIME, NOTE_CONTENTS, NOTE_ACCEPT, NOTE_STATUS, (SELECT MEMBER_NAME FROM MEMBER_TBL WHERE MEMBER_ID = #{recipientId}) AS RECIPIENT_NICK, (SELECT MEMBER_NAME FROM MEMBER_TBL WHERE MEMBER_ID = #{senderId}) AS SENDER_NICK FROM NOTEBOX_TBL 
   		WHERE NOTE_NO = #{noteNo}
   	</select>
 	<update id="updateNoteBox">
@@ -124,6 +120,7 @@
 		SELECT COUNT(*) FROM NOTEBOX_TBL
 		WHERE NOTE_CHECK = 'N' AND RECIPIENT_ID = #{memberId}
 	</select>
+	<!-- 조건별 검색 -->
 	<select id="selectAllByValue" resultMap="noteBoxResultMap">
   		SELECT * FROM 
 			(SELECT * FROM

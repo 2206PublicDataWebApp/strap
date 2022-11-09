@@ -21,11 +21,11 @@
 	</resultMap>
 	<insert id="insertQna">
 		INSERT INTO QNA_TBL
-		VALUES(SEQ_QNA_NO.NEXTVAL,#{productNo},#{qnaCode},#{qnaType},#{qnaTitle},#{qnaContents},DEFAULT,DEFAULT,DEFAULT,#{answerContents},#{secretStatus},#{memberId},#{memberNick})
+		VALUES(SEQ_QNA_NO.NEXTVAL,#{productNo},#{qnaCode},#{qnaType},#{qnaTitle},#{qnaContents},DEFAULT,NULL,DEFAULT,#{answerContents},#{secretStatus},#{memberId},#{memberNick})
 	</insert>
 	<select id="selectAllQna" resultMap="qnaResultMap">
-		SELECT Q.QNA_NO, Q.QNA_TITLE, Q.Q_ENROLL_DATE, Q.ANSWER_STATUS, R.REPORT_NAME AS QNA_TYPE FROM QNA_TBL Q
-		JOIN REPORT_TYPE_TBL R ON Q.QNA_TYPE = R.REPORT_TYPE WHERE QNA_CODE = 'QC1' AND MEMBER_ID = #{memberId } ORDER BY Q.Q_ENROLL_DATE
+		SELECT Q.QNA_NO, Q.QNA_TITLE, Q.QNA_CONTENTS, Q.Q_ENROLL_DATE, Q.ANSWER_STATUS, R.REPORT_NAME AS QNA_TYPE FROM QNA_TBL Q
+		JOIN REPORT_TYPE_TBL R ON Q.QNA_TYPE = R.REPORT_TYPE WHERE QNA_CODE = 'QC1' AND MEMBER_ID = #{memberId } ORDER BY Q.Q_ENROLL_DATE DESC
 	</select>
 	<update id="updateQna">
 		UPDATE QNA_TBL SET QNA_TYPE = #{qnaType}, QNA_TITLE = #{qnaTitle}, QNA_CONTENTS = #{qnaContents}, Q_ENROLL_DATE = DEFAULT WHERE QNA_NO = #{qnaNo } AND MEMBER_ID = #{memberId }

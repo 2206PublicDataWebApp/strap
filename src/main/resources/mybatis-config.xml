@@ -10,6 +10,7 @@
 	<!-- 타입엘리아스 사용 -->
 	<typeAliases>
 		<typeAlias type="com.kh.strap.admin.domain.Admin" 				alias="Admin"/>
+		<typeAlias type="com.kh.strap.admin.domain.AdminQna" 				alias="AdminQna"/>
 		<typeAlias type="com.kh.strap.admin.domain.Banner" 				alias="Banner"/>
 		<typeAlias type="com.kh.strap.board.domain.Board" 				alias="Board"/>
 		<typeAlias type="com.kh.strap.board.domain.BoardReply" 			alias="BoardReply"/>
@@ -43,6 +44,7 @@
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/admin-mapper.xml"/>
+		<mapper resource="mappers/adminqna-mapper.xml"/>
 		<mapper resource="mappers/banner-mapper.xml"/>
 		<mapper resource="mappers/board-mapper.xml"/>
 		<mapper resource="mappers/board-reply-mapper.xml"/>
