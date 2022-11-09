@@ -220,8 +220,7 @@
 								type="hidden" value=${noteBox.noteNo } name="contentsNo">
 							<input type="hidden" value=${noteBox.senderId }
 								name="reportMember"> <input type="hidden"
-								value=${noteBox.senderNick } name="reportMemberNick"> <input
-								type="hidden" value=${noteBox.noteTitle } name="noteTitle">
+								value=${noteBox.senderNick } name="reportMemberNick"> 
 							<input type="hidden" value=${noteBox.noteContents }
 								name="noteContents">
 							<%-- 					<input type="hidden" value=${. } name="memberId">  신고자 추가해야함--%>

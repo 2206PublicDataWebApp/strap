@@ -12,4 +12,6 @@ public interface ScheduleStore {
 	public List<Schedule> selectAllSchedule(SqlSession session, String memberId);
 	public int deleteSchedule(SqlSession session, Integer matchNo);
 	public int updateSchedule(SqlSession session, Schedule schedule);
+	public List<Schedule> endSchedule(SqlSession session, String day);
+	public int sendSurvey(SqlSession session, Schedule schedule);
 }

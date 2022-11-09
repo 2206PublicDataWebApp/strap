@@ -47,6 +47,18 @@ public class ScheduleServiceImpl implements ScheduleService {
 		int result = scStore.updateSchedule(session, schedule);
 		return result;
 	}
+
+	@Override
+	public List<Schedule> endSchedule(String day) {
+		List<Schedule> sList = scStore.endSchedule(session, day);
+		return sList;
+	}
+
+	@Override
+	public int sendSurvey(Schedule schedule) {
+		int result = scStore.sendSurvey(session, schedule);
+		return result;
+	}
 	
 	
 }

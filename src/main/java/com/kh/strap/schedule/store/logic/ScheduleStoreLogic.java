@@ -1,5 +1,6 @@
 package com.kh.strap.schedule.store.logic;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -40,4 +41,18 @@ public class ScheduleStoreLogic implements ScheduleStore{
 		int result = session.update("ScheduleMapper.updateSchedule", schedule);
 		return result;
 	}
+
+	@Override
+	public List<Schedule> endSchedule(SqlSession session, String day) {
+		List<Schedule> scList = session.selectList("ScheduleMapper.endSchedule", day);
+		return scList;
+	}
+
+	@Override
+	public int sendSurvey(SqlSession session, Schedule schedule) {
+		int result1 = session.update("ScheduleMapper.sendSurveyOne", schedule);
+		int result2 = session.update("ScheduleMapper.sendSurveyTwo", schedule);
+		return result1;
+	}
+
 }

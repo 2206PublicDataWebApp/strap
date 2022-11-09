@@ -10,4 +10,6 @@ public interface ScheduleService {
 	public List<Schedule> printAllSchedule(String memberId);
 	public int removeSchedule(Integer matchNo);
 	public int modifySchedule(Schedule schedule);
+	public List<Schedule> endSchedule(String day);
+	public int sendSurvey(Schedule schedule);
 }

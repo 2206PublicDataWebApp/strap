@@ -48,12 +48,26 @@ public class MyPageController {
 			request.setAttribute("percent", percent);
 			request.setAttribute("jymAddress", jymAddress);
 			request.setAttribute("jymTitle", jymTitle);
+			//가장 최근 매칭정보를 가져와 설문받기
+			
 		} else {
 			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
 			request.setAttribute("url", "/member/loginView.strap");
 			return("common/alert");
 		}
 		return "mypage/myPage";
+	}
+	
+	@RequestMapping("/mypage/matchingView.strap")
+	public String matchingView(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		if(member == null) {
+			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
+			request.setAttribute("url", "/member/loginView.strap");
+			return("common/alert");
+		}
+		return "/mypage/matchingHistory";
 	}
 	
 	/**

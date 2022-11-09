@@ -15,8 +15,18 @@
 		<result property="meetDate" column="MEET_DATE"/>
 		<result property="endDate" column="END_DATE"/>
 		<result property="color" column="COLOR"/>
-		
 	</resultMap>
+	<resultMap type="NoteBox" id="NoteBoxResultMap">
+  		<id property="noteNo" 			column="NOTE_NO"/>
+  		<result property="recipientId" 		column="RECIPIENT_ID"/>
+  		<result property="senderId" 		column="SENDER_ID"/>
+  		<result property="senderTime" 		column="SENDER_TIME"/>
+  		<result property="noteContents" 	column="NOTE_CONTENTS"/>
+  		<result property="noteAccept" 		column="NOTE_ACCEPT"/>
+  		<result property="noteStatus" 		column="NOTE_STATUS"/>
+  		<result property="recipientNick" 	column="RECIPIENT_NICK"/>
+  		<result property="senderNick" 		column="SENDER_NICK"/>
+  	</resultMap>
 	<insert id="insertSchedule">
 		INSERT INTO SCHEDULE_TBL VALUES(SEQ_SCHEDULE_NO.NEXTVAL, #{matchMemberId}, #{matchMemberNick}, #{memberId}, #{memberNick}, #{matchDetail}, TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI'), #{meetDate}, null, null)
 	</insert>
@@ -33,4 +43,11 @@
 		UPDATE SCHEDULE_TBL SET MEET_DATE = #{meetDate}
 		WHERE MATCH_NO = #{matchNo}
 	</update>
+	
+	<!-- 설문을 위한 일주일 중 가장 최근 매칭 정보 가져오기 -->
+	<select id="endSchedule" resultMap="scheduleResultMap">
+		select * from schedule_tbl where MATCH_MEMBER_ID is not null and member_id = 'user10' and meet_date between '2022-10-27' and '2022-11-09;
+	</select>
+	
+	
 </mapper>
