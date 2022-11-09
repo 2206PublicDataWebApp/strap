@@ -20,6 +20,41 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script src="/resources/js/summernote/lang/summernote-ko-KR.js"></script>
+<style>
+	hr {
+	    margin: 1rem 0;
+	    color: inherit;
+	    border: 0;
+	    border-top: 1px solid;
+	    opacity: .25;
+	}
+
+	.contents-noside {
+		width: 1000px;
+		margin: auto;
+	}
+	
+	#bTitle1 {
+		margin-top: 25px;
+		background-color: #F8F8F8;
+		border-bottom: 1px solid #ccc;
+		padding: 1rem !important;
+	}
+	
+	#bTitle2 {
+		transform: translate(-15px, 12px);
+		font-size: 18px;
+	}
+	
+	#bCategory {
+		font-size: large;
+	    margin-right: 15px;
+	}
+	
+	.btn-primary {
+		background-color: dodgerblue;
+	}
+</style>
 </head>
 <script>
 $(document).ready(function(){
@@ -85,48 +120,39 @@ $(document).ready(function(){
 </script>
 <body>
 	<div class="wrap container">
-			<!-- 헤더&메뉴바 -->
-			<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-			<!-- 컨텐츠 -->
-			<div class="contents">
-				<div id="contents-wrap" style="height: 100%;">
-					<form action="/board/boardWrite.strap" method="post" enctype="multipart/form-data">
-					<table align="center" border="2" class="table table-bordered w-75">
-						<tr>
-							<th class="table-primary">제목</td>
-							<td><input type="text" name="boardTitle" style="height: 30px; width: 500px; margin-top: 5px;"></td>
-						</tr>
-						<tr>
-							<td>작성자</td>
-							<td><input type="text" name="memberNick"></td>
-						</tr>
-						<tr>
-							<td>카테고리</td>
-							<td>
-								<select name="boardCategory">
-									<option value="">카테고리</option>
-									<option value="잡담">잡담</option>
-									<option value="매칭후기">매칭후기</option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<th class="table-primary">내용</td>
-							<td><textarea id="summernote" name="boardContents"></textarea></td>
-						</tr>
-					</table>
-				<table align="center">
-				<tr colspan="2" align="center">
-					<table align="center">
-						<tr>
-							<td colspan="2"><input class="btn btn-primary" type="submit" value="등록"> <a class="btn btn-secondary" href="javascript:history.go(-1);">취소</a></td>
-						</tr>
-					</table>
-				</tr>
-			</table>
-		</form>
+		<!-- 헤더&메뉴바 -->
+		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+		<!-- 컨텐츠 -->
+		<div class="contents">
+			<div id="contents-wrap">
+			<div class="contents-noside">
+			<form action="/board/boardWrite.strap" method="post" enctype="multipart/form-data">
+		
+			<!-- 카테고리/제목 -->
+					<div class="position-relative" id="bTitle1">
+					<select name="boardCategory" id="bCategory">
+						<option value="자유글">자유글</option>
+						<option value="후기글">후기글</option>
+					</select>
+				<input type="text" name="boardTitle" style="width: 500px;" placeholder="제목을 입력하세요"><br>
+						<div class="position-absolute top-0 end-0" id="bTitle2">
+						<input type="hidden" name="memberNick" value="${sessionScope.loginUser.memberNick }">
+						</div>
+					</div>
+				<td>
+				<textarea id="summernote" name="boardContents"></textarea>
+				</td>
+				<div class="row">
+						<div class="col" align="center">
+							<td colspan="2"><input class="btn btn-primary" type="submit" value="등록" id="bContents" onclick="bContents();"> 
+							<a class="btn btn-secondary" href="javascript:history.go(-1);">취소</a></td>
+						</div>
+				</div>
+				</form>
 				</div>
 			</div>
+		</div>
+	</div>
 		<!-- 푸터 -->
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	</div>

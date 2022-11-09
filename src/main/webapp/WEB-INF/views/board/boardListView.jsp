@@ -240,10 +240,19 @@
 							</nav>
 								</div>
 								<div>
+								<!-- 글쓰기 로그인 체크 -->
+								<c:choose>
+								<c:when test="${sessionScope.loginUser.memberNick == null }">
+									<button type="button" class="btn btn-primary" onclick="writeCheck();">
+										<i class="bi bi-pen">글쓰기</i>
+									</button>
+								</c:when>
+								<c:otherwise>
 									<button type="button" class="btn btn-primary" onclick="location.href='/board/writeView.strap'">
 										<i class="bi bi-pen">글쓰기</i>
 									</button>
-									
+								</c:otherwise>
+								</c:choose>	
 								</div>
 							</div>
 						</div>
@@ -252,5 +261,11 @@
 	</div>
 <!-- 푸터 -->
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+<script>
+function writeCheck() {
+	alert("로그인 후 이용해주세요");
+	location.href="/member/loginView.strap"
+}
+</script>
 </body>
 </html>

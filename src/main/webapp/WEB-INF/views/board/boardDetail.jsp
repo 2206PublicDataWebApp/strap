@@ -46,6 +46,8 @@
 	}
 	.bTitle3 {
 		padding: 1rem !important;
+		border-bottom: 1px solid #ccc;
+   		margin-bottom: 25px;
 	}
 	
 	.position-absolute {
@@ -80,7 +82,7 @@
 	}
 	
 	#rBtn {
-		transform: translate(105px, 18px);
+		transform: translate(94px, 48px);
 	}
 	
 	#updateBtn {
@@ -88,8 +90,16 @@
 	}
 	
 	#reply-wrap {
-		width: 850px;
     	margin: 0 auto;
+	}
+	
+	#replyInfo-wrap{
+		display: flex;
+	}
+	
+	#oneReply {
+    	margin-bottom: 15px;
+    	border-bottom: 1px solid #ccc;
 	}
 	
 	.reply-input {
@@ -100,6 +110,44 @@
 	    width: 850px;
     	margin: 0 auto;
     	margin-bottom: 15px;
+	}
+	
+	.reText {
+	    height: 40px;
+	    width: 92%;
+	    font-size: smaller;
+	}
+	
+	#rModify {
+		list-style: none;
+	    display: flex;
+	    float: right;
+	    padding-left: 1rem;
+	}
+	
+	.btn-light {
+		height: 45px;
+	    margin-bottom: 5px;
+	}   
+	
+	.reReply-input {
+		border: 1px solid #ddd;
+	    padding: 12px 16px 20px;
+	    border-radius: 8px;
+	    background: #fcfcfc;
+	    width: 850px;
+	} 
+	
+	.reReply {
+		width: 940px;
+		margin-left: 35px;
+	}
+	
+	#rReplyContents {
+		height: 40px;
+   	 	width: 92%;
+    	font-size: smaller;
+    	margin-top: 10px;
 	}
 </style>
 </head>
@@ -133,7 +181,7 @@
 						${board.boardContents }
 					</div>
 						<!-- 추천/비추천 로그인 체크-->
-						<div class="col-md-11 offset-md-5 py-4 text-center">
+						<div class="col-md-10 offset-md-5 py-4 text-center" style="height: 125px;">
 							<c:choose>
 								<c:when test="${empty sessionScope.loginUser.memberNick }">
 									<div class="likeBtn-area">
@@ -157,16 +205,25 @@
 									</div>
 								</c:otherwise>
 							</c:choose>
-							<button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#reportNote" id="rBtn">신고</button>
+							<div>
+							<c:choose>
+								<c:when test="${sessionScope.loginUser.memberNick == null }">
+									<button class="btn btn-outline-danger" onclick="reportCheck();" id="rBtn">신고</button>
+								</c:when>
+								<c:otherwise>
+									<button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#reportNote" id="rBtn">신고</button>
+								</c:otherwise>
+							</c:choose>	
+							</div>
 							<!-- 게시글 수정/삭제 로그인 체크-->
-							<%-- <c:if test="${loginUser.memberNick eq board.memberNick }"> --%>
+							 <c:if test="${sessionScope.loginUser.memberNick eq board.memberNick }">
 							<div id="updateBtn">
 								<button
 									onclick="location.href='/board/modifyView.strap?boardNo=${board.boardNo }&page=${page}';"
 									class="btn btn-outline-secondary">수정</button>
 								<button onclick="boardRemove(${page});" class="btn btn-outline-danger">삭제</button>
 							</div>
-							<%-- </c:if> --%>
+							</c:if>
 							<!-- 로그인을 하지 않았을 때 버튼 비활성화 -->
 							<button class="btn btn-outline-light" disabled="disabled">수정</button>
 							<button class="btn btn-outline-light" disabled="disabled">삭제</button>
@@ -179,30 +236,18 @@
 							<c:forEach items="${bReplyList }" var="bReply" varStatus="n">
 								<tr class="one-reply-area">
 									<td>
-										<div id="oneReply"
+										<div id="oneReply" 
 											<c:if test="${bReply.reReplyYn eq 'Y' }"> class="reReply" </c:if>>
 											<div id="replyInfo-wrap">
-												<p id="reWriter" class="replyInfo">${bReply.rReplyWriter }</p>
-												<p id="reDate" class="replyInfo">${bReply.rrCreateDate }</p>
-											</div>
-											<div id="replyContents">
-												${bReply.rReplyContents }
-												<!-- 댓글메뉴버튼 -->
-												<c:if test="${bReply.rrStatus ne 'N' }">
-													<div id="replyMenuBtn-area">
-														<c:if
-															test="${(loginUser.memberNick eq bReply.rReplyWriter) || (loginUser.memberNick eq board.memberNick) }">
-															<a href="#" onclick="replyMenu(this);" class="replyMenuBtn"> [+] </a>
-														</c:if>
-													</div>
-											</div>
-
+												<p id="reWriter" class="replyInfo">${bReply.rReplyWriter }</p>&nbsp;&nbsp;&nbsp;
+												<fmt:formatDate pattern="(yyyy-MM-dd HH:mm:ss)" value="${bReply.rrCreateDate}"/>
+											<div>
 											<!-- 댓글메뉴 -->
 											<!-- 댓글 수정 창  -->
 											<div id="reply-menu">
-												<ul>
-													<c:if test="${loginUser.memberId eq rReply.rReplyWriter }">
-														<li onclick="replyModify(this);"><a href="#">댓글 수정</a></li>
+												<ul id="rModify">
+													<%-- <c:if test="${loginUser.memberId eq rReply.rReplyWriter }">
+														<li onclick="replyModify(this);"><a href="#">수정 |</a></li>
 														<div class="replyModify" style="display: none;">
 															<form onsubmit="inputCheck(this)" action="/board/reply/modify.strap" method="post">
 																<input type="hidden" name="page" value="${page }">
@@ -211,34 +256,50 @@
 																<input type="hidden" name="rReplyNo" value="${bReply.rReplyNo }">
 																<button>수정</button>
 															</form>
-														</div>
+														</div>  --%>
 														<!-- 댓글삭제 -->
-														<li><a href="#" onclick="replyRemove(this);">댓글 삭제</a></li>
+														<li><a href="#" onclick="replyRemove(this);" id="rDelete" style="margin-left: 5px;">삭제</a></li>
 														<form action="/board/reply/remove.strap" method="post">
 															<input type="hidden" name="page" value="${page }">
 															<input type="hidden" name="boardNo" value="${board.boardNo }"> 
 															<input type="hidden" name="rReplyNo" value="${bReply.rReplyNo }">
 														</form>
-													</c:if>
+													<%-- </c:if> --%>
+												</ul>
 											</div>
+											</div>
+											</div>
+											<div id="replyContents" style="height: 40px;">
+												${bReply.rReplyContents }
+												<!-- 댓글메뉴버튼 -->
+												<c:if test="${bReply.rrStatus ne 'N' }">
+													<%-- <div id="replyMenuBtn-area">
+														<c:if>
+															test="${(loginUser.memberNick eq bReply.rReplyWriter) || (loginUser.memberNick eq board.memberNick) }"
+															<a href="#" onclick="replyMenu(this);" class="replyMenuBtn"> [+] </a>
+														 </c:if>
+													</div> --%>
+											</div>
+
 											</c:if>
 
 											<!-- 답글 버튼 -->
 											<c:if test="${bReply.reReplyYn ne 'Y' and bReply.rrStatus ne 'N'}">
-												<div onclick="arcodian(this);">
-													<a href="#">답글 달기</a>
+												<div onclick="arcodian(this);" style="margin-bottom: 10px;">
+													<a href="#">답글</a>
 												</div>
-
 												<!-- 답글 입력창 -->
-												<div class="reReply-input" style="display: none">
+												<div class="reReply-input" style="display: none; margin-bottom: 10px; margin-left: 35px;">
+												<strong style="padding-left:5px; font-size: smaller;">답글 쓰기</strong>
 													<form onsubmit="inputCheck(this);" action="/board/reply/write.strap" method="post">
 														<input type="hidden" name="page" value="${page }">
-														<input type="text" name="rReplyContents" value="" placeholder="답글을 입력해보세요!"> 
+														<input type="text" 	 name="rReplyContents" id="rReplyContents" value="" placeholder=" 답글 작성 하시려면 로그인 해주세요."
+														required oninvalid="this.setCustomValidity('답글을 작성해주세요.')" oninput="this.setCustomValidity('')"> 
 														<input type="hidden" name="boardNo" value="${board.boardNo }"> 
 														<input type="hidden" name="rReplyWriter" value="${loginUser.memberNick }"> 
 														<input type="hidden" name="reReplyYn" value="Y"> 
 														<input type="hidden" name="rRefReplyNo" value="${bReply.rReplyNo }">
-														<button>등록</button>
+														<button class="btn btn-light">등록</button>
 													</form>
 												</div>
 											</c:if>
@@ -250,15 +311,16 @@
 					</div>
 					<!-- 댓글 입력창 -->
 					<div class="reply-input">
-						<strong style="padding-left:5px;">댓글 쓰기</strong>
-							<form onsubmit="inputCheck(this);" action="/board/reply/write.strap" method="post">
+						<strong style="padding-left:5px; font-size: smaller;">댓글 쓰기</strong>
+							<form onsubmit="inputCheck(this);" action="/board/reply/write.strap" method="post" style="margin-top: 10px;">
 								<input type="hidden" name="page" value="${page }">
-								<input class="reText" type="text" name="rReplyContents" value="" placeholder="댓글을 입력해보세요!">
+								<input class="reText" type="text" name="rReplyContents" value="" placeholder=" 댓글 작성 하시려면 로그인 해주세요."
+								required oninvalid="this.setCustomValidity('댓글을 작성해주세요.')" oninput="this.setCustomValidity('')">
 								<input type="hidden" name="boardNo" value="${board.boardNo }"> 
 								<input type="hidden" name="rReplyWriter" value="${loginUser.memberNick }"> 
 								<input type="hidden" name="reReplyYn" value="N"> 
 								<input type="hidden" name="rRefReplyNo" value="-1">
-								<button class="reBtn">등록</button>
+								<button class="btn btn-light">등록</button>
 							</form>
 					</div>
 
@@ -318,8 +380,13 @@
 	</div>
 	<!-- 푸터 -->
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-	<script>
+<script>
 function like_btn_check() {
+	alert("로그인 후 이용해주세요");
+	location.href="/member/loginView.strap"
+}
+
+function reportCheck() {
 	alert("로그인 후 이용해주세요");
 	location.href="/member/loginView.strap"
 }
@@ -346,7 +413,7 @@ function boardRemove(value) {
 			}
 		}
 		
-//댓글 메뉴		
+/*		//댓글 메뉴		
 		function replyMenu(target){
 			event.preventDefault();
 			var replyMenu = target.parentNode.parentNode.nextElementSibling;
@@ -357,9 +424,9 @@ function boardRemove(value) {
 			}else{
 				replyMenu.style.display ="none";
 			}
-		}
+		} */
 		
-//댓글 수정 창
+/*		//댓글 수정 창
 		function replyModify(target){
 			event.preventDefault();
 			var replyModifyInput = target.nextElementSibling;
@@ -370,12 +437,11 @@ function boardRemove(value) {
 			}else{
 				replyModifyInput.style.display ="none";
 			}
-}
+} */
 
 
 //댓글 삭제
 		function replyRemove(target){
-		
 		event.preventDefault();
 		var replyRemoveForm = target.parentNode.nextElementSibling;
 		console.log(replyRemoveForm);
