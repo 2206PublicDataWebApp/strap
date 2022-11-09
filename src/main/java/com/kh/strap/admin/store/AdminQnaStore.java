@@ -12,4 +12,5 @@ public interface AdminQnaStore {
 	public List<AdminQna> selectAllBySort(SqlSession session, String sortCondition, String  sortValue, String  qnaCode, int currentPage, int qnaSortLimit);
 	public int selectTotalCount(SqlSession session, String searchCondition, String searchValue, String qnaCode);
 	public AdminQna selectOneByNo(SqlSession session, Integer qnaNo);
+	public int updateAdminQna(SqlSession session, AdminQna adminQna);
 }

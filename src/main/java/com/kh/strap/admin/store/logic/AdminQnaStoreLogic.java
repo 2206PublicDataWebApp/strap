@@ -63,4 +63,10 @@ public class AdminQnaStoreLogic implements AdminQnaStore{
 		return adminQna;
 	}
 
+	@Override
+	public int updateAdminQna(SqlSession session, AdminQna adminQna) {
+		int result = session.update("AdminQnaMapper.updateAdminQna", adminQna);
+		return result;
+	}
+
 }

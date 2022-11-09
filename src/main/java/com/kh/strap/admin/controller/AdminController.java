@@ -1,35 +1,19 @@
 package com.kh.strap.admin.controller;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.kh.strap.admin.domain.Admin;
-import com.kh.strap.admin.domain.Notice;
 import com.kh.strap.admin.service.AdminService;
-import com.kh.strap.admin.service.NoticeService;
-import com.kh.strap.board.domain.Board;
 import com.kh.strap.member.domain.Member;
-import com.kh.strap.member.service.MemberService;
-
 
 @Controller
 public class AdminController {
@@ -37,8 +21,6 @@ public class AdminController {
 	private AdminService aService;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	@Autowired
-	private MemberService mService;
 	/**
 	 * 
 	 * @param mv
@@ -71,14 +53,6 @@ public class AdminController {
 		} else {
 			return "실패";
 		}
-//		if(loginAdmin != null) {
-//			loginAdmin.setMemberPwd(null);
-//			HttpSession session = request.getSession();
-//			session.setAttribute("loginUser", loginAdmin);
-//			return "성공";
-//		} else {
-//			return "실패";
-//		}
 	}
 	
 	// 로그아웃
@@ -97,9 +71,18 @@ public class AdminController {
 	 * @param mv
 	 * @return
 	 */
-	// 관리자 메인페이지 >>>> ※※※※디자인, 기능 추가 함※※※※※
+	// 관리자 메인페이지 이동 
 	@RequestMapping(value="/admin/mainView.strap", method=RequestMethod.GET)
 	public ModelAndView showAdminMain(ModelAndView mv) {
+		int totalQna = aService.printAllTotalQna();			// 문의 총 갯수
+		int qnaCount = aService.printAllqnaCount();			// 문의 미처리 갯수
+		int qnaAnswer = aService.printAllqnaAnswer();		// 문의 총 처리 갯수
+		int todayQnaAnswer = aService.printTodayAnswer();	// 오늘 문의 처리 갯수
+		
+		mv.addObject("totalQna", totalQna);
+		mv.addObject("qnaCount", qnaCount);
+		mv.addObject("qnaAnswer", qnaAnswer);
+		mv.addObject("todayQnaAnswer", todayQnaAnswer);
 		mv.setViewName("admin/adminMain");
 		return mv;
 	}

@@ -25,12 +25,14 @@
 	</resultMap>
 <!-- 	<insert id=""> -->
 <!-- 	</insert> -->
+	<!-- 문의 조회 -->
 	<select id="selectAllAdminQnaList" resultMap="adminQnaResultMap">
 		SELECT * FROM QNA_TBL Q
 		JOIN CONTENTS_CODE_TBL C ON Q.QNA_CODE = C.CONTENTS_CODE
 		JOIN REPORT_TYPE_TBL R ON Q.QNA_TYPE = R.REPORT_TYPE
 		ORDER BY Q.QNA_NO DESC
 	</select>
+	<!-- 문의 조건별 검색 -->
 	<select id="selectAllByValue" resultMap="adminQnaResultMap">
   		SELECT * FROM (SELECT * FROM QNA_TBL Q
 		JOIN CONTENTS_CODE_TBL C ON Q.QNA_CODE = C.CONTENTS_CODE
@@ -48,6 +50,7 @@
   			</if>
   		</where>
   	</select>
+  	<!-- 문의 총 갯수 -->
 	<select id="selectTotalCount" resultType="_int">
   		SELECT COUNT(*) FROM (SELECT * FROM QNA_TBL Q
 		JOIN CONTENTS_CODE_TBL C ON Q.QNA_CODE = C.CONTENTS_CODE
@@ -80,20 +83,25 @@
   		</if>
 		</where>
   	</select>
+  	<!-- 문의 페이지 조회 -->
 	<select id="selectOneByNo" resultMap="adminQnaResultMap">
 		SELECT * FROM (SELECT * FROM QNA_TBL Q
 		JOIN CONTENTS_CODE_TBL C ON Q.QNA_CODE = C.CONTENTS_CODE
 		JOIN REPORT_TYPE_TBL R ON Q.QNA_TYPE = R.REPORT_TYPE ORDER BY Q.QNA_NO DESC) 
 		WHERE QNA_NO = #{qnaNo}
 	</select>
+	<!-- 문의 조건별 조회 -->
 	<select id="selectAllBySort" resultMap="adminQnaResultMap">
 		SELECT * FROM (SELECT * FROM QNA_TBL Q
 		JOIN CONTENTS_CODE_TBL C ON Q.QNA_CODE = C.CONTENTS_CODE
 		JOIN REPORT_TYPE_TBL R ON Q.QNA_TYPE = R.REPORT_TYPE
 		ORDER BY Q.QNA_NO DESC) WHERE QNA_CODE = #{qnaCode}
 	</select>
-<!-- 	<update id=""> -->
-<!-- 	</update> -->
+	<!-- 문의 답변 등록 -->
+	<update id="updateAdminQna">
+		UPDATE QNA_TBL SET A_ENROLL_DATE = DEFAULT, ANSWER_STATUS = 'Y', ANSWER_CONTENTS = #{answerContents}
+		WHERE QNA_NO = #{qnaNo}
+	</update>
 <!-- 	<delete id=""> -->
 <!-- 	</delete> -->
 	

@@ -2,20 +2,19 @@ package com.kh.strap.admin.controller;
 
 import java.util.List;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.strap.admin.domain.AdminQna;
-import com.kh.strap.admin.domain.Notice;
 import com.kh.strap.admin.service.AdminQnaService;
 
 
@@ -155,6 +154,16 @@ public class AdminQnaController {
 			return mv;
 		}
 	
+		/**
+	 * 
+	 * @param mv
+	 * @param qnaNo
+	 * @param page
+	 * @param session
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	// 관리자 문의 페이지 조회
 	@RequestMapping(value="/admin/adminQnaDetailView.strap", method=RequestMethod.GET)
 	public ModelAndView adminQnaDetailView(ModelAndView mv
@@ -175,5 +184,27 @@ public class AdminQnaController {
 		return mv;
 	}
 	
+	/**
+	 * 
+	 * @param mv
+	 * @param adminQna
+	 * @param page
+	 * @return
+	 */
+	// 관리자 답변 등록 & 수정
+	@RequestMapping(value="/admin/registerAdminQna.strap", method=RequestMethod.POST)
+	public ModelAndView registAdminQna(ModelAndView mv
+			, @ModelAttribute AdminQna adminQna
+			, @RequestParam("page") Integer page) {
+		int result = aqService.registAdminQna(adminQna);
+		if(result > 0) {
+			mv.addObject("page", page);
+			mv.setViewName("redirect:/admin/adminQnaListView.strap");
+		} else {
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+	}
 	
+
 }

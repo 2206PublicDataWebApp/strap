@@ -24,54 +24,26 @@
 				<h3>문의</h3>
 				<div class="container">
 					<div class="table-responsive">
-						<table align="center" border="1"
-							class="table table-striped table-hover">
-							<tr align="center">
-								<th width="80">번호</th>
-								<th>제목</th>
-								<th width="100">작성자</th>
-								<th width="150">작성일</th>
-								<th width="100">조회수</th>
-							</tr>
-							<c:if test="${!empty nList }">
-								<c:forEach items="${nList }" var="notice" varStatus="i">
-									<tr align="center">
-										<td>${i.count }</td>
-										<td><a
-											href="/admin/noticeDetailView.strap?noticeNo=${notice.noticeNo }&page=${currentPage }">${notice.noticeTitle }</a></td>
-										<td>${notice.noticeWriter }</td>
-										<td><fmt:formatDate pattern="yyyy-MM-dd"
-												value="${notice.nCreateDate }" /></td>
-										<td>${notice.noticeCount }</td>
-									</tr>
-								</c:forEach>
-								<tr align="center" height="20">
-									<td colspan="5"><c:if test="${currentPage != 1 }">
-											<a
-												href="/admin/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}"
-												class="btn btn-primary">이전</a>
-										</c:if> <c:forEach var="p" begin="${startNavi }" end="${endNavi }">
-											<c:if test="${currentPage eq p }">
-												<b class="btn btn-primary">${p }</b>
-											</c:if>
-											<c:if test="${currentPage ne p }">
-												<a
-													href="/admin/${urlVal }.strap?page=${p }&searchCondition=${searchCondition}&searchValue=${searchValue}"
-													class="btn btn-light">${p }</a>
-											</c:if>
-										</c:forEach> <c:if test="${maxPage > currentPage }">
-											<a
-												href="/admin/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}"
-												class="btn btn-primary">다음</a>
-										</c:if></td>
-								</tr>
-							</c:if>
-							<c:if test="${empty nList }">
-								<tr>
-									<td colspan="6" align="center"><b>데이터가 존재하지 않습니다.</b></td>
-								</tr>
-							</c:if>
-						</table>
+						<div class="row">
+							<div class="col">
+								총 미처리 문의 수 - ${qnaCount }
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								오늘 문의 처리 수 - ${todayQnaAnswer }
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								총 문의 수 - ${totalQna }
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								총 처리 문의 수 - ${qnaAnswer }
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

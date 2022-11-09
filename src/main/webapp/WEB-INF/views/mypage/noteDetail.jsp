@@ -165,7 +165,7 @@
 								시간 : <input class="timepicker" id="meet-time" required/>
 							</div>
 							<div class="col-4" align="center">
-								메모 : <input type="text" id="meet-memo"  placeholder="ex)운동부위" required/>
+								메모 : <input type="text" id="meet-memo"  placeholder="ex)헬스장, 운동부위" required/>
 							</div>
 						</div>
 					</c:if>
@@ -220,8 +220,7 @@
 								type="hidden" value=${noteBox.noteNo } name="contentsNo">
 							<input type="hidden" value=${noteBox.senderId }
 								name="reportMember"> <input type="hidden"
-								value=${noteBox.senderNick } name="reportMemberNick"> <input
-								type="hidden" value=${noteBox.noteTitle } name="noteTitle">
+								value=${noteBox.senderNick } name="reportMemberNick">
 							<input type="hidden" value=${noteBox.noteContents }
 								name="noteContents">
 							<%-- 					<input type="hidden" value=${. } name="memberId">  신고자 추가해야함--%>

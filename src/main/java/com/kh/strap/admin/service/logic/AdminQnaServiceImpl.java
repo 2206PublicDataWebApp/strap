@@ -53,5 +53,12 @@ public class AdminQnaServiceImpl implements AdminQnaService{
 		AdminQna adminQna = aqStore.selectOneByNo(session, qnaNo);
 		return adminQna;
 	}
+
+
+	@Override
+	public int registAdminQna(AdminQna adminQna) {
+		int result = aqStore.updateAdminQna(session, adminQna);
+		return result;
+	}
 	
 }

@@ -27,6 +27,30 @@ public class AdminServiceImpl implements AdminService {
 		Member mOne = aStore.selectAdminById(session, memberId);
 		return mOne;
 	}
+
+	@Override
+	public int printAllTotalQna() {
+		int totalQna = aStore.selectAllTotalQna(session);
+		return totalQna;
+	}
+
+	@Override
+	public int printAllqnaCount() {
+		int qnaCount = aStore.selectAllqnaCount(session);
+		return qnaCount;
+	}
+
+	@Override
+	public int printAllqnaAnswer() {
+		int qnaAnswer = aStore.selectAllqnaAnswer(session);
+		return qnaAnswer;
+	}
+
+	@Override
+	public int printTodayAnswer() {
+		int todayQnaAnswer = aStore.selectTodayAnswer(session);
+		return todayQnaAnswer;
+	}
 	
 	
 	
