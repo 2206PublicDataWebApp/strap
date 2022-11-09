@@ -177,29 +177,12 @@
 					<div id="couponInfo" class="distict" style="border-bottom:1px solid #c0c0c0;">
 						<div><span class="subTitleTxt">사용 가능 쿠폰 <span style="font-size:12px;">*쿠폰은 중복 사용 불가합니다.</span></span></div>
 						<button onclick="" type="button" style="font-size:13px;font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:30px;">쿠폰 선택</button>
-						<select id="couponSelect" onchange="couponSelected(this);" >
-								<option value="-1">쿠폰 선택</option>
+						<select id="couponSelect" onchange="couponSelected(this);" style="width:500px;">
+								<option id="defaultOption"value="-1">쿠폰 선택</option>
 							<c:forEach items="${couponList }" var="coupon" varStatus="n">
 									<option value="${n.index }" >${coupon.couponName }</option>	
 							</c:forEach>
 						</select>
-						<div id="couponInfo">
-							<div>
-								<span>쿠폰 정보</span>
-							</div>
-							<div>
-								<span>최저주문액</span>
-								<span id="priceCondition"></span>
-							</div>
-							<div>
-								<span id="brandCondition">대상 브랜드</span>
-							</div>
-							<div>
-								<span id="productCondition">대상 상품</span>
-							</div>
-						</div>
-						
-						<input type="text" placeholder="쿠폰적용" readonly onchange="calculatorCost();">
 					</div>
 					<div id="payMethod" class="distict" style="border-bottom:1px solid #c0c0c0;">
 						<div><span class="subTitleTxt">결제 수단</span></div>
@@ -332,7 +315,7 @@ var orderNo; 												// 주문번호 날짜+고유번호 셋팅
 var payNo; 													// 아임포트에서 반환되는 결제번호
 var productsPrice=0;										//구매 상품 금액 합계
 var discountAmount=0;										//할인 금액
-var couponUse = 'N';										//쿠폰 사용 여부
+var couponNo = -1;										//쿠폰 사용 여부
 var deliveryFee=0;											//배송비
 var finalCost=0;											//최종 결제 금액
 var memberId = '${loginUser.memberId}';						//멤버 아이디
@@ -392,7 +375,9 @@ function kginisis(){
 				                "vBankDueDate":rsp.vbank_date,
 				                "vBankHolder":rsp.vbank_holder,
 				                "vBankName":rsp.vbank_name,
-				                "vBankNum":rsp.vbank_num
+				                "vBankNum":rsp.vbank_num,
+				                "memberId":memberId,
+				                "couponNo":couponNo
 				            },
 				            success:function(result){
 				            	 // 가맹점 서버 검증로직 후 
@@ -522,14 +507,14 @@ function calculatorCost(){
 	
 	productsPrice = getProductsPrice();
 	discountAmount = 0;
-	if(productsPrice > priceCondition){
+	if(productsPrice >= priceCondition){
 		if(cMethod =="amount"){
 			discountAmount = cAmount;
 		}else if(cMethod =="ratio"){
 			discountAmount = Math.floor((productsPrice * cRatio)/100);
 		}
 	}
-	if(couponUse == 'N'){
+	if(couponNo == -1){
 		discountAmount = 0;
 	}
 	
@@ -563,20 +548,29 @@ function updateInput(){
 //쿠폰 선택
 function couponSelected(selected){
 	if(selected.value > -1){
-		couponUse = 'Y';
 		<c:forEach items="${couponList}" var="coupon" varStatus="n">
 			if(selected.value == '${n.index}'){
 				cMethod = '${coupon.discountMethod}';
 				cAmount = '${coupon.discountAmount}';
 				cRatio = '${coupon.discountRatio}';
 				priceCondition = '${coupon.priceCondition}';
+				couponNo = '${coupon.couponNo}';
 			}
 		</c:forEach>
-		calculatorCost();
+		//쿠폰 사용 가능 여부 체크
+		//최저 주문 금액 체크
+		if(productsPrice < priceCondition){
+			alert("쿠폰 적용 가능 최소 금액은 "+priceCondition+"원 입니다.장바구니에서 "+(priceCondition-productsPrice)+"원 만큼 상품을 더 담아보세요.")
+			document.querySelector("#defaultOption").selected = true;
+		}else{
+			calculatorCost();
+		}
+		
 	}else{
-		couponUse = 'N';
+		couponNo = -1;
 		calculatorCost();
 	}
+	console.log(couponNo);
 }
 
 function getProductsPrice(){
@@ -622,14 +616,10 @@ function insertOrder(){
 	//deliveryRequest,agreeYn,paymentMethod,
 	//주문 상품들 배열을 서버로 보내주어야함.
 	orderNo = (new Date().getFullYear())+""+(new Date().getMonth()+1) +(new Date().getDate())+new Date().getTime()+Math.floor(Math.random()*99);
-	
-	
 	var jsonArr = new Array();
 	<c:forEach items="${cList }" var="cart" varStatus="n" >
 		var jsonTemp = new Object();
-// 		deliveryRequest = document.querySelector("#deliveryRequest").value;
 		deliveryRequest = (document.querySelector("#deliveryRequest").value != "directInput")?document.querySelector("#deliveryRequest").value:document.querySelector("#userInputRqt").value;
-		
 		jsonTemp.orderNo = orderNo;
 		jsonTemp.productNo =${cart.productNo};
 		jsonTemp.orderQty =${cart.productAmount};
@@ -650,7 +640,7 @@ function insertOrder(){
 			"deliveryRequest":deliveryRequest,
 			"agreeYn":agreeYn,
 			"paymentMethod":paymentMethod,
-			"cardKind":cardKind,
+			"couponNo":couponNo
 		},
 		type:"post",
 		success:function(result){

@@ -171,8 +171,12 @@ public class ProductController {
 		
 		//1.결제된 금액과 주문했던 금액을 비교한다.
 		if(paid_amount == pService.getTobePaidFinalCost(merchant_uid)) {
+				//쿠폰 사용 여부 update
+				if(order.getCouponNo() != -1) {
+					couponService.modifyMemberCoupon(order);
+				}
+			
 				//결제 검증 성공 시 결제 정보를 update한다.
-				
 				if(status.equals("paid")) {
 					//2-1. 결제상태가 'paid'라면 결제 성공처리
 					//ORDER_STATUS = paid , PAY_COMPLETE = Y , 결제 번호도 넣어야 하는데..
@@ -195,8 +199,6 @@ public class ProductController {
 			}else {
 			//결제금액과 결제되어야 할 금액이 다른경우. 결제금액 불일치, 위변조 결제
 				//화면단에서 결제 취소 처리한다.
-				
-				
 				return "forgery";
 		}
 	}
@@ -214,7 +216,7 @@ public class ProductController {
 			order.setOrderNo(orderNo);
 			if(pService.registerOrder(order)>0) {
 				//2.json배열을 자바의 List로 변경하고 이를 이용하여 DB에 INSERT한다.
-				//여기서 판매량을 집계하고 싶으나 결제 완료와는 동떨어져있다.
+				//여기서 판매량을 집계하고 싶으나 결제 완료와는 동떨어져있다. ->관리자에서 수동갱신
 				List<OrderProduct> opList =objectMapper.readValue(jsonArr, objectMapper.getTypeFactory().constructCollectionType(List.class, OrderProduct.class));
 				opList.stream().forEach(orderProduct ->{
 					pService.registerOrderProducts(orderProduct);

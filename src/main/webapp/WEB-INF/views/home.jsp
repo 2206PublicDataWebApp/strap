@@ -59,7 +59,7 @@
 							</c:if>
 							<c:choose >
 							 	<c:when test="${mainBn.bannerTitle eq 'wellcome' }">
-							 		<img onclick="wellcomeCoupon('${loginUser.memberId}');" src="/resources/bnuploadFiles/${mainBn.bannerFileRename }" class="d-block w-100" alt="${mainBn.bannerTitle }">
+							 		<img onclick="getCoupon('${loginUser.memberId}',10);" src="/resources/bnuploadFiles/${mainBn.bannerFileRename }" class="d-block w-100" alt="${mainBn.bannerTitle }">
 							 	</c:when>
 							 	<c:otherwise>
 							 		<img src="/resources/bnuploadFiles/${mainBn.bannerFileRename }" class="d-block w-100" alt="${mainBn.bannerTitle }">
@@ -93,14 +93,14 @@
 	</div>
 </div>
 <script>
-function wellcomeCoupon(loginMember){
+function getCoupon(loginMember,couponNo){
 	console.log(loginMember);
 	if(loginMember != null || loginMember != ""){
 		$.ajax({
 			url:"/member/coupon/register.strap",
 			data:{
 				"memberId": loginMember,
-				"couponNo":10
+				"couponNo":couponNo
 			},
 			type:"POST",
 			success:function(result){

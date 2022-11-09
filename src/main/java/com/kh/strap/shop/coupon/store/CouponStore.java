@@ -8,6 +8,7 @@ import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.shop.coupon.domain.Coupon;
 import com.kh.strap.shop.coupon.domain.MemberCoupon;
+import com.kh.strap.shop.product.domain.Order;
 
 public interface CouponStore {
 	//쿠폰관리
@@ -24,7 +25,7 @@ public interface CouponStore {
 	//회원쿠폰
 	//sysdate + 유효기간
 	public int insertMemberCoupon(SqlSession session,Coupon coupon);
-	public int updateMemberCoupon(SqlSession session,Coupon coupon);
+	public int updateMemberCoupon(SqlSession session,Order order);
 	
 	//쿠폰 발급 여부 체크 //회원 쿠폰 테이블은 지우지 않는다.
 	public int selectAlreadyCouponCheck(SqlSession session,Coupon coupon);

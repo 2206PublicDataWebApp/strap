@@ -5,7 +5,7 @@ import java.util.List;
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.shop.coupon.domain.Coupon;
-import com.kh.strap.shop.coupon.domain.MemberCoupon;
+import com.kh.strap.shop.product.domain.Order;
 
 public interface CouponService {
 	//쿠폰관리
@@ -30,5 +30,6 @@ public interface CouponService {
 	//1.회원이 메인배너에서 쿠폰 발급 시 회원쿠폰에 INSERT한다.
 	public int registerMemberCoupon(Coupon coupon);
 	//2.회원이 쿠폰 사용 시 쿠폰사용여부를 Y로 변경한다.
-	public int modifyMemberCoupon(Coupon coupon);
+	// 결제 취소 시 쿠폰 사용여부를 N으로 변경한다. coupnoNo와 memberId가 필요하다.
+	public int modifyMemberCoupon(Order order);
 }

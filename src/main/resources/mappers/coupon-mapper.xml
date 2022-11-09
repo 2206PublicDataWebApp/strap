@@ -52,7 +52,7 @@
 		SELECT * 
 		FROM COUPON_TBL C JOIN MEMBER_COUPON_TBL MC
 		ON C.COUPON_NO = MC.COUPON_NO
-		WHERE MEMBER_ID = #{memberId}
+		WHERE MEMBER_ID = #{memberId} AND USE_YN = 'N' AND END_COUPON_DATE > SYSDATE
 	</select>
 	
 	<select id="selectCouponCount" resultType="_int">
@@ -96,5 +96,6 @@
 	<update id="updateMemberCoupon">
 		UPDATE MEMBER_COUPON_TBL
 		SET USE_YN='Y'
+		WHERE MEMBER_ID = #{memberId} AND COUPON_NO = #{couponNo}
 	</update>
 </mapper>

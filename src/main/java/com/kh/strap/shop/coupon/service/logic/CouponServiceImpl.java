@@ -12,6 +12,7 @@ import com.kh.strap.shop.coupon.domain.Coupon;
 import com.kh.strap.shop.coupon.domain.MemberCoupon;
 import com.kh.strap.shop.coupon.service.CouponService;
 import com.kh.strap.shop.coupon.store.CouponStore;
+import com.kh.strap.shop.product.domain.Order;
 
 @Service
 public class CouponServiceImpl implements CouponService {
@@ -45,8 +46,8 @@ public class CouponServiceImpl implements CouponService {
 		
 	}
 	@Override
-	public int modifyMemberCoupon(Coupon coupon) {
-		return couponStore.updateMemberCoupon(session, coupon);
+	public int modifyMemberCoupon(Order order) {
+		return couponStore.updateMemberCoupon(session, order);
 	}
 	@Override
 	public Coupon printCouponDetail(int couponNo) {

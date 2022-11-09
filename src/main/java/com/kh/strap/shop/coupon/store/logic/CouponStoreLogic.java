@@ -11,6 +11,7 @@ import com.kh.strap.common.Search;
 import com.kh.strap.shop.coupon.domain.Coupon;
 import com.kh.strap.shop.coupon.domain.MemberCoupon;
 import com.kh.strap.shop.coupon.store.CouponStore;
+import com.kh.strap.shop.product.domain.Order;
 
 @Repository
 public class CouponStoreLogic implements CouponStore{
@@ -42,8 +43,8 @@ public class CouponStoreLogic implements CouponStore{
 	}
 
 	@Override
-	public int updateMemberCoupon(SqlSession session, Coupon coupon) {
-		return session.update("CouponMapper.updateMemberCoupon", coupon);
+	public int updateMemberCoupon(SqlSession session, Order order) {
+		return session.update("CouponMapper.updateMemberCoupon", order);
 	}
 
 	@Override
