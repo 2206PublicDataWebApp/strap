@@ -12,23 +12,26 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
+<link rel="stylesheet" type="text/css" href="/resources/css/matchingPage.css">
+
 	<style>
 		.contents-side{text-align: center;}
 		#myInfo{table-layout: fixed; width: 400px; margin: 0 auto; border-collapse:separate; border-radius: 10px;}
-		#myInfo th{width: 100px; margin-left: 15px;}
+		#myInfo th{width: 120px; margin-left: 15px;}
 		#myInfo td{width: 300px; }
 		#myInfo input{width: 280px; border: 0px}
 		#myInfo select{border: 0px}
 		#myInfo textarea{width: 280px; height: 50px; resize: none; border:0}
 		#memberList{table-layout: fixed; width: 700px; height:200px; margin: 0 auto; padding-left: 30px;}
 		.member{float:left; width: 100px; height: 200px; margin: 15px;}
-		.img{width: 100px; height: 100px; overflow: hidden; border-radius: 70px;}
+		.img{width: 100px; height: 100px; overflow: hidden; border-radius: 30px;}
+		.imgDiv{width: 250px; height: 300px; overflow: hidden; border-radius: 70px;}
 		.nick{width: 100px; height: 50px;}
 		.nick button{width: 110px; height: 30px; font-size: 12px;}
-		#profile{margin:0 auto; width: 700px; height: 1000px; border:1px solid lightgray;border-radius: 10px;}
-		#info{width: 100%; height: 300px;}
-		#info-img{float:left; width: 30%; height: 300px;padding:50px;}
-		#info-detail{float:left; width: 70%; height: 300px;}
+		#profile{margin:0 auto; width: 700px; height: 650px; border:1px solid lightgray;border-radius: 10px;}
+		#info{width: 100%; height: 350px;}
+		#info-img{float:left; width: 45%; height: 350px;padding:35px;}
+		#info-detail{float:left; width: 50%; height: 350px; padding: 30px 0 0;}
 		#imgs{width: 100%; height: 300px;}
 		.profile-img{float:left; width: 33.3%; height: 300px;border:1px solid lightgray;border-radius: 10px;}
 		#manner{width: 100%; height: 100px; text-align: left; padding: 20px;}
@@ -41,6 +44,10 @@
 		.matchingDiv{text-align: center;}
 		.guide{width:250px; height:250px; margin-right: 100px;}
 		.go{width:250px; height:250px;}
+		#profileImgDiv{width: 180px; height: 180px; overflow: hidden; border-radius: 50px; margin:10px auto;}
+		.find{width: 320px; text-align: left}
+		.findImg{width: 30px; height: 30px;}
+		
 	</style>
 </head>
 <body>
@@ -71,9 +78,15 @@
 					<img width="50px" height="50px" alt="1" src="/resources/image/matching/one.png">
 				</div>
 				<br>
-				<h6><i>내 운동 정보를 불러오거나 입력하여 파트너 찾기를 누릅니다!</i></h6>
+				<h6><i>매칭에 활용되는 내 정보를 확인해주세요</i></h6>
+				<br>
+				<button class="btn btn-dark" onclick="example()">내 정보 보기</button>
 				<br>
 				<table id="myInfo" class="table">
+					<tr>
+						<th>프로필 사진</th>
+						<td><div id="profileImgDiv"><img width="100%" height="100%" src="/resources/image/matching/chaeunwoo.jpg"></div></td>
+					</tr>
 					<tr>
 						<th>운동경력</th>
 						<td>1년~2년</td>
@@ -87,8 +100,8 @@
 						<td>경기 부천시 원미동 94-5<br>바디업휘트니스</td>
 					</tr>
 					<tr>
-						<th>성별</th>
-						<td>남성</td>
+						<th>매너점수</th>
+						<td>300점</td>
 					</tr>
 					<tr>
 						<th>자기소개</th>
@@ -96,15 +109,28 @@
 					</tr>
 				</table>
 				<br>
-				<button class="btn btn-dark" onclick="example()">내 운동정보 불러오기</button>
-				<button class="btn btn-dark" onclick="example()">운동 파트너 찾기</button>
-				<br><br><br><br>
+				<br><br><br>
 				
 				<div id="2">
 					<img width="50px" height="50px" alt="2" src="/resources/image/matching/two.png">
 				</div>
 				<br>
-				<h6><i>내 운동 정보와 비슷한 회원이 추천됩니다</i></h6>
+				<h6><i>회원 유형을 선택해주세요</i></h6>
+				<br>
+				<h6><b>맞춤 추천</b></h6>
+				<button class="btn btn-light find" onclick="example();"><img class="findImg" src="/resources/image/matching/opacity.png"> 운동 실력이 비슷한 회원</button><br><br>
+				<button class="btn btn-light find" onclick="example();"><img class="findImg" src="/resources/image/matching/place.png"> 내 주변 회원</button><br><br>
+				<button class="btn btn-light find" onclick="example();"><img class="findImg" src="/resources/image/matching/heart.png"> 매너 점수가 높은 회원</button><br><br>
+				<button class="btn btn-light find" onclick="example();"><img class="findImg" src="/resources/image/matching/master.png"> 짬에서나오는 바이브를 가진 회원</button><br><br>
+				<button class="btn btn-light find" onclick="example();"><img class="findImg" src="/resources/image/matching/squat.png"> 쫌 치네? 3대 500 이상 회원</button><br><br>
+				<button class="btn btn-light find" onclick="example();"><img class="findImg" src="/resources/image/matching/high-five.png"> 동성 회원</button><br><br>
+				<br><br><br>
+				
+				<div id="2">
+					<img width="50px" height="50px" alt="2" src="/resources/image/matching/two.png">
+				</div>
+				<br>
+				<h6><i>선택한 유형의 회원이 추천됩니다</i></h6>
 				<br>
 				<div id="memberList">
 					<div class="member">
@@ -122,7 +148,7 @@
 						</div>
 						<br>
 						<div class="nick">
-							<button class="btn btn-light">삶은달걀</button>
+							<button class="btn btn-light">헬린이</button>
 						</div>
 					</div>
 					<div class="member">
@@ -131,7 +157,7 @@
 						</div>
 						<br>
 						<div class="nick">
-							<button class="btn btn-light">3대499</button>
+							<button class="btn btn-light">3대500g</button>
 						</div>
 					</div>
 					<div class="member">
@@ -149,7 +175,7 @@
 						</div>
 						<br>
 						<div class="nick">
-							<button class="btn btn-light">민준이니</button>
+							<button class="btn btn-light">나한테데드냐</button>
 						</div>
 					</div>
 				</div>
@@ -164,54 +190,64 @@
 				<div id="profile">
 					<div id="info">
 						<div id="info-img">
-							<div class="img">
-							<img width="100%" height="100%" src="/resources/image/matching/strap.png">
-							</div>
-							<br>
-							<div class="nick">
-								<button class="btn btn-light">언제철들래</button>
+							<div class="imgDiv">
+							<img id="profileImg" width="100%" height="100%" src="/resources/profileUploadFiles/default.png">
 							</div>
 						</div>
 						<div id="info-detail">
-							<table id="myInfo" class="table">
+							<table id="infoTable" class="table table-borderless">
+								<tr>
+									<th>닉네임</th>
+									<td>
+										<input type="text" id="memberNick" readonly>
+									</td>
+								</tr>
 								<tr>
 									<th>운동경력</th>
-									<td>1년~2년</td>
+									<td>
+										<input type="text" id="memberCareer" readonly>
+									</td>
 								</tr>
 								<tr>
 									<th>3대 기록</th>
-									<td>300~350</td>
+									<td>
+										<input type="text" id="memberSBD" readonly>
+									</td>
 								</tr>
 								<tr>
 									<th>마이짐</th>
-									<td>경기 부천시 원미동 48-4<br>B&R휘트니스</td>
+									<td>
+										<input type="text" id="jymAddress" name="jymAddress" style="width: 250px;border:0;" readonly><br>
+										<input type="text" id="jymTitle" name="jymTitle" style="width: 250px;border:0;" readonly>	
+									</td>
 								</tr>
 								<tr>
 									<th>성별</th>
-									<td>남성</td>
+									<td>
+										<input type="text" id="memberGender" name="memberGender" style="width: 250px;border: 0" readonly> 
+									</td>
+								</tr>
+								<tr>
+									<th>매너점수</th>
+									<td>
+										<input type="text" id="memberManner" name="membmerManner" readonly>
+									</td>
 								</tr>
 								<tr>
 									<th>자기소개</th>
-									<td>안녕하세요 운동좋아하는 <br> 직장인입니다. 꾸준히 같이 운동하실분 <br>쪽지주세요! 지역은 경기,인천입니다 </td>
+									<td><textarea id="memberIntroduce" readonly></textarea></td>
 								</tr>
 							</table>
 						</div>
 					</div>
-					<div id="imgs">
-						<div class="profile-img"></div>
-						<div class="profile-img"></div>
-						<div class="profile-img"></div>
-					</div>
-					<div id="manner">
-						<span style="display: inline-block; width: 150px; padding-left: 30px;">3대 매너점수</span>
-						<span class="alert alert-dark" style="display:inline-block; width: 465px; text-align: center;">510점</span>
-					</div>
-					<div id="msg">
-						<br>
-						<textarea rows="7" cols="73" placeholder="남기실 쪽지를 입력해주세요" style="border:1px solid lightgray; border-radius: 10px; resize: none"></textarea> <br><br>
-						<button class="btn btn-dark" onclick="example()">쪽지 보내기</button>
-					</div>
+				<br><br>
+				<div class="memberQnA" style="width: 350px; margin: auto;">
+					<img width="50px" height="50px" src="/resources/image/question.png">
+					<br>
 				</div>
+				<br><br>
+				<button type="button" class="btn btn-dark" id="modalBtn">쪽지 보내기</button>
+			</div>
 				<br><br><br><br>
 				
 				<div id="4">

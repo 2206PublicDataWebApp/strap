@@ -130,6 +130,12 @@ public class MemberStoreLogic implements MemberStore{
 	}
 
 	@Override
+	public int changeAddr(SqlSession session, Member member) {
+		int result = session.update("MemberMapper.changeAddr", member);
+		return result;
+	}
+	
+	@Override
 	public void updateLastDate(SqlSession session, String memberId) {
 		session.update("MemberMapper.updateLastDate",memberId);
 		
@@ -158,5 +164,12 @@ public class MemberStoreLogic implements MemberStore{
 		int result = session.update("MemberMapper.withdrawal", memberId);
 		return result;
 	}
+
+	@Override
+	public int mannerPercent(SqlSession session, String memberId) {
+		int result = session.selectOne("MemberMapper.mannerPercent", memberId);
+		return result;
+	}
+
 
 }

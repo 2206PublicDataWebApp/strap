@@ -59,4 +59,8 @@ public interface MemberStore {
 
 	int withdrawal(SqlSession session, String memberId);
 
+	int mannerPercent(SqlSession session, String memberId);
+
+	int changeAddr(SqlSession session, Member member);
+
 }

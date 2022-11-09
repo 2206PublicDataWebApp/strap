@@ -93,8 +93,8 @@
 			<label for="Female">Female</label><br><br>
 		
 			<label>마이 짐</label><br>
-			<input type="text" id="jymAddress" name="jymAddress" style="width: 280px;" required readonly>
-			<input type="text" id="jymTitle" name="jymTitle" style="width: 216px;" required readonly>
+			<input type="text" id="jymAddress" name="jymAddress" placeholder="회원 매칭에 사용됩니다." style="width: 280px;" readonly>
+			<input type="text" id="jymTitle" name="jymTitle" style="width: 216px;" readonly>
 			<button type="button" class="btn btn-dark" onclick="showMap();">검색</button><br><br>
 			<button class="btn btn-dark" onclick="return loginCheck();">가입하기</button>
 			<br><br><br>
@@ -191,9 +191,13 @@
 			$(".pwd.ok").is(":visible") &&
 			$(".pwdCheck.ok").is(":visible") &&
 			$(".nick.ok").is(":visible")) {
+			if($("#jymAddress").val().length == 0){
+				alert("마이 짐을 입력해주세요.");
+				return false;
+			}
 			return true;
 		} else {
-			alert("회원 정보를 다시 확인해주세요");
+			alert("회원 정보를 다시 확인해주세요.");
 			return false;
 		}
 	}

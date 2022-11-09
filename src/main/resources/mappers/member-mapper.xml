@@ -85,6 +85,14 @@
   		SELECT * FROM SIMPLE_QNA_TBL WHERE QNA_NO NOT IN 
 		(SELECT QNA_NO FROM SIMPLE_ANSWER_TBL WHERE MEMBER_ID = #{memberId}) AND ROWNUM = 1
   	</select>
+  	<!-- 매너점수 퍼센트 구하기 -->
+  	<select id="mannerPercent" resultType="int">
+  		SELECT
+		(SELECT COUNT(*) FROM MEMBER_TBL WHERE MEMBER_MANNER <![CDATA[>]]>
+		(SELECT MEMBER_MANNER FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId}))/
+		(SELECT COUNT(*) FROM MEMBER_TBL) * 100 AS PERCENT
+		FROM DUAL
+  	</select>
   	<!-- 일반 회원가입 -->
   	<insert id="inserMember">
   		INSERT INTO MEMBER_TBL
@@ -132,6 +140,10 @@
   	<!-- 자기소개 변경 -->
   	<update id="changeIntroduce">
   		UPDATE MEMBER_TBL SET MEMBER_INTRODUCE = #{memberIntroduce} WHERE MEMBER_ID = #{memberId}
+  	</update>
+  	<!-- 주소 변경 -->
+  	<update id="changeAddr">
+  		UPDATE MEMBER_TBL SET MEMBER_ADDRESS = #{memberAddress} WHERE MEMBER_ID = #{memberId}
   	</update>
   	<!-- 로그인 시 최근 접속일 갱신 -->
   	<update id="updateLastDate">

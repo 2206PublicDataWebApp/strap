@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.kh.strap.match.service.MatchService;
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.member.domain.SimpleQnA;
+import com.kh.strap.member.service.MemberService;
 import com.kh.strap.notebox.domain.NoteBox;
 
 
@@ -42,7 +43,13 @@ public class MatchController {
 	 * @return 맞춤 추천 리스트
 	 */
 	@RequestMapping("/match/matchingFind.strap")
-	public String matchingMember() {
+	public String matchingMember(HttpServletRequest request) {
+		Member member = (Member)request.getSession().getAttribute("loginUser");
+		if(member == null) {
+			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
+			request.setAttribute("url", "/member/loginView.strap");
+			return("common/alert");
+		}
 		return "/match/matchingFind";
 	}
 	
@@ -68,6 +75,11 @@ public class MatchController {
 			HttpServletRequest request
 			,HttpSession session) {
 		Member member = (Member)request.getSession().getAttribute("loginUser");
+		if(member == null) {
+			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
+			request.setAttribute("url", "/member/loginView.strap");
+			return("common/alert");
+		}
 		Member mOne = new Member();
 		String local = member.getMemberJym().split(" ")[0];
 		mOne.setMemberId(member.getMemberId());
@@ -81,13 +93,18 @@ public class MatchController {
 		}else {
 		//신규 회원은 현재 추천받고있는 회원이 없으니 회원 새로고침하는 행동처럼 처리, 카운트 차감은없이
 			mList = mService.sameRefresh(mOne);
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("mList", mList);
-			map.put("user", mOne.getMemberId());
-			//새로운 멤버를 현재 멤버와 추천 이력에 업데이트
-			mService.updateSameRecord(map);
-			mService.insertSameRecord(map);
-			request.setAttribute("mList", mList);
+			if(!mList.isEmpty()) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("mList", mList);
+				map.put("user", mOne.getMemberId());
+				//새로운 멤버를 현재 멤버와 추천 이력에 업데이트
+				mService.updateSameRecord(map);
+				mService.insertSameRecord(map);
+				request.setAttribute("mList", mList);
+			}else {
+				//새로고침 실패
+				return "/common/notFoundMember";
+			}
 		}
 		return "/match/sameMember";
 	}
@@ -118,6 +135,9 @@ public class MatchController {
 			String memberId = mOne.getMemberId();
 			mService.resetSameRecord(memberId);
 			mList = mService.sameRefresh(mOne);
+			if(mList.isEmpty()) {
+				return "/common/notFoundMember";
+			}
 		}
 		mService.minusCount(mOne);
 		map.put("mList", mList);
@@ -137,6 +157,11 @@ public class MatchController {
 			,HttpSession session) {
 		//사용자 마이짐의 시/군으로 회원 찾기
 		Member member = (Member)request.getSession().getAttribute("loginUser");
+		if(member == null) {
+			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
+			request.setAttribute("url", "/member/loginView.strap");
+			return("common/alert");
+		}
 		Member mOne = new Member();
 		StringBuffer sb = new StringBuffer();
 		sb.append(member.getMemberJym().split(" ")[0]);
@@ -152,13 +177,18 @@ public class MatchController {
 		}else {
 		//신규 회원은 현재 추천받고있는 회원이 없으니 회원 새로고침하는 행동처럼 처리, 카운트 차감은없이
 			mList = mService.localRefresh(mOne);
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("mList", mList);
-			map.put("user", mOne.getMemberId());
-			//새로운 멤버를 현재 멤버와 추천 이력에 업데이트
-			mService.updateLocalRecord(map);
-			mService.inserLocalRecord(map);
-			request.setAttribute("mList", mList);
+			if(!mList.isEmpty()) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("mList", mList);
+				map.put("user", mOne.getMemberId());
+				//새로운 멤버를 현재 멤버와 추천 이력에 업데이트
+				mService.updateLocalRecord(map);
+				mService.inserLocalRecord(map);
+				request.setAttribute("mList", mList);
+			}else {
+				//새로고침 실패
+				return "/common/notFoundMember";
+			}
 		}
 		return "/match/localMember";
 	}
@@ -192,6 +222,9 @@ public class MatchController {
 			String memberId = mOne.getMemberId();
 			mService.resetLocalRecord(memberId);
 			mList = mService.localRefresh(mOne);
+			if(mList.isEmpty()) {
+				return "/common/notFoundMember";
+			}
 		}
 		mService.minusCount(mOne);
 		map.put("mList", mList);
@@ -227,15 +260,21 @@ public class MatchController {
 		}else {
 		//신규 회원은 현재 추천받고있는 회원이 없으니 회원 새로고침하는 행동처럼 처리, 카운트 차감은없이
 			mList = mService.mannerRefresh(mOne);
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("mList", mList);
-			map.put("user", mOne.getMemberId());
-			//새로운 멤버를 현재 멤버와 추천 이력에 업데이트
-			int result1 = mService.updateMannerRecord(map);
-			int result2 = mService.inserMannerRecord(map);
-			System.out.println("result1 : " + result1);
-			System.out.println("result2 : " + result2);
-			request.setAttribute("mList", mList);
+			if(!mList.isEmpty()) {
+				//새로고침 성공
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("mList", mList);
+				map.put("user", mOne.getMemberId());
+				//새로운 멤버를 현재 멤버와 추천 이력에 업데이트
+				int result1 = mService.updateMannerRecord(map);
+				int result2 = mService.inserMannerRecord(map);
+				System.out.println("result1 : " + result1);
+				System.out.println("result2 : " + result2);
+				request.setAttribute("mList", mList);
+			}else {
+				//새로고침 실패
+				return "/common/notFoundMember";
+			}
 		}
 		return "/match/mannerMember";
 	}
@@ -266,6 +305,9 @@ public class MatchController {
 			String memberId = mOne.getMemberId();
 			mService.resetMannerRecord(memberId);
 			mList = mService.mannerRefresh(mOne);
+			if(mList.isEmpty()) {
+				return "/common/notFoundMember";
+			}
 		}
 		mService.minusCount(mOne);
 		map.put("mList", mList);
@@ -283,6 +325,11 @@ public class MatchController {
 	@RequestMapping("/match/careerMember.strap")
 	public String findMember4(HttpServletRequest request) {
 		Member member = (Member)request.getSession().getAttribute("loginUser");
+		if(member == null) {
+			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
+			request.setAttribute("url", "/member/loginView.strap");
+			return("common/alert");
+		}
 		Member mOne = new Member();
 		String local = member.getMemberJym().split(" ")[0];
 		mOne.setMemberId(member.getMemberId());
@@ -294,13 +341,18 @@ public class MatchController {
 		}else {
 		//신규 회원은 현재 추천받고있는 회원이 없으니 회원 새로고침하는 행동처럼 처리, 카운트 차감은없이
 			mList = mService.careerRefresh(mOne);
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("mList", mList);
-			map.put("user", mOne.getMemberId());
-			//새로운 멤버를 현재 멤버와 추천 이력에 업데이트
-			int result1 = mService.updateCareerRecord(map);
-			int result2 = mService.inserCareerRecord(map);
-			request.setAttribute("mList", mList);
+			if(!mList.isEmpty()) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("mList", mList);
+				map.put("user", mOne.getMemberId());
+				//새로운 멤버를 현재 멤버와 추천 이력에 업데이트
+				int result1 = mService.updateCareerRecord(map);
+				int result2 = mService.inserCareerRecord(map);
+				request.setAttribute("mList", mList);
+			}else {
+				//새로고침 실패
+				return "/common/notFoundMember";
+			}
 		}
 		return "/match/careerMember";
 	}
@@ -330,6 +382,9 @@ public class MatchController {
 			String memberId = mOne.getMemberId();
 			mService.resetCareerRecord(memberId);
 			mList = mService.careerRefresh(mOne);
+			if(mList.isEmpty()) {
+				return "/common/notFoundMember";
+			}
 		}
 		mService.minusCount(mOne);
 		map.put("mList", mList);
@@ -347,6 +402,11 @@ public class MatchController {
 	@RequestMapping("/match/SBDMember.strap")
 	public String findMember5(HttpServletRequest request) {
 		Member member = (Member)request.getSession().getAttribute("loginUser");
+		if(member == null) {
+			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
+			request.setAttribute("url", "/member/loginView.strap");
+			return("common/alert");
+		}
 		Member mOne = new Member();
 		String local = member.getMemberJym().split(" ")[0];
 		mOne.setMemberId(member.getMemberId());
@@ -358,13 +418,18 @@ public class MatchController {
 		}else {
 		//신규 회원은 현재 추천받고있는 회원이 없으니 회원 새로고침하는 행동처럼 처리, 카운트 차감은없이
 			mList = mService.SBDRefresh(mOne);
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("mList", mList);
-			map.put("user", mOne.getMemberId());
-			//새로운 멤버를 현재 멤버와 추천 이력에 업데이트
-			mService.updateSBDRecord(map);
-			mService.insertSBDRecord(map);
-			request.setAttribute("mList", mList);
+			if(!mList.isEmpty()) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("mList", mList);
+				map.put("user", mOne.getMemberId());
+				//새로운 멤버를 현재 멤버와 추천 이력에 업데이트
+				mService.updateSBDRecord(map);
+				mService.insertSBDRecord(map);
+				request.setAttribute("mList", mList);
+			}else {
+				//새로고침 실패
+				return "/common/notFoundMember";
+			}
 		}
 		return "/match/SBDMember";
 	}
@@ -393,6 +458,9 @@ public class MatchController {
 			String memberId = mOne.getMemberId();
 			mService.resetSBDRecord(memberId);
 			mList = mService.SBDRefresh(mOne);
+			if(mList.isEmpty()) {
+				return "/common/notFoundMember";
+			}
 		}
 		mService.minusCount(mOne);
 		map.put("mList", mList);
@@ -410,6 +478,11 @@ public class MatchController {
 	@RequestMapping("/match/genderMember.strap")
 	public String findMember6(HttpServletRequest request) {
 		Member member = (Member)request.getSession().getAttribute("loginUser");
+		if(member == null) {
+			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
+			request.setAttribute("url", "/member/loginView.strap");
+			return("common/alert");
+		}
 		Member mOne = new Member();
 		String local = member.getMemberJym().split(" ")[0];
 		mOne.setMemberId(member.getMemberId());
@@ -422,13 +495,18 @@ public class MatchController {
 		}else {
 		//신규 회원은 현재 추천받고있는 회원이 없으니 회원 새로고침하는 행동처럼 처리, 카운트 차감은없이
 			mList = mService.genderRefresh(mOne);
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("mList", mList);
-			map.put("user", mOne.getMemberId());
-			//새로운 멤버를 현재 멤버와 추천 이력에 업데이트
-			mService.updateGenderRecord(map);
-			mService.insertGenderRecord(map);
-			request.setAttribute("mList", mList);
+			if(!mList.isEmpty()) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("mList", mList);
+				map.put("user", mOne.getMemberId());
+				//새로운 멤버를 현재 멤버와 추천 이력에 업데이트
+				mService.updateGenderRecord(map);
+				mService.insertGenderRecord(map);
+				request.setAttribute("mList", mList);
+			}else {
+				//새로고침 실패
+				return "/common/notFoundMember";
+			}
 		}
 		return "/match/genderMember";
 	}
@@ -458,6 +536,9 @@ public class MatchController {
 			String memberId = mOne.getMemberId();
 			mService.resetGenderRecord(memberId);
 			mList = mService.genderRefresh(mOne);
+			if(mList.isEmpty()) {
+				return "/common/notFoundMember";
+			}
 		}
 		mService.minusCount(mOne);
 		map.put("mList", mList);
@@ -467,6 +548,30 @@ public class MatchController {
 		//F5를 누르면 컨트롤러가 재동작되는것을 막기위해 redirect
 		return "redirect:/match/genderMember.strap";
 	}
+	
+	/**
+	 * 쪽지를 이미 보낸 대상인지 확인
+	 * @return 
+	 */
+	@ResponseBody
+	@RequestMapping(value="/match/sendCheck.strap", method=RequestMethod.POST)
+	public String sendCheck(
+			HttpServletRequest request,
+			String memberNick) {
+		String senderId = ((Member)request.getSession().getAttribute("loginUser")).getMemberId();
+		String recipientId = mService.findIdByNick(memberNick);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("senderId", senderId);
+		map.put("recipientId", recipientId);
+		//이미 보낸적이 있으면 1 없으면 0 
+		int result = mService.noteSendCheck(map);
+		if(result == 0) {
+			return "ok";
+		}else {
+			return "no";
+		}
+	}
+	
 	/**
 	 * 
 	 * @return 쪽지 보내기
@@ -475,14 +580,12 @@ public class MatchController {
 	@RequestMapping(value="/match/sendNote.strap",method = RequestMethod.POST)
 	public String sendNote(
 			HttpServletRequest request,
-			HttpSession session,
 			String recipientNick,
-			String noteTitle,
 			String noteContents) {
 		String senderId = ((Member)request.getSession().getAttribute("loginUser")).getMemberId();
 		String senderNick = ((Member)request.getSession().getAttribute("loginUser")).getMemberNick();
 		String recipientId = mService.findIdByNick(recipientNick);
-		NoteBox nb = new NoteBox(recipientId,senderId,noteTitle,noteContents,recipientNick,senderNick);
+		NoteBox nb = new NoteBox(recipientId,senderId,noteContents,recipientNick,senderNick);
 		int result = mService.insertNoteBox(nb);
 		if(result == 1) {
 			return "ok";

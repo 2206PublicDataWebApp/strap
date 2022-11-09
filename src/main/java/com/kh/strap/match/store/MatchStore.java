@@ -81,4 +81,6 @@ public interface MatchStore {
 
 	List<SimpleQnA> selectMemberQnA(SqlSession session, String memberId);
 
+	int noteSendCheck(SqlSession session, Map<String, Object> map);
+
 }

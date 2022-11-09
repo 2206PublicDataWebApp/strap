@@ -197,6 +197,11 @@ public class MatchServiceImpl implements MatchService {
 		List<SimpleQnA> qList = mStore.selectMemberQnA(session, memberId);
 		return qList;
 	}
+	@Override
+	public int noteSendCheck(Map<String, Object> map) {
+		int result = mStore.noteSendCheck(session, map);
+		return result;
+	}
 	
 	
 }

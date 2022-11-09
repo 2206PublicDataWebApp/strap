@@ -65,19 +65,19 @@
 							<tr>
 								<th>닉네임</th>
 								<td>
-									<input type="text" id="memberNick">
+									<input type="text" id="memberNick" readonly>
 								</td>
 							</tr>
 							<tr>
 								<th>운동경력</th>
 								<td>
-									<input type="text" id="memberCareer">
+									<input type="text" id="memberCareer" readonly>
 								</td>
 							</tr>
 							<tr>
 								<th>3대 기록</th>
 								<td>
-									<input type="text" id="memberSBD">
+									<input type="text" id="memberSBD" readonly>
 								</td>
 							</tr>
 							<tr>
@@ -112,14 +112,15 @@
 					<br>
 				</div>
 				<br><br>
-				<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">쪽지 보내기</button>
+				<button type="button" class="btn btn-dark" id="modalBtn">쪽지 보내기</button>
 			</div>
 			<br><br><br>
 		</div>
 	</div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+<div id="modalBox" class="modal fade" id="exampleModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -127,17 +128,12 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="modal-title">
-        	<label for="title">제목</label>
-        	<input type="text" class="form-control" id="title">
-        </div>
         <div class="modal-contents">
-        	<label for="note-contents">내용</label>
-        	<textarea class="form-control" id="note-contents"></textarea>
+        	<textarea class="form-control" id="note-contents" rows="7"></textarea>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="noteReset();">닫기</button>
         <button type="button" class="btn btn-dark" onclick="sendNote();">보내기</button>
       </div>
     </div>
@@ -152,6 +148,26 @@
 </div>
 
 <script>
+	
+	$("#modalBtn").on("click",function(e){
+		var memberNick = $("#memberNick").val();
+		$.ajax({
+			url:"/match/sendCheck.strap",
+			data:{"memberNick":memberNick},
+			type:"post",
+			success:function(result){
+				if(result == "ok"){
+					$("#modalBox").modal("show");
+				}else{
+					alert("상대방의 쪽지 수락을 대기중입니다.");
+				}
+			},
+			errer:function(result){
+				alert("관리자에게 문의바랍니다.")
+			}
+		})
+	})
+	
 	function mannerRefresh(){
 		var count ;
 		$.ajax({
@@ -171,21 +187,25 @@
 		})
 		
 	}
-	 
+
+	
+	function noteReset(){
+		$("#note-contents").val("");
+	}
+	
 	function sendNote(){
 		var recipientNick = $("#memberNick").val();
-		var noteTitle = $("#title").val();
 		var noteContents = $("#note-contents").val();
-		if(!noteTitle.length == 0 && !noteContents.length==0){
+		if(!noteContents.length==0){
 			if(confirm("쪽지를 보내시겠습니까?")){
 				$.ajax({
 					url:"/match/sendNote.strap",
 					type:"post",
-					data:{"recipientNick":recipientNick,"noteTitle":noteTitle, "noteContents":noteContents},
+					data:{"recipientNick":recipientNick,"noteContents":noteContents},
 					success:function(result){
-						console.log(result)
 						if(result=="ok"){
 							alert("쪽지 보내기 성공! 상대가 쪽지를 수락하면 마이페이지의 1:1 쪽지창이 개설됩니다.")
+							location.reload();
 						} else {
 							alert("쪽지 보내기 실패!")
 						}
@@ -196,7 +216,7 @@
 				})
 			}
 		}else{
-			alert("쪽지의 제목과 내용을 입력해주세요");
+			alert("쪽지의 내용을 입력해주세요");
 		}
 	}
 	function profileDetail(memberId, mProfileRename,memberNick, memberCareer,memberSBD,memberJym,memberGender,memberIntroduce,memberManner){
@@ -204,7 +224,7 @@
 		var jym = memberJym.split(",");
 		var jymAddress = jym[0];
 		var jymTitle = jym[1];
-		//profileImt
+		//profileImg
 		if(mProfileRename != ''){
 		$("#profileImg").attr("src","/resources/profileUploadFiles/"+mProfileRename);
 		}else{
@@ -229,19 +249,19 @@
 		//SBD
 		if(memberSBD == '200'){
 			$("#memberSBD").val("200이하");
-		}else if(memberSBD = '200~300'){
+		}else if(memberSBD == '200~300'){
 			$("#memberSBD").val("200~300");
-		}else if(memberSBD = '300~350'){
+		}else if(memberSBD == '300~350'){
 			$("#memberSBD").val("300~350");
-		}else if(memberSBD = '350~400'){
+		}else if(memberSBD == '350~400'){
 			$("#memberSBD").val("350~400");
-		}else if(memberSBD = '400~450'){
+		}else if(memberSBD == '400~450'){
 			$("#memberSBD").val("400~450");
-		}else if(memberSBD = '450~500'){
+		}else if(memberSBD == '450~500'){
 			$("#memberSBD").val("450~500");
-		}else if(memberSBD = '500~600'){
+		}else if(memberSBD == '500~600'){
 			$("#memberSBD").val("500~600");
-		}else if(memberSBD = '600'){
+		}else if(memberSBD == '600'){
 			$("#memberSBD").val("600이상");
 		}
 		//JYM
@@ -291,7 +311,7 @@
 				    html += "</button>";
 				}else{
 					html += "<div class='noDiv'>";
-					html += "<input class='form-control no' type='text' value='아직 답변한 Q&A가 없습니다!' style='width:250px; margin-left:50px;' readonly><br>";
+					html += "<br><input class='form-control no' type='text' value='아직 답변한 Q&A가 없습니다!' style='width:250px; margin-left:50px;' readonly><br>";
 					html += "</div>";
 				} 
 				$(".memberQnA").append(html);
@@ -299,7 +319,6 @@
 		})
 	}
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 
 </body>
 </html>

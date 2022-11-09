@@ -253,10 +253,12 @@ public class MyInfoController {
 			HttpSession session
 			,HttpServletRequest request
 			,@RequestParam("memberId") String memberId
-			,@RequestParam("memberJym") String memberJym
+			,@RequestParam("jymAddress") String jymAddress
+			,@RequestParam("jymTitle") String jymTitle
 			) {
 		Member member = new Member();
 		member.setMemberId(memberId);
+		String memberJym = jymAddress+","+jymTitle;
 		member.setMemberJym(memberJym);
 		int result = mService.changeJym(member);
 		if(result==1) {
@@ -264,6 +266,38 @@ public class MyInfoController {
 			session = request.getSession();
 			member = (Member)session.getAttribute("loginUser");
 			member.setMemberJym(memberJym);
+			session.setAttribute("loginUser", member);
+			return "ok";
+		} else {
+			return "no";
+		}
+	}
+	/**
+	 * 주소 변경
+	 * @param session
+	 * @param request
+	 * @param memberId
+	 * @param memberAddr
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/member/myinfoAddr.strap", method = RequestMethod.POST)
+	public String modifyAddr(
+			HttpSession session
+			,HttpServletRequest request
+			,@RequestParam("memberId") String memberId
+			,@RequestParam("memberAddr") String memberAddr
+			) {
+		Member member = new Member();
+		member.setMemberId(memberId);
+		member.setMemberAddress(memberAddr);
+		int result = mService.changeAddr(member);
+		System.out.println(result);
+		if(result==1) {
+			//바로 적용을 위해 변경된 닉네임으로 세션 다시 저장
+			session = request.getSession();
+			member = (Member)session.getAttribute("loginUser");
+			member.setMemberAddress(memberAddr);
 			session.setAttribute("loginUser", member);
 			return "ok";
 		} else {
