@@ -142,6 +142,7 @@ public class AdminQnaController {
 					mv.addObject("urlVal", "adminQnaSort");
 					mv.addObject("searchCondition", searchCondition);
 					mv.addObject("searchValue", searchValue);
+					mv.addObject("totalCount", sortTotalCount);
 					mv.addObject("maxPage", maxPage);
 					mv.addObject("currentPage", currentPage);
 					mv.addObject("startNavi", startNavi);

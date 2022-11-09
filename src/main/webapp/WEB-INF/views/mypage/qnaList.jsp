@@ -18,9 +18,9 @@
 	padding-left: 15px;
 }
 
-.contents-side.col th, .contents-side.col td {
-	height: 50px;
-}
+/* .contents-side.col th, .contents-side.col td { */
+/* 	height: 50px; */
+/* } */
 
 
 select.select {
@@ -74,7 +74,6 @@ td{
 										<th scope="col" style="width:400px;" >제목</th>
 										<th scope="col" style="width:200px;">작성일</th>
 										<th scope="col" style="width:200px;">처리상태</th>
-										<th scope="col" style="width:0px;"></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -82,7 +81,7 @@ td{
 										<c:if test="${not empty qList }">
 											<tr>
 												<th scope="row">${qna.qnaType }</th>
-												<td>${qna.qnaTitle }</td>
+												<td><a onclick="qnaAnswer();" style="cursor : pointer;">${qna.qnaTitle }</a></td>
 												<td>${qna.qEnrollDate }</td>
 												<c:if test="${qna.answerStatus eq 'N' }">
 													<td colspan=2>
@@ -93,6 +92,13 @@ td{
 												<c:if test="${qna.answerStatus eq 'Y' }">
 													<td><button class="btn btn-dark" disabled>답변 완료</button></td>
 												</c:if>
+											</tr>
+											<tr id="qna-answer${i.count }">
+												<td colspan="4">
+													<div>
+														${qna.qnaContents }
+													</div>
+												</td>
 											</tr>
 										</c:if>
 									</c:forEach>
@@ -123,6 +129,10 @@ td{
 		</div>
 	</div>
 </div>
-
+<script>
+	function qnaAnswer(){
+		console.log($("#qna-answer${i.count }").hide());
+	}
+</script>
 </body>
 </html>

@@ -26,7 +26,7 @@
 			<table align="center" class="table table-hover">
 				<tr align="center">
 					<th width="80">번호</th>
-					<th width="150"> 문의 유형</th>
+					<th width="150"><a class="qnaContents" href="/admin/adminQnaListView.strap">문의 유형</a></th>
 					<th>제목</th>
 					<th width="100">작성자</th>
 					<th width="150">작성일</th>
@@ -53,8 +53,13 @@
 				</c:forEach>
 				<tr align="center" height="20">
 					<td colspan="5">
-						<c:if test="${currentPage != 1 }"> <!-- 여기서부터 작업 !!!!!!!!!!!!  -->
-							<a href="/admin/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-dark">이전</a>
+						<c:if test="${currentPage != 1 }">
+							<c:if test="${empty qnaCode }">
+								<a href="/admin/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-dark">이전</a>
+							</c:if>
+							<c:if test="${not empty qnaCode }">
+								<a href="/admin/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}&qnaCode=${qnaCode}" class="btn btn-dark">이전</a>
+							</c:if>
 						</c:if>
 						<c:forEach var="p" begin="${startNavi }" end="${endNavi }">
 							<c:if test="${currentPage eq p }">
@@ -70,7 +75,12 @@
 							</c:if>
 						</c:forEach>
 						<c:if test="${maxPage > currentPage }">
-							<a href="/admin/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-dark">다음</a>
+							<c:if test="${empty qnaCode }">
+								<a href="/admin/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-dark">다음</a>
+							</c:if>
+							<c:if test="${not empty qnaCode }">
+								<a href="/admin/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}&qnaCode=${qnaCode}" class="btn btn-dark">다음</a>
+							</c:if>
 						</c:if>
 					</td>
 				</tr>

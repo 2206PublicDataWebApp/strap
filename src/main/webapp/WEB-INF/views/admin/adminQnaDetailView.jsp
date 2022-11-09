@@ -53,6 +53,24 @@
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col">
+					<div class="row text-center">
+						<div class="col mb-3">
+						<hr>
+						<div class="mb-3">
+							<h4>답변 작성</h4>
+						</div>
+						<textarea class="form-control" style="height:180px;" ></textarea>
+						</div>
+					</div>
+					<div class="row text-center">
+						<div class="col">
+							<button class="btn btn-dark">답변 완료</button>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="row text-center">
 				<div class="col">
 					<div>
