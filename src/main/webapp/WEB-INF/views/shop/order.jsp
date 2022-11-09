@@ -520,10 +520,10 @@ function calculatorCost(){
 	
 	console.log(discountAmount);
 	
-// 	deliveryFee = 3000;
-// 	if(productsPrice >= 30000){
-// 		deliveryFee = 0;
-// 	}
+	deliveryFee = 3000;
+	if(productsPrice >= 30000){
+		deliveryFee = 0;
+	}
 	finalCost = productsPrice - discountAmount + deliveryFee;
 	
 	$productsPrice.innerHTML = productsPrice.toLocaleString();
@@ -547,26 +547,68 @@ function updateInput(){
 
 //쿠폰 선택
 function couponSelected(selected){
+	//셀렉트 옵션으로 쿠폰을 선택하면 (디폴트 value -1)
 	if(selected.value > -1){
+		//해당 쿠폰의 정보를 변수에 대입함. 쿠폰 미사용시 쿠폰넘버는 -1, 쿠폰 사용 시 쿠폰번호가 대입되도록 한다.
 		<c:forEach items="${couponList}" var="coupon" varStatus="n">
 			if(selected.value == '${n.index}'){
 				cMethod = '${coupon.discountMethod}';
 				cAmount = '${coupon.discountAmount}';
 				cRatio = '${coupon.discountRatio}';
 				priceCondition = '${coupon.priceCondition}';
+				brandCondition = '${coupon.brandCondition}';
+				productCondition = '${coupon.productCondition}';
 				couponNo = '${coupon.couponNo}';
+				//쿠폰 번호 저장
 			}
 		</c:forEach>
 		//쿠폰 사용 가능 여부 체크
 		//최저 주문 금액 체크
+		console.log(couponNo);
 		if(productsPrice < priceCondition){
+			//최소 주문금액 미달
 			alert("쿠폰 적용 가능 최소 금액은 "+priceCondition+"원 입니다.장바구니에서 "+(priceCondition-productsPrice)+"원 만큼 상품을 더 담아보세요.")
 			document.querySelector("#defaultOption").selected = true;
+			couponNo = -1;
+			calculatorCost();
 		}else{
+			//최소 주문금액 부합
 			calculatorCost();
 		}
-		
+		//브랜드 조건 체크. 쿠폰의 브랜드 조건이 None이 아니면 브랜드 조건과 부합하는 상품이 있는지 체크.
+		if(brandCondition != "None"){
+			var brandCheck = false;
+			var thisProductPrice = 0;
+			<c:forEach items="${cList }" var="cart" varStatus="n" >
+				var brandName = '${cart.product.productBrand}';
+				if(brandCondition == brandName){
+					brandCheck = true;
+					thisProductPrice = '${cart.product.productPrice}';
+				}
+			</c:forEach>
+			if(brandCheck){
+				//구매 상품에 해당 브랜드가 있음
+				if(thisProductPrice < priceCondition){
+					//최소 상품 금액 미달
+					alert(priceCondition+"원 이상의 ["+brandCondition+"] 상품인 경우 쿠폰 적용이 가능합니다.")
+					document.querySelector("#defaultOption").selected = true;
+					couponNo = -1;
+					calculatorCost();
+				}else{
+					//쿠폰 조건 부합
+					calculatorCost();
+				}
+				
+			}else{
+				//구매 상품에 해당 브랜드가 없음
+				alert("["+brandCondition+"] 상품 전용 쿠폰입니다.")
+				document.querySelector("#defaultOption").selected = true;
+				couponNo = -1;
+				calculatorCost();
+			}
+		}
 	}else{
+		//쿠폰을 선택하지 않음
 		couponNo = -1;
 		calculatorCost();
 	}

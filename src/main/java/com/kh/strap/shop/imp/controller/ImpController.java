@@ -11,6 +11,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -21,7 +23,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kh.strap.member.domain.Member;
+import com.kh.strap.shop.coupon.service.CouponService;
 import com.kh.strap.shop.imp.service.ImpService;
+import com.kh.strap.shop.product.domain.Order;
 import com.kh.strap.shop.product.domain.OrderCancel;
 import com.kh.strap.shop.product.service.ProductService;
 
@@ -31,6 +36,8 @@ public class ImpController {
 	ImpService iService;
 	@Autowired
 	ProductService pService;
+	@Autowired
+	CouponService couponService;
 	
 	
 	//아임포트 환불
@@ -38,7 +45,11 @@ public class ImpController {
 	@RequestMapping(value="/imp/payment/cancel",method=RequestMethod.POST)
 	public String ImpPaymentCancel(
 			@RequestParam("merchant_uid")String merchant_uid,
-			@RequestParam(value="reason")String inputReason) {
+			@RequestParam(value="reason")String inputReason,
+			@RequestParam(value="couponNo",required=false)Integer no,
+			HttpSession session) {
+		int couponNo = (no != null)? no : -1;
+		
 		OutputStreamWriter osw;
 		DataOutputStream dos;
 		BufferedWriter bw;
@@ -49,6 +60,9 @@ public class ImpController {
 		JSONParser jsonParser = new JSONParser();
 		JSONObject jsonObjectParam = new JSONObject();
 		JSONObject jsonObjectResult;
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String memberId = loginUser.getMemberId();
 		
 		String access_token = getImpToken();
 		//연결할 url
@@ -108,10 +122,21 @@ public class ImpController {
 					String buyer_tel = (String)responseJson.get("buyer_tel");
 					
 					OrderCancel oc = new OrderCancel(merchant_uid, buyer_name, emb_pg_provider, reason, amount, status, buyer_tel);
-					
 					if(pService.registerCancelInfo(oc) > 0) {
 						if(pService.modifyCancelOrder(merchant_uid)>0) {
-							return "success";
+							//쿠폰 복구
+							Order order = new Order(memberId,couponNo);
+							if(couponNo != -1) {
+								if(couponService.restoreMemberCoupon(order)>0) {
+									System.out.println("쿠폰 복구");
+									return "success";
+								}else {
+									return "fail";
+								}
+							}else {
+								System.out.println("쿠폰 미사용");
+								return "success";
+							}
 						}
 					}
 				}

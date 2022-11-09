@@ -61,6 +61,9 @@
 							 	<c:when test="${mainBn.bannerTitle eq 'wellcome' }">
 							 		<img onclick="getCoupon('${loginUser.memberId}',10);" src="/resources/bnuploadFiles/${mainBn.bannerFileRename }" class="d-block w-100" alt="${mainBn.bannerTitle }">
 							 	</c:when>
+							 	<c:when test="${mainBn.bannerTitle eq 'tigerCoupon' }">
+							 		<img onclick="getCoupon('${loginUser.memberId}',21);" src="/resources/bnuploadFiles/${mainBn.bannerFileRename }" class="d-block w-100" alt="${mainBn.bannerTitle }">
+							 	</c:when>
 							 	<c:otherwise>
 							 		<img src="/resources/bnuploadFiles/${mainBn.bannerFileRename }" class="d-block w-100" alt="${mainBn.bannerTitle }">
 							 	</c:otherwise>

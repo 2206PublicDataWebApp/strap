@@ -123,7 +123,7 @@
 						</div>
 					</div>
 					<div id="pInfo" class="col" style="text-align:center; item-align:center; padding:15px;">
-						<div id="pTitle" style="height:50px;">
+						<div id="pTitle" style="height:auto;">
 							<span id="pName" style="font-weight:bold; font-size:25px;">[${product.productBrand }] ${product.productName }</span>
 						</div>
 						<div id="star">

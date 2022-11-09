@@ -50,6 +50,11 @@ public class CouponServiceImpl implements CouponService {
 		return couponStore.updateMemberCoupon(session, order);
 	}
 	@Override
+	public int restoreMemberCoupon(Order order) {
+		return couponStore.updateRestoreMemberCoupon(session, order);
+	}
+	
+	@Override
 	public Coupon printCouponDetail(int couponNo) {
 		return couponStore.selectCouponDetail(session, couponNo);
 	}
@@ -61,4 +66,5 @@ public class CouponServiceImpl implements CouponService {
 	public int getMemberCouponCount(Coupon coupon) {
 		return couponStore.selectMemberCouponCount(session, coupon);
 	}
+
 }

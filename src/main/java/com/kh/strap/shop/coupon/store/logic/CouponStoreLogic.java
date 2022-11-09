@@ -46,6 +46,11 @@ public class CouponStoreLogic implements CouponStore{
 	public int updateMemberCoupon(SqlSession session, Order order) {
 		return session.update("CouponMapper.updateMemberCoupon", order);
 	}
+	
+	@Override
+	public int updateRestoreMemberCoupon(SqlSession session, Order order) {
+		return session.update("CouponMapper.updateRestoreMemberCoupon",order);
+	}
 
 	@Override
 	public int selectTotalCouponCount(SqlSession session, Search search) {
@@ -66,6 +71,8 @@ public class CouponStoreLogic implements CouponStore{
 	public int selectAlreadyCouponCheck(SqlSession session, Coupon Coupon) {
 		return session.selectOne("CouponMapper.selectAlreadyCouponCheck",Coupon);
 	}
+
+
 
 
 

@@ -32,4 +32,5 @@ public interface CouponService {
 	//2.회원이 쿠폰 사용 시 쿠폰사용여부를 Y로 변경한다.
 	// 결제 취소 시 쿠폰 사용여부를 N으로 변경한다. coupnoNo와 memberId가 필요하다.
 	public int modifyMemberCoupon(Order order);
+	public int restoreMemberCoupon(Order order);
 }

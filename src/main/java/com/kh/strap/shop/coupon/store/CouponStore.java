@@ -26,6 +26,7 @@ public interface CouponStore {
 	//sysdate + 유효기간
 	public int insertMemberCoupon(SqlSession session,Coupon coupon);
 	public int updateMemberCoupon(SqlSession session,Order order);
+	public int updateRestoreMemberCoupon(SqlSession session,Order order);
 	
 	//쿠폰 발급 여부 체크 //회원 쿠폰 테이블은 지우지 않는다.
 	public int selectAlreadyCouponCheck(SqlSession session,Coupon coupon);

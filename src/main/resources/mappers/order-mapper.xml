@@ -200,6 +200,6 @@
   	<update id="updateOrderCancel">
   		UPDATE ORDER_TBL
   		SET ORDER_CANCEL = 'Y',ORDER_STATUS ='cancelled'
-  		WHERE ORDER_NO = #{orderNo}
+  		WHERE ORDER_NO = #{merchant_uid}
   	</update>
   </mapper>
