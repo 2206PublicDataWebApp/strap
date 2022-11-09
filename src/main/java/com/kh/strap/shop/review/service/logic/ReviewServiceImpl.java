@@ -47,4 +47,8 @@ public class ReviewServiceImpl implements ReviewService{
 	public int countMemberReview(Search search) {
 		return rStore.selectCountMemberReview(session, search);
 	}
+	@Override
+	public int registerReviewPossible(Integer ProductNo, String memberId) {
+		return rStore.insertReviewPossible(session, ProductNo, memberId);
+	}
 }

@@ -22,6 +22,12 @@ public interface ReviewStore {
 	public int selectCountReview(SqlSession session, Search search);
 	public int selectCountMemberReview(SqlSession session,Search search);
 	public int deleteMemberReview(SqlSession session,Review review);
+	
+	//5.구매 시 리뷰 작성권한 등록/ 7일이내 1회 / memberId와 productNo가 필요하다.
+	//이는 반복문 속에서 상품 종류마다 insert가 되어야 한다.
+	public int insertReviewPossible(SqlSession session,Integer ProductNo, String memberId);
+	//6.리뷰 작성권한 확인
+//	public int SelectCheckReviewPossible(SqlSession session);
 
 
 }

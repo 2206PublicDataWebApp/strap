@@ -71,4 +71,12 @@
 		DELETE FROM REVIEW_TBL
 		WHERE REVIEW_NO = #{reviewNo}
 	</delete>
+	
+<!-- 리뷰권한 등록	 -->
+	<insert id="insertReviewPossible">
+		INSERT INTO REVIEW_POSSIBLE_TBL
+		VALUES(SEQ_RP_NO.NEXTVAL,#{memberId},#{productNo},DEFAULT,DEFAULT)
+	</insert>
+
+	
 </mapper>
