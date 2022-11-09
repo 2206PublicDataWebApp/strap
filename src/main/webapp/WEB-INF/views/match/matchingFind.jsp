@@ -23,7 +23,7 @@
 		#myInfoTable textarea{width: 250px; height: 100px; resize: none;}
 		.find{width: 320px; text-align: left}
 		.findImg{width: 30px; height: 30px;}
-		#profileImgDiv{overflow: hidden; border-radius: 125px; width: 180px; height: 180px; margin: 10px auto;}
+		#profileImgDiv{overflow: hidden; border-radius: 50px; width: 180px; height: 180px; margin: 10px auto;}
 		#profileImgDiv img{width: 100%; height: 100%;}
 	</style>
 </head>
