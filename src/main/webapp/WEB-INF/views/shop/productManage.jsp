@@ -136,17 +136,6 @@
 										<th class="col-1" onclick="orderSubmit('product_regi_date','desc');">등록일<span>△</span></th>
 									</c:otherwise>
 								</c:choose>
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
 						</tr>
 						<c:forEach items="${pList}" var="product">
 							<tr>

@@ -175,9 +175,14 @@
 						</c:forEach>
 					</div>
 					<div id="couponInfo" class="distict" style="border-bottom:1px solid #c0c0c0;">
-						<div><span class="subTitleTxt">쿠폰</span></div>
-						<button type="button" style="font-size:13px;font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:30px;">쿠폰 선택</button>
-						<input type="text" placeholder="쿠폰적용" readonly onchange="calculatorCost();">
+						<div><span class="subTitleTxt">사용 가능 쿠폰 <span style="font-size:12px;">*쿠폰은 중복 사용 불가합니다.</span></span></div>
+						<button onclick="" type="button" style="font-size:13px;font-weight:bold;color:white;background-color:darkorange;border-style:none;border-radius:4px;height:30px;">쿠폰 선택</button>
+						<select id="couponSelect" onchange="couponSelected(this);" style="width:500px;">
+								<option id="defaultOption"value="-1">쿠폰 선택</option>
+							<c:forEach items="${couponList }" var="coupon" varStatus="n">
+									<option value="${n.index }" >${coupon.couponName }</option>	
+							</c:forEach>
+						</select>
 					</div>
 					<div id="payMethod" class="distict" style="border-bottom:1px solid #c0c0c0;">
 						<div><span class="subTitleTxt">결제 수단</span></div>
@@ -304,11 +309,39 @@
 	</div>
 </div>
 <script>
-	var IMP = window.IMP; // 생략 가능
-	IMP.init("imp46682011"); // 예: imp00000000
-	//KG이니시스에서 pay_method를 변경하면 된다.
-	//card,trans,vbank,kakaopay,naverpay
-	// IMP.request_pay(param, callback) 결제창 호출
+var IMP = window.IMP;	 									// 생략 가능
+IMP.init("imp46682011"); 									// 예: imp00000000
+var orderNo; 												// 주문번호 날짜+고유번호 셋팅
+var payNo; 													// 아임포트에서 반환되는 결제번호
+var productsPrice=0;										//구매 상품 금액 합계
+var discountAmount=0;										//할인 금액
+var couponNo = -1;										//쿠폰 사용 여부
+var deliveryFee=0;											//배송비
+var finalCost=0;											//최종 결제 금액
+var memberId = '${loginUser.memberId}';						//멤버 아이디
+var memberEmail = '${loginUser.memberEmail}';				//멤버 이메일
+var address = "";											//주소
+var contactPhone ="";										//연락처
+var productBrand = '[${cList[0].product.productBrand}]'; 	//첫번째 상품
+var productName = '${cList[0].product.productName}';	 	//첫번째 상품 이름
+var orderProductName = productBrand + productName;			//아임포트 전달 상품명
+if('${cList.size()}' > 1){
+	orderProductName = orderProductName + ' 외';
+}
+var ordererName='${loginUser.memberName}';					//주문자이름
+var deliveryRequest = "";									//배송 요청 사항
+var agreeYn;												//동의 여부
+var paymentMethod = "";										//결제 수단 guideMenuVisible()에서 초기화
+var orderNo = ""; 											//주문 번호 insertOrder()에서 초기화
+var cMethod;												//쿠폰 할인 방식
+var cAmount;												//정액할인
+var cRatio;													//정률할인
+var priceCondition;											//최저주문액
+var afterThreeDaysStr = getAfterThreeDay();					//가상계좌 기한 3일
+
+//KG이니시스에서 pay_method를 변경하면 된다.
+//card,trans,vbank,kakaopay,naverpay
+//IMP.request_pay(param, callback) 결제창 호출
 function kginisis(){
 	  //class가 btn_payment인 태그를 선택했을 때 작동한다.
 		IMP.request_pay({
@@ -342,7 +375,9 @@ function kginisis(){
 				                "vBankDueDate":rsp.vbank_date,
 				                "vBankHolder":rsp.vbank_holder,
 				                "vBankName":rsp.vbank_name,
-				                "vBankNum":rsp.vbank_num
+				                "vBankNum":rsp.vbank_num,
+				                "memberId":memberId,
+				                "couponNo":couponNo
 				            },
 				            success:function(result){
 				            	 // 가맹점 서버 검증로직 후 
@@ -358,6 +393,8 @@ function kginisis(){
 				            		 break;
 				            	 case "forgery":
 				            		 //위변조 결제, 환불처리
+				            		 alert("위변조 결제가 의심되어 결제가 취소됩니다.");
+				            		 //환불 ajax
 				            		 break;
 				            	 }
 				            },
@@ -373,36 +410,36 @@ function kginisis(){
 }
 
 //주소API
-    function daumAddr() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+function daumAddr() {
+  new daum.Postcode({
+      oncomplete: function(data) {
+          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var roadAddr = data.roadAddress; // 도로명 주소 변수
-                var extraRoadAddr = ''; // 참고 항목 변수
+          // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+          // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+          var roadAddr = data.roadAddress; // 도로명 주소 변수
+          var extraRoadAddr = ''; // 참고 항목 변수
 
-                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                    extraRoadAddr += data.bname;
-                }
-                // 건물명이 있고, 공동주택일 경우 추가한다.
-                if(data.buildingName !== '' && data.apartment === 'Y'){
-                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                }
-                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                if(extraRoadAddr !== ''){
-                    extraRoadAddr = ' (' + extraRoadAddr + ')';
-                }
+          // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+          // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+          if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+              extraRoadAddr += data.bname;
+          }
+          // 건물명이 있고, 공동주택일 경우 추가한다.
+          if(data.buildingName !== '' && data.apartment === 'Y'){
+             extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+          }
+          // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+          if(extraRoadAddr !== ''){
+              extraRoadAddr = ' (' + extraRoadAddr + ')';
+          }
 
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('postCode').value = data.zonecode;
-                document.getElementById("roadAddress").value = roadAddr;
-            }
-        }).open();
-    }
+          // 우편번호와 주소 정보를 해당 필드에 넣는다.
+          document.getElementById('postCode').value = data.zonecode;
+          document.getElementById("roadAddress").value = roadAddr;
+      }
+  }).open();
+}
 
 //주소창: 회원정보 가져오기 // ajax가 아닌 세션에서 가져옴.
 function getMemberInfo(check){
@@ -425,7 +462,7 @@ function getMemberInfo(check){
 		detailAddr.value ="";
 	}
 }
-    
+  
 //배송지 등록
 function registerAddr(){
 	var postCode = document.querySelector("#postCode").value;
@@ -460,18 +497,8 @@ function directInput(){
 	}
 }
 
-
-//////////////////ORDER_TBL에 넣을 값들 셋팅
-var orderNo; // 주문번호 날짜+고유번호 셋팅
-var payNo; // 아임포트에서 반환되는 결제번호
-
-//금액계산
-var productsPrice=0;
-var discountAmount=0;
-var deliveryFee=0;
-var finalCost=0;
-calculatorCost();
 //금액을 초기화할 함수, 할인값변경 시 초기화?
+calculatorCost();
 function calculatorCost(){
 	var $productsPrice = document.querySelector("#productsPrice");
 	var $discountAmount = document.querySelector("#discountAmount");
@@ -480,6 +507,19 @@ function calculatorCost(){
 	
 	productsPrice = getProductsPrice();
 	discountAmount = 0;
+	if(productsPrice >= priceCondition){
+		if(cMethod =="amount"){
+			discountAmount = cAmount;
+		}else if(cMethod =="ratio"){
+			discountAmount = Math.floor((productsPrice * cRatio)/100);
+		}
+	}
+	if(couponNo == -1){
+		discountAmount = 0;
+	}
+	
+	console.log(discountAmount);
+	
 // 	deliveryFee = 3000;
 // 	if(productsPrice >= 30000){
 // 		deliveryFee = 0;
@@ -496,44 +536,42 @@ function calculatorCost(){
 	console.log(finalCost);
 }
 
-//주문자 정보
-//연락처와 주소는 입력하는 마지막값으로 초기화 되어야한다.
-//고로 연락처와 주소의 input값이 변경되는 이벤트 발생 시 초기화.
-var memberId = '${loginUser.memberId}';
-var memberEmail = '${loginUser.memberEmail}';
-var address = "";
-var contactPhone ="";
+
+//주소 연락처 초기화
 function updateInput(){
 	memberId ='${loginUser.memberId}';
 	//주문테이블 저장용 주소는 형식을 만든다.
 	address = "["+document.querySelector("#postCode").value+"]"+document.querySelector("#roadAddress").value+" "+document.querySelector("#detailAddr").value;
 	contactPhone = document.querySelector("#phoneBodyNum").value;
 }
-var productBrand = '[${cList[0].product.productBrand}]'; //첫번째 상품.
-var productName = '${cList[0].product.productName}';
-var orderProductName = productBrand + productName;
-if('${cList.size()}' > 1){
-	orderProductName = orderProductName + ' 외';
+
+//쿠폰 선택
+function couponSelected(selected){
+	if(selected.value > -1){
+		<c:forEach items="${couponList}" var="coupon" varStatus="n">
+			if(selected.value == '${n.index}'){
+				cMethod = '${coupon.discountMethod}';
+				cAmount = '${coupon.discountAmount}';
+				cRatio = '${coupon.discountRatio}';
+				priceCondition = '${coupon.priceCondition}';
+				couponNo = '${coupon.couponNo}';
+			}
+		</c:forEach>
+		//쿠폰 사용 가능 여부 체크
+		//최저 주문 금액 체크
+		if(productsPrice < priceCondition){
+			alert("쿠폰 적용 가능 최소 금액은 "+priceCondition+"원 입니다.장바구니에서 "+(priceCondition-productsPrice)+"원 만큼 상품을 더 담아보세요.")
+			document.querySelector("#defaultOption").selected = true;
+		}else{
+			calculatorCost();
+		}
+		
+	}else{
+		couponNo = -1;
+		calculatorCost();
+	}
+	console.log(couponNo);
 }
-
-var ordererName='${loginUser.memberName}';
-var deliveryRequest = "";
-var agreeYn;
-var paymentMethod = "";//guideMenuVisible()에서 초기화
-var cardKind;
-///////////////////
-var payComplete;
-var payComplete;
-var orderCancel;
-var deliveryStart;
-var deliveryComplete;
-var deliveryNo;
-var orderDate;
-//////////////////ORDER_PRODUCT_TBL에 넣을 값들 셋팅
-var orderNo = ""; // insertOrder()에서 초기화
-var productNo;
-var orderQty;
-
 
 function getProductsPrice(){
 	//총 상품가격 - 할인가격
@@ -578,14 +616,10 @@ function insertOrder(){
 	//deliveryRequest,agreeYn,paymentMethod,
 	//주문 상품들 배열을 서버로 보내주어야함.
 	orderNo = (new Date().getFullYear())+""+(new Date().getMonth()+1) +(new Date().getDate())+new Date().getTime()+Math.floor(Math.random()*99);
-	
-	
 	var jsonArr = new Array();
 	<c:forEach items="${cList }" var="cart" varStatus="n" >
 		var jsonTemp = new Object();
-// 		deliveryRequest = document.querySelector("#deliveryRequest").value;
 		deliveryRequest = (document.querySelector("#deliveryRequest").value != "directInput")?document.querySelector("#deliveryRequest").value:document.querySelector("#userInputRqt").value;
-		
 		jsonTemp.orderNo = orderNo;
 		jsonTemp.productNo =${cart.productNo};
 		jsonTemp.orderQty =${cart.productAmount};
@@ -606,7 +640,7 @@ function insertOrder(){
 			"deliveryRequest":deliveryRequest,
 			"agreeYn":agreeYn,
 			"paymentMethod":paymentMethod,
-			"cardKind":cardKind,
+			"couponNo":couponNo
 		},
 		type:"post",
 		success:function(result){
@@ -619,7 +653,7 @@ function insertOrder(){
 	});
 }
 
-var afterThreeDaysStr = getAfterThreeDay();
+
 //가상계좌 입금 기한 출력 함수. +3일  YYYYMMDDHHMM
 function getAfterThreeDay(){
 	now = new Date();
@@ -633,7 +667,6 @@ function getAfterThreeDay(){
 	return year +""+ month +""+ day + "2359";
 }
 
-/////환불 함수
 
   
 </script>

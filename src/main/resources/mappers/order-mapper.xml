@@ -30,6 +30,8 @@
 		<result column="VBANK_NAME" 			property="vBankName"/>
 		<result column="VBANK_NUM" 				property="vBankNum"/>
 		<result column="ORDER_STATUS" 			property="orderStatus"/>
+		<result column="COUPON_NO" 				property="couponNo"/>
+		
 		
   	</resultMap>
   	<resultMap type="OrderProduct" id="OrderProductResultMap">
@@ -50,7 +52,7 @@
   	
   	<insert id="insertOrder">
   		INSERT INTO ORDER_TBL
-  		VALUES(#{orderNo},#{deliveryFee},#{discountAmount},#{finalCost},#{memberId},#{address},#{contactPhone},#{deliveryRequest},'Y',#{paymentMethod},#{cardKind},DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{memberNick},-1,#{vBankDueDate},#{vBankHolder},#{vBankName},#{vBankNum},DEFAULT)
+  		VALUES(#{orderNo},#{deliveryFee},#{discountAmount},#{finalCost},#{memberId},#{address},#{contactPhone},#{deliveryRequest},'Y',#{paymentMethod},#{cardKind},DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{memberNick},-1,#{vBankDueDate},#{vBankHolder},#{vBankName},#{vBankNum},DEFAULT,#{couponNo})
   	</insert>
   	
   	<insert id="insertOrderProducts">

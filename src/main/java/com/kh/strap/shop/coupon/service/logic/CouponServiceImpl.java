@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.shop.coupon.domain.Coupon;
+import com.kh.strap.shop.coupon.domain.MemberCoupon;
 import com.kh.strap.shop.coupon.service.CouponService;
 import com.kh.strap.shop.coupon.store.CouponStore;
+import com.kh.strap.shop.product.domain.Order;
 
 @Service
 public class CouponServiceImpl implements CouponService {
@@ -27,8 +29,8 @@ public class CouponServiceImpl implements CouponService {
 		return couponStore.selectCoupon(session, paging,search );
 	}
 	@Override
-	public List<Coupon> printMemberCoupon(Coupon coupon,Paging paging) {
-		return couponStore.selectMemberCoupon(session, coupon,paging);
+	public List<Coupon> printMemberCoupon(Coupon coupon) {
+		return couponStore.selectMemberCoupon(session, coupon);
 	}
 	@Override
 	public int removeCoupon(Coupon coupon) {
@@ -36,11 +38,16 @@ public class CouponServiceImpl implements CouponService {
 	}
 	@Override
 	public int registerMemberCoupon(Coupon coupon) {
-		return couponStore.insertMemberCoupon(session, coupon);
+		if(couponStore.selectAlreadyCouponCheck(session, coupon)==0) {
+			return couponStore.insertMemberCoupon(session, coupon);
+		}else {
+			return 0;
+		}
+		
 	}
 	@Override
-	public int modifyMemberCoupon(Coupon coupon) {
-		return couponStore.updateMemberCoupon(session, coupon);
+	public int modifyMemberCoupon(Order order) {
+		return couponStore.updateMemberCoupon(session, order);
 	}
 	@Override
 	public Coupon printCouponDetail(int couponNo) {

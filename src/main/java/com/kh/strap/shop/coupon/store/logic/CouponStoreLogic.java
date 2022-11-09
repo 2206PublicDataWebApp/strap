@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.shop.coupon.domain.Coupon;
+import com.kh.strap.shop.coupon.domain.MemberCoupon;
 import com.kh.strap.shop.coupon.store.CouponStore;
+import com.kh.strap.shop.product.domain.Order;
 
 @Repository
 public class CouponStoreLogic implements CouponStore{
@@ -25,9 +27,9 @@ public class CouponStoreLogic implements CouponStore{
 	}
 
 	@Override
-	public List<Coupon> selectMemberCoupon(SqlSession session, Coupon coupon,Paging paging) {
+	public List<Coupon> selectMemberCoupon(SqlSession session, Coupon coupon) {
 		//coupon값 활용할지 결정.조건문으로 return을 달리?
-		return session.selectList("CouponMapper.selectMemberCoupon",coupon,new RowBounds(paging.getOffset(), paging.getPageLimit()));
+		return session.selectList("CouponMapper.selectMemberCoupon",coupon);
 	}
 
 	@Override
@@ -41,8 +43,8 @@ public class CouponStoreLogic implements CouponStore{
 	}
 
 	@Override
-	public int updateMemberCoupon(SqlSession session, Coupon coupon) {
-		return session.update("CouponMapper.updateMemberCoupon", coupon);
+	public int updateMemberCoupon(SqlSession session, Order order) {
+		return session.update("CouponMapper.updateMemberCoupon", order);
 	}
 
 	@Override
@@ -58,6 +60,11 @@ public class CouponStoreLogic implements CouponStore{
 	@Override
 	public Coupon selectCouponDetail(SqlSession session, int couponNo) {
 		return session.selectOne("CouponMapper.selectCouponDetail",couponNo);
+	}
+
+	@Override
+	public int selectAlreadyCouponCheck(SqlSession session, Coupon Coupon) {
+		return session.selectOne("CouponMapper.selectAlreadyCouponCheck",Coupon);
 	}
 
 

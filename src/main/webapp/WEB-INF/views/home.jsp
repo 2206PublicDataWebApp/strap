@@ -21,6 +21,14 @@
 	min-width: 100%;
 	min-height: 220px;
 }
+
+.carousel-inner img{
+	top: 0;
+	left: 0;
+	height: 220px;
+	min-width: 100%;
+	min-height: 220px;
+}
 </style>
 </head>
 <body>
@@ -46,7 +54,19 @@
 				<div class="carousel-inner">
 					<c:forEach items="${bnList }" var="mainBn" varStatus="bn">
 						<div class="carousel-item <c:if test='${bn.index == 0 }'>active</c:if>" data-bs-interval="7000">
-							<img src="/resources/bnuploadFiles/${mainBn.bannerFileRename }" class="d-block w-100" alt="${mainBn.bannerTitle }">
+							<c:if test="${mainBn.bannerTitle eq 'wellcome' }">
+								
+							</c:if>
+							<c:choose >
+							 	<c:when test="${mainBn.bannerTitle eq 'wellcome' }">
+							 		<img onclick="getCoupon('${loginUser.memberId}',10);" src="/resources/bnuploadFiles/${mainBn.bannerFileRename }" class="d-block w-100" alt="${mainBn.bannerTitle }">
+							 	</c:when>
+							 	<c:otherwise>
+							 		<img src="/resources/bnuploadFiles/${mainBn.bannerFileRename }" class="d-block w-100" alt="${mainBn.bannerTitle }">
+							 	</c:otherwise>
+							</c:choose>
+							
+							
 						</div>
 					</c:forEach>
 				</div>
@@ -72,5 +92,34 @@
 		</div>
 	</div>
 </div>
+<script>
+function getCoupon(loginMember,couponNo){
+	console.log(loginMember);
+	if(loginMember != null || loginMember != ""){
+		$.ajax({
+			url:"/member/coupon/register.strap",
+			data:{
+				"memberId": loginMember,
+				"couponNo":couponNo
+			},
+			type:"POST",
+			success:function(result){
+				if(result == "success"){
+					alert("쿠폰 발급이 완료되었습니다.");
+				}else if(result =="needLogin"){
+					alert("로그인 후 쿠폰을 발급 받을 수 있습니다.");
+				}else if(result =="fail"){
+					alert("이미 쿠폰을 발급받으셨습니다.")
+				}
+			},
+			error:function(){}
+		});
+	}else{
+		console.log("!!");
+		alert("로그인 후 쿠폰을 발급 받을 수 있습니다.");
+	}
+}
+</script>
+
 </body>
 </html>

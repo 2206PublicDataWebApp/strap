@@ -238,4 +238,13 @@
 		FROM PRODUCT_LIKE_TBL
 		WHERE MEMBER_ID= #{memberId}
 	</select>
+	
+<!-- 브랜드 및 상품명 리스트 출력 -->
+	<select id="selectGetBrands" resultMap="ProductResultMap">
+		SELECT DISTINCT(PRODUCT_BRAND) FROM PRODUCT_TBL
+	</select>
+	
+	<select id="selectGetNames" resultMap="ProductResultMap">
+		SELECT DISTINCT(PRODUCT_NAME) FROM PRODUCT_TBL
+	</select>
 </mapper>

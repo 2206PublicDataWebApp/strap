@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
@@ -29,8 +28,11 @@ import com.google.gson.Gson;
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.service.MemberService;
 import com.kh.strap.shop.cart.domain.Cart;
 import com.kh.strap.shop.cart.service.CartService;
+import com.kh.strap.shop.coupon.domain.Coupon;
+import com.kh.strap.shop.coupon.service.CouponService;
 import com.kh.strap.shop.product.domain.Order;
 import com.kh.strap.shop.product.domain.OrderProduct;
 import com.kh.strap.shop.product.domain.Product;
@@ -76,6 +78,10 @@ public class ProductController {
 	ProductService pService;
 	@Autowired
 	CartService cService;
+	@Autowired
+	CouponService couponService;
+	@Autowired
+	MemberService mService;
 	
 	//쇼핑몰:보충제 리스트 출력
 	@RequestMapping(value="/product/listView.strap", method=RequestMethod.GET)
@@ -124,11 +130,15 @@ public class ProductController {
 		List<Cart> cList = new ArrayList<>();
 		Cart cart = new Cart(product,qty);
 		cList.add(cart);
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		List<Coupon>couponList = couponService.printMemberCoupon(new Coupon(loginUser.getMemberId()));
+		
 		mv.addObject("cList",cList).
+		addObject("couponList",couponList).
 		setViewName("/shop/order");
 		return mv;
 	}
-	
 	//장바구니 -> 주문페이지 이동
 	@RequestMapping(value="/cart/orderView.strap", method=RequestMethod.GET)
 	public ModelAndView viewOrderPageFromCart(ModelAndView mv,
@@ -140,7 +150,11 @@ public class ProductController {
 		cList.stream().forEach(cart->{
 			cart.setProduct((pService.printOneProduct(new Product(cart.getProductNo()))));
 		});
+		
+		List<Coupon>couponList = couponService.printMemberCoupon(new Coupon(loginUser.getMemberId()));
+		
 		mv.addObject("cList",cList).
+		addObject("couponList",couponList).
 		setViewName("/shop/order");
 		return mv;
 	}
@@ -157,8 +171,12 @@ public class ProductController {
 		
 		//1.결제된 금액과 주문했던 금액을 비교한다.
 		if(paid_amount == pService.getTobePaidFinalCost(merchant_uid)) {
+				//쿠폰 사용 여부 update
+				if(order.getCouponNo() != -1) {
+					couponService.modifyMemberCoupon(order);
+				}
+			
 				//결제 검증 성공 시 결제 정보를 update한다.
-				
 				if(status.equals("paid")) {
 					//2-1. 결제상태가 'paid'라면 결제 성공처리
 					//ORDER_STATUS = paid , PAY_COMPLETE = Y , 결제 번호도 넣어야 하는데..
@@ -181,8 +199,6 @@ public class ProductController {
 			}else {
 			//결제금액과 결제되어야 할 금액이 다른경우. 결제금액 불일치, 위변조 결제
 				//화면단에서 결제 취소 처리한다.
-				
-				
 				return "forgery";
 		}
 	}
@@ -200,7 +216,7 @@ public class ProductController {
 			order.setOrderNo(orderNo);
 			if(pService.registerOrder(order)>0) {
 				//2.json배열을 자바의 List로 변경하고 이를 이용하여 DB에 INSERT한다.
-				//여기서 판매량을 집계하고 싶으나 결제 완료와는 동떨어져있다.
+				//여기서 판매량을 집계하고 싶으나 결제 완료와는 동떨어져있다. ->관리자에서 수동갱신
 				List<OrderProduct> opList =objectMapper.readValue(jsonArr, objectMapper.getTypeFactory().constructCollectionType(List.class, OrderProduct.class));
 				opList.stream().forEach(orderProduct ->{
 					pService.registerOrderProducts(orderProduct);
@@ -239,9 +255,14 @@ public class ProductController {
 	@ResponseBody
 	@RequestMapping(value="/member/modifyAddr.strap",method=RequestMethod.POST)
 	public String modifyMemberAddr(
-			@ModelAttribute Member member) {
-		//없으면 저장, 있으면 변경
+			@ModelAttribute Member member,
+			HttpSession session) {
 		if(pService.modifyMemberAddr(member) > 0) {
+			//세션 갱신.
+			Member loginUser = mService.memberById(member.getMemberId());
+			session.removeAttribute("loginUser");
+			session.setAttribute("loginUser", loginUser);
+			
 			return "success";
 		}else {
 			return "fail";
