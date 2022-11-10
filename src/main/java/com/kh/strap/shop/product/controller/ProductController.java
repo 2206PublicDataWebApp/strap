@@ -115,6 +115,9 @@ public class ProductController {
 		
 		session.setAttribute("forOrderProduct", productResult);
 		
+		Product productSession = (Product)session.getAttribute("forOrderProduct");
+		System.out.println("세션의 값"+productSession.toString());
+		
 		mv.addObject("product",productResult).
 		addObject("infoList",infoList).
 		addObject("subList",subList).
@@ -130,8 +133,9 @@ public class ProductController {
 			) {
 		//상세페이지에서 세션에 저장된 product값을 Cart List에 담아서 주문페이지로 전달
 		Product product = (Product)session.getAttribute("forOrderProduct");
+		System.out.println("세션의 상품" + product.toString());
 		List<Cart> cList = new ArrayList<>();
-		Cart cart = new Cart(product,qty);
+		Cart cart = new Cart(product, product.getProductNo(), qty);
 		cList.add(cart);
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");

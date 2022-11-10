@@ -15,6 +15,28 @@ public class Cart {
 	
 	
 	
+	
+	
+	public Cart(Product product, int productNo, int productAmount) {
+		super();
+		this.product = product;
+		this.productNo = productNo;
+		this.productAmount = productAmount;
+	}
+
+
+
+
+
+	public Cart(int productNo, int productAmount) {
+		super();
+		this.productNo = productNo;
+		this.productAmount = productAmount;
+	}
+
+
+
+
 
 	public Cart(Product product, int productAmount) {
 		super();
