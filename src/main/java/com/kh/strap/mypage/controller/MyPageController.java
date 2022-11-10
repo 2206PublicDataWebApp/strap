@@ -52,13 +52,13 @@ public class MyPageController {
 			String jymAddress = myJym.split(",")[0];
 			String jymTitle = myJym.split(",")[1];
 			//일주일 내의 최근 매칭정보 가져오기
-			String currentDate = sdf.format(cal.getTime());
-			cal.add(Calendar.DATE, -7);
-			String weekAgoDate = sdf.format(cal.getTime());
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("weekAgoDate", weekAgoDate);
-			map.put("currentDate", currentDate);
-			Schedule schedule = sService.endSchedule(map); 
+//			String currentDate = sdf.format(cal.getTime());
+//			cal.add(Calendar.DATE, -7);
+//			String weekAgoDate = sdf.format(cal.getTime());
+//			Map<String, String> map = new HashMap<String, String>();
+//			map.put("weekAgoDate", weekAgoDate);
+//			map.put("currentDate", currentDate);
+//			Schedule schedule = sService.endSchedule(map); 
 			request.setAttribute("percent", percent);
 			request.setAttribute("jymAddress", jymAddress);
 			request.setAttribute("jymTitle", jymTitle);

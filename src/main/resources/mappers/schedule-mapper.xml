@@ -44,10 +44,10 @@
 		WHERE MATCH_NO = #{matchNo}
 	</update>
 	
-	<!-- 설문을 위한 일주일 중 가장 최근 매칭 정보 가져오기 -->
-	<select id="endSchedule" resultMap="scheduleResultMap">
-		select * from schedule_tbl where MATCH_MEMBER_ID is not null and member_id = 'user10' and meet_date between '2022-10-27' and '2022-11-09;
-	</select>
+ 	<!-- 설문을 위한 일주일 중 가장 최근 매칭 정보 가져오기 -->
+<!-- 	<select id="endSchedule" resultMap="scheduleResultMap"> -->
+<!-- 		select * from schedule_tbl where MATCH_MEMBER_ID is not null and member_id = 'user10' and meet_date between '2022-10-27' and '2022-11-09; -->
+<!-- 	</select> -->
 	
 	
 </mapper>

@@ -8,10 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.kh.strap.admin.domain.AdminQna;
 import com.kh.strap.admin.service.AdminQnaService;
+import com.kh.strap.admin.service.AdminReportService;
 import com.kh.strap.admin.store.AdminQnaStore;
 
 @Service
-public class AdminReportServiceImpl implements AdminQnaService{
+public class AdminReportServiceImpl implements AdminReportService{
 	@Autowired
 	private SqlSession session;
 	@Autowired

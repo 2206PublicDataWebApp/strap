@@ -9,10 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.strap.admin.domain.AdminQna;
 import com.kh.strap.admin.store.AdminQnaStore;
+import com.kh.strap.admin.store.AdminReportStore;
 
 
 @Repository
-public class AdminReportStoreLogic implements AdminQnaStore{
+public class AdminReportStoreLogic implements AdminReportStore{
 
 	@Override
 	public List<AdminQna> selectAllAdminQnaList(SqlSession session, int currentPage, int noticeLimit) {
