@@ -1,24 +1,32 @@
 package com.kh.strap.match.controller;
 
-import javax.servlet.http.HttpServletRequest;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.kh.strap.match.service.MatchService;
+import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.service.MemberService;
+import com.kh.strap.schedule.domain.Schedule;
+import com.kh.strap.schedule.service.ScheduleService;
+import com.kh.strap.schedule.store.ScheduleStore;
 
 @Component
 public class Scheduler {
 	
 	@Autowired
-	private MatchService mService;
+	private ScheduleService sService;
+	@Autowired
+	private MemberService mService;
 	
 	//매일 오전 01시에 호출
-//	@Scheduled(cron="00 00 1 * * *")
-//	public void countReset() {
-//		//스케줄러 사용을 위해 파라미터를 비워야한다.
-//		System.out.println("새로고침 초기화 스케줄 동작");
-//		System.out.println("새로고침 초기화 스케줄 동작 완료 ");
-//	}
+	@Scheduled(cron="55 17 17 * * *")
+	public void countReset() {
+		
+	}
 }

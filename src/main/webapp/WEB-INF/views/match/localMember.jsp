@@ -34,7 +34,7 @@
 		<div class="contents-side col">
 		<br><br>
 			<div id="memberList">
-				<button class="btn btn-light find" onclick="example();"><img class="findImg" src="/resources/image/matching/place.png"> 내 주변 회원</button><br><br>
+				<button class="btn btn-light find"><img class="findImg" src="/resources/image/matching/place.png"> 내 주변 회원</button><br><br>
 				<c:forEach items="${mList }" var="member">
 					<div class="member">
 						<div class="img">

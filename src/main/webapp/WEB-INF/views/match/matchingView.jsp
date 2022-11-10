@@ -12,7 +12,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
-<link rel="stylesheet" type="text/css" href="/resources/css/matchingPage.css">
 
 	<style>
 		.contents-side{text-align: center;}
@@ -47,7 +46,13 @@
 		#profileImgDiv{width: 180px; height: 180px; overflow: hidden; border-radius: 50px; margin:10px auto;}
 		.find{width: 320px; text-align: left}
 		.findImg{width: 30px; height: 30px;}
-		
+		#infoTable {text-align: left;}
+		#infoTable tr{height: 35px;}
+		#infoTable th{width: 85px; padding: 0px;}
+		#infoTable td{padding: 0px;}
+		#infoTable input{border:0;}
+		#infoTable textarea{border:0;}
+		.carousel-item input{width: 250px; margin-left: 50px; text-align: center;}
 	</style>
 </head>
 <body>
@@ -126,8 +131,8 @@
 				<button class="btn btn-light find" onclick="example();"><img class="findImg" src="/resources/image/matching/high-five.png"> 동성 회원</button><br><br>
 				<br><br><br>
 				
-				<div id="2">
-					<img width="50px" height="50px" alt="2" src="/resources/image/matching/two.png">
+				<div id="3">
+					<img width="50px" height="50px" alt="3" src="/resources/image/matching/three.png">
 				</div>
 				<br>
 				<h6><i>선택한 유형의 회원이 추천됩니다</i></h6>
@@ -181,8 +186,8 @@
 				</div>
 				<br><br><br><br>
 				
-				<div id="3">
-					<img width="50px" height="50px" alt="3" src="/resources/image/matching/three.png">
+				<div id="4">
+					<img width="50px" height="50px" alt="4" src="/resources/image/matching/four.png">
 				</div>
 				<br>
 				<h6><i>프로필을 열람하고 같이 운동하고 싶은 회원에게 쪽지를 보내세요!</i></h6>
@@ -191,7 +196,7 @@
 					<div id="info">
 						<div id="info-img">
 							<div class="imgDiv">
-							<img id="profileImg" width="100%" height="100%" src="/resources/profileUploadFiles/default.png">
+							<img id="profileImg" width="100%" height="100%" src="/resources/image/matching/strap.png">
 							</div>
 						</div>
 						<div id="info-detail">
@@ -199,43 +204,43 @@
 								<tr>
 									<th>닉네임</th>
 									<td>
-										<input type="text" id="memberNick" readonly>
+										<input type="text" id="memberNick" value="언제철들래" readonly>
 									</td>
 								</tr>
 								<tr>
 									<th>운동경력</th>
 									<td>
-										<input type="text" id="memberCareer" readonly>
+										<input type="text" id="memberCareer" value="10년 이상" readonly>
 									</td>
 								</tr>
 								<tr>
 									<th>3대 기록</th>
 									<td>
-										<input type="text" id="memberSBD" readonly>
+										<input type="text" id="memberSBD" value="600이상" readonly>
 									</td>
 								</tr>
 								<tr>
 									<th>마이짐</th>
 									<td>
-										<input type="text" id="jymAddress" name="jymAddress" style="width: 250px;border:0;" readonly><br>
-										<input type="text" id="jymTitle" name="jymTitle" style="width: 250px;border:0;" readonly>	
+										<input type="text" id="jymAddress" name="jymAddress" style="width: 250px;border:0;" value="경기도 부천시 원미동 48-4" readonly><br>
+										<input type="text" id="jymTitle" name="jymTitle" style="width: 250px;border:0;" value="B&R휘트니스" readonly>	
 									</td>
 								</tr>
 								<tr>
 									<th>성별</th>
 									<td>
-										<input type="text" id="memberGender" name="memberGender" style="width: 250px;border: 0" readonly> 
+										<input type="text" id="memberGender" name="memberGender" value="남성" style="width: 250px;border: 0" readonly> 
 									</td>
 								</tr>
 								<tr>
 									<th>매너점수</th>
 									<td>
-										<input type="text" id="memberManner" name="membmerManner" readonly>
+										<input type="text" id="memberManner" name="membmerManner" value="400점" readonly>
 									</td>
 								</tr>
 								<tr>
 									<th>자기소개</th>
-									<td><textarea id="memberIntroduce" readonly></textarea></td>
+									<td><textarea id="memberIntroduce" readonly>안녕하세요 운동좋아하는 ESTJ입니다!!</textarea></td>
 								</tr>
 							</table>
 						</div>
@@ -243,18 +248,42 @@
 				<br><br>
 				<div class="memberQnA" style="width: 350px; margin: auto;">
 					<img width="50px" height="50px" src="/resources/image/question.png">
-					<br>
+					<br><br>
+					<div id="carouselExampleControlsNoTouching" class="carousel carousel-dark slide" data-bs-touch="false">
+					  <div class="carousel-inner">
+					    <div class="carousel-item active">
+							자극vs중량?!
+							<input type='text' class='form-control' value='중량' readonly>
+					    </div>
+					    <div class="carousel-item">
+					    	가장 좋아하는 운동 부위
+							<input type='text' class='form-control' value='하체' readonly>
+					    </div>
+					    <div class="carousel-item">
+					    	현재 진행중인 분할
+							<input type='text' class='form-control' value='4분할' readonly>
+					    </div>
+					  </div>
+					  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
+					    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					    <span class="visually-hidden">Previous</span>
+					  </button>
+					  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="next">
+					    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+					    <span class="visually-hidden">Next</span>
+					  </button>
+					</div>
 				</div>
 				<br><br>
 				<button type="button" class="btn btn-dark" id="modalBtn">쪽지 보내기</button>
 			</div>
 				<br><br><br><br>
 				
-				<div id="4">
-					<img width="50px" height="50px" alt="4" src="/resources/image/matching/four.png">
+				<div id="5">
+					<img width="50px" height="50px" alt="5" src="/resources/image/matching/five.png">
 				</div>
 				<br>
-				<h6><i>마이페이지의 쪽지함에서 대화를 이어나갈 수 있습니다.</i></h6>
+				<h6><i>상대방의 수락 이후 쪽지함에서 대화를 이어나갈 수 있습니다.</i></h6>
 				<br>
 				<div id="noteBox">
 					<table class="table" id="noteTable">
@@ -299,11 +328,11 @@
 				</div>
 				<br><br><br><br>
 				
-				<div id="5">
-					<img width="50px" height="50px" alt="5" src="/resources/image/matching/five.png">
+				<div id="6">
+					<img width="50px" height="50px" alt="6" src="/resources/image/matching/six.png">
 				</div>
 				<br>
-				<h6><i>1:1 쪽지함의 일정잡기 기능을 사용하면 운동일정 캘린더에 일정이 추가됩니다!</i></h6>
+				<h6><i>1:1 쪽지의 일정잡기 기능을 사용하면 캘린더에 운동 일정이 추가됩니다!</i></h6>
 				<br>
 				<div id="chat">
 					<div id="chatTitle">
@@ -331,6 +360,24 @@
 		</div>
 		<br><br>
 	</div>
+	<div id="modalBox" class="modal fade" id="exampleModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h1 class="modal-title fs-5" id="exampleModalLabel">쪽지보내기</h1>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        <div class="modal-contents">
+	        	<textarea class="form-control" id="note-contents" rows="7">쪽지 예시입니다</textarea>
+	        </div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 <!-- 푸터	 -->
 	<div id="footer" class="row">
 		<div class="col">
@@ -338,7 +385,12 @@
 		</div>
 	</div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 <script type="text/javascript">
+	$("#modalBtn").on("click",function(e){
+		$("#modalBox").modal("show");
+	})
+	
 	function gudieOnOff(){
 		if($(".guideContents").css("display") == "none"){
 			$(".guideContents").show();

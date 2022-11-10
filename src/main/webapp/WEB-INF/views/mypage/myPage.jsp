@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>STRAP MyPage</title>
 <!-- CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
 <!-- jQuery -->
@@ -94,6 +95,25 @@
 						<br>
 						<button type="button" class="btn btn-dark" onclick="start();">시작하기</button>
 		    		</div>
+				</div>
+				<div class="matchingHistory">
+					<div class="survey">
+						<div class="survey-img">
+							<img width="100%;" height="100%;" style="padding: 20px;" src="/resources/image/survey.png">
+						</div>
+						<div class="survey-text">
+							십일용자 님과의<br>운동은 어떠셨나요?
+						</div>
+						<div class="survey-contents">
+							<button class="btn btn-light">&nbsp;&nbsp;좋았어요&nbsp;&nbsp;<img src="/resources/image/happy-face.png"></button>
+							<br>
+							<button class="btn btn-light">별로였어요 <img src="/resources/image/sad-face.png"></button>
+							<br>
+							<textarea placeholder="이유를 자유롭게 작성해주세요"></textarea>
+							<br>
+							<button class="btn btn-dark">제출</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

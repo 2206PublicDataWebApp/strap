@@ -18,6 +18,8 @@
 	.QnA input{width: 250px; text-align: center;}
 	#carouselExampleControlsNoTouching{width: 100%;}
 	#carouselExampleControlsNoTouching input{margin-left: 50px;}
+	.findImg{width: 30px; height: 30px;}
+	
 </style>
 </head>
 <body>
@@ -33,7 +35,7 @@
 		<div class="contents-side col">
 		<br><br>
 			<div id="memberList">
-				<h6 align="center"><b>짬에서 바이브가 나오는 회원</b></h6>
+				<button class="btn btn-light find"><img class="findImg" src="/resources/image/matching/master.png"> 짬에서나오는 바이브를 가진 회원</button><br><br>
 				<c:forEach items="${mList }" var="member">
 					<div class="member">
 						<div class="img">
@@ -51,7 +53,7 @@
 					</div>
 				</c:forEach>
 			</div>
-			<br>
+			<br><br>
 			<button onclick="careerRefresh();" class="btn btn-dark">새로 추천 받기</button>
 			<br><br><br>
 				<div id="profile">
