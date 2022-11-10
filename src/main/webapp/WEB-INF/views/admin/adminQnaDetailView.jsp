@@ -44,7 +44,7 @@
 								<td id="cl" align="center" width="150">작성일</td>
 								<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${adminQna.qEnrollDate}"/></td>
 							</tr>
-							<tr height="300">
+							<tr height="200px">
 								<td id="cl" align="center" width="150">내용</td>
 								<td>${adminQna.qnaContents }
 								</td>
@@ -53,31 +53,59 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col">
-					<div class="row text-center">
-						<div class="col mb-3">
-						<hr>
-						<div class="mb-3">
-							<h4>답변 작성</h4>
-						</div>
-						<textarea class="form-control" style="height:180px;" ></textarea>
-						</div>
-					</div>
-					<div class="row text-center">
-						<div class="col">
-							<button class="btn btn-dark">답변 완료</button>
-						</div>
+			<hr>
+			<c:if test="${adminQna.answerStatus eq 'N'}">
+				<div class="row" >
+					<div class="col">
+						<form action="/admin/registerAdminQna.strap" method="post">
+							<input type="hidden" value="${adminQna.qnaNo }" name="qnaNo">
+							<input type="hidden" value="${page}" name="page">
+							<div class="row text-center">
+								<div class="col mb-3">
+								<div class="mb-3 text-start">
+									<h4>답변 작성</h4>
+								</div>
+								<textarea class="form-control" style="height:180px;" name="answerContents" ></textarea>
+								</div>
+							</div>
+							<div class="row text-center">
+								<div class="col">
+									<button class="btn btn-dark" type="submit">답변 완료</button>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
-			</div>
-			<div class="row text-center">
-				<div class="col">
-					<div>
-						<button class="btn btn-dark">답변 작성</button>
+			</c:if>
+			<c:if test="${adminQna.answerStatus eq 'Y'}">
+				<div class="row" >
+					<div class="col">
+						<form action="/admin/registerAdminQna.strap" method="post">
+							<input type="hidden" value="${adminQna.qnaNo }" name="qnaNo">
+							<input type="hidden" value="${page}" name="page">
+							<div class="row text-center">
+								<div class="col mb-3">
+								<div class="mb-3 text-start">
+									<h4>답변</h4>
+								</div>
+								<textarea id="qna-answer" class="form-control" style="height:180px;" name="answerContents" disabled>${adminQna.answerContents }</textarea>
+								</div>
+							</div>
+							<div class="row text-center">
+								<div class="col">
+									<button id="qna-modify-done" class="btn btn-dark" type="submit" style="display:none;">수정 완료</button>
+								</div>
+							</div>
+						</form>
+							<div class="row text-center">
+								<div class="col">
+									<button id="qna-modify" class="btn btn-dark" onclick="textareaAble(this);">답변 수정</button>
+								</div>
+							</div>
 					</div>
 				</div>
-			</div>
+			</c:if>
+			
 	</div>
 	<script>
 		function noticeRemove(page) {
@@ -85,6 +113,13 @@
 			if(confirm("(관리자) 공지사항을 정말 삭제하시겠습니까?")) {
 				location.href="/admin/removeNotice.strap?page="+page;
 			}
+		}
+		
+		function textareaAble(thisBtn){
+			var target = document.getElementById('qna-answer');
+			document.getElementById('qna-modify').style.display = "none"
+			document.getElementById('qna-modify-done').style.display = "inline-block"
+			target.disabled = false;
 		}
 	</script>
 </body>

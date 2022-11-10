@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.kh.strap.admin.domain.AdminQna;
 
-public interface AdminQnaService {
+public interface AdminReportService {
 	public List<AdminQna> printAllAdminQnaList(int currentPage, int noticeLimit);
 	public List<AdminQna> printAllByValue(String searchCondition, String searchValue, int currentPage, int qnaLimit);
 	public List<AdminQna> printAllBySort(String sortCondition, String  sortValue, String  qnaCode, int currentPage, int qnaSortLimit);

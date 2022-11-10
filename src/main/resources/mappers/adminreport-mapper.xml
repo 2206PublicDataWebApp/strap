@@ -3,40 +3,40 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="AdminQnaMapper">
-	<resultMap type="AdminQna" id="adminQnaResultMap">
-		<id		column="QNA_NO" 				property="qnaNo"/>
-		<result column="PRODUCT_NO" 			property="productNo"/>
-		<result column="QNA_CODE" 				property="qnaCode"/>
-		<result column="QNA_TYPE" 				property="qnaType"/>
-		<result column="QNA_TITLE" 				property="qnaTitle"/>
-		<result column="QNA_CONTENTS" 			property="qnaContents"/>
-		<result column="Q_ENROLL_DATE" 			property="qEnrollDate"/>
-		<result column="A_ENROLL_DATE" 			property="aEnrollDate"/>
-		<result column="ANSWER_STATUS" 			property="answerStatus"/>
-		<result column="ANSWER_CONTENTS" 		property="answerContents"/>
-		<result column="SECRET_STATUS" 			property="secretStatus"/>
-		<result column="MEMBER_ID" 				property="memberId"/>
-		<result column="MEMBER_NICK"			property="memberNick"/>
-		<result column="REPORT_TYPE" 			property="reportType"/>
-		<result column="REPORT_NAME"			property="reportName"/>
-		<result column="CONTENTS_CODE" 			property="contentsCode"/>
-		<result column="CONTENTS_NAME"			property="contentsName"/>
+<mapper namespace="AdminReportMapper">
+	<resultMap type="AdminReport" id="adminReportResultMap">
+		<id property="reportNo" 			column="REPORT_NO"/>
+		<result property="contentsNo" 		column="CONTENTS_NO"/>
+		<result property="contentsCode" 	column="CONTENTS_CODE"/>
+		<result property="reportType" 		column="REPORT_TYPE"/>
+		<result property="reportMember" 	column="REPORT_MEMBER"/>
+		<result property="reportContents" 	column="REPORT_CONTENTS"/>
+		<result property="reportDate"		column="REPORT_DATE"/>
+		<result property="reportProcess" 	column="REPORT_PROCESS"/>
+		<result property="ContentsProcess" 	column="CONTENTS_PROCESS"/>
+		<result property="memberProcess" 	column="MEMBER_PROCESS"/>
+		<result property="memberId" 		column="MEMBER_ID"/>
+		<result property="memberNick" 		column="MEMBER_NICK"/>
+		<result property="reportMemberNick" column="REPORT_MEMBER_NICK"/>
+		<result property="reportType"		column="REPORT_TYPE"/>
+		<result property="reportName"		column="REPORT_NAME"/>
+		<result property="contentsCode" 	column="CONTENTS_CODE"/>
+		<result property="contentsName" 	column="CONTENTS_NAME"/>
 	</resultMap>
 <!-- 	<insert id=""> -->
 <!-- 	</insert> -->
-	<!-- 문의 조회 -->
-	<select id="selectAllAdminQnaList" resultMap="adminQnaResultMap">
-		SELECT * FROM QNA_TBL Q
-		JOIN CONTENTS_CODE_TBL C ON Q.QNA_CODE = C.CONTENTS_CODE
-		JOIN REPORT_TYPE_TBL R ON Q.QNA_TYPE = R.REPORT_TYPE
-		ORDER BY Q.QNA_NO DESC
+	<!-- 신고 조회 -->
+	<select id="selectAllAdminReportList" resultMap="adminReportResultMap">
+		SELECT * FROM REPORT_TBL Q
+		JOIN CONTENTS_CODE_TBL C ON Q.CONTENTS_CODE = C.CONTENTS_CODE
+		JOIN REPORT_TYPE_TBL R ON Q.REPORT_TYPE = R.REPORT_TYPE
+		ORDER BY Q.REPORT_NO DESC
 	</select>
-	<!-- 문의 조건별 검색 -->
-	<select id="selectAllByValue" resultMap="adminQnaResultMap">
-  		SELECT * FROM (SELECT * FROM QNA_TBL Q
-		JOIN CONTENTS_CODE_TBL C ON Q.QNA_CODE = C.CONTENTS_CODE
-		JOIN REPORT_TYPE_TBL R ON Q.QNA_TYPE = R.REPORT_TYPE ORDER BY Q.QNA_NO DESC)
+	<!-- 신고 조건별 검색 -->
+	<select id="selectAllByValue" resultMap="adminReportResultMap">
+  		SELECT * FROM (SELECT * FROM REPORT_TBL Q
+		JOIN CONTENTS_CODE_TBL C ON Q.CONTENTS_CODE = C.CONTENTS_CODE
+		JOIN REPORT_TYPE_TBL R ON Q.REPORT_TYPE = R.REPORT_TYPE ORDER BY Q.REPORT_NO DESC)
   		<where>
   			<if test="searchCondition.toString() == 'title'">
   				QNA_TITLE LIKE '%'||#{searchValue}||'%'
@@ -84,21 +84,21 @@
 		</where>
   	</select>
   	<!-- 문의 페이지 조회 -->
-	<select id="selectOneByNo" resultMap="adminQnaResultMap">
+	<select id="selectOneByNo" resultMap="adminReportResultMap">
 		SELECT * FROM (SELECT * FROM QNA_TBL Q
 		JOIN CONTENTS_CODE_TBL C ON Q.QNA_CODE = C.CONTENTS_CODE
 		JOIN REPORT_TYPE_TBL R ON Q.QNA_TYPE = R.REPORT_TYPE ORDER BY Q.QNA_NO DESC) 
 		WHERE QNA_NO = #{qnaNo}
 	</select>
 	<!-- 문의 조건별 조회 -->
-	<select id="selectAllBySort" resultMap="adminQnaResultMap">
+	<select id="selectAllBySort" resultMap="adminReportResultMap">
 		SELECT * FROM (SELECT * FROM QNA_TBL Q
 		JOIN CONTENTS_CODE_TBL C ON Q.QNA_CODE = C.CONTENTS_CODE
 		JOIN REPORT_TYPE_TBL R ON Q.QNA_TYPE = R.REPORT_TYPE
 		ORDER BY Q.QNA_NO DESC) WHERE QNA_CODE = #{qnaCode}
 	</select>
 	<!-- 문의 답변 등록 -->
-	<update id="updateAdminQna">
+	<update id="updateAdminReport">
 		UPDATE QNA_TBL SET A_ENROLL_DATE = DEFAULT, ANSWER_STATUS = 'Y', ANSWER_CONTENTS = #{answerContents}
 		WHERE QNA_NO = #{qnaNo}
 	</update>

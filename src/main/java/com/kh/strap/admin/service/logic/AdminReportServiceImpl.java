@@ -11,7 +11,7 @@ import com.kh.strap.admin.service.AdminQnaService;
 import com.kh.strap.admin.store.AdminQnaStore;
 
 @Service
-public class AdminQnaServiceImpl implements AdminQnaService{
+public class AdminReportServiceImpl implements AdminQnaService{
 	@Autowired
 	private SqlSession session;
 	@Autowired

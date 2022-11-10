@@ -21,6 +21,30 @@ public class AdminStoreLogic implements AdminStore{
 		return mOne;
 	}
 
+	@Override
+	public int selectAllTotalQna(SqlSession session) {
+		int totalQna = session.selectOne("AdminMapper.selectAllTotalQna");
+		return totalQna;
+	}
+
+	@Override
+	public int selectAllqnaCount(SqlSession session) {
+		int qnaCount = session.selectOne("AdminMapper.selectAllqnaCount");
+		return qnaCount;
+	}
+
+	@Override
+	public int selectAllqnaAnswer(SqlSession session) {
+		int qnaAnswer = session.selectOne("AdminMapper.selectAllqnaAnswer");
+		return qnaAnswer;
+	}
+
+	@Override
+	public int selectTodayAnswer(SqlSession session) {
+		int todayQnaAnswer = session.selectOne("AdminMapper.selectTodayAnswer");
+		return todayQnaAnswer;
+	}
+
 	
 
 }

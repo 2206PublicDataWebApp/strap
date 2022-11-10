@@ -19,7 +19,7 @@ import com.kh.strap.admin.service.AdminQnaService;
 
 
 @Controller
-public class AdminQnaController {
+public class AdminReportController {
 	@Autowired
 	private AdminQnaService aqService;
 	

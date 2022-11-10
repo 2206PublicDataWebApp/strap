@@ -165,7 +165,7 @@
 								시간 : <input class="timepicker" id="meet-time" required/>
 							</div>
 							<div class="col-4" align="center">
-								메모 : <input type="text" id="meet-memo"  placeholder="ex)운동부위" required/>
+								메모 : <input type="text" id="meet-memo"  placeholder="ex)헬스장, 운동부위" required/>
 							</div>
 						</div>
 					</c:if>
@@ -216,13 +216,11 @@
 				<div class="modal-body">
 					<div class="modal-body p-5 pt-0">
 						<form id="report-form">
-							<input type="hidden" value="RC1" name="contentsCode"> <input
-								type="hidden" value=${noteBox.noteNo } name="contentsNo">
-							<input type="hidden" value=${noteBox.senderId }
-								name="reportMember"> <input type="hidden"
-								value=${noteBox.senderNick } name="reportMemberNick"> 
-							<input type="hidden" value=${noteBox.noteContents }
-								name="noteContents">
+							<input type="hidden" value="RC1" name="contentsCode"> 
+							<input type="hidden" value=${noteBox.noteNo } name="contentsNo">
+							<input type="hidden" value=${noteBox.senderId }	name="reportMember"> 
+							<input type="hidden" value=${noteBox.senderNick } name="reportMemberNick">
+							<input type="hidden" value=${noteBox.noteContents }	name="noteContents">
 							<%-- 					<input type="hidden" value=${. } name="memberId">  신고자 추가해야함--%>
 							<div class="form-floating mb-3">
 								<p>신고 종류</p>

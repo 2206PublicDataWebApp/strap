@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.kh.strap.admin.domain.AdminQna;
 
-public interface AdminQnaStore {
+public interface AdminReportStore {
 	public List<AdminQna> selectAllAdminQnaList(SqlSession session, int currentPage, int noticeLimit);
 	public List<AdminQna> selectAllByValue(SqlSession session, String searchCondition, String searchValue, int currentPage, int qnaLimit);
 	public List<AdminQna> selectAllBySort(SqlSession session, String sortCondition, String  sortValue, String  qnaCode, int currentPage, int qnaSortLimit);

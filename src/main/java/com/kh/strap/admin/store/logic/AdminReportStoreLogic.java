@@ -12,7 +12,7 @@ import com.kh.strap.admin.store.AdminQnaStore;
 
 
 @Repository
-public class AdminQnaStoreLogic implements AdminQnaStore{
+public class AdminReportStoreLogic implements AdminQnaStore{
 
 	@Override
 	public List<AdminQna> selectAllAdminQnaList(SqlSession session, int currentPage, int noticeLimit) {
