@@ -94,8 +94,12 @@ public class KakaoLoginController {
 	 */
 	@RequestMapping(value="/member/socialRegister.strap", method=RequestMethod.POST)
 	public String insertMember(
-			@ModelAttribute Member member) {
-		System.out.println(member.toString());
+			@ModelAttribute Member member
+			,String jymAddress
+			,String jymTitle
+			) {
+		String memberJym = jymAddress +"," +jymTitle;
+		member.setMemberJym(memberJym);
 		int result = mService.insertSocialMember(member);
 		if(result==1) {
 			return "/member/loginView";

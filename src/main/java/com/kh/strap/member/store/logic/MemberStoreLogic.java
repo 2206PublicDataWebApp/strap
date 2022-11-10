@@ -148,6 +148,12 @@ public class MemberStoreLogic implements MemberStore{
 	}
 
 	@Override
+	public int inserSurveyAnswer(SqlSession session, Map<String, Object> map) {
+		int result = session.update("MemberMapper.updateSurveyAnswer", map);
+		return result;
+	}
+	
+	@Override
 	public List<SimpleQnA> simpleQnA(SqlSession session, String memberId) {
 		List<SimpleQnA> sList  = session.selectList("MemberMapper.simpleQnA", memberId);
 		return sList;
@@ -170,6 +176,13 @@ public class MemberStoreLogic implements MemberStore{
 		int result = session.selectOne("MemberMapper.mannerPercent", memberId);
 		return result;
 	}
+
+	@Override
+	public int mannerUpdate(SqlSession session, Map<String, Object> map) {
+		int result = session.update("MemberMapper.mannerUpdate", map);
+		return result;
+	}
+
 
 
 }

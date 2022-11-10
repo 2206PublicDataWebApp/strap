@@ -78,13 +78,51 @@
 							<br>
 						</div>
 					</div>
+					<div class="myQnA">
+						<img width="50px" height="50px" src="/resources/image/question.png"> <b>Q&A</b>
+						<br>
+						<c:if test="${empty qList }">
+							<div>
+							<br>
+							<input class='form-control no' type='text' value='아직 답변한 Q&A가 없습니다!' style='width:250px; margin-left:50px;' readonly><br>
+							</div>
+						</c:if>
+						<c:if test="${!empty qList }">
+							<div id="carouselExampleControlsNoTouching" class="carousel carousel-dark slide" data-bs-touch="false">
+							  <div class="carousel-inner">
+							    <c:forEach items="${qList }" var="QnA" varStatus="i">
+								    <c:if test="${i.index eq 0}">
+									    <div class="carousel-item active">
+									    	${QnA.qnaTitle }
+									    	<input type="text" class="form-control" value="${QnA.qnaAnswer }" readonly>
+									    </div>
+								    </c:if>
+								    <c:if test="${i.index ne 0}">
+									    <div class="carousel-item">
+									    	${QnA.qnaTitle }
+									    	<input type="text" class="form-control" value="${QnA.qnaAnswer }" readonly>
+									    </div>
+								    </c:if>
+							    </c:forEach>
+								  </div>
+							  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
+							    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							    <span class="visually-hidden">Previous</span>
+							  </button>
+							  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="next">
+							    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+							    <span class="visually-hidden">Next</span>
+							  </button>
+							</div>
+						</c:if>
+					</div>
 					<div class="mannerTrend">
 						<br>
 						<div class="mannerPercent"><img width="30px" src="/resources/image/score.png"> 현재 ${loginUser.memberManner }점, ${loginUser.memberNick } 님은 매너점수는 상위 ${percent }%입니다!</div>
 						<br>
 						<input min="0" max="500" step="10" value="${loginUser.memberManner }" type="range" class="form-range" id="disabledRange" disabled>
-						<img width="30px;" height="30px;" src="/resources/image/up-arrow.png" style="margin-right: 300px;"><br>
-						<span style="margin-right: 300px;">시작</span>
+						<img width="30px;" height="30px;" src="/resources/image/up-arrow.png" style="margin-right: 292px;"><br>
+						<span style="margin-right: 292px;">시작</span>
 					</div>
 				</div>
 				<div class="simpleQnA">
@@ -98,21 +136,37 @@
 				</div>
 				<div class="matchingHistory">
 					<div class="survey">
-						<div class="survey-img">
-							<img width="100%;" height="100%;" style="padding: 20px;" src="/resources/image/survey.png">
-						</div>
-						<div class="survey-text">
-							십일용자 님과의<br>운동은 어떠셨나요?
-						</div>
-						<div class="survey-contents">
-							<button class="btn btn-light">&nbsp;&nbsp;좋았어요&nbsp;&nbsp;<img src="/resources/image/happy-face.png"></button>
-							<br>
-							<button class="btn btn-light">별로였어요 <img src="/resources/image/sad-face.png"></button>
-							<br>
-							<textarea placeholder="이유를 자유롭게 작성해주세요"></textarea>
-							<br>
-							<button class="btn btn-dark">제출</button>
-						</div>
+						<c:if test="${empty caseMe and empty caseOpponent }">
+							<div class="noSurvey">
+								<br>
+								<img width="150px;" height="150px;" src="/resources/image/no-results.png">
+								<br><br>최근 일주일 내 진행된<br>매칭이 없습니다.
+								<br><br>
+								<button class="btn btn-dark" onclick="location.href='/match/matchingView.strap'">매칭하러 가기</button>
+							</div>
+						</c:if>
+						<c:if test="${!empty caseMe or !empty caseOpponent }">
+							<div class="survey-img">
+								<img width="100%;" height="100%;" style="padding: 20px;" src="/resources/image/survey.png">
+							</div>
+							<div class="survey-text">
+								<c:if test="${!empty caseMe }">
+									${caseMe.matchMemberNick } 님과의<br>운동은 어떠셨나요?
+								</c:if>
+								<c:if test="${!empty caseOpponent }">
+									${caseOpponent.memberNick } 님과의<br>운동은 어떠셨나요?
+								</c:if>
+							</div>
+							<div class="survey-contents">
+								<button class="btn btn-light S" onclick="survey(this);">좋았어요<img style="margin-left: 25px;" src="/resources/image/happy-face.png"></button>
+								<br>
+								<button class="btn btn-light S" onclick="survey(this);">별로였어요<img src="/resources/image/sad-face.png"></button>
+								<br>
+								<textarea class="survey-opinion" placeholder="  이유를 자유롭게 작성해주세요"></textarea>
+								<br>
+								<button class="btn btn-dark" onclick="surveySubmit();">제출</button>
+							</div>
+						</c:if>
 					</div>
 				</div>
 			</div>
@@ -126,6 +180,51 @@
 	</div>
 </div>
 <script>
+	var surveyAnswer;
+	function survey(obj){
+		surveyAnswer = $(obj).text();
+		$(".S").css("background-color","lightgray");
+		$(obj).css("background-color","gold");
+	}
+	
+	
+	function surveySubmit(){
+		var matchMemberNick = '${caseMe.matchMemberNick}' 
+		if(matchMemberNick != ''){
+			var mathMemberId = '${caseMe.matchMemberId}';
+			var matchNo = '${caseMe.matchNo}';
+			var matchCase = "me";
+		} else {
+			var matchMemberNick = '${caseOpponent.memberNick}' 
+			var mathMemberId = '${caseOpponent.memberId}';
+			var matchNo = '${caseOpponent.matchNo}';
+			var matchCase = "opponent";
+		}
+		var surveyOpinion = $(".survey-opinion").val();
+		if(surveyAnswer == null){
+			alert("답변을 선택해주세요");
+		}else if(surveyOpinion == ''){
+			alert("내용을 작성해주세요");
+		}else {
+			$.ajax({
+				url:"/mypage/surveyAnswer.strap",
+				type:"post",
+				data:{"matchNo":matchNo,"surveyAnswer":surveyAnswer, "surveyOpinion":surveyOpinion, "mathMemberId":mathMemberId, "matchCase":matchCase},
+				success:function(result){
+					console.log(result);
+					if(result == "ok"){
+						alert("소중한 의견 감사합니다");
+						location.reload();
+					}
+				},
+				error:function(result){
+					alert("제출 실패, 관리자에게 문의바랍니다.");
+				}
+			})
+		}
+		
+	}
+
 	function start(){
 		$.ajax({
 			url:"/mypage/qna.strap",
@@ -150,7 +249,7 @@
 					$(".QnAStart").remove();
 					$(".simpleQnA").append(html);
 				}else{
-					html +=	"<div class='question'><input type='text' class='form-control' value='모든 질문에 답하셨군요!' readonly><br>";
+					html +=	"<div class='question'><input style='margin-top:30px;' type='text' class='form-control' value='모든 질문에 답하셨군요!' readonly><br>";
 					html += "<img src='/resources/image/clapping.png' width='100px;' height='100px;'></div>";
 					$(".QnAStart").remove();
 					$(".simpleQnA").append(html);

@@ -97,12 +97,12 @@
   	<insert id="inserMember">
   		INSERT INTO MEMBER_TBL
   		VALUES(#{memberId},#{memberPwd},#{memberName},#{memberEmail},#{memberGender},#{memberNick},#{memberJym},#{memberCareer},
-  				#{memberSBD},NULL,NULL,#{mProfilePath},DEFAULT,DEFAULT,DEFAULT,DEFAULT,'general',null,null,null,DEFAULT)
+  				#{memberSBD},NULL,NULL,NULL,DEFAULT,DEFAULT,DEFAULT,DEFAULT,'general',null,null,null,DEFAULT)
   	</insert>
   	<!-- 소셜 회원가입 -->
   	<insert id="insertSocialMember">
   		INSERT INTO MEMBER_TBL
-  		VALUES(#{memberId},null,#{memberName},#{memberEmail},#{memberGender},#{memberNick},NULL,#{memberCareer},
+  		VALUES(#{memberId},null,#{memberName},#{memberEmail},#{memberGender},#{memberNick},#{memberJym},#{memberCareer},
   				#{memberSBD},NULL,NULL,NULL,DEFAULT,DEFAULT,DEFAULT,DEFAULT,'kakao',null,null,null,DEFAULT)
   	</insert>
   	<!-- 간단 Q&A 답변  -->
@@ -156,5 +156,27 @@
 	<!-- 회원탈퇴 -->
 	<update id="withdrawal">
 		UPDATE MEMBER_TBL SET MEMBER_STATUS = 'N' WHERE MEMBER_ID = #{memberId}
+	</update>
+	<!-- 매너 업데이트 -->
+	<update id="mannerUpdate">
+		UPDATE MEMBER_TBL SET MEMBER_MANNER =
+		<if test="surveyAnswer.equals('good')">
+			(SELECT SUM(MEMBER_MANNER+10) FROM MEMBER_TBL WHERE MEMBER_ID = #{mathMemberId})
+		</if>
+		<if test="surveyAnswer.equals('bad')">
+			(SELECT SUM(MEMBER_MANNER-10) FROM MEMBER_TBL WHERE MEMBER_ID = #{mathMemberId})
+		</if>
+		WHERE MEMBER_ID = #{mathMemberId} 
+	</update>
+	<!-- 설문완료 처리 -->
+	<update id="updateSurveyAnswer">
+		UPDATE SCHEDULE_TBL SET
+		<if test="matchCase.equals('me')">
+			MEMBER_SURVEY = 'Y'
+		</if>
+		<if test="matchCase.equals('opponent')">
+			MATCH_SURVEY = 'Y'
+		</if>
+		WHERE MATCH_NO = #{matchNo}
 	</update>
 </mapper>
