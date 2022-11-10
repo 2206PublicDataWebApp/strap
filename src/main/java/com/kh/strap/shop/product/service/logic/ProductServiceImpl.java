@@ -256,7 +256,9 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> getProductNameList() {
 		return pStore.getProductNameList(session);
 	}
-
-
-	
+//메인페이지 베스트상품 top3	
+	@Override
+	public List<Product> getTopProducts() {
+		return pStore.selectGetTopProducts(session);
+	}
 }

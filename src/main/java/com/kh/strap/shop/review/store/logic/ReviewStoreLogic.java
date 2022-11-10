@@ -71,6 +71,8 @@ public class ReviewStoreLogic implements ReviewStore{
 		return session.update("ReviewMapper.updateReviewPossibleUse", review);
 	}
 
-
-
+	@Override
+	public Review selectGetBestReviewByProductNo(SqlSession session, int productNo) {
+		return session.selectOne("ReviewMapper.selectGetBestReview",productNo);
+	}
 }

@@ -59,4 +59,8 @@ public class ReviewServiceImpl implements ReviewService{
 	public int modifyReviewPossible(Review review) {
 		return rStore.updateReviewPossible(session, review);
 	}
+	@Override
+	public Review getBestReviewByProductNo(int productNo) {
+		return rStore.selectGetBestReviewByProductNo(session, productNo);
+	}
 }

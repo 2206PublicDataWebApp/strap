@@ -168,12 +168,10 @@
 		</div>
 	</div>
 <!-- 푸터 -->
-	<div id="footer" class="row">
-		<div class="col">
-			<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-		</div>
-	</div>
 </div>
+	<div id="footer">
+			<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+	</div>
 </body>
 <script>
 //결제수단 문자 변환

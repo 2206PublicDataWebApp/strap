@@ -405,7 +405,8 @@ function kginisis(){
 				        var msg = '결제에 실패하였습니다.';
 				        msg += '에러내용 : ' + rsp.error_msg;
 				    }
-				    alert(msg);
+				    console.log(msg);
+				    alert("결제가 완료되었습니다.");
 				});
 }
 
@@ -687,7 +688,7 @@ function insertOrder(){
 		type:"post",
 		success:function(result){
 			if(result=="success"){
-				alert("주문레코드insert완료");
+// 				alert("주문레코드insert완료");
 			}else{
 			}
 		},
