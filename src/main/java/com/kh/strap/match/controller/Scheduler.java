@@ -27,15 +27,6 @@ public class Scheduler {
 	//매일 오전 01시에 호출
 	@Scheduled(cron="55 17 17 * * *")
 	public void countReset() {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(cal.getTime());
-		cal.add(Calendar.DATE, -1);
-		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
-		//data : 하루전
-		String date = sdf.format(cal.getTime());
-		List<Schedule> sList = sService.endSchedule(date);
-		for(Schedule schedule : sList) {
-			int result = sService.sendSurvey(schedule);
-		}
+		
 	}
 }

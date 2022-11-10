@@ -1,6 +1,7 @@
 package com.kh.strap.schedule.service.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +50,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 
 	@Override
-	public List<Schedule> endSchedule(String day) {
-		List<Schedule> sList = scStore.endSchedule(session, day);
-		return sList;
+	public Schedule endSchedule(Map<String, String> map) {
+		Schedule schedule = scStore.endSchedule(session, map);
+		return schedule;
 	}
 
 	@Override

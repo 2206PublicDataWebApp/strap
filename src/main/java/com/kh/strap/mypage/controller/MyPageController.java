@@ -1,5 +1,7 @@
 package com.kh.strap.mypage.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,8 @@ import com.kh.strap.member.domain.Member;
 import com.kh.strap.member.domain.SimpleQnA;
 import com.kh.strap.member.service.MemberService;
 import com.kh.strap.mypage.service.logic.MyPageServiceImpl;
+import com.kh.strap.schedule.domain.Schedule;
+import com.kh.strap.schedule.service.ScheduleService;
 
 
 @Controller
@@ -26,7 +30,7 @@ public class MyPageController {
 	@Autowired
 	private MemberService mService;
 	@Autowired
-	private MyPageServiceImpl mpService;
+	private ScheduleService sService;
 	
 	/**
 	 * 
@@ -38,6 +42,8 @@ public class MyPageController {
 	public String showMyPage(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
 		if(member != null) {
 			//매너점수 퍼센트 구하기
 			int percent = mService.mannerPercent(member.getMemberId());
@@ -45,10 +51,17 @@ public class MyPageController {
 			String myJym = member.getMemberJym();
 			String jymAddress = myJym.split(",")[0];
 			String jymTitle = myJym.split(",")[1];
+			//일주일 내의 최근 매칭정보 가져오기
+			String currentDate = sdf.format(cal.getTime());
+			cal.add(Calendar.DATE, -7);
+			String weekAgoDate = sdf.format(cal.getTime());
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("weekAgoDate", weekAgoDate);
+			map.put("currentDate", currentDate);
+			Schedule schedule = sService.endSchedule(map); 
 			request.setAttribute("percent", percent);
 			request.setAttribute("jymAddress", jymAddress);
 			request.setAttribute("jymTitle", jymTitle);
-			//가장 최근 매칭정보를 가져와 설문받기
 			
 		} else {
 			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");

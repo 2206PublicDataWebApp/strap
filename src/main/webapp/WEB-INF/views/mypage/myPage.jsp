@@ -105,7 +105,7 @@
 							십일용자 님과의<br>운동은 어떠셨나요?
 						</div>
 						<div class="survey-contents">
-							<button class="btn btn-light">좋았어요 <img src="/resources/image/happy-face.png"></button>
+							<button class="btn btn-light">&nbsp;&nbsp;좋았어요&nbsp;&nbsp;<img src="/resources/image/happy-face.png"></button>
 							<br>
 							<button class="btn btn-light">별로였어요 <img src="/resources/image/sad-face.png"></button>
 							<br>

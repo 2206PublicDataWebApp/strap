@@ -1,6 +1,7 @@
 package com.kh.strap.schedule.store;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -12,6 +13,6 @@ public interface ScheduleStore {
 	public List<Schedule> selectAllSchedule(SqlSession session, String memberId);
 	public int deleteSchedule(SqlSession session, Integer matchNo);
 	public int updateSchedule(SqlSession session, Schedule schedule);
-	public List<Schedule> endSchedule(SqlSession session, String day);
+	public Schedule endSchedule(SqlSession session, Map<String, String> map);
 	public int sendSurvey(SqlSession session, Schedule schedule);
 }

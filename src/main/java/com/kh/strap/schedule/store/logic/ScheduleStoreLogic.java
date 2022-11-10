@@ -2,6 +2,7 @@ package com.kh.strap.schedule.store.logic;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -43,9 +44,9 @@ public class ScheduleStoreLogic implements ScheduleStore{
 	}
 
 	@Override
-	public List<Schedule> endSchedule(SqlSession session, String day) {
-		List<Schedule> scList = session.selectList("ScheduleMapper.endSchedule", day);
-		return scList;
+	public Schedule endSchedule(SqlSession session, Map<String, String> map) {
+		Schedule schedule = session.selectOne("ScheduleMapper.endSchedule", map);
+		return schedule;
 	}
 
 	@Override

@@ -22,7 +22,6 @@ ul{
 	<ul class="list-group">
 		<li class="sideBar-list list-group-item list-group-item-action"><a href="/mypage/mypageView.strap">나의 활동</a></li>
 		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/scheduleView.strap'">캘린더</a></li>
-		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/matchingView.strap'">매칭내역</a></li>
 		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/myinfoView.strap'">정보조회</a></li>
 		<li class="sideBar-list list-group-item list-group-item-action"><a href='javascript:void(0);' onClick="location.href='/mypage/qnaView.strap'">일반문의</a></li>
 	</ul>
