@@ -106,12 +106,13 @@ $(document).ready(function(){
 					data : data,
 					type : "POST",
 					url : "/board/uploadSummernoteImageFile",
-					dataType : "JSON",
+					dataType : "json",
 					contentType : false,
 					processData : false,
 					success : function(data) {
 			        	//항상 업로드된 파일의 url이 있어야 한다.
 						$(editor).summernote("insertImage", data.url);
+						console.log(data.url);
 					}
 				});
 			}
@@ -126,7 +127,7 @@ $(document).ready(function(){
 		<div class="contents">
 			<div id="contents-wrap">
 			<div class="contents-noside">
-			<form action="/board/boardWrite.strap" method="post" enctype="multipart/form-data">
+			<form action="/board/boardWrite.strap" method="post" enctype="multipart/form-data" onsubmit="return bFormCheck();">
 		
 			<!-- 카테고리/제목 -->
 					<div class="position-relative" id="bTitle1">
@@ -134,7 +135,7 @@ $(document).ready(function(){
 						<option value="자유글">자유글</option>
 						<option value="후기글">후기글</option>
 					</select>
-				<input type="text" name="boardTitle" style="width: 500px;" placeholder="제목을 입력하세요"><br>
+				<input type="text" name="boardTitle" style="width: 500px;" placeholder="제목을 입력하세요" id="titleCheck"><br>
 						<div class="position-absolute top-0 end-0" id="bTitle2">
 						<input type="hidden" name="memberNick" value="${sessionScope.loginUser.memberNick }">
 						</div>
@@ -144,7 +145,7 @@ $(document).ready(function(){
 				</td>
 				<div class="row">
 						<div class="col" align="center">
-							<td colspan="2"><input class="btn btn-primary" type="submit" value="등록" id="bContents" onclick="bContents();"> 
+							<td colspan="2"><input class="btn btn-primary" type="submit" value="등록"> 
 							<a class="btn btn-secondary" href="javascript:history.go(-1);">취소</a></td>
 						</div>
 				</div>
@@ -156,5 +157,19 @@ $(document).ready(function(){
 		<!-- 푸터 -->
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 	</div>
+<script>
+// 빈칸 입력 값 체크
+function bFormCheck() {
+	if($('#titleCheck').val()=='') {
+		alert("제목을 입력해주세요.");
+		return false;
+	}
+	if($('#summernote').val()=='') {
+		alert("내용을 입력해주세요.");
+		return false;
+	}
+	return true;
+}
+</script>
 </body>
 </html>

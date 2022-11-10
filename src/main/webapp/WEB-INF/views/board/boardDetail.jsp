@@ -246,6 +246,7 @@
 											<!-- 댓글 수정 창  -->
 											<div id="reply-menu">
 												<ul id="rModify">
+												<c:if test="${sessionScope.loginUser.memberNick eq bReply.rReplyWriter }">
 													<%-- <c:if test="${loginUser.memberId eq rReply.rReplyWriter }">
 														<li onclick="replyModify(this);"><a href="#">수정 |</a></li>
 														<div class="replyModify" style="display: none;">
@@ -258,13 +259,21 @@
 															</form>
 														</div>  --%>
 														<!-- 댓글삭제 -->
-														<li><a href="#" onclick="replyRemove(this);" id="rDelete" style="margin-left: 5px;">삭제</a></li>
-														<form action="/board/reply/remove.strap" method="post">
-															<input type="hidden" name="page" value="${page }">
-															<input type="hidden" name="boardNo" value="${board.boardNo }"> 
-															<input type="hidden" name="rReplyNo" value="${bReply.rReplyNo }">
-														</form>
-													<%-- </c:if> --%>
+														<c:choose>
+															<c:when test="${bReply.rReplyContents =='작성자에 의해 삭제된 댓글입니다.'}">
+																<li><a onclick="replyRemoveCheck();" id="rRemove" style="margin-left: 5px;">삭제</a></li>
+															</c:when>
+															<c:otherwise>
+																<li><a onclick="replyRemove(this);" id="rDelete" style="margin-left: 5px;">삭제</a></li>
+																<form action="/board/reply/remove.strap" method="post">
+																	<input type="hidden" name="page" value="${page }">
+																	<input type="hidden" name="boardNo" value="${board.boardNo }"> 
+																	<input type="hidden" name="rReplyNo" value="${bReply.rReplyNo }">
+																</form>
+															</c:otherwise>
+														</c:choose>	
+													 </c:if>
+													
 												</ul>
 											</div>
 											</div>
@@ -291,15 +300,14 @@
 												<!-- 답글 입력창 -->
 												<div class="reReply-input" style="display: none; margin-bottom: 10px; margin-left: 35px;">
 												<strong style="padding-left:5px; font-size: smaller;">답글 쓰기</strong>
-													<form onsubmit="inputCheck(this);" action="/board/reply/write.strap" method="post">
+													<form onsubmit="return RFormCheck();" action="/board/reply/write.strap" method="post">
 														<input type="hidden" name="page" value="${page }">
-														<input type="text" 	 name="rReplyContents" id="rReplyContents" value="" placeholder=" 답글 작성 하시려면 로그인 해주세요."
-														required oninvalid="this.setCustomValidity('답글을 작성해주세요.')" oninput="this.setCustomValidity('')"> 
+														<input type="text" 	 name="rReplyContents" id="rReplyContents" value="" placeholder=" 답글 작성 하시려면 로그인 해주세요."> 
 														<input type="hidden" name="boardNo" value="${board.boardNo }"> 
 														<input type="hidden" name="rReplyWriter" value="${loginUser.memberNick }"> 
 														<input type="hidden" name="reReplyYn" value="Y"> 
 														<input type="hidden" name="rRefReplyNo" value="${bReply.rReplyNo }">
-														<button class="btn btn-light">등록</button>
+														<button class="btn btn-light" onclick="reReplyCheck();">등록</button>
 													</form>
 												</div>
 											</c:if>
@@ -312,10 +320,9 @@
 					<!-- 댓글 입력창 -->
 					<div class="reply-input">
 						<strong style="padding-left:5px; font-size: smaller;">댓글 쓰기</strong>
-							<form onsubmit="inputCheck(this);" action="/board/reply/write.strap" method="post" style="margin-top: 10px;">
+							<form onsubmit="return rFormCheck();" action="/board/reply/write.strap" method="post" style="margin-top: 10px;">
 								<input type="hidden" name="page" value="${page }">
-								<input class="reText" type="text" name="rReplyContents" value="" placeholder=" 댓글 작성 하시려면 로그인 해주세요."
-								required oninvalid="this.setCustomValidity('댓글을 작성해주세요.')" oninput="this.setCustomValidity('')">
+								<input class="reText" type="text" name="rReplyContents" id="replyContents" value="" placeholder=" 댓글 작성 하시려면 로그인 해주세요.">
 								<input type="hidden" name="boardNo" value="${board.boardNo }"> 
 								<input type="hidden" name="rReplyWriter" value="${loginUser.memberNick }"> 
 								<input type="hidden" name="reReplyYn" value="N"> 
@@ -323,7 +330,6 @@
 								<button class="btn btn-light">등록</button>
 							</form>
 					</div>
-
 					<div style="text-align: center;">
 						<button onclick="location.href='/board/list.strap?page=${page}'" class="btn btn-outline-secondary">목록</button>
 					</div>
@@ -381,16 +387,36 @@
 	<!-- 푸터 -->
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 <script>
+// 추천 로그인 체크
 function like_btn_check() {
 	alert("로그인 후 이용해주세요");
 	location.href="/member/loginView.strap"
 }
-
+// 신고 로그인 체크
 function reportCheck() {
 	alert("로그인 후 이용해주세요");
 	location.href="/member/loginView.strap"
 }
 
+// 댓글 로그인 체크
+function rFormCheck() {
+	if(${sessionScope.loginUser.memberNick == null }) {
+		alert("로그인 후 이용해주세요");
+		location.href="/member/loginView.strap";
+		return false;
+	}
+	return true;
+}
+
+// 답글 로그인 체크
+function RFormCheck() {
+	if(${sessionScope.loginUser.memberNick == null }) {
+		alert("로그인 후 이용해주세요");
+		location.href="/member/loginView.strap";
+		return false;
+	}
+	return true;
+}
 // 게시글 삭제
 function boardRemove(value) {
 	event.preventDefault(); // 하이퍼링크 이동 방지
@@ -439,6 +465,11 @@ function boardRemove(value) {
 			}
 } */
 
+// 댓글 중복 삭제 방지
+function replyRemoveCheck() {
+	//alert("이미 삭제된 댓글입니다.");
+	$("#rRemove").attr("disabled", true); 
+}
 
 //댓글 삭제
 		function replyRemove(target){
@@ -448,11 +479,11 @@ function boardRemove(value) {
 		
 		if(confirm("정말 삭제하시겠습니까?")){
 			replyRemoveForm.submit();
-		}else{
+		}else {
 			
 		}
-	}
-
+}
+	
 
 
 // 신고 

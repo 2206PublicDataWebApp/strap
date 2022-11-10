@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -268,10 +269,11 @@ public class BoardController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/board/uploadSummernoteImageFile", method = RequestMethod.POST)
-	public JsonObject uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile,
+	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile,
 			HttpServletRequest request) {
 		
-		JsonObject jsonObject = new JsonObject();
+		//JsonObject jsonObject = new JsonObject();
+		JSONObject jsonObject = new JSONObject();
 		try {
 			// 에디터에서 업로드한 file을 MultipartFile로 받았다
 			
@@ -298,15 +300,18 @@ public class BoardController {
 			// 1)썸머노트의 insertImage 설정값에 넣어줄 파일의 경로
 			// 2)원래 파일이름
 			// 3)ajax 성공여부
-			jsonObject.addProperty("url", "/resources/image/board/summerImageFiles/" + boardFileRename);
-			jsonObject.addProperty("originName", originalFileName);
-			jsonObject.addProperty("responseCode", "success");
+//			jsonObject.addProperty("url", "/resources/image/board/summerImageFiles/" + boardFileRename);
+//			jsonObject.addProperty("originName", originalFileName);
+//			jsonObject.addProperty("responseCode", "success");
+			jsonObject.put("url", "/resources/image/board/summerImageFiles/" + boardFileRename);
+			jsonObject.put("originName", originalFileName);
+			jsonObject.put("responseCode", "success");
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
-		return jsonObject;
+		return jsonObject.toJSONString();
 	}
 	
 	/**
