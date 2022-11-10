@@ -63,7 +63,7 @@ body {
 				<a class="admin-menu" href="/admin/adminQnaListView.strap">문의</a>
 			</div>
 			<div class="nav-menu col">
-				<a class="admin-menu" href="#">신고</a>
+				<a class="admin-menu" href="/admin/adminReportListView.strap">신고</a>
 			</div>
 			<div class="nav-menu col">
 				<a class="admin-menu" href="/admin/productView.strap">쇼핑</a>

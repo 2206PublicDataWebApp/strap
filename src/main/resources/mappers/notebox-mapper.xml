@@ -17,10 +17,19 @@
 		<result property="noteCheck" column="NOTE_CHECK"/>
 	</resultMap>
 	<resultMap type="Member" id="memberResultMap">
-		<result property="memberId" column="MEMBER_ID"/>
-		<result property="memberName" column="MEMBER_NAME"/>
+		<id property="memberId" column="MEMBER_ID"/>
+		<result property="memberName" 		column="MEMBER_NAME"/>
+		<result property="memberCareer" 	column="MEMBER_CAREER"/>
+  		<result property="memberSBD" 		column="MEMBER_SBD"/>
+  		<result property="mProfileName" 	column="M_PROFILE_NAME"/>
+  		<result property="mProfileRename" 	column="M_PROFILE_RENAME"/>
+  		<result property="mProfilePath" 	column="M_PROFILE_PATH"/>
+  		<result property="memberGender"		column="MEMBER_GENDER"/>
+  		<result property="memberJym"		column="MEMBER_JYM"/>
+  		<result property="memberManner"		column="MEMBER_MANNER"/>
+  		<result property="memberIntroduce"	column="MEMBER_INTRODUCE"/>
 	</resultMap>
-	<resultMap type= "NoteChat" id="noteChatResultMap">
+	<resultMap type="NoteChat" id="noteChatResultMap">
 		<id property="chatNo" column="CHAT_NO"/>
 		<result property="senderId" column="SENDER_ID"/>
 		<result property="senderNick" column="SENDER_NICK"/>
@@ -178,4 +187,8 @@
 		DELETE FROM NOTEBOX_TBL
 		WHERE NOTE_NO = #{noteNo}
 	</delete>
+	<select id="selectOneByName" resultMap="memberResultMap">
+		SELECT * FROM MEMBER_TBL
+		WHERE MEMBER_NAME = #{senderNick}
+	</select>
 </mapper>

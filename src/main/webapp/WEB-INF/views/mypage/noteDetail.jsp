@@ -17,6 +17,7 @@
 <link rel="stylesheet" type="text/css" href="/resources/css/modal.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+
 <style>
 	.container{
 		max-width: 660px;
@@ -46,6 +47,10 @@
 		right:10px;
 		
 	}
+	.profile-input{
+	border:none;
+}
+	
 </style>
 </head>
 <body>
@@ -77,24 +82,70 @@
 			</div>
 		</div>
 		<hr>
-<!-- 		<div class="row border border-secondary border-opacity-50"> -->
-<!-- 			<div class="col"> -->
-<!-- 				<div class="row"> -->
-<!-- 					<div class="col"> -->
-<%-- 						제목 : ${noteBox.noteTitle } --%>
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 				<br> -->
-<!-- 				<div class="row"> -->
-<!-- 					<div class="col"> -->
-<%-- 						내용 : ${noteBox.noteContents } --%>
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 		<br> -->
 		<!-- 수락 전  -->
 		<c:if test="${noteBox.noteAccept eq 'N' }"> 
+			<div class="row border border-secondary border-opacity-50">
+				<div id="profile">
+					<div class="row" id="info">
+						<div class="col-5" id="info-img">
+							<div class="imgDiv">
+							<c:if test="${empty member.mProfilePath }">
+								<img id="profileImg" width="100%" height="100%" src="/resources/profileUploadFiles/default.png">
+							</c:if>
+							<c:if test="${not empty member.mProfilePath }">
+								<img id="profileImg" width="100%" height="100%" src="/resources/profileUploadFiles/${member.mProfileRename }">
+							</c:if>
+							</div>
+						</div>
+						<div class="col" id="info-detail">
+							<table id="infoTable" class="table table-borderless">
+								<tr>
+									<th>닉네임</th>
+									<td>
+										<input class="profile-input" type="text" id="memberNick"  value="${member.memberName }" readonly>
+									</td>
+								</tr>
+								<tr>
+									<th>운동경력</th>
+									<td>
+										<input class="profile-input" type="text" id="memberCareer" value="${member.memberCareer}" readonly>
+									</td>
+								</tr>
+								<tr>
+									<th>3대 기록</th>
+									<td>
+										<input class="profile-input" type="text" id="memberSBD" value="${member.memberSBD}" readonly>
+									</td>
+								</tr>
+								<tr>
+									<th>마이짐</th>
+									<td>
+										<input class="profile-input" type="text" id="jymAddress" name="jymAddress" style="width: 250px;border:0;" value="${member.memberJym}"  readonly><br>
+										<input class="profile-input" type="text" id="jymTitle" name="jymTitle" style="width: 250px;border:0;" readonly>	
+									</td>
+								</tr>
+								<tr>
+									<th>성별</th>
+									<td>
+										<input class="profile-input" type="text" id="memberGender" name="memberGender" style="width: 250px;border: 0" value="${member.memberGender}" readonly> 
+									</td>
+								</tr>
+								<tr>
+									<th>매너점수</th>
+									<td>
+										<input class="profile-input" type="text" id="memberManner" name="membmerManner" value="${member.memberManner}" readonly>
+									</td>
+								</tr>
+								<tr>
+									<th>자기소개</th>
+									<td><textarea class="profile-input" id="memberIntroduce"  readonly>${member.memberIntroduce}</textarea></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
 			<div class="row text-center">
 				<div class="col">
 					<button class="btn btn-dark" id="accept">수락</button>

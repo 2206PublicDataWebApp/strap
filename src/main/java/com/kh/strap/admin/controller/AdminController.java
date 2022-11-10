@@ -78,11 +78,19 @@ public class AdminController {
 		int qnaCount = aService.printAllqnaCount();			// 문의 미처리 갯수
 		int qnaAnswer = aService.printAllqnaAnswer();		// 문의 총 처리 갯수
 		int todayQnaAnswer = aService.printTodayAnswer();	// 오늘 문의 처리 갯수
+		int totalReport = aService.printAllTotalReport();			// 신고 총 갯수
+		int ReportCount = aService.printAllReportCount();			// 신고 미처리 갯수
+		int ReportProcess = aService.printAllReportProcess();		// 신고 총 처리 갯수
+		int todayReportProcess = aService.printTodayProcess();	// 오늘 신고 처리 갯수
 		
 		mv.addObject("totalQna", totalQna);
 		mv.addObject("qnaCount", qnaCount);
 		mv.addObject("qnaAnswer", qnaAnswer);
 		mv.addObject("todayQnaAnswer", todayQnaAnswer);
+		mv.addObject("totalReport", totalReport);
+		mv.addObject("reportCount", ReportCount);
+		mv.addObject("reportProcess", ReportProcess);
+		mv.addObject("todayReportProcess", todayReportProcess);
 		mv.setViewName("admin/adminMain");
 		return mv;
 	}

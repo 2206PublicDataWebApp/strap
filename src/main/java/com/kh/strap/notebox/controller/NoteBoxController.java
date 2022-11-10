@@ -84,8 +84,10 @@ public class NoteBoxController {
 		String memberId = member.getMemberId();
 		int result = nbService.checkNote(noteBox);
 		NoteBox nOne = nbService.printOneByNo(noteBox);
+		Member mOne = nbService.printOneByName(nOne.getSenderNick());
 		mv.addObject("memberId", memberId);
 		mv.addObject("noteBox", nOne);
+		mv.addObject("member", mOne);
 		mv.setViewName("mypage/noteDetail");
 		return mv;
 	}

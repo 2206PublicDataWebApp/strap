@@ -26,12 +26,15 @@ import com.google.gson.GsonBuilder;
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.notebox.domain.NoteBox;
 import com.kh.strap.notebox.domain.NoteChat;
+import com.kh.strap.notebox.service.NoteBoxService;
 import com.kh.strap.notebox.service.NoteChatService;
 
 @Controller
 public class NoteChatController {
 	@Autowired
 	private NoteChatService ncService;
+	@Autowired
+	private NoteBoxService nbService;
 		
 		/**
 		 * 
@@ -64,9 +67,12 @@ public class NoteChatController {
 //		    System.out.println("리스트 : " + list);
 		    if(memberId.equals(recipientId)) {
 				mv.addObject("senderNick", senderNick);
+				
 			} else {
 				mv.addObject("senderNick", recipientNick);
 			}
+		    Member mOne = nbService.printOneByName(recipientNick);
+		    mv.addObject("member", mOne);
 			mv.addObject("ncList", list);
 			mv.addObject("memberId", memberId);
 			mv.setViewName("mypage/noteChat");

@@ -7,8 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.kh.strap.admin.domain.AdminQna;
-import com.kh.strap.admin.store.AdminQnaStore;
+import com.kh.strap.admin.domain.AdminReport;
 import com.kh.strap.admin.store.AdminReportStore;
 
 
@@ -16,58 +15,54 @@ import com.kh.strap.admin.store.AdminReportStore;
 public class AdminReportStoreLogic implements AdminReportStore{
 
 	@Override
-	public List<AdminQna> selectAllAdminQnaList(SqlSession session, int currentPage, int noticeLimit) {
+	public List<AdminReport> selectAllAdminReportList(SqlSession session, int currentPage, int noticeLimit) {
 		int offset = (currentPage-1)*noticeLimit;
 		RowBounds rowBounds = new RowBounds(offset, noticeLimit);
-		List<AdminQna> aqList = session.selectList("AdminQnaMapper.selectAllAdminQnaList", null, rowBounds);
+		List<AdminReport> aqList = session.selectList("AdminReportMapper.selectAllAdminReportList", null, rowBounds);
 		return aqList;
 	}
 
 	@Override
-	public List<AdminQna> selectAllByValue(SqlSession session, String searchCondition, String searchValue,
-			int currentPage, int qnaLimit) {
-		int offset = (currentPage-1) * qnaLimit;
-		RowBounds rowBounds = new RowBounds(offset, qnaLimit);
+	public List<AdminReport> selectAllByValue(SqlSession session, String searchCondition, String searchValue,
+			int currentPage, int ReportLimit) {
+		int offset = (currentPage-1) * ReportLimit;
+		RowBounds rowBounds = new RowBounds(offset, ReportLimit);
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("searchCondition", searchCondition);
 		paramMap.put("searchValue", searchValue);
-		List<AdminQna> aqList = session.selectList("AdminQnaMapper.selectAllByValue", paramMap, rowBounds);
+		List<AdminReport> aqList = session.selectList("AdminReportMapper.selectAllByValue", paramMap, rowBounds);
 		return aqList;
 	}
 
 	@Override
-	public List<AdminQna> selectAllBySort(SqlSession session, String sortCondition, String sortValue, String qnaCode,
-			int currentPage, int qnaSortLimit) {
-		int offset = (currentPage-1) * qnaSortLimit;
-		RowBounds rowBounds = new RowBounds(offset, qnaSortLimit);
+	public List<AdminReport> selectAllBySort(SqlSession session, String sortCondition, String sortValue, String contentsCode,
+			int currentPage, int ReportSortLimit) {
+		int offset = (currentPage-1) * ReportSortLimit;
+		RowBounds rowBounds = new RowBounds(offset, ReportSortLimit);
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("sortCondition", sortCondition);
 		paramMap.put("sortValue", sortValue);
-		paramMap.put("qnaCode", qnaCode);
-		List<AdminQna> aqList = session.selectList("AdminQnaMapper.selectAllBySort", paramMap, rowBounds);
+		paramMap.put("contentsCode", contentsCode);
+		List<AdminReport> aqList = session.selectList("AdminReportMapper.selectAllBySort", paramMap, rowBounds);
 		return aqList;
 	}
 
 	@Override
-	public int selectTotalCount(SqlSession session, String searchCondition, String searchValue, String qnaCode) {
+	public int selectTotalCount(SqlSession session, String searchCondition, String searchValue, String contentsCode) {
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("searchCondition", searchCondition);
 		paramMap.put("searchValue", searchValue);
-		paramMap.put("qnaCode", qnaCode);
-		int totalCount = session.selectOne("AdminQnaMapper.selectTotalCount", paramMap);
+		paramMap.put("contentsCode", contentsCode);
+		int totalCount = session.selectOne("AdminReportMapper.selectTotalCount", paramMap);
 		return totalCount;
 	}
 
 	@Override
-	public AdminQna selectOneByNo(SqlSession session, Integer qnaNo) {
-		AdminQna adminQna = session.selectOne("AdminQnaMapper.selectOneByNo", qnaNo); 
-		return adminQna;
+	public AdminReport selectOneByNo(SqlSession session, Integer ReportNo) {
+		AdminReport adminReport = session.selectOne("AdminReportMapper.selectOneByNo", ReportNo); 
+		return adminReport;
 	}
 
-	@Override
-	public int updateAdminQna(SqlSession session, AdminQna adminQna) {
-		int result = session.update("AdminQnaMapper.updateAdminQna", adminQna);
-		return result;
-	}
+	
 
 }

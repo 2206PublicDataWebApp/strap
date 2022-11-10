@@ -51,6 +51,30 @@ public class AdminServiceImpl implements AdminService {
 		int todayQnaAnswer = aStore.selectTodayAnswer(session);
 		return todayQnaAnswer;
 	}
+
+	@Override
+	public int printAllTotalReport() {
+		int totalReport = aStore.selectAllTotalReport(session);
+		return totalReport;
+	}
+
+	@Override
+	public int printAllReportCount() {
+		int ReportCount = aStore.selectAllReportCount(session);
+		return ReportCount;
+	}
+
+	@Override
+	public int printAllReportProcess() {
+		int ReportProcess = aStore.selectAllReportProcess(session);
+		return ReportProcess;
+	}
+
+	@Override
+	public int printTodayProcess() {
+		int todayReportProcess = aStore.selectTodayProcess(session);
+		return todayReportProcess;
+	}
 	
 	
 	

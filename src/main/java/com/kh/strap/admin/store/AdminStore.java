@@ -11,4 +11,8 @@ public interface AdminStore {
 	public int selectAllqnaCount(SqlSession session);
 	public int selectAllqnaAnswer(SqlSession session);
 	public int selectTodayAnswer(SqlSession session);
+	public int selectAllTotalReport(SqlSession session);
+	public int selectAllReportCount(SqlSession session);
+	public int selectAllReportProcess(SqlSession session);
+	public int selectTodayProcess(SqlSession session);
 }
