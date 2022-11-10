@@ -77,6 +77,21 @@
 		INSERT INTO REVIEW_POSSIBLE_TBL
 		VALUES(SEQ_RP_NO.NEXTVAL,#{memberId},#{productNo},DEFAULT,DEFAULT)
 	</insert>
+<!-- 리뷰 권한 체크 -->
+	<select id="selectCheckReviewPossible" resultType="_int">
+		SELECT COUNT(*)
+		FROM REVIEW_POSSIBLE_TBL
+		WHERE MEMBER_ID=#{memberId} AND PRODUCT_NO=#{productNo} AND POSSIBLE_YN ='Y' AND LIMIT_DATE <![CDATA[>=]]> SYSDATE
+	</select>
+<!-- 리뷰 작성 시 권한 N 사용 처리  -->
+	<update id="updateReviewPossibleUse">
+		UPDATE REVIEW_POSSIBLE_TBL
+		SET POSSIBLE_YN = 'N'
+		WHERE RP_NO = (SELECT MIN(RP_NO)
+		                FROM REVIEW_POSSIBLE_TBL 
+		                WHERE MEMBER_ID = #{memberId} AND POSSIBLE_YN = 'Y' AND PRODUCT_NO = #{productNo} AND LIMIT_DATE <![CDATA[>=]]> SYSDATE)
+	</update>
+
 
 	
 </mapper>

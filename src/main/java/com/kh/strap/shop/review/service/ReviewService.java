@@ -31,5 +31,7 @@ public interface ReviewService {
 	//이는 반복문 속에서 상품 종류마다 insert가 되어야 한다.
 	public int registerReviewPossible(Integer ProductNo, String memberId);
 	//6.리뷰 작성권한 확인
-//	public int checkReviewPossible();
+	public int checkReviewPossible(Review review);
+//	//7.리뷰 작성권한 N 변경
+	public int modifyReviewPossible(Review review);
 }

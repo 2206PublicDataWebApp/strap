@@ -61,6 +61,16 @@ public class ReviewStoreLogic implements ReviewStore{
 		return session.insert("ReviewMapper.insertReviewPossible", buyParam);
 	}
 
+	@Override
+	public int selectCheckReviewPossible(SqlSession session, Review review) {
+		return session.selectOne("ReviewMapper.selectCheckReviewPossible",review);
+	}
+
+	@Override
+	public int updateReviewPossible(SqlSession session, Review review) {
+		return session.update("ReviewMapper.updateReviewPossibleUse", review);
+	}
+
 
 
 }
