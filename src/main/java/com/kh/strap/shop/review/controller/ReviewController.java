@@ -114,6 +114,11 @@ public class ReviewController {
 			@ModelAttribute Review review,
 			@RequestParam(value="reviewImg",required=false)MultipartFile multipartImg,
 			HttpSession session) {
+		//리뷰 작성 권한 체크
+		if(rService.checkReviewPossible(review) < 1) {
+			return "noneAuthority";
+		}
+		
 		MultipartFile rImg = (multipartImg != null) ? multipartImg : null;
 		
 		//경로, 파일리네임, 파일저장, review등록, update연쇄동작..
@@ -124,7 +129,7 @@ public class ReviewController {
 			saveFolder.mkdir();
 		}
 		try {
-			if(multipartImg != null) {
+			if(!multipartImg.isEmpty()) {
 				String reviewImgName = rImg.getOriginalFilename();
 				String extension = reviewImgName.substring(reviewImgName.lastIndexOf(".")+1);
 				String reviewImgRename = now + "_review."+ extension;
@@ -135,6 +140,13 @@ public class ReviewController {
 				rImg.transferTo(new File(savePath+"\\"+reviewImgRename));
 			}
 			if(rService.registerReview(review) > 0) {
+				//리뷰 작성 성공 시 리뷰 작성권한을 N으로 바꾸어주어야 한다.
+				//필요한 파라미터는 memberId, productNo, 여러개라면 더 오래된 작성권한을 N으로 갱신.
+				//어떻게 구분하지? 고유 식별자를 반환 받아야할까 아니면 쿼리만으로 가능할까.
+				//아 서브쿼리로 셀렉틀를 날짜 순으로 정렬하고 오래된거 하나를 지우는 것이다.
+				if(rService.modifyReviewPossible(review)<1) {
+					return "fail";
+				}
 				return "success";
 			}else {
 				return "fail";

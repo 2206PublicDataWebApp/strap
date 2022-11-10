@@ -1,10 +1,10 @@
 package com.kh.strap.shop.review.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
-import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.review.domain.Review;
 
 public interface ReviewService {
@@ -26,4 +26,12 @@ public interface ReviewService {
 	//4.회원 페이지 리뷰 delete
 	public int removeMemberReview(Review review);
 
+	
+	//5.구매 시 리뷰 작성권한 등록/ 7일이내 1회 / memberId와 productNo가 필요하다.
+	//이는 반복문 속에서 상품 종류마다 insert가 되어야 한다.
+	public int registerReviewPossible(Integer ProductNo, String memberId);
+	//6.리뷰 작성권한 확인
+	public int checkReviewPossible(Review review);
+//	//7.리뷰 작성권한 N 변경
+	public int modifyReviewPossible(Review review);
 }

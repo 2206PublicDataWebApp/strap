@@ -98,4 +98,10 @@
 		SET USE_YN='Y'
 		WHERE MEMBER_ID = #{memberId} AND COUPON_NO = #{couponNo}
 	</update>
+	
+	<update id="updateRestoreMemberCoupon">
+		UPDATE MEMBER_COUPON_TBL
+		SET USE_YN='N'
+		WHERE MEMBER_ID = #{memberId} AND COUPON_NO = #{couponNo}
+	</update>
 </mapper>

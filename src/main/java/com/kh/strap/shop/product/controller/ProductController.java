@@ -39,6 +39,7 @@ import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.domain.ProductImg;
 import com.kh.strap.shop.product.domain.ProductLike;
 import com.kh.strap.shop.product.service.ProductService;
+import com.kh.strap.shop.review.service.ReviewService;
 
 @Controller
 public class ProductController {
@@ -82,6 +83,8 @@ public class ProductController {
 	CouponService couponService;
 	@Autowired
 	MemberService mService;
+	@Autowired
+	ReviewService rService;
 	
 	//쇼핑몰:보충제 리스트 출력
 	@RequestMapping(value="/product/listView.strap", method=RequestMethod.GET)
@@ -159,7 +162,7 @@ public class ProductController {
 		return mv;
 	}
 	
-	//주문페이지->결제검증
+	//주문페이지->결제검증 , kh이니시스 결제 ajax응답 서버
 	@ResponseBody
 	@RequestMapping(value="/order/payment/completeCheck.strap",method=RequestMethod.POST)
 	public String orderProduct(
@@ -167,7 +170,12 @@ public class ProductController {
 			@RequestParam("merchant_uid")String merchant_uid, //주문번호
 			@RequestParam("paid_amount")Integer paid_amount, //결제금액
 			@RequestParam("status")String status, //주문상태
-			@ModelAttribute Order order){
+			@ModelAttribute Order order,
+			HttpSession session){
+		//멤버아이디 
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String memberId = loginUser.getMemberId();
+		
 		
 		//1.결제된 금액과 주문했던 금액을 비교한다.
 		if(paid_amount == pService.getTobePaidFinalCost(merchant_uid)) {
@@ -184,6 +192,15 @@ public class ProductController {
 					paidMap.put("merchant_uid", merchant_uid);
 					paidMap.put("imp_uid",imp_uid);
 					pService.modifyPayCompleteOrder(paidMap);
+					
+					System.out.println(merchant_uid);
+					//2-2. 리뷰작성권 insert
+					//1) 주문번호로 주문에 있는 상품 리스트를 가져온다. 반복중 실패하면 예외를 던져야하나?
+					List<Product> pList = pService.printProductsOnOrder(merchant_uid);
+					pList.stream().forEach(product ->{
+						System.out.println(product.getProductName());
+						rService.registerReviewPossible(product.getProductNo(), memberId);
+					});
 					return "success";
 					
 				}else if(status.equals("ready")) {

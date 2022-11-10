@@ -76,19 +76,27 @@ function valueSet(thisInput){
 //결제취소
 function cancelPay() {
   var orderNo = window.opener.document.querySelector("#thisOrderNo").innerText;
+  var couponNo = window.opener.document.querySelector("#orderCouponNo").value;
+  
   console.log(orderNo +"/"+ reason);
   
   $.ajax({
 	  url:"/imp/payment/cancel",
 	  data:{
 		  "merchant_uid":orderNo,
-		  "reason":reason
+		  "reason":reason,
+		  "couponNo":couponNo
 	  },
 	  type:"post",
 	  success:function(result){
-		  console.log("결과:"+result);
-		  window.close();
-		  alert("");
+		  if(result == "success"){
+			  alert("결제가 취소되었습니다.");
+			  window.close();
+		  }else if(result == "fail"){
+			  alert("이미 취소된 주문입니다.");	
+			  window.close();
+		  }
+		  
 	  },
 	  error:function(){}
   });

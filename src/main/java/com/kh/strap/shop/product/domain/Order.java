@@ -38,6 +38,16 @@ public class Order {
 	private int couponNo;					//사용한 쿠폰 번호
 	
 	public Order() {}
+	
+	
+
+	public Order(String memberId, int couponNo) {
+		super();
+		this.memberId = memberId;
+		this.couponNo = couponNo;
+	}
+
+
 
 	public Order(List<Product> buyProducts, List<OrderProduct> orderProducts, Member member, String orderNo,
 			String payNo, int deliveryFee, int discountAmount, int finalCost, String memberId, String address,

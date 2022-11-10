@@ -1,6 +1,8 @@
 package com.kh.strap.shop.review.store.logic;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -8,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.strap.common.Paging;
 import com.kh.strap.common.Search;
-import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.review.domain.Review;
 import com.kh.strap.shop.review.store.ReviewStore;
 
@@ -50,6 +51,24 @@ public class ReviewStoreLogic implements ReviewStore{
 	@Override
 	public int deleteMemberReview(SqlSession session, Review review) {
 		return session.delete("ReviewMapper.deleteMemberReview", review);
+	}
+
+	@Override
+	public int insertReviewPossible(SqlSession session, Integer ProductNo, String memberId) {
+		Map<String,Object> buyParam = new HashMap<>();
+		buyParam.put("productNo", ProductNo);
+		buyParam.put("memberId",memberId);
+		return session.insert("ReviewMapper.insertReviewPossible", buyParam);
+	}
+
+	@Override
+	public int selectCheckReviewPossible(SqlSession session, Review review) {
+		return session.selectOne("ReviewMapper.selectCheckReviewPossible",review);
+	}
+
+	@Override
+	public int updateReviewPossible(SqlSession session, Review review) {
+		return session.update("ReviewMapper.updateReviewPossibleUse", review);
 	}
 
 

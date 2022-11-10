@@ -115,6 +115,7 @@
 						</table>
 					</div>
 				</div>
+				<input type="hidden" value="${completeOrder.couponNo }" id="orderCouponNo">
 				<div id="paid-info" class="col-5">
 					<div id="paidInfo" class="order-side" style="height:450px;margin:70px auto 30px;padding:20px 40px; border: 1px solid #c0c0c0;text-align:left;">
 						 <h4>결제 금액</h4><hr>
