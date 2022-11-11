@@ -127,4 +127,7 @@ public interface ProductStore {
 //상품명 정보 리스트 출력
 		public List<Product> getProductNameList(SqlSession session);
 		
+//메인페이지 베스트상품 top3
+		public List<Product> selectGetTopProducts(SqlSession session);
+		
 }

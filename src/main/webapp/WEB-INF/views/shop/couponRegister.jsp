@@ -148,7 +148,7 @@
 						<span>대상 제품명: </span>
 						<input type="text" name="productCondition" placeholder="대상 제품명" list="nameSelect"  value="None" required>
 						<datalist id="nameSelect" name="nameSelect">
-							<option selected>미선택</option>
+							<option value="None" selected>미선택</option>
 						<c:forEach items="${productNames }" var="product">
 							<option value="${product.productName }">${product.productName }</option>
 						</c:forEach>

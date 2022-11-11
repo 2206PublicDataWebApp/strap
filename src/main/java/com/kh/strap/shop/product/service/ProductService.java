@@ -126,4 +126,7 @@ public interface ProductService {
 	public List<Product> getProductNameList();
 	
 	
+//메인페이지 베스트상품 top3
+	public List<Product> getTopProducts();
+	
 }

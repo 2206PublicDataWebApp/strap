@@ -92,6 +92,14 @@
 		                WHERE MEMBER_ID = #{memberId} AND POSSIBLE_YN = 'Y' AND PRODUCT_NO = #{productNo} AND LIMIT_DATE <![CDATA[>=]]> SYSDATE)
 	</update>
 
+<!-- 탑3상품 별 베스트 후기 -->
+	<select id="selectGetBestReview" resultMap="ReviewResultMap">
+		SELECT *
+			FROM(SELECT DENSE_RANK() OVER(ORDER BY REVIEW_GRADE DESC, REVIEW_TIME DESC) AS RANKNUM, R.*
+			FROM REVIEW_TBL R
+			WHERE PRODUCT_NO = #{productNo})
+		WHERE RANKNUM = 1
+	</select>
 
 	
 </mapper>

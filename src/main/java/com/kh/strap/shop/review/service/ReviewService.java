@@ -34,4 +34,8 @@ public interface ReviewService {
 	public int checkReviewPossible(Review review);
 //	//7.리뷰 작성권한 N 변경
 	public int modifyReviewPossible(Review review);
+	
+//탑3 상품별 베스트 후기 상품번호로 평점이 가장 높은 최근 후기 1개를 select
+	public Review getBestReviewByProductNo(int productNo);
+	
 }
