@@ -186,6 +186,7 @@
 		//manner
 		$("#memberManner").val(memberManner+'점');
 		//Introduce
+		memberIntroduce = memberIntroduce.replace(/<br>/g, '\n');
 		$("#memberIntroduce").val(memberIntroduce);
 		//show
 		$("#myInfoDiv").show();

@@ -318,8 +318,7 @@ span.guide {
 						<tr id="introduceTr">
 							<th>자기 소개</th>
 							<td>${loginUser.memberIntroduce }</td>
-							<td><button class="btn btn-light"
-									onclick="modifyIntroduce();">자기소개 변경</button></td>
+							<td><button class="btn btn-light" onclick="modifyIntroduce();">자기소개 변경</button></td>
 						</tr>
 						<!-- 자기소개 변경 -->
 						<tr id="change-introduceTr" style="display: none;">
@@ -328,8 +327,7 @@ span.guide {
 									rows="10" cols="90">${loginUser.memberIntroduce }</textarea> <br>
 							<br>
 								<button class="btn btn-light" onclick="modifyIntroduceCancel();">취소</button>
-								<button class="btn btn-light" id="modifyIntroduceFinishBtn"
-									onclick="modifyIntroduceFinish();">변경</button></td>
+								<button class="btn btn-light" id="modifyIntroduceFinishBtn" onclick="modifyIntroduceFinish();">변경</button></td>
 							<td></td>
 						</tr>
 						
@@ -486,6 +484,9 @@ span.guide {
 			$("#change-SBDTr").show();
 		}
 		function modifyIntroduce() {
+			var memberIntroduce = $("#memberIntroduce").val();
+			memberIntroduce = memberIntroduce.replace(/<br>/g,'\n');
+			$("#memberIntroduce").val(memberIntroduce);
 			$("#introduceTr").hide();
 			$("#change-introduceTr").show();
 		}
@@ -709,6 +710,9 @@ span.guide {
 		function modifyIntroduceFinish() {
 			var memberId = $("#memberId").text();
 			var memberIntroduce = $("#memberIntroduce").val();
+			console.log(memberIntroduce);
+			memberIntroduce = memberIntroduce.replace(/(\n|\r\n)/g,'<br>');
+			console.log(memberIntroduce);
 			if (confirm("자기소개를 변경하시겠습니까?")) {
 				$.ajax({
 					url : "/member/myinfoIntroduce.strap",

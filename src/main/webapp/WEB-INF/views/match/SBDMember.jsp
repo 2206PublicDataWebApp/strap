@@ -54,7 +54,9 @@
 				</c:forEach>
 			</div>
 			<br><br>
+			<div style="margin: auto; width: 150px;">
 			<button onclick="SBDRefresh();" class="btn btn-dark">새로 추천 받기</button>
+			</div>
 			<br><br><br>
 			<div id="profile">
 				<div id="info">
@@ -274,6 +276,7 @@
 		//manner
 		$("#memberManner").val(memberManner+'점');
 		//Introduce
+		memberIntroduce = memberIntroduce.replace(/<br>/g, '\n');
 		$("#memberIntroduce").val(memberIntroduce);
 		//Q&A
 		$.ajax({
