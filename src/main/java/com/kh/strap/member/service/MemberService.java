@@ -61,5 +61,9 @@ public interface MemberService {
 
 	int changeAddr(Member member);
 
+	int inserSurveyAnswer(Map<String, Object> map);
+
+	int mannerUpdate(Map<String, Object> map);
+
 
 }

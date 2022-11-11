@@ -24,9 +24,11 @@
 #noteTitle{width: 566px; border: 1px solid lightgray; border-radius: 10px;}
 .imgDiv{width: 100%; height: 100%px; overflow: hidden; border-radius: 70px; margin:auto;}
 .nickDiv{width: 200px; height: 40px; font-size15px; margin:auto;}
-#memberIntroduce{width: 250px; height: 110px;}
+#memberIntroduce{width: 250px; height: 110px; resize: none;}
 .mannerTrend{width: 500px; margin: auto;}
 .mannerPercent{background-color: lightgray; border-radius: 20px; height: 30px;}
+.myQnA{width: 350px; margin:auto; margin-bottom: 50px;}
+.myQnA input{width: 250px; text-align: center; margin-left: 50px;}
 
 .QnA-title{display: inline-block; width: 250px;}
 .QnA-img{width: 200px; margin: auto;}
@@ -40,12 +42,11 @@
 .form-control.Q:hover{background-color: gold; cursor: pointer;} 
 .QnA input{width: 250px; text-align: center;}
 #carouselExampleControlsNoTouching{width: 100%;}
-#carouselExampleControlsNoTouching input{margin-left: 50px;}	
 .matchingHistory{float:left; width: 350px; height: 350px; float: left;border:1px solid lightgray;border-radius: 10px;}
 .matchingHistory input{width: 250px; text-align: center;}
 .survey{width: 250px; margin: auto;}
 .survey-img{width: 40%; height: 25%; float: left;}
 .survey-text{width: 60%; height: 25%; float: left; padding-top:20px;}
 .survey-contents button{width: 250px; margin-bottom: 10px;}
-.survey-contents img{width: 20px; height: 20px;}
-.survey-contents textarea{width: 250px; height: 80px; margin-bottom: 10px;}
+.survey-contents img{width: 20px; height: 20px; margin-left: 10px;}
+.survey-contents textarea{width: 250px; height: 80px; margin-bottom: 10px; resize: none;}

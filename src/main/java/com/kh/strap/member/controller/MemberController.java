@@ -107,7 +107,6 @@ public class MemberController {
 			,String jymTitle
 			) {
 		String memberJym = jymAddress +"," +jymTitle;
-		System.out.println(member.toString());
 		member.setMemberJym(memberJym);
 		String rawPwd = member.getMemberPwd();
 		String encodePwd = passwordEncoder.encode(member.getMemberPwd());

@@ -158,6 +158,11 @@ public class MemberServiceImpl implements MemberService {
 		int result = mStore.inserAnswer(session, map);
 		return result;
 	}
+	@Override
+	public int inserSurveyAnswer(Map<String, Object> map) {
+		int result = mStore.inserSurveyAnswer(session, map);
+		return result;
+	}
 
 	@Override
 	public SimpleQnA qnaOne(String memberId) {
@@ -176,6 +181,13 @@ public class MemberServiceImpl implements MemberService {
 		int result = mStore.mannerPercent(session, memberId);
 		return result;
 	}
+
+	@Override
+	public int mannerUpdate(Map<String, Object> map) {
+		int result = mStore.mannerUpdate(session, map);
+		return result;
+	}
+
 
 
 

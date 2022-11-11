@@ -63,4 +63,8 @@ public interface MemberStore {
 
 	int changeAddr(SqlSession session, Member member);
 
+	int inserSurveyAnswer(SqlSession session, Map<String, Object> map);
+
+	int mannerUpdate(SqlSession session, Map<String, Object> map);
+
 }

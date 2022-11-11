@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.kh.strap.match.service.MatchService;
 import com.kh.strap.member.domain.Member;
+import com.kh.strap.member.domain.SimpleAnswer;
 import com.kh.strap.member.domain.SimpleQnA;
 import com.kh.strap.member.service.MemberService;
 import com.kh.strap.mypage.service.logic.MyPageServiceImpl;
@@ -31,6 +33,8 @@ public class MyPageController {
 	private MemberService mService;
 	@Autowired
 	private ScheduleService sService;
+	@Autowired
+	private MatchService matchService;
 	
 	/**
 	 * 
@@ -52,16 +56,30 @@ public class MyPageController {
 			String jymAddress = myJym.split(",")[0];
 			String jymTitle = myJym.split(",")[1];
 			//일주일 내의 최근 매칭정보 가져오기
-//			String currentDate = sdf.format(cal.getTime());
-//			cal.add(Calendar.DATE, -7);
-//			String weekAgoDate = sdf.format(cal.getTime());
-//			Map<String, String> map = new HashMap<String, String>();
-//			map.put("weekAgoDate", weekAgoDate);
-//			map.put("currentDate", currentDate);
-//			Schedule schedule = sService.endSchedule(map); 
+			cal.add(Calendar.DATE, -1);
+			String yesterday = sdf.format(cal.getTime());
+			cal.add(Calendar.DATE, -7);
+			String weekAgo = sdf.format(cal.getTime());
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("memberId", member.getMemberId());
+			map.put("yesterday", yesterday);
+			map.put("weekAgo", weekAgo);
+			Schedule schedule = sService.endSchedule(map);
+			if(schedule != null) {
+				if(!schedule.getMatchMemberId().equals(member.getMemberId())) {
+					//내가 일정을 잡았던 경우
+					request.setAttribute("caseMe", schedule);
+				}else {
+					//상대가 일정을 잡았던 경우
+					request.setAttribute("caseOpponent", schedule);
+				}
+			}
+			//나의 Q&A 답변
+			List<SimpleQnA> qList = matchService.selectMemberQnA(member.getMemberId());
 			request.setAttribute("percent", percent);
 			request.setAttribute("jymAddress", jymAddress);
 			request.setAttribute("jymTitle", jymTitle);
+			request.setAttribute("qList", qList);
 			
 		} else {
 			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
@@ -119,7 +137,42 @@ public class MyPageController {
 		map.put("qnaNo", qnaNo);
 		map.put("qnaAnswer", answer);
 		int result = mService.inserAnswer(map);
-		System.out.println("결과 : " + result);
 		return "ok";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/mypage/surveyAnswer.strap", method = RequestMethod.POST)
+	public String surveyAswer(
+			HttpServletRequest request
+			,int matchNo
+			,String surveyAnswer
+			,String surveyOpinion
+			,String mathMemberId
+			,String matchCase
+			) {
+		Member member = (Member)request.getSession().getAttribute("loginUser");
+		String memberId = member.getMemberId();
+		if(surveyAnswer.equals("좋았어요")) {
+			surveyAnswer = "good";
+		} else {
+			surveyAnswer = "bad";
+		};
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("matchNo", matchNo);
+		map.put("memberId", memberId);
+		map.put("mathMemberId", mathMemberId);
+		map.put("surveyAnswer", surveyAnswer);
+		map.put("matchCase", matchCase);
+		//매너점수 반영
+		int result1 = mService.mannerUpdate(map);
+		//설문완료 처리
+		int result2 = mService.inserSurveyAnswer(map);
+		System.out.println("매너 처리 : " + result1);
+		System.out.println("설문 완료 처리 : " + result2);
+		if(result1 == 1) {
+			return "ok";
+		} else {
+			return "no";
+		}
 	}
 }
