@@ -33,9 +33,9 @@ public class HomeController {
 		//베스트 후기 리스트
 		
 		//베스트 상품 리스트
-		//1.평점순,리뷰개수순 top3 상품 리스트
+		//1.(평점 높은순,리뷰개수 많은순) top3 상품 리스트
 		List<Product> pList = pService.getTopProducts();
-		//2.각 상품의 베스트 후기 1개를 가져와서set해준다.
+		//2.각 상품의 베스트 후기 1개를 가져와서set해준다.(평점 높은순, 최신순)
 		pList.stream().forEach(product->{
 			product.setReview(rService.getBestReviewByProductNo(product.getProductNo()));
 		});
