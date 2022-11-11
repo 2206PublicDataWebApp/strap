@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.kh.strap.member.domain.Member;
 import com.kh.strap.notebox.domain.NoteBox;
 import com.kh.strap.notebox.store.NoteBoxStore;
 
@@ -35,6 +36,12 @@ public class NoteBoxStoreLogic implements NoteBoxStore{
 	public NoteBox selectOneByNo(SqlSession session, NoteBox noteBox) {
 		NoteBox nOne = session.selectOne("NoteBoxMapper.selectOneByNo", noteBox);
 		return nOne;
+	}
+
+	@Override
+	public Member selectOneByName(SqlSession session, String senderNick) {
+		Member mOne = session.selectOne("NoteBoxMapper.selectOneByName", senderNick);
+		return mOne;
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.strap.member.domain.Member;
 import com.kh.strap.notebox.domain.NoteBox;
 import com.kh.strap.notebox.service.NoteBoxService;
 import com.kh.strap.notebox.store.NoteBoxStore;
@@ -34,6 +35,12 @@ public class NoteBoxServiceImpl implements NoteBoxService {
 	public NoteBox printOneByNo(NoteBox noteBox) {
 		NoteBox nOne = nbStore.selectOneByNo(session, noteBox);
 		return nOne;
+	}
+
+	@Override
+	public Member printOneByName(String senderNick) {
+		Member mOne = nbStore.selectOneByName(session, senderNick);
+		return mOne;
 	}
 
 	@Override

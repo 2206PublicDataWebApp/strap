@@ -9,4 +9,8 @@ public interface AdminService {
 	public int printAllqnaCount();
 	public int printAllqnaAnswer();
 	public int printTodayAnswer();
+	public int printAllTotalReport();
+	public int printAllReportCount();
+	public int printAllReportProcess();
+	public int printTodayProcess();
 }

@@ -45,6 +45,28 @@ public class AdminStoreLogic implements AdminStore{
 		return todayQnaAnswer;
 	}
 
-	
+	@Override
+	public int selectAllTotalReport(SqlSession session) {
+		int totalReport = session.selectOne("AdminMapper.selectAllTotalReport");
+		return totalReport;
+	}
+
+	@Override
+	public int selectAllReportCount(SqlSession session) {
+		int ReportCount = session.selectOne("AdminMapper.selectAllReportCount");
+		return ReportCount;
+	}
+
+	@Override
+	public int selectAllReportProcess(SqlSession session) {
+		int ReportProcess = session.selectOne("AdminMapper.selectAllReportProcess");
+		return ReportProcess;
+	}
+
+	@Override
+	public int selectTodayProcess(SqlSession session) {
+		int todayReportProcess = session.selectOne("AdminMapper.selectTodayProcess");
+		return todayReportProcess;
+	}
 
 }

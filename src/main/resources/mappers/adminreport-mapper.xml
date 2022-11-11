@@ -18,9 +18,9 @@
 		<result property="memberId" 		column="MEMBER_ID"/>
 		<result property="memberNick" 		column="MEMBER_NICK"/>
 		<result property="reportMemberNick" column="REPORT_MEMBER_NICK"/>
-		<result property="reportType"		column="REPORT_TYPE"/>
+		<result property="joinReportType"		column="JOIN_REPORT_TYPE"/>
 		<result property="reportName"		column="REPORT_NAME"/>
-		<result property="contentsCode" 	column="CONTENTS_CODE"/>
+		<result property="joinContentsCode" 	column="JOIN_CONTENTS_CODE"/>
 		<result property="contentsName" 	column="CONTENTS_NAME"/>
 	</resultMap>
 <!-- 	<insert id=""> -->
@@ -38,70 +38,55 @@
 		JOIN CONTENTS_CODE_TBL C ON Q.CONTENTS_CODE = C.CONTENTS_CODE
 		JOIN REPORT_TYPE_TBL R ON Q.REPORT_TYPE = R.REPORT_TYPE ORDER BY Q.REPORT_NO DESC)
   		<where>
-  			<if test="searchCondition.toString() == 'title'">
-  				QNA_TITLE LIKE '%'||#{searchValue}||'%'
+  			<if test="searchCondition.toString() == 'reportMember'">
+  				REPORT_MEMBER LIKE '%'||#{searchValue}||'%'
   			</if>
   			<if test="searchCondition.toString() == 'contents'">
-  				QNA_CONTENTS LIKE '%'||#{searchValue}||'%'
+  				REPORT_CONTENTS LIKE '%'||#{searchValue}||'%'
   			</if>
   			<if test="searchCondition.toString() == 'all'">
-	  			QNA_TITLE LIKE '%'||#{searchValue}||'%'
-	  			OR QNA_CONTENTS LIKE '%'||#{searchValue}||'%'
+	  			REPORT_MEMBER LIKE '%'||#{searchValue}||'%'
+	  			OR REPORT_CONTENTS LIKE '%'||#{searchValue}||'%'
   			</if>
   		</where>
   	</select>
-  	<!-- 문의 총 갯수 -->
+  	<!-- 신고 총 갯수 -->
 	<select id="selectTotalCount" resultType="_int">
-  		SELECT COUNT(*) FROM (SELECT * FROM QNA_TBL Q
-		JOIN CONTENTS_CODE_TBL C ON Q.QNA_CODE = C.CONTENTS_CODE
-		JOIN REPORT_TYPE_TBL R ON Q.QNA_TYPE = R.REPORT_TYPE ORDER BY Q.QNA_NO DESC)
+  		SELECT COUNT(*) FROM (SELECT * FROM REPORT_TBL Q
+		JOIN CONTENTS_CODE_TBL C ON Q.CONTENTS_CODE = C.CONTENTS_CODE
+		JOIN REPORT_TYPE_TBL R ON Q.REPORT_TYPE = R.REPORT_TYPE
+		<if test="contentsCode != null">
+			AND Q.CONTENTS_CODE = #{contentsCode}
+  		</if>
+		ORDER BY Q.REPORT_NO DESC)
   		<where>
-  		<if test="qnaCode == null">
-			<if test="searchCondition.toString() == 'title'">
-				QNA_TITLE LIKE '%'||#{searchValue}||'%'
+			<if test="searchCondition.toString() == 'reportMember'">
+				REPORT_MEMBER LIKE '%'||#{searchValue}||'%'
 			</if>
 			<if test="searchCondition.toString() == 'contents'">
-				QNA_CONTENTS LIKE '%'||#{searchValue}||'%'
+				REPORT_CONTENTS LIKE '%'||#{searchValue}||'%'
 			</if>
 			<if test="searchCondition.toString() == 'all'">
-				QNA_TITLE LIKE '%'||#{searchValue}||'%'
-				OR QNA_CONTENTS LIKE '%'||#{searchValue}||'%'
+				REPORT_MEMBER LIKE '%'||#{searchValue}||'%'
+	  			OR REPORT_CONTENTS LIKE '%'||#{searchValue}||'%'
 			</if>
-  		</if>
-  		<if test="qnaCode != null">
-  			<if test="searchCondition.toString() == 'title'">
-				QNA_TITLE LIKE '%'||#{searchValue}||'%'
-			</if>
-			<if test="searchCondition.toString() == 'contents'">
-				QNA_CONTENTS LIKE '%'||#{searchValue}||'%'
-			</if>
-			<if test="searchCondition.toString() == 'all'">
-				QNA_TITLE LIKE '%'||#{searchValue}||'%'
-				OR QNA_CONTENTS LIKE '%'||#{searchValue}||'%'
-			</if>
-			AND QNA_CODE = #{qnaCode}
-  		</if>
 		</where>
   	</select>
-  	<!-- 문의 페이지 조회 -->
+  	<!-- 신고 페이지 조회 -->
 	<select id="selectOneByNo" resultMap="adminReportResultMap">
-		SELECT * FROM (SELECT * FROM QNA_TBL Q
-		JOIN CONTENTS_CODE_TBL C ON Q.QNA_CODE = C.CONTENTS_CODE
-		JOIN REPORT_TYPE_TBL R ON Q.QNA_TYPE = R.REPORT_TYPE ORDER BY Q.QNA_NO DESC) 
-		WHERE QNA_NO = #{qnaNo}
+		SELECT * FROM (SELECT * FROM REPORT_TBL Q
+		JOIN CONTENTS_CODE_TBL C ON Q.CONTENTS_CODE = C.CONTENTS_CODE
+		JOIN REPORT_TYPE_TBL R ON Q.REPORT_TYPE = R.REPORT_TYPE ORDER BY Q.REPORT_NO DESC) 
+		WHERE REPORT_NO = #{reportNo}
 	</select>
-	<!-- 문의 조건별 조회 -->
+	<!-- 신고 조건별 조회 -->
 	<select id="selectAllBySort" resultMap="adminReportResultMap">
-		SELECT * FROM (SELECT * FROM QNA_TBL Q
-		JOIN CONTENTS_CODE_TBL C ON Q.QNA_CODE = C.CONTENTS_CODE
-		JOIN REPORT_TYPE_TBL R ON Q.QNA_TYPE = R.REPORT_TYPE
-		ORDER BY Q.QNA_NO DESC) WHERE QNA_CODE = #{qnaCode}
+		SELECT * FROM (SELECT * FROM REPORT_TBL Q
+		JOIN CONTENTS_CODE_TBL C ON Q.CONTENTS_CODE = C.CONTENTS_CODE
+		JOIN REPORT_TYPE_TBL R ON Q.REPORT_TYPE = R.REPORT_TYPE AND Q.CONTENTS_CODE = #{contentsCode}
+		ORDER BY Q.REPORT_NO DESC)
 	</select>
-	<!-- 문의 답변 등록 -->
-	<update id="updateAdminReport">
-		UPDATE QNA_TBL SET A_ENROLL_DATE = DEFAULT, ANSWER_STATUS = 'Y', ANSWER_CONTENTS = #{answerContents}
-		WHERE QNA_NO = #{qnaNo}
-	</update>
+	
 <!-- 	<delete id=""> -->
 <!-- 	</delete> -->
 	

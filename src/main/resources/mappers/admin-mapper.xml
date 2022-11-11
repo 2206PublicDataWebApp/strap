@@ -45,6 +45,25 @@
 		<result column="CONTENTS_CODE" 			property="contentsCode"/>
 		<result column="CONTENTS_NAME"			property="contentsName"/>
 	</resultMap>
+	<resultMap type="AdminReport" id="adminReportResultMap">
+		<id property="reportNo" 			column="REPORT_NO"/>
+		<result property="contentsNo" 		column="CONTENTS_NO"/>
+		<result property="contentsCode" 	column="CONTENTS_CODE"/>
+		<result property="reportType" 		column="REPORT_TYPE"/>
+		<result property="reportMember" 	column="REPORT_MEMBER"/>
+		<result property="reportContents" 	column="REPORT_CONTENTS"/>
+		<result property="reportDate"		column="REPORT_DATE"/>
+		<result property="reportProcess" 	column="REPORT_PROCESS"/>
+		<result property="ContentsProcess" 	column="CONTENTS_PROCESS"/>
+		<result property="memberProcess" 	column="MEMBER_PROCESS"/>
+		<result property="memberId" 		column="MEMBER_ID"/>
+		<result property="memberNick" 		column="MEMBER_NICK"/>
+		<result property="reportMemberNick" column="REPORT_MEMBER_NICK"/>
+		<result property="joinReportType"		column="REPORT_TYPE"/>
+		<result property="joinReportName"		column="REPORT_NAME"/>
+		<result property="joinContentsCode" 	column="CONTENTS_CODE"/>
+		<result property="joinContentsName" 	column="CONTENTS_NAME"/>
+	</resultMap>
   	<!-- 관리자 암호화된 비밀번호 조회 -->
 	<select id="selectAdminPwdById" resultType="String">
 		SELECT MEMBER_PWD FROM MEMBER_TBL
@@ -54,6 +73,8 @@
 	<select id="selectAdminById" resultMap="adminResultMap">
   		SELECT * FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId} AND MEMBER_STATUS = 'N' AND ADMIN_STATUS = 'Y'
   	</select>
+  	
+  	<!-- 문의 -->
   	<!-- 관리자 대시보드 총 문의 수 -->
   	<select id="selectAllTotalQna" resultType="_int">
   		SELECT COUNT(*) FROM QNA_TBL
@@ -72,5 +93,26 @@
   	<select id="selectTodayAnswer" resultType="_int">
   		SELECT COUNT(*) FROM QNA_TBL
   		WHERE ANSWER_STATUS = 'Y' AND TO_CHAR(SYSDATE, 'YYYY-MM-DD') = TO_CHAR(A_ENROLL_DATE, 'YYYY-MM-DD')
+  	</select>
+  	
+  	<!-- 신고 -->
+  	<!-- 관리자 대시보드 총 문의 수 -->
+  	<select id="selectAllTotalReport" resultType="_int">
+  		SELECT COUNT(*) FROM REPORT_TBL
+  	</select>
+  	<!-- 관리자 대시보드 총 미처리 문의 수 -->
+  	<select id="selectAllReportCount" resultType="_int">
+  		SELECT COUNT(*) FROM REPORT_TBL
+  		WHERE REPORT_PROCESS = 'N'
+  	</select>
+  	<!-- 관리자 대시보드 총 처리 문의 수 -->
+  	<select id="selectAllReportProcess" resultType="_int">
+  		SELECT COUNT(*) FROM REPORT_TBL
+  		WHERE REPORT_PROCESS = 'Y'
+  	</select>
+  	<!-- 관리자 대시보드 오늘 처리 문의 수 -->
+  	<select id="selectTodayProcess" resultType="_int">
+  		SELECT COUNT(*) FROM REPORT_TBL
+  		WHERE REPORT_PROCESS = 'Y' AND TO_CHAR(SYSDATE, 'YYYY-MM-DD') = TO_CHAR(REPORT_DATE, 'YYYY-MM-DD')
   	</select>
 </mapper>
