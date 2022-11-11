@@ -53,6 +53,8 @@ public interface BoardService {
 
 	public int removeBoardReply(BoardReply bReply);
 	public int modifyBoardReply(BoardReply bReply);
+	
+	public List<Board> printBestRankBoard();
 }
 
 

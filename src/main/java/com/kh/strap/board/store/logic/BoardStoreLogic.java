@@ -183,6 +183,12 @@ public class BoardStoreLogic implements BoardStore{
 		public int updateBoardReply(SqlSessionTemplate session, BoardReply bReply) {
 			return session.update("BoardReplyMapper.updateBoardReply", bReply);
 		}
+
+		@Override
+		public List<Board> selectBestRankBoard(SqlSession session) {
+			List<Board> bList = session.selectList("BoardMapper.selectBestRankBoard");
+			return bList;
+		}
 }
 
 

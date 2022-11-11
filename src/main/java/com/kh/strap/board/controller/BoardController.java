@@ -617,4 +617,26 @@ public class BoardController {
 		}
 		return mv;
 	}
+
+	@ResponseBody
+	@RequestMapping(value="/", method=RequestMethod.GET)
+	public ModelAndView boardBestRank(
+			ModelAndView mv
+			, @RequestParam("boardNo") Integer boardNo
+			, @RequestParam("page") Integer page
+			, HttpSession session) {
+		try {
+			//Board board = bService.printBestRankBoard();
+			List<Board> bList = bService.printBestRankBoard();
+			mv.addObject("bList", bList);
+			//session.setAttribute("boardNo", board.getBoardNo());
+			//mv.addObject("board", board);
+			mv.addObject("page", page);
+			mv.setViewName("home");
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+	}
 }

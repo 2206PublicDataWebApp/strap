@@ -108,15 +108,15 @@ $(document).ready(function(){
 					url : "/board/uploadSummernoteImageFile",
 					dataType : "json",
 					contentType : false,
+					enctype : 'multipart/form-data',
 					processData : false,
 					success : function(data) {
 			        	//항상 업로드된 파일의 url이 있어야 한다.
-						$(editor).summernote("insertImage", data.url);
-						console.log(data.url);
+						$('#summernote').summernote('insertImage', data.url);
 					}
 				});
 			}
-			$('p').remove(); // 썸머노트 Contents에 필요 없는 <p> 태그 제거
+			//$('p').remove(); // 썸머노트 Contents에 필요 없는 <p> 태그 제거
 		});
 </script>
 <body>

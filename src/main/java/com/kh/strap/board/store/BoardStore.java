@@ -56,6 +56,7 @@ public interface BoardStore {
 	public int deleteBoardReply(SqlSessionTemplate session,BoardReply bReply);
 	public int updateBoardReply(SqlSessionTemplate session,BoardReply bReply);
 
+	public List<Board> selectBestRankBoard(SqlSession session);
 }
 
 

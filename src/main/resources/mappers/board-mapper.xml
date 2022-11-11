@@ -179,4 +179,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="likeCheck" resultType="int">
 		SELECT COUNT(*) FROM BOARD_LIKE_TBL WHERE BOARD_NO = #{boardNo} AND MEMBER_NICK = #{memberNick}
 	</select>
+	
+	<!-- 게시글 인기 추천 TOP3 select  -->
+	<select id="selectBestRankBoard" resultMap="boardResultMap">
+		SELECT BOARD_NO,MEMBER_NICK,BOARD_TITLE,BOARD_CONTENTS,BOARD_CATEGORY,B_FILE_NAME,B_FILE_RENAME,B_FILE_PATH,BOARD_DATE,BOARD_COUNT,BOARD_LIKEIT
+		, RANK() OVER (ORDER BY BOARD_CATEGORYDESC, BOARD_LIKEIT DESC) 
+		RANK FROM BOARD_TBL WHERE BOARD_CATEGORY='후기글' ORDER BY
+		BOARD_CATEGORY DESC, BOARD_LIKEIT DESC
+	</select>
 </mapper>

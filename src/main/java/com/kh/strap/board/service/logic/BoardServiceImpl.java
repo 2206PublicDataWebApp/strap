@@ -153,6 +153,11 @@ public class BoardServiceImpl implements BoardService {
 		return bStore.updateBoardReply(session, bReply);
 	}
 
+	@Override
+	public List<Board> printBestRankBoard() {
+		List<Board> bList = bStore.selectBestRankBoard(session);
+		return bList;
+	}
 }
 
 

@@ -107,16 +107,19 @@ $(document).ready(function(){
 					data : data,
 					type : "POST",
 					url : "/board/uploadSummernoteImageFile",
-					dataType : "JSON",
+					dataType : "json",
 					contentType : false,
+					enctype : 'multipart/form-data',
 					processData : false,
 					success : function(data) {
 			        	//항상 업로드된 파일의 url이 있어야 한다.
-						$(editor).summernote("insertImage", data.url);
+						$('#summernote').summernote('insertImage', data.url);
 					}
 				});
 			}
-			$('p').remove(); // 썸머노트 Contents에 필요 없는 <p> 태그 제거
+			//$('p').remove(); // 썸머노트 Contents에 필요 없는 <p> 태그 제거
+			 
+	          
 		});
 </script>
 <body>
@@ -142,19 +145,14 @@ $(document).ready(function(){
 							${sessionScope.loginUser.memberNick }
 						</div>
 					</div>
-				<td>
-				<textarea id="summernote" name="boardContents">
-				${board.boardContents }
-				</textarea>
-				</td>
-			<div class="row">
-					<div class="col" align="center">
-						<button class="btn btn-primary" type="submit">수정 완료</button>
-						<button class="btn btn-secondary" onclick="boardCancel(${page})" >수정 취소</button>
+				<textarea id="summernote" class="note-editable" contenteditable="true" role="textbox"
+				aria-multiline="true" spellcheck="true" name="boardContents">${board.boardContents }</textarea>
+					<div class="row">
+							<div class="col" align="center">
+								<button class="btn btn-primary" type="submit">수정 완료</button>
+								<button class="btn btn-secondary" onclick="boardCancel(${page})" >수정 취소</button>
+							</div>
 					</div>
-			</div>
- 		
-				
 				</form>
 				</div>
 			</div>
