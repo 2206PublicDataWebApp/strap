@@ -91,10 +91,16 @@
 			<div style="border:1px solid gray; border-radius:10px; padding:12px;width:60%;margin:auto;">
 				<form id="registerCouponForm" action="/admin/coupon.register.strap" method="post" enctype="multipart/form-data">
 					<div>
-						<input type="text" name="couponName" placeholder="쿠폰이름" required>
+						<input type="text" name="couponName"  onkeyup="countText(this,30);" placeholder="쿠폰이름" required>
+						<div style="text-align:left;font-size:14px;padding:5px;display:inline-block;">
+							<span id="inputCount">(0/30)</span>
+						</div>
 					</div>
 					<div>
-						<textarea name="couponDesc"  placeholder="쿠폰설명" required style=width:90%;></textarea>
+						<textarea name="couponDesc"  onkeyup="countText(this,50);" placeholder="쿠폰설명" required style=width:90%;></textarea>
+						<div style="text-align:left;font-size:14px;padding:5px;display:inline-block;">
+							<span id="inputCount">(0/50)</span>
+						</div>
 					</div>
 					<div>
 						<span>할인방식: </span>
@@ -134,9 +140,9 @@
 					</div>
 					<div>
 						<span>대상 브랜드명: </span>
-						<input type="text" name="brandCondition" placeholder="대상 브랜드명" list="brandSelect"  value="None" required>
+						<input type="text" name="brandCondition" placeholder="대상 브랜드명" list="brandSelect"  value="" required>
 						<datalist id="brandSelect" name="brandCondition">
-							<option value="None" selected>미선택</option>
+							<option value="None" >미선택</option>
 						<c:forEach items="${productBrands }" var="product">
 							<option value="${product.productBrand }">${product.productBrand }</option>
 						</c:forEach>
@@ -146,9 +152,9 @@
 					</div>
 					<div>
 						<span>대상 제품명: </span>
-						<input type="text" name="productCondition" placeholder="대상 제품명" list="nameSelect"  value="None" required>
+						<input type="text" name="productCondition" placeholder="대상 제품명" list="nameSelect"  value="" required>
 						<datalist id="nameSelect" name="nameSelect">
-							<option value="None" selected>미선택</option>
+							<option value="None" >미선택</option>
 						<c:forEach items="${productNames }" var="product">
 							<option value="${product.productName }">${product.productName }</option>
 						</c:forEach>
@@ -221,6 +227,27 @@ function tempImgSave(thisInput,previewId){
 		},
 		error:function(){}
 	});
+}
+
+//유효성
+//텍스트 체크
+function countText(thisInput,limit){
+	var count = thisInput.value.length;
+	if(count>limit){
+		thisInput.value=thisInput.value.substring(0,limit);
+		count=limit;		
+	}
+	var text = "("+count+"/"+limit+")"
+	thisInput.nextElementSibling.childNodes[1].innerText = text;
+}
+
+//숫자 체크
+function checkNumber(thisInput){
+	var regExNum = /[0-9]/;
+	if(!regExNum.test(thisInput.value)){
+		thisInput.value = "";
+		thisInput.focus();
+	}
 }
 
 </script>

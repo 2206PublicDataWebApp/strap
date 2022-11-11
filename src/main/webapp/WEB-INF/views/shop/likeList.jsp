@@ -66,7 +66,7 @@
 						<div class="oneProduct col-2 userMenu">
 							<div class="p-menu-wrap" style="color:#c0c0c0;">
 								<span id="${product.productNo }" class="likeBtn shopmenu" onclick="loginCheck('${loginUser.memberId}',function(){controlLike('${loginUser.memberId}',${product.productNo });});"><i class="fa-solid fa-heart"></i></span>
-								<span class="cartBtn shopmenu" onclick="loginCheck('${loginUser.memberId}',function(){addCart('${loginUser.memberId }',${product.productNo },1);})"><i class="fa-solid fa-cart-shopping"></i></span>
+								<span class="cartBtn shopmenu" style="color:black;"onclick="loginCheck('${loginUser.memberId}',function(){addCart('${loginUser.memberId }',${product.productNo },1);})"><i class="fa-solid fa-cart-shopping"></i></span>
 							</div>
 						</div>
 					</div>

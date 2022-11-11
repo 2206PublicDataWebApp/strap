@@ -16,7 +16,7 @@
 	input[type="text"]{
 		padding:7px;
 		width:90%;
-		margin-bottom:7px;
+		margin-top:7px;
 	}
 	#previewArea{
 		overflow-y:scroll;
@@ -83,12 +83,21 @@
 					<h6 >상품 정보 입력</h6>
 					<div style="border:1px solid gray; border-radius:10px; padding:12px;">
 						<span style="color:red;font-size:12px;">*필수등록</span>
-						<input type="text" onkeyup="previewTxt(this,'previewBrand');" name="productBrand" placeholder="브랜드명 입력"><br>
+						<input type="text" onkeyup="previewTxt(this,'previewBrand'); countText(this,15);" name="productBrand" placeholder="브랜드명 입력" >
+						<div style="text-align:left;font-size:14px;padding:5px;display:inline-block;">
+							<span id="inputCount">(0/15)</span>
+						</div><br>
 						<span style="color:red;font-size:12px;">*필수등록</span>
-						<input type="text" onkeyup="previewTxt(this,'previewName')" name="productName" placeholder="상품명 입력"><br>
+						<input type="text" onkeyup="previewTxt(this,'previewName'); countText(this,30);" name="productName" placeholder="상품명 입력">
+						<div style="text-align:left;font-size:14px;padding:5px;display:inline-block;">
+							<span id="inputCount">(0/30)</span>
+						</div><br>
 						<span style="color:red;font-size:12px;">*필수등록</span>
-						<input type="text" onkeyup="previewTxt(this,'previewPrice')" name="productPrice" placeholder="상품가격 입력"><br>
-						<textarea 		   onkeyup="previewTxt(this,'previewDesc')" name="productDesc" placeholder="상품정보 입력" style="width:90%;height:100px;margin-bottom:20px;"></textarea>
+						<input type="text" onkeyup="previewTxt(this,'previewPrice');" onblur="checkNumber(this);" name="productPrice" maxlength="10" placeholder="상품가격 입력"><br>
+						<textarea 		   onkeyup="previewTxt(this,'previewDesc');countText(this,300);" name="productDesc" placeholder="상품정보 입력" style="width:90%;height:100px;margin-top:20px;"></textarea>
+						<div style="text-align:left;font-size:14px;padding:5px;display:inline-block;">
+							<span id="inputCount">(0/300)</span>
+						</div>
 					</div>
 					<br>
 				
@@ -321,6 +330,28 @@ function tempImgSave(thisInput,previewId){
 		},
 		error:function(){}
 	});
+}
+
+//유효성
+//텍스트 체크
+function countText(thisInput,limit){
+	var count = thisInput.value.length;
+	if(count>limit){
+		thisInput.value=thisInput.value.substring(0,limit);
+		count=limit;		
+	}
+	var text = "("+count+"/"+limit+")"
+// 	document.querySelector("#inputCount").innerText = text;
+	thisInput.nextElementSibling.childNodes[1].innerText = text;
+}
+
+//숫자 체크
+function checkNumber(thisInput){
+	var regExNum = /[0-9]/;
+	if(!regExNum.test(thisInput.value)){
+		thisInput.value = "";
+		thisInput.focus();
+	}
 }
  
 </script>
