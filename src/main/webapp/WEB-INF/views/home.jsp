@@ -36,7 +36,7 @@
 .oneView{
 	height:400px;
 	margin: 0 10px;
-	border:1px solid gray;
+	border:1px solid #c0c0c0;
 	border-radius:10px;
 }
 .star{

@@ -498,6 +498,7 @@ function directInput(){
 		document.querySelector("#userInputRqt").disabled = false;
 	}else{
 		document.querySelector("#userInputRqt").disabled = true;
+		document.querySelector("#userInputRqt").value="";
 	}
 }
 
