@@ -17,4 +17,10 @@ public interface AdminMemberStore {
 
 	List<Member> printAllBySort(SqlSession session, String memberType, int currentPage, int memberLimit);
 
+	Member memberById(SqlSession session, String memberId);
+
+	int adminMemberModify(SqlSession session, Member member);
+
+	int adminMemberDelete(SqlSession session, String memberId);
+
 }

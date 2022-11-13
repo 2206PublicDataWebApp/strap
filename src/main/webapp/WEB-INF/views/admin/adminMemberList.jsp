@@ -111,7 +111,6 @@
 		</div>
 <script>
 	function memberDetail(memberId){
-		console.log(memberId);
 		var form = document.createElement('form');
 		form.setAttribute('method', 'post');
 		form.setAttribute('action', '/admin/memberDetail.strap');

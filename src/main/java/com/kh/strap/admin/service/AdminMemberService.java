@@ -14,4 +14,10 @@ public interface AdminMemberService {
 
 	List<Member> printAllBySort(String memberType, int currentPage, int memberLimit);
 
+	Member memberById(String memberId);
+
+	int adminMemberModify(Member member);
+
+	int adminMemberDelete(String memberId);
+
 }

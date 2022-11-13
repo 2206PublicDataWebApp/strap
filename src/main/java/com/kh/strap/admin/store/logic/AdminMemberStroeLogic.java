@@ -52,4 +52,22 @@ public class AdminMemberStroeLogic implements AdminMemberStore {
 		return mList;
 	}
 
+	@Override
+	public Member memberById(SqlSession session, String memberId) {
+		Member member = session.selectOne("AdminMemberMapper.memberById", memberId);
+		return member;
+	}
+
+	@Override
+	public int adminMemberModify(SqlSession session, Member member) {
+		int result = session.update("AdminMemberMapper.adminMemberModify", member);
+		return result;
+	}
+
+	@Override
+	public int adminMemberDelete(SqlSession session, String memberId) {
+		int result = session.update("AdminMemberMapper.adminMemberDelete", memberId);
+		return result;
+	}
+
 }

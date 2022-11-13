@@ -44,4 +44,22 @@ public class AdminMemberServiceImpl implements AdminMemberService{
 		return mList;
 	}
 
+	@Override
+	public Member memberById(String memberId) {
+		Member member = aStore.memberById(session, memberId);
+		return member;
+	}
+
+	@Override
+	public int adminMemberModify(Member member) {
+		int result = aStore.adminMemberModify(session, member);
+		return result;
+	}
+
+	@Override
+	public int adminMemberDelete(String memberId) {
+		int result = aStore.adminMemberDelete(session, memberId);
+		return result;
+	}
+
 }

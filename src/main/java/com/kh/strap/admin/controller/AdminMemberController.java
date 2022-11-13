@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -125,12 +126,40 @@ public class AdminMemberController {
 	}
 	
 	@RequestMapping(value="/admin/memberDetail.strap", method=RequestMethod.POST)
-	public ModelAndView adminMemberSearchList(
+	public ModelAndView adminMemberDetail(
 			ModelAndView mv
 			,@RequestParam("memberId") String memberId){
-		System.out.println("memberId : " + memberId);
-		Member member;
+		Member member = aService.memberById(memberId);
+		mv.addObject("member", member);
 		mv.setViewName("/admin/adminMemberDetail");
+		return mv;
+	}
+	
+	@RequestMapping(value="/admin/memberModify.strap", method=RequestMethod.POST)
+	public ModelAndView adminMemberModify(
+			ModelAndView mv
+			,@ModelAttribute Member member
+			){
+		int result = aService.adminMemberModify(member);
+		if(result ==1) {
+			mv.setViewName("redirect:/admin/memberView.strap");
+		}else {
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+	}
+	
+	@RequestMapping(value="/admin/memberDelete.strap", method=RequestMethod.POST)
+	public ModelAndView adminMember(
+			ModelAndView mv
+			,String memberId
+			){
+		int result = aService.adminMemberDelete(memberId);
+		if(result ==1) {
+			mv.setViewName("redirect:/admin/memberView.strap");
+		} else {
+			mv.setViewName("common/errorPage");
+		}
 		return mv;
 	}
 }

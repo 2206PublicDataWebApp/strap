@@ -128,7 +128,6 @@ public class MemberController {
 			,String memberPwd
 			,HttpServletRequest request) {
 		String encodePwd = mService.memberPwdById(memberId);
-		System.out.println(passwordEncoder.matches(memberPwd, encodePwd));
 		
 		if(passwordEncoder.matches(memberPwd, encodePwd)) {
 			//로그인 시 최근 접속일 갱신 및 세션등록
@@ -173,6 +172,23 @@ public class MemberController {
 	}
 
 	/**
+	 * 해당 이메일로 가입한 아이디가 있는지 확인
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/member/checkEmail.strap")
+	public String checkEamil(
+			@RequestParam("memberEmail") String memberEmail) {
+		int result = mService.IdCheckByEmail(memberEmail);
+		if(result > 0 ) {
+			return "ok";
+		}else {
+			return "no";
+		}
+	}
+	
+	
+	/**
 	 * 
 	 * @param memberEmail 회원 이메일
 	 * @return 생성된 난수와 전송되었다는 문자열 json 리턴
@@ -181,11 +197,7 @@ public class MemberController {
 	@RequestMapping(value="/member/sendMail.strap",produces="applicaiton/json;charset=utf-8")
 	public String sendMail(
 			@RequestParam("memberEmail") String memberEmail) {
-		int result = mService.IdCheckByEmail(memberEmail);
-		System.out.println(memberEmail);
-		System.out.println("해당 이메일로 가입한 아이디 갯수 :" + result);
 		//해당 이메일로 가입한 아이디가 있으면 이메일 전송
-		if(result > 0) {
 			//6자리 난수 생성
 			ThreadLocalRandom random = ThreadLocalRandom.current();
 			String num = String.valueOf(random.nextInt(100000, 1000000));
@@ -193,7 +205,6 @@ public class MemberController {
 			String content = "요청하신 아이디를 찾기 위한 인증 번호 [ "+num+" ]입니다";
 			String from ="스트랩팀 <mykri155@gmail.com>";
 			String to = memberEmail;
-			System.out.println(to);
 			try {
 				//MimeMessage 객체를 생성하여 발송하는 방법
 				MimeMessage mail = mailSender.createMimeMessage();
@@ -213,7 +224,6 @@ public class MemberController {
 			} catch (MessagingException e) {
 				e.printStackTrace();
 			}
-		}
 		JSONObject jsonObj = new JSONObject();
         jsonObj.put("send", "error");
 		return jsonObj.toString();	
@@ -234,48 +244,61 @@ public class MemberController {
 	}
 	
 	/**
+	 * 해당 아이디의 이메일 정보와 일치하는지 확인
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/member/checkIdEmail.strap",method = RequestMethod.POST)
+	public String checkIdEamil(
+			@RequestParam("memberId") String memberId
+			,@RequestParam("memberEmail") String memberEmail) {
+		Member member = new Member();
+		member.setMemberId(memberId);
+		member.setMemberEmail(memberEmail);
+		int result = mService.idEmailCheck(member);
+		if(result > 0 ) {
+			return "ok";
+		}else {
+			return "no";
+		}
+	}
+	
+	
+	/**
+	 * 비밀번호를 찾기위한 이메일 전송
 	 * @param memberEmail
 	 * @param memberId
-	 * 비밀번호를 찾기위해 아이디와 이메일이 일치하는지 확인
+	 * 
 	 */
 	@ResponseBody
 	@RequestMapping(value="/member/idEmailCheck.strap", produces="applicaiton/json;charset=utf-8",method=RequestMethod.POST)
 	public String idEmailCheck(
 			@RequestParam("memberId") String memberId
 			,@RequestParam("memberEmail") String memberEmail) {
-		Member member = new Member();
-		member.setMemberId(memberId);
-		member.setMemberEmail(memberEmail);
-		System.out.println(member);
-		int result = mService.idEmailCheck(member);
-		System.out.println("아이디와 이메일 일치" + result);
-		if(result ==1) {
-			ThreadLocalRandom random = ThreadLocalRandom.current();
-			String num = String.valueOf(random.nextInt(100000, 1000000));
-			String subject = "[스트랩] 비밀번호 찾기 인증번호";
-			String content = "요청하신 비밀번호를 찾기 위한 인증 번호 [ "+num+" ]입니다";
-			String from ="스트랩팀 <mykri155@gmail.com>";
-			String to = memberEmail;
-			System.out.println(to);
-			try {
-				//MimeMessage 객체를 생성하여 발송하는 방법
-				MimeMessage mail = mailSender.createMimeMessage();
-				MimeMessageHelper mailHelper = new MimeMessageHelper(mail,true,"UTF-8"); //true는 멀티파트 메시지를 사용한다는 의미, 단순 텍스트는 생략가능
-				mailHelper.setFrom(from);			//보내는이
-				mailHelper.setTo(to);				//받는이
-				mailHelper.setSubject(subject);		//제목
-	            mailHelper.setText(content, true);	//내용, true는 html을 사용하겠다는 의미, 단순 텍스트는 생략 가능
-	//            파일 업로드 시 추가할 코드
-	//            FileSystemResource file = new FileSystemResource(new File("경로\업로드파일.형식")); 
-	//            mailHelper.addAttachment("업로드파일.형식", file);  
-	            mailSender.send(mail);				//전송
-	            JSONObject jsonObj = new JSONObject();
-	            jsonObj.put("num", num);
-	            jsonObj.put("send", "ok");
-	            return jsonObj.toString();
-			} catch (MessagingException e) {
-				e.printStackTrace();
-			}
+		ThreadLocalRandom random = ThreadLocalRandom.current();
+		String num = String.valueOf(random.nextInt(100000, 1000000));
+		String subject = "[스트랩] 비밀번호 찾기 인증번호";
+		String content = "요청하신 비밀번호를 찾기 위한 인증 번호 [ "+num+" ]입니다";
+		String from ="스트랩팀 <mykri155@gmail.com>";
+		String to = memberEmail;
+		try {
+			//MimeMessage 객체를 생성하여 발송하는 방법
+			MimeMessage mail = mailSender.createMimeMessage();
+			MimeMessageHelper mailHelper = new MimeMessageHelper(mail,true,"UTF-8"); //true는 멀티파트 메시지를 사용한다는 의미, 단순 텍스트는 생략가능
+			mailHelper.setFrom(from);			//보내는이
+			mailHelper.setTo(to);				//받는이
+			mailHelper.setSubject(subject);		//제목
+            mailHelper.setText(content, true);	//내용, true는 html을 사용하겠다는 의미, 단순 텍스트는 생략 가능
+//            파일 업로드 시 추가할 코드
+//            FileSystemResource file = new FileSystemResource(new File("경로\업로드파일.형식")); 
+//            mailHelper.addAttachment("업로드파일.형식", file);  
+            mailSender.send(mail);				//전송
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("num", num);
+            jsonObj.put("send", "ok");
+            return jsonObj.toString();
+		} catch (MessagingException e) {
+			e.printStackTrace();
 		}
 		JSONObject jsonObj = new JSONObject();
         jsonObj.put("send", "error");

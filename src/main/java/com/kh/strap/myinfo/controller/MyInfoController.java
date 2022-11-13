@@ -67,7 +67,6 @@ public class MyInfoController {
 			,@RequestParam("newPwd") String newPwd
 			) {
 		String encodePwd = mService.memberPwdById(memberId);
-		System.out.println(passwordEncoder.matches(pwd, encodePwd));
 		if(passwordEncoder.matches(pwd, encodePwd)) {
 			Member member = new Member(memberId, passwordEncoder.encode(newPwd));
 			int result = mService.changePwd(member);

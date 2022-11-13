@@ -710,9 +710,7 @@ span.guide {
 		function modifyIntroduceFinish() {
 			var memberId = $("#memberId").text();
 			var memberIntroduce = $("#memberIntroduce").val();
-			console.log(memberIntroduce);
 			memberIntroduce = memberIntroduce.replace(/(\n|\r\n)/g,'<br>');
-			console.log(memberIntroduce);
 			if (confirm("자기소개를 변경하시겠습니까?")) {
 				$.ajax({
 					url : "/member/myinfoIntroduce.strap",

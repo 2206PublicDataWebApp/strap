@@ -73,23 +73,29 @@
 			var memberId = $("#memberId").val();
 			var memberEmail = $("#memberEmail").val();
 			if($(".email.error").css("display") == 'none' && memberEmail.length>1){
-				console.log("아이디와 이메일 일치 시 인증번호 발송");
 				$.ajax({
-					url:"/member/idEmailCheck.strap",
+					url:"/member/checkIdEmail.strap",
 					data:{"memberId":memberId, "memberEmail":memberEmail},
 					type:"post",
 					success:function(result){
-						if(result.send=="ok"){
-							window.alert("입력하신 이메일 주소로 인증번호를 발송했습니다.");
-							console.log("일치");
-							console.log(result);
+						console.log(result);
+						if(result == "no"){
+							window.alert("아이디와 이메일을 확인해주세요");
+						} else {
+							window.alert("입력하신 이메일 주소로 인증번호를 발송합니다.");
 							$("#certificationNumber").show();
 							$("#findPwdBtn").removeAttr("disabled");
-							authNumber = result.num;
-							console.log(authNumber);
-						} else {
-							console.log("불일치")
-							window.alert("아이디와 비밀번호를 확인해주세요");
+							$.ajax({
+								url:"/member/idEmailCheck.strap",
+								data:{"memberId":memberId, "memberEmail":memberEmail},
+								type:"post",
+								success:function(result){
+									authNumber = result.num;
+								},
+								error:function(result){
+									alert("이메일 인증번호 발송에 실패하였습니다. 관리자에게 문의 바랍니다.");
+								}
+							})
 						}
 						
 					}

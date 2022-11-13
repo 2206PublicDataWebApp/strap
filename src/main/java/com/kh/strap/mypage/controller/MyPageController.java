@@ -89,18 +89,6 @@ public class MyPageController {
 		return "mypage/myPage";
 	}
 	
-	@RequestMapping("/mypage/matchingView.strap")
-	public String matchingView(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		Member member = (Member)session.getAttribute("loginUser");
-		if(member == null) {
-			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
-			request.setAttribute("url", "/member/loginView.strap");
-			return("common/alert");
-		}
-		return "/mypage/matchingHistory";
-	}
-	
 	/**
 	 * 유저의 간단 Q&A 가져오기
 	 * @param question 질문
@@ -167,9 +155,7 @@ public class MyPageController {
 		int result1 = mService.mannerUpdate(map);
 		//설문완료 처리
 		int result2 = mService.inserSurveyAnswer(map);
-		System.out.println("매너 처리 : " + result1);
-		System.out.println("설문 완료 처리 : " + result2);
-		if(result1 == 1) {
+		if(result1 == 1 && result2 == 1) {
 			return "ok";
 		} else {
 			return "no";
