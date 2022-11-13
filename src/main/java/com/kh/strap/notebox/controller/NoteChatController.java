@@ -51,29 +51,27 @@ public class NoteChatController {
 		@ResponseBody
 		@RequestMapping(value="/notebox/noteChatView.strap",produces="application/json;charset=utf-8", method=RequestMethod.GET)
 		public ModelAndView showNoteChat(ModelAndView mv, HttpServletRequest request
-				,@RequestParam("senderNick") String senderNick
-				,@RequestParam("recipientId") String recipientId
-				,@RequestParam("recipientNick") String recipientNick
+				,@ModelAttribute NoteBox noteBox
 				,@RequestParam("ncList") String ncList
 				,@RequestParam("memberId") String memberId
 				) {
 			Gson gson = new Gson();
 			String jsonString = ncList;
-//			System.out.println("nc리스트 : " + jsonString);
 			gson =  new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 			NoteChat[] array = gson.fromJson(jsonString, NoteChat[].class);
-//		    System.out.println("어레이 : " + array);
 			List<NoteChat> list = Arrays.asList(array);
-//		    System.out.println("리스트 : " + list);
-		    if(memberId.equals(recipientId)) {
-				mv.addObject("senderNick", senderNick);
-				
+		    if(memberId.equals(noteBox.getRecipientId())) {
+				mv.addObject("senderNick", noteBox.getSenderNick());
+				Member mOne = nbService.printOneByName(noteBox.getSenderNick());
+				mv.addObject("member", mOne);
 			} else {
-				mv.addObject("senderNick", recipientNick);
+				mv.addObject("senderNick", noteBox.getRecipientNick());
+				Member mOne = nbService.printOneByName(noteBox.getRecipientNick());
+				mv.addObject("member", mOne);
 			}
-		    Member mOne = nbService.printOneByName(recipientNick);
-		    mv.addObject("member", mOne);
+		    noteBox = nbService.printOneByNo(noteBox);
 			mv.addObject("ncList", list);
+			mv.addObject("noteBox", noteBox);
 			mv.addObject("memberId", memberId);
 			mv.setViewName("mypage/noteChat");
 			return mv;
@@ -97,18 +95,13 @@ public class NoteChatController {
 			HttpSession session = request.getSession();
 			Member member = (Member)session.getAttribute("loginUser");
 			String memberId = member.getMemberId();
-			NoteChat noteChat = new NoteChat();
-			noteChat.setChatNo(noteNo);
-			noteChat.setSenderId(senderNick);
 			List<NoteChat> ncList = ncService.printNoteChatList(noteNo);
 			JSONArray sendArray = new JSONArray();
 			int i = 0;
 			for(NoteChat nc : ncList) {
 				JSONObject ncJsonObj = new JSONObject();
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//				System.out.println("변환전 : " +nc.getSenderDate());
 				String formatDate = sdf.format(nc.getSenderDate());
-//				System.out.println("변환후 : " + formatDate);
 				ncJsonObj.put("chatNo", nc.getChatNo());
 				ncJsonObj.put("senderId", nc.getSenderId());
 				ncJsonObj.put("senderNick", nc.getSenderNick());
@@ -117,7 +110,6 @@ public class NoteChatController {
 				sendArray.add(ncJsonObj);
 				i++;
 			}
-//			System.out.println("제이슨 어레이 : " + sendArray);
 			JSONObject jsonObj = new JSONObject();
 			jsonObj.put("memberId", memberId);
 			jsonObj.put("noteNo", noteNo);
@@ -125,8 +117,6 @@ public class NoteChatController {
 			jsonObj.put("senderNick", senderNick);
 			jsonObj.put("recipientId", recipientId);
 			jsonObj.put("recipientNick", recipientNick);
-//			System.out.println("제이슨 스트링 전 : " + jsonObj);
-//			System.out.println("제이슨 스트링 : " + jsonObj.toString());
 			return jsonObj.toString();
 			
 		}
@@ -153,7 +143,6 @@ public class NoteChatController {
 			noteBox.setSenderNick(senderNick);
 			noteBox.setNoteContents(chatContents);
 			int result = ncService.registNoteChat(noteBox);
-			
 			mv.setViewName("mypage/noteChat");
 			return mv;
 		}

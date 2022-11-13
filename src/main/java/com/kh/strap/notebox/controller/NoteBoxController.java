@@ -41,7 +41,6 @@ public class NoteBoxController {
 		String memberId = member.getMemberId();
 		int currentPage = (page != null) ? page : 1;
 		int totalCount = nbService.getTotalCount("","", memberId);
-		System.out.println("토탈 카운드 : " +totalCount);
 		int noticeLimit = 10;
 		int naviLimit = 5;
 		int maxPage;
@@ -54,6 +53,7 @@ public class NoteBoxController {
 			endNavi = maxPage;
 		}
 		List<NoteBox> nList = nbService.printNoteBoxList(memberId, currentPage, noticeLimit);
+		System.out.println(nList);
 		if(!nList.isEmpty()) {
 			mv.addObject("urlVal", "noteBoxListView");
 			mv.addObject("maxPage", maxPage);
@@ -85,9 +85,9 @@ public class NoteBoxController {
 		int result = nbService.checkNote(noteBox);
 		NoteBox nOne = nbService.printOneByNo(noteBox);
 		Member mOne = nbService.printOneByName(nOne.getSenderNick());
+		mv.addObject("member", mOne);
 		mv.addObject("memberId", memberId);
 		mv.addObject("noteBox", nOne);
-		mv.addObject("member", mOne);
 		mv.setViewName("mypage/noteDetail");
 		return mv;
 	}

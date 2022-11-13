@@ -14,9 +14,10 @@
 			<br>
 			<div class="row">
 				<div class="col">
+				
 				</div>
 				<div class="col" align="right">
-						<button onclick="location.href='/admin/adminReportListView.strap?page=${page}'" class="btn btn-dark">목록으로</button>
+					<button onclick="location.href='/admin/adminReportListView.strap?page=${page}'" class="btn btn-dark">목록으로</button>
 				</div>
 			</div>
 			<br>
@@ -46,29 +47,6 @@
 				</div>
 			</div>
 			<hr>
-			<c:if test="${adminReport.reportProcess eq 'N'}">
-				<div class="row" >
-					<div class="col">
-						<form action="/admin/registerAdminReport.strap" method="post">
-							<input type="hidden" value="${adminReport.reportNo }" name="ReportNo">
-							<input type="hidden" value="${page}" name="page">
-							<div class="row text-center">
-								<div class="col mb-3">
-								<div class="mb-3 text-start">
-									<h4>답변 작성</h4>
-								</div>
-								<textarea class="form-control" style="height:180px;" name="answerContents" ></textarea>
-								</div>
-							</div>
-							<div class="row text-center">
-								<div class="col">
-									<button class="btn btn-dark" type="submit">답변 완료</button>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</c:if>
 			<c:if test="${adminReport.reportProcess eq 'Y'}">
 				<div class="row" >
 					<div class="col">
@@ -77,10 +55,9 @@
 							<input type="hidden" value="${page}" name="page">
 							<div class="row text-center">
 								<div class="col mb-3">
-								<div class="mb-3 text-start">
-									<h4>답변</h4>
-								</div>
-								<textarea id="Report-answer" class="form-control" style="height:180px;" name="answerContents" disabled></textarea>
+									<div class="mb-3 text-start">
+										<h4>신고 처리</h4>
+									</div>
 								</div>
 							</div>
 							<div class="row text-center">
@@ -91,7 +68,17 @@
 						</form>
 							<div class="row text-center">
 								<div class="col">
-									<button id="Report-modify" class="btn btn-dark" onclick="textareaAble(this);">답변 수정</button>
+									<select class="form-select" aria-label="Default select example">
+										<option selected>컨텐츠 처리</option>
+										<option value="1">숨김</option>
+										<option value="2">삭제</option>
+									</select>
+								</div>
+								<div class="col">
+									<select class="form-select" aria-label="Default select example">
+										<option selected>회원 처리</option>
+										<option value="1">탈퇴</option>
+									</select>
 								</div>
 							</div>
 					</div>

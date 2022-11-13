@@ -72,10 +72,10 @@
 				<tr align="center" height="20">
 					<td colspan="7">
 						<c:if test="${currentPage != 1 }">
-							<c:if test="${empty reportCode }">
+							<c:if test="${empty contentsCode }">
 								<a href="/admin/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-dark">이전</a>
 							</c:if>
-							<c:if test="${not empty reportCode }">
+							<c:if test="${not empty contentsCode }">
 								<a href="/admin/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}&contentsCode=${contentsCode}" class="btn btn-dark">이전</a>
 							</c:if>
 						</c:if>
