@@ -5,7 +5,7 @@
 
 <html>
 <head>
-<title>STRAP MAIN</title>
+<title>스트랩 : 주문페이지</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
@@ -210,8 +210,7 @@
 						<div id="card-guide" style="background-color:rgb(250,250,250);padding:20px;">
 							<span class="subTitleTxt">신용카드 결제 안내</span><hr>
 								<ul>
-									<li>안내1</li>
-									<li>안내2</li>
+									<li>본인 명의의 신용카드를 이용해 결제하실 수 있습니다.</li>
 								</ul>
 						</div>
 					</div>
@@ -228,8 +227,9 @@
 						<div id="vBanking-guide" style="background-color:rgb(250,250,250);padding:20px;">
 							<span class="subTitleTxt">가상계좌 이체 안내</span><hr>
 								<ul>
-									<li>안내1</li>
-									<li>안내2</li>
+									<li>가상 계좌 입금기한은 3일 후 23시 59분까지 입니다.</li>
+									<li>가상 계좌 입금 시 입금 반영에 시간이 걸릴 수 있습니다.</li>
+									<li>가상 계좌 결제 취소는 관리자에게 문의 바랍니다.</li>
 								</ul>
 						</div>
 					</div>
@@ -237,8 +237,7 @@
 						<div id="kakaopay-guide" style="background-color:rgb(250,250,250);padding:20px;">
 							<span class="subTitleTxt">카카오페이 안내</span><hr>
 								<ul>
-									<li>안내1</li>
-									<li>안내2</li>
+									<li>본인 명의의 카카오 페이로 결제할 수 있습니다.</li>
 								</ul>
 						</div>
 					</div>
@@ -363,10 +362,10 @@ function kginisis(){
 				    if ( rsp.success ) {
 				    	console.log(rsp);
 				        var msg = '결제가 완료되었습니다.';
-				        msg += '고유ID : ' + rsp.imp_uid;
-				        msg += '상점 거래ID : ' + rsp.merchant_uid;
-				        msg += '결제 금액 : ' + rsp.paid_amount;
-				        msg += '카드 승인번호 : ' + rsp.apply_num;
+// 				        msg += '고유ID : ' + rsp.imp_uid;
+// 				        msg += '상점 거래ID : ' + rsp.merchant_uid;
+// 				        msg += '결제 금액 : ' + rsp.paid_amount;
+// 				        msg += '카드 승인번호 : ' + rsp.apply_num;
 				        $.ajax({
 				            url: "/order/payment/completeCheck.strap", // 예: https://www.myservice.com/payments/complete
 				            method: "POST",
@@ -409,7 +408,7 @@ function kginisis(){
 				        msg += '에러내용 : ' + rsp.error_msg;
 				    }
 				    console.log(msg);
-				    alert("결제가 완료되었습니다.");
+				    alert(msg);
 				});
 }
 
@@ -643,10 +642,19 @@ function guideMenuVisible(thisCheck,n){
 }
 //결제버튼 온클릭
 function clickPayBtn(){
+	var postNumberVal = document.querySelector("#postCode").value;
+	var inputDetailAddress = document.querySelector("#detailAddr").value;
+	var phoneBodyNumVal = document.querySelector("#phoneBodyNum").value;
+	var deliveryRequestVal =  document.querySelector("#deliveryRequest").value;
 	if(paymentMethod==''){
-		alert('결제수단을 선택해주세요.')
+		alert('결제수단을 선택해주세요.');
+	}else if(postNumberVal=='' || inputDetailAddress == ''){
+		alert("주소를 입력해주세요.");
+	}else if(phoneBodyNumVal == ''){
+		alert("연락처를 입력해주세요.");
+	}else if(deliveryRequestVal == ''){
+		alert("배송 요청사항을 입력해주세요.");
 	}else{
-	}
 		if(document.querySelector("#agreeCheck").checked){
 			insertOrder(); 
 			kginisis();
@@ -654,6 +662,7 @@ function clickPayBtn(){
 			alert("구매조건 및 이용약관에 동의해주세요.");
 		}
 	}
+}
 
 
 //////////////결제버튼 클릭 후 order테이블에 주문 레코드 삽입 ajax insert

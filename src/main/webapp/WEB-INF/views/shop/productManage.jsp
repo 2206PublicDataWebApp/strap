@@ -5,7 +5,7 @@
 
 <html>
 <head>
-<title>STRAP MAIN</title>
+<title>스트랩 : 상품관리</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
