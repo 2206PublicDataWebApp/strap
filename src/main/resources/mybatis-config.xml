@@ -46,6 +46,7 @@
 		<mapper resource="mappers/admin-mapper.xml"/>
 		<mapper resource="mappers/adminqna-mapper.xml"/>
 		<mapper resource="mappers/adminreport-mapper.xml"/>
+		<mapper resource="mappers/adminMember-mapper.xml"/>
 		<mapper resource="mappers/banner-mapper.xml"/>
 		<mapper resource="mappers/board-mapper.xml"/>
 		<mapper resource="mappers/board-reply-mapper.xml"/>

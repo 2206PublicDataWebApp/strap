@@ -22,4 +22,5 @@
 #noteTitle{width: 566px; border: 1px solid lightgray; border-radius: 10px;}
 .imgDiv{width: 250px; height: 300px; overflow: hidden; border-radius: 70px; margin:auto;}
 .nickDiv{width: 200px; height: 40px; font-size15px; margin:auto;}
-#memberIntroduce{width: 250px; height: 110px;}	
+#memberIntroduce{width: 250px; height: 110px;}
+.memberRecomend{margin:0 auto; width: 700px; height: 400px; border:1px solid lightgray;border-radius: 10px; padding:30px 0;}	

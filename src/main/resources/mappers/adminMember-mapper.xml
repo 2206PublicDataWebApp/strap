@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AdminMemberMapper">
+	<resultMap type="Member" id="MemberResultMap">
+		<id property="memberId" 			column="MEMBER_ID"/>
+  		<result property="memberPwd" 		column="MEMBER_PWD"/>
+  		<result property="memberName" 		column="MEMBER_NAME"/>
+  		<result property="memberEmail"		column="MEMBER_EMAIL"/>
+  		<result property="memberGender"		column="MEMBER_GENDER"/>
+  		<result property="memberNick" 		column="MEMBER_NICK"/>
+  		<result property="memberJym"		column="MEMBER_JYM"/>
+  		<result property="memberCareer" 	column="MEMBER_CAREER"/>
+  		<result property="memberSBD" 		column="MEMBER_SBD"/>
+  		<result property="mProfileName" 	column="M_PROFILE_NAME"/>
+  		<result property="mProfileRename" 	column="M_PROFILE_RENAME"/>
+  		<result property="mProfilePath" 	column="M_PROFILE_PATH"/>
+  		<result property="mRegisterDate" 	column="M_REGISTER_DATE"/>
+  		<result property="memberStatus" 	column="MEMBER_STATUS"/>
+  		<result property="adminStatus" 		column="ADMIN_STATUS"/>
+  		<result property="memberManner"		column="MEMBER_MANNER"/>
+  		<result property="memberType"		column="MEMBER_TYPE"/>
+  		<result property="memberIntroduce"	column="MEMBER_INTRODUCE"/>
+  		<result property="memberAddress"	column="MEMBER_ADDRESS"/>
+  		<result property="recomendCount"	column="RECOMEND_COUNT"/>
+	</resultMap>
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) FROM MEMBER_TBL WHERE MEMBER_STATUS = 'Y'
+			<if test="searchCondition.toString() == 'all'">
+				AND MEMBER_ID LIKE '%'||#{searchValue}||'%' OR MEMBER_NICK LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test="searchCondition.toString() == 'memberId'">
+				AND MEMBER_ID LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test="searchCondition.toString() == 'memberNick'">
+				AND MEMBER_NICK LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test="memberType == 'general' or memberType == 'kakao'">
+			AND MEMBER_TYPE = #{memberType}
+			</if>
+	</select>
+	<select id="printAllAdminMeberList" resultMap="MemberResultMap">
+		SELECT * FROM MEMBER_TBL WHERE MEMBER_STATUS = 'Y'
+	</select>
+	<select id="printAllByValue" resultMap="MemberResultMap">
+		SELECT * FROM MEMBER_TBL WHERE MEMBER_STATUS = 'Y'
+		<if test="searchCondition.toString() == 'all'">
+			AND MEMBER_ID LIKE '%'||#{searchValue}||'%' OR MEMBER_NICK LIKE '%'||#{searchValue}||'%'
+		</if>
+		<if test="searchCondition.toString() == 'memberId'">
+			AND MEMBER_ID LIKE '%'||#{searchValue}||'%'
+		</if>
+		<if test="searchCondition.toString() == 'memberNick'">
+			AND MEMBER_NICK LIKE '%'||#{searchValue}||'%'
+		</if>
+		<if test="memberType == 'general' or memberType == 'kakao'">
+			AND MEMBER_TYPE = #{memberType}
+		</if>
+	</select>
+	<select id="printAllBySort" resultMap="MemberResultMap">
+		SELECT * FROM MEMBER_TBL WHERE MEMBER_TYPE = #{memberType} AND MEMBER_STATUS = 'Y'
+	</select>
+	<select id="memberById" resultMap="MemberResultMap">
+		SELECT * FROM MEMBER_TBL WHERE MEMBER_ID = #{memberId} AND MEMBER_STATUS = 'Y'
+	</select>
+	<update id="adminMemberModify">
+		UPDATE MEMBER_TBL SET MEMBER_NAME = #{memberName}, MEMBER_NICK = #{memberNick}, MEMBER_EMAIL = #{memberEmail}, MEMBER_GENDER = #{memberGender},
+		MEMBER_MANNER = #{memberManner}, MEMBER_SBD = #{memberSBD}, MEMBER_CAREER = #{memberCareer}, MEMBER_JYM = #{memberJym}, MEMBER_ADDRESS = #{memberAddress},
+		MEMBER_INTRODUCE = #{memberIntroduce}, MEMBER_TYPE = #{memberType}
+		WHERE MEMBER_ID = #{memberId}
+	</update>
+	<update id="adminMemberDelete">
+		update MEMBER_TBL SET MEMBER_STATUS = 'N' WHERE MEMBER_ID = #{memberId}
+	</update>
+</mapper>

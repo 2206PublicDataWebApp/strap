@@ -34,27 +34,31 @@
 	<div id="contents" class="contents row">
 		<div class="contents-side col">
 		<br><br>
-			<div id="memberList">
-				<button class="btn btn-light find"><img class="findImg" src="/resources/image/matching/squat.png"> 쫌 치네? 3대 500 이상 회원</button><br><br>
-				<c:forEach items="${mList }" var="member">
-					<div class="member">
-						<div class="img">
-							<c:if test="${member.mProfileRename eq null }">
-								<img width="100%" height="100%" src="/resources/profileUploadFiles/default.png">
-							</c:if>
-							<c:if test="${member.mProfileRename ne null }">
-								<img alt="이미지" width="100%" height="100%" src="/resources/profileUploadFiles/${member.mProfileRename }">
-							</c:if>
+			<div class="memberRecomend">
+				<div id="memberList">
+					<button class="btn btn-light find"><img class="findImg" src="/resources/image/matching/squat.png"> 쫌 치네? 3대 500 이상 회원</button><br><br>
+					<c:forEach items="${mList }" var="member">
+						<div class="member">
+							<div class="img">
+								<c:if test="${member.mProfileRename eq null }">
+									<img width="100%" height="100%" src="/resources/profileUploadFiles/default.png">
+								</c:if>
+								<c:if test="${member.mProfileRename ne null }">
+									<img alt="이미지" width="100%" height="100%" src="/resources/profileUploadFiles/${member.mProfileRename }">
+								</c:if>
+							</div>
+							<br>
+							<div class="nick">						
+								<button onclick="profileDetail('${member.memberId }','${member.mProfileRename}','${member.memberNick}','${member.memberCareer}','${member.memberSBD}','${member.memberJym}','${member.memberGender}','${member.memberIntroduce}','${member.memberManner}');" class="btn btn-light">${member.memberNick }</button>
+							</div>
 						</div>
-						<br>
-						<div class="nick">						
-							<button onclick="profileDetail('${member.memberId }','${member.mProfileRename}','${member.memberNick}','${member.memberCareer}','${member.memberSBD}','${member.memberJym}','${member.memberGender}','${member.memberIntroduce}','${member.memberManner}');" class="btn btn-light">${member.memberNick }</button>
-						</div>
-					</div>
-				</c:forEach>
+					</c:forEach>
+				</div>
+				<br><br>
+				<div style="margin: auto; width: 150px;">
+				<button onclick="SBDRefresh();" class="btn btn-dark">새로 추천 받기</button>
+				</div>
 			</div>
-			<br><br>
-			<button onclick="SBDRefresh();" class="btn btn-dark">새로 추천 받기</button>
 			<br><br><br>
 			<div id="profile">
 				<div id="info">
@@ -274,6 +278,7 @@
 		//manner
 		$("#memberManner").val(memberManner+'점');
 		//Introduce
+		memberIntroduce = memberIntroduce.replace(/<br>/g, '\n');
 		$("#memberIntroduce").val(memberIntroduce);
 		//Q&A
 		$.ajax({

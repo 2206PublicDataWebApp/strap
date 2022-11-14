@@ -57,7 +57,7 @@
   	</select>
   	<!-- 아이디 찾기 결과 -->
   	<select id="findIdByEmail" resultMap="IdAndCreateDate">
-  		SELECT MEMBER_ID, M_REGISTER_DATE FROM MEMBER_TBL WHERE MEMBER_EMAIL = #{memberEmail} AND MEMBER_STATUS = 'Y'
+  		SELECT MEMBER_ID, M_REGISTER_DATE FROM MEMBER_TBL WHERE MEMBER_EMAIL = #{memberEmail} AND MEMBER_TYPE = 'general' AND MEMBER_STATUS = 'Y' 
   	</select>
   	<!-- 아이이와 이메일 일치 확인 -->
   	<select id="idEmailCheck" resultType="_int">

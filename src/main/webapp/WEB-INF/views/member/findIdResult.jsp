@@ -21,9 +21,13 @@
 			height: 400px;
 			line-height: 50%;
 		}
-		.findIdResultForm button,.findIdResultForm input{
+		.findIdResultForm button{
 			width: 200px;
 		}
+		.findIdResultForm input{
+			width: 300px; text-align: center;
+		}
+		.idList{width: 300px; margin: auto;}
 	</style>
 
 </head>
@@ -31,12 +35,14 @@
 	<div class="findIdResultForm">
 		<h3>아이디 찾기 결과</h3>
 		<hr>
+		<div class="idList">
 		<c:forEach items="${sList }" var="member">
-			<input type="text" readonly="readonly" value="${member.memberId }      ${member.mRegisterDate}가입"><br><br><br>
+			<input class="form-control" type="text" readonly="readonly" value="${member.memberId }      ${member.mRegisterDate} 가입"><br><br><br>
 		</c:forEach>
+		</div>
 		<br>
-		<button class="btn btn-primary" onclick="location.href='/member/findPwd.strap'">비밀 번호 찾기</button><br><br>
-		<button class="btn btn-primary" onclick="location.href='/member/loginView.strap'">로그인</button>
+		<button class="btn btn-dark" onclick="location.href='/member/findPwd.strap'">비밀 번호 찾기</button><br><br>
+		<button class="btn btn-dark" onclick="location.href='/member/loginView.strap'">로그인</button>
 		
 	</div>
 </body>

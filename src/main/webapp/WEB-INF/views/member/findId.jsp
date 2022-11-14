@@ -70,21 +70,28 @@
 		$("#certificationBtn").on("click",function(){
 			var memberEmail = $("#memberEmail").val();
 			if($(".email.error").css("display") == 'none' && memberEmail.length>1){
-				console.log("유효한 이메일 형식");
 				$.ajax({
-					url:"/member/sendMail.strap",
+					url:"/member/checkEmail.strap",
 					type:"get",
 					data:{"memberEmail":memberEmail},
 					success:function(result){
-						console.log(result)
-						if(result.send=="ok"){
+						if(result.send =="no"){
+							window.alert("해당 이메일로 가입한 아이디가 없습니다");
+						}else{
+							window.alert("입력하신 이메일 주소로 인증번호를 발송합니다.");
 							$("#certificationNumber").show();
 							$("#findIdBtn").removeAttr("disabled");
-							authNumber = result.num;
-							console.log(authNumber);
-							window.alert("입력하신 이메일 주소로 인증번호를 발송했습니다.");
-						}else{
-							window.alert("해당 이메일로 가입한 아이디가 없습니다");
+							$.ajax({
+								url:"/member/sendMail.strap",
+								type:"get",
+								data:{"memberEmail":memberEmail},
+								success:function(result){
+									authNumber = result.num;
+								},
+								error:function(result){
+									alert("인증번호 발송에 실패하였습니다. 관리자에게 문의 바랍니다.");
+								}
+							})
 						}
 					},
 					error:function(result){
