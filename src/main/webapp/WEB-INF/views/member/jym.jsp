@@ -159,9 +159,6 @@ function displayPlaces(places) {
         (function(marker, title, places) {
             kakao.maps.event.addListener(marker, 'click', function() {
                 displayInfowindow(marker, title);
-                console.log(title);
-                console.log(places);
-                console.log(i);
             });
 //             kakao.maps.event.addListener(marker, 'mouseout', function() {
 //                 infowindow.close();

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>스트랩 : 매칭 </title>
 <!-- CDN -->
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
@@ -29,6 +29,8 @@
 			<img src="/resources/image/browser.png" width="300px;" height="300px;">
 			<br><br>
 			<input type="text" class="form-control" value="조건에 맞는 회원을 찾지 못하였습니다!" readonly style="width: 310px; margin: auto;">
+			<br><br>
+			<button class="btn btn-dark" onclick="history.go(-1)">이전 페이지로</button>
 		</div>
 	</div>
 		<!-- 푸터	 -->

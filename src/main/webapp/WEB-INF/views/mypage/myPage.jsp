@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>STRAP MyPage</title>
+<title>스트랩 : 마이페이지</title>
 <!-- CDN -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
 <!-- 부트스트랩 -->
@@ -211,7 +211,6 @@
 				type:"post",
 				data:{"matchNo":matchNo,"surveyAnswer":surveyAnswer, "surveyOpinion":surveyOpinion, "mathMemberId":mathMemberId, "matchCase":matchCase},
 				success:function(result){
-					console.log(result);
 					if(result == "ok"){
 						alert("소중한 의견 감사합니다");
 						location.reload();
@@ -257,7 +256,6 @@
 					
 			},
 			error:function(result){
-				console.log("실패:"+result);
 			}
 		})
 	}
@@ -288,8 +286,6 @@
 						start();
 					},
 					error:function(result){
-						console.log(result)
-						console.log("실패");
 					}
 				})
 			}

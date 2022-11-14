@@ -1,6 +1,8 @@
 package com.kh.strap.notebox.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.notebox.domain.NoteBox;
+import com.kh.strap.notebox.domain.NoteChat;
 import com.kh.strap.notebox.service.NoteBoxService;
 
 
@@ -53,7 +56,9 @@ public class NoteBoxController {
 			endNavi = maxPage;
 		}
 		List<NoteBox> nList = nbService.printNoteBoxList(memberId, currentPage, noticeLimit);
+		List<Map<Object, Object>> map = nbService.countNoteBoxList(memberId);
 		System.out.println(nList);
+		System.out.println(map);
 		if(!nList.isEmpty()) {
 			mv.addObject("urlVal", "noteBoxListView");
 			mv.addObject("maxPage", maxPage);
@@ -62,6 +67,7 @@ public class NoteBoxController {
 			mv.addObject("startNavi", startNavi);
 			mv.addObject("endNavi", endNavi);
 			mv.addObject("nList", nList);
+			mv.addObject("map", map);
 		}
 		mv.setViewName("mypage/noteBox");
 		
@@ -82,10 +88,19 @@ public class NoteBoxController {
 		HttpSession session = request.getSession();
 		Member member = (Member)session.getAttribute("loginUser");
 		String memberId = member.getMemberId();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberId", memberId);
+		map.put("noteNo", noteBox.getNoteNo());
 		int result = nbService.checkNote(noteBox);
+		nbService.checkChat(map);
 		NoteBox nOne = nbService.printOneByNo(noteBox);
 		Member mOne = nbService.printOneByName(nOne.getSenderNick());
+		String getMemberJym = mOne.getMemberJym();
+		String jymAddress = getMemberJym.split(",")[0];
+		String jymTitle = getMemberJym.split(",")[1];
 		mv.addObject("member", mOne);
+		mv.addObject("jymAddress", jymAddress);
+		mv.addObject("jymTitle", jymTitle);
 		mv.addObject("memberId", memberId);
 		mv.addObject("noteBox", nOne);
 		mv.setViewName("mypage/noteDetail");
@@ -161,9 +176,14 @@ public class NoteBoxController {
 	public String markNoteBox(HttpSession session) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		if(loginUser != null) {
-			int countNoteBox = nbService.getCountNoteBox(loginUser.getMemberId());
-			if(countNoteBox > 0) {
-				return countNoteBox+"";
+			
+			int countNoteBox = 0;
+			int countNoteChat = 0;
+			countNoteBox = nbService.getCountNoteBox(loginUser.getMemberId());
+			countNoteChat = nbService.getCountNoteChat(loginUser.getMemberId());
+			int count = countNoteBox + countNoteChat;
+			if(count > 0 ) {
+				return count+"";
 			}else {
 				return "";
 			}

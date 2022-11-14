@@ -2,6 +2,7 @@ package com.kh.strap.notebox.store.logic;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.notebox.domain.NoteBox;
+import com.kh.strap.notebox.domain.NoteChat;
 import com.kh.strap.notebox.store.NoteBoxStore;
 
 @Repository
@@ -73,6 +75,23 @@ public class NoteBoxStoreLogic implements NoteBoxStore{
 	public int deleteNote(SqlSession session, int noteNo) {
 		int result = session.delete("NoteBoxMapper.deleteNote", noteNo);
 		return result;
+	}
+
+	@Override
+	public int getCountNoteChat(SqlSession session, String memberId) {
+		int result = session.selectOne("NoteBoxMapper.getCountNoteChat", memberId);
+		return result;
+	}
+
+	@Override
+	public List<Map<Object, Object>> countNoteBoxList(SqlSession session, String memberId) {
+		List<Map<Object, Object>> map = session.selectList("NoteBoxMapper.countNoteBoxList", memberId);
+		return map;
+	}
+
+	@Override
+	public void checkChat(SqlSession session, Map<String, Object> map) {
+		session.update("NoteBoxMapper.checkChat", map);
 	}
 
 

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Edit Member Informaiton</title>
+<title>스트랩 : 정보조회</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->
 <link rel="stylesheet"
@@ -79,6 +79,7 @@ span.guide {
 	margin-bottom: 25px;
 	overflow: hidden;
 }
+.memberAddress, #change-pwdTr input{margin: 2px;}
 </style>
 </head>
 <body>
@@ -115,15 +116,16 @@ span.guide {
 							<th>비밀번호</th>
 							<td colspan="2">
 								<div>
-									<label class="change pwd" for="pwd">현재 비밀번호</label><input
-										type="password" id="pwd"><br> <label
-										class="change newPwd" for="newPwd">신규 비밀번호</label><input
-										type="password" id="newPwd"> <span class="pwd ok">사용가능한
-										비밀번호입니다.</span> <span class="pwd guide">비밀번호는 영문,숫자 조합 최소
-										6자입니다.</span><br> <label class="change newPwdChek"
-										for="newPwdCheck">신규 비밀번호 재 입력</label><input type="password"
-										id="newPwdCheck"> <span class="pwdCheck ok">비밀번호와
-										일치합니다</span> <span class="pwdCheck error">비밀번호와 일치하지 않습니다.</span><br>
+									<label class="change pwd" for="pwd">현재 비밀번호</label>
+									<input type="password" id="pwd"><br>
+									<label class="change newPwd" for="newPwd">신규 비밀번호</label>
+									<input type="password" id="newPwd">
+									<span class="pwd ok">사용가능한 비밀번호입니다.</span>
+									<span class="pwd guide">비밀번호는 영문,숫자 조합 최소 6자입니다.</span><br>
+									<label class="change newPwdChek" for="newPwdCheck">신규 비밀번호 재 입력</label>
+									<input type="password" id="newPwdCheck">
+									<span class="pwdCheck ok">비밀번호와 일치합니다</span>
+									<span class="pwdCheck error">비밀번호와 일치하지 않습니다.</span><br>
 									<br>
 									<button class="btn btn-light" onclick="modifyPwdCancel();">취소</button>
 									<button class="btn btn-light" id="modifyPwdFinishBtn"
@@ -333,14 +335,20 @@ span.guide {
 						
 						<tr id="addrTr">
 							<th>주소</th>
-							<td>${loginUser.memberAddress }</td>
-							<td><button class="btn btn-light" onclick="modifyAddr();">주소
-									변경</button></td>
+							<td>
+								우편 번호 <input name="zonecode" class="memberAddress" id="zonecode" value="${zonecode }" type="text" size="20" readonly><br>
+								주소 정보 <input name="roadAddr" class="memberAddress" id="roadAddr" value="${roadAddr }" type="text" size="50" readonly><br>
+								상세 정보 <input name="detailAddr" class="memberAddress" id="detailAddr" value="${detailAddr }" type="text" size="50" readonly>
+							</td>
+							<td><button class="btn btn-light" onclick="modifyAddr();">주소변경</button></td>
 						</tr>
 						<!-- 주소 변경 -->
 						<tr id="change-addrTr" style="display: none;">
 							<th>주소</th>
-							<td colspan="2"><input name="memberAddress" id="memberAddress" type="text" size="35">
+							<td colspan="2">
+								우편 번호 <input name="zonecode" class="memberAddress" id="newZonecode" value="${zonecode }" type="text" size="20" readonly><br>
+								주소 정보 <input name="roadAddr" class="memberAddress" id="newRoadAddr" value="${roadAddr }" type="text" size="50" readonly><br>
+								상세 정보 <input name="detailAddr" class="memberAddress" id="newDetailAddr" value="${detailAddr }" type="text" size="50"><br><br>
 								<button class="btn btn-light" onclick="showAddr();">검색</button>
 								<br>
 							<br>
@@ -386,7 +394,6 @@ span.guide {
 				form.appendChild(input);
 				document.body.appendChild(form);
 				form.submit();
-				console.log($("form"));
 				alert('회원 탈퇴되었습니다.');
 			}
 		}
@@ -637,7 +644,6 @@ span.guide {
 							"memberId" : memberId
 						},
 						success : function(result) {
-							console.log(result);
 							if (result == 'ok') {
 								$("#change-emailTr").hide();
 								$("#emailTr").show();
@@ -667,7 +673,6 @@ span.guide {
 						"memberId" : memberId
 					},
 					success : function(result) {
-						console.log(result);
 						if (result == 'ok') {
 							$("#change-careerTr").hide();
 							$("#careerTr").show();
@@ -693,7 +698,6 @@ span.guide {
 						"memberId" : memberId
 					},
 					success : function(result) {
-						console.log(result);
 						if (result == 'ok') {
 							$("#change-SBDTr").hide();
 							$("#SBDTr").show();
@@ -720,7 +724,6 @@ span.guide {
 						"memberId" : memberId
 					},
 					success : function(result) {
-						console.log(result);
 						if (result == 'ok') {
 							$("#change-introduceTr").hide();
 							$("#introduceTr").show();
@@ -749,7 +752,6 @@ span.guide {
 							"memberId" : memberId
 						},
 						success : function(result) {
-							console.log(result);
 							if (result == 'ok') {
 								$("#change-jymTr").hide();
 								$("#jymTr").show();
@@ -768,18 +770,21 @@ span.guide {
 
 		function modifyAddrFinish() {
 			var memberId = $("#memberId").text();
-			var memberAddr = $("#memberAddress").val();
-			if (memberAddr.length > 1) {
+			var zonecode = $("#newZonecode").val();
+			var roadAddr = $("#newRoadAddr").val();
+			var detailAddr = $("#newDetailAddr").val();
+			if (zonecode.length > 1 && roadAddr.length > 1 && detailAddr.length > 1) {
 				if (confirm("주소를 변경하시겠습니까?")) {
 					$.ajax({
 						url : "/member/myinfoAddr.strap",
 						type : "post",
 						data : {
-							"memberAddr" : memberAddr,
+							"zonecode" : zonecode,
+							"roadAddr" : roadAddr,
+							"detailAddr" : detailAddr,
 							"memberId" : memberId
 						},
 						success : function(result) {
-							console.log(result);
 							if (result == 'ok') {
 								$("#change-addrTr").hide();
 								$("#addrTr").show();
@@ -791,9 +796,11 @@ span.guide {
 						}
 					})
 				}
-			} else {
+			}else if(zonecode.length == 0 && roadAddr.length == 0){
 				alert("주소를 검색해주세요");
-			}
+			}else if(detailAddr.length == 0){
+				alert("상세 주소를 입력해주세요");
+			} 
 		}
 
 		//카카오지도API
@@ -831,8 +838,8 @@ span.guide {
 							}
 
 							// 우편번호와 주소 정보를 해당 필드에 넣는다.
-							document.getElementById("memberAddress").value = data.zonecode
-									+ "," + roadAddr;
+							document.getElementById("newZonecode").value = data.zonecode;
+							document.getElementById("newRoadAddr").value = roadAddr;
 						}
 					}).open();
 		}
