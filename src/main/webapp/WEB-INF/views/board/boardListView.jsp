@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>커뮤니티</title>
+<title>게시글 리스트</title>
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
@@ -100,32 +100,32 @@
 </style>
 </head>
 <body>
-	<div class="wrap container">
-		<!-- 헤더&메뉴바 -->
-		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-		<!-- 컨텐츠 -->
-		<div class="contents">
-			<div id="contents-wrap">
-			<!-- 카테고리 -->
-			<ul class="nav nav-pills">
-				<button class="btn btn-outline-primary" onclick="location.href='/board/list.strap?page=${page}'">
-					 <li class="nav-item">
-					 	<a class="nav-link" href="#" title="all">전체</a>
-					 </li>
-				</button>
-				<button class="btn btn-outline-primary" onclick="location.href='/board/free.strap?page=${page}'">
-	  				<li class="nav-item">
-	    				<a class="nav-link" href="#" title="free">자유글</a>
-	  				</li>
-	  			</button>
-	  			<button class="btn btn-outline-primary" onclick="location.href='/board/review.strap?page=${page}'">
-	  				<li class="nav-item">
-	    				<a class="nav-link" href="#" title="review">후기글</a>
-	  				</li>
-	  			</button>
-  			</ul>
-  			<!-- 검색창 -->
-  			<tr>
+<div class="wrap container">
+	<!-- 헤더&메뉴바 -->
+	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+	<!-- 컨텐츠 -->
+	<div class="contents">
+		<div id="contents-wrap">
+		<!-- 카테고리 -->
+		<ul class="nav nav-pills">
+			<button class="btn btn-outline-primary" onclick="location.href='/board/list.strap?page=${page}'">
+				 <li class="nav-item">
+				 	<a class="nav-link" href="#" title="all">전체</a>
+				 </li>
+			</button>
+			<button class="btn btn-outline-primary" onclick="location.href='/board/free.strap?page=${page}'">
+  				<li class="nav-item">
+    				<a class="nav-link" href="#" title="free">자유글</a>
+  				</li>
+  			</button>
+  			<button class="btn btn-outline-primary" onclick="location.href='/board/review.strap?page=${page}'">
+  				<li class="nav-item">
+    				<a class="nav-link" href="#" title="review">후기글</a>
+  				</li>
+  			</button>
+ 		</ul>
+ 			<!-- 검색창 -->
+ 			<tr>
 				<td colspan="6" align="center">
 					<form action="/board/search.strap" method="get">
 						<div align="center">
@@ -153,112 +153,112 @@
 					</form>
 				</td>
 			</tr>
-				<div class="contents-noside">
-					<table class="table">
-						<tr>
-							<th>번호</th>
-							<th>카테고리</th>
-							<th>제목</th>
-							<th>작성자</th>
-							<th>등록일</th>
-							<th>조회</th>
-							<th>추천</th>
-						</tr>
-						<!-- 공지사항 리스트 -->
-						<c:if test="${!empty nList }">
-							<c:forEach items="${nList }" var="notice" varStatus="i">
-								<tr align="center">
-									<td class="table-secondary">${i.count }</td>
-									<td class="table-secondary">[공지]</td>
-									<td id="title" class="table-secondary">
-										<a id="table-list" href="/board/noticeDetail.strap?noticeNo=${notice.noticeNo }&page=${currentPage }">${notice.noticeTitle }</a>
-									</td>
-									<td class="table-secondary">${notice.noticeWriter }</td>
-									<td class="table-secondary">
-										<fmt:formatDate pattern="yyyy-MM-dd" value="${notice.nCreateDate }"/>
-									</td>
-									<td class="table-secondary">${notice.noticeCount }</td>
-									<td class="table-secondary">&nbsp;&nbsp;&nbsp;</td>
-								</tr>
-							</c:forEach>
-						</c:if>
-						<!-- 게시글 리스트 -->
-						<c:if test="${!empty bList }">
-							<c:forEach items="${bList }" var="Board" varStatus="i">	
-									<tr>
-										<th scope="row">${Board.boardNo }</th>
-										<td>[${Board.boardCategory }]</td>
-										<td id="title">
-											<a id="table-list" href="/board/detail.strap?boardNo=${Board.boardNo }&page=${currentPage }">${Board.boardTitle }</a>
-										</td>
-										<td>${Board.memberNick }</td>
-										<td>${Board.boardDate }</td>
-										<td>${Board.boardCount }</td>
-										<td>${Board.boardLikeIt }</td>
-									</tr>
-							</c:forEach>
-						</c:if>
-						<!-- 게시글이 없을 때 -->
-						<c:if test="${empty bList }">
-							<tr>
-								<td id="table-nList" colspan="6">게시글이 존재하지 않습니다</td>
+			<div class="contents-noside">
+				<table class="table">
+					<tr>
+						<th>번호</th>
+						<th>카테고리</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>등록일</th>
+						<th>조회</th>
+						<th>추천</th>
+					</tr>
+					<!-- 공지사항 리스트 -->
+					<c:if test="${!empty nList }">
+						<c:forEach items="${nList }" var="notice" varStatus="i">
+							<tr align="center">
+								<td class="table-secondary">${i.count }</td>
+								<td class="table-secondary">[공지]</td>
+								<td id="title" class="table-secondary">
+									<a id="table-list" href="/board/noticeDetail.strap?noticeNo=${notice.noticeNo }&page=${currentPage }">${notice.noticeTitle }</a>
+								</td>
+								<td class="table-secondary">${notice.noticeWriter }</td>
+								<td class="table-secondary">
+									<fmt:formatDate pattern="yyyy-MM-dd" value="${notice.nCreateDate }"/>
+								</td>
+								<td class="table-secondary">${notice.noticeCount }</td>
+								<td class="table-secondary">&nbsp;&nbsp;&nbsp;</td>
 							</tr>
-						</c:if>
-					</table>
-						<!-- 페이징 처리 -->
-							<div class="col-md-11 offset-md-5 py-4 text-center">
-								<div id="page">
-									<nav aria-label="Page navigation example">
-	          					<ul class="pagination">
-									<c:if test="${currentPage != 1 }">
-										<li class="page-item">
-											<a class="page-link" href="/board/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}">
-												<span aria-hidden="true">&laquo;</span>
-											</a>
-										</li>
-									</c:if>
-									<c:forEach var="p" begin="${startNavi }" end="${endNavi }">
-										<c:if test="${currentPage eq p }">
-										<li class="page-item">
-											<a class="page-link" href="#">${p }</a>
-											</li>
-										</c:if>
-										<c:if test="${currentPage ne p }">
-										<li class="page-item">
-											<a class="page-link" href="/board/${urlVal }.strap?page=${p }&searchCondition=${searchCondition}&searchValue=${searchValue}">${p }</a>
-										</li>
-										</c:if>
-									</c:forEach>
-									<c:if test="${maxPage > currentPage }">
-										<li class="page-item">
-											<a class="page-link" href="/board/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}">
-												<span aria-hidden="true">&raquo;</span>
-											</a>
-										</li>
-									</c:if>
-								</ul>
+						</c:forEach>
+					</c:if>
+					<!-- 게시글 리스트 -->
+					<c:if test="${!empty bList }">
+						<c:forEach items="${bList }" var="Board" varStatus="i">	
+							<tr>
+								<th scope="row">${Board.boardNo }</th>
+								<td>[${Board.boardCategory }]</td>
+								<td id="title">
+									<a id="table-list" href="/board/detail.strap?boardNo=${Board.boardNo }&page=${currentPage }">${Board.boardTitle }</a>
+								</td>
+								<td>${Board.memberNick }</td>
+								<td>${Board.boardDate }</td>
+								<td>${Board.boardCount }</td>
+								<td>${Board.boardLikeIt }</td>
+							</tr>
+						</c:forEach>
+					</c:if>
+					<!-- 게시글이 없을 때 -->
+					<c:if test="${empty bList }">
+						<tr>
+							<td id="table-nList" colspan="6">게시글이 존재하지 않습니다</td>
+						</tr>
+					</c:if>
+				</table>
+					<!-- 페이징 처리 -->
+					<div class="col-md-11 offset-md-5 py-4 text-center">
+						<div id="page">
+							<nav aria-label="Page navigation example">
+         					<ul class="pagination">
+							<c:if test="${currentPage != 1 }">
+								<li class="page-item">
+									<a class="page-link" href="/board/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}">
+										<span aria-hidden="true">&laquo;</span>
+									</a>
+								</li>
+							</c:if>
+							<c:forEach var="p" begin="${startNavi }" end="${endNavi }">
+								<c:if test="${currentPage eq p }">
+								<li class="page-item">
+									<a class="page-link" href="#">${p }</a>
+								</li>
+								</c:if>
+								<c:if test="${currentPage ne p }">
+								<li class="page-item">
+									<a class="page-link" href="/board/${urlVal }.strap?page=${p }&searchCondition=${searchCondition}&searchValue=${searchValue}">${p }</a>
+								</li>
+								</c:if>
+							</c:forEach>
+							<c:if test="${maxPage > currentPage }">
+								<li class="page-item">
+									<a class="page-link" href="/board/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}">
+										<span aria-hidden="true">&raquo;</span>
+									</a>
+								</li>
+							</c:if>
+							</ul>
 							</nav>
-								</div>
-								<div>
-								<!-- 글쓰기 로그인 체크 -->
-								<c:choose>
-								<c:when test="${sessionScope.loginUser.memberNick == null }">
-									<button type="button" class="btn btn-primary" onclick="writeCheck();">
-										<i class="bi bi-pen">글쓰기</i>
-									</button>
-								</c:when>
-								<c:otherwise>
-									<button type="button" class="btn btn-primary" onclick="location.href='/board/writeView.strap'">
-										<i class="bi bi-pen">글쓰기</i>
-									</button>
-								</c:otherwise>
-								</c:choose>	
-								</div>
-							</div>
 						</div>
-				</div>
+						<div>
+						<!-- 글쓰기 로그인 체크 -->
+						<c:choose>
+						<c:when test="${sessionScope.loginUser.memberNick == null }">
+							<button type="button" class="btn btn-primary" onclick="writeCheck();">
+								<i class="bi bi-pen">글쓰기</i>
+							</button>
+						</c:when>
+						<c:otherwise>
+							<button type="button" class="btn btn-primary" onclick="location.href='/board/writeView.strap'">
+								<i class="bi bi-pen">글쓰기</i>
+							</button>
+						</c:otherwise>
+						</c:choose>	
+						</div>
+					</div>
+			</div>
 		</div>
 	</div>
+</div>
 <!-- 푸터 -->
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 <script>

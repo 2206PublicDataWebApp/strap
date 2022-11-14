@@ -5,53 +5,45 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   
 
 <mapper namespace= "BoardMapper">
-	<resultMap type= "Board"				id="boardResultMap">
+	<resultMap  type= "Board"				id="boardResultMap">
   		<id 	property="boardNo" 			column="BOARD_NO"/>
   		<result property="memberNick" 		column="MEMBER_NICK"/>
   		<result property="boardTitle" 		column="BOARD_TITLE"/>
   		<result property="boardContents"	column="BOARD_CONTENTS"/>
   		<result property="boardCategory" 	column="BOARD_CATEGORY"/>
-  		<result property="bFileName" 		column="B_FILE_NAME"/>
-  		<result property="bFileRename" 		column="B_FILE_RENAME"/>
-  		<result property="bFilePath" 		column="B_FILE_PATH"/>
   		<result property="boardDate" 		column="BOARD_DATE"/>
   		<result property="boardCount" 		column="BOARD_COUNT"/>
   		<result property="boardLikeIt" 		column="BOARD_LIKEIT"/>
+  		<result property="fix" 				column="FIX"/>
+  		<result property="memberId" 		column="MEMBER_ID"/>
   	</resultMap>
   	
   	<!-- 게시글 등록 -->
   	<insert id="insertBoard">
-  		INSERT INTO BOARD_TBL VALUES(SEQ_BOARDNO.NEXTVAL,#{memberNick}
-  		,#{boardTitle},#{boardContents},#{boardCategory},#{bFileName}
-  		,#{bFileRename},#{bFilePath},DEFAULT,DEFAULT,DEFAULT,DEFAULT)
+  		INSERT INTO BOARD_TBL 
+  		VALUES(SEQ_BOARDNO.NEXTVAL,#{memberNick},#{boardTitle},#{boardContents},#{boardCategory},DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{memberId})
   	</insert>
 
-	<!-- 게시글 수정 -->
-	<update id="updateBoard">
-  		UPDATE BOARD_TBL SET BOARD_TITLE = #{boardTitle}, BOARD_CONTENTS = #{boardContents}, BOARD_CATEGORY = #{boardCategory}, B_FILE_NAME = #{bFileName }, B_FILE_RENAME = #{bFileRename}, B_FILE_PATH = #{bFilePath}, BOARD_DATE = DEFAULT
-  		WHERE BOARD_NO = #{boardNo}
-  	</update>
+	<!-- 게시글 추천 시 Like 테이블에 insert -->
+	<insert id="insertLike">
+		INSERT INTO BOARD_LIKE_TBL(LIKE_NO, BOARD_NO, MEMBER_NICK) VALUES((SELECT NVL(MAX(LIKE_NO), 0) + 1 FROM BOARD_LIKE_TBL) , #{boardNo}, #{memberNick})
+	</insert>
 
-	<!-- 게시물 삭제 -->
-	<delete id="deleteBoard">
-		DELETE FROM BOARD_TBL WHERE BOARD_NO = #{boardNo}
-	</delete>
-
-  	<!-- 모든 게시글 SELECT -->
+	<!-- 모든 게시글 SELECT -->
   	<select id="selectAllBoard" resultMap="boardResultMap">
-  		SELECT BOARD_NO,MEMBER_NICK,BOARD_TITLE,BOARD_CONTENTS,BOARD_CATEGORY,B_FILE_NAME,B_FILE_RENAME,B_FILE_PATH,BOARD_DATE,BOARD_COUNT,BOARD_LIKEIT
+  		SELECT BOARD_NO,MEMBER_NICK,BOARD_TITLE,BOARD_CONTENTS,BOARD_CATEGORY,BOARD_DATE,BOARD_COUNT,BOARD_LIKEIT
   		FROM BOARD_TBL ORDER BY FIX DESC, BOARD_DATE DESC
   	</select>
   	
   	<!-- 자유 게시글 SELECT -->
   	<select id="selectFreeBoard" resultMap="boardResultMap">
-  		SELECT BOARD_NO,MEMBER_NICK,BOARD_TITLE,BOARD_CONTENTS,BOARD_CATEGORY,B_FILE_NAME,B_FILE_RENAME,B_FILE_PATH,BOARD_DATE,BOARD_COUNT,BOARD_LIKEIT
+  		SELECT BOARD_NO,MEMBER_NICK,BOARD_TITLE,BOARD_CONTENTS,BOARD_CATEGORY,BOARD_DATE,BOARD_COUNT,BOARD_LIKEIT
 		FROM BOARD_TBL WHERE BOARD_CATEGORY='자유글' ORDER BY FIX DESC, BOARD_DATE DESC
   	</select>
   	
   	<!-- 후기 게시글 SELECT -->
   	<select id="selectReviewBoard" resultMap="boardResultMap">
-  		SELECT BOARD_NO,MEMBER_NICK,BOARD_TITLE,BOARD_CONTENTS,BOARD_CATEGORY,B_FILE_NAME,B_FILE_RENAME,B_FILE_PATH,BOARD_DATE,BOARD_COUNT,BOARD_LIKEIT
+  		SELECT BOARD_NO,MEMBER_NICK,BOARD_TITLE,BOARD_CONTENTS,BOARD_CATEGORY,BOARD_DATE,BOARD_COUNT,BOARD_LIKEIT
 		FROM BOARD_TBL WHERE BOARD_CATEGORY='후기글' ORDER BY FIX DESC, BOARD_DATE DESC
   	</select>
   	
@@ -138,8 +130,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectOneByNo" resultMap="boardResultMap">
 		SELECT * FROM BOARD_TBL WHERE BOARD_NO = #{boardNo}
 	</select>
+
+	<!-- 게시글 추천 중복 방지 select -->
+	<select id="likeCheck" resultType="int">
+		SELECT COUNT(*) FROM BOARD_LIKE_TBL WHERE BOARD_NO = #{boardNo} AND MEMBER_NICK = #{memberNick}
+	</select>
 	
-	<!-- 조회수 증가 -->
+	<!-- 후기글 추천수 TOP3 select  -->
+	<select id="selectBestRankBoard" resultMap="boardResultMap">
+		SELECT * FROM (SELECT * FROM BOARD_TBL ORDER BY BOARD_LIKEIT DESC) 
+		WHERE (BOARD_CATEGORY='후기글') AND ROWNUM <![CDATA[<=]]> 3
+	</select>
+
+	<!-- 게시글 수정 -->
+	<update id="updateBoard">
+  		UPDATE BOARD_TBL SET BOARD_TITLE = #{boardTitle}, BOARD_CONTENTS = #{boardContents}, BOARD_CATEGORY = #{boardCategory}, BOARD_DATE = DEFAULT
+  		WHERE BOARD_NO = #{boardNo}
+  	</update>
+  	
+  	<!-- 조회수 증가 -->
 	<update id="updateBoardCount">
 		UPDATE BOARD_TBL SET BOARD_COUNT=BOARD_COUNT+1 WHERE BOARD_NO=#{boardNo}
 	</update>
@@ -154,37 +163,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE BOARD_TBL SET BOARD_LIKEIT = BOARD_LIKEIT-1 WHERE BOARD_NO = #{boardNo}
 	</update>
 	
-	<!-- 게시글 추천 시 Like 테이블에 insert -->
-	<insert id="insertLike">
-		INSERT INTO BOARD_LIKE_TBL(LIKE_NO, BOARD_NO, MEMBER_NICK) VALUES((SELECT NVL(MAX(LIKE_NO), 0) + 1 FROM BOARD_LIKE_TBL) , #{boardNo}, #{memberNick})
-	</insert>
-	
-	<!-- 게시글 추천 취소 시 delete -->
-	<delete id="deleteLike">
-		DELETE FROM BOARD_LIKE_TBL WHERE BOARD_NO = #{boardNo} AND MEMBER_NICK = #{memberNick}
-	</delete>
-	
 	<!-- 게시글 추천 시 Check를 1로 만들어서 중복방지-->
 	<update id="updateLikeCheck">
-	UPDATE BOARD_LIKE_TBL SET LIKE_CHECK = 1
-	WHERE BOARD_NO = #{boardNo} AND MEMBER_NICK = #{memberNick}
+		UPDATE BOARD_LIKE_TBL SET LIKE_CHECK = 1
+		WHERE BOARD_NO = #{boardNo} AND MEMBER_NICK = #{memberNick}
 	</update>
 	
 	<!-- 게시글 추천 취소 시 다시 0 -->
 	<update id="updateLikeCheckCancel">
 		UPDATE BOARD_LIKE_TBL SET LIKE_CHECK = 0 WHERE BOARD_NO = #{boardNo} AND MEMBER_NICK = #{memberNick}
 	</update>
+
+	<!-- 게시물 삭제 -->
+	<delete id="deleteBoard">
+		DELETE FROM BOARD_TBL WHERE BOARD_NO = #{boardNo}
+	</delete>
 	
-	<!-- 게시글 추천 중복 방지 select -->
-	<select id="likeCheck" resultType="int">
-		SELECT COUNT(*) FROM BOARD_LIKE_TBL WHERE BOARD_NO = #{boardNo} AND MEMBER_NICK = #{memberNick}
-	</select>
+	<!-- 게시글 추천 취소 시 delete -->
+	<delete id="deleteLike">
+		DELETE FROM BOARD_LIKE_TBL WHERE BOARD_NO = #{boardNo} AND MEMBER_NICK = #{memberNick}
+	</delete>
 	
-	<!-- 게시글 인기 추천 TOP3 select  -->
-	<select id="selectBestRankBoard" resultMap="boardResultMap">
-		SELECT BOARD_NO,MEMBER_NICK,BOARD_TITLE,BOARD_CONTENTS,BOARD_CATEGORY,B_FILE_NAME,B_FILE_RENAME,B_FILE_PATH,BOARD_DATE,BOARD_COUNT,BOARD_LIKEIT
-		, RANK() OVER (ORDER BY BOARD_CATEGORYDESC, BOARD_LIKEIT DESC) 
-		RANK FROM BOARD_TBL WHERE BOARD_CATEGORY='후기글' ORDER BY
-		BOARD_CATEGORY DESC, BOARD_LIKEIT DESC
-	</select>
 </mapper>

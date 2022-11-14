@@ -1,41 +1,40 @@
 package com.kh.strap.board.domain;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class BoardReply {
-	private int rReplyNo;
-	private int boardNo;
-	private int rRefReplyNo;
-	private String rReplyWriter;
-	private String rReplyContents;
-	private Timestamp rrCreateDate;
-	private Timestamp rrUpdateDate;
-	private String rrStatus;
-	private String reReplyYn;
+	private int replyNo; 			// 댓글 번호
+	private int boardNo; 			// 게시글 번호
+	private int refReplyNo; 		// 답글 번호
+	private String replyWriter; 	// 댓글 작성자
+	private String replyContents; 	// 댓글 내용
+	private Timestamp rCreateDate;	// 댓글, 답글 작성 날짜
+	private Timestamp rUpdateDate;	// 작성된 댓글, 답글 수정 날짜
+	private String rStatus; 		// N 삭제된 댓글에 답글X, Y 댓글에 답글O (DEFAULT)
+	private String reReplyYn; 		// N 댓글 (DEFULT), Y 대댓글 구분
 	
 	public BoardReply() {}
 
-	public BoardReply(int rReplyNo, int boardNo, int rRefReplyNo, String rReplyWriter, String rReplyContents,
-			Timestamp rrCreateDate, Timestamp rrUpdateDate, String rrStatus, String reReplyYn) {
+	public BoardReply(int replyNo, int boardNo, int refReplyNo, String replyWriter, String replyContents,
+			Timestamp rCreateDate, Timestamp rUpdateDate, String rStatus, String reReplyYn) {
 		super();
-		this.rReplyNo = rReplyNo;
+		this.replyNo = replyNo;
 		this.boardNo = boardNo;
-		this.rRefReplyNo = rRefReplyNo;
-		this.rReplyWriter = rReplyWriter;
-		this.rReplyContents = rReplyContents;
-		this.rrCreateDate = rrCreateDate;
-		this.rrUpdateDate = rrUpdateDate;
-		this.rrStatus = rrStatus;
+		this.refReplyNo = refReplyNo;
+		this.replyWriter = replyWriter;
+		this.replyContents = replyContents;
+		this.rCreateDate = rCreateDate;
+		this.rUpdateDate = rUpdateDate;
+		this.rStatus = rStatus;
 		this.reReplyYn = reReplyYn;
 	}
 
-	public int getrReplyNo() {
-		return rReplyNo;
+	public int getReplyNo() {
+		return replyNo;
 	}
 
-	public void setrReplyNo(int rReplyNo) {
-		this.rReplyNo = rReplyNo;
+	public void setReplyNo(int replyNo) {
+		this.replyNo = replyNo;
 	}
 
 	public int getBoardNo() {
@@ -46,52 +45,52 @@ public class BoardReply {
 		this.boardNo = boardNo;
 	}
 
-	public int getrRefReplyNo() {
-		return rRefReplyNo;
+	public int getRefReplyNo() {
+		return refReplyNo;
 	}
 
-	public void setrRefReplyNo(int rRefReplyNo) {
-		this.rRefReplyNo = rRefReplyNo;
+	public void setRefReplyNo(int refReplyNo) {
+		this.refReplyNo = refReplyNo;
 	}
 
-	public String getrReplyWriter() {
-		return rReplyWriter;
+	public String getReplyWriter() {
+		return replyWriter;
 	}
 
-	public void setrReplyWriter(String rReplyWriter) {
-		this.rReplyWriter = rReplyWriter;
+	public void setReplyWriter(String replyWriter) {
+		this.replyWriter = replyWriter;
 	}
 
-	public String getrReplyContents() {
-		return rReplyContents;
+	public String getReplyContents() {
+		return replyContents;
 	}
 
-	public void setrReplyContents(String rReplyContents) {
-		this.rReplyContents = rReplyContents;
+	public void setReplyContents(String replyContents) {
+		this.replyContents = replyContents;
 	}
 
-	public Timestamp getRrCreateDate() {
-		return rrCreateDate;
+	public Timestamp getrCreateDate() {
+		return rCreateDate;
 	}
 
-	public void setRrCreateDate(Timestamp rrCreateDate) {
-		this.rrCreateDate = rrCreateDate;
+	public void setrCreateDate(Timestamp rCreateDate) {
+		this.rCreateDate = rCreateDate;
 	}
 
-	public Timestamp getRrUpdateDate() {
-		return rrUpdateDate;
+	public Timestamp getrUpdateDate() {
+		return rUpdateDate;
 	}
 
-	public void setRrUpdateDate(Timestamp rrUpdateDate) {
-		this.rrUpdateDate = rrUpdateDate;
+	public void setrUpdateDate(Timestamp rUpdateDate) {
+		this.rUpdateDate = rUpdateDate;
 	}
 
-	public String getRrStatus() {
-		return rrStatus;
+	public String getrStatus() {
+		return rStatus;
 	}
 
-	public void setRrStatus(String rrStatus) {
-		this.rrStatus = rrStatus;
+	public void setrStatus(String rStatus) {
+		this.rStatus = rStatus;
 	}
 
 	public String getReReplyYn() {
@@ -104,9 +103,8 @@ public class BoardReply {
 
 	@Override
 	public String toString() {
-		return "ReviewReply [rReplyNo=" + rReplyNo + ", boardNo=" + boardNo + ", rRefReplyNo=" + rRefReplyNo
-				+ ", rReplyWriter=" + rReplyWriter + ", rReplyContents=" + rReplyContents + ", rrCreateDate="
-				+ rrCreateDate + ", rrUpdateDate=" + rrUpdateDate + ", rrStatus=" + rrStatus + ", reReplyYn="
-				+ reReplyYn + "]";
+		return "BoardReply [replyNo=" + replyNo + ", boardNo=" + boardNo + ", refReplyNo=" + refReplyNo
+				+ ", replyWriter=" + replyWriter + ", replyContents=" + replyContents + ", rCreateDate=" + rCreateDate
+				+ ", rUpdateDate=" + rUpdateDate + ", rStatus=" + rStatus + ", reReplyYn=" + reReplyYn + "]";
 	}
 }

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Strap</title>
+<title>게시글 작성페이지</title>
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
@@ -100,8 +100,9 @@ $(document).ready(function(){
 			* 이미지 파일 업로드
 			*/
 			function uploadSummernoteImageFile(file, editor) {
-				data = new FormData();
-				data.append("file", file);
+				data = new FormData(); // FormData를 이용하면 자바스크립트에서도 전송이 가능
+				// .append() > 선택된 요소의 마지막에 새로운 요소나 콘텐츠를 추가한다
+				data.append("file", file); // <input name="file" value="file"> 와 같다
 				$.ajax({
 					data : data,
 					type : "POST",
@@ -120,43 +121,42 @@ $(document).ready(function(){
 		});
 </script>
 <body>
-	<div class="wrap container">
-		<!-- 헤더&메뉴바 -->
-		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-		<!-- 컨텐츠 -->
-		<div class="contents">
-			<div id="contents-wrap">
+<div class="wrap container">
+	<!-- 헤더&메뉴바 -->
+	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+	<!-- 컨텐츠 -->
+	<div class="contents">
+		<div id="contents-wrap">
 			<div class="contents-noside">
-			<form action="/board/boardWrite.strap" method="post" enctype="multipart/form-data" onsubmit="return bFormCheck();">
-		
-			<!-- 카테고리/제목 -->
+				<form action="/board/boardWrite.strap" method="post" enctype="multipart/form-data" onsubmit="return bFormCheck();">
+				<!-- 카테고리/제목 -->
 					<div class="position-relative" id="bTitle1">
-					<select name="boardCategory" id="bCategory">
-						<option value="자유글">자유글</option>
-						<option value="후기글">후기글</option>
-					</select>
-				<input type="text" name="boardTitle" style="width: 500px;" placeholder="제목을 입력하세요" id="titleCheck"><br>
+						<select name="boardCategory" id="bCategory">
+							<option value="자유글">자유글</option>
+							<option value="후기글">후기글</option>
+						</select>
+						<input type="text" name="boardTitle" style="width: 500px;" placeholder="제목을 입력하세요" id="titleCheck"><br>
 						<div class="position-absolute top-0 end-0" id="bTitle2">
 						<input type="hidden" name="memberNick" value="${sessionScope.loginUser.memberNick }">
+						<input type="hidden" name="memberId" value="${sessionScope.loginUser.memberId }">
 						</div>
 					</div>
-				<td>
-				<textarea id="summernote" name="boardContents"></textarea>
-				</td>
-				<div class="row">
+					<td>
+					<textarea id="summernote" name="boardContents"></textarea>
+					</td>
+					<div class="row">
 						<div class="col" align="center">
 							<td colspan="2"><input class="btn btn-primary" type="submit" value="등록"> 
 							<a class="btn btn-secondary" href="javascript:history.go(-1);">취소</a></td>
 						</div>
-				</div>
+					</div>
 				</form>
-				</div>
 			</div>
 		</div>
 	</div>
-		<!-- 푸터 -->
-		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-	</div>
+</div>
+<!-- 푸터 -->
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 <script>
 // 빈칸 입력 값 체크
 function bFormCheck() {

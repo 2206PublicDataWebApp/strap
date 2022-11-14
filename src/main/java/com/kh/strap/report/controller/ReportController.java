@@ -54,8 +54,6 @@ public class ReportController {
 	public String registReport2(
 			@ModelAttribute Report report) {
 		int result = rService.registReport2(report);
-		System.out.println("컨트롤러확인");
-		System.out.println(report.toString());
 		if(result > 0) {
 			return "1";
 		}

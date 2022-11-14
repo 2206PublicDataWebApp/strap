@@ -9,6 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.strap.admin.domain.Banner;
 import com.kh.strap.admin.service.BannerService;
+import com.kh.strap.board.domain.Board;
+import com.kh.strap.board.service.logic.BoardServiceImpl;
 import com.kh.strap.shop.product.domain.Product;
 import com.kh.strap.shop.product.service.ProductService;
 import com.kh.strap.shop.review.service.ReviewService;
@@ -24,6 +26,8 @@ public class HomeController {
 	private ProductService pService;
 	@Autowired
 	private ReviewService rService;
+	@Autowired
+	private BoardServiceImpl bService;
 	
 	@RequestMapping("/home.strap")
 	public ModelAndView home(ModelAndView mv) {
@@ -31,6 +35,7 @@ public class HomeController {
 		List<Banner> bnList = bnService.printAllBanner();
 		
 		//베스트 후기 리스트
+		List<Board> bList = bService.printBestRankBoard();
 		
 		//베스트 상품 리스트
 		//1.(평점 높은순,리뷰개수 많은순) top3 상품 리스트
@@ -40,9 +45,9 @@ public class HomeController {
 			product.setReview(rService.getBestReviewByProductNo(product.getProductNo()));
 		});
 		
-		
-		mv.addObject("pList", pList);
 		mv.addObject("bnList", bnList);
+		mv.addObject("bList", bList);
+		mv.addObject("pList", pList);
 		mv.setViewName("/home");
 		return mv;
 	}

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시글 수정</title>
+<title>게시글 수정페이지</title>
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
@@ -13,7 +13,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/resources/css/common.css">
-<!-- <link rel="stylesheet" type="text/css" href="/resources/css/border.css"> -->
 <!-- 썸대노트 -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -117,47 +116,44 @@ $(document).ready(function(){
 					}
 				});
 			}
-			//$('p').remove(); // 썸머노트 Contents에 필요 없는 <p> 태그 제거
-			 
-	          
-		});
+	//$('p').remove(); // 썸머노트 Contents에 필요 없는 <p> 태그 제거
+});
 </script>
 <body>
 <div class="wrap container">
-		<!-- 헤더&메뉴바 -->
-		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-		<!-- 컨텐츠 -->
-		<div class="contents">
-			<div id="contents-wrap">
+	<!-- 헤더&메뉴바 -->
+	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+	<!-- 컨텐츠 -->
+	<div class="contents">
+		<div id="contents-wrap">
 			<div class="contents-noside">
-			<form action="/board/modify.strap" method="post" enctype="multipart/form-data">
-				<input type="hidden" name="page" value="${page}">
-				<input type="hidden" name="boardNo" value="${board.boardNo }">
-		
-			<!-- 카테고리/제목 -->
+				<form action="/board/modify.strap" method="post" enctype="multipart/form-data">
+					<input type="hidden" name="page" value="${page}">
+					<input type="hidden" name="boardNo" value="${board.boardNo }">
+					<!-- 카테고리/제목 -->
 					<div class="position-relative" id="bTitle1">
 					<select name="boardCategory" id="bCategory">
 						<option value="자유글">자유글</option>
 						<option value="후기글">후기글</option>
 					</select>
-				<input type="text" name="boardTitle" value="${board.boardTitle }" required="required" style="width: 500px;"><br>
+					<input type="text" name="boardTitle" value="${board.boardTitle }" required="required" style="width: 500px;"><br>
 						<div class="position-absolute top-0 end-0" id="bTitle2">
 							${sessionScope.loginUser.memberNick }
 						</div>
 					</div>
-				<textarea id="summernote" class="note-editable" contenteditable="true" role="textbox"
-				aria-multiline="true" spellcheck="true" name="boardContents">${board.boardContents }</textarea>
+					<textarea id="summernote" class="note-editable" contenteditable="true" role="textbox"
+					aria-multiline="true" spellcheck="true" name="boardContents">${board.boardContents }</textarea>
 					<div class="row">
-							<div class="col" align="center">
-								<button class="btn btn-primary" type="submit">수정 완료</button>
-								<button class="btn btn-secondary" onclick="boardCancel(${page})" >수정 취소</button>
-							</div>
+						<div class="col" align="center">
+							<button class="btn btn-primary" type="submit">수정 완료</button>
+							<button class="btn btn-secondary" onclick="boardCancel(${page})" >수정 취소</button>
+						</div>
 					</div>
 				</form>
-				</div>
 			</div>
 		</div>
 	</div>
+</div>
 <!-- 푸터 -->
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 <script>

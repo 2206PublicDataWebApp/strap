@@ -38,20 +38,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.kh.strap.admin.domain.Notice;
 import com.kh.strap.board.domain.Board;
-import com.kh.strap.board.domain.BoardReReply;
 import com.kh.strap.board.domain.BoardReply;
 import com.kh.strap.board.service.logic.BoardServiceImpl;
 import com.kh.strap.member.domain.Member;
 
 @Controller
 public class BoardController {
-	
-	/*
-	 * @ExceptionHandler({NullPointerException.class, NumberFormatException.class})
-	 * public String errorHandler() { return "redirect:/home.strap"; }
-	 */
-	
-	@Autowired
+
+	@Autowired // 의존성 주입
 	private BoardServiceImpl bService;
 	
 	@Autowired
@@ -59,16 +53,15 @@ public class BoardController {
 	
 	/**
 	 * 게시글 작성 페이지 이동
-	 * @return : "/board/boardWrite"
+	 * @return
 	 */
 	@RequestMapping(value = "/board/writeView.strap", method = RequestMethod.GET)
 	public String registerView() {
-
 		return "/board/boardWrite";
 	}
 	
 	/**
-	 *  게시글 작성 페이지
+	 * 게시글 작성 페이지
 	 * @param mv
 	 * @param board
 	 * @return mv.setViewName("/board/list.strap")
@@ -76,10 +69,11 @@ public class BoardController {
 	@RequestMapping(value = "/board/boardWrite.strap", method = RequestMethod.POST)
 	public ModelAndView boardWrite(ModelAndView mv, 
 			@ModelAttribute Board board) {
-		
+		// 1. 작성 페이지에서 넘어온 값을 result에 넣는다
 		int result = bService.registerBoard(board);
 		try {
 			if (result > 0) {
+				// 2. 값이 있으면 저장 시키고 리스트 페이지로 이동한다
 				mv.setViewName("redirect:/board/list.strap?currnentPage=1");
 			} else {
 				mv.addObject("msg", "게시물 저장에 실패하였습니다.").setViewName("/common/errorPage");
@@ -91,7 +85,70 @@ public class BoardController {
 	}
 	
 	/**
-	 * 게시판 전체글 페이지 출력
+	 * 게시글 추천/취소
+	 * @param mv
+	 * @param boardNo
+	 * @param page
+	 * @param memberNick
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/board/updateLike", method = RequestMethod.POST)
+	public ModelAndView updateLike(
+			ModelAndView mv
+			, @RequestParam("boardNo") Integer boardNo
+			, @RequestParam("page") Integer page
+			, @RequestParam("memberNick") String memberNick
+			, HttpSession session) {
+		try {
+			int likeCheck = bService.likeCheck(boardNo, memberNick); // 게시글 추천 중복 방지
+ 			if(likeCheck == 0) {
+				//좋아요 처음누름
+				bService.insertLike(boardNo, memberNick); //like테이블 삽입
+				bService.updateLike(boardNo);	//게시판테이블 +1
+				bService.updateLikeCheck(boardNo, memberNick);//like테이블 구분자 1
+				
+			}else if(likeCheck == 1) {
+				bService.deleteLike(boardNo, memberNick); //like테이블 삭제
+				bService.updateLikeCancel(boardNo); //게시판테이블 - 1
+				bService.updateLikeCheckCancel(boardNo, memberNick); //like테이블 구분자0
+			}
+			session.setAttribute("likeCheck", likeCheck);
+			mv.setViewName("redirect:/board/detail.strap?boardNo="+boardNo+"&page="+page);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mv;
+	}
+	
+	/**
+	 * 댓글/답글 작성
+	 * @param mv
+	 * @param page
+	 * @param bReply
+	 * @return
+	 */
+	@RequestMapping(value="/board/reply/write.strap",method=RequestMethod.POST)
+	public ModelAndView boardReplyWrite(ModelAndView mv,
+			@RequestParam("page") Integer page,
+			@ModelAttribute BoardReply bReply) {
+		
+		//1.댓글 작성에서 가져온 rReply를 INSERT해준다
+		int result = bService.registerBoardReply(bReply);
+		if(result>0 ) {
+			
+			//2.등록 성공 시 파라미터 값을 전달하면서 상세페이지로 리다이렉트한다
+			int boardNo = bReply.getBoardNo();
+			mv.setViewName("redirect:/board/detail.strap?boardNo="+boardNo+"&page="+page);
+		}else {
+			
+		}
+		return mv;
+	}
+	
+	/**
+	 * 전체글 페이지 출력
 	 * @param mv
 	 * @param page
 	 * @return
@@ -100,22 +157,27 @@ public class BoardController {
 	public ModelAndView boardListView(
 			ModelAndView mv
 			,@RequestParam(value="page", required=false) Integer page) {
-		int currentPage = (page != null) ? page : 1;
-		int totalCount = bService.getTotalCount("","");
-		int boardLimit = 10;
-		int noticeLimit = 5;
-		int naviLimit = 5;
-		int maxPage;
-		int startNavi;
-		int endNavi;
+		// 페이지의 값이 null이 아니면 사용자가 전송한 값 / null이면 기본값 1
+		int currentPage = (page != null) ? page : 1; // 현재 페이지
+		int totalCount = bService.getTotalCount("",""); //총 게시글의 개수
+		int boardLimit = 10; // 한 화면에 출력할 게시글 수
+		int noticeLimit = 5; // 공지사항 글 5개 고정
+		int naviLimit = 5; // 한 화면에 출력할 게시판 페이지 수
+		int maxPage; // 게시판의 총 페이지 수
+		int startNavi; // 페이지의 처음 번호
+		int endNavi; // 페이지의 끝 번호
+		// 게시판 총 페이지 수 = 총 게시글의 수 / 10 + 0.9 
 		maxPage = (int)((double)totalCount/boardLimit + 0.9);
+		// 페이지의 처음 번호 = ((현재 페이지 / 5 + 0.9) -1) * 5 + 1
 		startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
+		// 페이지의 끝 번호 = 처음 번호 + 5 - 1
 		endNavi = startNavi + naviLimit - 1;
+		// 페이지의 끝 번호가 게시판의 총 페이지 수 보다 커지는 오류 방지
 		if(maxPage < endNavi) {
 			endNavi = maxPage;
 		}
-		List<Board> bList = bService.printAllBoard(currentPage, boardLimit);
-		List<Notice> nList = nService.printNoticeList(currentPage, noticeLimit);
+		List<Notice> nList = nService.printNoticeList(currentPage, noticeLimit); // 전체글 리스트
+		List<Board> bList = bService.printAllBoard(currentPage, boardLimit); // 공지사항 리스트
 		
 		if(!bList.isEmpty()) {
 			mv.addObject("urlVal", "list");
@@ -123,15 +185,15 @@ public class BoardController {
 			mv.addObject("currentPage", currentPage);
 			mv.addObject("startNavi", startNavi);
 			mv.addObject("endNavi", endNavi);
-			mv.addObject("bList", bList);
 			mv.addObject("nList", nList);
+			mv.addObject("bList", bList);
 		}
 		mv.setViewName("board/boardListView");
 		return mv;
 	}
 	
 	/**
-	 * 게시판 자유글 페이지 출력
+	 * 자유글 페이지 출력
 	 * @param mv
 	 * @param page
 	 * @return
@@ -154,8 +216,8 @@ public class BoardController {
 		if(maxPage < endNavi) {
 			endNavi = maxPage;
 		}
-		List<Board> bList = bService.printFreeBoard(currentPage, boardLimit);
 		List<Notice> nList = nService.printNoticeList(currentPage, noticeLimit);
+		List<Board> bList = bService.printFreeBoard(currentPage, boardLimit); // 자유글 리스트
 		
 		if(!bList.isEmpty()) {
 			mv.addObject("urlVal", "list");
@@ -163,15 +225,15 @@ public class BoardController {
 			mv.addObject("currentPage", currentPage);
 			mv.addObject("startNavi", startNavi);
 			mv.addObject("endNavi", endNavi);
-			mv.addObject("bList", bList);
 			mv.addObject("nList", nList);
+			mv.addObject("bList", bList);
 		}
 		mv.setViewName("board/boardListView");
 		return mv;
 	}
 	
 	/**
-	 * 게시판 후기글 페이지 출력
+	 * 후기글 페이지 출력
 	 * @param mv
 	 * @param page
 	 * @return
@@ -194,8 +256,8 @@ public class BoardController {
 		if(maxPage < endNavi) {
 			endNavi = maxPage;
 		}
-		List<Board> bList = bService.printReviewBoard(currentPage, boardLimit);
 		List<Notice> nList = nService.printNoticeList(currentPage, noticeLimit);
+		List<Board> bList = bService.printReviewBoard(currentPage, boardLimit); // 후기글 리스트
 		
 		if(!bList.isEmpty()) {
 			mv.addObject("urlVal", "list");
@@ -203,15 +265,15 @@ public class BoardController {
 			mv.addObject("currentPage", currentPage);
 			mv.addObject("startNavi", startNavi);
 			mv.addObject("endNavi", endNavi);
-			mv.addObject("bList", bList);
 			mv.addObject("nList", nList);
+			mv.addObject("bList", bList);
 		}
 		mv.setViewName("board/boardListView");
 		return mv;
 	}
 	
 	/**
-	 * 게시판 검색
+	 * 게시글 검색
 	 * @param mv
 	 * @param search
 	 * @param currentPage
@@ -271,7 +333,7 @@ public class BoardController {
 	@RequestMapping(value = "/board/uploadSummernoteImageFile", method = RequestMethod.POST)
 	public String uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile,
 			HttpServletRequest request) {
-		
+		// 알 수 없는 오류로 인해 Gson에서 Json으로 변경 > Spring 버전 문제 가능성이 있다
 		//JsonObject jsonObject = new JsonObject();
 		JSONObject jsonObject = new JSONObject();
 		try {
@@ -314,8 +376,10 @@ public class BoardController {
 		return jsonObject.toJSONString();
 	}
 	
+
 	/**
-	 * 게시글 상세 페이지
+	 * 게시글/댓글/답글 상세페이지
+	 * @param mv
 	 * @param boardNo
 	 * @param page
 	 * @param session
@@ -396,7 +460,7 @@ public class BoardController {
 			, HttpSession session
 			,HttpServletRequest request
 			,HttpServletResponse response) {
-		try {
+			try {
 			Notice notice = nService.printOneByNo(noticeNo);
 			session.setAttribute("noticeNo", notice.getNoticeNo());
 			mv.addObject("notice", notice);
@@ -432,46 +496,7 @@ public class BoardController {
 	}
 	
 	/**
-	 * 게시글 추천
-	 * @param mv
-	 * @param boardNo
-	 * @param page
-	 * @param memberNick
-	 * @param session
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value = "/board/updateLike", method = RequestMethod.POST)
-	public ModelAndView updateLike(
-			ModelAndView mv
-			, @RequestParam("boardNo") Integer boardNo
-			, @RequestParam("page") Integer page
-			, @RequestParam("memberNick") String memberNick
-			, HttpSession session) {
-		try {
-			
-			int likeCheck = bService.likeCheck(boardNo, memberNick);
-			if(likeCheck == 0) {
-				//좋아요 처음누름
-				bService.insertLike(boardNo, memberNick); //like테이블 삽입
-				bService.updateLike(boardNo);	//게시판테이블 +1
-				bService.updateLikeCheck(boardNo, memberNick);//like테이블 구분자 1
-				
-			}else if(likeCheck == 1) {
-				bService.updateLikeCheckCancel(boardNo, memberNick); //like테이블 구분자0
-				bService.updateLikeCancel(boardNo); //게시판테이블 - 1
-				bService.deleteLike(boardNo, memberNick); //like테이블 삭제
-			}
-			session.setAttribute("likeCheck", likeCheck);
-			mv.setViewName("redirect:/board/detail.strap?boardNo="+boardNo+"&page="+page);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return mv;
-	}
-	
-	/**
-	 * 게시글 수정페이지 이동
+	 * 게시글 수정페이지로 이동
 	 * @param mv
 	 * @param boardNo
 	 * @param page
@@ -509,6 +534,7 @@ public class BoardController {
 			,@RequestParam("page") Integer page
 			,HttpServletRequest request) {
 		try {
+			// 게시글 번호, 수정된 내용 받고 성공하면 리스트로 이동
 			int result = bService.modifyOneByNo(board);
 			mv.setViewName("redirect:/board/list.strap?page="+page);
 		} catch (Exception e) {
@@ -531,6 +557,7 @@ public class BoardController {
 			, Model model
 			, @RequestParam("page") Integer page) {
 		try {
+			// 저장되있는 게시글 번호 가져와서 삭제
 			int boardNo = (int)session.getAttribute("boardNo");
 			int result = bService.removeOneByNo(boardNo);
 			if(result > 0) {
@@ -544,57 +571,7 @@ public class BoardController {
 	}
 	
 	/**
-	 * 댓글 작성
-	 * @param mv
-	 * @param page
-	 * @param bReply
-	 * @return
-	 */
-	@RequestMapping(value="/board/reply/write.strap",method=RequestMethod.POST)
-	public ModelAndView boardReplyWrite(ModelAndView mv,
-			@RequestParam("page") Integer page,
-			@ModelAttribute BoardReply bReply) {
-		
-		//1.댓글 작성에서 가져온 rReply를 INSERT해준다
-		int result = bService.registerBoardReply(bReply);
-		if(result>0 ) {
-			
-			//2.등록 성공 시 파라미터 값을 전달하면서 상세페이지로 리다이렉트한다
-			int boardNo = bReply.getBoardNo();
-			mv.setViewName("redirect:/board/detail.strap?boardNo="+boardNo+"&page="+page);
-		}else {
-			
-		}
-		return mv;
-	}
-    
-	/**
-	 * 댓글 수정
-	 * @param mv
-	 * @param bReply
-	 * @param page
-	 * @return
-	 */
-	@RequestMapping(value="/board/reply/modify.strap",method=RequestMethod.POST)
-	public ModelAndView boardReplyModify(ModelAndView mv,
-			@ModelAttribute BoardReply bReply,
-			@RequestParam("page") Integer page) {
-		
-		//1. UPDATE문을 이용하여 게시물의 내용을 변경한다.
-		int result = bService.modifyBoardReply(bReply);
-		if(result>0) {
-			
-			//2. 성공 후 현재의 상세페이지로 리다이렉트한다.
-			int boardNo = bReply.getBoardNo();
-			mv.setViewName("redirect:/board/detail.strap?boardNo="+boardNo+"&page="+page);
-		}else {
-			
-		}
-		return mv;
-	}
-	
-	/**
-	 * 댓글 삭제
+	 * 댓글/답글 삭제
 	 * @param mv
 	 * @param bReply
 	 * @param page
@@ -605,37 +582,15 @@ public class BoardController {
 			@ModelAttribute BoardReply bReply,
 			@RequestParam("page") Integer page) {
 		
-		//1. UPDATE문을 이용하여 게시물의 내용과 상태를 변경한다.
+		//1. UPDATE문을 이용하여 게시글의 내용과 상태를 변경한다
 		int result = bService.removeBoardReply(bReply);
 		if(result>0) {
 			
-		//2.로직 성공 후 현재의 상세페이지로 리다이렉트한다.
+		//2.로직 성공 후 현재의 상세페이지로 리다이렉트한다
 		int boardNo = bReply.getBoardNo();
 		mv.setViewName("redirect:/board/detail.strap?boardNo="+boardNo+"&page="+page);
 		}else {
 			
-		}
-		return mv;
-	}
-
-	@ResponseBody
-	@RequestMapping(value="/", method=RequestMethod.GET)
-	public ModelAndView boardBestRank(
-			ModelAndView mv
-			, @RequestParam("boardNo") Integer boardNo
-			, @RequestParam("page") Integer page
-			, HttpSession session) {
-		try {
-			//Board board = bService.printBestRankBoard();
-			List<Board> bList = bService.printBestRankBoard();
-			mv.addObject("bList", bList);
-			//session.setAttribute("boardNo", board.getBoardNo());
-			//mv.addObject("board", board);
-			mv.addObject("page", page);
-			mv.setViewName("home");
-		} catch (Exception e) {
-			mv.addObject("msg", e.toString());
-			mv.setViewName("common/errorPage");
 		}
 		return mv;
 	}

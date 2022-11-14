@@ -73,46 +73,44 @@
 </style>
 </head>
 <body>
-	<div class="wrap container">
-		<!-- 헤더&메뉴바 -->
-		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-		<!-- 컨텐츠 -->
-		<div class="contents">
-			<div id="contents-wrap">
-				<div class="contents-noside"">
-					<!-- 카테고리/제목 -->
-					<div class="position-relative" id="nTitle1">
-						[공지] ${notice.noticeTitle}
-						<div class="position-absolute top-0 end-0">
-							<fmt:formatDate pattern="yyyy-MM-dd" value="${notice.nCreateDate }" />
-						</div>
+<div class="wrap container">
+	<!-- 헤더&메뉴바 -->
+	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+	<!-- 컨텐츠 -->
+	<div class="contents">
+		<div id="contents-wrap">
+			<div class="contents-noside"">
+				<!-- 카테고리/제목 -->
+				<div class="position-relative" id="nTitle1">
+					[공지] ${notice.noticeTitle}
+					<div class="position-absolute top-0 end-0">
+						<fmt:formatDate pattern="yyyy-MM-dd" value="${notice.nCreateDate }" />
 					</div>
-					<!-- 작성자/조회 -->
-					<div class="position-relative">
-						<div class="nTitle2">
-							${notice.noticeWriter }</div>
-						<div class="position-absolute top-0 end-0">
-							조회수 ${notice.noticeCount }</div>
-					</div>
-					<div class="nTitle3">
-						<!-- 내용 -->
-						<div class="nContents">${notice.noticeContents }</div>
-						<c:if test="${notice.noticeFilename ne null}">
-							<!-- 첨부파일 있을 때만 보이게 -->
-							<tr>
-								<td id="cl">첨부파일</td>
-								<td><img alt="본문이미지" src="/resources/nuploadFiles/${notice.noticeFileRename }"></td>
-							</tr>
-						</c:if>
-						<div id="list">
-							<button onclick="location.href='/board/list.strap?page=${page}'"
-								class="btn btn-outline-secondary">목록</button>
-						</div>
+				</div>
+				<!-- 작성자/조회 -->
+				<div class="position-relative">
+					<div class="nTitle2">${notice.noticeWriter }</div>
+					<div class="position-absolute top-0 end-0">조회수 ${notice.noticeCount }</div>
+				</div>
+				<div class="nTitle3">
+					<!-- 내용 -->
+					<div class="nContents">${notice.noticeContents }</div>
+					<c:if test="${notice.noticeFilename ne null}">
+						<!-- 첨부파일 있을 때만 보이게 -->
+						<tr>
+							<td id="cl">첨부파일</td>
+							<td><img alt="본문이미지" src="/resources/nuploadFiles/${notice.noticeFileRename }"></td>
+						</tr>
+					</c:if>
+					<div id="list">
+						<button onclick="location.href='/board/list.strap?page=${page}'" class="btn btn-outline-secondary">목록</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- 푸터 -->
-		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+	</div>
+</div>
+<!-- 푸터 -->
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </body>
 </html>
