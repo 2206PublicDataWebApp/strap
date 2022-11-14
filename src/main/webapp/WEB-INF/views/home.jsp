@@ -36,7 +36,7 @@
 .oneView{
 	height:400px;
 	margin: 0 10px;
-	border:1px solid gray;
+	border:1px solid #c0c0c0;
 	border-radius:10px;
 }
 .star{
@@ -90,6 +90,11 @@
 }
 
 div > span > a > p > img { display: none; }
+
+.pImg,.pBrandName:hover{
+	cursor:pointer;
+}
+
 </style>
 </head>
 <body>
@@ -178,9 +183,9 @@ div > span > a > p > img { display: none; }
 					</div>
 						<div class="bestProduct">
 							<div class="pImg">
-								<img src="${product.mainImgRoot }" width="80%" height="60%" style="margin:auto;display:block;padding:12px;">
+								<img src="${product.mainImgRoot }" width="80%" height="60%" style="margin:auto;display:block;padding:12px;" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
 							</div>
-								<div class="pBrandName" style="font-weight:bold;">
+								<div class="pBrandName" style="font-weight:bold;" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
 									<span class="brand">
 										[${product.productBrand }]
 									</span>
@@ -226,7 +231,7 @@ div > span > a > p > img { display: none; }
 	</div>
 	</div>
 <script>
-$('#carouselExampleIndicators').carousel('cycle');
+// $('#carouselExampleIndicators').carousel('cycle');
 
 function getCoupon(loginMember,couponNo){
    console.log(loginMember);

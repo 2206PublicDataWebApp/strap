@@ -116,11 +116,11 @@
 							</div>
 							<div class="inputWrap">
 								<span class="inputLabel">상세주소 </span>
-								<input type="text" id="detailAddr" placeholder="상세주소" onchange="updateInput();" required>
+								<input type="text" id="detailAddr" placeholder="상세주소" onchange="updateInput();" maxlength="30" required>
 							</div>
 							<div class="inputWrap">
 								<span class="inputLabel">연락처 </span>
-								<input type="text" id="phoneBodyNum" placeholder="'-'를제외한 10~11자리 숫자를 입력해주세요." onchange="updateInput();" required>
+								<input type="text" id="phoneBodyNum" placeholder="'-'를제외한 10~11자리 숫자를 입력해주세요." onkeyup="checkNumber(this);" maxlength="11" onchange="updateInput();" required>
 							</div>
 							<div class="inputWrap">
 								<span class="inputLabel">배송 요청사항 </span>
@@ -133,7 +133,10 @@
 								</select>
 								<div style="padding:12px;">
 									<span class="inputLabel"></span>
-									<input id="userInputRqt" required type="text" disabled style="width:90%;margin:0px auto;" placeholder="배송메시지 입력해주세요.">
+									<input id="userInputRqt" onkeyup="countText(this,50);" required type="text" disabled style="width:90%;margin:0px auto;" placeholder="배송메시지 입력해주세요.">
+									<div style="text-align:left;font-size:14px;padding:5px;display:inline-block;">
+										<span id="inputCount">(0/50)</span>
+									</div>
 								</div>
 							</div>
 							<div class="inputWrap" style="text-align:right;">
@@ -495,6 +498,7 @@ function directInput(){
 		document.querySelector("#userInputRqt").disabled = false;
 	}else{
 		document.querySelector("#userInputRqt").disabled = true;
+		document.querySelector("#userInputRqt").value="";
 	}
 }
 
@@ -708,6 +712,28 @@ function getAfterThreeDay(){
 	day =  (day<10)? '0' + day : day;
 	console.log(year +""+ month +""+ day + "2359");
 	return year +""+ month +""+ day + "2359";
+}
+
+//유효성
+//텍스트 체크
+function countText(thisInput,limit){
+	var count = thisInput.value.length;
+	if(count>limit){
+		thisInput.value=thisInput.value.substring(0,limit);
+		count=limit;		
+	}
+	var text = "("+count+"/"+limit+")"
+//	document.querySelector("#inputCount").innerText = text;
+	thisInput.nextElementSibling.childNodes[1].innerText = text;
+}
+
+//숫자 체크
+function checkNumber(thisInput){
+	var regExNum = /[0-9]/;
+	if(!regExNum.test(thisInput.value)){
+		thisInput.value = "";
+		thisInput.focus();
+	}
 }
 
 
