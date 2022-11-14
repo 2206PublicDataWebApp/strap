@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Admin Strap Qna</title>
+<title>스트랩(관리자) : 문의</title>
 <style>
 .qnaContents{
 	text-decoration:none;

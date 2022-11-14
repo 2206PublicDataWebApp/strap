@@ -41,6 +41,9 @@
 	</delete>
 	<update id="updateSchedule">
 		UPDATE SCHEDULE_TBL SET MEET_DATE = #{meetDate}
+		<if test="matchDetail != ''" >
+			, MATCH_DETAIL = #{matchDetail}
+		</if> 
 		WHERE MATCH_NO = #{matchNo}
 	</update>
 	

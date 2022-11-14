@@ -2,44 +2,101 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>
+<meta charset="UTF-8">
 
 <html>
 <head>
-<title>STRAP MAIN</title>
-<!-- CDN -->
-<!-- 부트스트랩 -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
-<!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- css -->
-<link rel="stylesheet" type="text/css" href="/resources/css/common.css">
+<title>스트랩(관리자) : 주문관리</title>
+<script src="/resources/js/jquery-3.6.1.min.js"></script>
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+<!-- 부가적인 테마 -->
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"> -->
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
- .pagination a{
-	 	color:#c0c0c0;
-	 	border-style:none;
- }
+body {
+	background-color: #EAEAEA;
+}
+
+#title-img {
+	width: 250px;
+	height: 100px;
+	object-fit: contain;
+	cursor: pointer;
+	"
+}
+
+.navbar {
+	background-color: black;
+}
+
+.nav-menu {
+	font-weight: 1000;
+	cursor: pointer;
+}
+
+.admin-title {
+	text-decoration: none;
+	color: black;
+}
+
+.admin-menu {
+	color: white;
+	text-decoration: none;
+}
+
+#admin-logout {
+	color: black;
+	text-decoration: none;
+}
+
+.pagination a {
+	color: #c0c0c0;
+	border-style: none;
+}
+
+.product-menu {
+	width: 200px;
+	background-color: black;
+	padding: 6px;
+	border-radius: 3px;
+}
+
+.p-menu {
+	color: white;
+	text-decoration: none;
+}
+
+.p-menu:hover {
+	color: gray
+}
 </style>
 </head>
 <body>
+<!-- 헤더&메뉴바 -->
+<jsp:include page="/WEB-INF/views/common/adminHeader.jsp"></jsp:include>
 <div class="wrap container">
-	<!-- 헤더&메뉴바 -->
-	<div id="header" class="row">
+	<!-- 컨텐츠 -->
+	<div class="row text-center mt-3 mb-3">
 		<div class="col">
-<%-- 			<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include> --%>
+			<span class="product-menu"><a class="p-menu" href="/admin/productView.strap">상품관리</a></span>
+		</div>
+		<div class="col">
+			<span class="product-menu"><a class="p-menu" href="/admin/orderView.strap">주문관리</a></span>
+		</div>
+		<div class="col">
+			<span class="product-menu"><a class="p-menu" href="/admin/couponView.strap">쿠폰관리</a></span>
 		</div>
 	</div>
-	<!-- 컨텐츠 -->
 	<div id="contents" class="row">
-		<div class="sidebar col-3" >
-				<jsp:include page="/WEB-INF/views/common/sideBarAdmin.jsp"></jsp:include>
-		</div>
 		<div class="contents-side col">
 			<div id="contents-wrap">
 				<div id="title">
-					<h3>주문관리 (${paging.totalCount })</h3><hr>
+					<div style="font-size:20px;">주문관리 (${paging.totalCount })</div><hr>
 				</div>
 				<div id="searchArea" style="text-align:center;">
-					<div id="search_border" style="border:2px solid darkorange;padding:3px; border-radius:4px; display:inline-block;height:40px;">
+					<div class="mb-3" id="search_border" style="border:2px solid darkorange;padding:3px; border-radius:4px; display:inline-block;height:40px;">
 						<form id="search-form" action="/admin/orderView.strap" method="get">
 							<input id="searchVal" 		name="searchVal" 		type="text" value="${search.searchVal }" placeholder=" 주문번호 or 회원아이디 검색." style="border-style:none; padding:4px; width:400px;">
 							<input id="searchColumn"  	name="searchColumn" 	type="hidden">
@@ -163,12 +220,6 @@
 				  </ul>
 				</nav>
 			</div>
-		</div>
-	</div>
-	<!-- 푸터 -->
-	<div id="footer" class="row">
-		<div class="col">
-			<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 		</div>
 	</div>
 </div>

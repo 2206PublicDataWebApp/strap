@@ -103,16 +103,16 @@
   	<!-- 관리자 대시보드 총 미처리 문의 수 -->
   	<select id="selectAllReportCount" resultType="_int">
   		SELECT COUNT(*) FROM REPORT_TBL
-  		WHERE REPORT_PROCESS = 'N'
+  		WHERE CONTENTS_PROCESS = 'N' OR MEMBER_PROCESS = 'N'
   	</select>
   	<!-- 관리자 대시보드 총 처리 문의 수 -->
   	<select id="selectAllReportProcess" resultType="_int">
   		SELECT COUNT(*) FROM REPORT_TBL
-  		WHERE REPORT_PROCESS = 'Y'
+  		WHERE CONTENTS_PROCESS = 'Y' AND MEMBER_PROCESS = 'Y'
   	</select>
   	<!-- 관리자 대시보드 오늘 처리 문의 수 -->
   	<select id="selectTodayProcess" resultType="_int">
   		SELECT COUNT(*) FROM REPORT_TBL
-  		WHERE REPORT_PROCESS = 'Y' AND TO_CHAR(SYSDATE, 'YYYY-MM-DD') = TO_CHAR(REPORT_DATE, 'YYYY-MM-DD')
+  		WHERE CONTENTS_PROCESS = 'Y' AND MEMBER_PROCESS = 'Y' AND TO_CHAR(SYSDATE, 'YYYY-MM-DD') = TO_CHAR(REPORT_DATE, 'YYYY-MM-DD')
   	</select>
 </mapper>

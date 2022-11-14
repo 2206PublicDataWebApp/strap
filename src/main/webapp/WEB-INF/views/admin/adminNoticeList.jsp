@@ -6,7 +6,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Admin Strap Notice</title>
+<title>스트랩(관리자) : 공지사항</title>
+<style>
+#noticeTitle{
+	text-decoration:none;
+	color:black;
+}
+#noticeTitle:hover{
+	color:black;
+}
+</style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/adminHeader.jsp"></jsp:include>
@@ -34,7 +43,7 @@
 					<c:forEach items="${nList }" var="notice" varStatus="i">
 						<tr align="center">
 							<td>${i.count }</td>
-							<td><a href="/admin/noticeDetailView.strap?noticeNo=${notice.noticeNo }&page=${currentPage }">${notice.noticeTitle }</a></td>
+							<td><a id="noticeTitle" href="/admin/noticeDetailView.strap?noticeNo=${notice.noticeNo }&page=${currentPage }">${notice.noticeTitle }</a></td>
 							<td>${notice.noticeWriter }</td>
 							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${notice.nCreateDate }"/> </td>
 							<td>${notice.noticeCount }</td>

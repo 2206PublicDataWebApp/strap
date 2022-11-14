@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Edit Member Informaiton</title>
+<title>스트랩 : 정보조회</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->
 <link rel="stylesheet"

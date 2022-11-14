@@ -25,6 +25,10 @@ body {
 }
 .nav-menu{
 	font-weight: 1000;
+	cursor:pointer;
+}
+.admin-menu:hover{
+	color:gray;
 }
 .admin-title{
 	text-decoration:none;
@@ -59,23 +63,23 @@ body {
 			</div>
 		</header>
 		<div class="navbar row">
-			<div class="nav-menu col">
-				<a class="admin-menu" href="/admin/adminQnaListView.strap">문의</a>
+			<div class="nav-menu col" onclick="location.href='/admin/adminQnaListView.strap'">
+				<a class="admin-menu" href="#none">문의</a>
 			</div>
-			<div class="nav-menu col">
-				<a class="admin-menu" href="/admin/adminReportListView.strap">신고</a>
+			<div class="nav-menu col" onclick="location.href='/admin/adminReportListView.strap'">
+				<a class="admin-menu" href="#none">신고</a>
 			</div>
-			<div class="nav-menu col">
-				<a class="admin-menu" href="/admin/productView.strap">쇼핑</a>
+			<div class="nav-menu col" onclick="location.href='/admin/productView.strap'">
+				<a class="admin-menu" href="#none">쇼핑</a>
 			</div>
-			<div class="nav-menu col">
-				<a class="admin-menu" href="/admin/memberView.strap">회원</a>
+			<div class="nav-menu col" onclick="location.href='/admin/memberView.strap'">
+				<a class="admin-menu" href="#none">회원</a>
 			</div>
-			<div class="nav-menu col">
-				<a class="admin-menu" href="/admin/noticeListView.strap">공지사항</a>
+			<div class="nav-menu col" onclick="location.href='/admin/noticeListView.strap'">
+				<a class="admin-menu" href="#none">공지사항</a>
 			</div>
-			<div class="nav-menu col">
-				<a class="admin-menu" href="/admin/bannerListView.strap">배너</a>
+			<div class="nav-menu col" onclick="location.href='/admin/bannerListView.strap'">
+				<a class="admin-menu" href="#none">배너</a>
 			</div>
 		</div>
 	</div>

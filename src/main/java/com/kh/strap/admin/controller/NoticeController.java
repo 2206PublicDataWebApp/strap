@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.strap.admin.domain.Admin;
 import com.kh.strap.admin.domain.Notice;
 import com.kh.strap.admin.service.NoticeService;
+import com.kh.strap.member.domain.Member;
 
 @Controller
 public class NoticeController {
@@ -93,9 +94,10 @@ public class NoticeController {
 			, @RequestParam(value="uploadFile", required=false) MultipartFile uploadFile
 			, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		Admin admin = (Admin)session.getAttribute("loginUser");
-		String adminName = admin.getAdminName();
-		notice.setNoticeWriter(adminName);
+		Member member = (Member)session.getAttribute("loginUser");
+		System.out.println(member);
+		String memberName = member.getMemberNick();
+		notice.setNoticeWriter(memberName);
 		try {
 			String noticeFilename = uploadFile.getOriginalFilename();
 			if(!noticeFilename.equals("")) {

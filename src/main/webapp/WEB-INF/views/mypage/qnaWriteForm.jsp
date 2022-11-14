@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>STRAP MyPage</title>
+<title>스트랩 : 문의 등록</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->
 <link rel="stylesheet"
