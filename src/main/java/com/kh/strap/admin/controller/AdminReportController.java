@@ -73,6 +73,7 @@ public class AdminReportController {
 	public ModelAndView adminReportSearchList(ModelAndView mv
 			, @RequestParam("searchCondition") String searchCondition
 			, @RequestParam("searchValue") String searchValue
+			, @RequestParam("contentsCode") String contentsCode
 			, @RequestParam(value="page", required=false) Integer page) {
 		try {
 			int currentPage = (page != null) ? page : 1;
@@ -120,49 +121,49 @@ public class AdminReportController {
 	 * @return
 	 */
 	// 관리자 신고 조건별 조회
-		@RequestMapping(value="/admin/adminReportSort.strap", method=RequestMethod.GET)
-		public ModelAndView adminReportSortList(ModelAndView mv
-				, @RequestParam("searchCondition") String searchCondition
-				, @RequestParam("searchValue") String searchValue
-				, @RequestParam("contentsCode") String contentsCode
-				, @RequestParam(value="page", required=false) Integer page) {
-			try {
-				int currentPage = (page != null) ? page : 1;
-				int sortTotalCount = arService.getTotalCount(searchCondition, searchValue, contentsCode);
-				System.out.println("조건별 조회 : " + sortTotalCount);
-				int ReportSortLimit = 10;
-				int naviLimit = 5;
-				int maxPage;
-				int startNavi;
-				int endNavi;
-				maxPage = (int)((double)sortTotalCount/ReportSortLimit + 0.9);
-				startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
-				endNavi = startNavi + naviLimit - 1;
-				if(maxPage < endNavi) {
-					endNavi = maxPage;
-				}
-				List<AdminReport> arList = arService.printAllBySort(
-						searchCondition, searchValue, contentsCode, currentPage, ReportSortLimit);
-				if(!arList.isEmpty()) {
-					mv.addObject("arList", arList);
-				}else {
-					mv.addObject("arList", null);
-				}
-					mv.addObject("urlVal", "adminReportSort");
-					mv.addObject("searchCondition", searchCondition);
-					mv.addObject("searchValue", searchValue);
-					mv.addObject("totalCount", sortTotalCount);
-					mv.addObject("maxPage", maxPage);
-					mv.addObject("currentPage", currentPage);
-					mv.addObject("startNavi", startNavi);
-					mv.addObject("endNavi", endNavi);
-					mv.addObject("contentsCode", contentsCode);
-					mv.setViewName("admin/adminReportList");
-			} catch (Exception e) {
-				mv.addObject("msg", e.toString()).setViewName("common/errorPage");
+	@RequestMapping(value="/admin/adminReportSort.strap", method=RequestMethod.GET)
+	public ModelAndView adminReportSortList(ModelAndView mv
+			, @RequestParam("searchCondition") String searchCondition
+			, @RequestParam("searchValue") String searchValue
+			, @RequestParam("contentsCode") String contentsCode
+			, @RequestParam(value="page", required=false) Integer page) {
+		try {
+			int currentPage = (page != null) ? page : 1;
+			int sortTotalCount = arService.getTotalCount(searchCondition, searchValue, contentsCode);
+			System.out.println("조건별 조회 : " + sortTotalCount);
+			int ReportSortLimit = 10;
+			int naviLimit = 5;
+			int maxPage;
+			int startNavi;
+			int endNavi;
+			maxPage = (int)((double)sortTotalCount/ReportSortLimit + 0.9);
+			startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
+			endNavi = startNavi + naviLimit - 1;
+			if(maxPage < endNavi) {
+				endNavi = maxPage;
 			}
-			return mv;
+			List<AdminReport> arList = arService.printAllBySort(
+					searchCondition, searchValue, contentsCode, currentPage, ReportSortLimit);
+			if(!arList.isEmpty()) {
+				mv.addObject("arList", arList);
+			}else {
+				mv.addObject("arList", null);
+			}
+				mv.addObject("urlVal", "adminReportSort");
+				mv.addObject("searchCondition", searchCondition);
+				mv.addObject("searchValue", searchValue);
+				mv.addObject("totalCount", sortTotalCount);
+				mv.addObject("maxPage", maxPage);
+				mv.addObject("currentPage", currentPage);
+				mv.addObject("startNavi", startNavi);
+				mv.addObject("endNavi", endNavi);
+				mv.addObject("contentsCode", contentsCode);
+				mv.setViewName("admin/adminReportList");
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
 		}
+		return mv;
+	}
 	
 		/**
 	 * 

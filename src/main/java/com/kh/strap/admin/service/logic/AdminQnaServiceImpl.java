@@ -42,8 +42,30 @@ public class AdminQnaServiceImpl implements AdminQnaService{
 
 
 	@Override
+	public List<AdminQna> printAllByUnsolvedQna(String searchCondition, String searchValue, int currentPage,
+			int unsolvedQnaLimit) {
+		List<AdminQna> aqList = aqStore.selectAllByUnsolvedQna(session, searchCondition, searchValue, currentPage, unsolvedQnaLimit);
+		return aqList;
+	}
+
+
+	@Override
+	public List<AdminQna> printAllByUnsolvedQna(int currentPage, int unsolvedQnaLimit) {
+		List<AdminQna> aqList = aqStore.selectAllByUnsolvedQna(session, currentPage, unsolvedQnaLimit);
+		return aqList;
+	}
+
+
+	@Override
 	public int getTotalCount(String searchCondition, String searchValue, String qnaCode) {
 		int result = aqStore.selectTotalCount(session, searchCondition, searchValue, qnaCode);
+		return result;
+	}
+
+
+	@Override
+	public int printAllqnaCount(String searchCondition, String searchValue) {
+		int result = aqStore.selectAllqnaCount(session, searchCondition, searchValue);
 		return result;
 	}
 

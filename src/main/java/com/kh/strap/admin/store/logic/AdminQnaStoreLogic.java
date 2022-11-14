@@ -48,12 +48,41 @@ public class AdminQnaStoreLogic implements AdminQnaStore{
 	}
 
 	@Override
+	public List<AdminQna> selectAllByUnsolvedQna(SqlSession session, String searchCondition, String searchValue, int currentPage,
+			int unsolvedQnaLimit) {
+		int offset = (currentPage-1) * unsolvedQnaLimit;
+		RowBounds rowBounds = new RowBounds(offset, unsolvedQnaLimit);
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("searchCondition", searchCondition);
+		paramMap.put("searchValue", searchValue);
+		List<AdminQna> aqList = session.selectList("AdminQnaMapper.selectAllByUnsolvedQna", paramMap, rowBounds);
+		return aqList;
+	}
+
+	@Override
+	public List<AdminQna> selectAllByUnsolvedQna(SqlSession session, int currentPage, int unsolvedQnaLimit) {
+		int offset = (currentPage-1)*unsolvedQnaLimit;
+		RowBounds rowBounds = new RowBounds(offset, unsolvedQnaLimit);
+		List<AdminQna> aqList = session.selectList("AdminQnaMapper.selectAllByUnsolvedQna", null, rowBounds);
+		return aqList;
+	}
+
+	@Override
 	public int selectTotalCount(SqlSession session, String searchCondition, String searchValue, String qnaCode) {
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("searchCondition", searchCondition);
 		paramMap.put("searchValue", searchValue);
 		paramMap.put("qnaCode", qnaCode);
 		int totalCount = session.selectOne("AdminQnaMapper.selectTotalCount", paramMap);
+		return totalCount;
+	}
+
+	@Override
+	public int selectAllqnaCount(SqlSession session, String searchCondition, String searchValue) {
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("searchCondition", searchCondition);
+		paramMap.put("searchValue", searchValue);
+		int totalCount = session.selectOne("AdminQnaMapper.selectAllqnaCount", paramMap);
 		return totalCount;
 	}
 

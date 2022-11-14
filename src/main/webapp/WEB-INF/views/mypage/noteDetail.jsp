@@ -90,10 +90,10 @@
 						<div class="col-5" id="info-img">
 							<div class="imgDiv">
 							<c:if test="${empty member.mProfilePath }">
-								<img id="profileImg" width="100%" height="100%" src="/resources/profileUploadFiles/default.png">
+								<img id="profileImg" width="100%" height="100%" style="margin:10px;border-radius:30px;" src="/resources/profileUploadFiles/default.png">
 							</c:if>
 							<c:if test="${not empty member.mProfilePath }">
-								<img id="profileImg" width="100%" height="100%" src="/resources/profileUploadFiles/${member.mProfileRename }">
+								<img id="profileImg" width="100%" height="100%" style="margin:10px;border-radius:30px;" src="/resources/profileUploadFiles/${member.mProfileRename }">
 							</c:if>
 							</div>
 						</div>
@@ -209,13 +209,14 @@
 					<hr>
 					<c:if test="${noteBox.recipientId eq memberId }"> 
 						<div class="row">
-							<div class="col-4" align="center">
-								날짜 : <input type="date" id="meet-date" required/>
+							<div class="col" align="center">
+								<h6>날짜 :</h6> 
+								<input type="date" id="meet-date" required/>
 							</div>
-							<div class="col-4" align="center">
+							<div class="col" align="center">
 								시간 : <input class="timepicker" id="meet-time" required/>
 							</div>
-							<div class="col-4" align="center">
+							<div class="col" align="center">
 								메모 : <input type="text" id="meet-memo"  placeholder="ex)헬스장, 운동부위" required/>
 							</div>
 						</div>
@@ -223,7 +224,8 @@
 					<c:if test="${noteBox.recipientId ne memberId }"> 
 						<div class="row" style="display:none;">
 							<div class="col-auto" align="center">
-								날짜 : <input type="date" id="meet-date" required/>
+								<h6>날짜 :</h6> 
+								<input type="date" id="meet-date" required/>
 							</div>
 							<div class="col-auto" align="center">
 								시간 : <input class="timepicker" id="meet-time" required/>
@@ -275,7 +277,8 @@
 							<%-- 					<input type="hidden" value=${. } name="memberId">  신고자 추가해야함--%>
 							<div class="form-floating mb-3">
 								<p>신고 종류</p>
-								<select class="form-select" aria-label="Default select example"	name="reportType">
+								<select id="report-type" class="form-select" aria-label="Default select example" name="reportType">
+									<option value="" selected>신고 유형 선택</option>
 									<option value="RT1">영리목적/홍보성</option>
 									<option value="RT2">불법정보</option>
 									<option value="RT3">음란/선정성</option>
@@ -315,7 +318,7 @@
 	
 	//쪽지 대화 
 // 	setInterval(function(){ // 주기적으로 반복
-		
+		console.log("${noteBox}");
 		$.ajax({
 			url : "/notebox/noteChatListView.strap",
 			data : {
@@ -332,7 +335,7 @@
 				var recipientNick = data.recipientNick;
 				var ncList = data.ncList;
 				var memberId = data.memberId;
-				var url = "/notebox/noteChatView.strap?senderNick="+senderNick+"&recipientId="+recipientId+"&recipientNick="+recipientNick+"&ncList="+ncList+"&memberId="+memberId;
+				var url = "/notebox/noteChatView.strap?noteNo="+noteNo+"&senderNick="+senderNick+"&recipientId="+recipientId+"&recipientNick="+recipientNick+"&ncList="+ncList+"&memberId="+memberId;
 				const encoded = encodeURI(url);
 				$("#chat-column").load(encoded);
 				
@@ -348,6 +351,13 @@
 	// 신고 ajax
 	$(document).ready(function () {
 		$(".report-submit").on("click",function(){
+			if ($("#report-type").val() == "") {
+				alert('신고 유형을 선택해주세요.')
+				return false
+			} else if($("#notice-textarea").val() == "") {
+				alert('내용을 작성해주세요.')
+				return false
+			}
 			var params = $("#report-form").serialize();
 			$.ajax({
 				url : "/report/registerReport.strap",
@@ -355,7 +365,7 @@
 				type : "post",
 				success:function(data){
 					if(window.confirm("정말로 신고하시겠습니까?")){
-						opener.location.replace("/mypage/noteBoxListView.strap");
+						location.replace("/mypage/noteBoxListView.strap");
 						window.close();
 					} else {
 						$('#reportNote').modal('hide');
@@ -464,8 +474,6 @@
 	function noteBoxBack(){
 		history.back();
 	}
-	
-	
 	
 	
 </script>

@@ -77,7 +77,9 @@
 						<td><label class="form-check-label" for="nb-chk${i.count }">${i.count }</label></td>
 						<td><a id="noteContents" href="#none" onclick="noteDetail('${notebox.noteNo }', '${notebox.recipientId }', '${notebox.senderId }');"><c:if test="${not empty notebox.noteContents }">${notebox.noteContents }</c:if><c:if test="${empty notebox.noteContents }">매칭 메세지 도착!!</c:if></a><c:if test="${notebox.noteCheck eq 'N' }"><span class="badge text-bg-danger">New</span></c:if></td>
 						<td>${notebox.senderNick }</td>
-						<td><fmt:formatDate pattern="yyyy-MM-dd / hh:mm:ss" value="${notebox.senderTime }"/> </td>
+							<td><fmt:formatDate pattern="yyyy-MM-dd / hh:mm:ss" value="${notebox.senderDate }"/> </td>
+						<c:if test="${notebox.noteAccept eq 'N' }">
+						</c:if>
 					</tr>
 				</c:forEach>
 				<tr align="center" height="20">

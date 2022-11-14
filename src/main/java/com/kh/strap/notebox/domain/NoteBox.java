@@ -13,6 +13,7 @@ public class NoteBox {
 	private String recipientNick;
 	private String senderNick;
 	private String noteCheck;
+	private Date senderDate;
 	
 	
 	public NoteBox() {}
@@ -120,15 +121,21 @@ public class NoteBox {
 	public void setNoteCheck(String noteCheck) {
 		this.noteCheck = noteCheck;
 	}
+	
+
+	public Date getSenderDate() {
+		return senderDate;
+	}
+
+	public void setSenderDate(Date senderDate) {
+		this.senderDate = senderDate;
+	}
 
 	@Override
 	public String toString() {
 		return "NoteBox [noteNo=" + noteNo + ", recipientId=" + recipientId + ", senderId=" + senderId + ", senderTime="
 				+ senderTime + ", noteContents=" + noteContents + ", noteAccept=" + noteAccept + ", noteStatus="
 				+ noteStatus + ", recipientNick=" + recipientNick + ", senderNick=" + senderNick + ", noteCheck="
-				+ noteCheck + "]";
+				+ noteCheck + ", senderDate=" + senderDate + "]";
 	}
-
-	
-	
 }

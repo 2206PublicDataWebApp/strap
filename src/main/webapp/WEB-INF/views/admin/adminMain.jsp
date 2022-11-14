@@ -22,55 +22,60 @@
 		<div class="row" align="center">
 			<div class="col" align="left">
 				<h3>문의</h3>
-				<div class="container">
-					<div class="table-responsive">
-						<div class="row">
-							<div class="col">
-								총 미처리 문의 수 - ${qnaCount }
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								오늘 문의 처리 수 - ${todayQnaAnswer }
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								총 문의 수 - ${totalQna }
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								총 처리 문의 수 - ${qnaAnswer }
-							</div>
-						</div>
+				<div class="row">
+					<div class="col-auto">
+						<c:if test="${qnaCount eq 0 }">
+							<h1>남은 문의 : <b>${qnaCount }</b></h1>
+						</c:if>
+						<c:if test="${qnaCount ne 0 }">
+							<a href="/admin/adminUnsolvedQna.strap" style="text-decoration:none;color:black;"><h1>남은 문의 : <b>${qnaCount }</b></h1></a>
+						</c:if>
+					</div>
+					<div class="col">
+						<h1><span></span></h1>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<h3>오늘 문의 처리 : <b>${todayQnaAnswer }</b></h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						총 문의 수 : ${totalQna }
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						총 처리 문의 수 : ${qnaAnswer }
 					</div>
 				</div>
 			</div>
 			<div class="col" align="left">
 				<h3>신고</h3>
-				<div class="container">
-					<div class="table-responsive">
-						<div class="row">
-							<div class="col">
-								총 미처리 신고 수 - ${reportCount }
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								오늘 신고 처리 수 - ${todayReportProcess }
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								총 신고 수 - ${totalReport }
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								총 처리 신고 수 - ${reportProcess }
-							</div>
-						</div>
+				<div class="row">
+					<div class="col">
+						<c:if test="${reportCount eq 0 }">
+							<h1>남은 신고 : <b>${reportCount }</b></h1>
+						</c:if>
+						<c:if test="${reportCount ne 0 }">
+							<a href="/admin/adminReportListView.strap" style="text-decoration:none;color:black;"><h1>남은 신고 : <b>${reportCount }</b></h1></a>
+						</c:if>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<h3>오늘 신고 처리 : <b>${todayReportProcess }</b></h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						총 신고 수 : ${totalReport }
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						총 처리 신고 수 : ${reportProcess }
 					</div>
 				</div>
 			</div>
