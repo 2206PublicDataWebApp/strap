@@ -303,6 +303,13 @@
 		</div>
 	</div>
 	<script>
+	//부모창 쪽지 개수 리셋
+	count = '${count}';
+	if(count > 0){
+		opener.document.querySelector("#noteMarker").innerText = count;
+	}else if(count == 0){
+		opener.document.querySelector("#noteMarker").style.display = "none";
+	}
 	
 	$('.timepicker').timepicker({
 	    timeFormat: 'HH:mm',

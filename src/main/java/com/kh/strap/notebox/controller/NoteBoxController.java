@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +30,8 @@ import com.kh.strap.notebox.service.NoteBoxService;
 public class NoteBoxController {
 	@Autowired
 	private NoteBoxService nbService;
+	
+	private Logger logger = LoggerFactory.getLogger(NoteBoxController.class.getName());
 	
 	/**
 	 * 
@@ -98,11 +102,18 @@ public class NoteBoxController {
 		String getMemberJym = mOne.getMemberJym();
 		String jymAddress = getMemberJym.split(",")[0];
 		String jymTitle = getMemberJym.split(",")[1];
+		//쪽지 갯수
+		int countNoteBox = 0;
+		int countNoteChat = 0;
+		countNoteBox = nbService.getCountNoteBox(memberId);
+		countNoteChat = nbService.getCountNoteChat(memberId);
+		int count = countNoteBox + countNoteChat;
 		mv.addObject("member", mOne);
 		mv.addObject("jymAddress", jymAddress);
 		mv.addObject("jymTitle", jymTitle);
 		mv.addObject("memberId", memberId);
 		mv.addObject("noteBox", nOne);
+		mv.addObject("count", count);
 		mv.setViewName("mypage/noteDetail");
 		return mv;
 	}
@@ -176,12 +187,13 @@ public class NoteBoxController {
 	public String markNoteBox(HttpSession session) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		if(loginUser != null) {
-			
 			int countNoteBox = 0;
 			int countNoteChat = 0;
 			countNoteBox = nbService.getCountNoteBox(loginUser.getMemberId());
 			countNoteChat = nbService.getCountNoteChat(loginUser.getMemberId());
 			int count = countNoteBox + countNoteChat;
+			System.out.println("카운터 :" + count);
+			logger.info("쪽지 마크 카운터 업데이트");
 			if(count > 0 ) {
 				return count+"";
 			}else {

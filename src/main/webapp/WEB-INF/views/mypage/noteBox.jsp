@@ -183,20 +183,8 @@
 	
 		// 쪽지 상세페이지 이동
 		function noteDetail(nNo, rId, sId){
-// 			$.ajax({
-// 				url:"/mypage/mark.strap",
-// 				type:"post",
-// 				success:function(count){
-// 					if(count>1){
-// 						window.opner.document.querySelector("#noteMarker").innerText=count;
-// 					}else(count == 0){
-// 						window.opner.document.querySelector("#noteMarker").style.display="none";
-// 					}
-// 				}
-// 			})
 			var notePage = "/mypage/noteDetailView.strap?noteNo=" + nNo +"&recipientId=" + rId + "&senderId=" + sId;
 			location.href = notePage;
-				
 		}
 		
 		//쪽지 삭제
