@@ -23,7 +23,7 @@
 			${senderNick }님과 쪽지 대화
 			<div class="note-chat row text-center border border-secondary border-opacity-50 overflow-scroll" style="height:300px" >
 				<div class="col">
-					대화를 시작해 보세요 ~<br>
+					서로를 존중하는 매너채팅을 해주세요!<br>
 						<c:if test="${noteBox.recipientNick eq senderNick}">
 							<div align="right" style="position:relative;top:4px;">
 								<span class="note-i-bg">${noteBox.noteContents }</span> <br>
