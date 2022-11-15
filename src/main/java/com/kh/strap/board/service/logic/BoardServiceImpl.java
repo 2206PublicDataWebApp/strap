@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.BadStringOperationException;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,6 +88,7 @@ public class BoardServiceImpl implements BoardService {
 		int totalCount = bStore.selectFreeTotalCount(session, searchCondition, searchValue);
 		return totalCount;
 	}
+	
 	// 후기글 총 개수
 	@Override
 	public int getReviewTotalCount(String searchCondition, String searchValue) {
