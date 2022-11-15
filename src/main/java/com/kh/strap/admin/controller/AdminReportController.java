@@ -200,15 +200,12 @@ public class AdminReportController {
 		public ModelAndView processAdminReport(ModelAndView mv
 				, @ModelAttribute AdminReport adminReport
 				, @RequestParam("reportNo") Integer reportNo
-				, @RequestParam("page") Integer page
-				, HttpSession session
-				,HttpServletRequest request
-				,HttpServletResponse response) {
+				, @RequestParam("page") Integer page) {
 			try {
 				int result = arService.registReportProcess(adminReport);
 				mv.addObject("adminReport", adminReport);
 				mv.addObject("page", page);
-				mv.setViewName("redirect:/admin/adminReportDetailView.strap");
+				mv.setViewName("redirect:/admin/adminReportDetailView.strap?reportNo="+adminReport.getReportNo());
 			} catch (Exception e) {
 				mv.addObject("msg", e.toString());
 				mv.setViewName("common/errorPage");
