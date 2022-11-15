@@ -30,7 +30,7 @@
 			margin-right: 200px;
 		}
 		
-		span.email, #certificationNumber{
+		span.email{
 			display:none;
 			font-size:12px;
 			top:12px;
@@ -38,7 +38,7 @@
 			
 		}
 		span.error{color:red}
-		
+		#certificationNumber{display: none;}
 	</style>
 </head>
 <body>
@@ -106,7 +106,8 @@
 		function numberCheck(){
 			var certificationNumber = $("#certificationNumber").val();
 			if(authNumber ==  certificationNumber){
-				window.alert("해당 이메일로 임시 비밀번호를 전송하였습니다. 확인을 누르면 로그인 페이지로 이동합니다.")
+				window.alert("해당 이메일로 임시 비밀번호를 전송하였습니다. 확인을 누르면 잠시 후 로그인 페이지로 이동합니다.")
+				location.href='/home.strap';
 				return true;
 			}else{
 				window.alert("인증번호가 일치하지 않습니다.")

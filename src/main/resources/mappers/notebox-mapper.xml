@@ -123,6 +123,11 @@
 			AND NOTE_STATUS = 'Y'
 		</where>
   	</select>
+  	<select id="countNoteBoxList" resultType="map">
+  		SELECT CHAT_NO, COUNT(*) AS COUNT FROM NOTECHAT_TBL WHERE CHAT_NO IN
+		(SELECT NOTE_NO FROM NOTEBOX_TBL WHERE SENDER_ID = #{memberId} OR RECIPIENT_ID = #{memberId})
+		AND NOT SENDER_ID = #{memberId} AND CHAT_STATUS = 'N' GROUP BY CHAT_NO
+  	</select>
   	<select id="selectOneByNo" resultMap="noteBoxResultMap, memberResultMap">
   		SELECT NOTE_NO, RECIPIENT_ID, SENDER_ID, SENDER_TIME, NOTE_CONTENTS, NOTE_ACCEPT, NOTE_STATUS, (SELECT MEMBER_NICK FROM MEMBER_TBL WHERE MEMBER_ID = #{recipientId}) AS RECIPIENT_NICK, (SELECT MEMBER_NICK FROM MEMBER_TBL WHERE MEMBER_ID = #{senderId}) AS SENDER_NICK FROM NOTEBOX_TBL 
   		WHERE NOTE_NO = #{noteNo}
@@ -133,6 +138,11 @@
 	<select id="selectCountNoteBox" resultType="_int">
 		SELECT COUNT(*) FROM NOTEBOX_TBL
 		WHERE NOTE_CHECK = 'N' AND RECIPIENT_ID = #{memberId}
+	</select>
+	<select id="getCountNoteChat" resultType="_int">
+		SELECT COUNT(*) FROM NOTECHAT_TBL
+		WHERE CHAT_NO IN (SELECT NOTE_NO FROM NOTEBOX_TBL WHERE SENDER_ID = #{memberId} OR RECIPIENT_ID = #{memberId})
+		AND NOT SENDER_ID = #{memberId} AND CHAT_STATUS = 'N'
 	</select>
 	<!-- 조건별 검색 -->
 	<select id="selectAllByValue" resultMap="noteBoxResultMap">
@@ -184,7 +194,15 @@
   		 	AND NOTE_STATUS = 'Y'
   		</where>
   	</select>
-  	<!-- 쪽지 읽음 -->
+  	<!-- 채팅 읽음 -->
+  	<update id="checkChat">
+		UPDATE ( 
+		SELECT * FROM NOTECHAT_TBL WHERE CHAT_NO IN
+		(SELECT NOTE_NO FROM NOTEBOX_TBL WHERE SENDER_ID = #{memberId} OR RECIPIENT_ID = #{memberId})
+		AND NOT SENDER_ID = #{memberId} AND CHAT_STATUS = 'N' AND CHAT_NO = #{noteNo})
+		SET CHAT_STATUS = 'Y' 		
+  	</update>
+  	<!-- 쪽지(매칭) 읽음 -->
 	<update id="updateCheckNote">
 		UPDATE NOTEBOX_TBL SET NOTE_CHECK = 'Y'
 		WHERE NOTE_NO = #{noteNo} AND RECIPIENT_ID = #{recipientId}

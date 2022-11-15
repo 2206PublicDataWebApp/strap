@@ -46,6 +46,16 @@ public class MyInfoController {
 			mv.setViewName("/member/loginView");
 			return mv;
 		}
+		//주소 정보가 있다면 나누기
+		if(member.getMemberAddress() != null) {
+		String memberAddr = member.getMemberAddress();
+		String zonecode = memberAddr.split(",_")[0];
+		String roadAddr = memberAddr.split(",_")[1];
+		String detailAddr = memberAddr.split(",_")[2];
+		request.setAttribute("zonecode", zonecode);
+		request.setAttribute("roadAddr", roadAddr);
+		request.setAttribute("detailAddr", detailAddr);
+		}
 		mv.setViewName("/mypage/myinfo");
 		return mv;
 	}
@@ -130,9 +140,7 @@ public class MyInfoController {
 		Member member = new Member();
 		member.setMemberId(memberId);
 		member.setMemberEmail(memberEmail);
-		System.out.println(member.toString());
 		int result = mService.changeEmail(member);
-		System.out.println("이메일 변경 결과 "+result);
 		if(result==1) {
 			//바로 적용을 위해 변경된 닉네임으로 세션 다시 저장
 			session = request.getSession();
@@ -164,7 +172,6 @@ public class MyInfoController {
 		member.setMemberId(memberId);
 		member.setMemberCareer(memberCareer);
 		int result = mService.changeCareer(member);
-//		System.out.println(result);
 		if(result==1) {
 			//바로 적용을 위해 변경된 닉네임으로 세션 다시 저장
 			session = request.getSession();
@@ -285,13 +292,17 @@ public class MyInfoController {
 			HttpSession session
 			,HttpServletRequest request
 			,@RequestParam("memberId") String memberId
-			,@RequestParam("memberAddr") String memberAddr
+			,@RequestParam("zonecode") String zonecode
+			,@RequestParam("roadAddr") String roadAddr
+			,@RequestParam("detailAddr") String detailAddr
 			) {
 		Member member = new Member();
 		member.setMemberId(memberId);
+		StringBuffer sb = new StringBuffer();
+		sb.append(zonecode).append(",_").append(roadAddr).append(",_").append(detailAddr);
+		String memberAddr = sb.toString();
 		member.setMemberAddress(memberAddr);
 		int result = mService.changeAddr(member);
-		System.out.println(result);
 		if(result==1) {
 			//바로 적용을 위해 변경된 닉네임으로 세션 다시 저장
 			session = request.getSession();
@@ -387,8 +398,6 @@ public class MyInfoController {
 		//탈퇴 후 세션파괴
 		int result = mService.withdrawal(memberId);
 		request.getSession().invalidate();
-		System.out.println(result);
-		System.out.println(memberId);
 		return "redirect:/";
 	}
 	

@@ -80,7 +80,6 @@ public class MyPageController {
 			request.setAttribute("jymAddress", jymAddress);
 			request.setAttribute("jymTitle", jymTitle);
 			request.setAttribute("qList", qList);
-			
 		} else {
 			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
 			request.setAttribute("url", "/member/loginView.strap");
