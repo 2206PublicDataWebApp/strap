@@ -11,7 +11,7 @@ public class AdminReport {
 	private String reportContents;			//6.신고당한 컨텐츠
 	private Date reportDate;				//7.신고 날짜
 	private String reportProcess;			//8.신고 처리
-	private String ContentsProcess;			//9.게시물 처리
+	private String contentsProcess;			//9.게시물 처리
 	private String memberProcess;			//10.멤버 처리
 	private String memberId;				//11.신고한 멤버 아이디
 	private String memberNick;				//12.신고한 멤버 닉네임
@@ -71,10 +71,10 @@ public class AdminReport {
 		this.reportProcess = reportProcess;
 	}
 	public String getContentsProcess() {
-		return ContentsProcess;
+		return contentsProcess;
 	}
 	public void setContentsProcess(String contentsProcess) {
-		ContentsProcess = contentsProcess;
+		this.contentsProcess = contentsProcess;
 	}
 	public String getMemberProcess() {
 		return memberProcess;
@@ -109,8 +109,8 @@ public class AdminReport {
 	public String getReportName() {
 		return reportName;
 	}
-	public void setReportName(String joinReportName) {
-		this.reportName = joinReportName;
+	public void setReportName(String reportName) {
+		this.reportName = reportName;
 	}
 	public String getJoinContentsCode() {
 		return joinContentsCode;
@@ -121,19 +121,19 @@ public class AdminReport {
 	public String getContentsName() {
 		return contentsName;
 	}
-	public void setContentsName(String joinContentsName) {
-		this.contentsName = joinContentsName;
+	public void setContentsName(String contentsName) {
+		this.contentsName = contentsName;
 	}
+	
+	
 	@Override
 	public String toString() {
 		return "AdminReport [reportNo=" + reportNo + ", contentsNo=" + contentsNo + ", contentsCode=" + contentsCode
 				+ ", reportType=" + reportType + ", reportMember=" + reportMember + ", reportContents=" + reportContents
-				+ ", reportDate=" + reportDate + ", reportProcess=" + reportProcess + ", ContentsProcess="
-				+ ContentsProcess + ", memberProcess=" + memberProcess + ", memberId=" + memberId + ", memberNick="
+				+ ", reportDate=" + reportDate + ", reportProcess=" + reportProcess + ", contentsProcess="
+				+ contentsProcess + ", memberProcess=" + memberProcess + ", memberId=" + memberId + ", memberNick="
 				+ memberNick + ", reportMemberNick=" + reportMemberNick + ", joinReportType=" + joinReportType
 				+ ", reportName=" + reportName + ", joinContentsCode=" + joinContentsCode + ", contentsName="
 				+ contentsName + "]";
 	}
-	
-	
 }

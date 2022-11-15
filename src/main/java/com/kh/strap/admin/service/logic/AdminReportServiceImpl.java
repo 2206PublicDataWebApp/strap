@@ -27,16 +27,16 @@ public class AdminReportServiceImpl implements AdminReportService{
 
 	@Override
 	public List<AdminReport> printAllByValue(String searchCondition, String searchValue, int currentPage,
-			int ReportLimit) {
-		List<AdminReport> aqList = arStore.selectAllByValue(session, searchCondition, searchValue, currentPage, ReportLimit);
+			int reportLimit) {
+		List<AdminReport> aqList = arStore.selectAllByValue(session, searchCondition, searchValue, currentPage, reportLimit);
 		return aqList;
 	}
 
 
 	@Override
 	public List<AdminReport> printAllBySort(String sortCondition, String sortValue, String contentsCode, int currentPage,
-			int ReportSortLimit) {
-		List<AdminReport> aqList = arStore.selectAllBySort(session, sortCondition, sortValue, contentsCode, currentPage, ReportSortLimit);
+			int reportSortLimit) {
+		List<AdminReport> aqList = arStore.selectAllBySort(session, sortCondition, sortValue, contentsCode, currentPage, reportSortLimit);
 		return aqList;
 	}
 
@@ -49,8 +49,15 @@ public class AdminReportServiceImpl implements AdminReportService{
 
 
 	@Override
-	public AdminReport printOneByNo(Integer ReportNo) {
-		AdminReport adminReport = arStore.selectOneByNo(session, ReportNo);
+	public int registReportProcess(AdminReport adminReport) {
+		int result = arStore.updateReportProcess(session, adminReport);
+		return result;
+	}
+
+
+	@Override
+	public AdminReport printOneByNo(Integer reportNo) {
+		AdminReport adminReport = arStore.selectOneByNo(session, reportNo);
 		return adminReport;
 	}
 

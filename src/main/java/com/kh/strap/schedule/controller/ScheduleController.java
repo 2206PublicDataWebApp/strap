@@ -75,11 +75,12 @@ public class ScheduleController {
 				jsonObj.put("color",scList.get(i).getColor());
 			} else {
 				if (memberId.equals(scList.get(i).getMatchMemberId())) {
-					jsonObj.put("title",scList.get(i).getMemberNick() + " " + scList.get(i).getMatchDetail());
+					jsonObj.put("title",scList.get(i).getMemberNick());
 				} else {
-					jsonObj.put("title",scList.get(i).getMatchMemberNick() + " " + scList.get(i).getMatchDetail());
+					jsonObj.put("title",scList.get(i).getMatchMemberNick());
 				}
 				jsonObj.put("start",scList.get(i).getMeetDate());
+				jsonObj.put("contents",scList.get(i).getMatchDetail());
 			}
 			jsonArr.add(jsonObj);
 		}
@@ -140,6 +141,19 @@ public class ScheduleController {
 			return "fail";
 		}
 	}
+	
+	// 일정 수정
+	@ResponseBody
+	@RequestMapping(value="/schedule/modifyTimeMemo.strap", method=RequestMethod.POST)
+	public String modifyTimeMemo(@ModelAttribute Schedule schedule) {
+		int result = scService.modifySchedule(schedule);
+		if(result > 0) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+	
 	
 	/**
 	 * 

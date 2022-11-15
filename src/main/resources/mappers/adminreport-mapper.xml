@@ -13,7 +13,7 @@
 		<result property="reportContents" 	column="REPORT_CONTENTS"/>
 		<result property="reportDate"		column="REPORT_DATE"/>
 		<result property="reportProcess" 	column="REPORT_PROCESS"/>
-		<result property="ContentsProcess" 	column="CONTENTS_PROCESS"/>
+		<result property="contentsProcess" 	column="CONTENTS_PROCESS"/>
 		<result property="memberProcess" 	column="MEMBER_PROCESS"/>
 		<result property="memberId" 		column="MEMBER_ID"/>
 		<result property="memberNick" 		column="MEMBER_NICK"/>
@@ -86,8 +86,10 @@
 		JOIN REPORT_TYPE_TBL R ON Q.REPORT_TYPE = R.REPORT_TYPE AND Q.CONTENTS_CODE = #{contentsCode}
 		ORDER BY Q.REPORT_NO DESC)
 	</select>
-	
-<!-- 	<delete id=""> -->
-<!-- 	</delete> -->
+	<!-- 신고 처리 -->
+	<update id="updateReportProcess">
+		UPDATE REPORT_TBL SET CONTENTS_PROCESS = #{contentsProcess }, MEMBER_PROCESS = #{memberProcess }
+		WHERE REPORT_NO = #{reportNo}
+	</update>
 	
 </mapper>

@@ -8,9 +8,10 @@ import com.kh.strap.admin.domain.AdminReport;
 
 public interface AdminReportStore {
 	public List<AdminReport> selectAllAdminReportList(SqlSession session, int currentPage, int noticeLimit);
-	public List<AdminReport> selectAllByValue(SqlSession session, String searchCondition, String searchValue, int currentPage, int ReportLimit);
-	public List<AdminReport> selectAllBySort(SqlSession session, String sortCondition, String  sortValue, String  contentsCode, int currentPage, int ReportSortLimit);
+	public List<AdminReport> selectAllByValue(SqlSession session, String searchCondition, String searchValue, int currentPage, int reportLimit);
+	public List<AdminReport> selectAllBySort(SqlSession session, String sortCondition, String  sortValue, String  contentsCode, int currentPage, int reportSortLimit);
 	public int selectTotalCount(SqlSession session, String searchCondition, String searchValue, String contentsCode);
-	public AdminReport selectOneByNo(SqlSession session, Integer ReportNo);
+	public int updateReportProcess(SqlSession session, AdminReport adminReport);
+	public AdminReport selectOneByNo(SqlSession session, Integer reportNo);
 	
 }

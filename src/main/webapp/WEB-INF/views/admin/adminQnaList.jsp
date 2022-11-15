@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Admin Strap Qna</title>
+<title>스트랩(관리자) : 문의</title>
 <style>
 .qnaContents{
 	text-decoration:none;
@@ -41,8 +41,8 @@
 					<th width="100"><a class="qnaContents" href="/admin/adminQnaListView.strap">문의 유형</a></th>
 					<th width="150">문의 종류</th>
 					<th>제목</th>
-					<th width="100">작성자</th>
-					<th width="150">작성일</th>
+					<th width="150">작성자</th>
+					<th width="100">작성일</th>
 					<th width="100">처리 상태</th>
 				</tr>
 			<c:if test="${!empty aqList }">

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>스트랩(관리자) : 회원 상세페이지</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->
 <link rel="stylesheet"

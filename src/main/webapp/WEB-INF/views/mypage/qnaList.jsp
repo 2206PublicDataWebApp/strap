@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>STRAP MyPage</title>
+<title>스트랩 : 일반문의</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
@@ -91,8 +91,14 @@ td{
 												<td><a class="qna-contents" id="qna-contents${i.index }" onclick="qnaFolding(this);">${qna.qnaTitle }</a></td>
 												<td>${qna.qEnrollDate }</td>
 												<td>
+												<c:if test="${qna.answerStatus eq 'N' }">
 													<button class="btn btn-dark" style="width:70px" onclick="location.href='/qna/modifyQnaView.strap?qnaNo=${qna.qnaNo}'">수정</button>
 													<button class="btn btn-dark" style="width:70px" onclick="window.confirm('문의를 삭제하시겠습니까?');location.href='/qna/removeQna.strap?qnaNo=${qna.qnaNo}'">삭제</button>
+												</c:if>
+												<c:if test="${qna.answerStatus eq 'Y' }">
+													<button class="btn btn-dark" style="width:70px" onclick="location.href='/qna/modifyQnaView.strap?qnaNo=${qna.qnaNo}'" disabled>수정</button>
+													<button class="btn btn-dark" style="width:70px" onclick="window.confirm('문의를 삭제하시겠습니까?');location.href='/qna/removeQna.strap?qnaNo=${qna.qnaNo}'" disabled>삭제</button>
+												</c:if>
 												</td>
 												<c:if test="${qna.answerStatus eq 'N' }">
 													<td>답변 대기중</td>

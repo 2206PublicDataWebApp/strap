@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Admin Banner</title>
+<title>스트랩(관리자) : 배너관리</title>
 <style>
 #banner-panel{
 	background-color:#A6A6A6;
@@ -20,7 +20,7 @@
 		<div class="row" align="center">
 			<div class="col">
 				<br>
-				<p style="text-align:left; font-size:20px;">배너 관리</p>
+				<p style="text-align:left; font-size:20px;">배너 관리 (<b>※배너 권장 사이즈 - 1116 X 220</b>)</p>
 				<hr>
 			</div>
 		</div>

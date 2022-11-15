@@ -18,17 +18,17 @@
 .carousel-inner >.carousel-item >img {
    top: 0;
    left: 0;
-   height: 220px;
+   height: 300px;
    min-width: 100%;
-   min-height: 220px;
+   min-height: 300px;
 }
 
 .carousel-inner img{
    top: 0;
    left: 0;
-   height: 220px;
+   height: 300px;
    min-width: 100%;
-   min-height: 220px;
+   min-height: 300px;
 }
 .mainView{
 	margin-bottom:20px;
@@ -109,6 +109,7 @@ div > span > a > p > img { display: none; }
    </div>
 <!-- 컨텐츠 -->
 	<div id="contents" class="contents row">
+		<!-- 캐러셀 -->
 		<div class="contents-side col">
 			<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 				<div class="carousel-indicators">

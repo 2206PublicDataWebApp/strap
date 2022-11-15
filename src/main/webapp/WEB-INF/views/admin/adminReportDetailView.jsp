@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Admin Report Detail</title>
+	<title>스트랩(관리자) : 신고 상세페이지</title>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/adminHeader.jsp"></jsp:include>
@@ -47,52 +47,52 @@
 				</div>
 			</div>
 			<hr>
-			<c:if test="${adminReport.reportProcess eq 'Y'}">
-				<div class="row" >
-					<div class="col">
-						<form action="/admin/registerAdminReport.strap" method="post">
-							<input type="hidden" value="${adminReport.reportNo }" name="ReportNo">
-							<input type="hidden" value="${page}" name="page">
-							<div class="row text-center">
-								<div class="col mb-3">
-									<div class="mb-3 text-start">
-										<h4>신고 처리</h4>
-									</div>
+			<div class="row" >
+				<div class="col">
+						<div class="row text-center">
+							<div class="col mb-3">
+								<div class="mb-3 text-start">
+									<h4>신고 처리</h4>
 								</div>
 							</div>
-							<div class="row text-center">
-								<div class="col">
-									<button id="Report-modify-done" class="btn btn-dark" type="submit" style="display:none;">수정 완료</button>
-								</div>
+						</div>
+					<form action="/admin/processAdminReport.strap" method="post">
+						<input type="hidden" value="${adminReport.reportNo }" name="reportNo">
+						<input type="hidden" value="${page}" name="page">
+						<div class="row text-center">
+							<div class="col" align="right">
 							</div>
-						</form>
-							<div class="row text-center">
-								<div class="col">
-									<select class="form-select" aria-label="Default select example">
-										<option selected>컨텐츠 처리</option>
-										<option value="1">숨김</option>
-										<option value="2">삭제</option>
-									</select>
-								</div>
-								<div class="col">
-									<select class="form-select" aria-label="Default select example">
-										<option selected>회원 처리</option>
-										<option value="1">탈퇴</option>
-									</select>
-								</div>
+							<div class="col">
 							</div>
-					</div>
+							<div class="col">
+								<div>게시물 처리</div>
+								<select class="form-select" name="contentsProcess" aria-label="Default select example">
+									<option value="N" <c:if test="${adminReport.contentsProcess eq 'N'}">selected</c:if>>선택해주세요</option>
+									<option value="Y" <c:if test="${adminReport.contentsProcess eq 'Y'}">selected</c:if>>삭제</option>
+								</select>
+							</div>
+							<div class="col" >
+								<div>회원 처리</div>
+								<select class="form-select" name="memberProcess" aria-label="Default select example">
+									<option value="N" <c:if test="${adminReport.memberProcess eq 'N'}">selected</c:if>>선택해주세요</option>
+									<option value="Y" <c:if test="${adminReport.memberProcess eq 'Y'}">selected</c:if>>탈퇴</option>
+								</select>
+							</div>
+							<div class="col">
+							</div>
+							<div class="col">
+							</div>
+						</div>
+						<div class="row text-center">
+							<div class="col">
+								<button id="Report-modify-done" class="btn btn-dark mt-4" type="submit" >신고 처리 완료</button>
+							</div>
+						</div>
+					</form>
 				</div>
-			</c:if>
-			
+			</div>
+			<br><br><br>
 	</div>
-	<script>
-		function textareaAble(thisBtn){
-			var target = document.getElementById('Report-answer');
-			document.getElementById('Report-modify').style.display = "none"
-			document.getElementById('Report-modify-done').style.display = "inline-block"
-			target.disabled = false;
-		}
-	</script>
+	
 </body>
 </html>

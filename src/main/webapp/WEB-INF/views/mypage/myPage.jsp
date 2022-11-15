@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>스트랩 : 마이페이지</title>
+<title>스트랩 : 나의 활동</title>
 <!-- CDN -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
 <!-- 부트스트랩 -->

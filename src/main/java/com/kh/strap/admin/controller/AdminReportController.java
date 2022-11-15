@@ -78,19 +78,19 @@ public class AdminReportController {
 		try {
 			int currentPage = (page != null) ? page : 1;
 			int totalCount = arService.getTotalCount(searchCondition, searchValue, null);
-			int ReportLimit = 10;
+			int reportLimit = 10;
 			int naviLimit = 5;
 			int maxPage;
 			int startNavi;
 			int endNavi;
-			maxPage = (int)((double)totalCount/ReportLimit + 0.9);
+			maxPage = (int)((double)totalCount/reportLimit + 0.9);
 			startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
 			endNavi = startNavi + naviLimit - 1;
 			if(maxPage < endNavi) {
 				endNavi = maxPage;
 			}
 			List<AdminReport> arList = arService.printAllByValue(
-					searchCondition, searchValue, currentPage, ReportLimit);
+					searchCondition, searchValue, currentPage, reportLimit);
 			if(!arList.isEmpty()) {
 				mv.addObject("arList", arList);
 			}else {
@@ -131,19 +131,19 @@ public class AdminReportController {
 			int currentPage = (page != null) ? page : 1;
 			int sortTotalCount = arService.getTotalCount(searchCondition, searchValue, contentsCode);
 			System.out.println("조건별 조회 : " + sortTotalCount);
-			int ReportSortLimit = 10;
+			int reportSortLimit = 10;
 			int naviLimit = 5;
 			int maxPage;
 			int startNavi;
 			int endNavi;
-			maxPage = (int)((double)sortTotalCount/ReportSortLimit + 0.9);
+			maxPage = (int)((double)sortTotalCount/reportSortLimit + 0.9);
 			startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
 			endNavi = startNavi + naviLimit - 1;
 			if(maxPage < endNavi) {
 				endNavi = maxPage;
 			}
 			List<AdminReport> arList = arService.printAllBySort(
-					searchCondition, searchValue, contentsCode, currentPage, ReportSortLimit);
+					searchCondition, searchValue, contentsCode, currentPage, reportSortLimit);
 			if(!arList.isEmpty()) {
 				mv.addObject("arList", arList);
 			}else {
@@ -178,13 +178,13 @@ public class AdminReportController {
 	// 관리자 신고 페이지 조회
 	@RequestMapping(value="/admin/adminReportDetailView.strap", method=RequestMethod.GET)
 	public ModelAndView adminReportDetailView(ModelAndView mv
-			, @RequestParam("ReportNo") Integer ReportNo
+			, @RequestParam("reportNo") Integer reportNo
 			, @RequestParam("page") Integer page
 			, HttpSession session
 			,HttpServletRequest request
 			,HttpServletResponse response) {
 		try {
-			AdminReport adminReport = arService.printOneByNo(ReportNo);
+			AdminReport adminReport = arService.printOneByNo(reportNo);
 			mv.addObject("adminReport", adminReport);
 			mv.addObject("page", page);
 			mv.setViewName("admin/adminReportDetailView");
@@ -195,5 +195,22 @@ public class AdminReportController {
 		return mv;
 	}
 	
+	// 관리자 신고 처리
+		@RequestMapping(value="/admin/processAdminReport.strap", method=RequestMethod.POST)
+		public ModelAndView processAdminReport(ModelAndView mv
+				, @ModelAttribute AdminReport adminReport
+				, @RequestParam("reportNo") Integer reportNo
+				, @RequestParam("page") Integer page) {
+			try {
+				int result = arService.registReportProcess(adminReport);
+				mv.addObject("adminReport", adminReport);
+				mv.addObject("page", page);
+				mv.setViewName("redirect:/admin/adminReportDetailView.strap?reportNo="+adminReport.getReportNo());
+			} catch (Exception e) {
+				mv.addObject("msg", e.toString());
+				mv.setViewName("common/errorPage");
+			}
+			return mv;
+		}
 	
 }
