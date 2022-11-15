@@ -103,7 +103,8 @@ public class CouponController {
 			@ModelAttribute Coupon coupon,
 			@RequestParam(value="couponImg", required=false)MultipartFile couponImg,
 			HttpSession session) {
-		
+
+
 		try {
 			
 			if(!couponImg.isEmpty()) {
