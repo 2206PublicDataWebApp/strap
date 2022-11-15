@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>
 <html>
 <head>
-<title>STRAP MAIN</title>
+<title>스트랩 : 보충제</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
@@ -43,11 +43,10 @@
 		</div>
 	</div>
 	<!-- 컨텐츠 -->
-	<div id="contents" class="row" style="width:80%; margin:50px auto;">
+	<div id="contents" class="row" style="width:80%; margin:10px auto;">
 		<div class="contents col">
 			<div id="inner-header">
 				<div id="search-wrap" style="text-align: center;">
-					<h2>스트랩 추천보충제!</h2>
 					<form id="search-form" action="/product/listView.strap" method="get">
 						<div id="search_border" style="border:2px solid darkorange; border-radius:4px; display:inline-block;">
 							<input id="searchVal" name="searchVal" type="text" value="${search.searchVal }" placeholder=" 보충제를 검색하세요." style="border-style:none; padding:4px; width:400px;">

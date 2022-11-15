@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>
 <html>
 <head>
-<title>STRAP MAIN</title>
+<title>스트랩 : 장바구니</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
@@ -28,6 +28,10 @@
  	height:70px;
  	width:200px;
  	padding:12px;
+ }
+ 
+ .cartImg:hover{
+ 	cursor:pointer;
  }
  
 </style>
@@ -56,7 +60,7 @@
 							<input  class="cartCheck" type="checkbox" name="cartCheck" onchange="cartCheck(this,'${loginUser.memberId }',${cart.productNo });" <c:if test="${cart.cartCheck eq 'Y'}">checked</c:if>>
 						</div>
 						<div class="pImg col-1" style="margin:auto;">
-							<img src="${cart.product.mainImgRoot }" style="width:80px;height:80px;">
+							<img class="cartImg" src="${cart.product.mainImgRoot }" style="width:80px;height:80px;" onclick="location.href='/product/detailView.strap?productNo=${cart.product.productNo}';" >
 						</div>
 						<div class="pName cartInfo col" style="margin:auto;font-size:14px;">
 							<div style="font-weight:bold;">
