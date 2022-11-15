@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시글 상세 정보</title>
+<title>스트랩 : 게시글 상세 정보</title>
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
@@ -77,7 +77,13 @@
 	}
 	
 	#updateBtn {
+		display: none;
 		margin-top: 10px;
+	}
+	
+	#updateBtn2 {
+		margin-top: 10px;
+   		transform: translate(55px, 40px);
 	}
 	
 	#reply-wrap {
@@ -198,28 +204,37 @@
 							<c:when test="${sessionScope.loginUser.memberNick == null }">
 								<button class="btn btn-outline-danger" onclick="reportCheck();" id="rBtn">신고</button>
 							</c:when>
+							<c:when test="${sessionScope.loginUser.memberNick eq board.memberNick }">
+								<button class="btn btn-outline-danger" id="rBtn" style="display: none;">신고</button>
+							</c:when>
 							<c:otherwise>
 								<button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#reportNote" id="rBtn">신고</button>
 							</c:otherwise>
 						</c:choose>	
 						</div>
 						<!-- 게시글 수정/삭제 로그인 체크-->
-						 <c:if test="${sessionScope.loginUser.memberNick eq board.memberNick }">
-						<div id="updateBtn">
-							<button
-								onclick="location.href='/board/modifyView.strap?boardNo=${board.boardNo }&page=${page}';"
-								class="btn btn-outline-secondary">수정</button>
-							<button onclick="boardRemove(${page});" class="btn btn-outline-danger">삭제</button>
+						<div>
+						<c:choose>
+							<c:when test="${sessionScope.loginUser.memberNick == null }">
+								<button class="btn btn-outline-secondary" id="updateBtn">수정</button>
+								<button class="btn btn-outline-danger"  id="updateBtn">삭제</button>
+							</c:when>
+							<c:when test="${sessionScope.loginUser.memberNick ne board.memberNick }">
+								<button class="btn btn-outline-secondary" id="updateBtn">수정</button>
+								<button class="btn btn-outline-danger"  id="updateBtn">삭제</button>
+							</c:when>
+							<c:otherwise>
+								<button onclick="location.href='/board/modifyView.strap?boardNo=${board.boardNo }&page=${page}';"
+								class="btn btn-outline-secondary" id="updateBtn2">수정</button>
+								<button onclick="boardRemove(${page});" class="btn btn-outline-danger" id="updateBtn2">삭제</button>
+							</c:otherwise>
+						</c:choose>	
 						</div>
-						</c:if>
-						<!-- 로그인을 하지 않았을 때 버튼 비활성화 -->
-						<button class="btn btn-outline-light" disabled="disabled">수정</button>
-						<button class="btn btn-outline-light" disabled="disabled">삭제</button>
 					</div>
 				</div>
 				<!-- 댓글출력 -->
 				<div id="reply-wrap">
-					<table id="reply-table">
+					<table id="reply-table" style="width: 980px;">
 						<c:forEach items="${bReplyList }" var="bReply" varStatus="n">
 							<tr class="one-reply-area">
 								<td>
