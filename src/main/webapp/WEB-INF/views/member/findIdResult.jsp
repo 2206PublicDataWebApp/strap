@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="/resources/image/s.png">
 <title>스트랩 : 아이디 찾기 결과</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->

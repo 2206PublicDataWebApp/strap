@@ -6,6 +6,7 @@
 
 <html>
 <head>
+<link rel="icon" href="/resources/image/s.png">
 
 <title>스트랩(관리자) : 주문관리</title>
 <script src="/resources/js/jquery-3.6.1.min.js"></script>

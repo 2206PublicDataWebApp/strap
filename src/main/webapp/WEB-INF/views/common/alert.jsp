@@ -4,8 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="icon" href="resources/image/s.png">
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>스트랩 : 오류 페이지</title>
 </head>
 <body>
 <script>

@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="icon" href="/resources/image/s.png">
 <meta charset="UTF-8">
 <title>에러메시지</title>
 </head>

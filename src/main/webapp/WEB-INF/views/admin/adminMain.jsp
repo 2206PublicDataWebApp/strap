@@ -5,8 +5,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="icon" href="/resources/image/s.png">
 <meta charset="UTF-8">
-<title>스트랩(관리자) : 메인 페이지</title>
+<title>스트랩(관리자)</title>
 
 <style>
 .carousel-inner >.carousel-item >img {

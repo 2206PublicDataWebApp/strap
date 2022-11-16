@@ -4,6 +4,7 @@
 
 <html>
 <head>
+<link rel="icon" href="/resources/image/s.png">
 <title>스트랩(관리자) : 상품등록</title>
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
 <!-- 합쳐지고 최소화된 최신 CSS -->

@@ -5,6 +5,7 @@
 
 <html>
 <head>
+<link rel="icon" href="/resources/image/s.png">
 <title>스트랩 : 상품수정</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->

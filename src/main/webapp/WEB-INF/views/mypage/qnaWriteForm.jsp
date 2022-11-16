@@ -4,6 +4,7 @@
 
 <html>
 <head>
+<link rel="icon" href="/resources/image/s.png">
 <meta charset="UTF-8">
 <title>스트랩 : 문의 등록</title>
 <!-- CDN -->

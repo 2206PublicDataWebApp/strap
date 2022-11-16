@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="/resources/image/s.png">
 <title>스트랩 : 매칭</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->

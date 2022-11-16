@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>
 <html>
 <head>
+<link rel="icon" href="/resources/image/s.png">
 <title>스트랩 : 찜한상품</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->

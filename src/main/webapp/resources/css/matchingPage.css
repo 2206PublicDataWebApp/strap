@@ -1,11 +1,11 @@
 @charset "UTF-8";
 
 .contents-side{text-align: center;}
-#memberList{table-layout: fixed; width: 700px; height:250px; margin: 0 auto; padding-left: 30px;}
+#memberList{table-layout: fixed; width: 700px; height:250px; margin: 0 auto; padding-left: 20px;}
 .member{float:left; width: 100px; height: 200px; margin: 15px;}
-.img{width: 100px; height: 100px; overflow: hidden; border-radius: 30px;}
+.img{width: 115px; height: 115px; overflow: hidden; border-radius: 30px;}
 .nick{width: 100px; height: 50px;}
-.nick button{width: 110px; height: 30px; font-size: 12px;}
+.nick button{width: 122px; height: 30px; font-size: 12px;}
 #profile{display:none; margin:0 auto; width: 700px; height: 650px; border:1px solid lightgray;border-radius: 10px;}
 #info{width: 100%; height: 350px;}
 #info table{text-align: left;}

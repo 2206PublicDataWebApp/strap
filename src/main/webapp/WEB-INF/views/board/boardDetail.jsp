@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="icon" href="/resources/image/s.png">
 <meta charset="UTF-8">
 <title>스트랩 : 게시글 상세 정보</title>
 <!-- 부트스트랩 -->
