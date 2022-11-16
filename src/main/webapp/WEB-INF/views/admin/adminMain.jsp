@@ -44,43 +44,43 @@
 				<tr>
 					<th scope="col">
 						<c:if test="${qnaCount eq 0 }">
-							<h2>남은 문의 <b>${qnaCount }</b></h2> 
+							<h3>남은 문의 <b>${qnaCount }</b></h3> 
 						</c:if>
 						<c:if test="${qnaCount ne 0 }">
-							<h1><a id="unsolved-qna" href="/admin/adminUnsolvedQna.strap" style="text-decoration:none;color:black;"><span>남은 문의 <b>${qnaCount }</b></span></a></h1>
+							<h3><a id="unsolved-qna" href="/admin/adminUnsolvedQna.strap" style="text-decoration:none;color:black;"><span>남은 문의 <b>${qnaCount }</b></span></a></h3>
 						</c:if>
 					</th>
 					<th scope="col">
 						<c:if test="${reportCount eq 0 }">
-							<h2>남은 신고 <b>${reportCount }</b></h2>
+							<h3>남은 신고 <b>${reportCount }</b></h3>
 						</c:if>
 						<c:if test="${reportCount ne 0 }">
-							<h1><a id="unsolved-report" href="/admin/adminUnsolvedReport.strap" style="text-decoration:none;color:black;"><span>남은 신고 <b>${reportCount }</b></span></a></h1>
+							<h3><a id="unsolved-report" href="/admin/adminUnsolvedReport.strap" style="text-decoration:none;color:black;"><span>남은 신고 <b>${reportCount }</b></span></a></h3>
 						</c:if>
 					</th>
 				</tr>
 				<tr>
-					<th scope="col">
-						<h3>오늘 문의 처리 : <b>${todayQnaAnswer }</b></h3></div>
-					</th>
 					<td scope="col">
-						<h3>오늘 신고 처리 : <b>${todayReportProcess }</b></h3></div>
+						오늘 문의 처리 <b>${todayQnaAnswer }</b>
+					</td>
+					<td scope="col">
+						오늘 신고 처리 <b>${todayReportProcess }</b>
 					</td>
 				</tr>
 				<tr>
 					<td scope="col">
-						총 문의 수 : ${totalQna }
+						총 문의 수 ${totalQna }
 					</td>
 					<td scope="col">
-						총 신고 수 : ${totalReport }
+						총 신고 수 ${totalReport }
 					</td>
 				</tr>
 				<tr>
 					<td scope="col">
-						총 처리 문의 수 : ${qnaAnswer }
+						총 처리 문의 수 ${qnaAnswer }
 					</td>
 					<td scope="col">
-						총 처리 신고 수 : ${reportProcess }
+						총 처리 신고 수 ${reportProcess }
 					</td>
 				</tr>
 			</tbody>

@@ -126,7 +126,7 @@ div > span > a > p > img { display: none; }
             <c:forEach items="${bnList }" var="mainBn" varStatus="bn">
                <div class="carousel-item <c:if test='${bn.index == 0 }'>active</c:if>" data-bs-interval="3500">
                   <c:choose >
-                      <c:when test="${mainBn.bannerTitle eq 'wellcome' }">
+                      <c:when test="${mainBn.bannerTitle eq 'wellcomeCoupon' }">
                          <img onclick="getCoupon('${loginUser.memberId}',10);" src="/resources/bnuploadFiles/${mainBn.bannerFileRename }" class="d-block w-100" alt="${mainBn.bannerTitle }">
                       </c:when>
                       <c:when test="${mainBn.bannerTitle eq 'tigerCoupon' }">
