@@ -93,7 +93,7 @@ public class ProductController {
 			@RequestParam(value="page",required=false)Integer currentPage
 			) {
 		int page = (currentPage != null)? currentPage : 1;
-		Paging paging = new Paging(pService.countAllProduct(search), page, 10, 5);
+		Paging paging = new Paging(pService.countAllProduct(search), page, 5, 5);
 		List<Product>pList = pService.printAllProduct(paging, search);
 		mv.addObject("pList",pList).
 		addObject("paging",paging).
@@ -116,7 +116,6 @@ public class ProductController {
 		session.setAttribute("forOrderProduct", productResult);
 		
 		Product productSession = (Product)session.getAttribute("forOrderProduct");
-		System.out.println("세션의 값"+productSession.toString());
 		
 		mv.addObject("product",productResult).
 		addObject("infoList",infoList).
@@ -133,7 +132,6 @@ public class ProductController {
 			) {
 		//상세페이지에서 세션에 저장된 product값을 Cart List에 담아서 주문페이지로 전달
 		Product product = (Product)session.getAttribute("forOrderProduct");
-		System.out.println("세션의 상품" + product.toString());
 		List<Cart> cList = new ArrayList<>();
 		Cart cart = new Cart(product, product.getProductNo(), qty);
 		cList.add(cart);
@@ -197,12 +195,10 @@ public class ProductController {
 					paidMap.put("imp_uid",imp_uid);
 					pService.modifyPayCompleteOrder(paidMap);
 					
-					System.out.println(merchant_uid);
 					//2-2. 리뷰작성권 insert
 					//1) 주문번호로 주문에 있는 상품 리스트를 가져온다. 반복중 실패하면 예외를 던져야하나?
 					List<Product> pList = pService.printProductsOnOrder(merchant_uid);
 					pList.stream().forEach(product ->{
-						System.out.println(product.getProductName());
 						rService.registerReviewPossible(product.getProductNo(), memberId);
 					});
 					return "success";

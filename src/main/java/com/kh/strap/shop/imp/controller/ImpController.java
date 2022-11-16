@@ -78,9 +78,6 @@ public class ImpController {
 			jsonObjectParam.put("merchant_uid", merchant_uid);
 			jsonObjectParam.put("reason", inputReason);
 			
-			System.out.println(merchant_uid);
-			System.out.println(jsonObjectParam.toString());
-			
 			osw = new OutputStreamWriter(con.getOutputStream());
 			bw = new BufferedWriter(osw);
 			bw.write(jsonObjectParam.toString());
@@ -95,7 +92,6 @@ public class ImpController {
 					sb.append(line);
 				}
 				jsonObjectResult = (JSONObject)jsonParser.parse(sb.toString());
-				System.out.println(jsonObjectResult.toString());
 				//취소내역에 필요한 정보도 DB에 저장하여야 한다.
 				/*code // 0이 아니면 실패
 				 * 속의 json
@@ -128,13 +124,11 @@ public class ImpController {
 							Order order = new Order(memberId,couponNo);
 							if(couponNo != -1) {
 								if(couponService.restoreMemberCoupon(order)>0) {
-									System.out.println("쿠폰 복구");
 									return "success";
 								}else {
 									return "fail";
 								}
 							}else {
-								System.out.println("쿠폰 미사용");
 								return "success";
 							}
 						}
@@ -194,7 +188,6 @@ public class ImpController {
 				jsonObjectResult = (JSONObject)jsonParser.parse(sb.toString());
 				JSONObject responseJson = (JSONObject)jsonObjectResult.get("response");
 				String access_token = responseJson.get("access_token").toString();
-				System.out.println("토큰발급성공 : " + access_token);
 				return access_token;
 				
 			}else {

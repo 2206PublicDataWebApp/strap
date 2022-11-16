@@ -120,7 +120,7 @@
 		</div>
 	</div>
 	<!-- 푸터 -->
-	<div id="footer" class="row">
+	<div id="footer" class="row mt-auto">
 		<div class="col">
 			<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 		</div>
