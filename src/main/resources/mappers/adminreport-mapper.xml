@@ -39,13 +39,13 @@
 		JOIN REPORT_TYPE_TBL R ON Q.REPORT_TYPE = R.REPORT_TYPE ORDER BY Q.REPORT_NO DESC)
   		<where>
   			<if test="searchCondition.toString() == 'reportMember'">
-  				REPORT_MEMBER LIKE '%'||#{searchValue}||'%'
+  				MEMBER_NICK LIKE '%'||#{searchValue}||'%'
   			</if>
   			<if test="searchCondition.toString() == 'contents'">
   				REPORT_CONTENTS LIKE '%'||#{searchValue}||'%'
   			</if>
   			<if test="searchCondition.toString() == 'all'">
-	  			REPORT_MEMBER LIKE '%'||#{searchValue}||'%'
+	  			MEMBER_NICK LIKE '%'||#{searchValue}||'%'
 	  			OR REPORT_CONTENTS LIKE '%'||#{searchValue}||'%'
   			</if>
   		</where>
@@ -61,13 +61,35 @@
 		ORDER BY Q.REPORT_NO DESC)
   		<where>
 			<if test="searchCondition.toString() == 'reportMember'">
-				REPORT_MEMBER LIKE '%'||#{searchValue}||'%'
+				MEMBER_NICK LIKE '%'||#{searchValue}||'%'
 			</if>
 			<if test="searchCondition.toString() == 'contents'">
 				REPORT_CONTENTS LIKE '%'||#{searchValue}||'%'
 			</if>
 			<if test="searchCondition.toString() == 'all'">
-				REPORT_MEMBER LIKE '%'||#{searchValue}||'%'
+				MEMBER_NICK LIKE '%'||#{searchValue}||'%'
+	  			OR REPORT_CONTENTS LIKE '%'||#{searchValue}||'%'
+			</if>
+		</where>
+  	</select>
+  	<!-- 남은 신고 총 갯수 -->
+	<select id="selectAllReportCount" resultType="_int">
+  		SELECT COUNT(*) FROM (SELECT * FROM REPORT_TBL Q
+		JOIN CONTENTS_CODE_TBL C ON Q.CONTENTS_CODE = C.CONTENTS_CODE
+		JOIN REPORT_TYPE_TBL R ON Q.REPORT_TYPE = R.REPORT_TYPE
+		<if test="contentsCode != null">
+			AND Q.CONTENTS_CODE = #{contentsCode}
+  		</if>
+		WHERE CONTENTS_PROCESS = 'N' ORDER BY Q.REPORT_NO DESC)
+  		<where>
+			<if test="searchCondition.toString() == 'reportMember'">
+				MEMBER_NICK LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test="searchCondition.toString() == 'contents'">
+				REPORT_CONTENTS LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test="searchCondition.toString() == 'all'">
+				MEMBER_NICK LIKE '%'||#{searchValue}||'%'
 	  			OR REPORT_CONTENTS LIKE '%'||#{searchValue}||'%'
 			</if>
 		</where>
@@ -86,6 +108,13 @@
 		JOIN REPORT_TYPE_TBL R ON Q.REPORT_TYPE = R.REPORT_TYPE AND Q.CONTENTS_CODE = #{contentsCode}
 		ORDER BY Q.REPORT_NO DESC)
 	</select>
+	<!-- 관리자 대시보드 총 미처리 신고 -->
+  	<select id="selectAllByUnsolvedReport" resultMap="adminReportResultMap">
+  		SELECT * FROM REPORT_TBL Q
+		JOIN CONTENTS_CODE_TBL C ON Q.CONTENTS_CODE = C.CONTENTS_CODE
+		JOIN REPORT_TYPE_TBL R ON Q.REPORT_TYPE = R.REPORT_TYPE 
+		WHERE CONTENTS_PROCESS = 'N' ORDER BY Q.REPORT_NO DESC
+  	</select>
 	<!-- 신고 처리 -->
 	<update id="updateReportProcess">
 		UPDATE REPORT_TBL SET CONTENTS_PROCESS = #{contentsProcess }, MEMBER_PROCESS = #{memberProcess }

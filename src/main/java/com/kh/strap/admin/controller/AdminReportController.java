@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.strap.admin.domain.AdminReport;
+import com.kh.strap.admin.domain.AdminReport;
 import com.kh.strap.admin.service.AdminReportService;
 import com.kh.strap.member.domain.Member;
 
@@ -80,7 +81,6 @@ public class AdminReportController {
 	public ModelAndView adminReportSearchList(ModelAndView mv
 			, @RequestParam("searchCondition") String searchCondition
 			, @RequestParam("searchValue") String searchValue
-			, @RequestParam("contentsCode") String contentsCode
 			, @RequestParam(value="page", required=false) Integer page) {
 		try {
 			int currentPage = (page != null) ? page : 1;
@@ -230,4 +230,46 @@ public class AdminReportController {
 			return mv;
 		}
 	
+	/**
+	 * 
+	 * @param mv
+	 * @param page
+	 * @return
+	 */
+	// 남은 신고 갯수
+	@RequestMapping(value="/admin/adminUnsolvedReport.strap", method=RequestMethod.GET)
+	public ModelAndView adminUnsolvedReport(ModelAndView mv
+			, @RequestParam(value="page", required=false) Integer page) {
+		try {
+			int currentPage = (page != null) ? page : 1;
+			int unsolvedReportCount = arService.printAllReportCount("","");
+			int unsolvedReportLimit = 10;
+			int naviLimit = 5;
+			int maxPage;
+			int startNavi;
+			int endNavi;
+			maxPage = (int)((double)unsolvedReportCount/unsolvedReportLimit + 0.9);
+			startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
+			endNavi = startNavi + naviLimit - 1;
+			if(maxPage < endNavi) {
+				endNavi = maxPage;
+			}
+			List<AdminReport> arList = arService.printAllByUnsolvedReport(currentPage, unsolvedReportLimit);
+			if(!arList.isEmpty()) {
+				mv.addObject("arList", arList);
+			}else {
+				mv.addObject("arList", null);
+			}
+				mv.addObject("urlVal", "adminUnsolvedReport");
+				mv.addObject("totalCount", unsolvedReportCount);
+				mv.addObject("maxPage", maxPage);
+				mv.addObject("currentPage", currentPage);
+				mv.addObject("startNavi", startNavi);
+				mv.addObject("endNavi", endNavi);
+				mv.setViewName("admin/adminReportList");
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
+		}
+		return mv;
+	}	
 }

@@ -18,6 +18,54 @@
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/ko.js"></script>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+<style>
+
+#calendar {
+	max-width: 1100px;
+	margin: 0 auto;
+}
+
+.contents-side.col {
+	padding-left: 15px;
+}
+
+.contents-side.col th, .contents-side.col td {
+	height: 50px;
+}
+
+
+select.select {
+	width: 185px;
+}
+
+
+td button {
+	width: 200px;
+}
+
+
+span.id, span.pwd, span.pwdCheck, span.nick {
+	display: none;
+	font-size: 12px;
+	top: 12px;
+	right: 10px;
+}
+
+.ui-timepicker-container{
+	z-index: 10000!important
+}
+/* 일요일 날짜 빨간색 */
+.fc-day-sun a {
+  color: red;
+  text-decoration: none;
+}
+
+/* 토요일 날짜 파란색 */
+.fc-day-sat a {
+  color: blue;
+  text-decoration: none;
+}
+</style>
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		var calendarEl = document.getElementById('calendar');
@@ -60,7 +108,11 @@
 				var dateTime = meetDate.split(" ");
 				$("#calendar-date").val(dateTime[0]);
 				$("#calendar-time").val(dateTime[1]);
-				$("#calendar-contents").val(contents);
+				if(contents == 'undefined'){
+					$("#calendar-contents").val("");
+				}else{
+					$("#calendar-contents").val(contents);
+				}
 				$("#calendar-matchNo").val(matchNo);
 			},
 			eventDrop: function (info){
@@ -109,50 +161,6 @@
 		calendar.render();
 	})
 </script>
-<style>
-/* body { */
-/* 	margin: 40px 10px; */
-/* 	padding: 0; */
-/* 	font-family: Arial, Helvetica Neue, Helvetica, sans-serif; */
-/* 	font-size: 14px; */
-/* } */
-
-#calendar {
-	max-width: 1100px;
-	margin: 0 auto;
-}
-
-.contents-side.col {
-	padding-left: 15px;
-}
-
-.contents-side.col th, .contents-side.col td {
-	height: 50px;
-}
-
-
-select.select {
-	width: 185px;
-}
-
-
-td button {
-	width: 200px;
-}
-
-
-span.id, span.pwd, span.pwdCheck, span.nick {
-	display: none;
-	font-size: 12px;
-	top: 12px;
-	right: 10px;
-}
-
-.ui-timepicker-container{
-	z-index: 10000!important
-}
-
-</style>
 </head>
 <body>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
@@ -283,7 +291,7 @@ span.id, span.pwd, span.pwdCheck, span.nick {
 	
 	
 	$("#remove-schedule").on("click", function(){
-		if (confirm('운동일정을 삭제하시겠습니까?\n(※상대방과 합의되지 않은 결정은 후기에 불이익이 있을 수 있습니다.)')) {
+		if (confirm('운동일정을 삭제하시겠습니까?')) {
 			$.ajax({
 				type : "post",
 				data : {

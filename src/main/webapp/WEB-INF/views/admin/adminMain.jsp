@@ -37,69 +37,55 @@
 				<hr>
 			</div>
 		</div>
-		<div class="row" align="center">
-			<div class="col" align="left">
-				<h3>문의</h3>
-				<div class="row">
-					<div class="col-auto">
+
+		<table class="table">
+			<tbody>
+				
+				<tr>
+					<th scope="col">
 						<c:if test="${qnaCount eq 0 }">
-							<h1>남은 문의 : <b>${qnaCount }</b></h1>
+							<h2>남은 문의 <b>${qnaCount }</b></h2> 
 						</c:if>
 						<c:if test="${qnaCount ne 0 }">
-							<a href="/admin/adminUnsolvedQna.strap" style="text-decoration:none;color:black;"><h1>남은 문의 : <b>${qnaCount }</b></h1></a>
+							<h1><a id="unsolved-qna" href="/admin/adminUnsolvedQna.strap" style="text-decoration:none;color:black;"><span>남은 문의 <b>${qnaCount }</b></span></a></h1>
 						</c:if>
-					</div>
-					<div class="col">
-						<h1><span></span></h1>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<h3>오늘 문의 처리 : <b>${todayQnaAnswer }</b></h3>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						총 문의 수 : ${totalQna }
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						총 처리 문의 수 : ${qnaAnswer }
-					</div>
-				</div>
-			</div>
-			<div class="col" align="left">
-				<h3>신고</h3>
-				<div class="row">
-					<div class="col">
+					</th>
+					<th scope="col">
 						<c:if test="${reportCount eq 0 }">
-							<h1>남은 신고 : <b>${reportCount }</b></h1>
+							<h2>남은 신고 <b>${reportCount }</b></h2>
 						</c:if>
 						<c:if test="${reportCount ne 0 }">
-							<a href="/admin/adminReportListView.strap" style="text-decoration:none;color:black;"><h1>남은 신고 : <b>${reportCount }</b></h1></a>
+							<h1><a id="unsolved-report" href="/admin/adminUnsolvedReport.strap" style="text-decoration:none;color:black;"><span>남은 신고 <b>${reportCount }</b></span></a></h1>
 						</c:if>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<h3>오늘 신고 처리 : <b>${todayReportProcess }</b></h3>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
+					</th>
+				</tr>
+				<tr>
+					<th scope="col">
+						<h3>오늘 문의 처리 : <b>${todayQnaAnswer }</b></h3></div>
+					</th>
+					<td scope="col">
+						<h3>오늘 신고 처리 : <b>${todayReportProcess }</b></h3></div>
+					</td>
+				</tr>
+				<tr>
+					<td scope="col">
+						총 문의 수 : ${totalQna }
+					</td>
+					<td scope="col">
 						총 신고 수 : ${totalReport }
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
+					</td>
+				</tr>
+				<tr>
+					<td scope="col">
+						총 처리 문의 수 : ${qnaAnswer }
+					</td>
+					<td scope="col">
 						총 처리 신고 수 : ${reportProcess }
-					</div>
-				</div>
-			</div>
-		</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 		<hr>
-		
 		<h3>배너 미리보기</h3>
 		<div class="contents-side col">
 			<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">

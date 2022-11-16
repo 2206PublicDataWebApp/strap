@@ -42,8 +42,8 @@
 					<th width="100"><a class="qnaContents" href="/admin/adminQnaListView.strap">문의 유형</a></th>
 					<th width="150">문의 종류</th>
 					<th>제목</th>
-					<th width="150">작성자</th>
-					<th width="100">작성일</th>
+					<th width="130">작성자</th>
+					<th width="150">작성일</th>
 					<th width="100">처리 상태</th>
 				</tr>
 			<c:if test="${!empty aqList }">
@@ -120,7 +120,7 @@
 									</select>
 								</div>
 								<div style="display:inline-block;">
-									<input style="width:300px; height:33px;" type="text" name="searchValue" value="${searchValue}">
+									<input class="form-control" style="width:300px;" type="text" name="searchValue" value="${searchValue}">
 								</div>	
 								<div style="display:inline-block;">
 									<input type="submit" value="검색" class="btn btn-dark">
