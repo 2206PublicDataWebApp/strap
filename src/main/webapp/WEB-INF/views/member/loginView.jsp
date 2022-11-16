@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="/resources/image/s.png">
 <title>스트랩 : 로그인</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->

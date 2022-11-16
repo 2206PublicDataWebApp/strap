@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="/resources/image/s.png">
 <title>스트랩(관리자) : 로그인</title>
 <link href="/resources/css/adminLogin.css" rel="stylesheet">
 <script src="/resources/js/jquery-3.6.1.min.js"></script>

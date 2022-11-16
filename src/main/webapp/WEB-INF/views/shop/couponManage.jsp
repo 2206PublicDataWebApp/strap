@@ -2,10 +2,10 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>
-<meta charset="UTF-8">
-
 <html>
+<meta charset="UTF-8">
 <head>
+<link rel="icon" href="/resources/image/s.png">
 <title>스트랩(관리자) : 쿠폰관리</title>
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
 <!-- 합쳐지고 최소화된 최신 CSS -->

@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="/resources/image/s.png">
 <title>스트랩 : 공지사항 상세 정보</title>
 <!-- 부트스트랩 -->
 <link rel="stylesheet"

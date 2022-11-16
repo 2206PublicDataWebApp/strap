@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="icon" href="/resources/image/s.png">
 	<meta charset="UTF-8">
 	<title>스트랩(관리자) : 공지사항 상세페이지</title>
 <!-- 	<script src="/resources/js/jquery-3.6.1.min.js"></script> -->

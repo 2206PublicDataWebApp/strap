@@ -6,6 +6,7 @@
 
 <html>
 <head>
+<link rel="icon" href="/resources/image/s.png">
 <title>스트랩 : 쪽지함</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->
@@ -158,7 +159,7 @@
 			</c:if>
 			<c:if test="${empty nList }">
 				<tr>
-					<td colspan="6" align="center"><b>쪽지가 없습니다. 매칭을 이용해 보세요~</b></td>
+					<td colspan="6" align="center"><b>쪽지가 없습니다</b></td>
 				</tr>
 			</c:if>
 			</table>

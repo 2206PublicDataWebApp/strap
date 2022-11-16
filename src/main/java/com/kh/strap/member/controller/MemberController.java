@@ -202,7 +202,7 @@ public class MemberController {
 			ThreadLocalRandom random = ThreadLocalRandom.current();
 			String num = String.valueOf(random.nextInt(100000, 1000000));
 			String subject = "[스트랩] 아이디 찾기 인증번호";
-			String content = "요청하신 아이디를 찾기 위한 인증 번호 [ "+num+" ]입니다";
+			String content = "요청하신 아이디를 찾기 위한 인증 번호 ["+num+"]입니다";
 			String from ="스트랩팀 <mykri155@gmail.com>";
 			String to = memberEmail;
 			try {
@@ -278,7 +278,7 @@ public class MemberController {
 		ThreadLocalRandom random = ThreadLocalRandom.current();
 		String num = String.valueOf(random.nextInt(100000, 1000000));
 		String subject = "[스트랩] 비밀번호 찾기 인증번호";
-		String content = "요청하신 비밀번호를 찾기 위한 인증 번호 [ "+num+" ]입니다";
+		String content = "요청하신 비밀번호를 찾기 위한 인증 번호 ["+num+"]입니다";
 		String from ="스트랩팀 <mykri155@gmail.com>";
 		String to = memberEmail;
 		try {
@@ -328,7 +328,7 @@ public class MemberController {
 		int result = mService.changePwd(member);
 		//이메일 발송
 		String subject = "[스트랩] 임시 비밀번호 전송";
-		String content = "회원님의 계정 비밀번호가 [ "+sb+" ]로 변경되었습니다. 로그인 후 비밀번호를 변경해주세요";
+		String content = "회원님의 계정 비밀번호가 ["+sb+"]로 변경되었습니다. 로그인 후 비밀번호를 변경해주세요";
 		String from ="스트랩팀 <mykri155@gmail.com>";
 		String to = memberEmail;
 		try {

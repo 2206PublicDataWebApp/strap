@@ -4,6 +4,7 @@
 
 <html>
 <head>
+<link rel="icon" href="/resources/image/s.png">
 <title>스트랩 : 취소/환불</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->

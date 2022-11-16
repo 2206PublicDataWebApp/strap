@@ -4,6 +4,7 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <link rel="icon" href="/resources/image/s.png">
     <title>마이짐 등록</title>
     <style>
 .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}

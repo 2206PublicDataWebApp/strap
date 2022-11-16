@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="icon" href="/resources/image/s.png">
 	<meta charset="UTF-8">
 	<title>스트랩(관리자) : 문의 상세페이지</title>
 </head>

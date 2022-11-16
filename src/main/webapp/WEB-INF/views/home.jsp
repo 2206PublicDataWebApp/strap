@@ -4,8 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>
 <html>
 <head>
+<link rel="icon" href="/resources/image/s.png">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>STRAP MAIN</title>
+<title>스트랩</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />

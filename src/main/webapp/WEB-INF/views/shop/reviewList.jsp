@@ -4,6 +4,7 @@
 
 <html>
 <head>
+<link rel="icon" href="/resources/image/s.png">
 <title>스트랩 : 나의후기</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->

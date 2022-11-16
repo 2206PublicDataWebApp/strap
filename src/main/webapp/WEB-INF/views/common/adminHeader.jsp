@@ -48,15 +48,15 @@ body {
 
 <body>
 	<div class="container text-center">
-		<header class="header row text-center">
-			<div class="col-3">
+		<header class="header row text-center" style="min-width: 650px;">
+			<div class="col-3" style="min-width: 250px;  margin-right: 10px;">
 				<a class="admin-title" href="/admin/mainView.strap"><img id="title-img" alt="메인" src="/resources/image/admin/logo.png"></a>
 			</div>
-			<div class="title col" align="left">
+			<div class="title col" align="left" style="min-width: 200px;">
 				<br><br>
 				<h5>관리자 페이지</h5>
 			</div>
-			<div class="col" align="right">
+			<div class="col" align="right" style="min-width: 200px;">
 <%-- 				<br> <b>${sessionScope.loginUser.memberNick }</b><br> --%>
 				<br>
 				<h6><a id="admin-logout" href="/admin/logout.strap">로그아웃</a></h6>
