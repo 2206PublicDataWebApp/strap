@@ -2,6 +2,9 @@ package com.kh.strap.admin.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,32 +24,39 @@ public class AdminMemberController {
 	private AdminMemberService aService;
 	
 	@RequestMapping(value="/admin/memberView.strap",method=RequestMethod.GET)
-	public ModelAndView showAdminMemberList(
-			ModelAndView mv
-			,@RequestParam(value="page", required=false) Integer page
+	public String showAdminMemberList(
+			@RequestParam(value="page", required=false) Integer page
+			,HttpServletRequest request
 			) {
-		int currentPage = (page != null) ? page : 1;
-		int totalCount = aService.getTotalCount("","","");
-		int adminMemberLimit = 10;
-		int naviLimit = 5;
-		int maxPage = (int)((double)totalCount/adminMemberLimit + 0.9);
-		int startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
-		int endNavi = startNavi + naviLimit - 1;
-		
-		if(maxPage < endNavi) {endNavi = maxPage;}
-		
-		List<Member> mList = aService.printAllAdminMeberList(currentPage, adminMemberLimit);
-		if(!mList.isEmpty()) {
-			mv.addObject("urlVal", "memberView");
-			mv.addObject("totalCount", totalCount);
-			mv.addObject("maxPage", maxPage);
-			mv.addObject("currentPage", currentPage);
-			mv.addObject("startNavi", startNavi);
-			mv.addObject("endNavi", endNavi);
-			mv.addObject("mList", mList);
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		if(member != null) {
+			int currentPage = (page != null) ? page : 1;
+			int totalCount = aService.getTotalCount("","","");
+			int adminMemberLimit = 10;
+			int naviLimit = 5;
+			int maxPage = (int)((double)totalCount/adminMemberLimit + 0.9);
+			int startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
+			int endNavi = startNavi + naviLimit - 1;
+			
+			if(maxPage < endNavi) {endNavi = maxPage;}
+			
+			List<Member> mList = aService.printAllAdminMeberList(currentPage, adminMemberLimit);
+			if(!mList.isEmpty()) {
+				request.setAttribute("urlVal", "memberView");
+				request.setAttribute("totalCount", totalCount);
+				request.setAttribute("maxPage", maxPage);
+				request.setAttribute("currentPage", currentPage);
+				request.setAttribute("startNavi", startNavi);
+				request.setAttribute("endNavi", endNavi);
+				request.setAttribute("mList", mList);
+			}
+			return("admin/adminMemberList");
+		}else {
+			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
+			request.setAttribute("url", "/admin/loginView.strap");
+			return("common/alert");
 		}
-		mv.setViewName("admin/adminMemberList");
-		return mv;
 	}
 	
 	@RequestMapping(value="/admin/adminMemberSort.strap", method=RequestMethod.GET)
@@ -67,10 +77,8 @@ public class AdminMemberController {
 			List<Member> mList = aService.printAllBySort(memberType, currentPage, memberLimit);
 			if(!mList.isEmpty()) {
 				mv.addObject("mList", mList);
-				System.out.println("not emplty");
 			}else {
 				mv.addObject("mList", null);
-				System.out.println("emplty");
 			}
 			mv.addObject("urlVal", "adminMemberSort");
 			mv.addObject("totalCount", totalCount);

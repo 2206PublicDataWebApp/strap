@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.strap.admin.domain.AdminQna;
 import com.kh.strap.admin.service.AdminQnaService;
 import com.kh.strap.admin.service.AdminService;
+import com.kh.strap.member.domain.Member;
 
 
 @Controller
@@ -34,33 +35,41 @@ public class AdminQnaController {
 	 */
 	// 관리자 문의 리스트 조회
 	@RequestMapping(value="/admin/adminQnaListView.strap", method=RequestMethod.GET)
-	public ModelAndView showAdminQnaList(ModelAndView mv
-			,@RequestParam(value="page", required=false) Integer page) {
-		int currentPage = (page != null) ? page : 1;
-		int totalCount = aqService.getTotalCount("","", null);
-		int adminqnaLimit = 10;
-		int naviLimit = 5;
-		int maxPage;
-		int startNavi;
-		int endNavi;
-		maxPage = (int)((double)totalCount/adminqnaLimit + 0.9);
-		startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
-		endNavi = startNavi + naviLimit - 1;
-		if(maxPage < endNavi) {
-			endNavi = maxPage;
+	public String showAdminQnaList(
+			@RequestParam(value="page", required=false) Integer page
+			,HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		if(member != null) {
+			int currentPage = (page != null) ? page : 1;
+			int totalCount = aqService.getTotalCount("","", null);
+			int adminqnaLimit = 10;
+			int naviLimit = 5;
+			int maxPage;
+			int startNavi;
+			int endNavi;
+			maxPage = (int)((double)totalCount/adminqnaLimit + 0.9);
+			startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
+			endNavi = startNavi + naviLimit - 1;
+			if(maxPage < endNavi) {
+				endNavi = maxPage;
+			}
+			List<AdminQna> aqList = aqService.printAllAdminQnaList(currentPage, adminqnaLimit);
+			if(!aqList.isEmpty()) {
+				request.setAttribute("urlVal", "adminQnaListView");
+				request.setAttribute("totalCount", totalCount);
+				request.setAttribute("maxPage", maxPage);
+				request.setAttribute("currentPage", currentPage);
+				request.setAttribute("startNavi", startNavi);
+				request.setAttribute("endNavi", endNavi);
+				request.setAttribute("aqList", aqList);
+			}
+			return("admin/adminQnaList");
+		} else {
+			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
+			request.setAttribute("url", "/admin/loginView.strap");
+			return("common/alert");
 		}
-		List<AdminQna> aqList = aqService.printAllAdminQnaList(currentPage, adminqnaLimit);
-		if(!aqList.isEmpty()) {
-			mv.addObject("urlVal", "adminQnaListView");
-			mv.addObject("totalCount", totalCount);
-			mv.addObject("maxPage", maxPage);
-			mv.addObject("currentPage", currentPage);
-			mv.addObject("startNavi", startNavi);
-			mv.addObject("endNavi", endNavi);
-			mv.addObject("aqList", aqList);
-		}
-		mv.setViewName("admin/adminQnaList");
-		return mv;
 	}
 	
 	/**
@@ -122,7 +131,6 @@ public class AdminQnaController {
 		try {
 			int currentPage = (page != null) ? page : 1;
 			int sortTotalCount = aqService.getTotalCount(searchCondition, searchValue, qnaCode);
-			System.out.println("조건별 조회 : " + sortTotalCount);
 			int qnaSortLimit = 10;
 			int naviLimit = 5;
 			int maxPage;
@@ -209,6 +217,12 @@ public class AdminQnaController {
 		return mv;
 	}
 	
+	/**
+	 * 
+	 * @param mv
+	 * @param page
+	 * @return
+	 */
 	// 남은 문의 갯수
 	@RequestMapping(value="/admin/adminUnsolvedQna.strap", method=RequestMethod.GET)
 	public ModelAndView adminUnsolvedQna(ModelAndView mv

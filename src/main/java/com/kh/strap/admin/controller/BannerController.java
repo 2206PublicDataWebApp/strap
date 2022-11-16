@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.strap.admin.domain.Banner;
 import com.kh.strap.admin.service.BannerService;
+import com.kh.strap.member.domain.Member;
 
 
 @Controller
@@ -33,11 +34,18 @@ public class BannerController {
 	 */
 	// 관리자 배너 페이지 조회
 	@RequestMapping(value="/admin/bannerListView.strap", method=RequestMethod.GET)
-	public ModelAndView showBannerList(ModelAndView mv) {
-		List<Banner> bnList = bnService.printAllBanner();
-		mv.addObject("bnList", bnList);
-		mv.setViewName("admin/adminBanner");
-		return mv;
+	public String showBannerList(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Member member = (Member)session.getAttribute("loginUser");
+		if(member != null) {
+			List<Banner> bnList = bnService.printAllBanner();
+			request.setAttribute("bnList", bnList);
+			return("admin/adminBanner");
+		} else {
+			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
+			request.setAttribute("url", "/admin/loginView.strap");
+			return("common/alert");
+		}
 	}
 	/**
 	 * 
@@ -58,7 +66,6 @@ public class BannerController {
 		try {
 			String bannerFilename = uploadFile.getOriginalFilename();
 			if(!bannerFilename.equals("")) {
-				//////////////////////////////////////////////////////////////////////경로, 파일이름 설정
 				String root = request.getSession().getServletContext().getRealPath("resources");
 				String savePath = root + "\\bnuploadFiles";
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -69,7 +76,6 @@ public class BannerController {
 				if(!file.exists()) {
 					file.mkdir();
 				}
-				//////////////////////////////////////////////////////////////////////
 				uploadFile.transferTo(new File(savePath+"\\"+bannerFileRename)); // 저장할때는 Rename으로 저장
 				// 파일을 buploadFiles 경로에 저장하는 메소드
 				String bannerFilepath = savePath + "\\" + bannerFileRename;
@@ -140,7 +146,6 @@ public class BannerController {
 		String[] bnNoListArr = bnNoList.split(",");
 		for(int i = 0; i < bnNoListArr.length; i++) {
 			int bannerNo = Integer.parseInt(bnNoListArr[i]);
-			System.out.println(bannerNo);
 			int result = bnService.removeBanner(bannerNo);
 		}
 		mv.setViewName("redirect:/admin/bannerListView.strap");

@@ -4,166 +4,171 @@
 
 <html>
 <head>
-<title>스트랩 : 상품등록</title>
-<!-- CDN -->
-<!-- 부트스트랩 -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
-<!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- css -->
-<link rel="stylesheet" type="text/css" href="/resources/css/common.css">
+<title>스트랩(관리자) : 상품등록</title>
+<script src="/resources/js/jquery-3.6.1.min.js"></script>
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+<!-- 부가적인 테마 -->
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"> -->
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
-	input[type="text"]{
-		padding:7px;
-		width:90%;
-		margin-top:7px;
-	}
-	#previewArea{
-		overflow-y:scroll;
-	}
-		#previewArea::-webkit-scrollbar{
-			display:none;
-		}
-	#productRegisterArea{
-		overflow-y:scroll;
-	}
-		#productRegisterArea::-webkit-scrollbar{
-			display:none;
-		}
-	input[type="file"]{
-		margin-bottom:7px;
-	}
-	#previewArea img{
-		border:1px solid gray;
-	}
-	#infoImg-wrap img{
-		border-style:none;
-	}
-	.imgLabel{
-		font-size:12px;
-		font-weight:bold;
-	}	
-	h6{
-		font-weight:bold;
-	}
-	label{
-		color:gray;
-	}
-	img[name="imgFile"]{
-		display:none;
-	}
+body { 
+	background-color: #EAEAEA;
+}
+#title-img{
+ 	width:250px;
+ 	height: 100px;
+ 	object-fit: contain;
+	cursor: pointer;"
+}
+
+.navbar{
+	background-color:black;
+}
+.nav-menu{
+	font-weight: 1000;
+	cursor:pointer;
+}
+.admin-title{
+	text-decoration:none;
+	color:black;
+}
+.admin-menu{
+	color: white;
+	text-decoration:none;
+}
+#admin-logout{
+	color: black;
+	text-decoration:none;
+}
+ .pagination a{
+	 	color:#c0c0c0;
+	 	border-style:none;
+ }
+.product-menu{
+	width:200px;
+	background-color:black;
+	padding:6px;
+	border-radius:3px;
+}
+.p-menu{
+	color:white;
+	text-decoration:none;
+}
+.p-menu:hover{
+	color:gray
+}
 </style>
 </head>
 <body>
+<!-- 헤더&메뉴바 -->
+<jsp:include page="/WEB-INF/views/common/adminHeader.jsp"></jsp:include>
 <div class="wrap container">
-	<!-- 헤더&메뉴바 -->
-	<div id="header" class="row">
+	<!-- 컨텐츠 -->
+	<div class="row text-center mt-3 mb-3">
 		<div class="col">
-<%-- 			<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include> --%>
+			<span class="product-menu"><a class="p-menu" href="/admin/productView.strap">상품관리</a></span>
+		</div>
+		<div class="col">
+			<span class="product-menu"><a class="p-menu" href="/admin/orderView.strap">주문관리</a></span>
+		</div>
+		<div class="col">
+			<span class="product-menu"><a class="p-menu" href="/admin/couponView.strap">쿠폰관리</a></span>
 		</div>
 	</div>
-	<!-- 컨텐츠 -->
 	<div id="contents" class="row" style="width:70%;margin:0 auto;">
-		<!-- 사이드바 -->
-		<div class="sidebar col-3" >
-				<jsp:include page="/WEB-INF/views/common/sideBarAdmin.jsp"></jsp:include>
-		</div>
 		<div class="contents-side col">
 			<div id="contents-wrap">
 				<div id="title">
 					<br>
-					<h3>상품등록</h3><hr>
+					<div style="font-size:20px;">상품등록</div><hr>
 				</div>
 			</div>
-			
 			<div class="row">
-			
-			<div id="productRegisterArea" class="col-4" style="height:1000px;border-right:1px solid #c0c0c0;">
-				<form id="info-form" action="/admin/product/register.strap" method="post" enctype="multipart/form-data" >
-					<h6 >상품 정보 입력</h6>
-					<div style="border:1px solid gray; border-radius:10px; padding:12px;">
-						<span style="color:red;font-size:12px;">*필수등록</span>
-						<input type="text" onkeyup="previewTxt(this,'previewBrand'); countText(this,15);" name="productBrand" placeholder="브랜드명 입력" >
-						<div style="text-align:left;font-size:14px;padding:5px;display:inline-block;">
-							<span id="inputCount">(0/15)</span>
-						</div><br>
-						<span style="color:red;font-size:12px;">*필수등록</span>
-						<input type="text" onkeyup="previewTxt(this,'previewName'); countText(this,30);" name="productName" placeholder="상품명 입력">
-						<div style="text-align:left;font-size:14px;padding:5px;display:inline-block;">
-							<span id="inputCount">(0/30)</span>
-						</div><br>
-						<span style="color:red;font-size:12px;">*필수등록</span>
-						<input type="text" onkeyup="previewTxt(this,'previewPrice');" onblur="checkNumber(this);" name="productPrice" maxlength="10" placeholder="상품가격 입력"><br>
-						<textarea 		   onkeyup="previewTxt(this,'previewDesc');countText(this,300);" name="productDesc" placeholder="상품정보 입력" style="width:90%;height:100px;margin-top:20px;"></textarea>
-						<div style="text-align:left;font-size:14px;padding:5px;display:inline-block;">
-							<span id="inputCount">(0/300)</span>
-						</div>
-					</div>
-					<br>
-				
-					<h6>이미지 등록</h6>
-					<div style="border:1px solid gray; border-radius:10px; padding:12px;">	
-						<h6>메인(썸네일)이미지</h6>
-						<div>
-							<label class="imgLabel">메인이미지</label>
+				<div id="productRegisterArea" class="col-4" style="height:1000px;border-right:1px solid #c0c0c0;">
+					<form id="info-form" action="/admin/product/register.strap" method="post" enctype="multipart/form-data" >
+						<h6 >상품 정보 입력</h6>
+						<div style="border:1px solid gray; border-radius:10px; padding:12px;">
 							<span style="color:red;font-size:12px;">*필수등록</span>
-							<input type="file" name="mainImg"  onchange="tempImgSave(this,'mainImg');" required><br>
-						</div>
-						<hr>
-						<h6>서브이미지 추가</h6>
-						<div id="subImg-wrap">
-							<label class="imgLabel">서브이미지1</label>
-							<input type="file" name="imgFile" onchange="tempImgSave(this,'sub1');"><br>
-							<label class="imgLabel">서브이미지2</label>
-							<input type="file" name="imgFile" onchange="tempImgSave(this,'sub2');"><br>
-							<label class="imgLabel">서브이미지3</label>
-							<input type="file" name="imgFile" onchange="tempImgSave(this,'sub3');"><br>
-							<label class="imgLabel">서브이미지4</label>
-							<input type="file" name="imgFile" onchange="tempImgSave(this,'sub4');"><br>
-							<label class="imgLabel">서브이미지5</label>
-							<input type="file" name="imgFile" onchange="tempImgSave(this,'sub5');"><br>
-						</div>
-						<hr>
-						<h6>상품설명이미지추가</h6>
-						<div id="infoImg-wrap">
-							<label class="imgLabel">상품설명이미지1</label>
+							<input type="text" onkeyup="previewTxt(this,'previewBrand'); countText(this,15);" name="productBrand" placeholder="브랜드명 입력" >
+							<div style="text-align:left;font-size:14px;padding:5px;display:inline-block;">
+								<span id="inputCount">(0/15)</span>
+							</div><br>
 							<span style="color:red;font-size:12px;">*필수등록</span>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info1');" required><br>
-							<label class="imgLabel">상품설명이미지2</label>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info2');"><br>
-							<label class="imgLabel">상품설명이미지3</label>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info3');"><br>
-							<label class="imgLabel">상품설명이미지4</label>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info4');"><br>
-							<label class="imgLabel">상품설명이미지5</label>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info5');"><br>
-							<label class="imgLabel">상품설명이미지6</label>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info6');"><br>
-							<label class="imgLabel">상품설명이미지7</label>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info7');"><br>
-							<label class="imgLabel">상품설명이미지8</label>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info8');"><br>
-							<label class="imgLabel">상품설명이미지9</label>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info9');"><br>
-							<label class="imgLabel">상품설명이미지10</label>
-							<input type="file" name="infoFile" onchange="tempImgSave(this,'info10');"><br>
+							<input type="text" onkeyup="previewTxt(this,'previewName'); countText(this,30);" name="productName" placeholder="상품명 입력">
+							<div style="text-align:left;font-size:14px;padding:5px;display:inline-block;">
+								<span id="inputCount">(0/30)</span>
+							</div><br>
+							<span style="color:red;font-size:12px;">*필수등록</span>
+							<input type="text" onkeyup="previewTxt(this,'previewPrice');" onblur="checkNumber(this);" name="productPrice" maxlength="10" placeholder="상품가격 입력"><br>
+							<textarea 		   onkeyup="previewTxt(this,'previewDesc');countText(this,300);" name="productDesc" placeholder="상품정보 입력" style="width:90%;height:100px;margin-top:20px;"></textarea>
+							<div style="text-align:left;font-size:14px;padding:5px;display:inline-block;">
+								<span id="inputCount">(0/300)</span>
+							</div>
 						</div>
-					</div>
-					<br>
-					<div id="preview"></div>
-					<hr>
-					<div style="text-align:center;">
-						<input type="submit" value="상품등록" style="weight:120px;height:40px;font-weight:bold;color:white;background-color:darkorange;border:1px solid darkorange;border-radius:4px;">
-						<input type="reset" value="초기화" style="weight:120px;height:40px; font-weight:bold;color:darkorange;background-color:white;border:1px solid darkorange;border-radius:4px;" onclick="location.reload();">							
-					</div>
-				</form>
-			</div>
-		
-		
-		
-			<div id="previewArea" class="col-8" style="height:1000px;overflow-y:scroll;color:gray;">
-			<h6 >미리보기</h6>
-				<div style="border:1px solid gray; border-radius:10px; padding:12px;background-color:rgb(250,250,250);">
+						<br>
+					
+						<h6>이미지 등록</h6>
+						<div style="border:1px solid gray; border-radius:10px; padding:12px;">	
+							<h6>메인(썸네일)이미지</h6>
+							<div>
+								<label class="imgLabel">메인이미지</label>
+								<span style="color:red;font-size:12px;">*필수등록</span>
+								<input type="file" name="mainImg"  onchange="tempImgSave(this,'mainImg');" required><br>
+							</div>
+							<hr>
+							<h6>서브이미지 추가</h6>
+							<div id="subImg-wrap">
+								<label class="imgLabel">서브이미지1</label>
+								<input type="file" name="imgFile" onchange="tempImgSave(this,'sub1');"><br>
+								<label class="imgLabel">서브이미지2</label>
+								<input type="file" name="imgFile" onchange="tempImgSave(this,'sub2');"><br>
+								<label class="imgLabel">서브이미지3</label>
+								<input type="file" name="imgFile" onchange="tempImgSave(this,'sub3');"><br>
+								<label class="imgLabel">서브이미지4</label>
+								<input type="file" name="imgFile" onchange="tempImgSave(this,'sub4');"><br>
+								<label class="imgLabel">서브이미지5</label>
+								<input type="file" name="imgFile" onchange="tempImgSave(this,'sub5');"><br>
+							</div>
+							<hr>
+							<h6>상품설명이미지추가</h6>
+							<div id="infoImg-wrap">
+								<label class="imgLabel">상품설명이미지1</label>
+								<span style="color:red;font-size:12px;">*필수등록</span>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info1');" required><br>
+								<label class="imgLabel">상품설명이미지2</label>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info2');"><br>
+								<label class="imgLabel">상품설명이미지3</label>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info3');"><br>
+								<label class="imgLabel">상품설명이미지4</label>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info4');"><br>
+								<label class="imgLabel">상품설명이미지5</label>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info5');"><br>
+								<label class="imgLabel">상품설명이미지6</label>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info6');"><br>
+								<label class="imgLabel">상품설명이미지7</label>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info7');"><br>
+								<label class="imgLabel">상품설명이미지8</label>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info8');"><br>
+								<label class="imgLabel">상품설명이미지9</label>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info9');"><br>
+								<label class="imgLabel">상품설명이미지10</label>
+								<input type="file" name="infoFile" onchange="tempImgSave(this,'info10');"><br>
+							</div>
+						</div>
+						<br>
+						<div id="preview"></div>
+						<hr>
+						<div style="text-align:center;">
+							<input type="submit" value="상품등록" style="weight:120px;height:40px;font-weight:bold;color:white;background-color:darkorange;border:1px solid darkorange;border-radius:4px;">
+							<input type="reset" value="초기화" style="weight:120px;height:40px; font-weight:bold;color:darkorange;background-color:white;border:1px solid darkorange;border-radius:4px;" onclick="location.reload();">							
+						</div>
+					</form>
+				</div>
+			<div id="previewArea" class="col-8" style="height:1500px;overflow-y:scroll;color:gray;">
+			<h6>미리보기</h6>
+				<div style="height:1450px;border:1px solid gray; border-radius:10px; padding:12px;background-color:rgb(250,250,250);">
 					<div id="pInfo-wrap" class="row detail ">
 						<div id="pImg" class="col" style="text-align:center;padding:10px;">
 							<div id="zoomImg">
@@ -219,17 +224,8 @@
 				</div>
 			</div>
 		</div>
-		
-		
-		
-		
 	</div>
-	<!-- 푸터 -->
-	<div id="footer" class="row">
-		<div class="col">
-			<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-		</div>
-	</div>
+</div>
 </div>
 <script>
  var index = 1;
