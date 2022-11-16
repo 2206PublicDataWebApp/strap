@@ -48,7 +48,7 @@
 	  overflow: hidden;
 	  text-overflow: ellipsis;
 	  white-space: nowrap;
-	  width: 300px;
+	  width: 280px;
 	  height: 20px;
 }
 
@@ -124,7 +124,7 @@ div > span > a > p > img { display: none; }
 					<c:forEach items="${bnList }" var="mainBn" varStatus="bn">
 						<div class="carousel-item <c:if test='${bn.index == 0 }'>active</c:if>" data-bs-interval="3500">
 							<c:choose >
-							 	<c:when test="${mainBn.bannerTitle eq 'wellcome' }">
+							 	<c:when test="${mainBn.bannerTitle eq 'wellcomeCoupon' }">
 							 		<img onclick="getCoupon('${loginUser.memberId}',10);" src="/resources/bnuploadFiles/${mainBn.bannerFileRename }" class="d-block w-100" alt="${mainBn.bannerTitle }">
 							 	</c:when>
 							 	<c:when test="${mainBn.bannerTitle eq 'tigerCoupon' }">
@@ -153,9 +153,9 @@ div > span > a > p > img { display: none; }
 		<!-- 베스트 서비스 후기 -->
 		<div id="popularComunityView" class="mainView">
 			<div id="cTitle" style="margin-top: 35px;">Best매칭후기</div>
-			<div id="cWrap" class="row">
+			<div id="cWrap" class="row justify-content-md-center">
 			<c:forEach items="${bList }" var="Board" varStatus="i">
-				<div class="col oneView">
+				<div class="col-3 oneView" style="width:300px;">
 					<div class="position-relative" id="bTitle">
 							<div id="rank">${i.count }</div>
 				    		<div style="width: 187px; overflow: hidden; text-overflow: ellipsis; 
@@ -178,10 +178,10 @@ div > span > a > p > img { display: none; }
 		<!-- 베스트 상품 및 후기 -->
 		<div id="popularProductReview" class="mainView" style="text-align:center;">
 			<div id="pTitle" >Best보충제</div>
-			<div id="pWrap" class="row">
+			<div id="pWrap" class="row justify-content-md-center">
 				<c:forEach items="${pList }" var="product" varStatus="n">
 				
-					<div class="col oneView" style="position:relative;padding:20x;">
+					<div class="col-3 oneView" style="position:relative;padding:20x;width:300px;">
 					<div id="rank" style="position:absolute;left:22px;top:25px;">
 						${n.count }
 					</div>
