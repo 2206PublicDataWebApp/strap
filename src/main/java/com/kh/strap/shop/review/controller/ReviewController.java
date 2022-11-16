@@ -115,9 +115,9 @@ public class ReviewController {
 			@RequestParam(value="reviewImg",required=false)MultipartFile multipartImg,
 			HttpSession session) {
 		//리뷰 작성 권한 체크
-//		if(rService.checkReviewPossible(review) < 1) {
-//			return "noneAuthority";
-//		}
+		if(rService.checkReviewPossible(review) < 1) {
+			return "noneAuthority";
+		}
 		
 		MultipartFile rImg = (multipartImg != null) ? multipartImg : null;
 		

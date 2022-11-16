@@ -82,7 +82,7 @@ body {
 	<div id="contents" class="row">
 		<div class="contents-side col">
 			<div id="title">
-				<div style="font-size:20px;">쿠폰관리</div><hr>
+				<div style="font-size:20px;">쿠폰관리(${paging.totalCount })</div><hr>
 			</div>
 			<div id="searchArea" style="text-align:center;">
 					<div class="mb-3" id="search_border" style="border:2px solid darkorange;padding:3px; border-radius:4px; display:inline-block;height:40px;">
