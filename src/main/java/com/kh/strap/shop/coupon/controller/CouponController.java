@@ -155,7 +155,6 @@ public class CouponController {
 	public String registerMemberCoupon(
 			@ModelAttribute Coupon coupon,
 			HttpSession session) {
-		System.out.println("!");
 		//로그인이 되어있지 않은 경우 처리
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		if(loginUser == null) {

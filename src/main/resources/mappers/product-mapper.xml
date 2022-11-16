@@ -251,7 +251,7 @@
 <!-- 메인페이지 베스트 상품 top3 -->
 	<select id="selectGetTopProducts" resultMap="ProductResultMap">
 		SELECT *
-		FROM (SELECT DENSE_RANK() OVER(ORDER BY GRADE_AVER DESC, REVIEW_COUNT DESC) AS RANKNUM, P.*
+		FROM (SELECT ROW_NUMBER() OVER(ORDER BY GRADE_AVER DESC, REVIEW_COUNT DESC) AS RANKNUM, P.*
 			  FROM PRODUCT_TBL P)
 		WHERE RANKNUM <![CDATA[<=]]> 3
 	</select>
