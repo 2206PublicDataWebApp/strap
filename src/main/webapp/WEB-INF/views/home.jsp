@@ -167,7 +167,7 @@ div > span > a > p > img { display: none; }
 					</div>
 					<div style="margin-top: 15px;">
 						<span>
-							<a style="cursor:pointer; display: block; height: 75%;" href="/board/detail.strap?boardNo=${Board.boardNo }&page=${currentPage }">${Board.boardContents }</a>
+							<a style="cursor:pointer;" href="/board/detail.strap?boardNo=${Board.boardNo }&page=${currentPage }">${Board.boardContents }</a>
 						</span>
 					</div>
 				</div>
