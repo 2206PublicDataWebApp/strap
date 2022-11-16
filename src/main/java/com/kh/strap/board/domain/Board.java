@@ -13,11 +13,12 @@ public class Board {
 	private int boardLikeIt; 		// 게시글 추천
 	private int fix;				// 공지사항과 커뮤니티 글을 구분하기위한 컬럼
 	private String memberId; 		// 회원 아이디
+	private int bRownum;
 	
 	public Board() {}
 
 	public Board(int boardNo, String memberNick, String boardTitle, String boardContents, String boardCategory,
-			Date boardDate, int boardCount, int boardLikeIt, int fix, String memberId) {
+			Date boardDate, int boardCount, int boardLikeIt, int fix, String memberId, int bRownum) {
 		super();
 		this.boardNo = boardNo;
 		this.memberNick = memberNick;
@@ -29,6 +30,7 @@ public class Board {
 		this.boardLikeIt = boardLikeIt;
 		this.fix = fix;
 		this.memberId = memberId;
+		this.bRownum = bRownum;
 	}
 
 	public int getBoardNo() {
@@ -102,7 +104,7 @@ public class Board {
 	public void setFix(int fix) {
 		this.fix = fix;
 	}
-	
+
 	public String getMemberId() {
 		return memberId;
 	}
@@ -111,11 +113,19 @@ public class Board {
 		this.memberId = memberId;
 	}
 
+	public int getbRownum() {
+		return bRownum;
+	}
+
+	public void setbRownum(int bRownum) {
+		this.bRownum = bRownum;
+	}
+
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", memberNick=" + memberNick + ", boardTitle=" + boardTitle
 				+ ", boardContents=" + boardContents + ", boardCategory=" + boardCategory + ", boardDate=" + boardDate
 				+ ", boardCount=" + boardCount + ", boardLikeIt=" + boardLikeIt + ", fix=" + fix + ", memberId="
-				+ memberId + "]";
+				+ memberId + ", bRownum=" + bRownum + "]";
 	}
 }

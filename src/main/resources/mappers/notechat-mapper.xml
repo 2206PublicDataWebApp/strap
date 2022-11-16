@@ -10,6 +10,7 @@
 		<result property="senderNick" column="SENDER_NICK"/>
 		<result property="chatContents" column="CHAT_CONTENTS"/>
 		<result property="senderDate" column="SENDER_DATE"/>
+		<result property="chatStatus" column="CHAT_STATUS"/>
 	</resultMap>
 	<select id="selectAllNoteChat" resultMap="noteChatResultMap">
 		SELECT * FROM NOTECHAT_TBL
@@ -18,7 +19,7 @@
   	</select>
   	<insert id="insertNoteChat">
   		INSERT INTO NOTECHAT_TBL
-  		VALUES(#{noteNo}, #{senderId}, #{senderNick}, #{noteContents}, SYSTIMESTAMP)
+  		VALUES(#{noteNo}, #{senderId}, #{senderNick}, #{noteContents}, SYSTIMESTAMP, DEFAULT)
   	</insert>
 	
 </mapper>

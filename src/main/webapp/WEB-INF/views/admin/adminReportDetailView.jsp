@@ -68,21 +68,19 @@
 								<div>게시물 처리</div>
 								<select class="form-select" name="contentsProcess" aria-label="Default select example">
 									<option value="N" <c:if test="${adminReport.contentsProcess eq 'N'}">selected</c:if>>선택해주세요</option>
-									<option value="N" >복원</option>
-									<option value="Y" <c:if test="${adminReport.contentsProcess eq 'Y'}">selected</c:if>>숨김</option>
+									<option value="Y" <c:if test="${adminReport.contentsProcess eq 'Y'}">selected</c:if>>삭제</option>
 								</select>
 							</div>
 							<div class="col" >
 								<div>회원 처리</div>
 								<select class="form-select" name="memberProcess" aria-label="Default select example">
 									<option value="N" <c:if test="${adminReport.memberProcess eq 'N'}">selected</c:if>>선택해주세요</option>
-									<option value="N" >복구</option>
 									<option value="Y" <c:if test="${adminReport.memberProcess eq 'Y'}">selected</c:if>>탈퇴</option>
 								</select>
 							</div>
-							<div class="col" align="left">
+							<div class="col">
 							</div>
-							<div class="col" align="right">
+							<div class="col">
 							</div>
 						</div>
 						<div class="row text-center">
@@ -93,14 +91,8 @@
 					</form>
 				</div>
 			</div>
+			<br><br><br>
 	</div>
-	<script>
-		function textareaAble(thisBtn){
-			var target = document.getElementById('Report-answer');
-			document.getElementById('Report-modify').style.display = "none"
-			document.getElementById('Report-modify-done').style.display = "inline-block"
-			target.disabled = false;
-		}
-	</script>
+	
 </body>
 </html>

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시글 작성페이지</title>
+<title>스트랩 : 게시글 작성페이지</title>
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
@@ -135,7 +135,7 @@ $(document).ready(function(){
 							<option value="자유글">자유글</option>
 							<option value="후기글">후기글</option>
 						</select>
-						<input type="text" name="boardTitle" style="width: 500px;" placeholder="제목을 입력하세요" id="titleCheck"><br>
+						<input type="text" name="boardTitle" style="width: 850px;" placeholder="제목을 입력하세요" id="titleCheck"><br>
 						<div class="position-absolute top-0 end-0" id="bTitle2">
 						<input type="hidden" name="memberNick" value="${sessionScope.loginUser.memberNick }">
 						<input type="hidden" name="memberId" value="${sessionScope.loginUser.memberId }">

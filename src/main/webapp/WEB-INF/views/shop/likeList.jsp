@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"  %>
 <html>
 <head>
-<title>STRAP MAIN</title>
+<title>스트랩 : 찜한상품</title>
 <!-- CDN -->
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" />

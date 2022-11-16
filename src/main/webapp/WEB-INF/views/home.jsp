@@ -81,9 +81,10 @@
     text-align: center;
     font-weight: bold;
 	width: 50px;
+	height: 48px;
     float: left;
     margin-right: 15px;
-    margin-top: 5px;
+    transform: translate(-12px, -10px);
     padding: 10px 15px;
     border-radius: 25%;
     box-shadow: 1px 1px 3px 3px #ccc;
@@ -154,17 +155,18 @@ div > span > a > p > img { display: none; }
 			<div id="cWrap" class="row">
 			<c:forEach items="${bList }" var="Board" varStatus="i">
 				<div class="col oneView">
-				<div class="position-relative">
+				<div class="position-relative" id="bTitle">
 						<div id="rank">${i.count }</div>
-			    		<div id="bTitle">${Board.memberNick }</div>
-					<div class="position-absolute top-50 end-0 translate-middle-y" id="likeBtn-count">
+			    		<div style="width: 187px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${Board.boardTitle }</div>
+			    		<div style="margin-right: 50px; float: right; transform: translate(-5px, -23px);">${Board.memberNick }</div>
+					<div class="position-absolute top-50 end-0 translate-middle-y" id="likeBtn-count"> 
 					<i class="fa-regular fa-thumbs-up" id="likeBtn-img"></i>
-						${Board.boardLikeIt } 
-					</div> 
+						${Board.boardLikeIt }
+					</div>
 				</div>
 				<div style="margin-top: 15px;">
 					<span>
-						<a style="cursor:pointer;" href="/board/detail.strap?boardNo=${Board.boardNo }&page=${currentPage }">${Board.boardContents }</a>
+						<a style="cursor:pointer; display: block; height: 75%;" href="/board/detail.strap?boardNo=${Board.boardNo }&page=${currentPage }">${Board.boardContents }</a>
 					</span>
 				</div>
 				</div>
@@ -179,8 +181,8 @@ div > span > a > p > img { display: none; }
 				<c:forEach items="${pList }" var="product" varStatus="n">
 				
 					<div class="col oneView" style="position:relative;padding:20x;">
-					<div class="marker" style="position:absolute;left:10px;top:10px;height:50px;width:50px;border-radius:10px;background-color:darkorange;">
-						<div style="width:90%; height:90%; margin:10px auto;text-align:center;font-size:20px;font-weight:bold;color:white;">${n.count }</div>
+					<div id="rank" style="position:absolute;left:10px;top:10px;">
+						${n.count }
 					</div>
 						<div class="bestProduct">
 							<div class="pImg">

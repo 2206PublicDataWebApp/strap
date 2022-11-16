@@ -105,7 +105,7 @@
 					</div>
 				</div>
 			</c:if>
-			
+			<br><br><br>
 	</div>
 	<script>
 		function textareaAble(thisBtn){

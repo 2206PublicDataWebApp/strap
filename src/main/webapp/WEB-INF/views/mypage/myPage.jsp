@@ -211,7 +211,6 @@
 				type:"post",
 				data:{"matchNo":matchNo,"surveyAnswer":surveyAnswer, "surveyOpinion":surveyOpinion, "mathMemberId":mathMemberId, "matchCase":matchCase},
 				success:function(result){
-					console.log(result);
 					if(result == "ok"){
 						alert("소중한 의견 감사합니다");
 						location.reload();
@@ -257,7 +256,6 @@
 					
 			},
 			error:function(result){
-				console.log("실패:"+result);
 			}
 		})
 	}
@@ -288,8 +286,6 @@
 						start();
 					},
 					error:function(result){
-						console.log(result)
-						console.log("실패");
 					}
 				})
 			}

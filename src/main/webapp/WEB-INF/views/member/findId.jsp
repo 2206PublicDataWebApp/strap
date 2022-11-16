@@ -95,7 +95,6 @@
 						}
 					},
 					error:function(result){
-						console.log(result)
 					}
 				});
 				}else{

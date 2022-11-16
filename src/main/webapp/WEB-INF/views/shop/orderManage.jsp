@@ -6,6 +6,7 @@
 
 <html>
 <head>
+
 <title>스트랩(관리자) : 주문관리</title>
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
 <!-- 합쳐지고 최소화된 최신 CSS -->

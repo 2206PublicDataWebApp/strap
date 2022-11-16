@@ -1,6 +1,7 @@
 package com.kh.strap.notebox.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kh.strap.member.domain.Member;
 import com.kh.strap.notebox.domain.NoteBox;
@@ -15,4 +16,7 @@ public interface NoteBoxService {
 	public List<NoteBox> printAllByValue(String searchCondition, String searchValue, String memberId, int currentPage, int noticeLimit);
 	public int checkNote(NoteBox noteBox);
 	public int removeNote(int noteNo);
+	public int getCountNoteChat(String memberId);
+	public List<Map<Object, Object>> countNoteBoxList(String memberId);
+	public void checkChat(Map<String, Object> map);
 }

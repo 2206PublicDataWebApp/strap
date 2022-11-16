@@ -88,7 +88,7 @@
 				<div id="profile">
 					<div class="row" id="info">
 						<div class="col-5" id="info-img">
-							<div class="imgDiv">
+							<div class="imgDiv" style="height: 300px; margin-top: 10px;">
 							<c:if test="${empty member.mProfilePath }">
 								<img id="profileImg" width="100%" height="100%" style="margin:10px;border-radius:30px;" src="/resources/profileUploadFiles/default.png">
 							</c:if>
@@ -120,8 +120,8 @@
 								<tr>
 									<th>마이짐</th>
 									<td>
-										<input class="profile-input" type="text" id="jymAddress" name="jymAddress" style="width: 250px;border:0;" value="${member.memberJym}"  readonly><br>
-										<input class="profile-input" type="text" id="jymTitle" name="jymTitle" style="width: 250px;border:0;" readonly>	
+										<input class="profile-input" type="text" id="jymAddress" name="jymAddress" style="width: 250px;border:0;" value="${jymAddress}"  readonly><br>
+										<input class="profile-input" type="text" id="jymTitle" name="jymTitle" style="width: 250px;border:0;" value="${jymTitle}" readonly>	
 									</td>
 								</tr>
 								<tr>
@@ -282,6 +282,13 @@
 		</div>
 	</div>
 	<script>
+	//부모창 쪽지 개수 리셋
+	count = '${count}';
+	if(count > 0){
+		opener.document.querySelector("#noteMarker").innerText = count;
+	}else if(count == 0){
+		opener.document.querySelector("#noteMarker").style.display = "none";
+	}
 	
 	$('.timepicker').timepicker({
 	    timeFormat: 'HH:mm',
@@ -505,7 +512,7 @@
 	
 	
 	function noteBoxBack(){
-		history.back();
+		location.href="/mypage/noteBoxListView.strap";
 	}
 	
 	

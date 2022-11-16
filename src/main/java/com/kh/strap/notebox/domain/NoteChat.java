@@ -8,9 +8,15 @@ public class NoteChat {
 	private String senderNick;
 	private String chatContents;
 	private Date senderDate;
+	private String chatStatus;
 	
 	
-	
+	public String getChatStatus() {
+		return chatStatus;
+	}
+	public void setChatStatus(String chatStatus) {
+		this.chatStatus = chatStatus;
+	}
 	public int getChatNo() {
 		return chatNo;
 	}
@@ -42,11 +48,13 @@ public class NoteChat {
 		this.senderDate = senderDate;
 	}
 	
-	
 	@Override
 	public String toString() {
 		return "NoteChat [chatNo=" + chatNo + ", senderId=" + senderId + ", senderNick=" + senderNick
-				+ ", chatContents=" + chatContents + ", senderDate=" + senderDate + "]";
+				+ ", chatContents=" + chatContents + ", senderDate=" + senderDate + ", chatStatus=" + chatStatus + "]";
 	}
+	
+	
+	
 
 }
