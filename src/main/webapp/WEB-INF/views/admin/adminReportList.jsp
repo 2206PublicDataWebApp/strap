@@ -41,7 +41,7 @@
 					<th width="100"><a class="ReportContents" href="/admin/adminReportListView.strap">신고 유형</a></th>
 					<th width="150">신고 종류</th>
 					<th>제목</th>
-					<th width="130">작성자</th>
+					<th width="130">신고자</th>
 					<th width="150">작성일</th>
 					<th width="100">처리 상태</th>
 				</tr>
@@ -109,12 +109,12 @@
 								<div style="display:inline-block;">
 									<select name="searchCondition" class="btn btn-dark">
 										<option value="all" <c:if test="${searchCondition eq 'all' }">selected</c:if>>전체</option>
-										<option value="reportMember" <c:if test="${searchCondition eq 'reportMember' }">selected</c:if>>신고당한 회원</option>
+										<option value="reportMember" <c:if test="${searchCondition eq 'reportMember' }">selected</c:if>>신고자</option>
 										<option value="contents" <c:if test="${searchCondition eq 'contents' }">selected</c:if>>내용</option>
 									</select>
 								</div>
 								<div style="display:inline-block;">
-									<input style="width:300px; height:33px;" type="text" name="searchValue" value="${searchValue}">
+									<input class="form-control" style="width:300px;;" type="text" name="searchValue" value="${searchValue}">
 								</div>	
 								<div style="display:inline-block;">
 									<input type="submit" value="검색" class="btn btn-dark">

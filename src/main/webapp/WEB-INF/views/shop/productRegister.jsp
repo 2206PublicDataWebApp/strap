@@ -86,7 +86,7 @@ body {
 				</div>
 			</div>
 			<div class="row">
-				<div id="productRegisterArea" class="col-4" style="height:1000px;border-right:1px solid #c0c0c0;">
+				<div id="productRegisterArea" class="col-4" style="height:1500px;border-right:1px solid #c0c0c0;">
 					<form id="info-form" action="/admin/product/register.strap" method="post" enctype="multipart/form-data" >
 						<h6 >상품 정보 입력</h6>
 						<div style="border:1px solid gray; border-radius:10px; padding:12px;">

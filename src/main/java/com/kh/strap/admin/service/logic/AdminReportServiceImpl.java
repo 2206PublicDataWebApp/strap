@@ -20,24 +20,31 @@ public class AdminReportServiceImpl implements AdminReportService{
 	
 	@Override
 	public List<AdminReport> printAllAdminReportList(int currentPage, int noticeLimit) {
-		List<AdminReport> aqList = arStore.selectAllAdminReportList(session, currentPage, noticeLimit);
-		return aqList;
+		List<AdminReport> arList = arStore.selectAllAdminReportList(session, currentPage, noticeLimit);
+		return arList;
 	}
 
 
 	@Override
 	public List<AdminReport> printAllByValue(String searchCondition, String searchValue, int currentPage,
 			int reportLimit) {
-		List<AdminReport> aqList = arStore.selectAllByValue(session, searchCondition, searchValue, currentPage, reportLimit);
-		return aqList;
+		List<AdminReport> arList = arStore.selectAllByValue(session, searchCondition, searchValue, currentPage, reportLimit);
+		return arList;
 	}
 
 
 	@Override
 	public List<AdminReport> printAllBySort(String sortCondition, String sortValue, String contentsCode, int currentPage,
 			int reportSortLimit) {
-		List<AdminReport> aqList = arStore.selectAllBySort(session, sortCondition, sortValue, contentsCode, currentPage, reportSortLimit);
-		return aqList;
+		List<AdminReport> arList = arStore.selectAllBySort(session, sortCondition, sortValue, contentsCode, currentPage, reportSortLimit);
+		return arList;
+	}
+
+
+	@Override
+	public List<AdminReport> printAllByUnsolvedReport(int currentPage, int unsolvedQnaLimit) {
+		List<AdminReport> arList = arStore.selectAllByUnsolvedReport(session, currentPage, unsolvedQnaLimit);
+		return arList;
 	}
 
 
@@ -51,6 +58,13 @@ public class AdminReportServiceImpl implements AdminReportService{
 	@Override
 	public int registReportProcess(AdminReport adminReport) {
 		int result = arStore.updateReportProcess(session, adminReport);
+		return result;
+	}
+
+
+	@Override
+	public int printAllReportCount(String searchCondition, String searchValue) {
+		int result = arStore.selectAllReportCount(session, searchCondition, searchValue);
 		return result;
 	}
 

@@ -18,8 +18,8 @@ public class AdminReportStoreLogic implements AdminReportStore{
 	public List<AdminReport> selectAllAdminReportList(SqlSession session, int currentPage, int noticeLimit) {
 		int offset = (currentPage-1)*noticeLimit;
 		RowBounds rowBounds = new RowBounds(offset, noticeLimit);
-		List<AdminReport> aqList = session.selectList("AdminReportMapper.selectAllAdminReportList", null, rowBounds);
-		return aqList;
+		List<AdminReport> arList = session.selectList("AdminReportMapper.selectAllAdminReportList", null, rowBounds);
+		return arList;
 	}
 
 	@Override
@@ -30,8 +30,8 @@ public class AdminReportStoreLogic implements AdminReportStore{
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("searchCondition", searchCondition);
 		paramMap.put("searchValue", searchValue);
-		List<AdminReport> aqList = session.selectList("AdminReportMapper.selectAllByValue", paramMap, rowBounds);
-		return aqList;
+		List<AdminReport> arList = session.selectList("AdminReportMapper.selectAllByValue", paramMap, rowBounds);
+		return arList;
 	}
 
 	@Override
@@ -43,8 +43,16 @@ public class AdminReportStoreLogic implements AdminReportStore{
 		paramMap.put("sortCondition", sortCondition);
 		paramMap.put("sortValue", sortValue);
 		paramMap.put("contentsCode", contentsCode);
-		List<AdminReport> aqList = session.selectList("AdminReportMapper.selectAllBySort", paramMap, rowBounds);
-		return aqList;
+		List<AdminReport> arList = session.selectList("AdminReportMapper.selectAllBySort", paramMap, rowBounds);
+		return arList;
+	}
+
+	@Override
+	public List<AdminReport> selectAllByUnsolvedReport(SqlSession session, int currentPage, int unsolvedQnaLimit) {
+		int offset = (currentPage-1)*unsolvedQnaLimit;
+		RowBounds rowBounds = new RowBounds(offset, unsolvedQnaLimit);
+		List<AdminReport> arList = session.selectList("AdminReportMapper.selectAllByUnsolvedReport", null, rowBounds);
+		return arList;
 	}
 
 	@Override
@@ -61,6 +69,15 @@ public class AdminReportStoreLogic implements AdminReportStore{
 	public int updateReportProcess(SqlSession session, AdminReport adminReport) {
 		int result = session.update("AdminReportMapper.updateReportProcess", adminReport);
 		return result;
+	}
+
+	@Override
+	public int selectAllReportCount(SqlSession session, String searchCondition, String searchValue) {
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("searchCondition", searchCondition);
+		paramMap.put("searchValue", searchValue);
+		int totalCount = session.selectOne("AdminReportMapper.selectAllReportCount", paramMap);
+		return totalCount;
 	}
 
 	@Override
