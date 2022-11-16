@@ -44,6 +44,11 @@ input:disabled {
   #reviewList th,#qnaList td{
  	padding:3px;
  }
+ .pNameArea{
+ 	overflow:hidden; 
+    white-space:nowrap; 
+ 	text-overflow:ellipsis; 
+ }
  
 </style>
 
@@ -85,7 +90,7 @@ input:disabled {
 						</form>
 					</div>
 				<div id="reviewList">
-					<table style="text-align:center; font-size:14px; width: 100%">
+					<table style="text-align:center; font-size:14px; width:100%;">
 						<tr style="height:30px; border-bottom:1px solid #c0c0c0;">
 							<th class="col-3">상품정보</th>
 							<th class="col-1">평점</th>
@@ -98,9 +103,11 @@ input:disabled {
 							<tr style="height:10px;"></tr>
 							<tr>
 								<td class="toProductDetail" onclick="location.href='/product/detailView.strap?productNo=${review.product.productNo}';" >
-										<img src="${review.product.mainImgRoot }" width="60px" height="60px">
-										<span class="productBrand">[${review.product.productBrand }]</span>
-										<span class="productName">${review.product.productName }</span>
+											<img src="${review.product.mainImgRoot }" width="60px" height="60px">
+											<div class="pNameArea" style="width:230px;display:inline-block;">
+												<span class="productBrand">[${review.product.productBrand }]</span>
+												<span class="productName">${review.product.productName }</span>
+											</div>
 								</td>
 								<td><span style="color:darkorange">★</span>${review.reviewGrade }</td>
 								<td  onclick="location.href='/product/detailView.strap?productNo=${review.productNo}';">
@@ -116,7 +123,7 @@ input:disabled {
 								<td colspan="6" style="padding:12px 110px; background-color:rgb(250,250,250);border-radius:10px;" >
 									<div style="float:left;width:45%; margin:0 auto;padding:12px;">
 										<div><첨부이미지></div>
-										<img src="${review.reviewImgRoot }" width="350px" height="380px;" style="border:1px solid #c0c0c0; border-radius:7px;" onerror="this.src='/resources/image/logo.png'">
+										<img src="${review.reviewImgRoot }" width="90%" height="380px;" style="border:1px solid #c0c0c0; border-radius:7px;" onerror="this.src='/resources/image/logo.png'">
 									</div>
 									<div style="float:right;width:45%; margin:0 auto; padding:12px;width:350px; height:380px;">
 										<div><내용></div>

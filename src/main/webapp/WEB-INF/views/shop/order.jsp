@@ -340,6 +340,8 @@ var cAmount;												//정액할인
 var cRatio;													//정률할인
 var priceCondition;											//최저주문액
 var afterThreeDaysStr = getAfterThreeDay();					//가상계좌 기한 3일
+var brandCheck = false;
+var BrandProductPrice = 0;
 
 //KG이니시스에서 pay_method를 변경하면 된다.
 //card,trans,vbank,kakaopay,naverpay
@@ -515,7 +517,11 @@ function calculatorCost(){
 		if(cMethod =="amount"){
 			discountAmount = cAmount;
 		}else if(cMethod =="ratio"){
-			discountAmount = Math.floor((productsPrice * cRatio)/100);
+			if(brandCheck == true){
+				discountAmount = Math.floor((BrandProductPrice * cRatio)/100);
+			}else{
+				discountAmount = Math.floor((productsPrice * cRatio)/100);
+			}
 		}
 	}
 	if(couponNo == -1){
@@ -581,18 +587,18 @@ function couponSelected(selected){
 		}
 		//브랜드 조건 체크. 쿠폰의 브랜드 조건이 None이 아니면 브랜드 조건과 부합하는 상품이 있는지 체크.
 		if(brandCondition != "None"){
-			var brandCheck = false;
-			var thisProductPrice = 0;
+			brandCheck = false;
+			BrandProductPrice = 0;
 			<c:forEach items="${cList }" var="cart" varStatus="n" >
 				var brandName = '${cart.product.productBrand}';
 				if(brandCondition == brandName){
 					brandCheck = true;
-					thisProductPrice = '${cart.product.productPrice}';
+					BrandProductPrice = '${cart.product.productPrice}';
 				}
 			</c:forEach>
 			if(brandCheck){
 				//구매 상품에 해당 브랜드가 있음
-				if(thisProductPrice < priceCondition){
+				if(BrandProductPrice < priceCondition){
 					//최소 상품 금액 미달
 					alert(priceCondition+"원 이상의 ["+brandCondition+"] 상품인 경우 쿠폰 적용이 가능합니다.")
 					document.querySelector("#defaultOption").selected = true;

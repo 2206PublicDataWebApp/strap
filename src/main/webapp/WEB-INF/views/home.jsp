@@ -155,20 +155,20 @@ div > span > a > p > img { display: none; }
 			<div id="cWrap" class="row">
 			<c:forEach items="${bList }" var="Board" varStatus="i">
 				<div class="col oneView">
-				<div class="position-relative" id="bTitle">
-						<div id="rank">${i.count }</div>
-			    		<div style="width: 187px; overflow: hidden; text-overflow: ellipsis; 
-			    		 transform: translate(-16px, 1px); white-space: nowrap;">${Board.boardTitle }</div>
-					<div class="position-absolute top-50 end-0 translate-middle-y" id="likeBtn-count"> 
-					<i class="fa-regular fa-thumbs-up" id="likeBtn-img"></i>
-						${Board.boardLikeIt }
+					<div class="position-relative" id="bTitle">
+							<div id="rank">${i.count }</div>
+				    		<div style="width: 187px; overflow: hidden; text-overflow: ellipsis; 
+				    		 transform: translate(-16px, 1px); white-space: nowrap;">${Board.boardTitle }</div>
+						<div class="position-absolute top-50 end-0 translate-middle-y" id="likeBtn-count"> 
+						<i class="fa-regular fa-thumbs-up" id="likeBtn-img"></i>
+							${Board.boardLikeIt }
+						</div>
 					</div>
-				</div>
-				<div style="margin-top: 15px;">
-					<span>
-						<a style="cursor:pointer; display: block; height: 75%;" href="/board/detail.strap?boardNo=${Board.boardNo }&page=${currentPage }">${Board.boardContents }</a>
-					</span>
-				</div>
+					<div style="margin-top: 15px;">
+						<span>
+							<a style="cursor:pointer; display: block; height: 75%;" href="/board/detail.strap?boardNo=${Board.boardNo }&page=${currentPage }">${Board.boardContents }</a>
+						</span>
+					</div>
 				</div>
 			</c:forEach>
 			</div>
@@ -181,14 +181,14 @@ div > span > a > p > img { display: none; }
 				<c:forEach items="${pList }" var="product" varStatus="n">
 				
 					<div class="col oneView" style="position:relative;padding:20x;">
-					<div id="rank" style="position:absolute;left:10px;top:10px;">
+					<div id="rank" style="position:absolute;left:22px;top:25px;">
 						${n.count }
 					</div>
 						<div class="bestProduct">
 							<div class="pImg">
 								<img src="${product.mainImgRoot }" width="80%" height="60%" style="margin:auto;display:block;padding:12px;" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
 							</div>
-								<div class="pBrandName" style="font-weight:bold;" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
+								<div class="pBrandName" style="font-weight:bold; height:40px;" onclick="location.href='/product/detailView.strap?productNo=${product.productNo}';">
 									<span class="brand">
 										[${product.productBrand }]
 									</span>
@@ -208,7 +208,7 @@ div > span > a > p > img { display: none; }
 						</div>
 						<hr>
 						<div class="bestReview">
-							<div class="rContents">
+							<div class="rContents" style="height:25px;">
 							 	<span>${product.review.reviewContents }</span>
 							 </div>
 							<div class="rInfo">
