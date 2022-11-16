@@ -447,6 +447,7 @@
 	    </div>
 	  </div>
 	</div>
+	<br><br><br><br>
 <!-- 푸터	 -->
 	<div id="footer" class="row">
 		<div class="col">

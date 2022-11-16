@@ -18,7 +18,7 @@
 <style>
 	.nav {
 		justify-content: center; 
-		padding: 40px; 
+		padding: 20px; 
 		margin-left: 50px;
 	}
 	.btn {
@@ -106,81 +106,11 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<!-- 컨텐츠 -->
 	<div class="contents">
-		<div id="contents-wrap">
-		<!-- 카테고리 -->
-		<ul class="nav nav-pills">
-		<c:choose>
-			<c:when test="${urlVal == 'list' }">  
-			<button class="btn btn-outline-primary" style="--bs-btn-border-color: blue; margin-right: 15px;" 
-			 onclick="location.href='/board/list.strap?page=${page }'">
-					 <li class="nav-item">
-					 	<a class="nav-link" href="#" title="all">전체</a>
-					 </li>
-				</button>
-				<button class="btn btn-outline-primary" style="margin-right: 15px;" 
-				onclick="location.href='/board/free.strap?page=${page }'">
-	  				<li class="nav-item">
-	    				<a class="nav-link" href="#" title="free">자유글</a>
-	  				</li>
-	  			</button>
-	  		<button class="btn btn-outline-primary" onclick="location.href='/board/review.strap?page=${page}'">
-	  				<li class="nav-item">
-	    				<a class="nav-link" href="#" title="review">후기글</a>
-	  				</li>
-	  		</button>
-			</c:when>
-			<c:when test="${urlVal == 'free' }">  
-			<button class="btn btn-outline-primary" style="margin-right: 15px;" 
-			onclick="location.href='/board/list.strap?page=${page }'">
-					 <li class="nav-item">
-					 	<a class="nav-link" href="#" title="all">전체</a>
-					 </li>
-				</button>
-				<button class="btn btn-outline-primary" style="--bs-btn-border-color: blue; margin-right: 15px;" 
-				onclick="location.href='/board/free.strap?page=${page }'">
-	  				<li class="nav-item">
-	    				<a class="nav-link" href="#" title="free">자유글</a>
-	  				</li>
-	  			</button>
-	  		<button class="btn btn-outline-primary" onclick="location.href='/board/review.strap?page=${page}'">
-	  				<li class="nav-item">
-	    				<a class="nav-link" href="#" title="review">후기글</a>
-	  				</li>
-	  		</button>
-			</c:when>
-			<c:when test="${urlVal == 'review' }">
-			<button class="btn btn-outline-primary" style="margin-right: 15px;" 
-			onclick="location.href='/board/list.strap?page=${page }'">
-					 <li class="nav-item">
-					 	<a class="nav-link" href="#" title="all">전체</a>
-					 </li>
-				</button>
-				<button class="btn btn-outline-primary" style="margin-right: 15px;" 
-				onclick="location.href='/board/free.strap?page=${page }'">
-	  				<li class="nav-item">
-	    				<a class="nav-link" href="#" title="free">자유글</a>
-	  				</li>
-	  			</button>
-	  		<button class="btn btn-outline-primary" style="--bs-btn-border-color: blue;" 
-	  		onclick="location.href='/board/review.strap?page=${page}'">
-	  				<li class="nav-item">
-	    				<a class="nav-link" href="#" title="review">후기글</a>
-	  				</li>
-	  		</button>
-			</c:when>
-			<c:otherwise> 
-			<button class="btn btn-outline-primary" onclick="location.href='/board/list.strap?page=${page }'">
-					 <li class="nav-item">
-					 	<a class="nav-link" href="#" title="all">전체</a>
-					 </li>
-			</button>
-			</c:otherwise>
-		</c:choose>
-		</ul>
+		<div id="contents-wrap" style="margin-top: 45px;">
  			<!-- 검색창 -->
  			<tr>
 				<td colspan="6" align="center">
-					<form action="/board/search.strap" method="get">
+					<form action="/board/search.strap" method="get" style="margin-left: 35px;">
 						<div align="center">
 							<div class="search">
 								<select class="form-select w-25" aria-label="Default select example" aria-label="Default select example" name="searchCondition">
@@ -206,6 +136,76 @@
 					</form>
 				</td>
 			</tr>
+			<!-- 카테고리 -->
+			<ul class="nav nav-pills">
+			<c:choose>
+				<c:when test="${urlVal == 'list' }">  
+				<button class="btn btn-outline-primary" style="--bs-btn-border-color: blue; margin-right: 15px;" 
+				 onclick="location.href='/board/list.strap?page=${page }'">
+						 <li class="nav-item">
+						 	<a class="nav-link" href="#" title="all">전체</a>
+						 </li>
+					</button>
+					<button class="btn btn-outline-primary" style="margin-right: 15px;" 
+					onclick="location.href='/board/free.strap?page=${page }'">
+		  				<li class="nav-item">
+		    				<a class="nav-link" href="#" title="free">자유글</a>
+		  				</li>
+		  			</button>
+		  		<button class="btn btn-outline-primary" onclick="location.href='/board/review.strap?page=${page}'">
+		  				<li class="nav-item">
+		    				<a class="nav-link" href="#" title="review">후기글</a>
+		  				</li>
+		  		</button>
+				</c:when>
+				<c:when test="${urlVal == 'free' }">  
+				<button class="btn btn-outline-primary" style="margin-right: 15px;" 
+				onclick="location.href='/board/list.strap?page=${page }'">
+						 <li class="nav-item">
+						 	<a class="nav-link" href="#" title="all">전체</a>
+						 </li>
+					</button>
+					<button class="btn btn-outline-primary" style="--bs-btn-border-color: blue; margin-right: 15px;" 
+					onclick="location.href='/board/free.strap?page=${page }'">
+		  				<li class="nav-item">
+		    				<a class="nav-link" href="#" title="free">자유글</a>
+		  				</li>
+		  			</button>
+		  		<button class="btn btn-outline-primary" onclick="location.href='/board/review.strap?page=${page}'">
+		  				<li class="nav-item">
+		    				<a class="nav-link" href="#" title="review">후기글</a>
+		  				</li>
+		  		</button>
+				</c:when>
+				<c:when test="${urlVal == 'review' }">
+				<button class="btn btn-outline-primary" style="margin-right: 15px;" 
+				onclick="location.href='/board/list.strap?page=${page }'">
+						 <li class="nav-item">
+						 	<a class="nav-link" href="#" title="all">전체</a>
+						 </li>
+					</button>
+					<button class="btn btn-outline-primary" style="margin-right: 15px;" 
+					onclick="location.href='/board/free.strap?page=${page }'">
+		  				<li class="nav-item">
+		    				<a class="nav-link" href="#" title="free">자유글</a>
+		  				</li>
+		  			</button>
+		  		<button class="btn btn-outline-primary" style="--bs-btn-border-color: blue;" 
+		  		onclick="location.href='/board/review.strap?page=${page}'">
+		  				<li class="nav-item">
+		    				<a class="nav-link" href="#" title="review">후기글</a>
+		  				</li>
+		  		</button>
+				</c:when>
+				<c:otherwise> 
+				<button class="btn btn-outline-primary" onclick="location.href='/board/list.strap?page=${page }'">
+						 <li class="nav-item">
+						 	<a class="nav-link" href="#" title="all">전체</a>
+						 </li>
+				</button>
+				</c:otherwise>
+			</c:choose>
+			</ul>
 			<div class="contents-noside">
 				<table class="table">
 					<tr>
@@ -259,20 +259,20 @@
 					</c:if>
 				</table>
 						<!-- 페이징 처리 -->
-						<div class="col-md-6 offset-md-4 py-4" style="width: 725px">
+						<div class="col-md-6 offset-md-5 py-4" style="width: 650px">
 							<c:if test="${currentPage != 1 }">
-								<a href="/board/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-primary">이전</a>
+								<a href="/board/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-dark">이전</a>
 							</c:if>
 							<c:forEach var="p" begin="${startNavi }" end="${endNavi }">
 								<c:if test="${currentPage eq p }">
-									<b class="btn btn-primary">${p }</b>
+									<b class="btn btn-dark">${p }</b>
 								</c:if>
 								<c:if test="${currentPage ne p }">
 									<a href="/board/${urlVal }.strap?page=${p }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-light">${p }</a>
 								</c:if>
 							</c:forEach>
 							<c:if test="${maxPage > currentPage }">
-								<a href="/board/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-primary">다음</a>
+								<a href="/board/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-dark">다음</a>
 							</c:if>
 							<div style="float: right; transform: translate(-80px, 0px);">
 								<!-- 글쓰기 로그인 체크 -->
@@ -283,7 +283,7 @@
 									</button>
 								</c:when>
 								<c:otherwise>
-									<button type="button" class="btn btn-primary" onclick="location.href='/board/writeView.strap'">
+									<button type="button" class="btn btn-dark" onclick="location.href='/board/writeView.strap'">
 										<i class="bi bi-pen">글쓰기</i>
 									</button>
 								</c:otherwise>
