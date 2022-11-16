@@ -110,6 +110,8 @@ nav{
 .contents.row{
 	padding:0 230px;
 	margin-top:10px;
+	height: auto;
+	min-height: 100%
 }
 
 .contents{

@@ -111,7 +111,7 @@
 								${notebox.senderNick }
 							</c:if>
 						</td>
-						<td><fmt:formatDate pattern="yyyy-MM-dd / hh:mm:ss" value="${notebox.senderDate }"/> </td>
+						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${notebox.senderDate }"/> </td>
 						<c:if test="${notebox.noteAccept eq 'N' }">
 						</c:if>
 					</tr>

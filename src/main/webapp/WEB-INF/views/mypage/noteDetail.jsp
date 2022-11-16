@@ -78,7 +78,7 @@
 		</div>
 		<div class="row">
 			<div class="col">
-				보낸 시간 : <fmt:formatDate pattern="yyyy-MM-dd / hh:mm:ss" value="${noteBox.senderTime }"/>
+				보낸 시간 : <fmt:formatDate pattern="yyyy-MM-dd" value="${noteBox.senderTime }"/>
 			</div>
 		</div>
 		<hr>

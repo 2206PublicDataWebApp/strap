@@ -36,7 +36,7 @@
 		#manner{width: 100%; height: 100px; text-align: left; padding: 20px;}
 		#msg{width: 100%; height: 300px;}	
 		#noteBox{width: 700px;margin: auto;}
-		#chat{width: 700px; height:350px; margin: auto;border: 1px solid lightgray;border-radius: 10px;}
+		#chat{width: 700px; height:500px; margin: auto;border: 1px solid lightgray;border-radius: 10px;}
 		#chatTitle{height: 50px;}
 		#chatContents{height: 300px;}
 		#chatContents p{padding: 10px;}
@@ -286,45 +286,48 @@
 				<h6><i>상대방의 수락 이후 쪽지함에서 대화를 이어나갈 수 있습니다.</i></h6>
 				<br>
 				<div id="noteBox">
-					<table class="table" id="noteTable">
+					<span><h5> 쪽지함 </h5></span>
+					<table class="table" id="noteTable" style="border: 1px solid lightgray">
 						<tr>
-							<th>번호</th>
-							<th>제목</th>
-							<th>보낸사람</th>
-							<th>보낸날짜</th>
+							<th><input class="form-check-input" type="checkbox" id="nb-chkbox-all"/></th>
+							<th width="50"><label class="form-check-label" for="nb-chkbox-all">번호</label></th>
+							<th width="200">내용</th>
+							<th width="150">보낸 사람</th>
+							<th width="150">보낸 날짜</th>
 						</tr>
 						<tr>
+							<th><input class="form-check-input" type="checkbox" id="nb-chkbox-all"/></th>
 							<td>1</td>
-							<td>안녕하세요!!</td>
+							<td>
+								매칭메시지 도착
+								<span style="float: right;" class="badge text-bg-danger">New</span>
+							</td>
 							<td>언제철들래</td>
-							<td>2022.10.26</td>
+							<td>2022.06.13</td>
 						</tr>
 						<tr>
-							<td>2</td>
-							<td>오늘 가능하세요?</td>
-							<td>삶은달걀</td>
-							<td>2022.10.26</td>
+							<td colspan="5"><button class="btn btn-dark">1</button></td>
 						</tr>
 						<tr>
-							<td>3</td>
-							<td>운동 같이해요!</td>
-							<td>운동합시다</td>
-							<td>2022.10.24</td>
-						</tr>
-						<tr>
-							<td>4</td>
-							<td>하체운동 좋아하세요?</td>
-							<td>3대499</td>
-							<td>2022.10.23</td>
-						</tr>
-						<tr>
-							<td>5</td>
-							<td>네ㅎㅎ</td>
-							<td>민준이니</td>
-							<td>2022.10.22</td>
+							<td colspan="5">
+								<div align="center">
+									<div style="display:inline-block;">
+										<select name="searchCondition" class="btn btn-dark">
+											<option value="all">전체</option>
+											<option value="contents">내용</option>
+											<option value="nickName">닉네임</option>
+										</select>
+									</div>
+									<div style="display:inline-block;">
+										<input class="form-control" type="text" name="searchValue" value="">
+									</div>	
+									<div style="display:inline-block;">
+										<input type="submit" value="검색" class="btn btn-dark" onclick="example();">
+									</div>
+								</div>
+							</td>
 						</tr>
 					</table>
-					
 				</div>
 				<br><br><br><br>
 				
@@ -335,17 +338,82 @@
 				<h6><i>1:1 쪽지의 일정잡기 기능을 사용하면 캘린더에 운동 일정이 추가됩니다!</i></h6>
 				<br>
 				<div id="chat">
-					<div id="chatTitle">
-						<span>언제철들래 님과의 쪽지</span>
-						<hr>
+					<div class="row">
+						<div class="contents-side col">
+							<div id="essential info" style="text-align: left; padding-left: 20px; height: 45px;">
+								<br>
+								<span><h5> 쪽지 </h5></span>
+							</div>
+						</div>
+						<div class="col text-end" style="margin-right: 10px;">
+							<br>
+							<button class="btn btn-dark" onclick="example();">목록으로</button>
+							<button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportNote" id="btn-2">신고</button>
+						</div>
 					</div>
-					<div id="chatContents">
-						<span>내용</span>
-						<p align="left">안녕하세요!! -2022.10.26 16:32</p>
-						<p align="right">네 안녕하세요~~ -2022.10.26 16:36</p>
-						<br><br><br>
-						<button class="btn btn-danger" onclick="example()">일정잡기</button>
+					<hr>
+					<div class="row" style="text-align: left; padding-left: 10px;">
+						<div class="col">
+							보낸 사람 : 언제철들래
+						</div>
 					</div>
+					<div class="row" style="text-align: left; padding-left: 10px;">
+						<div class="col">
+							보낸 시간 : 2022-06-13
+						</div>
+					</div>
+					<hr>
+					<div class="row text-center">
+			</div>
+			<div class="row text-center" id="chat-window">
+				<div class="col" style="text-align: right; margin-right: 10px;">
+					<span id="chat-column" >
+						<span style="background-color: #FFE400; border-radius: 10px; margin-right: 10px;">안녕하세요</span>
+						<br>
+						<span style="font-size: 12px;">2022-06-13 09:00</span>
+					</span>
+				</div>
+			</div>
+			<br>
+			<div class="row text-center" id="chat-area">
+				<div class="col">
+					<div class="row">
+						<div class="col">
+						</div>
+						<div class="col-10">
+							<input class="form-control" type="text" id="chat-contents" required>
+						</div>
+						<div class="col-auto">
+							<button style="margin-right: 10px;" class="btn btn-dark" id="chat-btn">입력</button>
+						</div>
+						<div class="col">
+						</div>
+					</div>
+					<hr>
+						<div class="row">
+							<div class="col" align="center">
+								<h6>날짜</h6> 
+								<input type="date" id="meet-date" required/>
+							</div>
+							<div class="col" align="center">
+								시간  <input class="timepicker" id="meet-time" required/>
+							</div>
+							<div class="col" align="center">
+								메모  <input type="text" id="meet-memo"  maxlength="15" placeholder="ex)헬스장, 운동부위" required/>
+							</div>
+						</div>
+					<br>
+					<div class="row">
+						<div class="col" align="right" >
+							<button class="btn btn-dark" onclick="example();">일정잡기</button>
+						</div>
+						<div class="col" align="left">
+							<button class="btn btn-dark" onclick="example();">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
 				</div>
 				<br><br><br>
 				<div id="6">
