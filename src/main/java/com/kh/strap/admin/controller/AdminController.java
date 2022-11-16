@@ -107,8 +107,6 @@ public class AdminController {
 			request.setAttribute("reportCount", ReportCount);
 			request.setAttribute("reportProcess", ReportProcess);
 			request.setAttribute("todayReportProcess", todayReportProcess);
-			
-			
 		} else {
 			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
 			request.setAttribute("url", "/admin/loginView.strap");
