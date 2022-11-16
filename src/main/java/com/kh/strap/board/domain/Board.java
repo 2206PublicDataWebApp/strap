@@ -13,8 +13,7 @@ public class Board {
 	private int boardLikeIt; 		// 게시글 추천
 	private int fix;				// 공지사항과 커뮤니티 글을 구분하기위한 컬럼
 	private String memberId; 		// 회원 아이디
-	private int bRownum;
-	private Date boardUpdateDate;
+	private Date boardUpdateDate;   // 게시글 수정 날짜
 	
 	public Board() {}
 
@@ -114,14 +113,6 @@ public class Board {
 		this.memberId = memberId;
 	}
 
-	public int getbRownum() {
-		return bRownum;
-	}
-
-	public void setbRownum(int bRownum) {
-		this.bRownum = bRownum;
-	}
-
 	public Date getBoardUpdateDate() {
 		return boardUpdateDate;
 	}
@@ -135,6 +126,6 @@ public class Board {
 		return "Board [boardNo=" + boardNo + ", memberNick=" + memberNick + ", boardTitle=" + boardTitle
 				+ ", boardContents=" + boardContents + ", boardCategory=" + boardCategory + ", boardDate=" + boardDate
 				+ ", boardCount=" + boardCount + ", boardLikeIt=" + boardLikeIt + ", fix=" + fix + ", memberId="
-				+ memberId + ", bRownum=" + bRownum + ", boardUpdateDate=" + boardUpdateDate + "]";
+				+ memberId + ", boardUpdateDate=" + boardUpdateDate + "]";
 	}
 }

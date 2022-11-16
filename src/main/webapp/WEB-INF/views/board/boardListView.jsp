@@ -258,20 +258,20 @@
 					</c:if>
 				</table>
 						<!-- 페이징 처리 -->
-						<div class="col-md-6 offset-md-5 py-4" style="width: 650px">
+						<div class="col-md-6 offset-md-4 py-4" style="width: 725px">
 							<c:if test="${currentPage != 1 }">
-								<a href="/board/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-dark">이전</a>
+								<a href="/board/${urlVal }.strap?page=${currentPage - 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-primary">이전</a>
 							</c:if>
 							<c:forEach var="p" begin="${startNavi }" end="${endNavi }">
 								<c:if test="${currentPage eq p }">
-									<b class="btn btn-dark">${p }</b>
+									<b class="btn btn-primary">${p }</b>
 								</c:if>
 								<c:if test="${currentPage ne p }">
 									<a href="/board/${urlVal }.strap?page=${p }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-light">${p }</a>
 								</c:if>
 							</c:forEach>
 							<c:if test="${maxPage > currentPage }">
-								<a href="/board/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-dark">다음</a>
+								<a href="/board/${urlVal }.strap?page=${currentPage + 1 }&searchCondition=${searchCondition}&searchValue=${searchValue}" class="btn btn-primary">다음</a>
 							</c:if>
 							<div style="float: right; transform: translate(-80px, 0px);">
 								<!-- 글쓰기 로그인 체크 -->

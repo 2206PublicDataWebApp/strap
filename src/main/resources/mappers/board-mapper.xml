@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   	<!-- 게시글 등록 -->
   	<insert id="insertBoard">
   		INSERT INTO BOARD_TBL 
-  		VALUES(SEQ_BOARDNO.NEXTVAL,#{memberNick},#{boardTitle},#{boardContents},#{boardCategory},DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{memberId},DEFAULT)
+  		VALUES(SEQ_BOARDNO.NEXTVAL,#{memberNick},#{boardTitle},#{boardContents},#{boardCategory},DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{memberId},#{boardUpdateDate})
   	</insert>
 
 	<!-- 게시글 추천 시 Like 테이블에 insert -->
