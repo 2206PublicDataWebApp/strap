@@ -24,7 +24,7 @@
 		VALUES(SEQ_QNA_NO.NEXTVAL,#{productNo},#{qnaCode},#{qnaType},#{qnaTitle},#{qnaContents},DEFAULT,NULL,DEFAULT,#{answerContents},#{secretStatus},#{memberId},#{memberNick})
 	</insert>
 	<select id="selectAllQna" resultMap="qnaResultMap">
-		SELECT Q.QNA_NO, Q.QNA_TITLE, Q.QNA_CONTENTS, Q.Q_ENROLL_DATE, Q.ANSWER_STATUS, R.REPORT_NAME AS QNA_TYPE FROM QNA_TBL Q
+		SELECT Q.QNA_NO, Q.QNA_TITLE, Q.QNA_CONTENTS, Q.Q_ENROLL_DATE, Q.ANSWER_STATUS, Q.ANSWER_CONTENTS, R.REPORT_NAME AS QNA_TYPE FROM QNA_TBL Q
 		JOIN REPORT_TYPE_TBL R ON Q.QNA_TYPE = R.REPORT_TYPE WHERE QNA_CODE = 'QC1' AND MEMBER_ID = #{memberId } ORDER BY Q.Q_ENROLL_DATE DESC
 	</select>
 	<update id="updateQna">

@@ -115,8 +115,8 @@ td{
 											</tr>
 											<tr class="qnaDetailArea" style="margin-bottom:50px;display:none;">
 												<td colspan="5" style="padding:10px 70px;background-color:#E7E7E7;text-align:left;">
-													<c:if test="${qna.answerContents eq '' or qna.answerContents eq null}"><span>ㄴ답변 대기중입니다.</span></c:if>
-													<c:if test="${qna.answerContents ne '' and qna.answerContents ne null}"><span>ㄴ${qna.answerContents}</span></c:if>
+													<c:if test="${qna.answerStatus eq 'N' }"><span>ㄴ답변 대기중입니다.</span></c:if>
+													<c:if test="${qna.answerStatus eq 'Y' }"><span>ㄴ${qna.answerContents}</span></c:if>
 												</td>
 											</tr>
 										</c:if>
