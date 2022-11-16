@@ -308,7 +308,7 @@
 				    html += "<span class='carousel-control-prev-icon' aria-hidden='true'></span>";
 				    html += "<span class='visually-hidden'>Previous</span>";
 				    html += "</button>";
-				    html += "<button class='carousel-control-next' type='button' data-bs-target='#carouselExampleControlsNoTouching' data-bs-slide='prev'>";
+				    html += "<button class='carousel-control-next' type='button' data-bs-target='#carouselExampleControlsNoTouching' data-bs-slide='next'>";
 				    html += "<span class='carousel-control-next-icon' aria-hidden='true'></span>";
 				    html += "<span class='visually-hidden'>Next</span>";
 				    html += "</button>";

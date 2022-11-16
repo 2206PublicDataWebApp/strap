@@ -56,7 +56,6 @@ public class MyPageController {
 			String jymAddress = myJym.split(",")[0];
 			String jymTitle = myJym.split(",")[1];
 			//일주일 내의 최근 매칭정보 가져오기
-			cal.add(Calendar.DATE, -1);
 			String yesterday = sdf.format(cal.getTime());
 			cal.add(Calendar.DATE, -7);
 			String weekAgo = sdf.format(cal.getTime());
