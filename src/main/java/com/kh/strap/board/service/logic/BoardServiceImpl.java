@@ -108,7 +108,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 	// 게시글 조회수 카운트
 	public int updateBoardCount(Integer boardNo) {
-		int result = bStore.updateBoardCount(session, boardNo);
+		int result = 0;
+		result = bStore.updateBoardCount(session, boardNo);
 		return result;
 	}
 	// 게시글 테이블 추천 +1

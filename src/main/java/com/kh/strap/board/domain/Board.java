@@ -14,11 +14,12 @@ public class Board {
 	private int fix;				// 공지사항과 커뮤니티 글을 구분하기위한 컬럼
 	private String memberId; 		// 회원 아이디
 	private int bRownum;
+	private Date boardUpdateDate;
 	
 	public Board() {}
 
 	public Board(int boardNo, String memberNick, String boardTitle, String boardContents, String boardCategory,
-			Date boardDate, int boardCount, int boardLikeIt, int fix, String memberId, int bRownum) {
+			Date boardDate, int boardCount, int boardLikeIt, int fix, String memberId, Date boardUpdateDate) {
 		super();
 		this.boardNo = boardNo;
 		this.memberNick = memberNick;
@@ -30,7 +31,7 @@ public class Board {
 		this.boardLikeIt = boardLikeIt;
 		this.fix = fix;
 		this.memberId = memberId;
-		this.bRownum = bRownum;
+		this.boardUpdateDate = boardUpdateDate;
 	}
 
 	public int getBoardNo() {
@@ -121,11 +122,19 @@ public class Board {
 		this.bRownum = bRownum;
 	}
 
+	public Date getBoardUpdateDate() {
+		return boardUpdateDate;
+	}
+
+	public void setBoardUpdateDate(Date boardUpdateDate) {
+		this.boardUpdateDate = boardUpdateDate;
+	}
+
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", memberNick=" + memberNick + ", boardTitle=" + boardTitle
 				+ ", boardContents=" + boardContents + ", boardCategory=" + boardCategory + ", boardDate=" + boardDate
 				+ ", boardCount=" + boardCount + ", boardLikeIt=" + boardLikeIt + ", fix=" + fix + ", memberId="
-				+ memberId + ", bRownum=" + bRownum + "]";
+				+ memberId + ", bRownum=" + bRownum + ", boardUpdateDate=" + boardUpdateDate + "]";
 	}
 }

@@ -125,8 +125,9 @@ public class BoardStoreLogic implements BoardStore{
 	}
 	// 게시글 조회수 카운트
 	 @Override 
-	 public int updateBoardCount(SqlSessionTemplate session, Integer boardNo) { 
-		 return session.update("BoardMapper.updateBoardCount", boardNo);
+	 public int updateBoardCount(SqlSession session, Integer boardNo) { 
+		 int result = session.update("BoardMapper.updateBoardCount", boardNo);
+		 return result;
 	}
 	// 게시글 테이블 추천 +1
 	@Override

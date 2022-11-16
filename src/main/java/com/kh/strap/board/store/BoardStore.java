@@ -39,7 +39,7 @@ public interface BoardStore {
 	// 후기글 추천수 TOP3
 	public List<Board> selectBestRankBoard(SqlSession session);
 	// 게시글 조회수 카운트
-	public int updateBoardCount(SqlSessionTemplate session, Integer boardNo);
+	public int updateBoardCount(SqlSession session, Integer boardNo);
 	// 게시글 테이블 추천 +1
 	public void updateLike(SqlSession session, Integer boardNo) throws Exception;
 	// 게시글 테이블 추천 -1

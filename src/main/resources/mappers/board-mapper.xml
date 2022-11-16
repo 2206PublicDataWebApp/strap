@@ -16,12 +16,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		<result property="boardLikeIt" 		column="BOARD_LIKEIT"/>
   		<result property="fix" 				column="FIX"/>
   		<result property="memberId" 		column="MEMBER_ID"/>
+  		<result property="boardUpdateDate" 	column="BOARD_UPDATE_DATE"/>
   	</resultMap>
   	
   	<!-- 게시글 등록 -->
   	<insert id="insertBoard">
   		INSERT INTO BOARD_TBL 
-  		VALUES(SEQ_BOARDNO.NEXTVAL,#{memberNick},#{boardTitle},#{boardContents},#{boardCategory},DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{memberId})
+  		VALUES(SEQ_BOARDNO.NEXTVAL,#{memberNick},#{boardTitle},#{boardContents},#{boardCategory},DEFAULT,DEFAULT,DEFAULT,DEFAULT,#{memberId},DEFAULT)
   	</insert>
 
 	<!-- 게시글 추천 시 Like 테이블에 insert -->
@@ -69,9 +70,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 자유 게시글 수 return -->
   	<select id="selectFreeTotalCount" resultType="_int">
- 		<!-- SELECT ROWNUM, B.* FROM BOARD_TBL B WHERE BOARD_CATEGORY='자유글' AND ROWNUM <![CDATA[<=]]> 10	 -->
- 		<!-- SELECT ROWNUM AS NUM, COUNT(*) FROM BOARD_TBL WHERE BOARD_CATEGORY='자유글' -->
- 		<!-- SELECT ROWNUM, COUNT(*) FROM BOARD_TBL WHERE BOARD_CATEGORY='자유글' GROUP BY ROWNUM -->
  		SELECT COUNT(*) FROM BOARD_TBL WHERE BOARD_CATEGORY='자유글'
 		<where>
 			<if test="searchCondition.toString() == 'all'">

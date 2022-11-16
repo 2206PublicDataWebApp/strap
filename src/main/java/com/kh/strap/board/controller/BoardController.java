@@ -220,7 +220,7 @@ public class BoardController {
 		List<Board> bList = bService.printFreeBoard(currentPage, boardLimit); // 자유글 리스트
 		
 		if(!bList.isEmpty()) {
-			mv.addObject("urlVal", "list");
+			mv.addObject("urlVal", "free");
 			mv.addObject("maxPage", maxPage);
 			mv.addObject("currentPage", currentPage);
 			mv.addObject("startNavi", startNavi);
@@ -260,7 +260,7 @@ public class BoardController {
 		List<Board> bList = bService.printReviewBoard(currentPage, boardLimit); // 후기글 리스트
 		
 		if(!bList.isEmpty()) {
-			mv.addObject("urlVal", "list");
+			mv.addObject("urlVal", "review");
 			mv.addObject("maxPage", maxPage);
 			mv.addObject("currentPage", currentPage);
 			mv.addObject("startNavi", startNavi);
@@ -396,30 +396,32 @@ public class BoardController {
 			, HttpSession session
 			, HttpServletRequest request
 			, HttpServletResponse response) {
-		List<BoardReply> bReplyList = bService.printBoardReplyByNo(boardNo);
-		if(!bReplyList.isEmpty()) {
-			mv.addObject("bReplyList", bReplyList);
-		}else {
-			mv.addObject("bReplyList",null);
-		}
-		// 해당 게시판 번호를 받아 상세페이지로 넘겨준다
-		Board board = bService.printOneByNo(boardNo);
-		
-		Cookie[] cookies = request.getCookies();	
-		// 비교하기 위해 새로운 쿠기
-		Cookie viewCookie = null;
-		// 쿠기가 있을 경우
-		if (cookies != null && cookies.length > 0) {
+		try {
+			List<BoardReply> bReplyList = bService.printBoardReplyByNo(boardNo);
+			if(!bReplyList.isEmpty()) {
+				mv.addObject("bReplyList", bReplyList);
+			}else {
+				mv.addObject("bReplyList",null);
+			}
+			// 해당 게시판 번호를 받아 상세페이지로 넘겨준다
+			Board board = bService.printOneByNo(boardNo);
+			session.setAttribute("boardNo", board.getBoardNo());
+			mv.addObject("page", page);
+			mv.addObject("board", board);
 			
-			for (int i = 0; i < cookies.length; i++) {
-				// Cookie의 name이 cookie + boardNo와 일치하는 쿠키를 viewCookie에 넣어준다
-				if (cookies[i].getName().equals("cookie"+boardNo)) {
-					viewCookie = cookies[i];
+			Cookie[] cookies = request.getCookies();	
+			// 비교하기 위해 새로운 쿠기
+			Cookie viewCookie = null;
+			// 쿠기가 있을 경우
+			if (cookies != null && cookies.length > 0) {
+				for (int i = 0; i < cookies.length; i++) {
+					// Cookie의 name이 cookie + boardNo와 일치하는 쿠키를 viewCookie에 넣어준다
+					if (cookies[i].getName().equals("cookie"+boardNo)) {
+						viewCookie = cookies[i];
+					}
 				}
 			}
-		}
 			if (board != null) {
-				session.setAttribute("boardNo", board.getBoardNo());
 				mv.addObject("page", page);
 				mv.addObject("board", board);
 				// viewCookie가 null일 경우 쿠키를 생성해서 조회수 증가 로직을 처리한다
@@ -430,17 +432,18 @@ public class BoardController {
 					response.addCookie(newCookie);					
 					// 쿠키를 추가 시키고 조회수 증가시킨다
 					int result = bService.updateBoardCount(boardNo);
-				// viewCookie가 null이 아닐경우 쿠키가 있으므로 조회수 증가 로직을 처리하지 않는다
+					// viewCookie가 null이 아닐경우 쿠키가 있으므로 조회수 증가 로직을 처리하지 않는다
 				} else {
 					// 쿠키 값 받아온다
 					String value = viewCookie.getValue();
-				}				
-				mv.setViewName("board/boardDetail");
-				return mv;
-			} else {
-				mv.setViewName("common/errorPage");
-				return mv;
+				}
 			}
+				mv.setViewName("board/boardDetail");
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
 	}
 	
 	/**

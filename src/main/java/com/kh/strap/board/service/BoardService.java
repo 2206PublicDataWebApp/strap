@@ -43,6 +43,8 @@ public interface BoardService {
 	public void updateLikeCheck(Integer boardNo, String memberNick) throws Exception;
 	// 추천 테이블 구분자 0
 	public void updateLikeCheckCancel(Integer boardNo, String memberNick) throws Exception;
+	// 조회수 중복 방지
+	public int updateBoardCount(Integer boardNo);
 	// 게시글 수정
 	public int modifyOneByNo(Board board);
 	// 댓글 삭제

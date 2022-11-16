@@ -157,8 +157,8 @@ div > span > a > p > img { display: none; }
 				<div class="col oneView">
 				<div class="position-relative" id="bTitle">
 						<div id="rank">${i.count }</div>
-			    		<div style="width: 187px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${Board.boardTitle }</div>
-			    		<div style="margin-right: 50px; float: right; transform: translate(-5px, -23px);">${Board.memberNick }</div>
+			    		<div style="width: 187px; overflow: hidden; text-overflow: ellipsis; 
+			    		 transform: translate(-16px, 1px); white-space: nowrap;">${Board.boardTitle }</div>
 					<div class="position-absolute top-50 end-0 translate-middle-y" id="likeBtn-count"> 
 					<i class="fa-regular fa-thumbs-up" id="likeBtn-img"></i>
 						${Board.boardLikeIt }

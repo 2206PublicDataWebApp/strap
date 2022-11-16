@@ -97,27 +97,6 @@
 		font-size: 16px;		
 	}
 	
-	
-	
-	
-	 .categoryBtn {
-        border: 1px solid;
-        width: 100px;
-        height: 50px;
-        align-items: center;
-        justify-content: center;
-        background: white;
-      }
-
-	a{
-	display: block;
-	}
-
-      .cate {
-        color: blue;
-      }
-      
-      .selected { background:red }
 </style>
 </head>
 <body>
@@ -129,36 +108,74 @@
 		<div id="contents-wrap">
 		<!-- 카테고리 -->
 		<ul class="nav nav-pills">
-			<button class="btn btn-outline-primary" onclick="location.href='/board/list.strap?page=${page}'">
-				 <li class="nav-item">
-				 	<a class="nav-link" href="#" title="all">전체</a>
-				 </li>
+		<c:choose>
+			<c:when test="${urlVal == 'list' }">  
+			<button class="btn btn-outline-primary" style="--bs-btn-border-color: blue; margin-right: 15px;" 
+			 onclick="location.href='/board/list.strap?page=${page }'">
+					 <li class="nav-item">
+					 	<a class="nav-link" href="#" title="all">전체</a>
+					 </li>
+				</button>
+				<button class="btn btn-outline-primary" style="margin-right: 15px;" 
+				onclick="location.href='/board/free.strap?page=${page }'">
+	  				<li class="nav-item">
+	    				<a class="nav-link" href="#" title="free">자유글</a>
+	  				</li>
+	  			</button>
+	  		<button class="btn btn-outline-primary" onclick="location.href='/board/review.strap?page=${page}'">
+	  				<li class="nav-item">
+	    				<a class="nav-link" href="#" title="review">후기글</a>
+	  				</li>
+	  		</button>
+			</c:when>
+			<c:when test="${urlVal == 'free' }">  
+			<button class="btn btn-outline-primary" style="margin-right: 15px;" 
+			onclick="location.href='/board/list.strap?page=${page }'">
+					 <li class="nav-item">
+					 	<a class="nav-link" href="#" title="all">전체</a>
+					 </li>
+				</button>
+				<button class="btn btn-outline-primary" style="--bs-btn-border-color: blue; margin-right: 15px;" 
+				onclick="location.href='/board/free.strap?page=${page }'">
+	  				<li class="nav-item">
+	    				<a class="nav-link" href="#" title="free">자유글</a>
+	  				</li>
+	  			</button>
+	  		<button class="btn btn-outline-primary" onclick="location.href='/board/review.strap?page=${page}'">
+	  				<li class="nav-item">
+	    				<a class="nav-link" href="#" title="review">후기글</a>
+	  				</li>
+	  		</button>
+			</c:when>
+			<c:when test="${urlVal == 'review' }">
+			<button class="btn btn-outline-primary" style="margin-right: 15px;" 
+			onclick="location.href='/board/list.strap?page=${page }'">
+					 <li class="nav-item">
+					 	<a class="nav-link" href="#" title="all">전체</a>
+					 </li>
+				</button>
+				<button class="btn btn-outline-primary" style="margin-right: 15px;" 
+				onclick="location.href='/board/free.strap?page=${page }'">
+	  				<li class="nav-item">
+	    				<a class="nav-link" href="#" title="free">자유글</a>
+	  				</li>
+	  			</button>
+	  		<button class="btn btn-outline-primary" style="--bs-btn-border-color: blue;" 
+	  		onclick="location.href='/board/review.strap?page=${page}'">
+	  				<li class="nav-item">
+	    				<a class="nav-link" href="#" title="review">후기글</a>
+	  				</li>
+	  		</button>
+			</c:when>
+			<c:otherwise> 
+			<button class="btn btn-outline-primary" onclick="location.href='/board/list.strap?page=${page }'">
+					 <li class="nav-item">
+					 	<a class="nav-link" href="#" title="all">전체</a>
+					 </li>
 			</button>
-			
-			<button class="btn btn-outline-primary" onclick="location.href='/board/free.strap?page=${page }'">
-  				<li class="nav-item">
-    				<a class="nav-link" href="#" title="free">자유글</a>
-  				</li>
-  			</button>
-  			
-  			<button class="btn btn-outline-primary" onclick="location.href='/board/review.strap?page=${page}'">
-  				<li class="nav-item">
-    				<a class="nav-link" href="#" title="review">후기글</a>
-  				</li>
-  			</button>
- 		</ul>
- 		<%-- <ul class="nav nav-pills">
-			<button class="categoryBtn" style="margin-right: 15px"  >
-				<a href="/board/list.strap?page=${page}" title="all">전체</a>
-				<a href="/board/list.strap?page=${page}" title="all" class="cate">전체</a>
-			</button>
-			<button class="categoryBtn" style="margin-right: 15px">
-	    		<a href="/board/free.strap?page=${page}" title="free" class="cate">자유글</a>
-  			</button>
-  			<button class="categoryBtn">
-	    		<a href="/board/review.strap?page=${page}" title="review" class="cate">후기글</a>
-  			</button>
- 	 	</ul> --%>
+			</c:otherwise>
+		</c:choose>
+		</ul>
  			<!-- 검색창 -->
  			<tr>
 				<td colspan="6" align="center">
@@ -279,29 +296,10 @@
 <!-- 푸터 -->
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 <script>
-/* var categoryBtn = document.getElementsByClassName("categoryBtn");
-
-function handleClick(event) {
-  console.log(event.target.classList);
-
-  if (event.target.classList[1] === "cate") {
-    event.target.classList.remove("cate");
-  } else {
-    for (var i = 0; i < categoryBtn.length; i++) {
-    	categoryBtn[i].classList.remove("cate");
-    }
-
-    event.target.classList.add("cate");
-  }
+function writeCheck() {
+	alert("로그인 후 이용해주세요");
+	location.href="/member/loginView.strap"
 }
-
-function init() {
-  for (var i = 0; i < categoryBtn.length; i++) {
-	  categoryBtn[i].addEventListener("click", handleClick);
-  }
-}
-
-init(); */ 
 </script>
 </body>
 </html>
