@@ -61,8 +61,6 @@ public class NoteBoxController {
 		}
 		List<NoteBox> nList = nbService.printNoteBoxList(memberId, currentPage, noticeLimit);
 		List<Map<Object, Object>> map = nbService.countNoteBoxList(memberId);
-		System.out.println(nList);
-		System.out.println(map);
 		if(!nList.isEmpty()) {
 			mv.addObject("urlVal", "noteBoxListView");
 			mv.addObject("maxPage", maxPage);
@@ -166,11 +164,8 @@ public class NoteBoxController {
 	@ResponseBody
 	@RequestMapping(value="/mypage/removeNote.strap",method=RequestMethod.POST)
 	public String removeNote(@RequestParam("nbList[]") List<String> nbList) {
-		System.out.println("N리스트 : " + nbList);
-		System.out.println(nbList.size());
 		for(int i = 0; i < nbList.size(); i++) {
 			int noteNo = Integer.parseInt(nbList.get(i));
-			System.out.println(noteNo);
 			int result = nbService.removeNote(noteNo);
 		}
 		return "ok";
@@ -192,8 +187,6 @@ public class NoteBoxController {
 			countNoteBox = nbService.getCountNoteBox(loginUser.getMemberId());
 			countNoteChat = nbService.getCountNoteChat(loginUser.getMemberId());
 			int count = countNoteBox + countNoteChat;
-			System.out.println("카운터 :" + count);
-			logger.info("쪽지 마크 카운터 업데이트");
 			if(count > 0 ) {
 				return count+"";
 			}else {

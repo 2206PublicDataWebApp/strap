@@ -127,11 +127,8 @@ public class MatchController {
 		//중복되지 않는 새로운 멤버 5명을 가져온다
 		List<Member> mList = mService.sameRefresh(mOne);
 		//새로운 멤버리스트가 있다면 추천횟수를 차감하고 현재 멤버와 추천 이력에 업데이트
-		if(!mList.isEmpty()) {
-			System.out.println("추천 리스트 있음");
-		} else {
+		if(mList.isEmpty()) {
 		//새로운 멤버리스트가 더이상 없다면 추천 이력 초기화 후 진행
-			System.out.println("추천 리스트 없음");
 			String memberId = mOne.getMemberId();
 			mService.resetSameRecord(memberId);
 			mList = mService.sameRefresh(mOne);
@@ -214,11 +211,8 @@ public class MatchController {
 		//중복되지 않는 새로운 멤버 5명을 가져온다
 		List<Member> mList = mService.localRefresh(mOne);
 		//새로운 멤버리스트가 있다면 추천횟수를 차감하고 현재 멤버와 추천 이력에 업데이트
-		if(!mList.isEmpty()) {
-			System.out.println("추천 리스트 있음");
-		} else {
+		if(mList.isEmpty()) {
 		//새로운 멤버리스트가 더이상 없다면 추천 이력 초기화 후 진행
-			System.out.println("추천 리스트 없음");
 			String memberId = mOne.getMemberId();
 			mService.resetLocalRecord(memberId);
 			mList = mService.localRefresh(mOne);
@@ -297,11 +291,8 @@ public class MatchController {
 		List<Member> mList = mService.mannerRefresh(mOne);
 		Map<String, Object> map = new HashMap<String, Object>();
 		//새로운 멤버리스트가 있다면 추천횟수를 차감하고 현재 멤버와 추천 이력에 업데이트
-		if(!mList.isEmpty()) {
-			System.out.println("추천 리스트 있음");
-		} else {
+		if(mList.isEmpty()) {
 		//새로운 멤버리스트가 더이상 없다면 추천 이력 초기화 후 진행
-			System.out.println("추천 리스트 없음");
 			String memberId = mOne.getMemberId();
 			mService.resetMannerRecord(memberId);
 			mList = mService.mannerRefresh(mOne);
@@ -374,11 +365,8 @@ public class MatchController {
 		List<Member> mList = mService.careerRefresh(mOne);
 		Map<String, Object> map = new HashMap<String, Object>();
 		//새로운 멤버리스트가 있다면 추천횟수를 차감하고 현재 멤버와 추천 이력에 업데이트
-		if(!mList.isEmpty()) {
-			System.out.println("추천 리스트 있음");
-		} else {
+		if(mList.isEmpty()) {
 		//새로운 멤버리스트가 더이상 없다면 추천 이력 초기화 후 진행
-			System.out.println("추천 리스트 없음");
 			String memberId = mOne.getMemberId();
 			mService.resetCareerRecord(memberId);
 			mList = mService.careerRefresh(mOne);
@@ -450,9 +438,7 @@ public class MatchController {
 		List<Member> mList = mService.SBDRefresh(mOne);
 		Map<String, Object> map = new HashMap<String, Object>();
 		//새로운 멤버리스트가 있다면 추천횟수를 차감하고 현재 멤버와 추천 이력에 업데이트
-		if(!mList.isEmpty()) {
-			System.out.println("추천 리스트 있음");
-		} else {
+		if(mList.isEmpty()) {
 		//새로운 멤버리스트가 더이상 없다면 추천 이력 초기화 후 진행
 			System.out.println("추천 리스트 없음");
 			String memberId = mOne.getMemberId();
@@ -528,11 +514,8 @@ public class MatchController {
 		List<Member> mList = mService.genderRefresh(mOne);
 		Map<String, Object> map = new HashMap<String, Object>();
 		//새로운 멤버리스트가 있다면 추천횟수를 차감하고 현재 멤버와 추천 이력에 업데이트
-		if(!mList.isEmpty()) {
-			System.out.println("추천 리스트 있음");
-		} else {
+		if(mList.isEmpty()) {
 		//새로운 멤버리스트가 더이상 없다면 추천 이력 초기화 후 진행
-			System.out.println("추천 리스트 없음");
 			String memberId = mOne.getMemberId();
 			mService.resetGenderRecord(memberId);
 			mList = mService.genderRefresh(mOne);
