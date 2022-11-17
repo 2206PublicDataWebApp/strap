@@ -67,3 +67,81 @@ STRAP은 다양한 맞춤 추천을 통해 내가 원하는 운동 파트너를 
 <img src="https://img.shields.io/badge/JSON-000000?style=flat&logo=JSON&logoColor=white"> <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=flat&logo=Bootstrap&logoColor=white">
 
 ## 🔍&nbsp;프로젝트 실행 화면
+### 1. 로그인
+<img src="https://user-images.githubusercontent.com/109054181/202358835-1c86bc47-6b26-4df8-bf13-60e2082fcc99.PNG"  width="800" height="400"/>
+
+### 2. 회원가입
+<img src="https://user-images.githubusercontent.com/109054181/202359475-210cc759-fb11-4ced-9aa7-a8763f457d2a.PNG" 
+ width="400" height="400"/>
+ 
+### 3. 마이페이지
+<img src="https://user-images.githubusercontent.com/109054181/202359754-24a39a5c-7bbd-4ebc-98ee-7c25cf007f69.PNG"
+ width="800" height="400"/>
+ 
+### 4. 캘린더
+<img src="https://user-images.githubusercontent.com/109054181/202359955-35601e86-0067-45ae-8df9-e54311fa1d1c.PNG"
+ width="800" height="400"/>    
+ 
+### 5. 쪽지
+<img src="https://user-images.githubusercontent.com/109054181/202360049-8c949fa1-556c-4ca8-863a-5aea6fbda077.PNG"
+ width="400" height="400"/>  
+
+### 6. 매칭
+<img src="https://user-images.githubusercontent.com/109054181/202360119-c85242d9-7fae-40a9-be36-84d3d1ecd24a.PNG"
+ width="800" height="400"/>
+
+### 7. 보충제 리스트
+<img src="https://user-images.githubusercontent.com/109054181/202360196-c78a437b-175d-4c14-a318-4c5b6ff7de9e.PNG"
+ width="800" height="400"/>   
+ 
+### 8. 보충제 상세페이지
+<img src="https://user-images.githubusercontent.com/109054181/202361262-a33c47a5-2416-4a92-999f-ceeb0b962eba.PNG"
+ width="800" height="400"/>
+ 
+### 9. 보충제 주문/결제
+<img src="https://user-images.githubusercontent.com/109054181/202361432-0276c544-e305-4351-a435-a1c07351987f.PNG"
+ width="800" height="400"/>   
+
+### 10 보충제 주문 완료
+<img src="https://user-images.githubusercontent.com/109054181/202361581-2e1c5af6-c2e3-4ad0-8a6e-de01e35b32e0.PNG"
+ width="800" height="400"/>   
+
+### 11. 보충제 상품 후기
+<img src="https://user-images.githubusercontent.com/109054181/202361601-05ad10e9-21b4-4e63-81d6-83868cab77dc.PNG"
+ width="800" height="400"/>   
+ 
+### 12. 커뮤니티 게시판
+<img src="https://user-images.githubusercontent.com/109054181/202361627-cf21aa29-01ea-4581-b027-a97370b378ae.PNG"
+ width="800" height="400"/>   
+ 
+### 13. 게시판 댓글/답글
+<img src="https://user-images.githubusercontent.com/109054181/202361662-d8bd7dd0-85bc-4e90-a9cd-aa32d7a1d197.PNG"
+ width="800" height="400"/>   
+ 
+### 14. 게시판 글쓰기
+<img src="https://user-images.githubusercontent.com/109054181/202361679-587f227b-3152-414a-ad8e-fc90be5d9f39.PNG"
+ width="800" height="400"/>   
+ 
+### 15. 관리자 페이지 (문의)
+<img src="https://user-images.githubusercontent.com/109054181/202361712-95345dd4-b6da-410d-8c73-7f453788a305.PNG"
+ width="800" height="400"/>   
+ 
+### 16. 관리자 페이지 (신고)
+<img src="https://user-images.githubusercontent.com/109054181/202361725-8066a222-6313-4350-9361-70416b3d1ff6.PNG"
+ width="800" height="400"/>   
+ 
+### 17. 관리자 페이지 (쇼핑)
+<img src="https://user-images.githubusercontent.com/109054181/202361748-d59db1c5-ccf9-4a28-9984-ea6d41a1b3d8.PNG"
+ width="800" height="400"/>   
+ 
+### 18. 관리자 페이지 (회원)
+<img src="https://user-images.githubusercontent.com/109054181/202361769-543dc87b-bfe2-4a53-b7ae-8d07b5707b0a.PNG"
+ width="800" height="400"/>   
+ 
+### 19. 관리자 페이지 (공지사항)
+<img src="https://user-images.githubusercontent.com/109054181/202361786-23890a66-7072-4a62-830e-f7926d4f34e7.PNG"
+ width="800" height="400"/>   
+ 
+### 20. 관리자 페이지 (배너)
+<img src="https://user-images.githubusercontent.com/109054181/202361800-2ac6754f-59ab-4a19-966d-3dda78e84f0d.PNG"
+ width="800" height="400"/> 
