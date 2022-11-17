@@ -133,15 +133,19 @@ STRAP은 다양한 맞춤 추천을 통해 내가 원하는 운동 파트너를 
 ### 17. 관리자 페이지 (쇼핑)
 <img src="https://user-images.githubusercontent.com/109054181/202361748-d59db1c5-ccf9-4a28-9984-ea6d41a1b3d8.PNG"
  width="800" height="400"/>   
+
+### 18. 관리자 페이지 (상품 등록)
+<img src="https://user-images.githubusercontent.com/109054181/202363445-63b9a718-6dca-43d0-aa77-6baa454085d8.PNG"
+ width="800" height="400"/>
  
-### 18. 관리자 페이지 (회원)
+### 19. 관리자 페이지 (회원)
 <img src="https://user-images.githubusercontent.com/109054181/202361769-543dc87b-bfe2-4a53-b7ae-8d07b5707b0a.PNG"
  width="800" height="400"/>   
  
-### 19. 관리자 페이지 (공지사항)
+### 20. 관리자 페이지 (공지사항)
 <img src="https://user-images.githubusercontent.com/109054181/202361786-23890a66-7072-4a62-830e-f7926d4f34e7.PNG"
  width="800" height="400"/>   
  
-### 20. 관리자 페이지 (배너)
+### 21. 관리자 페이지 (배너)
 <img src="https://user-images.githubusercontent.com/109054181/202361800-2ac6754f-59ab-4a19-966d-3dda78e84f0d.PNG"
  width="800" height="400"/> 
