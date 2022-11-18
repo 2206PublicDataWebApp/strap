@@ -50,12 +50,10 @@ STRAP은 다양한 맞춤 추천을 통해 내가 원하는 운동 파트너를 
   
 **김호진**
 * 커뮤니티 게시판
-  - 게시글 조회, 작성, 수정, 삭제
-  - 게시글 신고, 추천
-  - 댓글 / 답글 조회, 작성, 삭제
+  - 게시글 : CRUD, 신고, 추천, 검색, 카테고리별 조회
+  - 댓글 / 답글 : CRD
 * 메인페이지
-  - 메인페이지 틀
-  - 인기 매칭 후기 게시글
+  - 인기 매칭 후기 게시글 : 카테고리 후기글 중에 추천 수가 가장 높은 3개의 게시글 출력
 #
 ## 🧰&nbsp;개발 환경
 <img src="https://img.shields.io/badge/Eclipse%20IDE-2C2255?style=flat&logo=Eclipse%20IDE&logoColor=white"> <img src="https://img.shields.io/badge/Visual%20Studio%20Code-007ACC?style=flat&logo=Visual%20Studio%20Code&logoColor=white"> 
@@ -69,16 +67,11 @@ STRAP은 다양한 맞춤 추천을 통해 내가 원하는 운동 파트너를 
 <img src="https://img.shields.io/badge/Oracle-F80000?style=flat&logo=Oracle&logoColor=white"> <img src="https://img.shields.io/badge/Ajax-D3D3D3?style=flat&logo=Ajax&logoColor=white">
 <img src="https://img.shields.io/badge/JSON-000000?style=flat&logo=JSON&logoColor=white"> <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=flat&logo=Bootstrap&logoColor=white">
 
-## 주요기능
-### 커뮤니티 게시판
-|기능명|설명|
-|:---:|:---:|
-|커뮤니티|사용자는 로그인을 하고 글쓰기 버튼을 통해 게시글을 작성할 수 있고 카테고리, 제목, 내용(+이미지) 값을 넣은 후 완료 또는 취소 버튼을 누르면 게시글 목록으로 이동한다. 작성한 글은 게시글 목록에서 확인이 가능하고, 사용자가 작성한 글의 제목을 누르고 상세페이지로 가면 글 수정 / 삭제를 할 수 있다. 해당 글의 작성자가 아니면 글의 수정 삭제가 불가능하다.|
-|게시글 신고 / 추천 |사용자는 모든 글의 상세페이지에서 추천 버튼을 누르면 추천을 할 수 있고 한번 더 누르면 취소가 가능하다. 신고는 신고 버튼을 통해서 할 수 있고 작성자는 자신의 글을 신고 할 수는 없다.|
-|댓글 / 답글|글 상세페이지에서 로그인을 했을 때 댓글 / 답글 작성이 가능하고, 조회도 할 수 있다. 수정은 할 수 없고, 해당 글의 작성자만 삭제가 가능하다. 삭제를 하게 되면 작성자에 의해 삭제된 댓글입니다. 라는 문구가 보이게 된다.|
-|인기 매칭 후기 게시글|메인 페이지에서 확인이 가능하고 카테고리에서 선택된 후기글 중에 추천을 가장 많이 받은 3개의 글 만 보여지게 된다.글의 내용을 클릭하면 해당 글의 상세페이지로 이동 할 수 있다. |
-
 ## 🔍&nbsp;프로젝트 실행 화면
+### 메인 페이지
+<img src="https://user-images.githubusercontent.com/109054181/202620980-aa37fef4-01d5-40dd-8a18-feb370428f92.PNG"
+width="800" height="400"/>
+
 ### 1. 로그인
 <img src="https://user-images.githubusercontent.com/109054181/202358835-1c86bc47-6b26-4df8-bf13-60e2082fcc99.PNG"  width="800" height="400"/>
 
